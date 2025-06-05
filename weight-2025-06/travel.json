@@ -1,0 +1,20 @@
+{
+  "travel": [
+    {"date": "2025-01-01", "airport": "SIN" },
+    {"date": "2025-01-30", "airport": "MAA" },
+    {"date": "2025-02-09", "airport": "EWR" },
+    {"date": "2025-02-13", "airport": "SFO" },
+    {"date": "2025-02-16", "airport": "JFK" },
+    {"date": "2025-02-21", "airport": "HYD" },
+    {"date": "2025-02-25", "airport": "SIN" },
+    {"date": "2025-03-15", "airport": "MAA" },
+    {"date": "2025-03-28", "airport": "SIN" },
+    {"date": "2025-03-12", "airport": "BKK" },
+    {"date": "2025-03-15", "airport": "MAA" },
+    {"date": "2025-03-28", "airport": "SIN" },
+    {"date": "2025-04-29", "airport": "MAA" },
+    {"date": "2025-05-06", "airport": "HYD" },
+    {"date": "2025-05-09", "airport": "MAA" },
+    {"date": "2025-05-13", "airport": "SIN" }
+  ]
+}
