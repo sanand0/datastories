@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "code-vs-domain",
+      "title": "LLM Agents in Software: Code vs Domain",
+      "description": "Coding agents reduce the effort of coding. Does that mean domain will matter more? Here's an LLM-generated animation showing my perspective that domain agents will level the field.",
+      "link": "code-vs-domain/",
+      "screenshot": "code-vs-domain/screenshot.webp"
+    },
+    {
       "id": "horoscope-2025-06-16",
       "title": "Deep Research Horoscope Contradictions",
       "description": "Asked Gemini Deep Research to read Sagittarius horoscope for 16 June 2025 and list contradictions from various Indian media sources.",

@@ -14,7 +14,7 @@ async function loadStories() {
             <img src="${story.screenshot}"
                  class="card-img-top"
                  alt="${story.title}"
-                 style="height: 200px; object-fit: cover;">
+                 style="height: 200px; object-fit: contain;">
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">${story.title}</h5>
               <p class="card-text flex-grow-1">${story.description}</p>
