@@ -63,11 +63,7 @@ function findMilestonesAndChanges(data) {
   const startWeight = data[0].y;
 
   // Find major milestones (every 10kg from start)
-  for (
-    let target = Math.floor(startWeight / 10) * 10;
-    target >= 60;
-    target -= 10
-  ) {
+  for (let target = Math.floor(startWeight / 10) * 10; target >= 60; target -= 10) {
     if (target !== Math.floor(startWeight / 10) * 10) {
       for (let i = 0; i < data.length; i++) {
         if (data[i].y <= target && (!data[i - 1] || data[i - 1].y > target)) {
@@ -79,15 +75,8 @@ function findMilestonesAndChanges(data) {
   }
 
   // Find minor milestones (every 5kg)
-  for (
-    let target = Math.floor(startWeight / 5) * 5;
-    target >= 60;
-    target -= 5
-  ) {
-    if (
-      target !== Math.floor(startWeight / 5) * 5 &&
-      !milestones.some((m) => m.weight === target)
-    ) {
+  for (let target = Math.floor(startWeight / 5) * 5; target >= 60; target -= 5) {
+    if (target !== Math.floor(startWeight / 5) * 5 && !milestones.some((m) => m.weight === target)) {
       for (let i = 0; i < data.length; i++) {
         if (data[i].y <= target && (!data[i - 1] || data[i - 1].y > target)) {
           milestones.push({ index: i, weight: target, type: "milestone" });
@@ -135,14 +124,10 @@ function calculateStats(weightPoints) {
 
 // Update stats in UI
 function updateStats(stats) {
-  document.getElementById("weight-lost").textContent =
-    stats.weightLost.toFixed(1);
+  document.getElementById("weight-lost").textContent = stats.weightLost.toFixed(1);
   document.getElementById("days-elapsed").textContent = stats.daysDiff;
-  document.getElementById("goal-achieved").textContent = stats.goalAchieved
-    ? "✅"
-    : "🎯";
-  document.getElementById("avg-loss").textContent =
-    stats.avgLossPerWeek.toFixed(2);
+  document.getElementById("goal-achieved").textContent = stats.goalAchieved ? "✅" : "🎯";
+  document.getElementById("avg-loss").textContent = stats.avgLossPerWeek.toFixed(2);
 }
 
 // Get current location based on last airport <= current date
@@ -217,14 +202,8 @@ async function createChart() {
   const travelPoints = processTravelData(travelData);
   const movingAverage = calculateMovingAverage(weightPoints);
   const dataGaps = findDataGaps(weightPoints);
-  const { milestones, increases, decreases } =
-    findMilestonesAndChanges(weightPoints);
-  const { pointColors, pointRadius } = customizePointStyles(
-    weightPoints,
-    milestones,
-    increases,
-    decreases,
-  );
+  const { milestones, increases, decreases } = findMilestonesAndChanges(weightPoints);
+  const { pointColors, pointRadius } = customizePointStyles(weightPoints, milestones, increases, decreases);
   const stats = calculateStats(weightPoints);
 
   // Store data globally for tooltip access
@@ -326,9 +305,7 @@ async function createChart() {
               }
 
               // Check for milestone
-              const milestone = window.chartData?.milestones?.find(
-                (m) => m.index === pointIndex,
-              );
+              const milestone = window.chartData?.milestones?.find((m) => m.index === pointIndex);
               if (milestone) {
                 labels.push(`🎯 Milestone: ${milestone.weight}kg reached!`);
               }

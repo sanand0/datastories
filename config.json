@@ -1,10 +1,17 @@
 {
   "stories": [
     {
+      "id": "employment-trends",
+      "title": "Employment Growth Since 1980",
+      "description": "Some US sectors like Scenic Transportation & Healthcare grew over 2X while Rail & Central Banks shrank to 40-80% of original size. Analysis using BLS CES data.",
+      "link": "https://github.com/sanand0/datastories/tree/main/employment-trends",
+      "screenshot": "employment-trends/img6.webp"
+    },
+    {
       "id": "weight-2025-06",
       "title": "Weight Journey 2025",
       "description": "Lost 22 kg in 22 weeks through intermittent fasting. Skipped lunch, no snacks, no extra exercise.",
-      "folder": "weight-2025-06",
+      "link": "weight-2025-06/",
       "screenshot": "weight-2025-06/screenshot.webp"
     }
   ]
