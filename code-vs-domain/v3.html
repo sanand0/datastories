@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agents Transform Development Effort</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 20px;
+      letter-spacing: -0.025em;
+      opacity: 0.9;
+    }
+
+    .chart-area {
+      width: 100%;
+      height: 320px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-bottom: 20px;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .bar-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.08));
+    }
+
+    .bar {
+      transition: all 2s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
+      margin-bottom: 1px;
+    }
+
+    .code-bar {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+      border-radius: 0 0 12px 12px;
+      position: relative;
+    }
+
+    .code-bar::before,
+    .domain-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+      border-radius: inherit;
+    }
+
+    .domain-bar {
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%);
+      border-radius: 12px 12px 0 0;
+      position: relative;
+    }
+
+    .bar-label {
+      position: absolute;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0.95;
+    }
+
+    .message-container {
+      text-align: center;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .message {
+      font-size: 20px;
+      font-weight: 400;
+      color: #334155;
+      transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+
+    .scene-number {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+      transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    @keyframes pulse-glow {
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+      }
+
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+      }
+    }
+
+    @keyframes pulse-glow-cyan {
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4);
+      }
+
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(6, 182, 212, 0);
+      }
+    }
+
+    .highlight-code {
+      animation: pulse-glow 2s ease-in-out;
+    }
+
+    .highlight-domain {
+      animation: pulse-glow-cyan 2s ease-in-out;
+    }
+
+    .progress-indicator {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .progress-dot:hover {
+      background: #cbd5e1;
+      transform: scale(1.1);
+    }
+
+    .progress-dot.active {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      transform: scale(1.2);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="title">The Future of Software Development</div>
+
+    <div class="chart-area">
+      <div class="bar-container">
+        <div class="bar domain-bar" id="domainBar">
+          <div class="bar-label">domain</div>
+        </div>
+        <div class="bar code-bar" id="codeBar">
+          <div class="bar-label">code</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="message-container">
+      <div class="scene-number" id="sceneNumber">1</div>
+      <div class="message" id="message">Apps need code and domain.</div>
+    </div>
+
+    <div class="progress-indicator" id="progressIndicator"></div>
+  </div>
+
+  <script>
+    const elements = {
+      codeBar: document.getElementById('codeBar'),
+      domainBar: document.getElementById('domainBar'),
+      message: document.getElementById('message'),
+      sceneNumber: document.getElementById('sceneNumber'),
+      progressIndicator: document.getElementById('progressIndicator'),
+      container: document.getElementById('container')
+    };
+
+    const scenes = [
+      { message: "Apps need code and domain.", codeHeight: 140, domainHeight: 180, barWidth: 100, highlight: null, duration: 3000 },
+      { message: "Coding agents reduce effort.", codeHeight: 70, domainHeight: 180, barWidth: 100, highlight: 'code', duration: 3000 },
+      { message: "Lower cost increases demand.", codeHeight: 70, domainHeight: 180, barWidth: 200, highlight: null, duration: 3000 },
+      { message: "Domain dominates effort.", codeHeight: 70, domainHeight: 180, barWidth: 200, highlight: 'domain', duration: 3000 },
+      { message: "Domain agents reduce effort.", codeHeight: 70, domainHeight: 105, barWidth: 200, highlight: 'domain', duration: 3000 },
+      { message: "Lower cost drives demand.", codeHeight: 70, domainHeight: 105, barWidth: 360, highlight: null, duration: 8000 }
+    ];
+
+    let currentScene = 0;
+    let isAutoPlaying = true;
+    let autoPlayTimer;
+
+    // Create progress dots
+    scenes.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = `progress-dot ${i === 0 ? 'active' : ''}`;
+      dot.addEventListener('click', () => goToScene(i));
+      elements.progressIndicator.appendChild(dot);
+    });
+
+    const progressDots = elements.progressIndicator.querySelectorAll('.progress-dot');
+
+    function updateScene(sceneIndex) {
+      const scene = scenes[sceneIndex];
+
+      elements.codeBar.style.height = scene.codeHeight + 'px';
+      elements.codeBar.style.width = scene.barWidth + 'px';
+      elements.domainBar.style.height = scene.domainHeight + 'px';
+      elements.domainBar.style.width = scene.barWidth + 'px';
+      elements.message.textContent = scene.message;
+      elements.sceneNumber.textContent = (sceneIndex + 1).toString();
+
+      elements.codeBar.classList.remove('highlight-code');
+      elements.domainBar.classList.remove('highlight-domain');
+
+      if (scene.highlight === 'code') {
+        setTimeout(() => elements.codeBar.classList.add('highlight-code'), 500);
+      } else if (scene.highlight === 'domain') {
+        setTimeout(() => elements.domainBar.classList.add('highlight-domain'), 500);
+      }
+
+      progressDots.forEach((dot, i) => dot.classList.toggle('active', i === sceneIndex));
+    }
+
+    function goToScene(index) {
+      currentScene = index;
+      updateScene(currentScene);
+      resetAutoPlay();
+    }
+
+    function nextScene() {
+      currentScene = (currentScene + 1) % scenes.length;
+      updateScene(currentScene);
+      if (isAutoPlaying) scheduleNext();
+    }
+
+    function scheduleNext() {
+      clearTimeout(autoPlayTimer);
+      autoPlayTimer = setTimeout(nextScene, scenes[currentScene].duration);
+    }
+
+    function resetAutoPlay() {
+      isAutoPlaying = true;
+      scheduleNext();
+    }
+
+    // Touch/swipe handling
+    let startX = 0;
+    let startY = 0;
+
+    elements.container.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isAutoPlaying = false;
+      clearTimeout(autoPlayTimer);
+    });
+
+    elements.container.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const diffX = startX - endX;
+      const diffY = startY - endY;
+
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        if (diffX > 0 && currentScene < scenes.length - 1) {
+          goToScene(currentScene + 1);
+        } else if (diffX < 0 && currentScene > 0) {
+          goToScene(currentScene - 1);
+        }
+      } else {
+        resetAutoPlay();
+      }
+    });
+
+    // Initialize
+    updateScene(0);
+    scheduleNext();
+  </script>
+</body>
+
+</html>
