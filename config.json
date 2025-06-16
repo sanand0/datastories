@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "horoscope-2025-06-16",
+      "title": "Deep Research Horoscope Contradictions",
+      "description": "Asked Gemini Deep Research to read Sagittarius horoscope for 16 June 2025 and list contradictions from various Indian media sources.",
+      "link": "https://github.com/sanand0/datastories/tree/main/horoscope-2025-06-16",
+      "screenshot": "horoscope-2025-06-16/screenshot.webp"
+    },
+    {
       "id": "employment-trends",
       "title": "Employment Growth Since 1980",
       "description": "Some US sectors like Scenic Transportation & Healthcare grew over 2X while Rail & Central Banks shrank to 40-80% of original size. Analysis using BLS CES data.",
