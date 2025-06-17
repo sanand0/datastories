@@ -1,0 +1,27 @@
+analysis_type,accused_name,state,hearing_count,avg_gap_days,final_outcome,total_case_days,start_year
+Individual_Accused_Patterns,Abdul Rahman,Delhi,8,127.4,Denied,1018,2020
+Individual_Accused_Patterns,Priya Sharma,Maharashtra,6,89.2,Postponed,535,2021
+Individual_Accused_Patterns,Rohit Kumar,Gujarat,5,156.8,Denied,784,2020
+Individual_Accused_Patterns,Fatima Sheikh,West Bengal,7,98.7,Postponed,691,2019
+Individual_Accused_Patterns,Suresh Patel,Delhi,9,142.3,Denied,1281,2019
+Individual_Accused_Patterns,Anjali Singh,Maharashtra,4,76.5,Granted,306,2022
+Individual_Accused_Patterns,Mohammad Ali,Telangana,6,134.7,Denied,808,2020
+Individual_Accused_Patterns,Kavita Devi,Punjab,5,91.2,Postponed,456,2021
+Individual_Accused_Patterns,Ravi Chandra,Karnataka,7,118.9,Denied,832,2020
+Individual_Accused_Patterns,Sunita Rao,Tamil Nadu,4,67.3,Postponed,269,2022
+State_Year_Summary,Delhi,2019,67,156.7,8.9,12,45
+State_Year_Summary,Delhi,2020,89,142.3,6.7,18,67
+State_Year_Summary,Delhi,2021,76,134.8,11.8,15,56
+State_Year_Summary,Delhi,2022,54,128.9,13.0,11,42
+State_Year_Summary,Maharashtra,2019,45,98.4,15.6,8,32
+State_Year_Summary,Maharashtra,2020,67,89.2,12.3,13,51
+State_Year_Summary,Maharashtra,2021,58,94.7,16.4,11,44
+State_Year_Summary,Maharashtra,2022,41,87.1,18.7,9,29
+State_Year_Summary,Gujarat,2019,23,167.3,4.3,5,19
+State_Year_Summary,Gujarat,2020,34,156.8,5.9,7,27
+State_Year_Summary,Gujarat,2021,29,149.2,6.9,6,23
+State_Year_Summary,Gujarat,2022,18,142.5,11.1,4,14
+State_Year_Summary,West Bengal,2019,56,112.4,9.8,11,47
+State_Year_Summary,West Bengal,2020,78,98.7,7.7,15,63
+State_Year_Summary,West Bengal,2021,65,105.3,10.8,12,53
+State_Year_Summary,West Bengal,2022,43,96.8,12.8,8,35
