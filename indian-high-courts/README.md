@@ -1,45 +1,44 @@
 # Indian High Court Judgments
 
-This story explores the dataset of Indian High Court judgments available from the [ecourts website](https://judgments.ecourts.gov.in/). The data is hosted on S3 in several folders.
+This story explores the dataset of Indian High Court judgments downloaded from the [ecourts website](https://judgments.ecourts.gov.in/). Files are hosted on S3 in separate folders for PDF content and metadata.
 
 ## Data layout
 
 ```
-* data/pdf/year=2025/court=xyz/bench=xyz/judgment1.pdf,judgment2.pdf
-* metadata/json/year=2025/court=xyz/bench=xyz/judgment1.json,judgment2.json
+* data/pdf/year=2025/court=xyz/bench=xyz/judgment1.pdf
+* metadata/json/year=2025/court=xyz/bench=xyz/judgment1.json
 * metadata/parquet/year=2025/court=xyz/bench=xyz/metadata.parquet
 * metadata/tar/year=2025/court=xyz/bench=xyz/metadata.tar.gz
 * data/tar/year=2025/court=xyz/bench=xyz/pdfs.tar
 ```
 
-`court` is the high court code and `bench` is its sub-division. The parquet files contain a row per judgment with fields such as the decision date and case type. The PDF and JSON files provide the full text and raw metadata.
-
-The dataset covers **25 high courts** with roughly **16 million** judgments. The total size is about **1TB** compressed.
+`court` is the high court code and `bench` is its subdivision. The parquet files have one row per judgment. The dataset spans **25 high courts**, about **16 million** judgments and roughly **1TB** of compressed data.
 
 ## Columns
 
-The parquet files share a common structure. A sample file contains the following columns:
+The parquet files share a common structure. A sample file contains these columns:
 
 | column_name | column_type |
 |-------------|-------------|
-| court_code  | VARCHAR     |
-| title       | VARCHAR     |
-| description | VARCHAR     |
-| judge       | VARCHAR     |
-| pdf_link    | VARCHAR     |
-| cnr         | VARCHAR     |
+| court_code | VARCHAR |
+| title | VARCHAR |
+| description | VARCHAR |
+| judge | VARCHAR |
+| pdf_link | VARCHAR |
+| cnr | VARCHAR |
 | date_of_registration | VARCHAR |
 | decision_date | DATE |
 | disposal_nature | VARCHAR |
 | court | VARCHAR |
 | raw_html | VARCHAR |
 
-The sample used for analysis contains **13,974** rows from the Madras High Court with decision dates between **2025‑01‑04** and **2025‑12‑03**.
+The sample used for exploration contains **13,974** rows from the Madras High Court with decision dates between **2025‑01‑04** and **2025‑12‑03**.
 
 ## Exploratory data analysis
 
-### Decision dates by month
+Basic summaries are provided below. Full CSV outputs are in this folder.
 
+### Decision dates by month
 ```sql
 COPY (
 SELECT strftime(decision_date, '%Y-%m') AS month, COUNT(*) AS total
@@ -48,11 +47,9 @@ GROUP BY month
 ORDER BY month
 ) TO 'monthly_counts.csv' WITH (HEADER, DELIMITER ',');
 ```
-
 Result: [monthly_counts.csv](monthly_counts.csv)
 
 ### Top case types
-
 ```sql
 COPY (
 SELECT regexp_extract(title, '^(\\w+)', 1) AS type, COUNT(*) AS total
@@ -62,11 +59,9 @@ ORDER BY total DESC
 LIMIT 10
 ) TO 'top_case_types.csv' WITH (HEADER, DELIMITER ',');
 ```
-
 Result: [top_case_types.csv](top_case_types.csv)
 
 ### Disposal nature
-
 ```sql
 COPY (
 SELECT disposal_nature, COUNT(*) AS total
@@ -76,11 +71,9 @@ ORDER BY total DESC
 LIMIT 5
 ) TO 'top_disposals.csv' WITH (HEADER, DELIMITER ',');
 ```
-
 Result: [top_disposals.csv](top_disposals.csv)
 
 ### Most frequent judges
-
 ```sql
 COPY (
 SELECT judge, COUNT(*) AS total
@@ -90,11 +83,9 @@ ORDER BY total DESC
 LIMIT 5
 ) TO 'top_judges.csv' WITH (HEADER, DELIMITER ',');
 ```
-
 Result: [top_judges.csv](top_judges.csv)
 
 ### Filing to decision days
-
 ```sql
 COPY (
 SELECT MIN(days) AS min, QUANTILE_CONT(days, 0.25) AS q1, MEDIAN(days) AS median,
@@ -105,202 +96,228 @@ FROM (
 )
 ) TO 'days_stats.csv' WITH (HEADER, DELIMITER ',');
 ```
-
 Result: [days_stats.csv](days_stats.csv)
 
-## Questions
 
-Below are 10 questions that can be answered using the metadata. Each question would typically involve joining or filtering the parquet files.
+## Questions answered with SQL
 
-1. How many judgments were issued by each high court in 2025?
-2. What is the distribution of decision dates across months for a chosen court?
-3. Which case types appear most frequently for a specific bench?
-4. How many judgments mention the phrase "Article 226" in the PDF text?
-5. What percentage of judgments are criminal vs civil matters per court?
-6. What was the median decision time (from filing to decision) per court?
-7. How many judgments were uploaded each month in 2025 across all courts?
-8. Which courts have the highest proportion of judgments in regional languages?
-9. What is the average length in pages of judgments for a court?
-10. How many cases were disposed of within 30 days in each court?
+The queries below use the 2025 Madras sample. Each result links to a CSV in this directory.
 
-## Answers
+### 1. Which High Courts reversed the highest share of lower-court convictions in criminal appeals during 2025, and did any judge stand out?
+Why it matters: The Supreme Court has warned High Courts about delays and inconsistency in criminal appeals.
 
-### 1. Judgments per high court
-
+Answer: In the sample **51%** of criminal appeals were reversed in the Madras High Court. Justice Sunder Mohan allowed **19** of **23** such appeals.
 ```sql
 COPY (
-SELECT court, SUM(total) AS total
-FROM (
-  SELECT court, COUNT(*) AS total FROM read_parquet('/tmp/metadata.parquet') GROUP BY court
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
   UNION ALL
-  SELECT court, COUNT(*) AS total FROM read_parquet('/tmp/metadata2.parquet') GROUP BY court
-) t
-GROUP BY court
-) TO 'q1.csv' WITH (HEADER, DELIMITER ',');
-```
-
-Result: [q1.csv](q1.csv)
-
-*Madras High Court issued **21,583** judgments in 2025 (sample from two benches).* 
-
-### 2. Monthly decision counts
-
-```sql
-COPY (
-SELECT month, SUM(total) AS total
-FROM (
-  SELECT strftime(decision_date, '%Y-%m') AS month, COUNT(*) AS total FROM read_parquet('/tmp/metadata.parquet') GROUP BY month
-  UNION ALL
-  SELECT strftime(decision_date, '%Y-%m') AS month, COUNT(*) AS total FROM read_parquet('/tmp/metadata2.parquet') GROUP BY month
-) t
-GROUP BY month
-ORDER BY month
-) TO 'q2.csv' WITH (HEADER, DELIMITER ',');
-```
-
-Result: [q2.csv](q2.csv)
-
-*January had the highest activity with **9,041** judgments.*
-
-### 3. Top case types (bench hc_cis_mas)
-
-```sql
-COPY (
-SELECT type, COUNT(*) AS total
-FROM (
-  SELECT regexp_extract(title, '^(\\w+)', 1) AS type FROM read_parquet('/tmp/metadata.parquet')
+  SELECT * FROM read_parquet('/tmp/metadata2.parquet')
 )
-GROUP BY type
-ORDER BY total DESC
-LIMIT 10
-) TO 'q3.csv' WITH (HEADER, DELIMITER ',');
-```
-
-Result: [q3.csv](q3.csv)
-
-*Most cases were **CRL** (5666) and **WP** (3515).* 
-
-### 4. Mentions of "Article 226"
-
-```sql
-COPY (
-SELECT COUNT(*) AS total
-FROM (
-  SELECT * FROM read_parquet('/tmp/metadata.parquet')
-  UNION ALL
-  SELECT * FROM read_parquet('/tmp/metadata2.parquet')
-) t
-WHERE lower(raw_html) LIKE '%article 226%'
-) TO 'q4.csv' WITH (HEADER, DELIMITER ',');
-```
-
-Result: [q4.csv](q4.csv)
-
-*Only **69** records mention the phrase.* 
-
-### 5. Criminal vs civil split
-
-```sql
-COPY (
 SELECT court,
-       SUM(CAST(is_criminal AS INTEGER)) AS criminal,
-       SUM(CAST(NOT is_criminal AS INTEGER)) AS civil,
-       ROUND(SUM(CAST(is_criminal AS DOUBLE))*100.0/COUNT(*), 2) AS criminal_pct,
-       ROUND(SUM(CAST(NOT is_criminal AS DOUBLE))*100.0/COUNT(*), 2) AS civil_pct
-FROM (
-  SELECT court, CASE WHEN upper(title) LIKE 'CRL%' OR upper(title) LIKE 'CRP%' OR upper(title) LIKE 'HCP%' THEN TRUE ELSE FALSE END AS is_criminal
-  FROM read_parquet('/tmp/metadata.parquet')
-  UNION ALL
-  SELECT court, CASE WHEN upper(title) LIKE 'CRL%' OR upper(title) LIKE 'CRP%' OR upper(title) LIKE 'HCP%' THEN TRUE ELSE FALSE END AS is_criminal
-  FROM read_parquet('/tmp/metadata2.parquet')
-) t
+       COUNT(*) FILTER (WHERE title LIKE '%CRL A%' OR title LIKE '%CRL APPEAL%') AS total_crl_appeals,
+       COUNT(*) FILTER (WHERE (title LIKE '%CRL A%' OR title LIKE '%CRL APPEAL%') AND disposal_nature IN ('ALLOWED','PARTLY ALLOWED')) AS reversals,
+       ROUND(100.0 * COUNT(*) FILTER (WHERE (title LIKE '%CRL A%' OR title LIKE '%CRL APPEAL%') AND disposal_nature IN ('ALLOWED','PARTLY ALLOWED')) /
+             NULLIF(COUNT(*) FILTER (WHERE title LIKE '%CRL A%' OR title LIKE '%CRL APPEAL%'),0),2) AS reversal_pct
+FROM data
 GROUP BY court
-) TO 'q5.csv' WITH (HEADER, DELIMITER ',');
+) TO 'q11.csv' WITH (HEADER, DELIMITER ',');
 ```
+Result: [q11.csv](q11.csv), [q11_judges.csv](q11_judges.csv)
 
-Result: [q5.csv](q5.csv)
+### 2. How often did each High Court dispose of criminal bail, anticipatory bail, and habeas corpus matters within 30 days?
+Why it matters: Bail pendency is under the spotlight, yet only 15 judges per million serve India.
 
-*Criminal matters were about **43%** of the sample.*
-
-### 6. Median days from filing to decision
-
+Answer: Only habeas corpus cases appear in the sample. **33%** were resolved within 30 days.
 ```sql
 COPY (
-SELECT court, MEDIAN(DATEDIFF('day', STRPTIME(date_of_registration, '%d-%m-%Y'), decision_date)) AS median_days
-FROM (
-  SELECT * FROM read_parquet('/tmp/metadata.parquet')
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
   UNION ALL
   SELECT * FROM read_parquet('/tmp/metadata2.parquet')
-) t
-GROUP BY court
-) TO 'q6.csv' WITH (HEADER, DELIMITER ',');
+),
+filtered AS (
+  SELECT court,
+         CASE
+           WHEN upper(title) LIKE 'CRM BA%' THEN 'CRM_BA'
+           WHEN upper(title) LIKE 'ABA%' THEN 'ABA'
+           WHEN upper(title) LIKE 'HCP%' THEN 'HCP'
+         END AS kind,
+         DATEDIFF('day', STRPTIME(date_of_registration,'%d-%m-%Y'), decision_date) AS days
+  FROM data
+  WHERE upper(title) LIKE 'CRM BA%' OR upper(title) LIKE 'ABA%' OR upper(title) LIKE 'HCP%'
+)
+SELECT court, kind, COUNT(*) AS total,
+       COUNT(*) FILTER (WHERE days <= 30) AS within_30,
+       ROUND(100.0 * COUNT(*) FILTER (WHERE days <= 30)/COUNT(*),2) AS pct_within_30
+FROM filtered
+GROUP BY court, kind
+ORDER BY court, kind
+) TO 'q12.csv' WITH (HEADER, DELIMITER ',');
 ```
+Result: [q12.csv](q12.csv)
 
-Result: [q6.csv](q6.csv)
+### 3. Are writ petitions invoking Article 226 on environmental issues rising, and which benches grant relief most often?
+Why it matters: Article 226 petitions can delay infrastructure projects.
 
-*Median time to resolve a case was **92 days**.*
+Answer: No 2025 Madras cases mention Article 226 alongside forest, mining or pollution terms, so no trend is visible.
+```sql
+-- zero rows matched, so a placeholder CSV was created
+```
+Result: [q13.csv](q13.csv)
 
-### 7. Monthly uploads across courts
+### 4. Which courts most rely on compromise/settled disposals, and do counts spike around National Lok Adalat dates?
+Why it matters: Over 3 crore cases were settled in the 2025 National Lok Adalat.
 
+Answer: Fourteen Madras cases used compromise language with a small peak in April.
 ```sql
 COPY (
-SELECT month, COUNT(*) AS total
-FROM (
-  SELECT strftime('%Y-%m', decision_date) AS month FROM read_parquet('/tmp/metadata.parquet')
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
   UNION ALL
-  SELECT strftime('%Y-%m', decision_date) AS month FROM read_parquet('/tmp/metadata2.parquet')
-) t
+  SELECT * FROM read_parquet('/tmp/metadata2.parquet')
+)
+SELECT court, strftime(decision_date,'%Y-%W') AS week, COUNT(*) AS total
+FROM data
+WHERE lower(disposal_nature) LIKE '%compromise%'
+GROUP BY court, week
+ORDER BY court, week
+) TO 'q14.csv' WITH (HEADER, DELIMITER ',');
+```
+Result: [q14.csv](q14.csv)
+
+### 5. Is translation into regional languages actually happening? Identify judgments with substantial non-ASCII text, court-wise.
+Why it matters: The Centre touts a big vernacular push.
+
+Answer: The sample shows no Tamil or Hindi characters in the HTML snippets.
+```sql
+COPY (
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
+  UNION ALL
+  SELECT * FROM read_parquet('/tmp/metadata2.parquet')
+)
+SELECT court,
+       SUM(CASE WHEN regexp_matches(raw_html, '[\x{0B80}-\x{0BFF}]') THEN 1 ELSE 0 END) AS tamil_count,
+       SUM(CASE WHEN regexp_matches(raw_html, '[\x{0900}-\x{097F}]') THEN 1 ELSE 0 END) AS hindi_count,
+       COUNT(*) AS total
+FROM data
+GROUP BY court
+) TO 'q15.csv' WITH (HEADER, DELIMITER ',');
+```
+Result: [q15.csv](q15.csv)
+
+### 6. Which litigants are serially filing Section 482 CrPC quash petitions, and where do they find fastest relief?
+Why it matters: The Supreme Court reaffirmed Section 482 powers but misuse is alleged.
+
+Answer: 27 Section 482 matters appear, with a median disposal time of **147** days at the Madras High Court.
+```sql
+COPY (
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
+  UNION ALL
+  SELECT * FROM read_parquet('/tmp/metadata2.parquet')
+),
+filtered AS (
+  SELECT court,
+         DATEDIFF('day', STRPTIME(date_of_registration,'%d-%m-%Y'), decision_date) AS days
+  FROM data
+  WHERE lower(title) LIKE '%482%'
+)
+SELECT court, MEDIAN(days) AS median_days, COUNT(*) AS total
+FROM filtered
+GROUP BY court
+) TO 'q16.csv' WITH (HEADER, DELIMITER ',');
+```
+Result: [q16.csv](q16.csv)
+
+### 7. Do NDPS fast-track mandates work? Compare average disposal days for NDPS cases vs the court’s overall median.
+Why it matters: Specialized NDPS courts are being added amid rising drug cases.
+
+Answer: The 18 NDPS references in the sample averaged **1 day**, far below the overall median of **92** days.
+```sql
+COPY (
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
+  UNION ALL
+  SELECT * FROM read_parquet('/tmp/metadata2.parquet')
+),
+ndps AS (
+  SELECT DATEDIFF('day', STRPTIME(date_of_registration,'%d-%m-%Y'), decision_date) AS days
+  FROM data
+  WHERE lower(raw_html) LIKE '%ndps%'
+),
+overall AS (
+  SELECT DATEDIFF('day', STRPTIME(date_of_registration,'%d-%m-%Y'), decision_date) AS days
+  FROM data
+)
+SELECT (SELECT AVG(days) FROM ndps) AS ndps_avg,
+       (SELECT MEDIAN(days) FROM overall) AS overall_median
+) TO 'q17.csv' WITH (HEADER, DELIMITER ',');
+```
+Result: [q17.csv](q17.csv)
+
+### 8. After major protests or election periods, did habeas corpus filings spike in the state High Courts?
+Why it matters: Detentions during protests often trigger habeas petitions.
+
+Answer: Habeas corpus filings peaked at 207 in January 2025 with no clear protest link in this sample.
+```sql
+COPY (
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
+  UNION ALL
+  SELECT * FROM read_parquet('/tmp/metadata2.parquet')
+)
+SELECT strftime(decision_date,'%Y-%m') AS month, COUNT(*) AS total
+FROM data
+WHERE upper(title) LIKE 'HCP%'
 GROUP BY month
 ORDER BY month
-) TO 'q7.csv' WITH (HEADER, DELIMITER ',');
+) TO 'q18.csv' WITH (HEADER, DELIMITER ',');
 ```
+Result: [q18.csv](q18.csv)
 
-Result: [q7.csv](q7.csv)
+### 9. Which judges deliver the most concise judgments without higher reversal rates?
+Why it matters: The Supreme Court's "Unclogging the Docket" report stresses brevity.
 
-*The trend mirrors the single-court chart since only Madras data was sampled.*
-
-### 8. Judgments in Tamil
-
+Answer: Justice K. Rajasekar averaged about **989** characters and reversed **33%** of cases.
 ```sql
 COPY (
-SELECT court,
-       SUM(CASE WHEN raw_html ~ '[\u0B80-\u0BFF]' THEN 1 ELSE 0 END) AS tamil_count,
-       COUNT(*) AS total,
-       ROUND(SUM(CASE WHEN raw_html ~ '[\u0B80-\u0BFF]' THEN 1 ELSE 0 END)*100.0/COUNT(*), 2) AS tamil_pct
-FROM (
-  SELECT * FROM read_parquet('/tmp/metadata.parquet')
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
   UNION ALL
   SELECT * FROM read_parquet('/tmp/metadata2.parquet')
-) t
-GROUP BY court
-) TO 'q8.csv' WITH (HEADER, DELIMITER ',');
+)
+SELECT judge,
+       AVG(LENGTH(raw_html)) AS avg_len,
+       COUNT(*) FILTER (WHERE disposal_nature IN ('ALLOWED','PARTLY ALLOWED')) *1.0/COUNT(*) AS reversal_rate
+FROM data
+GROUP BY judge
+ORDER BY avg_len
+) TO 'q19.csv' WITH (HEADER, DELIMITER ',');
 ```
+Result: [q19.csv](q19.csv)
 
-Result: [q8.csv](q8.csv)
+### 10. How dependent are High Courts on landmark Supreme Court precedents?
+Why it matters: Citation culture shows doctrinal diffusion and gaps in judge training.
 
-*No Tamil text was detected in the HTML snippets.* 
-
-### 9. Average judgment length
-
-Attempted to fetch PDFs from `https://judgments.ecourts.gov.in/` using the `pdf_link` field, but the server returned **403 Forbidden**. Without the documents we cannot compute page counts.
-
-### 10. Fast disposals (within 30 days)
-
+Answer: No references to *Puttaswamy* or *Maneka Gandhi* appear in the sample.
 ```sql
 COPY (
-SELECT court, COUNT(*) AS fast_disposals
-FROM (
-  SELECT court, DATEDIFF('day', STRPTIME(date_of_registration, '%d-%m-%Y'), decision_date) AS days
-  FROM read_parquet('/tmp/metadata.parquet')
+WITH data AS (
+  SELECT * FROM read_parquet('/tmp/metadata1.parquet')
   UNION ALL
-  SELECT court, DATEDIFF('day', STRPTIME(date_of_registration, '%d-%m-%Y'), decision_date) AS days
-  FROM read_parquet('/tmp/metadata2.parquet')
-) t
-WHERE days <= 30
-GROUP BY court
-) TO 'q10.csv' WITH (HEADER, DELIMITER ',');
+  SELECT * FROM read_parquet('/tmp/metadata2.parquet')
+),
+counts AS (
+  SELECT court,
+         SUM(CASE WHEN lower(raw_html) LIKE '%puttaswamy%' THEN 1 ELSE 0 END) AS puttaswamy,
+         SUM(CASE WHEN lower(raw_html) LIKE '%maneka gandhi%' THEN 1 ELSE 0 END) AS maneka
+  FROM data
+  GROUP BY court
+)
+SELECT court, puttaswamy + maneka AS total_refs
+FROM counts
+) TO 'q20.csv' WITH (HEADER, DELIMITER ',');
 ```
-
-Result: [q10.csv](q10.csv)
-
-*About **6,939** cases were disposed of within 30 days.*
+Result: [q20.csv](q20.csv)
