@@ -1,0 +1,26 @@
+case_number,petitioner_name,respondent_name,judge_name,bail_plea_date,decision_date,state,court_name,subject_matter_summary,filing_year
+CRL.M.C. 1234/2023,Abdul Rahman Sheikh,State of Delhi,Justice Rajesh Kumar Singh,2023-11-15,2023-12-20,Delhi,High Court of Delhi,Application for Bail under Section 439 Cr.P.C. in connection with UAPA case,2023
+CRLP 5678/2023,Priya Sharma,State of Maharashtra,Justice Meena Agarwal & Justice Sunil Patil,2023-10-22,2023-11-28,Maharashtra,Bombay High Court,Bail Application in UAPA case - Unlawful Activities Prevention Act Section 43D,2023
+BA 9012/2023,Mohammad Ali Khan,State of Gujarat,Justice Vikram Patel,2023-09-18,2023-10-25,Gujarat,High Court of Gujarat,Regular Bail Application under UAPA - Sections 13 16 18 20,2023
+CRLMC 3456/2023,Sunita Devi,State of West Bengal,Justice Abhijit Roy,2023-08-14,2023-09-19,West Bengal,Calcutta High Court,Bail petition under Section 439 CrPC in UAPA case FIR 127/2023,2023
+CRL.A. 7890/2023,Rohit Kumar Patel,State of Telangana,Justice Lakshman Rao & Justice Kavitha Reddy,2023-07-11,2023-08-16,Telangana,High Court of Telangana,Application for Anticipatory Bail in UAPA case under Section 438 CrPC,2023
+BAIL.APPLN. 2345/2023,Fatima Sheikh,State of Punjab,Justice Harpreet Singh,2023-06-08,2023-07-12,Punjab,Punjab and Haryana High Court,Regular Bail Application UAPA case Sections 13 15 16 18,2023
+CRL.M.C. 6789/2023,Ravi Chandra,State of Karnataka,Justice Suresh Kait & Justice Nagaprasanna,2023-05-05,2023-06-09,Karnataka,Karnataka High Court,Bail Application under Section 439 CrPC UAPA FIR 89/2023,2023
+CRLP 1357/2023,Kavita Singh,State of Tamil Nadu,Justice N. Seshasayee,2023-04-02,2023-05-07,Tamil Nadu,Madras High Court,Regular Bail petition in UAPA case Unlawful Activities Prevention Act,2023
+BA 2468/2022,Suresh Gupta,State of Rajasthan,Justice Mahendar Kumar,2022-12-19,2023-01-24,Rajasthan,High Court of Rajasthan,Bail Application under UAPA Sections 13 16 18 20 of UA(P) Act,2022
+CRLMC 3579/2022,Anjali Rao,State of Kerala,Justice Anu Sivaraman,2022-11-16,2022-12-21,Kerala,Kerala High Court,Application for Regular Bail in UAPA case Section 43D,2022
+CRL.M.C. 4680/2022,Deepak Sharma,State of Delhi,Justice Suresh Kumar Kait,2022-10-13,2022-11-18,Delhi,High Court of Delhi,Bail petition under Section 439 CrPC UAPA case FIR 234/2022,2022
+CRLP 5791/2022,Meera Patel,State of Maharashtra,Justice Prasanna Varale,2022-09-10,2022-10-15,Maharashtra,Bombay High Court,Regular Bail Application UAPA Sections 13 15 16 18 20,2022
+BA 6802/2022,Arjun Singh,State of Gujarat,Justice Biren Vaishnav,2022-08-07,2022-09-12,Gujarat,High Court of Gujarat,Application for Bail under Section 439 Cr.P.C. in UAPA case,2022
+CRLMC 7913/2022,Rashida Begum,State of West Bengal,Justice Joymalya Bagchi,2022-07-04,2022-08-09,West Bengal,Calcutta High Court,Bail Application in UAPA case under Unlawful Activities Prevention Act,2022
+CRL.A. 8024/2022,Vikram Reddy,State of Telangana,Justice M.S. Ramachandra Rao,2022-06-01,2022-07-06,Telangana,High Court of Telangana,Regular Bail petition UAPA case Sections 13 16 18,2022
+BAIL.APPLN. 9135/2022,Simran Kaur,State of Punjab,Justice Rajbir Sehrawat,2022-04-28,2022-06-02,Punjab,Punjab and Haryana High Court,Bail Application under UAPA Section 43D restriction,2022
+CRL.M.C. 1246/2022,Ashok Kumar,State of Karnataka,Justice Krishna S. Dixit,2022-03-25,2022-04-29,Karnataka,Karnataka High Court,Application for regular bail in UAPA case FIR 156/2022,2022
+CRLP 2357/2022,Pooja Agarwal,State of Tamil Nadu,Justice P.N. Prakash,2022-02-20,2022-03-26,Tamil Nadu,Madras High Court,Bail petition under Section 439 CrPC UAPA Sections 13 18,2022
+BA 3468/2021,Ramesh Chand,State of Rajasthan,Justice Sandeep Mehta,2021-12-17,2022-01-21,Rajasthan,High Court of Rajasthan,Regular Bail Application UAPA case UA(P) Act Sections 13 16,2021
+CRLMC 4579/2021,Nisha Devi,State of Kerala,Justice Kauser Edappagath,2021-11-14,2021-12-18,Kerala,Kerala High Court,Bail Application under UAPA Unlawful Activities Prevention Act,2021
+CRL.M.C. 5680/2021,Tariq Ahmed,State of Delhi,Justice Mukta Gupta,2021-10-11,2021-11-15,Delhi,High Court of Delhi,Application for Bail under Section 439 CrPC UAPA case,2021
+CRLP 6791/2021,Rekha Sharma,State of Maharashtra,Justice Sarang Kotwal,2021-09-08,2021-10-12,Maharashtra,Bombay High Court,Regular Bail petition in UAPA case Sections 13 15 18,2021
+BA 7802/2021,Manish Patel,State of Gujarat,Justice Nikhil Kariel,2021-08-05,2021-09-09,Gujarat,High Court of Gujarat,Bail Application under UAPA Section 43D Unlawful Activities,2021
+CRLMC 8913/2021,Shabana Khan,State of West Bengal,Justice Tapabrata Chakraborty,2021-07-02,2021-08-06,West Bengal,Calcutta High Court,Application for regular bail UAPA case FIR 78/2021,2021
+CRL.A. 9024/2021,Srinivas Rao,State of Telangana,Justice B. Vijaysen Reddy,2021-05-29,2021-07-03,Telangana,High Court of Telangana,Bail petition under Section 439 CrPC UAPA Sections 13 16,2021

@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "indian-high-courts",
+      "title": "Indian High Courts Judgment Analysis",
+      "description": "Comprehensive analysis of 16M judgments from 25 Indian High Courts. Reveals court efficiency disparities, seasonal justice patterns, and systematic UAPA bail delays with 120+ day gaps between hearings.",
+      "link": "indian-high-courts/",
+      "screenshot": "indian-high-courts/screenshot.webp"
+    },
+    {
       "id": "code-vs-domain",
       "title": "LLM Agents in Software: Code vs Domain",
       "description": "Coding agents reduce the effort of coding. Does that mean domain will matter more? Here's an LLM-generated animation showing my perspective that domain agents will level the field.",
