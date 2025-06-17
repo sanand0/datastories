@@ -1,0 +1,12 @@
+column_name,column_type
+court_code,VARCHAR
+title,VARCHAR
+description,VARCHAR
+judge,VARCHAR
+pdf_link,VARCHAR
+cnr,VARCHAR
+date_of_registration,VARCHAR
+decision_date,DATE
+disposal_nature,VARCHAR
+court,VARCHAR
+raw_html,VARCHAR

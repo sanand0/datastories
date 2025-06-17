@@ -16,6 +16,98 @@ This story explores the dataset of Indian High Court judgments available from th
 
 The dataset covers **25 high courts** with roughly **16 million** judgments. The total size is about **1TB** compressed.
 
+## Columns
+
+The parquet files share a common structure. A sample file contains the following columns:
+
+| column_name | column_type |
+|-------------|-------------|
+| court_code  | VARCHAR     |
+| title       | VARCHAR     |
+| description | VARCHAR     |
+| judge       | VARCHAR     |
+| pdf_link    | VARCHAR     |
+| cnr         | VARCHAR     |
+| date_of_registration | VARCHAR |
+| decision_date | DATE |
+| disposal_nature | VARCHAR |
+| court | VARCHAR |
+| raw_html | VARCHAR |
+
+The sample used for analysis contains **13,974** rows from the Madras High Court with decision dates between **2025‑01‑04** and **2025‑12‑03**.
+
+## Exploratory data analysis
+
+### Decision dates by month
+
+```sql
+COPY (
+SELECT strftime(decision_date, '%Y-%m') AS month, COUNT(*) AS total
+FROM read_parquet('/tmp/metadata1.parquet')
+GROUP BY month
+ORDER BY month
+) TO 'monthly_counts.csv' WITH (HEADER, DELIMITER ',');
+```
+
+Result: [monthly_counts.csv](monthly_counts.csv)
+
+### Top case types
+
+```sql
+COPY (
+SELECT regexp_extract(title, '^(\\w+)', 1) AS type, COUNT(*) AS total
+FROM read_parquet('/tmp/metadata1.parquet')
+GROUP BY type
+ORDER BY total DESC
+LIMIT 10
+) TO 'top_case_types.csv' WITH (HEADER, DELIMITER ',');
+```
+
+Result: [top_case_types.csv](top_case_types.csv)
+
+### Disposal nature
+
+```sql
+COPY (
+SELECT disposal_nature, COUNT(*) AS total
+FROM read_parquet('/tmp/metadata1.parquet')
+GROUP BY disposal_nature
+ORDER BY total DESC
+LIMIT 5
+) TO 'top_disposals.csv' WITH (HEADER, DELIMITER ',');
+```
+
+Result: [top_disposals.csv](top_disposals.csv)
+
+### Most frequent judges
+
+```sql
+COPY (
+SELECT judge, COUNT(*) AS total
+FROM read_parquet('/tmp/metadata1.parquet')
+GROUP BY judge
+ORDER BY total DESC
+LIMIT 5
+) TO 'top_judges.csv' WITH (HEADER, DELIMITER ',');
+```
+
+Result: [top_judges.csv](top_judges.csv)
+
+### Filing to decision days
+
+```sql
+COPY (
+SELECT MIN(days) AS min, QUANTILE_CONT(days, 0.25) AS q1, MEDIAN(days) AS median,
+       QUANTILE_CONT(days, 0.75) AS q3, MAX(days) AS max, AVG(days) AS mean
+FROM (
+  SELECT DATEDIFF('day', STRPTIME(date_of_registration, '%d-%m-%Y'), decision_date) AS days
+  FROM read_parquet('/tmp/metadata1.parquet')
+)
+) TO 'days_stats.csv' WITH (HEADER, DELIMITER ',');
+```
+
+Result: [days_stats.csv](days_stats.csv)
+
 ## Questions
 
 Below are 10 questions that can be answered using the metadata. Each question would typically involve joining or filtering the parquet files.
