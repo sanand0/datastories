@@ -14,3 +14,25 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 ## License
 
 [MIT](LICENSE)
+
+<!--
+
+File structure:
+
+- README.md: Manually updated with story links
+- config.json: Manually updated with story links
+- index.html: Renders config.json as cards
+- setup.sh: Run via .github/workflows/deploy.yml to generate [story-folder]/index.html from [story-folder]/README.md
+- [story-folder]/
+  - README.md
+  - Other supporting files
+
+When adding a new story, update:
+
+- config.json
+- README.md
+- setup.sh
+
+Linting: `npm run lint
+
+-->
