@@ -1,11 +1,18 @@
 {
   "stories": [
     {
+      "id": "chatgpt-topics",
+      "title": "ChatGPT Topic Trends",
+      "description": "Categorized the 6,000 ChatGPT conversations I've had in the last 2 years to understand what topics I discuss the most. It's mostly tech, AI, reading/writing, and some daily-life stuff.",
+      "link": "chatgpt-topics/",
+      "screenshot": "chatgpt-topics/screenshot.webp"
+    },
+    {
       "id": "indian-high-courts",
       "title": "Indian High Courts Judgment Analysis",
       "description": "Comprehensive analysis of 16M judgments from 25 Indian High Courts. Reveals court efficiency disparities, seasonal justice patterns, and systematic UAPA bail delays with 120+ day gaps between hearings.",
       "link": "indian-high-courts/",
-      "screenshot": "indian-high-courts/screenshot.webp"
+      "screenshot": "https://picsum.photos/400/200"
     },
     {
       "id": "code-vs-domain",
