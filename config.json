@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "vipassana",
+      "title": "My Vipassana Experience",
+      "description": "An LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions.",
+      "link": "vipassana/",
+      "screenshot": "vipassana/i-attended-a-10-day-vipassana-meditation-center.webp"
+    },
+    {
       "id": "chatgpt-topics",
       "title": "ChatGPT Topic Trends",
       "description": "Categorized the 6,000 ChatGPT conversations I've had in the last 2 years to understand what topics I discuss the most. It's mostly tech, AI, reading/writing, and some daily-life stuff.",

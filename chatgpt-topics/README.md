@@ -62,6 +62,7 @@ To re-create this:
    2025-06-17	UAPA Bail Hearing Patterns.  Write a concise version of the quesrion here.  Question is, we need to have a data set like this, it should have a triangular padding on one side the accused name, right? ...hey will gradually keep on postponing. Some reason or the other. And they will keep on denying bail.
    2025-06-17	Missing Header Value Debug.  My code works on one person's machine but the SAME code fails as follows on another's machine. Help us debug.  ces>python ocr.py Traceback (most recent call last):   File ...utheader     if _is_illegal_header_value(values[i]): TypeError: expected string or bytes-like object
    ```
+
 3. Use [LLM Foundry Classify](https://llmfoundry.straive.com/classify) (currently not public) to create topic models. This automatically assigns clusters the questions into topics and names them.
 4. [Talk to ChatGPT](https://chatgpt.com/share/68584291-a9bc-800c-a652-bc0702b1cdce) to visualize the trends.
 
