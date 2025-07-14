@@ -114,6 +114,6 @@ Always show the protagonist, wearing a T-shirt. No text or dialogues. Clear visu
 Respond with caption & prompt, tab-delimited, one per line' | tee prompts.txt
 ```
 
-**STEP 3**: Generate the images by running [`make_comics.sh`](make_comics.sh).
+**STEP 3**: Generate the images by running [`make_comic.sh`](make_comic.sh).
 
-**STEP 4**: Delete any images I don't like and re-run [`make_comics.sh`](make_comics.sh).
+**STEP 4**: Delete any images I don't like and re-run [`make_comic.sh`](make_comic.sh).
