@@ -3,7 +3,14 @@
     {
       "id": "vipassana",
       "title": "My Vipassana Experience",
-      "description": "An LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions.",
+      "description": "A manually LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions, via ChatGPT",
+      "link": "vipassana-chatgpt/",
+      "screenshot": "vipassana-chatgpt/01.webp"
+    },
+    {
+      "id": "vipassana",
+      "title": "My Vipassana Experience",
+      "description": "A programmatically LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions, via Gemini 2.0 Flash",
       "link": "vipassana/",
       "screenshot": "vipassana/i-attended-a-10-day-vipassana-meditation-center.webp"
     },
