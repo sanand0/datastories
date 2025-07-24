@@ -6,3 +6,4 @@ npx -y --package markdown-to-html-cli markdown-to-html --source employment-trend
 npx -y --package markdown-to-html-cli markdown-to-html --source horoscope-2025-06-16/README.md --output horoscope-2025-06-16/index.html
 npx -y --package markdown-to-html-cli markdown-to-html --source chatgpt-topics/README.md --output chatgpt-topics/index.html
 npx -y --package markdown-to-html-cli markdown-to-html --source vipassana/README.md --output vipassana/index.html
+npx -y --package markdown-to-html-cli markdown-to-html --source chatgpt-vs-google/README.md --output chatgpt-vs-google/index.html

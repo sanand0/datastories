@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "chatgpt-vs-google",
+      "title": "ChatGPT vs Google",
+      "description": "How my ChatGPT usage has grown at the expense of Google usage. Google is only 60% of my usage, and far lower in engagement",
+      "link": "chatgpt-vs-google/",
+      "screenshot": "chatgpt-vs-google/chatgpt-vs-google-usage-ratio.webp"
+    },
+    {
       "id": "vipassana",
       "title": "My Vipassana Experience",
       "description": "A manually LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions, via ChatGPT",

@@ -6,6 +6,7 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [ChatGPT vs Google Usage](chatgpt-vs-google/). How my ChatGPT usage has grown at the expense of Google usage. Google is only 60% of my usage, and far lower in engagement
 - [Vipassana](vipassana-chatgpt/). A manually LLM-generated comic story of my meditation experience (via ChatGPT)
 - [Vipassana](vipassana/). A programmatically LLM-generated comic story of my meditation experience via [Gemini](https://developers.googleblog.com/en/generate-images-gemini-2-0-flash-preview/)
 - [Indian High Courts Analysis](indian-high-courts/). Comprehensive analysis of 16M judgments from 25 Indian High Courts. Reveals court efficiency disparities, seasonal justice patterns, and systematic UAPA bail delays across states.
