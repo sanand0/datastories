@@ -7,3 +7,4 @@ npx -y --package markdown-to-html-cli markdown-to-html --source horoscope-2025-0
 npx -y --package markdown-to-html-cli markdown-to-html --source chatgpt-topics/README.md --output chatgpt-topics/index.html
 npx -y --package markdown-to-html-cli markdown-to-html --source vipassana/README.md --output vipassana/index.html
 npx -y --package markdown-to-html-cli markdown-to-html --source chatgpt-vs-google/README.md --output chatgpt-vs-google/index.html
+npx -y --package markdown-to-html-cli markdown-to-html --source google-searches/README.md --output google-searches/index.html

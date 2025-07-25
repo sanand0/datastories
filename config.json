@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "google-searches",
+      "title": "Google Search Topic Trends",
+      "description": "Categorized every Google Search since Jan 2021 into 50 topics. It's mostly tech, AI, and geo-cultural. I also need to allocate more time to testing, databases, and other 'spiky' topics.",
+      "link": "google-searches/",
+      "screenshot": "google-searches/google-search-topic-trends.webp"
+    },
+    {
       "id": "chatgpt-vs-google",
       "title": "ChatGPT vs Google",
       "description": "How my ChatGPT usage has grown at the expense of Google usage. Google is only 60% of my usage, and far lower in engagement",
