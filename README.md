@@ -38,6 +38,18 @@ When adding a new story, update:
 - README.md
 - setup.sh
 
+Assets are stored in a GitHub Release creatd via:
+
+```bash
+gh release create main --title "Assets" --notes "Data story assets"
+```
+
+Add assets by running:
+
+```bash
+gh release upload main --clobber $FILE
+```
+
 Linting: `npm run lint`
 
 -->
