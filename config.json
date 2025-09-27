@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "bollywood-top-grossing",
+      "title": "Bollywood Box Office Champions",
+      "description": "Interactive, inflation-adjusted bubble chart of the top-grossing Hindi films from 1994 to 2024, spotlighting record-setting blockbusters.",
+      "link": "bollywood-top-grossing/index.html",
+      "screenshot": "bollywood-top-grossing/screenshot.webp"
+    },
+    {
       "id": "google-searches",
       "title": "Google Search Topic Trends",
       "description": "Categorized every Google Search since Jan 2021 into 50 topics. It's mostly tech, AI, and geo-cultural. I also need to allocate more time to testing, databases, and other 'spiky' topics.",
