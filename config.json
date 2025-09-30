@@ -4,7 +4,7 @@
       "id": "scraping-sec",
       "title": "Scraping SEC",
       "description": "Narrative walkthrough of how Codex CLI built an SEC scraper in one-shot, recovering from errors, handling messy data, and with self-critique.",
-      "link": "scraping-sec/story.html",
+      "link": "scraping-sec/",
       "screenshot": "scraping-sec/screenshot.webp"
     },
     {
