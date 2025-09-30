@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "scraping-sec",
+      "title": "Scraping SEC",
+      "description": "Narrative walkthrough of how Codex CLI built an SEC scraper in one-shot, recovering from errors, handling messy data, and with self-critique.",
+      "link": "scraping-sec/",
+      "screenshot": "scraping-sec/screenshot.webp"
+    },
+    {
       "id": "bollywood-top-grossing",
       "title": "Bollywood Box Office Champions",
       "description": "Interactive, inflation-adjusted bubble chart of the top-grossing Hindi films from 1994 to 2024, spotlighting record-setting blockbusters.",

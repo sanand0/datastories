@@ -6,6 +6,7 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Scraping SEC](scraping-sec/). Vibe-scrape the revenues of the Fortune 100 companies from the SEC and [vibe-visualize](scraping-sec/story.html) the process.
 - [Bollywood Box Office Champions](bollywood-top-grossing/). Explore 30 years of top-grossing Hindi films with an interactive, inflation-adjusted bubble chart that spotlights record-setting blockbusters.
 - [Google Searches](google-searches/). Categorized every Google Search since Jan 2021 into 50 topics. It's mostly tech, AI, and geo-cultural. I also need to allocate more time to testing, databases, and other 'spiky' topics.
 - [ChatGPT vs Google Usage](chatgpt-vs-google/). How my ChatGPT usage has grown at the expense of Google usage. Google is only 60% of my usage, and far lower in engagement
