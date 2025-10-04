@@ -1,6 +1,34 @@
 {
   "stories": [
     {
+      "id": "browser-history-rabbit-holes",
+      "title": "Rabbit Holes",
+      "description": "An interactive map of 3,560 browsing chains showing how sparks turn into deep dives across the web.",
+      "link": "browser-history/rabbit-holes/index.html",
+      "screenshot": "browser-history/rabbit-holes/screenshot.webp"
+    },
+    {
+      "id": "browser-history-search-funnels",
+      "title": "Do Questions Find Answers?",
+      "description": "Search journeys from query to first click, with filters that expose instant wins and wandering quests.",
+      "link": "browser-history/search-funnels/index.html",
+      "screenshot": "browser-history/search-funnels/screenshot.webp"
+    },
+    {
+      "id": "browser-history-attention-clock",
+      "title": "Your Attention Clock",
+      "description": "Heatmaps of weekly browsing reveal circadian focus, daily ebbs, and the domains that anchor attention.",
+      "link": "browser-history/attention-clock/index.html",
+      "screenshot": "browser-history/attention-clock/screenshot.webp"
+    },
+    {
+      "id": "browser-history-digital-life",
+      "title": "The Digital Life of Anand",
+      "description": "An exposé of 97k visits across 84 days that charts top destinations, hourly habits, and AI-heavy searches.",
+      "link": "browser-history/digital-life/index.html",
+      "screenshot": "browser-history/digital-life/screenshot.webp"
+    },
+    {
       "id": "scraping-sec",
       "title": "Scraping SEC",
       "description": "Narrative walkthrough of how Codex CLI built an SEC scraper in one-shot, recovering from errors, handling messy data, and with self-critique.",

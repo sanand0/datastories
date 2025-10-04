@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Do Questions Find Answers? A Search Journey</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --color-instant: #10b981;
+      --color-quick: #3b82f6;
+      --color-thoughtful: #f59e0b;
+      --color-wandering: #ef4444;
+    }
+    body {
+      font-family: 'Georgia', serif;
+      background: #fefefe;
+      color: #1a1a1a;
+    }
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .hero .lead {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      opacity: 0.95;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+      height: 100%;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+    .journey-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .journey-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .journey-instant { border-left-color: var(--color-instant); }
+    .journey-quick { border-left-color: var(--color-quick); }
+    .journey-thoughtful { border-left-color: var(--color-thoughtful); }
+    .journey-wandering { border-left-color: var(--color-wandering); }
+    .search-term {
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .time-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .destination-list {
+      margin-top: 0.75rem;
+      padding-left: 1.5rem;
+    }
+    .destination-item {
+      font-size: 0.9rem;
+      color: #666;
+      padding: 0.25rem 0;
+    }
+    .filter-btn {
+      border: 2px solid #dee2e6;
+      border-radius: 24px;
+      padding: 0.5rem 1.25rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      margin: 0.25rem;
+    }
+    .filter-btn:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+    .filter-btn.active {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+    }
+    .viz-container {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+      margin-bottom: 2rem;
+    }
+    #funnel-chart {
+      height: 400px;
+    }
+    .insight-box {
+      background: linear-gradient(135deg, #f6f8fb 0%, #e9ecf4 100%);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-left: 4px solid #667eea;
+    }
+    .insight-box h3 {
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+    .loading-spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .interesting-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background: #fbbf24;
+      color: #78350f;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    .journey-explanation {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+      padding: 0.5rem;
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+    .sort-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .sort-control label {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .sort-control select {
+      padding: 0.5rem 1rem;
+      border: 2px solid #dee2e6;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .search-link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .search-link:hover {
+      text-decoration: underline;
+    }
+    .scatter-plot {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 1.5rem;
+      font-size: 0.9rem;
+    }
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Do Questions Find Answers?</h1>
+      <p class="lead">
+        A data story about the journey from search to satisfaction—revealing the hope in swift clicks
+        and the curiosity in meandering paths
+      </p>
+    </div>
+  </section>
+
+  <!-- Key Statistics -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-number" style="color: var(--color-instant);" id="stat-searches">—</div>
+            <div class="stat-label">Search Terms</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-number" style="color: var(--color-quick);" id="stat-destinations">—</div>
+            <div class="stat-label">Destinations</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-number" style="color: var(--color-thoughtful);" id="stat-avg-time">—</div>
+            <div class="stat-label">Avg. Time to Click</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-number" style="color: var(--color-wandering);" id="stat-click-rate">—%</div>
+            <div class="stat-label">Click-Through Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journey Types -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Four Types of Search Journeys</h2>
+      <div class="insight-box">
+        <h3><i class="bi bi-lightbulb"></i> Reading the Data</h3>
+        <p>Every search tells a story. Some searches find their answer in under a second—confident, decisive.
+        Others wander across multiple sites, exploring possibilities. The time from search to first click
+        reveals whether you knew what you wanted, or were still figuring it out.</p>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col text-center">
+          <button class="filter-btn active" data-filter="all">All Journeys</button>
+          <button class="filter-btn" data-filter="instant">⚡ Instant (&lt;1s)</button>
+          <button class="filter-btn" data-filter="quick">🎯 Quick (1-5s)</button>
+          <button class="filter-btn" data-filter="thoughtful">🤔 Thoughtful (5-30s)</button>
+          <button class="filter-btn" data-filter="wandering">🌀 Wandering (30s+)</button>
+          <button class="filter-btn" data-filter="interesting">⭐ Interesting</button>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="sort-control">
+            <label for="sort-select">Sort by:</label>
+            <select id="sort-select" class="form-select">
+              <option value="original">Original Order</option>
+              <option value="time-asc">Time to Click (Fast → Slow)</option>
+              <option value="time-desc">Time to Click (Slow → Fast)</option>
+              <option value="clicks-desc">Most Clicks</option>
+              <option value="clicks-asc">Least Clicks</option>
+              <option value="searches-desc">Most Searches</option>
+              <option value="searches-asc">Least Searches</option>
+              <option value="destinations-desc">Most Destinations</option>
+              <option value="destinations-asc">Least Destinations</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="journey-list" class="row">
+        <div class="col-12 text-center py-5">
+          <div class="loading-spinner"></div>
+          <p class="mt-3 text-muted">Loading search journeys...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journey Type Insights -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">What Each Journey Type Reveals</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="stat-card" style="border-left: 4px solid var(--color-instant);">
+            <h4>⚡ Instant Journeys (&lt;1s)</h4>
+            <p class="mt-3" id="instant-insight">Loading...</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="stat-card" style="border-left: 4px solid var(--color-quick);">
+            <h4>🎯 Quick Journeys (1-5s)</h4>
+            <p class="mt-3" id="quick-insight">Loading...</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="stat-card" style="border-left: 4px solid var(--color-thoughtful);">
+            <h4>🤔 Thoughtful Journeys (5-30s)</h4>
+            <p class="mt-3" id="thoughtful-insight">Loading...</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="stat-card" style="border-left: 4px solid var(--color-wandering);">
+            <h4>🌀 Wandering Journeys (30s+)</h4>
+            <p class="mt-3" id="wandering-insight">Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search Landscape -->
+  <section class="py-5">
+    <div class="container-fluid px-4">
+      <h2 class="text-center mb-4">The Search Landscape</h2>
+      <div class="scatter-plot">
+        <canvas id="scatter-chart"></canvas>
+        <div class="mt-4 text-center">
+          <div class="d-inline-block me-4">
+            <strong>Color Legend (Avg Time):</strong>
+            <div class="d-inline-flex align-items-center ms-2">
+              <span style="display: inline-block; width: 60px; height: 20px; background: linear-gradient(to right, #10b981, #fbbf24, #ef4444); border: 1px solid #ddd;"></span>
+              <span class="ms-2 text-muted" style="font-size: 0.9rem;">0s → 30s → 60s+</span>
+            </div>
+          </div>
+          <div class="d-inline-block">
+            <strong>Size Legend (Frequency):</strong>
+            <span class="ms-2 text-muted" style="font-size: 0.9rem;">
+              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #9ca3af; vertical-align: middle;"></span> 1 term
+              <span class="ms-2" style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #9ca3af; vertical-align: middle;"></span> 5 terms
+              <span class="ms-2" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background: #9ca3af; vertical-align: middle;"></span> 10+ terms
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="insight-box">
+        <h3><i class="bi bi-compass"></i> Reading the Landscape: The Geography of Search Behavior</h3>
+        <p><strong>How to read this chart:</strong> Each bubble represents a (searches, destinations) pattern.
+        X-axis shows how many times you searched that term. Y-axis shows how many different sites you visited.
+        Bubble size = how many search terms share that pattern. Color = average time to first click (green=fast, red=slow).</p>
+
+        <p><strong>The three territories:</strong></p>
+        <ul style="margin-top: 1rem;">
+          <li><strong>Bottom-left (small x, y=1):</strong> The "I know what I want" zone. Quick, single-destination,
+          mostly green. These are confident searches where the question and answer are well-matched.</li>
+
+          <li><strong>Top-right (large x, large y):</strong> The "deep research" quadrant. Many searches, many destinations,
+          often yellow/red. This is where learning happens—you're building understanding across sources.
+          Surprisingly, these aren't failures; they represent the most valuable searches in the dataset.</li>
+
+          <li><strong>Right-middle (large x, y=1):</strong> The fascinating paradox. Searched many times but only clicked one destination.
+          This splits into two stories: either perfect muscle memory (green bubbles, same reliable source), or
+          persistent frustration (red bubbles, kept trying but nothing clicked). Same pattern, opposite meanings.</li>
+        </ul>
+
+        <p><strong>The big insight:</strong> Single-destination doesn't mean simple, and multi-destination doesn't mean lost.
+        The most-searched terms (x > 40) are almost all single-destination—which reveals that <em>repetition creates certainty</em>.
+        You don't explore more as you search more; you explore less. The first few searches teach you where to go,
+        and the rest become ritual. Expertise isn't knowing everything—it's knowing exactly where to look.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Practical Takeaways -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">What Searchers Can Learn</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="stat-card">
+            <i class="bi bi-lightning-charge text-success" style="font-size: 3rem;"></i>
+            <h4 class="mt-3">Be Specific</h4>
+            <p class="text-muted">The fastest searches use precise terms. "claude code system prompt"
+            beats "how does claude work" every time.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <i class="bi bi-arrow-repeat text-primary" style="font-size: 3rem;"></i>
+            <h4 class="mt-3">Loops Are Normal</h4>
+            <p class="text-muted">Don't feel bad about wandering. Complex questions need exploration.
+            The journey is part of understanding.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <i class="bi bi-bookmark-star text-warning" style="font-size: 3rem;"></i>
+            <h4 class="mt-3">Save Patterns</h4>
+            <p class="text-muted">Notice which searches work. Build a mental library of effective
+            search patterns for your domain.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 bg-dark text-white text-center">
+    <div class="container">
+      <p class="mb-0">Data Story by Anand • Visualizing Browser History • October 2025</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { csvParse } from "https://cdn.jsdelivr.net/npm/d3-dsv@3/+esm";
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    const $ = (s, el = document) => el.querySelector(s);
+
+    // Load and parse data
+    async function loadData() {
+      const [termsResp, samplesResp] = await Promise.all([
+        fetch('search_funnels_terms.csv'),
+        fetch('search_samples.csv')
+      ]);
+
+      const termsText = await termsResp.text();
+      const samplesText = await samplesResp.text();
+
+      const terms = csvParse(termsText);
+      const samples = csvParse(samplesText);
+
+      return { terms, samples };
+    }
+
+    // Categorize search by time
+    function categorizeTime(seconds) {
+      if (seconds < 1) return 'instant';
+      if (seconds < 5) return 'quick';
+      if (seconds < 30) return 'thoughtful';
+      return 'wandering';
+    }
+
+    // Get category label and emoji
+    function getCategoryLabel(category) {
+      const labels = {
+        instant: { emoji: '⚡', label: 'Instant', color: 'var(--color-instant)' },
+        quick: { emoji: '🎯', label: 'Quick', color: 'var(--color-quick)' },
+        thoughtful: { emoji: '🤔', label: 'Thoughtful', color: 'var(--color-thoughtful)' },
+        wandering: { emoji: '🌀', label: 'Wandering', color: 'var(--color-wandering)' }
+      };
+      return labels[category];
+    }
+
+    // Hand-crafted explanations for specific interesting searches
+    const interestingExplanations = {
+      'japonaise': {
+        type: 'obsessive-patience',
+        text: 'The search that refused to give up: 90 minutes of deliberation before clicking. This wasn\'t indecision—it was savoring anticipation. When you know what you want is special, even searching becomes part of the ritual.'
+      },
+      'repo:pydantic/genai-prices updateprices': {
+        type: 'deep-code-archaeology',
+        text: 'A developer\'s detective work: nearly 10 minutes per search, 42 searches, 84 clicks. This is what debugging looks like—methodically reading code, comparing versions, piecing together how a function evolved. Each search revealed another layer.'
+      },
+      'repo:markedjs/marked "input parameter is undefined"': {
+        type: 'bug-hunt-spiral',
+        text: 'The bug that wouldn\'t quit: 10 searches spawned 160 clicks. Every click opened another thread, another possibility. This is the rabbit hole of open-source debugging—one undefined parameter becomes an archaeology expedition through GitHub issues.'
+      },
+      'wart / mold removal plaster (like band-aid) dr scholls circular shape with salicylic acid': {
+        type: 'desperate-specificity',
+        text: 'When Google becomes your pharmacist: ultra-specific medical queries born from real need. Searched 32 times, clicked 18—that 56% success rate tells a story of frustration. Sometimes the internet doesn\'t have the answer you need, but you keep trying anyway.'
+      },
+      'agents need: - planning - reflection - self critique - chain of thought - subgoal decomposition - memory - short term - long-term - tools - action harrison chase': {
+        type: 'academic-precision',
+        text: 'The search that reads like lecture notes: verbatim concepts pasted into Google. This person isn\'t browsing—they\'re hunting for the canonical source. The 42-second average shows careful evaluation: "Is THIS the paper everyone cites?"'
+      },
+      '10 print chr$(205.5+rnd(1)); : goto 10': {
+        type: 'nostalgia-code',
+        text: 'One line of BASIC that defined a generation: 80 searches, 76 clicks, 3.5 seconds each. This isn\'t debugging—it\'s pilgrimage. Each search is someone rediscovering the joy of random maze generation, probably with a smile.'
+      },
+      'llms as a judge accuracy vs humans': {
+        type: 'existential-ai-query',
+        text: 'The question haunting every AI researcher right now: 66 searches, nearly perfect clicks, 9 seconds of contemplation each. This person is writing a paper, or making a product decision, and the answer matters. The consistency shows determination—they\'ll find the data.'
+      },
+      'codex cli': {
+        type: 'tool-mastery',
+        text: 'The power user\'s journey: 26 searches → 14 clicks → 3,616 seconds using the tool. That\'s an hour of focused work. The search pattern reveals learning: trying it multiple times, getting stuck, searching again, finally understanding. This is how expertise is built.'
+      },
+      'locate vs mlocate vs plocate': {
+        type: 'unix-perfectionism',
+        text: 'The quintessential Unix question: "Which obscure command is 0.2 seconds faster?" Explored 3 destinations, spent 11 minutes reading comparisons. This is someone who cares about their craft. They won\'t just use locate—they need to understand why plocate is better.'
+      },
+      'claude code system prompt': {
+        type: 'ai-transparency-quest',
+        text: 'The search for the wizard behind the curtain: perfect click-through rate across 3 domains. Each searcher wants to understand how I work. It\'s oddly recursive—I\'m analyzing searches about my own internals. The 5-second average shows genuine curiosity, not just casual browsing.'
+      }
+    };
+
+    // Identify interesting patterns
+    function findInterestingPatterns(terms) {
+      return terms.map(term => {
+        const normTerm = term.normalized_term;
+
+        // Check for hand-crafted explanation first
+        if (interestingExplanations[normTerm]) {
+          return {
+            ...term,
+            interesting: interestingExplanations[normTerm].type,
+            explanation: interestingExplanations[normTerm].text
+          };
+        }
+
+        const time = +term.avg_time_to_click_sec;
+        const clicks = +term.clicks;
+        const searches = +term.search_events;
+        const destinations = +term.unique_dest_domains;
+
+        let interesting = null;
+        let explanation = null;
+
+        // Power user patterns
+        if (normTerm.includes('repo:') && clicks > 30) {
+          interesting = 'power-user';
+          explanation = `GitHub power user: ${clicks} surgical clicks using repo: operator. This is someone who's mastered advanced search syntax—they don't browse, they target.`;
+        }
+        // Obsessive research
+        else if (searches > 60 && time < 5) {
+          interesting = 'rapid-iteration';
+          explanation = `Lightning-fast iteration: ${searches} searches averaging ${time.toFixed(1)}s each. This is flow state—query, evaluate, refine, repeat. They're not thinking; they're in the zone.`;
+        }
+        // Cultural references
+        else if (searches > 15 && destinations === 1 && time < 10 && normTerm.length < 30) {
+          interesting = 'pop-culture';
+          explanation = `Pure recognition search: short query, single destination, ${searches} visits. This is comfort food—returning to something familiar, maybe sharing it with friends.`;
+        }
+
+        return { ...term, interesting, explanation };
+      });
+    }
+
+    // Create search URL
+    function createSearchUrl(term) {
+      return `https://www.google.com/search?q=${encodeURIComponent(term)}`;
+    }
+
+    // Render statistics
+    function renderStats(terms) {
+      const totalSearches = terms.length;
+      const totalDestinations = d3.sum(terms, d => +d.unique_dest_domains);
+      const avgTime = d3.mean(terms, d => +d.avg_time_to_click_sec);
+      const avgClickRate = d3.mean(terms, d => (+d.clicks / +d.search_events) * 100);
+
+      $('#stat-searches').textContent = totalSearches.toLocaleString();
+      $('#stat-destinations').textContent = totalDestinations.toLocaleString();
+      $('#stat-avg-time').textContent = avgTime.toFixed(1) + 's';
+      $('#stat-click-rate').textContent = avgClickRate.toFixed(0);
+    }
+
+    // Sort terms
+    function sortTerms(terms, sortBy) {
+      const sorted = [...terms];
+      if (sortBy === 'original') return sorted;
+
+      const sortFns = {
+        'time-asc': (a, b) => +a.avg_time_to_click_sec - +b.avg_time_to_click_sec,
+        'time-desc': (a, b) => +b.avg_time_to_click_sec - +a.avg_time_to_click_sec,
+        'clicks-desc': (a, b) => +b.clicks - +a.clicks,
+        'clicks-asc': (a, b) => +a.clicks - +b.clicks,
+        'searches-desc': (a, b) => +b.search_events - +a.search_events,
+        'searches-asc': (a, b) => +a.search_events - +b.search_events,
+        'destinations-desc': (a, b) => +b.unique_dest_domains - +a.unique_dest_domains,
+        'destinations-asc': (a, b) => +a.unique_dest_domains - +b.unique_dest_domains,
+      };
+
+      return sorted.sort(sortFns[sortBy] || (() => 0));
+    }
+
+    // Render journey cards
+    function renderJourneys(terms, samples, filter = 'all', sortBy = 'original') {
+      const container = $('#journey-list');
+
+      let filteredTerms = terms
+        .map(d => ({
+          ...d,
+          category: categorizeTime(+d.avg_time_to_click_sec)
+        }));
+
+      // Apply filter
+      if (filter === 'interesting') {
+        filteredTerms = filteredTerms.filter(d => d.interesting);
+      } else if (filter !== 'all') {
+        filteredTerms = filteredTerms.filter(d => d.category === filter);
+      }
+
+      // Apply sort
+      filteredTerms = sortTerms(filteredTerms, sortBy);
+
+      // Limit to top 50 for performance
+      filteredTerms = filteredTerms.slice(0, 50);
+
+      container.innerHTML = filteredTerms.map(term => {
+        const cat = getCategoryLabel(term.category);
+        const domainCount = +term.unique_dest_domains;
+        const topDomain = term.top_dest_domain || 'Various';
+        const searchUrl = createSearchUrl(term.normalized_term);
+
+        return `
+          <div class="col-md-6 mb-3">
+            <div class="journey-card journey-${term.category}">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div class="search-term">
+                  <a href="${searchUrl}" target="_blank" class="search-link" title="Search on Google">
+                    ${term.normalized_term}
+                  </a>
+                  ${term.interesting ? '<span class="interesting-badge">⭐ Interesting</span>' : ''}
+                </div>
+                <span class="time-badge" style="background: ${cat.color}; color: white;">
+                  ${cat.emoji} ${(+term.avg_time_to_click_sec).toFixed(1)}s
+                </span>
+              </div>
+              ${term.explanation ? `<div class="journey-explanation">${term.explanation}</div>` : ''}
+              <div class="destination-list">
+                <div class="destination-item">
+                  <i class="bi bi-geo-alt"></i> ${domainCount} destination${domainCount > 1 ? 's' : ''}
+                  • Top: <strong>${topDomain}</strong>
+                </div>
+                <div class="destination-item">
+                  <i class="bi bi-mouse"></i> ${term.clicks} click${+term.clicks > 1 ? 's' : ''}
+                  from ${term.search_events} search${+term.search_events > 1 ? 'es' : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render insights for each journey type with surprising findings
+    function renderJourneyInsights(terms) {
+      const byCategory = {
+        instant: terms.filter(t => categorizeTime(+t.avg_time_to_click_sec) === 'instant'),
+        quick: terms.filter(t => categorizeTime(+t.avg_time_to_click_sec) === 'quick'),
+        thoughtful: terms.filter(t => categorizeTime(+t.avg_time_to_click_sec) === 'thoughtful'),
+        wandering: terms.filter(t => categorizeTime(+t.avg_time_to_click_sec) === 'wandering')
+      };
+
+      // Instant insights - surprising finding about repetition
+      const instantRepeaters = byCategory.instant.filter(t => +t.search_events > 10);
+      const instantTotalClicks = d3.sum(byCategory.instant, t => +t.clicks);
+      $('#instant-insight').innerHTML = `<strong>${byCategory.instant.length} searches</strong> happened in under a second, but here's the surprise:
+        <strong>${instantRepeaters.length} of them</strong> were repeated 10+ times. Instant doesn't mean one-time—it means
+        <em>practiced</em>. With <strong>${instantTotalClicks} total clicks</strong>, these are the routines that structure a day.
+        The fastest searches aren't casual; they're the ones that matter most.`;
+
+      // Quick insights - efficiency paradox
+      const quickHighClickRate = byCategory.quick.filter(t => (+t.clicks / +t.search_events) > 0.9);
+      const quickAvgForeground = d3.mean(byCategory.quick, t => +t.total_dest_foreground_sec) / 60;
+      $('#quick-insight').innerHTML = `<strong>${byCategory.quick.length} searches</strong> in the 1-5 second sweet spot, and
+        <strong>${quickHighClickRate.length} of them</strong> (${((quickHighClickRate.length/byCategory.quick.length)*100).toFixed(0)}%)
+        had 90%+ click-through rates. The paradox: quick searches aren't rushed—they're <em>confident</em>.
+        Users spent an average of <strong>${quickAvgForeground.toFixed(1)} minutes</strong> at destinations.
+        Speed in searching means more time for actual work.`;
+
+      // Thoughtful insights - the exploration tax
+      const thoughtfulAvgSearches = d3.mean(byCategory.thoughtful, t => +t.search_events);
+      const thoughtfulSingleDest = byCategory.thoughtful.filter(t => +t.unique_dest_domains === 1).length;
+      $('#thoughtful-insight').innerHTML = `<strong>${byCategory.thoughtful.length} searches</strong> took 5-30 seconds, averaging
+        <strong>${thoughtfulAvgSearches.toFixed(1)} searches</strong> per term. But here's what's surprising:
+        <strong>${thoughtfulSingleDest}</strong> still went to just one destination. That pause wasn't about comparing sites—it was about
+        <em>choosing words carefully</em>. The cost of thoughtful searching isn't time; it's cognitive load.
+        These searches hurt because you're trying to compress understanding into keywords.`;
+
+      // Wandering insights - failure vs depth
+      const wanderingClickRates = byCategory.wandering.map(t => +t.clicks / +t.search_events);
+      const wanderingHighSuccess = wanderingClickRates.filter(r => r > 0.8).length;
+      const wanderingLowSuccess = wanderingClickRates.filter(r => r < 0.3).length;
+      $('#wandering-insight').innerHTML = `<strong>${byCategory.wandering.length} searches</strong> over 30 seconds split into two worlds:
+        <strong>${wanderingHighSuccess}</strong> had 80%+ click-through (deep research, not lost), while
+        <strong>${wanderingLowSuccess}</strong> had under 30% (genuine struggle).
+        Slow isn't a single state—it's either <em>methodical mastery</em> or <em>desperate flailing</em>.
+        The time alone can't tell you which. The most interesting insight? Some of the longest searches
+        (90+ minutes) went to exactly one destination. That's not confusion; that's obsession.`;
+    }
+
+    // Render scatter plot: searches vs destinations, sized by frequency, colored by time
+    function renderScatterPlot(terms) {
+      const canvas = $('#scatter-chart');
+      const ctx = canvas.getContext('2d');
+
+      // Get parent container width instead of canvas.clientWidth
+      const container = canvas.parentElement;
+      const width = container.clientWidth;
+      const height = 500;
+      canvas.width = width * 2;
+      canvas.height = height * 2;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.scale(2, 2);
+
+      const margin = { top: 30, right: 20, bottom: 60, left: 80 };
+
+      // Aggregate by (searches, destinations) pairs with average time
+      const aggregated = d3.rollup(
+        terms,
+        group => ({
+          count: group.length,
+          avgTime: d3.mean(group, g => +g.avg_time_to_click_sec),
+          terms: group.map(g => g.normalized_term).slice(0, 3)
+        }),
+        t => +t.search_events,
+        t => +t.unique_dest_domains
+      );
+
+      const data = [];
+      aggregated.forEach((destMap, searches) => {
+        destMap.forEach((value, destinations) => {
+          data.push({
+            searches,
+            destinations,
+            count: value.count,
+            avgTime: value.avgTime,
+            terms: value.terms
+          });
+        });
+      });
+
+      // Scales
+      const xExtent = d3.extent(data, d => d.searches);
+      const yExtent = d3.extent(data, d => d.destinations);
+      const xScale = d3.scaleLog()
+        .domain([Math.max(1, xExtent[0]), xExtent[1]])
+        .range([margin.left, width - margin.right]);
+      const yScale = d3.scaleLinear()
+        .domain([0, yExtent[1]])
+        .range([height - margin.bottom, margin.top]);
+
+      // Size scale
+      const sizeScale = d3.scaleSqrt()
+        .domain([1, d3.max(data, d => d.count)])
+        .range([3, 25]);
+
+      // Color scale - diverging for time
+      const timeExtent = d3.extent(data, d => d.avgTime);
+      const colorScale = d3.scaleSequential()
+        .domain([0, Math.min(timeExtent[1], 60)]) // Cap at 60s for color
+        .interpolator(d3.interpolateRdYlGn)
+        .unknown('#999');
+
+      // Draw grid
+      ctx.strokeStyle = '#e5e7eb';
+      ctx.lineWidth = 1;
+
+      // Vertical grid lines
+      [1, 5, 10, 20, 40, 80].forEach(val => {
+        if (val >= xExtent[0] && val <= xExtent[1]) {
+          const x = xScale(val);
+          ctx.beginPath();
+          ctx.moveTo(x, margin.top);
+          ctx.lineTo(x, height - margin.bottom);
+          ctx.stroke();
+        }
+      });
+
+      // Horizontal grid lines
+      for (let i = 0; i <= yExtent[1]; i++) {
+        const y = yScale(i);
+        ctx.beginPath();
+        ctx.moveTo(margin.left, y);
+        ctx.lineTo(width - margin.right, y);
+        ctx.stroke();
+      }
+
+      // Draw axes
+      ctx.strokeStyle = '#374151';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(margin.left, height - margin.bottom);
+      ctx.lineTo(width - margin.right, height - margin.bottom);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(margin.left, margin.top);
+      ctx.lineTo(margin.left, height - margin.bottom);
+      ctx.stroke();
+
+      // Draw circles
+      data.forEach(d => {
+        const x = xScale(d.searches);
+        const y = yScale(d.destinations);
+        const r = sizeScale(d.count);
+
+        // Flip color scale (green=fast, red=slow)
+        ctx.fillStyle = colorScale(60 - Math.min(d.avgTime, 60));
+        ctx.globalAlpha = 0.7;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Stroke
+        ctx.globalAlpha = 0.9;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      });
+
+      // Labels
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#1f2937';
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('Number of Searches (per term)', width / 2, height - 15);
+
+      ctx.save();
+      ctx.translate(20, height / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('Number of Destinations Visited', 0, 0);
+      ctx.restore();
+
+      // X-axis ticks
+      ctx.font = '12px Arial';
+      [1, 5, 10, 20, 40, 80].forEach(val => {
+        if (val >= xExtent[0] && val <= xExtent[1]) {
+          const x = xScale(val);
+          ctx.fillStyle = '#6b7280';
+          ctx.textAlign = 'center';
+          ctx.fillText(val, x, height - margin.bottom + 20);
+        }
+      });
+
+      // Y-axis ticks
+      for (let i = 0; i <= yExtent[1]; i++) {
+        const y = yScale(i);
+        ctx.fillStyle = '#6b7280';
+        ctx.textAlign = 'right';
+        ctx.fillText(i, margin.left - 10, y + 4);
+      }
+
+    }
+
+
+    // Initialize
+    async function init() {
+      const { terms, samples } = await loadData();
+
+      // Add interesting patterns
+      const enrichedTerms = findInterestingPatterns(terms);
+
+      renderStats(enrichedTerms);
+      renderJourneys(enrichedTerms, samples);
+      renderJourneyInsights(enrichedTerms);
+      renderScatterPlot(enrichedTerms);
+
+      // Store current filter and sort
+      let currentFilter = 'all';
+      let currentSort = 'original';
+
+      // Filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          renderJourneys(enrichedTerms, samples, currentFilter, currentSort);
+        });
+      });
+
+      // Sort dropdown
+      $('#sort-select').addEventListener('change', (e) => {
+        currentSort = e.target.value;
+        renderJourneys(enrichedTerms, samples, currentFilter, currentSort);
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

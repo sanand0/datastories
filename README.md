@@ -6,6 +6,11 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Browser History](browser-history/). Vibe-compute and vibe-visualize my web browsing history.
+  - [Search Funnels](browser-history/search-funnels/). "A data story about the journey from search to satisfaction—revealing the hope in swift clicks and the curiosity in meandering paths."
+  - [Rabbit Holes](browser-history/rabbit-holes/). "A visualization of browsing journeys - how a single spark becomes momentum, how curiosity tightens into flow, and the tender moment when we surface."
+  - [Attention Clock](browser-history/attention-clock/). "A gentle map of where your focus flows across the week — not to judge, but to understand the natural rhythm of your days."
+  - [Digital Life](browser-history/digital-life/). "The Digital Life of Anand. A data-driven exposé of 97,802 moments online."
 - [Scraping SEC](scraping-sec/). Vibe-scrape the revenues of the Fortune 100 companies from the SEC and [vibe-visualize](scraping-sec/story.html) the process.
 - [Bollywood Box Office Champions](bollywood-top-grossing/). Explore 30 years of top-grossing Hindi films with an interactive, inflation-adjusted bubble chart that spotlights record-setting blockbusters.
 - [Google Searches](google-searches/). Categorized every Google Search since Jan 2021 into 50 topics. It's mostly tech, AI, and geo-cultural. I also need to allocate more time to testing, databases, and other 'spiky' topics.

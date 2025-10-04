@@ -8,3 +8,4 @@ npx -y --package markdown-to-html-cli markdown-to-html --source chatgpt-topics/R
 npx -y --package markdown-to-html-cli markdown-to-html --source vipassana/README.md --output vipassana/index.html
 npx -y --package markdown-to-html-cli markdown-to-html --source chatgpt-vs-google/README.md --output chatgpt-vs-google/index.html
 npx -y --package markdown-to-html-cli markdown-to-html --source google-searches/README.md --output google-searches/index.html
+npx -y --package markdown-to-html-cli markdown-to-html --source browser-history/README.md --output browser-history/index.html
