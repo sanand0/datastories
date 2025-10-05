@@ -6,6 +6,8 @@ I vibe-coded data visualizations of my browser history over the last 4 months.
 
 **STEP 1**: Ran `codex --search` with GPT-5-codex (high) to create an ideation [plan.md](./plan.md)
 
+<!-- /home/sanand/.codex/sessions/2025/10/04/rollout-2025-10-04T10-05-46-0199acf7-d379-7fb2-b271-37a0911eadcc.jsonl -->
+
 > Suggest interesting analyses & visual storytelling ideas based on my browser history that I can publish as journalistic data stories on my blog.
 >
 > Use my Edge/Ubuntu browser history at ~/.config/microsoft-edge/Default/History - a SQLite database. (Open it as read-only with no lock.)
@@ -19,9 +21,13 @@ I vibe-coded data visualizations of my browser history over the last 4 months.
 
 **STEP 2**: Ran the same with `codex--search` with GPT-5 (high) to create an ideation [plan-b.md](./plan-b.md)
 
+<!-- /home/sanand/.codex/sessions/2025/10/04/rollout-2025-10-04T10-07-19-0199acf9-3d13-7161-9530-14b25677d529.jsonl -->
+
 ⭐ I like GPT-5's ideation over GPT-5-Codex's ideation.
 
 **STEP 3**: Continued the thread with GPT-5 asking it to merge the plans into [plan-spec.md](./plan-spec.md).
+
+<!-- /home/sanand/.codex/sessions/2025/10/04/rollout-2025-10-04T10-44-12-0199ad1b-00a5-7651-b2c1-64e3a9cc941f.jsonl -->
 
 > Read plan.md. Merge ideas from there and write a revised story idea list in plan-spec.md.
 > Re-evaluate the idea list on the same criteria.
@@ -40,6 +46,8 @@ I vibe-coded data visualizations of my browser history over the last 4 months.
 ... but would rather have Codex do only the analysis and Claude Code do only the visualization. So I moved [plan-spec.md](./plan-spec.md) to /tmp (temporarily) and ...
 
 **STEP 5**: Re-merge into [plan-spec.md](./plan-spec.md) and create story-wise specs using `codex --search` with GPT-5 (high)
+
+<!-- /home/sanand/.codex/sessions/2025/10/04/rollout-2025-10-04T10-47-22-0199ad1d-e816-72f1-b320-18daba0c3868.jsonl -->
 
 > Write prompts for interesting journalistic visual data stories from my browser history for my blog.
 >
@@ -62,7 +70,9 @@ I vibe-coded data visualizations of my browser history over the last 4 months.
 
 ## Attention Clock
 
-**STEP 5**: Ran `npx -y @anthropic-ai/claude-code --permission-mode acceptEdits` in `attention-clock/` with:
+**STEP 5**: Ran `npx -y @anthropic-ai/claude-code --permission-mode acceptEdits` in `attention-clock/`.
+
+<!-- /home/sanand/.claude/projects/-home-sanand-code-datastories-browser-history-attention-clock/8d1c11c0-cde2-499a-8190-2711c9b2afb6.jsonl -->
 
 > Create a beautiful award winning data journalistic visualization on my browsing history as per [spec.md](./attention-clock/spec.md).
 
@@ -70,10 +80,11 @@ It created [attention-clock](./attention-clock/index.html) which was beautiful b
 
 [![Screenshot](./attention-clock/screenshot.webp)](./attention-clock/index.html)
 
-
 ## Digital Life
 
 **STEP 6**: Asked Claude Code to generate a full story by itself.
+
+<!-- /home/sanand/.claude/projects/-home-sanand-code-datastories-browser-history-claude/f1ec0d72-3ff1-4cce-a96e-98017164402a.jsonl -->
 
 I copied the history into `history.db` and ran `npx -y @anthropic-ai/claude-code --permission-mode acceptEdits` in `history/` with:
 
@@ -96,6 +107,8 @@ That was OK, not too impressive either.
 ## Rabbit Holes
 
 **STEP 7**: Ran `npx -y @anthropic-ai/claude-code --permission-mode acceptEdits` in `rabbit-holes/` with a revised version of [spec.md](./rabbit-holes/spec.md) using a local copy of the history.
+
+<!-- /home/sanand/.claude/projects/-home-sanand-code-datastories-browser-history-rabbit-holes/75671a94-d56b-4549-aa40-270c361760ad.jsonl -->
 
 > Create a beautiful award winning data journalistic visualization on Anand's browsing history.
 > Focus on how a single spark becomes a journey.
@@ -154,6 +167,8 @@ The [result](./rabbit-holes/index.html) is _beautiful_!
 ## Search Funnels
 
 **STEP 9**: Same approach. Ran `npx -y @anthropic-ai/claude-code --permission-mode acceptEdits` in `search-funnels/` with a revised version of [spec.md](search-funnels/spec.md) using a local copy of the history.
+
+<!-- /home/sanand/.claude/projects/-home-sanand-code-datastories-browser-history-search-funnels/d550130c-0aa9-4faf-bc5e-067547524e8c.jsonl -->
 
 > Create a beautiful award winning data journalistic visualization on Anand's browsing history.
 > Reveal whether questions actually find answers.
@@ -216,12 +231,16 @@ This led to a squashed chart. So....
 
 To review for privacy issues, I asked `codex` with GPT-5 (high) to create [leaks.md](./leaks.md):
 
+<!-- /home/sanand/.codex/sessions/2025/10/04/rollout-2025-10-04T13-02-18-0199ad99-6fb1-7fa3-a412-6533741a9f71.jsonl -->
+
 > Review files added for commit and identify privacy issues / data leaks.
 > For each file, mention a list of issues (if any) along with severity.
 > Provide enough information for the reader to decide whether to publish or not.
 > Save this in browser-history/leaks.md.
 
 After reviewing, I went to the `search-funnels` folder and, in a new session of `codex` with GPT-5 (high) to:
+
+<!-- /home/sanand/.codex/sessions/2025/10/04/rollout-2025-10-04T13-35-23-0199adb7-bb94-75f1-8a5e-39b64c2fd505.jsonl -->
 
 > Go through v1.html, v2.html, v3.html and index.html.
 > Find out which terms would be loaded from search_funnels_terms.csv based on the code's functionality.
@@ -230,11 +249,179 @@ After reviewing, I went to the `search-funnels` folder and, in a new session of 
 
 That went too aggressive, so:
 
+<!-- /home/sanand/.codex/sessions/2025/10/04/rollout-2025-10-04T13-45-42-0199adc1-2e7e-7432-84f3-14cc681aa75b.jsonl -->
+
 > Go through index.html.
 > Find out which terms would be loaded from search_funnels_terms.csv based on the code's functionality.
 > Ensure that every filter (instant, quick, ...) and every sort order will have at least 20 results.
 > Ensure that all interesting terms (e.g. those mentioned in the story) are included.
 > Delete the rest from search_funnels_terms.csv.
+
+## Browsing patterns
+
+I continued exploring [rabbit holes](#rabbit-holes) with this prompt.
+
+> Create a beautiful award winning data journalistic visualization on Anand's browsing history as a single page web app.
+>
+> Write about the following three patterns of browsing: Linear Spirals, Hub & Spoke, Wide Survey.
+>
+> - Skip localhost sites.
+> - Categorize browsing chains into these buckets (or "Other").
+> - Find out how many belong in each category.
+> - Explore interesting chains and write 3 mini-stories about the most interesting ones in each category for a lay audience.
+>   - If the most interesting ones are private sites (requiring login, e.g. banks, email, etc.) pick no more than 1 such story per category.
+> - Always include links to public pages. Never include links to private pages (i.e. that requires login, e.g. banks, email, etc.)
+>
+> ```
+> Linear Spirals: One page → next → next. Deep focus, single thread. Branching ≈ 1.0
+> Root
+> └─ A
+>    └─ B
+>      └─ C
+>        └─ D
+>          └─ E
+>            └─ F
+>
+> Hub & Spoke: Return to index, open new tab. Configuration work. Branching 2-6×
+> Root
+> ├─ A
+> ├─ B
+> │  ├─ B1
+> │  └─ B2
+> ├─ C
+> └─ D
+>
+> Wide Survey: Many tabs from root. Cataloging, surveying. Branching 10-24×
+> Root
+> ├─ A
+> ├─ B
+> ├─ C
+> ├─ D
+> ├─ E
+> ├─ ...
+> ```
+>
+> Analysis: Run SQL on `history.db`. Use these queries as hints:
+>
+> ```sql
+> -- chain_summary
+> WITH recursive edges AS
+> (
+>           SELECT    v.id AS visit_id,
+>                     v.from_visit,
+>                     datetime((v.visit_time/1000000)-11644473600,'unixepoch')          AS ts_utc,
+>                     COALESCE(c.total_foreground_duration, v.visit_duration)/1000000.0 AS fg_sec,
+>                     (v.transition & 255)                                              AS base_t,
+>                     u.url,
+>                     u.title,
+>                     CASE
+>                               WHEN u.url LIKE 'http%' THEN substr(u.url, instr(u.url,'://')+3,
+>                                         CASE instr(substr(u.url, instr(u.url,'://')+3),'/')
+>                                                   WHEN 0 THEN length(u.url)
+>                                                   ELSE instr(substr(u.url, instr(u.url,'://')+3),'/')-1
+>                                         END)
+>                               ELSE u.url
+>                     END AS host
+>           FROM      visits v
+>           LEFT JOIN context_annotations c
+>           ON        c.visit_id=v.id
+>           JOIN      urls u
+>           ON        u.id=v.url
+>           WHERE     (
+>                               v.transition & 255) NOT IN (3,4) ), roots AS
+> (
+>           SELECT    e.visit_id
+>           FROM      edges e
+>           LEFT JOIN edges p
+>           ON        e.from_visit=p.visit_id
+>           WHERE     e.from_visit IS NULL
+>           OR        p.visit_id IS NULL), walk(root_id, visit_id, from_visit, ts_utc, fg_sec, host, title, depth) AS
+> (
+>        SELECT r.visit_id AS root_id,
+>               e.visit_id,
+>               e.from_visit,
+>               e.ts_utc,
+>               e.fg_sec,
+>               e.host,
+>               e.title,
+>               1
+>        FROM   roots r
+>        JOIN   edges e
+>        ON     e.visit_id = r.visit_id
+>        UNION ALL
+>        SELECT w.root_id,
+>               e.visit_id,
+>               e.from_visit,
+>               e.ts_utc,
+>               e.fg_sec,
+>               e.host,
+>               e.title,
+>               w.depth+1
+>        FROM   edges e
+>        JOIN   walk w
+>        ON     e.from_visit = w.visit_id)
+> SELECT   root_id                                                                  AS chain_id,
+>          count(*)                                                                 AS visit_count,
+>          count(DISTINCT host)                                                     AS distinct_domains,
+>          min(ts_utc)                                                              AS start_ts_utc,
+>          max(ts_utc)                                                              AS end_ts_utc,
+>          cast((julianday(max(ts_utc))-julianday(min(ts_utc)))*86400.0 AS integer) AS duration_sec,
+>          round(sum(
+>          CASE
+>                   WHEN fg_sec>0 THEN fg_sec
+>                   ELSE 0
+>          END),2) AS total_foreground_sec
+> FROM     walk
+> GROUP BY root_id
+> HAVING   visit_count >= 3
+> ORDER BY visit_count DESC
+>
+>
+> -- chain_depths.csv
+> WITH recursive edges AS
+> (
+>        SELECT v.id AS visit_id,
+>               v.from_visit
+>        FROM   visits v
+>        WHERE  (
+>                      v.transition & 255) NOT IN (3,4)), roots AS
+> (
+>           SELECT    e.visit_id
+>           FROM      edges e
+>           LEFT JOIN edges p
+>           ON        e.from_visit=p.visit_id
+>           WHERE     e.from_visit IS NULL
+>           OR        p.visit_id IS NULL), walk(root_id, visit_id, depth) AS
+> (
+>        SELECT r.visit_id,
+>               r.visit_id,
+>               1
+>        FROM   roots r
+>        UNION ALL
+>        SELECT w.root_id,
+>               e.visit_id,
+>               w.depth+1
+>        FROM   edges e
+>        JOIN   walk w
+>        ON     e.from_visit = w.visit_id)
+> SELECT   root_id    AS chain_id,
+>          max(depth) AS max_depth,
+>          count(*)   AS total_nodes
+> FROM     walk
+> GROUP BY root_id
+> ORDER BY max_depth DESC limit 5000;
+> ```
+
+But the stories were not very impressive (and also hard to anonymize). So, here are a few observations.
+
+- Most of the chains are linear spirals. Wide surveys are rare:
+  - 80%: Linear spirals
+  - 16%: Hub and spoke
+  - 2%: Wide surveys
+- Here's another hub-and-spoke exploration: a Google image search for "llm as a judge accuracy", opening images
+  - ... refining the search to "llm as a judge accuracy chart" and exploring images
+  - ... refining the search to "llm as a judge accuracy vs humans" and exploring images
+- Here's another wide survey: Opening individual pens from [my codepen](https://codepen.io/sanand0/)
 
 ## Learnings
 
