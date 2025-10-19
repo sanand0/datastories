@@ -5,244 +5,244 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rabbit Holes: A Journey Through Browsing</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #0a0a0f;
-        color: #e8e8e8;
-        overflow-x: hidden;
-      }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0a0a0f;
+      color: #e8e8e8;
+      overflow-x: hidden;
+    }
 
-      #canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-      }
+    #canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
 
-      .overlay {
-        position: relative;
-        z-index: 2;
-        pointer-events: none;
-      }
+    .overlay {
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+    }
 
-      .title-section {
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
-        text-align: center;
-      }
+    .title-section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
 
-      h1 {
-        font-size: clamp(2.5rem, 8vw, 6rem);
-        font-weight: 900;
-        letter-spacing: -0.03em;
-        margin-bottom: 1rem;
-        background: linear-gradient(135deg, #ff6b9d 0%, #c06cf5 50%, #6b7eff 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff6b9d 0%, #c06cf5 50%, #6b7eff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-      .subtitle {
-        font-size: clamp(1rem, 2.5vw, 1.5rem);
-        color: #a8a8b8;
-        max-width: 600px;
-        line-height: 1.6;
-        margin-bottom: 2rem;
-      }
+    .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: #a8a8b8;
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
 
-      .scroll-hint {
-        font-size: 0.875rem;
-        color: #666;
-        animation: pulse 2s infinite;
-      }
+    .scroll-hint {
+      font-size: 0.875rem;
+      color: #666;
+      animation: pulse 2s infinite;
+    }
 
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 0.5;
-        }
-        50% {
-          opacity: 1;
-        }
+    @keyframes pulse {
+      0%,
+      100% {
+        opacity: 0.5;
       }
-
-      .story-section {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        padding: 4rem 2rem;
-        pointer-events: all;
+      50% {
+        opacity: 1;
       }
+    }
 
+    .story-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 4rem 2rem;
+      pointer-events: all;
+    }
+
+    .story-content {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(15, 15, 20, 0.85);
+      backdrop-filter: blur(20px);
+      padding: 3rem;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .story-content h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+
+    .story-content p {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: #c8c8d8;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat {
+      display: inline-block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ff6b9d;
+      margin-right: 0.5rem;
+    }
+
+    .stat-label {
+      color: #888;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .chain-highlight {
+      background: rgba(255, 107, 157, 0.1);
+      padding: 2rem;
+      border-radius: 1rem;
+      border-left: 4px solid #ff6b9d;
+      margin: 2rem 0;
+    }
+
+    .chain-highlight h3 {
+      color: #ff6b9d;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+
+    .chain-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .chain-stat-item {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 0.5rem;
+    }
+
+    code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.2em 0.4em;
+      border-radius: 0.25rem;
+      font-family: "Fira Code", "Consolas", monospace;
+      font-size: 0.9em;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+    }
+
+    ul li {
+      margin-bottom: 0.75rem;
+    }
+
+    .legend {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(15, 15, 20, 0.9);
+      backdrop-filter: blur(20px);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 3;
+      pointer-events: all;
+    }
+
+    .legend h4 {
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #888;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+
+    .controls {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      z-index: 3;
+      pointer-events: all;
+    }
+
+    button {
+      background: rgba(255, 107, 157, 0.2);
+      border: 1px solid rgba(255, 107, 157, 0.5);
+      color: #ff6b9d;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: rgba(255, 107, 157, 0.3);
+      border-color: #ff6b9d;
+    }
+
+    @media (max-width: 768px) {
       .story-content {
-        max-width: 800px;
-        margin: 0 auto;
-        background: rgba(15, 15, 20, 0.85);
-        backdrop-filter: blur(20px);
-        padding: 3rem;
-        border-radius: 1.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .story-content h2 {
-        font-size: clamp(1.75rem, 4vw, 2.5rem);
-        margin-bottom: 1.5rem;
-        color: #fff;
-      }
-
-      .story-content p {
-        font-size: 1.125rem;
-        line-height: 1.8;
-        color: #c8c8d8;
-        margin-bottom: 1.5rem;
-      }
-
-      .stat {
-        display: inline-block;
-        font-size: 2rem;
-        font-weight: 700;
-        color: #ff6b9d;
-        margin-right: 0.5rem;
-      }
-
-      .stat-label {
-        color: #888;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      .chain-highlight {
-        background: rgba(255, 107, 157, 0.1);
         padding: 2rem;
-        border-radius: 1rem;
-        border-left: 4px solid #ff6b9d;
-        margin: 2rem 0;
-      }
-
-      .chain-highlight h3 {
-        color: #ff6b9d;
-        margin-bottom: 1rem;
-        font-size: 1.25rem;
-      }
-
-      .chain-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .chain-stat-item {
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 0.5rem;
-      }
-
-      code {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 0.2em 0.4em;
-        border-radius: 0.25rem;
-        font-family: "Fira Code", "Consolas", monospace;
-        font-size: 0.9em;
-      }
-
-      ul {
-        padding-left: 1.5rem;
-      }
-
-      ul li {
-        margin-bottom: 0.75rem;
       }
 
       .legend {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background: rgba(15, 15, 20, 0.9);
-        backdrop-filter: blur(20px);
-        padding: 1.5rem;
-        border-radius: 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        z-index: 3;
-        pointer-events: all;
-      }
-
-      .legend h4 {
-        margin-bottom: 1rem;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #888;
-      }
-
-      .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 0.75rem;
-        font-size: 0.875rem;
-      }
-
-      .legend-color {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
       }
 
       .controls {
-        position: fixed;
-        top: 2rem;
-        right: 2rem;
-        z-index: 3;
-        pointer-events: all;
+        top: 1rem;
+        right: 1rem;
       }
-
-      button {
-        background: rgba(255, 107, 157, 0.2);
-        border: 1px solid rgba(255, 107, 157, 0.5);
-        color: #ff6b9d;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-size: 0.875rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-
-      button:hover {
-        background: rgba(255, 107, 157, 0.3);
-        border-color: #ff6b9d;
-      }
-
-      @media (max-width: 768px) {
-        .story-content {
-          padding: 2rem;
-        }
-
-        .legend {
-          bottom: 1rem;
-          right: 1rem;
-          left: 1rem;
-        }
-
-        .controls {
-          top: 1rem;
-          right: 1rem;
-        }
-      }
+    }
     </style>
   </head>
   <body>
@@ -252,8 +252,7 @@
       <div class="title-section">
         <h1>Rabbit Holes</h1>
         <p class="subtitle">
-          A visualization of browsing journeys—how a single spark becomes momentum, how curiosity tightens
-          into flow, and the tender moment when we surface.
+          A visualization of browsing journeys—how a single spark becomes momentum, how curiosity tightens into flow, and the tender moment when we surface.
         </p>
         <div class="scroll-hint">↓ scroll to explore</div>
       </div>
@@ -262,12 +261,10 @@
         <div class="story-content">
           <h2>The Anatomy of Curiosity</h2>
           <p>
-            Over months of browsing, <span class="stat">3,560</span> distinct chains emerged—each one a path
-            carved by attention.
+            Over months of browsing, <span class="stat">3,560</span> distinct chains emerged—each one a path carved by attention.
           </p>
           <p>
-            Some are brief sparks: a single click, a fleeting question answered. Others are deep dives,
-            spiraling down for hours, accumulating <span class="stat">283</span> pages in a single thread.
+            Some are brief sparks: a single click, a fleeting question answered. Others are deep dives, spiraling down for hours, accumulating <span class="stat">283</span> pages in a single thread.
           </p>
           <p>
             The longest journey lasted <span class="stat">4.8 days</span>. The most intense consumed
@@ -284,12 +281,10 @@
             It begins at <em>in.pycon.org/2025/program/schedule</em>—scanning the conference schedule.
           </p>
           <p>
-            One talk catches the eye: <strong>"Data Morph: A Cautionary Tale of Summary Statistics"</strong>. Click.
-            7.5 minutes reading the abstract. Curiosity piqued.
+            One talk catches the eye: <strong>"Data Morph: A Cautionary Tale of Summary Statistics"</strong>. Click. 7.5 minutes reading the abstract. Curiosity piqued.
           </p>
           <p style="font-size: 0.95rem; color: #aaa; font-style: italic">
-            The path branches: back to schedule → "DuckDB is the New Pandas" (5 min) → "Memory is the Agent:
-            Architecting Stateful Reasoning" (18 minutes of deep focus).
+            The path branches: back to schedule → "DuckDB is the New Pandas" (5 min) → "Memory is the Agent: Architecting Stateful Reasoning" (18 minutes of deep focus).
           </p>
           <p>
             Then the momentum builds: back to the full schedule, scrolling, comparing, planning. A single spark—
@@ -335,9 +330,7 @@
           </ul>
           <p>
             <strong>48 pages</strong> visited, but only <strong>2 clicks deep</strong>. Branching factor:
-            <strong>24×</strong>. Each page opened directly from the root, tabs fanning outward like a peacock's
-            tail. Not a rabbit hole descending—a <em>survey</em>, an <em>inventory</em>, a systematic cataloging of
-            possibilities.
+            <strong>24×</strong>. Each page opened directly from the root, tabs fanning outward like a peacock's tail. Not a rabbit hole descending—a <em>survey</em>, an <em>inventory</em>, a systematic cataloging of possibilities.
           </p>
           <div class="chain-highlight">
             <h3>Chain #255363: The Wide Survey</h3>
@@ -374,8 +367,7 @@
             Entry point: <em>firebase.google.com</em> → Firebase console.
           </p>
           <p>
-            What follows is not curiosity, but <strong>work</strong>. A methodical tour through configuration
-            panels:
+            What follows is not curiosity, but <strong>work</strong>. A methodical tour through configuration panels:
           </p>
           <ul style="font-size: 0.95rem; line-height: 1.8; margin: 1rem 0; color: #c8c8d8">
             <li>Project overview → Settings → Web app configuration</li>
@@ -385,13 +377,10 @@
             <li>Navigating to <code>/notes/OymphbNDCi8V16CSeGO8</code>—a specific document</li>
           </ul>
           <p>
-            <strong>37 pages</strong> across <strong>3 domains</strong> (firebase.google.com, console.firebase.com,
-            Firebase APIs). Only <strong>6 clicks deep</strong>, but <strong>2 hours</strong> of sustained focus.
-            Branching factor: <strong>6.2×</strong>.
+            <strong>37 pages</strong> across <strong>3 domains</strong> (firebase.google.com, console.firebase.com, Firebase APIs). Only <strong>6 clicks deep</strong>, but <strong>2 hours</strong> of sustained focus. Branching factor: <strong>6.2×</strong>.
           </p>
           <p style="color: #aaa; font-style: italic">
-            This is the texture of configuration: returning repeatedly to index pages, opening panels in new tabs,
-            cross-referencing settings. A hub-and-spoke pattern, not a linear thread.
+            This is the texture of configuration: returning repeatedly to index pages, opening panels in new tabs, cross-referencing settings. A hub-and-spoke pattern, not a linear thread.
           </p>
           <div class="chain-highlight">
             <h3>Chain #200853: Configuration Work</h3>
@@ -472,10 +461,8 @@
           </div>
 
           <p style="margin-top: 2rem">
-            The visualization above shows these patterns as flowing streams. Each particle is a page view, gathering
-            speed as chains deepen. <strong>Color</strong> represents time intensity (blue → purple → pink).
-            <strong>Size</strong> scales with foreground duration. <strong>Flow</strong> captures momentum—how
-            chains accelerate, branch, and eventually dissipate.
+            The visualization above shows these patterns as flowing streams. Each particle is a page view, gathering speed as chains deepen. <strong>Color</strong> represents time intensity (blue → purple → pink).
+            <strong>Size</strong> scales with foreground duration. <strong>Flow</strong> captures momentum—how chains accelerate, branch, and eventually dissipate.
           </p>
         </div>
       </div>
@@ -487,29 +474,21 @@
 
           <ul style="font-size: 1rem; line-height: 1.8; margin: 1.5rem 0; color: #c8c8d8">
             <li>
-              <strong>Deep linear dives</strong> are rare. Most chains with depth > 100 are calendar refreshes,
-              authentication flows, or automated patterns. True content exploration tends to branch.
+              <strong>Deep linear dives</strong> are rare. Most chains with depth > 100 are calendar refreshes, authentication flows, or automated patterns. True content exploration tends to branch.
             </li>
             <li>
-              <strong>Branching correlates with learning</strong>. The Firebase configuration (6× branching) and
-              Omakub survey (24× branching) show systematic knowledge gathering—opening many tabs to compare,
-              cross-reference, and understand.
+              <strong>Branching correlates with learning</strong>. The Firebase configuration (6× branching) and Omakub survey (24× branching) show systematic knowledge gathering—opening many tabs to compare, cross-reference, and understand.
             </li>
             <li>
-              <strong>Time doesn't equal depth</strong>. The PyCon chain: only 9 pages but 6.3 hours. The Omakub
-              chain: 48 pages but 13 minutes. Intensity of engagement varies independently of navigation breadth.
+              <strong>Time doesn't equal depth</strong>. The PyCon chain: only 9 pages but 6.3 hours. The Omakub chain: 48 pages but 13 minutes. Intensity of engagement varies independently of navigation breadth.
             </li>
             <li>
-              <strong>Work patterns vs curiosity patterns</strong> have distinct signatures. Configuration work
-              (Firebase) shows hub-and-spoke. Pure curiosity (PyCon schedule) shows depth-first with strategic
-              backtracking.
+              <strong>Work patterns vs curiosity patterns</strong> have distinct signatures. Configuration work (Firebase) shows hub-and-spoke. Pure curiosity (PyCon schedule) shows depth-first with strategic backtracking.
             </li>
           </ul>
 
           <p style="margin-top: 2rem; color: #aaa">
-            This is not productivity theater. There's no shame in the 48-tab survey that lasts 13 minutes. There's no
-            prize for the 6-hour deep dive. These are simply the textures of thought—the way attention moves when
-            following genuine interest.
+            This is not productivity theater. There's no shame in the 48-tab survey that lasts 13 minutes. There's no prize for the 6-hour deep dive. These are simply the textures of thought—the way attention moves when following genuine interest.
           </p>
         </div>
       </div>
@@ -518,24 +497,16 @@
         <div class="story-content">
           <h2>The Tenderness of Surfacing</h2>
           <p>
-            Every rabbit hole eventually ends. Not with shame, but with completion. A question answered, a need met,
-            a configuration saved.
+            Every rabbit hole eventually ends. Not with shame, but with completion. A question answered, a need met, a configuration saved.
           </p>
           <p>
-            The PyCon schedule browsing ends when the session plan is complete. The Omakub exploration ends when the
-            mental inventory is cataloged. The Firebase configuration ends when the document is found, the settings
-            are saved.
+            The PyCon schedule browsing ends when the session plan is complete. The Omakub exploration ends when the mental inventory is cataloged. The Firebase configuration ends when the document is found, the settings are saved.
           </p>
           <p>
-            These visualizations celebrate the deep dive—the willingness to open 48 tabs if that's what understanding
-            requires, to spend 6 hours on 9 pages if that's what the question needs, to spiral down 247 clicks deep
-            if that's where the answer lives.
+            These visualizations celebrate the deep dive—the willingness to open 48 tabs if that's what understanding requires, to spend 6 hours on 9 pages if that's what the question needs, to spiral down 247 clicks deep if that's where the answer lives.
           </p>
           <p style="margin-top: 2rem; color: #888; font-size: 0.95rem">
-            <em
-              >This is the texture of digital thought: spiraling, branching, gathering momentum, and finally,
-              tenderly, letting go.</em
-            >
+            <em>This is the texture of digital thought: spiraling, branching, gathering momentum, and finally, tenderly, letting go.</em>
           </p>
         </div>
       </div>
@@ -560,177 +531,175 @@
         <span>Deep focus (hours)</span>
       </div>
       <div class="legend-item">
-        <span style="font-size: 0.75rem; color: #666"
-          >Size = time spent<br />Flow = chain momentum</span
-        >
+        <span style="font-size: 0.75rem; color: #666">Size = time spent<br />Flow = chain momentum</span>
       </div>
     </div>
 
     <script type="module">
-      import { csvParse } from "https://cdn.jsdelivr.net/npm/d3-dsv@3/+esm";
-      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+    import { csvParse } from "https://cdn.jsdelivr.net/npm/d3-dsv@3/+esm";
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-      let width, height;
-      let animationId;
-      let isPaused = false;
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let animationId;
+    let isPaused = false;
 
-      function resize() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width * window.devicePixelRatio;
-        canvas.height = height * window.devicePixelRatio;
-        canvas.style.width = width + "px";
-        canvas.style.height = height + "px";
-        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    // Load and process data
+    const [chainsSummary, chainDepths] = await Promise.all([
+      fetch("chains_summary.csv").then((r) => r.text()),
+      fetch("chain_depths.csv").then((r) => r.text()),
+    ]);
+
+    const chains = csvParse(chainsSummary).map((d) => ({
+      id: +d.chain_id,
+      visitCount: +d.visit_count,
+      domains: +d.distinct_domains,
+      durationSec: +d.duration_sec,
+      foregroundSec: +d.total_foreground_sec,
+      startTime: new Date(d.start_ts_utc),
+      endTime: new Date(d.end_ts_utc),
+    }));
+
+    const depths = csvParse(chainDepths).reduce((acc, d) => {
+      acc[d.chain_id] = {
+        maxDepth: +d.max_depth,
+        totalNodes: +d.total_nodes,
+      };
+      return acc;
+    }, {});
+
+    // Merge data
+    const data = chains
+      .map((c) => ({
+        ...c,
+        ...depths[c.id],
+        branchingFactor: depths[c.id] ? depths[c.id].totalNodes / depths[c.id].maxDepth : 1,
+      }))
+      .filter((c) => c.maxDepth && c.visitCount > 3); // Filter meaningful chains
+
+    // Scales
+    const foregroundScale = d3.scaleLog().domain([1, d3.max(data, (d) => d.foregroundSec)]).range([1, 10]);
+
+    const colorScale = d3
+      .scaleSequential(d3.interpolateRgb("#4f7cff", "#ff6b9d"))
+      .domain([0, d3.max(data, (d) => d.foregroundSec)]);
+
+    // Particle system
+    class Particle {
+      constructor(chain, index, total) {
+        this.chain = chain;
+        this.reset(index, total);
       }
 
-      window.addEventListener("resize", resize);
-      resize();
+      reset(index, total) {
+        const angle = (index / total) * Math.PI * 2;
+        const radius = Math.random() * Math.min(width, height) * 0.3 + 100;
 
-      // Load and process data
-      const [chainsSummary, chainDepths] = await Promise.all([
-        fetch("chains_summary.csv").then((r) => r.text()),
-        fetch("chain_depths.csv").then((r) => r.text()),
-      ]);
+        this.x = width / 2 + Math.cos(angle) * radius;
+        this.y = height / 2 + Math.sin(angle) * radius;
 
-      const chains = csvParse(chainsSummary).map((d) => ({
-        id: +d.chain_id,
-        visitCount: +d.visit_count,
-        domains: +d.distinct_domains,
-        durationSec: +d.duration_sec,
-        foregroundSec: +d.total_foreground_sec,
-        startTime: new Date(d.start_ts_utc),
-        endTime: new Date(d.end_ts_utc),
-      }));
+        // Movement parameters influenced by chain properties
+        this.baseSpeed = 0.5 + (this.chain.maxDepth / 300) * 2;
+        this.angle = Math.random() * Math.PI * 2;
+        this.angleVelocity = (Math.random() - 0.5) * 0.02;
+        this.spiralTightness = 1 / Math.max(this.chain.branchingFactor, 1);
 
-      const depths = csvParse(chainDepths).reduce((acc, d) => {
-        acc[d.chain_id] = {
-          maxDepth: +d.max_depth,
-          totalNodes: +d.total_nodes,
-        };
-        return acc;
-      }, {});
-
-      // Merge data
-      const data = chains
-        .map((c) => ({
-          ...c,
-          ...depths[c.id],
-          branchingFactor: depths[c.id] ? depths[c.id].totalNodes / depths[c.id].maxDepth : 1,
-        }))
-        .filter((c) => c.maxDepth && c.visitCount > 3); // Filter meaningful chains
-
-      // Scales
-      const foregroundScale = d3.scaleLog().domain([1, d3.max(data, (d) => d.foregroundSec)]).range([1, 10]);
-
-      const colorScale = d3
-        .scaleSequential(d3.interpolateRgb("#4f7cff", "#ff6b9d"))
-        .domain([0, d3.max(data, (d) => d.foregroundSec)]);
-
-      // Particle system
-      class Particle {
-        constructor(chain, index, total) {
-          this.chain = chain;
-          this.reset(index, total);
-        }
-
-        reset(index, total) {
-          const angle = (index / total) * Math.PI * 2;
-          const radius = Math.random() * Math.min(width, height) * 0.3 + 100;
-
-          this.x = width / 2 + Math.cos(angle) * radius;
-          this.y = height / 2 + Math.sin(angle) * radius;
-
-          // Movement parameters influenced by chain properties
-          this.baseSpeed = 0.5 + (this.chain.maxDepth / 300) * 2;
-          this.angle = Math.random() * Math.PI * 2;
-          this.angleVelocity = (Math.random() - 0.5) * 0.02;
-          this.spiralTightness = 1 / Math.max(this.chain.branchingFactor, 1);
-
-          this.size = foregroundScale(Math.max(this.chain.foregroundSec, 1));
-          this.color = colorScale(this.chain.foregroundSec);
-          this.alpha = 0.6;
-          this.life = 0;
-          this.maxLife = 100 + this.chain.maxDepth * 2;
-        }
-
-        update() {
-          // Spiral motion - tighter for linear chains, wider for branching
-          this.angle += this.angleVelocity * this.spiralTightness;
-
-          const speed = this.baseSpeed * (1 + this.life / this.maxLife);
-          this.x += Math.cos(this.angle) * speed;
-          this.y += Math.sin(this.angle) * speed;
-
-          // Subtle attraction to center
-          const dx = width / 2 - this.x;
-          const dy = height / 2 - this.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance > 100) {
-            this.x += (dx / distance) * 0.1;
-            this.y += (dy / distance) * 0.1;
-          }
-
-          this.life++;
-          this.alpha = Math.max(0, 0.8 * (1 - this.life / this.maxLife));
-
-          // Wrap around edges
-          if (this.x < -50) this.x = width + 50;
-          if (this.x > width + 50) this.x = -50;
-          if (this.y < -50) this.y = height + 50;
-          if (this.y > height + 50) this.y = -50;
-
-          return this.life < this.maxLife;
-        }
-
-        draw() {
-          ctx.globalAlpha = this.alpha;
-          ctx.fillStyle = this.color;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        this.size = foregroundScale(Math.max(this.chain.foregroundSec, 1));
+        this.color = colorScale(this.chain.foregroundSec);
+        this.alpha = 0.6;
+        this.life = 0;
+        this.maxLife = 100 + this.chain.maxDepth * 2;
       }
 
-      // Create particles - sample top chains
-      const topChains = data
-        .sort((a, b) => b.foregroundSec - a.foregroundSec)
-        .slice(0, 100);
+      update() {
+        // Spiral motion - tighter for linear chains, wider for branching
+        this.angle += this.angleVelocity * this.spiralTightness;
 
-      const particles = topChains.map((chain, i) => new Particle(chain, i, topChains.length));
+        const speed = this.baseSpeed * (1 + this.life / this.maxLife);
+        this.x += Math.cos(this.angle) * speed;
+        this.y += Math.sin(this.angle) * speed;
 
-      // Animation loop
-      function animate() {
-        ctx.fillStyle = "rgba(10, 10, 15, 0.15)";
-        ctx.fillRect(0, 0, width, height);
-
-        ctx.globalCompositeOperation = "lighter";
-
-        particles.forEach((p, i) => {
-          if (!p.update()) {
-            particles[i] = new Particle(p.chain, i, topChains.length);
-          }
-          p.draw();
-        });
-
-        ctx.globalCompositeOperation = "source-over";
-        ctx.globalAlpha = 1;
-
-        if (!isPaused) {
-          animationId = requestAnimationFrame(animate);
+        // Subtle attraction to center
+        const dx = width / 2 - this.x;
+        const dy = height / 2 - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance > 100) {
+          this.x += (dx / distance) * 0.1;
+          this.y += (dy / distance) * 0.1;
         }
+
+        this.life++;
+        this.alpha = Math.max(0, 0.8 * (1 - this.life / this.maxLife));
+
+        // Wrap around edges
+        if (this.x < -50) this.x = width + 50;
+        if (this.x > width + 50) this.x = -50;
+        if (this.y < -50) this.y = height + 50;
+        if (this.y > height + 50) this.y = -50;
+
+        return this.life < this.maxLife;
       }
 
-      animate();
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
 
-      // Controls
-      document.getElementById("toggle-animation").addEventListener("click", (e) => {
-        isPaused = !isPaused;
-        e.target.textContent = isPaused ? "Play" : "Pause";
-        if (!isPaused) animate();
+    // Create particles - sample top chains
+    const topChains = data
+      .sort((a, b) => b.foregroundSec - a.foregroundSec)
+      .slice(0, 100);
+
+    const particles = topChains.map((chain, i) => new Particle(chain, i, topChains.length));
+
+    // Animation loop
+    function animate() {
+      ctx.fillStyle = "rgba(10, 10, 15, 0.15)";
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.globalCompositeOperation = "lighter";
+
+      particles.forEach((p, i) => {
+        if (!p.update()) {
+          particles[i] = new Particle(p.chain, i, topChains.length);
+        }
+        p.draw();
       });
+
+      ctx.globalCompositeOperation = "source-over";
+      ctx.globalAlpha = 1;
+
+      if (!isPaused) {
+        animationId = requestAnimationFrame(animate);
+      }
+    }
+
+    animate();
+
+    // Controls
+    document.getElementById("toggle-animation").addEventListener("click", (e) => {
+      isPaused = !isPaused;
+      e.target.textContent = isPaused ? "Play" : "Pause";
+      if (!isPaused) animate();
+    });
     </script>
   </body>
 </html>

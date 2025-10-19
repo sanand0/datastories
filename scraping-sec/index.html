@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -7,473 +7,502 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
     <style>
-      :root {
-        --color-primary: #2563eb;
-        --color-secondary: #7c3aed;
-        --color-success: #10b981;
-        --color-warning: #f59e0b;
-        --color-danger: #ef4444;
-        --color-bg: #ffffff;
-        --color-text: #1f2937;
-        --color-muted: #6b7280;
-      }
+    :root {
+      --color-primary: #2563eb;
+      --color-secondary: #7c3aed;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-danger: #ef4444;
+      --color-bg: #ffffff;
+      --color-text: #1f2937;
+      --color-muted: #6b7280;
+    }
 
-      * {
-        box-sizing: border-box;
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      body {
-        font-family: "IBM Plex Sans", -apple-system, system-ui, sans-serif;
-        color: var(--color-text);
-        background: var(--color-bg);
-        line-height: 1.7;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-      }
+    body {
+      font-family: "IBM Plex Sans", -apple-system, system-ui, sans-serif;
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
 
-      .hero {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        text-align: center;
-        padding: 2rem;
-        position: relative;
-        overflow: hidden;
-      }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
 
-      .hero::before {
-        content: "";
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-        background-size: 50px 50px;
-        animation: drift 60s linear infinite;
-        opacity: 0.3;
-      }
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: drift 60s linear infinite;
+      opacity: 0.3;
+    }
 
-      @keyframes drift {
-        from { transform: translate(0, 0); }
-        to { transform: translate(50px, 50px); }
+    @keyframes drift {
+      from {
+        transform: translate(0, 0);
       }
-
-      .hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 900px;
+      to {
+        transform: translate(50px, 50px);
       }
+    }
 
-      .hero h1 {
-        font-family: "IBM Plex Serif", Georgia, serif;
-        font-size: clamp(2.5rem, 6vw, 4.5rem);
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        text-shadow: 2px 4px 12px rgba(0,0,0,0.2);
-        line-height: 1.15;
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero h1 {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.2);
+      line-height: 1.15;
+    }
+
+    .hero .lead {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      opacity: 0.95;
+      margin-bottom: 2rem;
+      text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
       }
-
-      .hero .lead {
-        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-        opacity: 0.95;
-        margin-bottom: 2rem;
-        text-shadow: 1px 2px 8px rgba(0,0,0,0.15);
+      40% {
+        transform: translateX(-50%) translateY(-10px);
       }
-
-      .scroll-indicator {
-        position: absolute;
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: bounce 2s infinite;
-        opacity: 0.8;
+      60% {
+        transform: translateX(-50%) translateY(-5px);
       }
+    }
 
-      @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-        40% { transform: translateX(-50%) translateY(-10px); }
-        60% { transform: translateX(-50%) translateY(-5px); }
-      }
+    .scroll-indicator svg {
+      width: 32px;
+      height: 32px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2;
+    }
 
-      .scroll-indicator svg {
-        width: 32px;
-        height: 32px;
-        stroke: white;
-        fill: none;
-        stroke-width: 2;
-      }
+    .narrative-section {
+      min-height: 100vh;
+      padding: 4rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
 
-      .narrative-section {
-        min-height: 100vh;
-        padding: 4rem 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-      }
+    .narrative-section:nth-child(even) {
+      background: #f9fafb;
+    }
 
-      .narrative-section:nth-child(even) {
-        background: #f9fafb;
-      }
+    .narrative-content {
+      max-width: 1200px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
 
+    @media (max-width: 968px) {
       .narrative-content {
-        max-width: 1200px;
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4rem;
-        align-items: center;
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
-
-      @media (max-width: 968px) {
-        .narrative-content {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-        .narrative-content .visual {
-          order: -1;
-        }
+      .narrative-content .visual {
+        order: -1;
       }
+    }
 
-      .narrative-text h2 {
-        font-family: "IBM Plex Serif", Georgia, serif;
-        font-size: clamp(2rem, 4vw, 2.75rem);
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        color: var(--color-primary);
-      }
+    .narrative-text h2 {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--color-primary);
+    }
 
-      .narrative-text h3 {
-        font-size: clamp(1.3rem, 2.5vw, 1.75rem);
-        font-weight: 600;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-        color: var(--color-secondary);
-      }
+    .narrative-text h3 {
+      font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: var(--color-secondary);
+    }
 
-      .narrative-text p {
-        font-size: 1.125rem;
-        line-height: 1.8;
-        color: var(--color-text);
-        margin-bottom: 1rem;
-      }
+    .narrative-text p {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
 
-      .narrative-text .highlight {
-        background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
-        padding: 0.1rem 0.3rem;
-        border-radius: 3px;
-        font-weight: 600;
-      }
+    .narrative-text .highlight {
+      background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-weight: 600;
+    }
 
-      .visual {
-        position: relative;
-      }
+    .visual {
+      position: relative;
+    }
 
-      .step-diagram {
-        background: white;
-        border-radius: 16px;
-        padding: 2rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-      }
+    .step-diagram {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
 
-      .step-item {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 1.5rem;
-        opacity: 0;
-        transform: translateX(-20px);
-        animation: fadeInLeft 0.6s ease-out forwards;
-      }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: fadeInLeft 0.6s ease-out forwards;
+    }
 
-      .step-item:nth-child(1) { animation-delay: 0.1s; }
-      .step-item:nth-child(2) { animation-delay: 0.2s; }
-      .step-item:nth-child(3) { animation-delay: 0.3s; }
-      .step-item:nth-child(4) { animation-delay: 0.4s; }
-      .step-item:nth-child(5) { animation-delay: 0.5s; }
+    .step-item:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+    .step-item:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .step-item:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+    .step-item:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+    .step-item:nth-child(5) {
+      animation-delay: 0.5s;
+    }
 
-      @keyframes fadeInLeft {
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      .step-number {
-        flex-shrink: 0;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 1.125rem;
-        margin-right: 1rem;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-      }
-
-      .step-content h4 {
-        font-weight: 600;
-        font-size: 1.125rem;
-        margin: 0 0 0.25rem 0;
-        color: var(--color-text);
-      }
-
-      .step-content p {
-        margin: 0;
-        font-size: 0.95rem;
-        color: var(--color-muted);
-        line-height: 1.5;
-      }
-
-      .data-flow-chart {
-        background: white;
-        border-radius: 16px;
-        padding: 2rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-        position: relative;
-      }
-
-      .flow-node {
-        background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
-        border: 2px solid var(--color-primary);
-        border-radius: 12px;
-        padding: 1rem 1.5rem;
-        margin-bottom: 1rem;
-        text-align: center;
-        font-weight: 600;
-        font-size: 0.95rem;
-        position: relative;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-      }
-
-      .flow-node::after {
-        content: "↓";
-        position: absolute;
-        bottom: -1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 1.5rem;
-        color: var(--color-primary);
-      }
-
-      .flow-node:last-child::after {
-        content: "";
-      }
-
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-      }
-
-      .stat-card {
-        background: white;
-        border-radius: 12px;
-        padding: 1.75rem;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-        text-align: center;
-        border-top: 4px solid var(--color-primary);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .stat-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-      }
-
-      .stat-number {
-        font-size: 3rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        line-height: 1;
-        margin-bottom: 0.5rem;
-      }
-
-      .stat-label {
-        font-size: 0.95rem;
-        color: var(--color-muted);
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      .company-chart {
-        background: white;
-        border-radius: 16px;
-        padding: 2rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-      }
-
-      .chart-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        color: var(--color-text);
-      }
-
-      .company-bar {
-        margin-bottom: 1rem;
-      }
-
-      .company-name {
-        font-size: 0.9rem;
-        font-weight: 500;
-        margin-bottom: 0.25rem;
-        color: var(--color-text);
-      }
-
-      .bar-container {
-        background: #e5e7eb;
-        border-radius: 8px;
-        height: 32px;
-        overflow: hidden;
-        position: relative;
-      }
-
-      .bar-fill {
-        background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-        height: 100%;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding-right: 0.75rem;
-        color: white;
-        font-size: 0.85rem;
-        font-weight: 600;
-        transition: width 1.5s ease-out;
-      }
-
-      .code-snippet {
-        background: #1f2937;
-        color: #e5e7eb;
-        border-radius: 12px;
-        padding: 1.5rem;
-        font-family: "Fira Code", "Courier New", monospace;
-        font-size: 0.9rem;
-        line-height: 1.6;
-        overflow-x: auto;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      }
-
-      .code-snippet .keyword { color: #c678dd; }
-      .code-snippet .string { color: #98c379; }
-      .code-snippet .comment { color: #5c6370; font-style: italic; }
-      .code-snippet .function { color: #61afef; }
-
-      .timeline {
-        position: relative;
-        padding-left: 2rem;
-      }
-
-      .timeline::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
-      }
-
-      .timeline-item {
-        position: relative;
-        padding-bottom: 2rem;
-      }
-
-      .timeline-item::before {
-        content: "";
-        position: absolute;
-        left: -2.375rem;
-        top: 0.25rem;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: var(--color-primary);
-        border: 3px solid white;
-        box-shadow: 0 0 0 3px var(--color-primary);
-      }
-
-      .timeline-item h4 {
-        font-weight: 600;
-        font-size: 1.125rem;
-        margin-bottom: 0.5rem;
-        color: var(--color-text);
-      }
-
-      .timeline-item p {
-        margin: 0;
-        font-size: 0.95rem;
-        color: var(--color-muted);
-        line-height: 1.6;
-      }
-
-      .challenge-badge {
-        display: inline-block;
-        background: #fef3c7;
-        color: #92400e;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .success-badge {
-        display: inline-block;
-        background: #d1fae5;
-        color: #065f46;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
-      }
-
-      footer {
-        background: #1f2937;
-        color: white;
-        padding: 3rem 2rem;
-        text-align: center;
-      }
-
-      footer a {
-        color: #60a5fa;
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      footer a:hover {
-        text-decoration: underline;
-      }
-
-      .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-      }
-
-      .fade-in.visible {
+    @keyframes fadeInLeft {
+      to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
       }
+    }
 
-      #revenue-chart {
-        width: 100%;
-        height: 400px;
-      }
+    .step-number {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin-right: 1rem;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .step-content h4 {
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin: 0 0 0.25rem 0;
+      color: var(--color-text);
+    }
+
+    .step-content p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--color-muted);
+      line-height: 1.5;
+    }
+
+    .data-flow-chart {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .flow-node {
+      background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
+      border: 2px solid var(--color-primary);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+
+    .flow-node::after {
+      content: "↓";
+      position: absolute;
+      bottom: -1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.5rem;
+      color: var(--color-primary);
+    }
+
+    .flow-node:last-child::after {
+      content: "";
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      text-align: center;
+      border-top: 4px solid var(--color-primary);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--color-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .company-chart {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .company-bar {
+      margin-bottom: 1rem;
+    }
+
+    .company-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      color: var(--color-text);
+    }
+
+    .bar-container {
+      background: #e5e7eb;
+      border-radius: 8px;
+      height: 32px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      height: 100%;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.75rem;
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: width 1.5s ease-out;
+    }
+
+    .code-snippet {
+      background: #1f2937;
+      color: #e5e7eb;
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: "Fira Code", "Courier New", monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .code-snippet .keyword {
+      color: #c678dd;
+    }
+    .code-snippet .string {
+      color: #98c379;
+    }
+    .code-snippet .comment {
+      color: #5c6370;
+      font-style: italic;
+    }
+    .code-snippet .function {
+      color: #61afef;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2rem;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -2.375rem;
+      top: 0.25rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      border: 3px solid white;
+      box-shadow: 0 0 0 3px var(--color-primary);
+    }
+
+    .timeline-item h4 {
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .timeline-item p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+
+    .challenge-badge {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-badge {
+      display: inline-block;
+      background: #d1fae5;
+      color: #065f46;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      background: #1f2937;
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #revenue-chart {
+      width: 100%;
+      height: 400px;
+    }
     </style>
   </head>
   <body>
@@ -554,10 +583,10 @@
       <div class="narrative-content">
         <div class="visual">
           <div class="data-flow-chart">
-            <div class="flow-node">📊 Wikipedia<br/>Fortune 100 Rankings</div>
-            <div class="flow-node">🏢 SEC Tickers API<br/>company_tickers.json</div>
-            <div class="flow-node">📄 SEC Submissions API<br/>Company Filings List</div>
-            <div class="flow-node">💰 SEC Facts API<br/>XBRL Financial Data</div>
+            <div class="flow-node">📊 Wikipedia<br />Fortune 100 Rankings</div>
+            <div class="flow-node">🏢 SEC Tickers API<br />company_tickers.json</div>
+            <div class="flow-node">📄 SEC Submissions API<br />Company Filings List</div>
+            <div class="flow-node">💰 SEC Facts API<br />XBRL Financial Data</div>
             <div class="flow-node">✅ fortune100_10k.json</div>
           </div>
         </div>
@@ -600,7 +629,7 @@
         </div>
         <div class="visual">
           <div class="step-diagram">
-            <h4 style="margin-bottom: 1.5rem; color: var(--color-text);">Name Normalization Process</h4>
+            <h4 style="margin-bottom: 1.5rem; color: var(--color-text)">Name Normalization Process</h4>
             <div class="timeline">
               <div class="timeline-item">
                 <h4>Input</h4>
@@ -633,21 +662,21 @@
       <div class="narrative-content">
         <div class="visual">
           <div class="code-snippet">
-<span class="comment"># Different companies use different revenue tags:</span>
+            <span class="comment"># Different companies use different revenue tags:</span>
 
-<span class="comment"># Retailers & Manufacturers:</span>
-<span class="string">"RevenueFromContractWithCustomerExcludingAssessedTax"</span>
+            <span class="comment"># Retailers & Manufacturers:</span>
+            <span class="string">"RevenueFromContractWithCustomerExcludingAssessedTax"</span>
 
-<span class="comment"># Banks & Financial Services:</span>
-<span class="string">"RevenuesNetOfInterestExpense"</span>
-<span class="string">"InterestAndDividendIncomeOperating"</span>
+            <span class="comment"># Banks & Financial Services:</span>
+            <span class="string">"RevenuesNetOfInterestExpense"</span>
+            <span class="string">"InterestAndDividendIncomeOperating"</span>
 
-<span class="comment"># Insurance Companies:</span>
-<span class="string">"Revenues"</span>
-<span class="string">"PremiumsEarnedNet"</span>
+            <span class="comment"># Insurance Companies:</span>
+            <span class="string">"Revenues"</span>
+            <span class="string">"PremiumsEarnedNet"</span>
 
-<span class="comment"># Codex's approach: try common patterns,</span>
-<span class="comment"># verify with spot checks (Amazon, Apple)</span>
+            <span class="comment"># Codex's approach: try common patterns,</span>
+            <span class="comment"># verify with spot checks (Amazon, Apple)</span>
           </div>
         </div>
         <div class="narrative-text">
@@ -662,7 +691,7 @@
           <p>
             Codex didn't hardcode a single field. Instead, it:
           </p>
-          <ul style="font-size: 1.05rem; line-height: 1.8; color: var(--color-text);">
+          <ul style="font-size: 1.05rem; line-height: 1.8; color: var(--color-text)">
             <li>Listed available tags for each company</li>
             <li>Chose the most common revenue pattern</li>
             <li>Added fallbacks for edge cases</li>
@@ -681,7 +710,7 @@
             After iterative refinement, Codex produced a comprehensive dataset covering <span class="highlight">93 of the Fortune 100</span> companies.
           </p>
           <h3>Success Metrics</h3>
-          <div class="stats-grid" style="margin-top: 2rem;">
+          <div class="stats-grid" style="margin-top: 2rem">
             <div class="stat-card">
               <div class="stat-number">100</div>
               <div class="stat-label">Companies Analyzed</div>
@@ -714,23 +743,23 @@
       <div class="narrative-content">
         <div class="visual">
           <div class="step-diagram">
-            <h4 style="margin-bottom: 1.5rem; color: var(--color-text);">Companies Without SEC 10-K Filings</h4>
-            <div style="padding: 1rem 0;">
-              <div style="margin-bottom: 1rem; padding: 0.75rem; background: #fee; border-left: 4px solid #ef4444; border-radius: 4px;">
-                <strong>State Farm</strong><br/>
-                <small style="color: var(--color-muted);">Mutual insurance company</small>
+            <h4 style="margin-bottom: 1.5rem; color: var(--color-text)">Companies Without SEC 10-K Filings</h4>
+            <div style="padding: 1rem 0">
+              <div style="margin-bottom: 1rem; padding: 0.75rem; background: #fee; border-left: 4px solid #ef4444; border-radius: 4px">
+                <strong>State Farm</strong><br />
+                <small style="color: var(--color-muted)">Mutual insurance company</small>
               </div>
-              <div style="margin-bottom: 1rem; padding: 0.75rem; background: #fee; border-left: 4px solid #ef4444; border-radius: 4px;">
-                <strong>Publix</strong><br/>
-                <small style="color: var(--color-muted);">Employee-owned supermarket chain</small>
+              <div style="margin-bottom: 1rem; padding: 0.75rem; background: #fee; border-left: 4px solid #ef4444; border-radius: 4px">
+                <strong>Publix</strong><br />
+                <small style="color: var(--color-muted)">Employee-owned supermarket chain</small>
               </div>
-              <div style="margin-bottom: 1rem; padding: 0.75rem; background: #fee; border-left: 4px solid #ef4444; border-radius: 4px;">
-                <strong>New York Life</strong><br/>
-                <small style="color: var(--color-muted);">Mutual life insurance company</small>
+              <div style="margin-bottom: 1rem; padding: 0.75rem; background: #fee; border-left: 4px solid #ef4444; border-radius: 4px">
+                <strong>New York Life</strong><br />
+                <small style="color: var(--color-muted)">Mutual life insurance company</small>
               </div>
-              <div style="padding: 0.75rem; background: #fee; border-left: 4px solid #ef4444; border-radius: 4px;">
-                <strong>+ 4 more mutual/private firms</strong><br/>
-                <small style="color: var(--color-muted);">Liberty Mutual, USAA, Nationwide, TIAA</small>
+              <div style="padding: 0.75rem; background: #fee; border-left: 4px solid #ef4444; border-radius: 4px">
+                <strong>+ 4 more mutual/private firms</strong><br />
+                <small style="color: var(--color-muted)">Liberty Mutual, USAA, Nationwide, TIAA</small>
               </div>
             </div>
           </div>
@@ -744,7 +773,7 @@
           <p>
             Rather than forcing data or hiding failures, Codex:
           </p>
-          <ul style="font-size: 1.05rem; line-height: 1.8; color: var(--color-text);">
+          <ul style="font-size: 1.05rem; line-height: 1.8; color: var(--color-text)">
             <li>Logged each unmapped company with a clear reason</li>
             <li>Included them in the output with null SEC fields</li>
             <li>Validated that these were legitimately private/mutual firms</li>
@@ -778,7 +807,7 @@
           <p>
             The final validation included:
           </p>
-          <ul style="font-size: 1.05rem; line-height: 1.8; color: var(--color-text);">
+          <ul style="font-size: 1.05rem; line-height: 1.8; color: var(--color-text)">
             <li>Spot-checking Amazon ($638B) and Apple ($391B) revenues</li>
             <li>Verifying filing dates were recent (2024-2025)</li>
             <li>Counting ticker coverage (93 of 100)</li>
@@ -787,7 +816,7 @@
         </div>
         <div class="visual">
           <div class="step-diagram">
-            <h4 style="margin-bottom: 1.5rem; color: var(--color-text);">Validation Checks</h4>
+            <h4 style="margin-bottom: 1.5rem; color: var(--color-text)">Validation Checks</h4>
             <div class="timeline">
               <div class="timeline-item">
                 <h4>✓ Ticker Coverage</h4>
@@ -842,30 +871,30 @@
         </div>
         <div class="visual">
           <div class="stats-grid">
-            <div class="stat-card" style="border-top-color: var(--color-success);">
-              <div class="stat-number" style="background: linear-gradient(135deg, var(--color-success), #059669);">11</div>
+            <div class="stat-card" style="border-top-color: var(--color-success)">
+              <div class="stat-number" style="background: linear-gradient(135deg, var(--color-success), #059669)">11</div>
               <div class="stat-label">Major Steps</div>
             </div>
-            <div class="stat-card" style="border-top-color: var(--color-warning);">
-              <div class="stat-number" style="background: linear-gradient(135deg, var(--color-warning), #d97706);">4</div>
+            <div class="stat-card" style="border-top-color: var(--color-warning)">
+              <div class="stat-number" style="background: linear-gradient(135deg, var(--color-warning), #d97706)">4</div>
               <div class="stat-label">Data Sources</div>
             </div>
-            <div class="stat-card" style="border-top-color: var(--color-secondary);">
-              <div class="stat-number" style="background: linear-gradient(135deg, var(--color-secondary), #6d28d9);">~10</div>
+            <div class="stat-card" style="border-top-color: var(--color-secondary)">
+              <div class="stat-number" style="background: linear-gradient(135deg, var(--color-secondary), #6d28d9)">~10</div>
               <div class="stat-label">Iterations</div>
             </div>
-            <div class="stat-card" style="border-top-color: var(--color-primary);">
-              <div class="stat-number" style="background: linear-gradient(135deg, var(--color-primary), #1d4ed8);">0</div>
+            <div class="stat-card" style="border-top-color: var(--color-primary)">
+              <div class="stat-number" style="background: linear-gradient(135deg, var(--color-primary), #1d4ed8)">0</div>
               <div class="stat-label">Human Steps</div>
             </div>
           </div>
-          <div class="step-diagram" style="margin-top: 2rem;">
-            <h4 style="margin-bottom: 1rem; color: var(--color-text); text-align: center;">From Request to Dataset</h4>
-            <p style="text-align: center; color: var(--color-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+          <div class="step-diagram" style="margin-top: 2rem">
+            <h4 style="margin-bottom: 1rem; color: var(--color-text); text-align: center">From Request to Dataset</h4>
+            <p style="text-align: center; color: var(--color-muted); font-size: 0.95rem; margin-bottom: 1.5rem">
               One prompt, one autonomous session, one complete result.
             </p>
-            <div style="text-align: center;">
-              <span class="success-badge" style="font-size: 1rem; padding: 0.5rem 1rem;">✓ Mission Complete</span>
+            <div style="text-align: center">
+              <span class="success-badge" style="font-size: 1rem; padding: 0.5rem 1rem">✓ Mission Complete</span>
             </div>
           </div>
         </div>
@@ -874,54 +903,54 @@
 
     <!-- Footer -->
     <footer>
-      <p style="font-size: 1.125rem; margin-bottom: 1rem; font-weight: 500;">
+      <p style="font-size: 1.125rem; margin-bottom: 1rem; font-weight: 500">
         Explore the code and data
       </p>
-      <p style="margin-bottom: 0.5rem;">
+      <p style="margin-bottom: 0.5rem">
         <a href="scrape.py" target="_blank">View scrape.py</a> ·
         <a href="fortune100_10k.json" target="_blank">Download JSON</a> ·
         <a href="log.md" target="_blank">Read Full Log</a> ·
         <a href="README.md" target="_blank">Technical Summary</a>
       </p>
-      <p style="margin-top: 2rem; opacity: 0.7; font-size: 0.9rem;">
+      <p style="margin-top: 2rem; opacity: 0.7; font-size: 0.9rem">
         Data visualization by Claude Code · Built with D3.js, Bootstrap, and modern web standards
       </p>
     </footer>
 
     <script type="module">
-      // Intersection Observer for fade-in animations
-      const observerOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -100px 0px"
-      };
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -100px 0px",
+    };
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      }, observerOptions);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, observerOptions);
 
-      document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+    document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 
-      // Load and display top companies
-      async function loadTopCompanies() {
-        try {
-          const response = await fetch("fortune100_10k.json");
-          const data = await response.json();
+    // Load and display top companies
+    async function loadTopCompanies() {
+      try {
+        const response = await fetch("fortune100_10k.json");
+        const data = await response.json();
 
-          const top10 = data.companies
-            .filter(c => c.latest_10k_revenue_usd)
-            .slice(0, 10);
+        const top10 = data.companies
+          .filter((c) => c.latest_10k_revenue_usd)
+          .slice(0, 10);
 
-          const maxRevenue = Math.max(...top10.map(c => c.latest_10k_revenue_usd));
+        const maxRevenue = Math.max(...top10.map((c) => c.latest_10k_revenue_usd));
 
-          const barsHtml = top10.map(company => {
-            const revenueBillions = (company.latest_10k_revenue_usd / 1e9).toFixed(0);
-            const widthPercent = (company.latest_10k_revenue_usd / maxRevenue) * 100;
+        const barsHtml = top10.map((company) => {
+          const revenueBillions = (company.latest_10k_revenue_usd / 1e9).toFixed(0);
+          const widthPercent = (company.latest_10k_revenue_usd / maxRevenue) * 100;
 
-            return `
+          return `
               <div class="company-bar">
                 <div class="company-name">${company.rank}. ${company.name} (${company.ticker})</div>
                 <div class="bar-container">
@@ -931,30 +960,28 @@
                 </div>
               </div>
             `;
-          }).join("");
+        }).join("");
 
-          document.getElementById("revenue-bars").innerHTML = barsHtml;
+        document.getElementById("revenue-bars").innerHTML = barsHtml;
 
-          // Animate bars after a short delay
-          setTimeout(() => {
-            document.querySelectorAll(".bar-fill").forEach(bar => {
-              const width = bar.style.width;
-              bar.style.width = "0%";
-              setTimeout(() => {
-                bar.style.width = width;
-              }, 100);
-            });
-          }, 200);
-
-        } catch (error) {
-          console.error("Error loading company data:", error);
-          document.getElementById("revenue-bars").innerHTML =
-            '<p style="color: var(--color-muted); text-align: center;">Data visualization will be available when viewing online.</p>';
-        }
+        // Animate bars after a short delay
+        setTimeout(() => {
+          document.querySelectorAll(".bar-fill").forEach((bar) => {
+            const width = bar.style.width;
+            bar.style.width = "0%";
+            setTimeout(() => {
+              bar.style.width = width;
+            }, 100);
+          });
+        }, 200);
+      } catch (error) {
+        console.error("Error loading company data:", error);
+        document.getElementById("revenue-bars").innerHTML = '<p style="color: var(--color-muted); text-align: center;">Data visualization will be available when viewing online.</p>';
       }
+    }
 
-      // Initialize
-      loadTopCompanies();
+    // Initialize
+    loadTopCompanies();
     </script>
   </body>
 </html>

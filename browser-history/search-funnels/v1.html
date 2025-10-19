@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Do Questions Find Answers? A Search Journey</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do Questions Find Answers? A Search Journey</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
     :root {
       --color-instant: #10b981;
       --color-quick: #3b82f6;
@@ -14,7 +14,7 @@
       --color-wandering: #ef4444;
     }
     body {
-      font-family: 'Georgia', serif;
+      font-family: "Georgia", serif;
       background: #fefefe;
       color: #1a1a1a;
     }
@@ -41,13 +41,13 @@
       background: white;
       border-radius: 12px;
       padding: 2rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
       transition: transform 0.2s, box-shadow 0.2s;
       height: 100%;
     }
     .stat-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
     }
     .stat-number {
       font-size: 3rem;
@@ -72,14 +72,22 @@
     }
     .journey-card:hover {
       transform: translateX(4px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    .journey-instant { border-left-color: var(--color-instant); }
-    .journey-quick { border-left-color: var(--color-quick); }
-    .journey-thoughtful { border-left-color: var(--color-thoughtful); }
-    .journey-wandering { border-left-color: var(--color-wandering); }
+    .journey-instant {
+      border-left-color: var(--color-instant);
+    }
+    .journey-quick {
+      border-left-color: var(--color-quick);
+    }
+    .journey-thoughtful {
+      border-left-color: var(--color-thoughtful);
+    }
+    .journey-wandering {
+      border-left-color: var(--color-wandering);
+    }
     .search-term {
-      font-family: 'Courier New', monospace;
+      font-family: "Courier New", monospace;
       font-weight: 600;
       font-size: 1.1rem;
     }
@@ -120,7 +128,7 @@
       background: white;
       border-radius: 12px;
       padding: 2rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
       margin-bottom: 2rem;
     }
     #funnel-chart {
@@ -141,164 +149,167 @@
       display: inline-block;
       width: 1rem;
       height: 1rem;
-      border: 2px solid rgba(255,255,255,0.3);
+      border: 2px solid rgba(255, 255, 255, 0.3);
       border-top-color: white;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
-  </style>
-</head>
-<body>
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1>Do Questions Find Answers?</h1>
+        <p class="lead">
+          A data story about the journey from search to satisfaction—revealing the hope in swift clicks and the curiosity in meandering paths
+        </p>
+      </div>
+    </section>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <h1>Do Questions Find Answers?</h1>
-      <p class="lead">
-        A data story about the journey from search to satisfaction—revealing the hope in swift clicks
-        and the curiosity in meandering paths
-      </p>
-    </div>
-  </section>
-
-  <!-- Key Statistics -->
-  <section class="py-5 bg-light">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-md-3">
-          <div class="stat-card">
-            <div class="stat-number" style="color: var(--color-instant);" id="stat-searches">—</div>
-            <div class="stat-label">Search Terms</div>
+    <!-- Key Statistics -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-3">
+            <div class="stat-card">
+              <div class="stat-number" style="color: var(--color-instant)" id="stat-searches">—</div>
+              <div class="stat-label">Search Terms</div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="stat-card">
-            <div class="stat-number" style="color: var(--color-quick);" id="stat-destinations">—</div>
-            <div class="stat-label">Destinations</div>
+          <div class="col-md-3">
+            <div class="stat-card">
+              <div class="stat-number" style="color: var(--color-quick)" id="stat-destinations">—</div>
+              <div class="stat-label">Destinations</div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="stat-card">
-            <div class="stat-number" style="color: var(--color-thoughtful);" id="stat-avg-time">—</div>
-            <div class="stat-label">Avg. Time to Click</div>
+          <div class="col-md-3">
+            <div class="stat-card">
+              <div class="stat-number" style="color: var(--color-thoughtful)" id="stat-avg-time">—</div>
+              <div class="stat-label">Avg. Time to Click</div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="stat-card">
-            <div class="stat-number" style="color: var(--color-wandering);" id="stat-click-rate">—%</div>
-            <div class="stat-label">Click-Through Rate</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Journey Types -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-5">Four Types of Search Journeys</h2>
-      <div class="insight-box">
-        <h3><i class="bi bi-lightbulb"></i> Reading the Data</h3>
-        <p>Every search tells a story. Some searches find their answer in under a second—confident, decisive.
-        Others wander across multiple sites, exploring possibilities. The time from search to first click
-        reveals whether you knew what you wanted, or were still figuring it out.</p>
-      </div>
-
-      <div class="row mb-4">
-        <div class="col text-center">
-          <button class="filter-btn active" data-filter="all">All Journeys</button>
-          <button class="filter-btn" data-filter="instant">⚡ Instant (&lt;1s)</button>
-          <button class="filter-btn" data-filter="quick">🎯 Quick (1-5s)</button>
-          <button class="filter-btn" data-filter="thoughtful">🤔 Thoughtful (5-30s)</button>
-          <button class="filter-btn" data-filter="wandering">🌀 Wandering (30s+)</button>
-        </div>
-      </div>
-
-      <div id="journey-list" class="row">
-        <div class="col-12 text-center py-5">
-          <div class="loading-spinner"></div>
-          <p class="mt-3 text-muted">Loading search journeys...</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Time Distribution -->
-  <section class="py-5 bg-light">
-    <div class="container">
-      <h2 class="text-center mb-4">The Rhythm of Search</h2>
-      <div class="viz-container">
-        <canvas id="time-distribution-chart"></canvas>
-      </div>
-      <div class="insight-box">
-        <h3><i class="bi bi-graph-up"></i> What This Reveals</h3>
-        <p>The distribution of search times shows our natural patterns: most searches are quick and decisive,
-        but a significant minority require patience and exploration. The long tail tells us that finding answers
-        isn't always instant—sometimes understanding takes time.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Destinations -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Where Do Searches Lead?</h2>
-      <div class="viz-container">
-        <canvas id="destinations-chart"></canvas>
-      </div>
-      <div class="insight-box">
-        <h3><i class="bi bi-compass"></i> Converging vs. Diverging</h3>
-        <p>Some searches lead to one clear destination—a sign of confidence. Others scatter across many sites—
-        exploration in action. The diversity of destinations reveals whether the question had a clear answer,
-        or whether the search itself was part of the discovery process.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Practical Takeaways -->
-  <section class="py-5 bg-light">
-    <div class="container">
-      <h2 class="text-center mb-4">What Searchers Can Learn</h2>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="stat-card">
-            <i class="bi bi-lightning-charge text-success" style="font-size: 3rem;"></i>
-            <h4 class="mt-3">Be Specific</h4>
-            <p class="text-muted">The fastest searches use precise terms. "claude code system prompt"
-            beats "how does claude work" every time.</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="stat-card">
-            <i class="bi bi-arrow-repeat text-primary" style="font-size: 3rem;"></i>
-            <h4 class="mt-3">Loops Are Normal</h4>
-            <p class="text-muted">Don't feel bad about wandering. Complex questions need exploration.
-            The journey is part of understanding.</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="stat-card">
-            <i class="bi bi-bookmark-star text-warning" style="font-size: 3rem;"></i>
-            <h4 class="mt-3">Save Patterns</h4>
-            <p class="text-muted">Notice which searches work. Build a mental library of effective
-            search patterns for your domain.</p>
+          <div class="col-md-3">
+            <div class="stat-card">
+              <div class="stat-number" style="color: var(--color-wandering)" id="stat-click-rate">—%</div>
+              <div class="stat-label">Click-Through Rate</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
-  <footer class="py-4 bg-dark text-white text-center">
-    <div class="container">
-      <p class="mb-0">Data Story by Anand • Visualizing Browser History • October 2025</p>
-    </div>
-  </footer>
+    <!-- Journey Types -->
+    <section class="py-5">
+      <div class="container">
+        <h2 class="text-center mb-5">Four Types of Search Journeys</h2>
+        <div class="insight-box">
+          <h3><i class="bi bi-lightbulb"></i> Reading the Data</h3>
+          <p>
+            Every search tells a story. Some searches find their answer in under a second—confident, decisive. Others wander across multiple sites, exploring possibilities. The time from search to first click reveals whether you knew what you wanted, or were still figuring it out.
+          </p>
+        </div>
 
-  <script type="module">
+        <div class="row mb-4">
+          <div class="col text-center">
+            <button class="filter-btn active" data-filter="all">All Journeys</button>
+            <button class="filter-btn" data-filter="instant">⚡ Instant (&lt;1s)</button>
+            <button class="filter-btn" data-filter="quick">🎯 Quick (1-5s)</button>
+            <button class="filter-btn" data-filter="thoughtful">🤔 Thoughtful (5-30s)</button>
+            <button class="filter-btn" data-filter="wandering">🌀 Wandering (30s+)</button>
+          </div>
+        </div>
+
+        <div id="journey-list" class="row">
+          <div class="col-12 text-center py-5">
+            <div class="loading-spinner"></div>
+            <p class="mt-3 text-muted">Loading search journeys...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Time Distribution -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center mb-4">The Rhythm of Search</h2>
+        <div class="viz-container">
+          <canvas id="time-distribution-chart"></canvas>
+        </div>
+        <div class="insight-box">
+          <h3><i class="bi bi-graph-up"></i> What This Reveals</h3>
+          <p>
+            The distribution of search times shows our natural patterns: most searches are quick and decisive, but a significant minority require patience and exploration. The long tail tells us that finding answers isn't always instant—sometimes understanding takes time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destinations -->
+    <section class="py-5">
+      <div class="container">
+        <h2 class="text-center mb-4">Where Do Searches Lead?</h2>
+        <div class="viz-container">
+          <canvas id="destinations-chart"></canvas>
+        </div>
+        <div class="insight-box">
+          <h3><i class="bi bi-compass"></i> Converging vs. Diverging</h3>
+          <p>
+            Some searches lead to one clear destination—a sign of confidence. Others scatter across many sites— exploration in action. The diversity of destinations reveals whether the question had a clear answer, or whether the search itself was part of the discovery process.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practical Takeaways -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center mb-4">What Searchers Can Learn</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="stat-card">
+              <i class="bi bi-lightning-charge text-success" style="font-size: 3rem"></i>
+              <h4 class="mt-3">Be Specific</h4>
+              <p class="text-muted">
+                The fastest searches use precise terms. "claude code system prompt" beats "how does claude work" every time.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card">
+              <i class="bi bi-arrow-repeat text-primary" style="font-size: 3rem"></i>
+              <h4 class="mt-3">Loops Are Normal</h4>
+              <p class="text-muted">
+                Don't feel bad about wandering. Complex questions need exploration. The journey is part of understanding.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card">
+              <i class="bi bi-bookmark-star text-warning" style="font-size: 3rem"></i>
+              <h4 class="mt-3">Save Patterns</h4>
+              <p class="text-muted">
+                Notice which searches work. Build a mental library of effective search patterns for your domain.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-dark text-white text-center">
+      <div class="container">
+        <p class="mb-0">Data Story by Anand • Visualizing Browser History • October 2025</p>
+      </div>
+    </footer>
+
+    <script type="module">
     import { csvParse } from "https://cdn.jsdelivr.net/npm/d3-dsv@3/+esm";
     import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
@@ -307,8 +318,8 @@
     // Load and parse data
     async function loadData() {
       const [termsResp, samplesResp] = await Promise.all([
-        fetch('search_funnels_terms.csv'),
-        fetch('search_samples.csv')
+        fetch("search_funnels_terms.csv"),
+        fetch("search_samples.csv"),
       ]);
 
       const termsText = await termsResp.text();
@@ -322,19 +333,19 @@
 
     // Categorize search by time
     function categorizeTime(seconds) {
-      if (seconds < 1) return 'instant';
-      if (seconds < 5) return 'quick';
-      if (seconds < 30) return 'thoughtful';
-      return 'wandering';
+      if (seconds < 1) return "instant";
+      if (seconds < 5) return "quick";
+      if (seconds < 30) return "thoughtful";
+      return "wandering";
     }
 
     // Get category label and emoji
     function getCategoryLabel(category) {
       const labels = {
-        instant: { emoji: '⚡', label: 'Instant', color: 'var(--color-instant)' },
-        quick: { emoji: '🎯', label: 'Quick', color: 'var(--color-quick)' },
-        thoughtful: { emoji: '🤔', label: 'Thoughtful', color: 'var(--color-thoughtful)' },
-        wandering: { emoji: '🌀', label: 'Wandering', color: 'var(--color-wandering)' }
+        instant: { emoji: "⚡", label: "Instant", color: "var(--color-instant)" },
+        quick: { emoji: "🎯", label: "Quick", color: "var(--color-quick)" },
+        thoughtful: { emoji: "🤔", label: "Thoughtful", color: "var(--color-thoughtful)" },
+        wandering: { emoji: "🌀", label: "Wandering", color: "var(--color-wandering)" },
       };
       return labels[category];
     }
@@ -342,33 +353,33 @@
     // Render statistics
     function renderStats(terms) {
       const totalSearches = terms.length;
-      const totalDestinations = d3.sum(terms, d => +d.unique_dest_domains);
-      const avgTime = d3.mean(terms, d => +d.avg_time_to_click_sec);
-      const avgClickRate = d3.mean(terms, d => (+d.clicks / +d.search_events) * 100);
+      const totalDestinations = d3.sum(terms, (d) => +d.unique_dest_domains);
+      const avgTime = d3.mean(terms, (d) => +d.avg_time_to_click_sec);
+      const avgClickRate = d3.mean(terms, (d) => (+d.clicks / +d.search_events) * 100);
 
-      $('#stat-searches').textContent = totalSearches.toLocaleString();
-      $('#stat-destinations').textContent = totalDestinations.toLocaleString();
-      $('#stat-avg-time').textContent = avgTime.toFixed(1) + 's';
-      $('#stat-click-rate').textContent = avgClickRate.toFixed(0);
+      $("#stat-searches").textContent = totalSearches.toLocaleString();
+      $("#stat-destinations").textContent = totalDestinations.toLocaleString();
+      $("#stat-avg-time").textContent = avgTime.toFixed(1) + "s";
+      $("#stat-click-rate").textContent = avgClickRate.toFixed(0);
     }
 
     // Render journey cards
-    function renderJourneys(terms, samples, filter = 'all') {
-      const container = $('#journey-list');
+    function renderJourneys(terms, samples, filter = "all") {
+      const container = $("#journey-list");
 
       // Limit to top 50 for performance
       const filteredTerms = terms
-        .map(d => ({
+        .map((d) => ({
           ...d,
-          category: categorizeTime(+d.avg_time_to_click_sec)
+          category: categorizeTime(+d.avg_time_to_click_sec),
         }))
-        .filter(d => filter === 'all' || d.category === filter)
+        .filter((d) => filter === "all" || d.category === filter)
         .slice(0, 50);
 
-      container.innerHTML = filteredTerms.map(term => {
+      container.innerHTML = filteredTerms.map((term) => {
         const cat = getCategoryLabel(term.category);
         const domainCount = +term.unique_dest_domains;
-        const topDomain = term.top_dest_domain || 'Various';
+        const topDomain = term.top_dest_domain || "Various";
 
         return `
           <div class="col-md-6 mb-3">
@@ -381,36 +392,36 @@
               </div>
               <div class="destination-list">
                 <div class="destination-item">
-                  <i class="bi bi-geo-alt"></i> ${domainCount} destination${domainCount > 1 ? 's' : ''}
+                  <i class="bi bi-geo-alt"></i> ${domainCount} destination${domainCount > 1 ? "s" : ""}
                   • Top: <strong>${topDomain}</strong>
                 </div>
                 <div class="destination-item">
-                  <i class="bi bi-mouse"></i> ${term.clicks} click${+term.clicks > 1 ? 's' : ''}
-                  from ${term.search_events} search${+term.search_events > 1 ? 'es' : ''}
+                  <i class="bi bi-mouse"></i> ${term.clicks} click${+term.clicks > 1 ? "s" : ""}
+                  from ${term.search_events} search${+term.search_events > 1 ? "es" : ""}
                 </div>
               </div>
             </div>
           </div>
         `;
-      }).join('');
+      }).join("");
     }
 
     // Render time distribution chart
     function renderTimeChart(terms) {
-      const canvas = $('#time-distribution-chart');
-      const ctx = canvas.getContext('2d');
+      const canvas = $("#time-distribution-chart");
+      const ctx = canvas.getContext("2d");
 
       // Create histogram bins
-      const times = terms.map(d => +d.avg_time_to_click_sec);
+      const times = terms.map((d) => +d.avg_time_to_click_sec);
       const bins = [
-        { label: '<1s', count: times.filter(t => t < 1).length, color: 'var(--color-instant)' },
-        { label: '1-5s', count: times.filter(t => t >= 1 && t < 5).length, color: 'var(--color-quick)' },
-        { label: '5-30s', count: times.filter(t => t >= 5 && t < 30).length, color: 'var(--color-thoughtful)' },
-        { label: '30s+', count: times.filter(t => t >= 30).length, color: 'var(--color-wandering)' }
+        { label: "<1s", count: times.filter((t) => t < 1).length, color: "var(--color-instant)" },
+        { label: "1-5s", count: times.filter((t) => t >= 1 && t < 5).length, color: "var(--color-quick)" },
+        { label: "5-30s", count: times.filter((t) => t >= 5 && t < 30).length, color: "var(--color-thoughtful)" },
+        { label: "30s+", count: times.filter((t) => t >= 30).length, color: "var(--color-wandering)" },
       ];
 
       // Simple bar chart
-      const maxCount = Math.max(...bins.map(b => b.count));
+      const maxCount = Math.max(...bins.map((b) => b.count));
       const barHeight = 60;
       const barSpacing = 20;
 
@@ -425,25 +436,25 @@
         ctx.fillStyle = bin.color;
         ctx.fillRect(100, y, barWidth, barHeight);
 
-        ctx.fillStyle = '#1a1a1a';
-        ctx.font = '16px Arial';
-        ctx.textAlign = 'right';
+        ctx.fillStyle = "#1a1a1a";
+        ctx.font = "16px Arial";
+        ctx.textAlign = "right";
         ctx.fillText(bin.label, 90, y + barHeight / 2 + 5);
 
-        ctx.textAlign = 'left';
+        ctx.textAlign = "left";
         ctx.fillText(bin.count, barWidth + 110, y + barHeight / 2 + 5);
       });
     }
 
     // Render top destinations chart
     function renderDestinationsChart(terms) {
-      const canvas = $('#destinations-chart');
-      const ctx = canvas.getContext('2d');
+      const canvas = $("#destinations-chart");
+      const ctx = canvas.getContext("2d");
 
       // Get top domains by total clicks
       const domainClicks = {};
-      terms.forEach(d => {
-        const domain = d.top_dest_domain || 'Various';
+      terms.forEach((d) => {
+        const domain = d.top_dest_domain || "Various";
         domainClicks[domain] = (domainClicks[domain] || 0) + (+d.clicks);
       });
 
@@ -464,15 +475,15 @@
         const y = i * (barHeight + barSpacing);
         const barWidth = (clicks / maxClicks) * (canvas.width / 2 - 250);
 
-        ctx.fillStyle = '#667eea';
+        ctx.fillStyle = "#667eea";
         ctx.fillRect(200, y, barWidth, barHeight);
 
-        ctx.fillStyle = '#1a1a1a';
-        ctx.font = '14px Arial';
-        ctx.textAlign = 'right';
+        ctx.fillStyle = "#1a1a1a";
+        ctx.font = "14px Arial";
+        ctx.textAlign = "right";
         ctx.fillText(domain, 190, y + barHeight / 2 + 5);
 
-        ctx.textAlign = 'left';
+        ctx.textAlign = "left";
         ctx.fillText(clicks, barWidth + 210, y + barHeight / 2 + 5);
       });
     }
@@ -487,10 +498,10 @@
       renderDestinationsChart(terms);
 
       // Filter buttons
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
           const filter = btn.dataset.filter;
           renderJourneys(terms, samples, filter);
         });
@@ -498,6 +509,6 @@
     }
 
     init();
-  </script>
-</body>
+    </script>
+  </body>
 </html>

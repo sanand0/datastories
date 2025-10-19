@@ -18,7 +18,7 @@ I lost 22 kg in 22 weeks.
 
 **Is fasting 12 hours OK?** [Ankor Rai](https://www.linkedin.com/in/ankorrai/) shared [Mindy Pelz](https://drmindypelz.com/)'s [chart](https://www.reddit.com/r/fasting/comments/gli80l/dr_mindy_pelz_on_youtube_has_been_a_huge_source/) that fasting benefits truly kick in after 36 hours. Long way to go.
 
-**No exercise?** Exercise is great for fitness & happiness. Not weight loss. Read [The Hacker's Diet](https://en.wikipedia.org/wiki/The_Hacker%27s_Diet) by [John Walker](<https://en.wikipedia.org/wiki/John_Walker_(programmer)>).
+**No exercise?** Exercise is great for fitness & happiness. Not weight loss. Read [The Hacker's Diet](https://en.wikipedia.org/wiki/The_Hacker%27s_Diet) by [John Walker](https://en.wikipedia.org/wiki/John_Walker_(programmer)).
 
 **No LLMs stuff this post?** Of course! I vibe coded the data extraction, analysis and visualization with [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) for my [VizChitra](https://vizchitra.com/#speakers) talk.
 

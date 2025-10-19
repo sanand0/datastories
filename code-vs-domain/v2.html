@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Agents Transform Development Effort</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agents Transform Development Effort</title>
+    <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
 
     body {
       margin: 0;
       padding: 20px;
       background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      font-family: 'Inter', sans-serif;
+      font-family: "Inter", sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -25,9 +24,7 @@
       height: 500px;
       background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
       border-radius: 24px;
-      box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.25),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
       padding: 40px;
       box-sizing: border-box;
       position: relative;
@@ -35,7 +32,7 @@
     }
 
     .container::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -88,7 +85,7 @@
     }
 
     .code-bar::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -105,7 +102,7 @@
     }
 
     .domain-bar::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -167,7 +164,6 @@
     }
 
     @keyframes pulse-glow {
-
       0%,
       100% {
         transform: scale(1);
@@ -181,7 +177,6 @@
     }
 
     @keyframes pulse-glow-cyan {
-
       0%,
       100% {
         transform: scale(1);
@@ -237,48 +232,48 @@
     .pause-indicator.show {
       opacity: 1;
     }
-  </style>
-</head>
+    </style>
+  </head>
 
-<body>
-  <div class="container">
-    <div class="title">The Future of Software Development</div>
+  <body>
+    <div class="container">
+      <div class="title">The Future of Software Development</div>
 
-    <div class="chart-area">
-      <div class="bar-container">
-        <div class="bar domain-bar" id="domainBar">
-          <div class="bar-label">domain</div>
-        </div>
-        <div class="bar code-bar" id="codeBar">
-          <div class="bar-label">code</div>
+      <div class="chart-area">
+        <div class="bar-container">
+          <div class="bar domain-bar" id="domainBar">
+            <div class="bar-label">domain</div>
+          </div>
+          <div class="bar code-bar" id="codeBar">
+            <div class="bar-label">code</div>
+          </div>
         </div>
       </div>
+
+      <div class="message-container">
+        <div class="scene-number" id="sceneNumber">1</div>
+        <div class="message" id="message">Apps need code and domain.</div>
+      </div>
+
+      <div class="progress-indicator" id="progressIndicator">
+        <div class="progress-dot active"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+      </div>
+
+      <div class="pause-indicator" id="pauseIndicator">Pausing...</div>
     </div>
 
-    <div class="message-container">
-      <div class="scene-number" id="sceneNumber">1</div>
-      <div class="message" id="message">Apps need code and domain.</div>
-    </div>
-
-    <div class="progress-indicator" id="progressIndicator">
-      <div class="progress-dot active"></div>
-      <div class="progress-dot"></div>
-      <div class="progress-dot"></div>
-      <div class="progress-dot"></div>
-      <div class="progress-dot"></div>
-      <div class="progress-dot"></div>
-    </div>
-
-    <div class="pause-indicator" id="pauseIndicator">Pausing...</div>
-  </div>
-
-  <script>
-    const codeBar = document.getElementById('codeBar');
-    const domainBar = document.getElementById('domainBar');
-    const message = document.getElementById('message');
-    const sceneNumber = document.getElementById('sceneNumber');
-    const progressIndicator = document.getElementById('progressIndicator');
-    const pauseIndicator = document.getElementById('pauseIndicator');
+    <script>
+    const codeBar = document.getElementById("codeBar");
+    const domainBar = document.getElementById("domainBar");
+    const message = document.getElementById("message");
+    const sceneNumber = document.getElementById("sceneNumber");
+    const progressIndicator = document.getElementById("progressIndicator");
+    const pauseIndicator = document.getElementById("pauseIndicator");
 
     const scenes = [
       {
@@ -287,15 +282,15 @@
         domainHeight: 120,
         barWidth: 100,
         highlight: null,
-        duration: 3000
+        duration: 3000,
       },
       {
         message: "Coding agents reduce effort.",
         codeHeight: 40,
         domainHeight: 120,
         barWidth: 100,
-        highlight: 'code',
-        duration: 3000
+        highlight: "code",
+        duration: 3000,
       },
       {
         message: "Lower cost increases demand.",
@@ -303,23 +298,23 @@
         domainHeight: 120,
         barWidth: 200,
         highlight: null,
-        duration: 3000
+        duration: 3000,
       },
       {
         message: "Domain dominates effort.",
         codeHeight: 40,
         domainHeight: 120,
         barWidth: 200,
-        highlight: 'domain',
-        duration: 3000
+        highlight: "domain",
+        duration: 3000,
       },
       {
         message: "Domain agents reduce effort.",
         codeHeight: 40,
         domainHeight: 60,
         barWidth: 200,
-        highlight: 'domain',
-        duration: 3000
+        highlight: "domain",
+        duration: 3000,
       },
       {
         message: "Lower cost drives demand.",
@@ -327,45 +322,45 @@
         domainHeight: 60,
         barWidth: 360,
         highlight: null,
-        duration: 5000 // Longer pause at the end
-      }
+        duration: 5000, // Longer pause at the end
+      },
     ];
 
     let currentScene = 0;
 
     function updateProgressIndicator() {
-      const dots = progressIndicator.querySelectorAll('.progress-dot');
+      const dots = progressIndicator.querySelectorAll(".progress-dot");
       dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentScene);
+        dot.classList.toggle("active", index === currentScene);
       });
     }
 
     function updateBars(scene, sceneIndex) {
-      codeBar.style.height = scene.codeHeight + 'px';
-      codeBar.style.width = scene.barWidth + 'px';
-      domainBar.style.height = scene.domainHeight + 'px';
-      domainBar.style.width = scene.barWidth + 'px';
+      codeBar.style.height = scene.codeHeight + "px";
+      codeBar.style.width = scene.barWidth + "px";
+      domainBar.style.height = scene.domainHeight + "px";
+      domainBar.style.width = scene.barWidth + "px";
       message.textContent = scene.message;
       sceneNumber.textContent = (sceneIndex + 1).toString();
 
       // Remove previous highlights
-      codeBar.classList.remove('highlight-code');
-      domainBar.classList.remove('highlight-domain');
+      codeBar.classList.remove("highlight-code");
+      domainBar.classList.remove("highlight-domain");
 
       // Add highlight if specified
-      if (scene.highlight === 'code') {
-        setTimeout(() => codeBar.classList.add('highlight-code'), 500);
-      } else if (scene.highlight === 'domain') {
-        setTimeout(() => domainBar.classList.add('highlight-domain'), 500);
+      if (scene.highlight === "code") {
+        setTimeout(() => codeBar.classList.add("highlight-code"), 500);
+      } else if (scene.highlight === "domain") {
+        setTimeout(() => domainBar.classList.add("highlight-domain"), 500);
       }
 
       // Show pause indicator on last scene
       if (sceneIndex === scenes.length - 1) {
         setTimeout(() => {
-          pauseIndicator.classList.add('show');
+          pauseIndicator.classList.add("show");
         }, 2000);
         setTimeout(() => {
-          pauseIndicator.classList.remove('show');
+          pauseIndicator.classList.remove("show");
         }, 4500);
       }
 
@@ -388,7 +383,6 @@
       currentScene = 1;
       nextScene();
     }, scenes[0].duration);
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

@@ -413,7 +413,7 @@ async function createChart() {
             font: {
               size: 11,
             },
-            callback: function (value) {
+            callback: function(value) {
               return value.toFixed(0) + " kg";
             },
           },

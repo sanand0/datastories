@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Agents Transform Development Effort</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agents Transform Development Effort</title>
+    <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
 
     body {
       margin: 0;
       padding: 20px;
       background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      font-family: 'Inter', sans-serif;
+      font-family: "Inter", sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -34,7 +33,7 @@
     }
 
     .container::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -87,7 +86,7 @@
 
     .code-bar::before,
     .domain-bar::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -155,7 +154,6 @@
     }
 
     @keyframes pulse-glow {
-
       0%,
       100% {
         transform: scale(1);
@@ -169,7 +167,6 @@
     }
 
     @keyframes pulse-glow-cyan {
-
       0%,
       100% {
         transform: scale(1);
@@ -219,49 +216,49 @@
       transform: scale(1.2);
       border-color: rgba(99, 102, 241, 0.3);
     }
-  </style>
-</head>
+    </style>
+  </head>
 
-<body>
-  <div class="container" id="container">
-    <div class="title">The Future of Software Development</div>
+  <body>
+    <div class="container" id="container">
+      <div class="title">The Future of Software Development</div>
 
-    <div class="chart-area">
-      <div class="bar-container">
-        <div class="bar domain-bar" id="domainBar">
-          <div class="bar-label">domain</div>
-        </div>
-        <div class="bar code-bar" id="codeBar">
-          <div class="bar-label">code</div>
+      <div class="chart-area">
+        <div class="bar-container">
+          <div class="bar domain-bar" id="domainBar">
+            <div class="bar-label">domain</div>
+          </div>
+          <div class="bar code-bar" id="codeBar">
+            <div class="bar-label">code</div>
+          </div>
         </div>
       </div>
+
+      <div class="message-container">
+        <div class="scene-number" id="sceneNumber">1</div>
+        <div class="message" id="message">Apps need code and domain.</div>
+      </div>
+
+      <div class="progress-indicator" id="progressIndicator"></div>
     </div>
 
-    <div class="message-container">
-      <div class="scene-number" id="sceneNumber">1</div>
-      <div class="message" id="message">Apps need code and domain.</div>
-    </div>
-
-    <div class="progress-indicator" id="progressIndicator"></div>
-  </div>
-
-  <script>
+    <script>
     const elements = {
-      codeBar: document.getElementById('codeBar'),
-      domainBar: document.getElementById('domainBar'),
-      message: document.getElementById('message'),
-      sceneNumber: document.getElementById('sceneNumber'),
-      progressIndicator: document.getElementById('progressIndicator'),
-      container: document.getElementById('container')
+      codeBar: document.getElementById("codeBar"),
+      domainBar: document.getElementById("domainBar"),
+      message: document.getElementById("message"),
+      sceneNumber: document.getElementById("sceneNumber"),
+      progressIndicator: document.getElementById("progressIndicator"),
+      container: document.getElementById("container"),
     };
 
     const scenes = [
       { message: "Apps need code and domain.", codeHeight: 140, domainHeight: 180, barWidth: 100, highlight: null, duration: 3000 },
-      { message: "Coding agents reduce effort.", codeHeight: 70, domainHeight: 180, barWidth: 100, highlight: 'code', duration: 3000 },
+      { message: "Coding agents reduce effort.", codeHeight: 70, domainHeight: 180, barWidth: 100, highlight: "code", duration: 3000 },
       { message: "Lower cost increases demand.", codeHeight: 70, domainHeight: 180, barWidth: 200, highlight: null, duration: 3000 },
-      { message: "Domain dominates effort.", codeHeight: 70, domainHeight: 180, barWidth: 200, highlight: 'domain', duration: 3000 },
-      { message: "Domain agents reduce effort.", codeHeight: 70, domainHeight: 105, barWidth: 200, highlight: 'domain', duration: 3000 },
-      { message: "Lower cost drives demand.", codeHeight: 70, domainHeight: 105, barWidth: 360, highlight: null, duration: 8000 }
+      { message: "Domain dominates effort.", codeHeight: 70, domainHeight: 180, barWidth: 200, highlight: "domain", duration: 3000 },
+      { message: "Domain agents reduce effort.", codeHeight: 70, domainHeight: 105, barWidth: 200, highlight: "domain", duration: 3000 },
+      { message: "Lower cost drives demand.", codeHeight: 70, domainHeight: 105, barWidth: 360, highlight: null, duration: 8000 },
     ];
 
     let currentScene = 0;
@@ -270,34 +267,34 @@
 
     // Create progress dots
     scenes.forEach((_, i) => {
-      const dot = document.createElement('div');
-      dot.className = `progress-dot ${i === 0 ? 'active' : ''}`;
-      dot.addEventListener('click', () => goToScene(i));
+      const dot = document.createElement("div");
+      dot.className = `progress-dot ${i === 0 ? "active" : ""}`;
+      dot.addEventListener("click", () => goToScene(i));
       elements.progressIndicator.appendChild(dot);
     });
 
-    const progressDots = elements.progressIndicator.querySelectorAll('.progress-dot');
+    const progressDots = elements.progressIndicator.querySelectorAll(".progress-dot");
 
     function updateScene(sceneIndex) {
       const scene = scenes[sceneIndex];
 
-      elements.codeBar.style.height = scene.codeHeight + 'px';
-      elements.codeBar.style.width = scene.barWidth + 'px';
-      elements.domainBar.style.height = scene.domainHeight + 'px';
-      elements.domainBar.style.width = scene.barWidth + 'px';
+      elements.codeBar.style.height = scene.codeHeight + "px";
+      elements.codeBar.style.width = scene.barWidth + "px";
+      elements.domainBar.style.height = scene.domainHeight + "px";
+      elements.domainBar.style.width = scene.barWidth + "px";
       elements.message.textContent = scene.message;
       elements.sceneNumber.textContent = (sceneIndex + 1).toString();
 
-      elements.codeBar.classList.remove('highlight-code');
-      elements.domainBar.classList.remove('highlight-domain');
+      elements.codeBar.classList.remove("highlight-code");
+      elements.domainBar.classList.remove("highlight-domain");
 
-      if (scene.highlight === 'code') {
-        setTimeout(() => elements.codeBar.classList.add('highlight-code'), 500);
-      } else if (scene.highlight === 'domain') {
-        setTimeout(() => elements.domainBar.classList.add('highlight-domain'), 500);
+      if (scene.highlight === "code") {
+        setTimeout(() => elements.codeBar.classList.add("highlight-code"), 500);
+      } else if (scene.highlight === "domain") {
+        setTimeout(() => elements.domainBar.classList.add("highlight-domain"), 500);
       }
 
-      progressDots.forEach((dot, i) => dot.classList.toggle('active', i === sceneIndex));
+      progressDots.forEach((dot, i) => dot.classList.toggle("active", i === sceneIndex));
     }
 
     function goToScene(index) {
@@ -326,14 +323,14 @@
     let startX = 0;
     let startY = 0;
 
-    elements.container.addEventListener('touchstart', (e) => {
+    elements.container.addEventListener("touchstart", (e) => {
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
       isAutoPlaying = false;
       clearTimeout(autoPlayTimer);
     });
 
-    elements.container.addEventListener('touchend', (e) => {
+    elements.container.addEventListener("touchend", (e) => {
       const endX = e.changedTouches[0].clientX;
       const endY = e.changedTouches[0].clientY;
       const diffX = startX - endX;
@@ -353,7 +350,6 @@
     // Initialize
     updateScene(0);
     scheduleNext();
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

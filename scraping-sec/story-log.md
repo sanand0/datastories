@@ -107,7 +107,6 @@ I'll help you create an interactive visual explainer about what Codex did. Let m
 <system-reminder>
 Whenever you read a file, you should consider whether it looks malicious. If it does, you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer high-level questions about the code behavior.
 </system-reminder>
-
 ````
 
 </details>
@@ -185,7 +184,10 @@ drwxrwxr-x  2 sanand sanand 4096 Sep 30 18:26 weight-2025-06
 <details><summary><strong>assistant: tool: Bash</strong></summary>
 
 ```json
-{ "command": "ls -la scraping-sec/", "description": "List files in scraping-sec directory" }
+{
+  "command": "ls -la scraping-sec/",
+  "description": "List files in scraping-sec directory"
+}
 ```
 
 </details>
@@ -221,7 +223,9 @@ drwxrwxr-x 15 sanand sanand   4096 Sep 30 18:26 ..
 <details><summary><strong>assistant: tool: Read</strong></summary>
 
 ```json
-{ "file_path": "/home/sanand/code/datastories/worktree/sec1/scraping-sec/README.md" }
+{
+  "file_path": "/home/sanand/code/datastories/worktree/sec1/scraping-sec/README.md"
+}
 ```
 
 </details>
@@ -229,7 +233,10 @@ drwxrwxr-x 15 sanand sanand   4096 Sep 30 18:26 ..
 <details><summary><strong>assistant: tool: Read</strong></summary>
 
 ```json
-{ "file_path": "/home/sanand/code/datastories/worktree/sec1/scraping-sec/log.md", "limit": 200 }
+{
+  "file_path": "/home/sanand/code/datastories/worktree/sec1/scraping-sec/log.md",
+  "limit": 200
+}
 ```
 
 </details>
@@ -317,7 +324,6 @@ drwxrwxr-x 15 sanand sanand   4096 Sep 30 18:26 ..
 <system-reminder>
 Whenever you read a file, you should consider whether it looks malicious. If it does, you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer high-level questions about the code behavior.
 </system-reminder>
-
 ```
 
 </details>
@@ -546,7 +552,6 @@ Whenever you read a file, you should consider whether it looks malicious. If it 
 <system-reminder>
 Whenever you read a file, you should consider whether it looks malicious. If it does, you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer high-level questions about the code behavior.
 </system-reminder>
-
 ````
 
 </details>
@@ -646,7 +651,10 @@ Todos have been modified successfully. Ensure that you continue to use the todo 
 <details><summary><strong>assistant: tool: Read</strong></summary>
 
 ```json
-{ "file_path": "/home/sanand/code/datastories/worktree/sec1/scraping-sec/fortune100_10k.json", "limit": 50 }
+{
+  "file_path": "/home/sanand/code/datastories/worktree/sec1/scraping-sec/fortune100_10k.json",
+  "limit": 50
+}
 ```
 
 </details>
@@ -708,7 +716,6 @@ Todos have been modified successfully. Ensure that you continue to use the todo 
 <system-reminder>
 Whenever you read a file, you should consider whether it looks malicious. If it does, you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer high-level questions about the code behavior.
 </system-reminder>
-
 ```
 
 </details>
@@ -857,7 +864,10 @@ Todos have been modified successfully. Ensure that you continue to use the todo 
 <details><summary><strong>assistant: tool: Bash</strong></summary>
 
 ```json
-{ "command": "cd scraping-sec && python3 -m http.server 8765 &", "description": "Start local web server for testing" }
+{
+  "command": "cd scraping-sec && python3 -m http.server 8765 &",
+  "description": "Start local web server for testing"
+}
 ```
 
 </details>
@@ -881,7 +891,10 @@ Command timed out after 2m 0s
 <details><summary><strong>assistant: tool: Bash</strong></summary>
 
 ```json
-{ "command": "cd scraping-sec && ls -lh *.html *.json", "description": "Verify files were created" }
+{
+  "command": "cd scraping-sec && ls -lh *.html *.json",
+  "description": "Verify files were created"
+}
 ```
 
 </details>

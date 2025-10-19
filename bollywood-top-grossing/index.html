@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Golden Era of Bollywood: A Journey Through Box Office Champions</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Golden Era of Bollywood: A Journey Through Box Office Champions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
@@ -221,11 +220,11 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
-    input:checked+.slider {
+    input:checked + .slider {
       background-color: #007bff;
     }
 
-    input:checked+.slider:before {
+    input:checked + .slider:before {
       transform: translateX(24px);
     }
 
@@ -292,179 +291,159 @@
     .color-scale .legend-item {
       margin-right: 8px;
     }
-  </style>
-</head>
+    </style>
+  </head>
 
-<body>
-  <div class="container-fluid">
-    <div class="main-content">
-      <div class="hero-section">
-        <h1 class="hero-title">The Golden Era of Bollywood</h1>
-        <p class="hero-subtitle">A Journey Through Three Decades of Box Office Champions</p>
-      </div>
-
-      <div class="narrative">
-        <p>
-          From the family drama masterpiece <em>Hum Aapke Hain Koun..!</em> in 1994 to the action spectacle
-          <em>Stree 2</em> in 2024, Bollywood has witnessed remarkable transformations in storytelling, production
-          values, and box office performance. This visualization chronicles the evolution of Hindi cinema's biggest
-          commercial successes across thirty years of cinematic excellence.
-        </p>
-
-        <p>
-          The data reveals fascinating patterns: the steady growth of box office numbers, the rise of franchise films,
-          and the emergence of new genres that captivated audiences. From Rajshri Productions' family entertainers of
-          the 90s to the high-octane action franchises of the 2010s, each era brought its own flavor of entertainment
-          that resonated with audiences worldwide.
-        </p>
-
-        <p>
-          What makes this journey particularly compelling is how box office success often reflected broader social and
-          cultural shifts. The romantic comedies of the late 90s, the patriotic themes of the 2000s, the comedy
-          franchises of the 2010s, and the content-driven cinema of recent years each tell a story about evolving
-          audience preferences and India's changing socio-economic landscape.
-        </p>
-      </div>
-
-      <div class="chart-container">
-        <h2 class="chart-title">Top 10 Bollywood Films by Box Office Performance (1994-2024)</h2>
-        <p class="chart-description">
-          Each circle represents a film's worldwide gross earnings (in ₹ crores). Circle size is proportional to box
-          office performance. Colors represent different earning ranges to highlight the enormous variation.
-          <br />Hover over circles to see details • Click to visit Wikipedia page
-        </p>
-
-        <div class="inflation-controls">
-          <div class="toggle-container">
-            <label class="toggle-label">Inflation adjusted</label>
-            <div class="toggle-switch" onclick="handleToggleClick()">
-              <input type="checkbox" id="inflation-toggle" />
-              <span class="slider"></span>
-            </div>
-          </div>
-          <div class="inflation-explanation">
-            <strong style="color: #333">How inflation adjustment works:</strong>
-            <span style="color: #555">When enabled, all box office figures are converted to 2024 purchasing power using India's consumer
-              price inflation data. This allows fair comparison across different eras by showing what historical
-              earnings would be worth in today's money.</span>
-          </div>
-          <div id="inflation-explanation" class="inflation-explanation" style="color: #333">
-            Currently showing nominal values (original year prices)
-          </div>
+  <body>
+    <div class="container-fluid">
+      <div class="main-content">
+        <div class="hero-section">
+          <h1 class="hero-title">The Golden Era of Bollywood</h1>
+          <p class="hero-subtitle">A Journey Through Three Decades of Box Office Champions</p>
         </div>
 
-        <div class="combined-legends">
-          <div class="legend-row">
-            <h4>Circle Size:</h4>
-            <div class="legend-items">
-              <div class="legend-item">
-                <svg width="12" height="12">
-                  <circle cx="6" cy="6" r="3" fill="#666" opacity="0.7"></circle>
-                </svg>
-                <span>≤ ₹50cr</span>
-              </div>
-              <div class="legend-item">
-                <svg width="20" height="20">
-                  <circle cx="10" cy="10" r="8" fill="#666" opacity="0.7"></circle>
-                </svg>
-                <span>₹100-500cr</span>
-              </div>
-              <div class="legend-item">
-                <svg width="28" height="28">
-                  <circle cx="14" cy="14" r="12" fill="#666" opacity="0.7"></circle>
-                </svg>
-                <span>₹1000+cr</span>
-              </div>
-            </div>
-          </div>
-          <div class="legend-row">
-            <h4>Box Office Range:</h4>
-            <div class="legend-items color-scale">
-              <div class="legend-item">
-                <span class="color-box" style="background: #2166ac"></span><span>0-10cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #4393c3"></span><span>10-20cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #92c5de"></span><span>20-50cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #d1e5f0"></span><span>50-100cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #fdbf6f"></span><span>100-200cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #ff7f00"></span><span>200-500cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #e31a1c"></span><span>500-1000cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #b10026"></span><span>1000-2000cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #800026"></span><span>2000-5000cr</span>
-              </div>
-              <div class="legend-item">
-                <span class="color-box" style="background: #4d0013"></span><span>5000+cr</span>
-              </div>
-            </div>
-          </div>
+        <div class="narrative">
+          <p>
+            From the family drama masterpiece <em>Hum Aapke Hain Koun..!</em> in 1994 to the action spectacle
+            <em>Stree 2</em> in 2024, Bollywood has witnessed remarkable transformations in storytelling, production values, and box office performance. This visualization chronicles the evolution of Hindi cinema's biggest commercial successes across thirty years of cinematic excellence.
+          </p>
+
+          <p>
+            The data reveals fascinating patterns: the steady growth of box office numbers, the rise of franchise films, and the emergence of new genres that captivated audiences. From Rajshri Productions' family entertainers of the 90s to the high-octane action franchises of the 2010s, each era brought its own flavor of entertainment that resonated with audiences worldwide.
+          </p>
+
+          <p>
+            What makes this journey particularly compelling is how box office success often reflected broader social and cultural shifts. The romantic comedies of the late 90s, the patriotic themes of the 2000s, the comedy franchises of the 2010s, and the content-driven cinema of recent years each tell a story about evolving audience preferences and India's changing socio-economic landscape.
+          </p>
         </div>
 
-        <div id="chart"></div>
-      </div>
+        <div class="chart-container">
+          <h2 class="chart-title">Top 10 Bollywood Films by Box Office Performance (1994-2024)</h2>
+          <p class="chart-description">
+            Each circle represents a film's worldwide gross earnings (in ₹ crores). Circle size is proportional to box office performance. Colors represent different earning ranges to highlight the enormous variation.
+            <br />Hover over circles to see details • Click to visit Wikipedia page
+          </p>
 
-      <div class="insights">
-        <h3>Key Insights</h3>
-        <ul>
-          <li>
-            <strong>Record Breakers:</strong> Dangal (2016) achieved an unprecedented ₹2,160 crores, largely due to
-            its massive success in China
-          </li>
-          <li>
-            <strong>Golden Years:</strong> 2013-2016 saw consistent blockbusters with multiple films crossing ₹300
-            crores
-          </li>
-          <li>
-            <strong>Franchise Power:</strong> Sequels like Dhoom 3, Tiger Zinda Hai, and recent releases dominate the
-            top ranks
-          </li>
-          <li>
-            <strong>Content Evolution:</strong> From family dramas in the 90s to action spectacles and social
-            narratives in recent years
-          </li>
-          <li>
-            <strong>Box Office Growth:</strong> Average top film earnings have grown from ₹100+ crores in the 90s to
-            ₹400+ crores in the 2020s
-          </li>
-          <li>
-            <strong>Recent Trends:</strong> 2023-2024 shows strong recovery post-pandemic with films like Jawan and
-            Stree 2 breaking records
-          </li>
-        </ul>
-      </div>
+          <div class="inflation-controls">
+            <div class="toggle-container">
+              <label class="toggle-label">Inflation adjusted</label>
+              <div class="toggle-switch" onclick="handleToggleClick()">
+                <input type="checkbox" id="inflation-toggle" />
+                <span class="slider"></span>
+              </div>
+            </div>
+            <div class="inflation-explanation">
+              <strong style="color: #333">How inflation adjustment works:</strong>
+              <span style="color: #555">When enabled, all box office figures are converted to 2024 purchasing power using India's consumer price inflation data. This allows fair comparison across different eras by showing what historical earnings would be worth in today's money.</span>
+            </div>
+            <div id="inflation-explanation" class="inflation-explanation" style="color: #333">
+              Currently showing nominal values (original year prices)
+            </div>
+          </div>
 
-      <div class="insights">
-        <h3>About This Visualization</h3>
-        <p>
-          This interactive data story visualizes the top 10 Bollywood Hindi films by worldwide gross earnings for each
-          year from 1994 to 2024. Data shows the remarkable journey of Indian cinema's commercial evolution,
-          reflecting changing audience tastes, production values, and the growing global appeal of Bollywood content.
-        </p>
-        <p>
-          <small><em>Data Source: Wikipedia • Visualization created with D3.js • Circle areas are proportional to box office
-              performance</em></small>
-        </p>
+          <div class="combined-legends">
+            <div class="legend-row">
+              <h4>Circle Size:</h4>
+              <div class="legend-items">
+                <div class="legend-item">
+                  <svg width="12" height="12">
+                    <circle cx="6" cy="6" r="3" fill="#666" opacity="0.7"></circle>
+                  </svg>
+                  <span>≤ ₹50cr</span>
+                </div>
+                <div class="legend-item">
+                  <svg width="20" height="20">
+                    <circle cx="10" cy="10" r="8" fill="#666" opacity="0.7"></circle>
+                  </svg>
+                  <span>₹100-500cr</span>
+                </div>
+                <div class="legend-item">
+                  <svg width="28" height="28">
+                    <circle cx="14" cy="14" r="12" fill="#666" opacity="0.7"></circle>
+                  </svg>
+                  <span>₹1000+cr</span>
+                </div>
+              </div>
+            </div>
+            <div class="legend-row">
+              <h4>Box Office Range:</h4>
+              <div class="legend-items color-scale">
+                <div class="legend-item">
+                  <span class="color-box" style="background: #2166ac"></span><span>0-10cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #4393c3"></span><span>10-20cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #92c5de"></span><span>20-50cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #d1e5f0"></span><span>50-100cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #fdbf6f"></span><span>100-200cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #ff7f00"></span><span>200-500cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #e31a1c"></span><span>500-1000cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #b10026"></span><span>1000-2000cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #800026"></span><span>2000-5000cr</span>
+                </div>
+                <div class="legend-item">
+                  <span class="color-box" style="background: #4d0013"></span><span>5000+cr</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="chart"></div>
+        </div>
+
+        <div class="insights">
+          <h3>Key Insights</h3>
+          <ul>
+            <li>
+              <strong>Record Breakers:</strong> Dangal (2016) achieved an unprecedented ₹2,160 crores, largely due to its massive success in China
+            </li>
+            <li>
+              <strong>Golden Years:</strong> 2013-2016 saw consistent blockbusters with multiple films crossing ₹300 crores
+            </li>
+            <li>
+              <strong>Franchise Power:</strong> Sequels like Dhoom 3, Tiger Zinda Hai, and recent releases dominate the top ranks
+            </li>
+            <li>
+              <strong>Content Evolution:</strong> From family dramas in the 90s to action spectacles and social narratives in recent years
+            </li>
+            <li>
+              <strong>Box Office Growth:</strong> Average top film earnings have grown from ₹100+ crores in the 90s to ₹400+ crores in the 2020s
+            </li>
+            <li>
+              <strong>Recent Trends:</strong> 2023-2024 shows strong recovery post-pandemic with films like Jawan and Stree 2 breaking records
+            </li>
+          </ul>
+        </div>
+
+        <div class="insights">
+          <h3>About This Visualization</h3>
+          <p>
+            This interactive data story visualizes the top 10 Bollywood Hindi films by worldwide gross earnings for each year from 1994 to 2024. Data shows the remarkable journey of Indian cinema's commercial evolution, reflecting changing audience tastes, production values, and the growing global appeal of Bollywood content.
+          </p>
+          <p>
+            <small><em>Data Source: Wikipedia • Visualization created with D3.js • Circle areas are proportional to box office performance</em></small>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/d3@7/+esm" type="module"></script>
-  <script type="module" src="script.js"></script>
-  <script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/+esm" type="module"></script>
+    <script type="module" src="script.js"></script>
+    <script>
     // Make toggleInflation function available globally
     let toggleInflation;
 
@@ -474,7 +453,6 @@
         toggleInflation = window.toggleInflation;
       }
     }, 100);
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

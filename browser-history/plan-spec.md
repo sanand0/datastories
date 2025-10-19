@@ -5,61 +5,76 @@ Source docs: `plan.md` (2025-10-04) + `plan-b.md`. Data: Edge History SQLite at 
 —
 
 **Scoring rubric (1–5)**
+
 - Novelty • Visual Impact • Usefulness • Reliability
 
 —
 
 ## Revised Idea List (merged + rescored)
 
-- 1) Context Switching: Inbox vs Maker vs AI — 4 • 4 • 5 • 4
+-
+  1. Context Switching: Inbox vs Maker vs AI — 4 • 4 • 5 • 4
   - Daily/weekly shares of time across modes: communication (Gmail/Meet/Calendar), building (GitHub/localhost), AI assistants (ChatGPT/Gemini) and research.
 
-- 2) Flow Sprints & Rabbit Holes — 5 • 5 • 4 • 4
+-
+  2. Flow Sprints & Rabbit Holes — 5 • 5 • 4 • 4
   - Long, intense sequences (Journeys/clusters + visit graph) and how branches deepen a task.
 
-- 3) Curiosity Atlas → Answers — 4 • 4 • 5 • 4
+-
+  3. Curiosity Atlas → Answers — 4 • 4 • 5 • 4
   - Cluster search terms, then track first downstream destinations and time-to-answer.
 
-- 4) Attention Clock (Circadian Stack) — 4 • 5 • 4 • 5
+-
+  4. Attention Clock (Circadian Stack) — 4 • 5 • 4 • 5
   - Foreground time by hour and weekday/weekend to reveal circadian rhythm.
 
-- 5) AI Co‑Pilot Reliance Tracker — 5 • 5 • 5 • 4
+-
+  5. AI Co‑Pilot Reliance Tracker — 5 • 5 • 5 • 4
   - Share and cadence of AI tools vs traditional resources; how AI threads interleave with builds.
 
-- 6) News Diet, Quantified — 4 • 4 • 5 • 3
+-
+  6. News Diet, Quantified — 4 • 4 • 5 • 3
   - Outlet mix + diversity indices; disclose labeling assumptions.
 
-- 7) Intent vs Serendipity — 4 • 4 • 4 • 5
+-
+  7. Intent vs Serendipity — 4 • 4 • 4 • 5
   - Time split by `transition` type (typed/bookmark/link/reload) to separate intention from drift.
 
-- 8) Tab Sprawl Anatomy — 5 • 5 • 4 • 4
+-
+  8. Tab Sprawl Anatomy — 5 • 5 • 4 • 4
   - Concurrency, ancestry, branch factor; when tabs explode and why.
 
-- 9) Long Read Index — 3 • 4 • 5 • 4
+-
+  9. Long Read Index — 3 • 4 • 5 • 4
   - Pages/domains ranked by median foreground time per visit (stickiness).
 
-- 10) Download Footprints — 3 • 4 • 4 • 5
+-
+  10. Download Footprints — 3 • 4 • 4 • 5
   - What you saved, from where, and completion/open rates.
 
-- 11) Languages of Your Web — 3 • 4 • 4 • 5
+-
+  11. Languages of Your Web — 3 • 4 • 4 • 5
   - Time by `page_language` and day-level code‑switching.
 
-- 12) Favicon Loom (Mosaic) — 3 • 5 • 3 • 3
+-
+  12. Favicon Loom (Mosaic) — 3 • 5 • 3 • 3
   - Aesthetic favicon tapestry anchored by domain entropy.
 
-- 13) Sessions That Stick — 4 • 3 • 4 • 4
+-
+  13. Sessions That Stick — 4 • 3 • 4 • 4
   - Compare inactivity-gap sessions to History “Journeys” clusters.
 
-- 14) From Question to Craft (Learning Paths) — 5 • 5 • 5 • 4
+-
+  14. From Question to Craft (Learning Paths) — 5 • 5 • 5 • 4
   - Case studies: search → docs → examples → implementation, stitched via clusters and attention.
 
 —
 
 ## Top 3 Picks
 
-1) AI Co‑Pilot Reliance Tracker (5 • 5 • 5 • 4)
-2) Flow Sprints & Rabbit Holes (5 • 5 • 4 • 4)
-3) Attention Clock (Circadian Stack) (4 • 5 • 4 • 5)
+1. AI Co‑Pilot Reliance Tracker (5 • 5 • 5 • 4)
+2. Flow Sprints & Rabbit Holes (5 • 5 • 4 • 4)
+3. Attention Clock (Circadian Stack) (4 • 5 • 4 • 5)
 
 —
 
@@ -68,6 +83,7 @@ Source docs: `plan.md` (2025-10-04) + `plan-b.md`. Data: Edge History SQLite at 
 ### 1) AI Co‑Pilot Reliance Tracker
 
 Prompt
+
 ```
 Goal: Reveal how much of daily work routes through AI assistants versus traditional resources, and how AI time interleaves with building and research.
 
@@ -157,6 +173,7 @@ Analysis Steps:
 ### 2) Flow Sprints & Rabbit Holes
 
 Prompt
+
 ```
 Goal: Surface the longest, most absorbing browsing episodes and how they branch from a single seed into deep research/build flows.
 
@@ -220,6 +237,7 @@ Analysis Steps:
 ### 3) Attention Clock (Circadian Stack)
 
 Prompt
+
 ```
 Goal: Reveal the daily rhythm of attention—when focus concentrates and when it ebbs across weekdays vs weekends.
 
@@ -268,4 +286,3 @@ Analysis Steps:
 
 - All queries assume Chrome/Edge epoch (µs since 1601‑01‑01 UTC) and use foreground time when available.
 - Keep everything read‑only; publish aggregates only; redact paths and query terms where sensitive.
-

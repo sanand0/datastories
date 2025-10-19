@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Agents Transform Development Effort</title>
-  <style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agents Transform Development Effort</title>
+    <style>
     body {
       margin: 0;
       padding: 20px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Arial', sans-serif;
+      font-family: "Arial", sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -103,7 +102,6 @@
     }
 
     @keyframes pulse {
-
       0%,
       100% {
         transform: scale(1);
@@ -118,31 +116,31 @@
       animation: pulse 1s ease-in-out;
       box-shadow: 0 0 20px rgba(78, 205, 196, 0.6);
     }
-  </style>
-</head>
+    </style>
+  </head>
 
-<body>
-  <div class="container">
-    <div class="title">The Future of Software Development</div>
+  <body>
+    <div class="container">
+      <div class="title">The Future of Software Development</div>
 
-    <div class="chart-area">
-      <div class="bar-container">
-        <div class="bar domain-bar" id="domainBar">
-          <div class="bar-label">domain</div>
-        </div>
-        <div class="bar code-bar" id="codeBar">
-          <div class="bar-label">code</div>
+      <div class="chart-area">
+        <div class="bar-container">
+          <div class="bar domain-bar" id="domainBar">
+            <div class="bar-label">domain</div>
+          </div>
+          <div class="bar code-bar" id="codeBar">
+            <div class="bar-label">code</div>
+          </div>
         </div>
       </div>
+
+      <div class="message" id="message">Apps need code and domain.</div>
     </div>
 
-    <div class="message" id="message">Apps need code and domain.</div>
-  </div>
-
-  <script>
-    const codeBar = document.getElementById('codeBar');
-    const domainBar = document.getElementById('domainBar');
-    const message = document.getElementById('message');
+    <script>
+    const codeBar = document.getElementById("codeBar");
+    const domainBar = document.getElementById("domainBar");
+    const message = document.getElementById("message");
 
     // Initial dimensions
     let codeHeight = 80;
@@ -155,63 +153,63 @@
         codeHeight: 80,
         domainHeight: 120,
         barWidth: 80,
-        highlight: null
+        highlight: null,
       },
       {
         message: "Coding agents reduce effort.",
         codeHeight: 40,
         domainHeight: 120,
         barWidth: 80,
-        highlight: 'code'
+        highlight: "code",
       },
       {
         message: "Lower cost increases demand.",
         codeHeight: 40,
         domainHeight: 120,
         barWidth: 120,
-        highlight: null
+        highlight: null,
       },
       {
         message: "Domain dominates effort.",
         codeHeight: 40,
         domainHeight: 120,
         barWidth: 120,
-        highlight: 'domain'
+        highlight: "domain",
       },
       {
         message: "Domain agents reduce effort.",
         codeHeight: 40,
         domainHeight: 60,
         barWidth: 120,
-        highlight: 'domain'
+        highlight: "domain",
       },
       {
         message: "Lower cost drives demand.",
         codeHeight: 40,
         domainHeight: 60,
         barWidth: 160,
-        highlight: null
-      }
+        highlight: null,
+      },
     ];
 
     let currentScene = 0;
 
     function updateBars(scene) {
-      codeBar.style.height = scene.codeHeight + 'px';
-      codeBar.style.width = scene.barWidth + 'px';
-      domainBar.style.height = scene.domainHeight + 'px';
-      domainBar.style.width = scene.barWidth + 'px';
+      codeBar.style.height = scene.codeHeight + "px";
+      codeBar.style.width = scene.barWidth + "px";
+      domainBar.style.height = scene.domainHeight + "px";
+      domainBar.style.width = scene.barWidth + "px";
       message.textContent = scene.message;
 
       // Remove previous highlights
-      codeBar.classList.remove('highlight');
-      domainBar.classList.remove('highlight');
+      codeBar.classList.remove("highlight");
+      domainBar.classList.remove("highlight");
 
       // Add highlight if specified
-      if (scene.highlight === 'code') {
-        setTimeout(() => codeBar.classList.add('highlight'), 500);
-      } else if (scene.highlight === 'domain') {
-        setTimeout(() => domainBar.classList.add('highlight'), 500);
+      if (scene.highlight === "code") {
+        setTimeout(() => codeBar.classList.add("highlight"), 500);
+      } else if (scene.highlight === "domain") {
+        setTimeout(() => domainBar.classList.add("highlight"), 500);
       }
     }
 
@@ -226,7 +224,6 @@
 
     // Start animation loop
     setInterval(nextScene, 3000);
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

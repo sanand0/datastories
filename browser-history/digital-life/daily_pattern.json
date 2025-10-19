@@ -1,7 +1,9 @@
-[{"day_of_week":"0","visits":11501},
-{"day_of_week":"1","visits":16754},
-{"day_of_week":"2","visits":15550},
-{"day_of_week":"3","visits":14169},
-{"day_of_week":"4","visits":14063},
-{"day_of_week":"5","visits":16024},
-{"day_of_week":"6","visits":9741}]
+[
+  { "day_of_week": "0", "visits": 11501 },
+  { "day_of_week": "1", "visits": 16754 },
+  { "day_of_week": "2", "visits": 15550 },
+  { "day_of_week": "3", "visits": 14169 },
+  { "day_of_week": "4", "visits": 14063 },
+  { "day_of_week": "5", "visits": 16024 },
+  { "day_of_week": "6", "visits": 9741 }
+]

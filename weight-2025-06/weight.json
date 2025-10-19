@@ -1,171 +1,1499 @@
 {
-    "Data Source": "raw:com.google.weight:com.google.android.apps.fitness:user_input",
-    "Data Points": [
-        {"fitValue":[{"value":{"fpVal":77}}],"originDataSourceId":"","endTimeNanos":1651252273094000000,"dataTypeName":"com.google.weight","startTimeNanos":1651252273094000000,"modifiedTimeMillis":1651252315313,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.19999694824219}}],"originDataSourceId":"","endTimeNanos":1651455840000000000,"dataTypeName":"com.google.weight","startTimeNanos":1651455840000000000,"modifiedTimeMillis":1651468987790,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.0999984741211}}],"originDataSourceId":"","endTimeNanos":1654914060000000000,"dataTypeName":"com.google.weight","startTimeNanos":1654914060000000000,"modifiedTimeMillis":1654914888683,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.69999694824219}}],"originDataSourceId":"","endTimeNanos":1655084640000000000,"dataTypeName":"com.google.weight","startTimeNanos":1655084640000000000,"modifiedTimeMillis":1655084707386,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":79}}],"originDataSourceId":"","endTimeNanos":1656295320000000000,"dataTypeName":"com.google.weight","startTimeNanos":1656295320000000000,"modifiedTimeMillis":1656309670973,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":77.9000015258789}}],"originDataSourceId":"","endTimeNanos":1656727380000000000,"dataTypeName":"com.google.weight","startTimeNanos":1656727380000000000,"modifiedTimeMillis":1656728015363,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":79.19999694824219}}],"originDataSourceId":"","endTimeNanos":1657591560000000000,"dataTypeName":"com.google.weight","startTimeNanos":1657591560000000000,"modifiedTimeMillis":1657600048283,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":77.5999984741211}}],"originDataSourceId":"","endTimeNanos":1662270120000000000,"dataTypeName":"com.google.weight","startTimeNanos":1662270120000000000,"modifiedTimeMillis":1662270149306,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":77.0999984741211}}],"originDataSourceId":"","endTimeNanos":1662593400000000000,"dataTypeName":"com.google.weight","startTimeNanos":1662593400000000000,"modifiedTimeMillis":1662676833889,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":77.0999984741211}}],"originDataSourceId":"","endTimeNanos":1662675900000000000,"dataTypeName":"com.google.weight","startTimeNanos":1662675900000000000,"modifiedTimeMillis":1662676833889,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":77.5}}],"originDataSourceId":"","endTimeNanos":1662767340000000000,"dataTypeName":"com.google.weight","startTimeNanos":1662767340000000000,"modifiedTimeMillis":1662774546629,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":76.5999984741211}}],"originDataSourceId":"","endTimeNanos":1662863700000000000,"dataTypeName":"com.google.weight","startTimeNanos":1662863700000000000,"modifiedTimeMillis":1662863751677,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":76.5999984741211}}],"originDataSourceId":"","endTimeNanos":1663036380000000000,"dataTypeName":"com.google.weight","startTimeNanos":1663036380000000000,"modifiedTimeMillis":1663036403320,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":76.5999984741211}}],"originDataSourceId":"","endTimeNanos":1663370820000000000,"dataTypeName":"com.google.weight","startTimeNanos":1663370820000000000,"modifiedTimeMillis":1663370856164,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":77.0999984741211}}],"originDataSourceId":"","endTimeNanos":1664060640000000000,"dataTypeName":"com.google.weight","startTimeNanos":1664060640000000000,"modifiedTimeMillis":1664106702970,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.30000305175781}}],"originDataSourceId":"","endTimeNanos":1668730560000000000,"dataTypeName":"com.google.weight","startTimeNanos":1668730560000000000,"modifiedTimeMillis":1668730629726,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.30000305175781}}],"originDataSourceId":"","endTimeNanos":1668815340000000000,"dataTypeName":"com.google.weight","startTimeNanos":1668815340000000000,"modifiedTimeMillis":1668815388882,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.5999984741211}}],"originDataSourceId":"","endTimeNanos":1668903420000000000,"dataTypeName":"com.google.weight","startTimeNanos":1668903420000000000,"modifiedTimeMillis":1668903428059,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.5999984741211}}],"originDataSourceId":"","endTimeNanos":1670114400000000000,"dataTypeName":"com.google.weight","startTimeNanos":1670114400000000000,"modifiedTimeMillis":1670114559286,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.19999694824219}}],"originDataSourceId":"","endTimeNanos":1671057420000000000,"dataTypeName":"com.google.weight","startTimeNanos":1671057420000000000,"modifiedTimeMillis":1671057434956,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":79.5}}],"originDataSourceId":"","endTimeNanos":1672617420000000000,"dataTypeName":"com.google.weight","startTimeNanos":1672617420000000000,"modifiedTimeMillis":1672617445891,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":80}}],"originDataSourceId":"","endTimeNanos":1675649160000000000,"dataTypeName":"com.google.weight","startTimeNanos":1675649160000000000,"modifiedTimeMillis":1675649183005,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":81}}],"originDataSourceId":"","endTimeNanos":1706409300000000000,"dataTypeName":"com.google.weight","startTimeNanos":1706409300000000000,"modifiedTimeMillis":1706411688229,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":84.9000015258789}}],"originDataSourceId":"","endTimeNanos":1726453202116000000,"dataTypeName":"com.google.weight","startTimeNanos":1726453202116000000,"modifiedTimeMillis":1726453272875,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.30000305175781}}],"originDataSourceId":"","endTimeNanos":1734400440000000000,"dataTypeName":"com.google.weight","startTimeNanos":1734400440000000000,"modifiedTimeMillis":1734400493038,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.30000305175781}}],"originDataSourceId":"","endTimeNanos":1734481620000000000,"dataTypeName":"com.google.weight","startTimeNanos":1734481620000000000,"modifiedTimeMillis":1734481656490,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":84.9000015258789}}],"originDataSourceId":"","endTimeNanos":1734827760000000000,"dataTypeName":"com.google.weight","startTimeNanos":1734827760000000000,"modifiedTimeMillis":1734828609314,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.5999984741211}}],"originDataSourceId":"","endTimeNanos":1735533360000000000,"dataTypeName":"com.google.weight","startTimeNanos":1735533360000000000,"modifiedTimeMillis":1735553192253,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.4000015258789}}],"originDataSourceId":"","endTimeNanos":1735698840000000000,"dataTypeName":"com.google.weight","startTimeNanos":1735698840000000000,"modifiedTimeMillis":1735698856266,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.9000015258789}}],"originDataSourceId":"","endTimeNanos":1735775400000000000,"dataTypeName":"com.google.weight","startTimeNanos":1735775400000000000,"modifiedTimeMillis":1735778950666,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.5}}],"originDataSourceId":"","endTimeNanos":1735863180000000000,"dataTypeName":"com.google.weight","startTimeNanos":1735863180000000000,"modifiedTimeMillis":1735863238829,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.80000305175781}}],"originDataSourceId":"","endTimeNanos":1735952220000000000,"dataTypeName":"com.google.weight","startTimeNanos":1735952220000000000,"modifiedTimeMillis":1735952270974,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.19999694824219}}],"originDataSourceId":"","endTimeNanos":1736039880000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736039880000000000,"modifiedTimeMillis":1736039934181,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.69999694824219}}],"originDataSourceId":"","endTimeNanos":1736121420000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736121420000000000,"modifiedTimeMillis":1736124032335,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.19999694824219}}],"originDataSourceId":"","endTimeNanos":1736208480000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736208480000000000,"modifiedTimeMillis":1736208496766,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.19999694824219}}],"originDataSourceId":"","endTimeNanos":1736296380000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736296380000000000,"modifiedTimeMillis":1736296396856,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.19999694824219}}],"originDataSourceId":"","endTimeNanos":1736380800000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736380800000000000,"modifiedTimeMillis":1736380845069,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.19999694824219}}],"originDataSourceId":"","endTimeNanos":1736465580000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736465580000000000,"modifiedTimeMillis":1736465609267,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.19999694824219}}],"originDataSourceId":"","endTimeNanos":1736556900000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736556900000000000,"modifiedTimeMillis":1736556941540,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.19999694824219}}],"originDataSourceId":"","endTimeNanos":1736642580000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736642580000000000,"modifiedTimeMillis":1736642597974,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.19999694824219}}],"originDataSourceId":"","endTimeNanos":1736729520000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736729520000000000,"modifiedTimeMillis":1736729554279,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.5}}],"originDataSourceId":"","endTimeNanos":1736813880000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736813880000000000,"modifiedTimeMillis":1736813904264,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.5}}],"originDataSourceId":"","endTimeNanos":1736896680000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736896680000000000,"modifiedTimeMillis":1736896718908,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.5}}],"originDataSourceId":"","endTimeNanos":1736976600000000000,"dataTypeName":"com.google.weight","startTimeNanos":1736976600000000000,"modifiedTimeMillis":1736976653863,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.30000305175781}}],"originDataSourceId":"","endTimeNanos":1737070260000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737070260000000000,"modifiedTimeMillis":1737070281048,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.9000015258789}}],"originDataSourceId":"","endTimeNanos":1737161220000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737161220000000000,"modifiedTimeMillis":1737250262319,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.9000015258789}}],"originDataSourceId":"","endTimeNanos":1737246960000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737246960000000000,"modifiedTimeMillis":1737246980540,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":86.0999984741211}}],"originDataSourceId":"","endTimeNanos":1737330840000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737330840000000000,"modifiedTimeMillis":1737330888012,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.19999694824219}}],"originDataSourceId":"","endTimeNanos":1737417540000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737417540000000000,"modifiedTimeMillis":1737417604218,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.19999694824219}}],"originDataSourceId":"","endTimeNanos":1737502980000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737502980000000000,"modifiedTimeMillis":1737503020421,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":85.19999694824219}}],"originDataSourceId":"","endTimeNanos":1737590520000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737590520000000000,"modifiedTimeMillis":1737590581655,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":83.69999694824219}}],"originDataSourceId":"","endTimeNanos":1737679500000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737679500000000000,"modifiedTimeMillis":1737679565650,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":84.5}}],"originDataSourceId":"","endTimeNanos":1737766320000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737766320000000000,"modifiedTimeMillis":1737766361966,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":83.9000015258789}}],"originDataSourceId":"","endTimeNanos":1737852540000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737852540000000000,"modifiedTimeMillis":1737939629685,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":83.9000015258789}}],"originDataSourceId":"","endTimeNanos":1737937260000000000,"dataTypeName":"com.google.weight","startTimeNanos":1737937260000000000,"modifiedTimeMillis":1737937316361,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":83.30000305175781}}],"originDataSourceId":"","endTimeNanos":1738021620000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738021620000000000,"modifiedTimeMillis":1738025050896,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":83.30000305175781}}],"originDataSourceId":"","endTimeNanos":1738107660000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738107660000000000,"modifiedTimeMillis":1738107678805,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":83.30000305175781}}],"originDataSourceId":"","endTimeNanos":1738185060000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738185060000000000,"modifiedTimeMillis":1738185126535,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":82.69999694824219}}],"originDataSourceId":"","endTimeNanos":1738318500000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738318500000000000,"modifiedTimeMillis":1738363210771,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":81.80000305175781}}],"originDataSourceId":"","endTimeNanos":1738375440000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738375440000000000,"modifiedTimeMillis":1738375481094,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":81.5}}],"originDataSourceId":"","endTimeNanos":1738460220000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738460220000000000,"modifiedTimeMillis":1738460300175,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":81.80000305175781}}],"originDataSourceId":"","endTimeNanos":1738545000000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738545000000000000,"modifiedTimeMillis":1738545060253,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":81.4000015258789}}],"originDataSourceId":"","endTimeNanos":1738632300000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738632300000000000,"modifiedTimeMillis":1738632331655,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":81.5}}],"originDataSourceId":"","endTimeNanos":1738717320000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738717320000000000,"modifiedTimeMillis":1738717329850,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":80.9000015258789}}],"originDataSourceId":"","endTimeNanos":1738804800000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738804800000000000,"modifiedTimeMillis":1738848590652,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":81.4000015258789}}],"originDataSourceId":"","endTimeNanos":1738892640000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738892640000000000,"modifiedTimeMillis":1738892666263,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":80.5}}],"originDataSourceId":"","endTimeNanos":1738982580000000000,"dataTypeName":"com.google.weight","startTimeNanos":1738982580000000000,"modifiedTimeMillis":1738982630380,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":80.4000015258789}}],"originDataSourceId":"","endTimeNanos":1739209080000000000,"dataTypeName":"com.google.weight","startTimeNanos":1739209080000000000,"modifiedTimeMillis":1739276151448,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":80.0999984741211}}],"originDataSourceId":"","endTimeNanos":1739272620000000000,"dataTypeName":"com.google.weight","startTimeNanos":1739272620000000000,"modifiedTimeMillis":1739272639458,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":80.19999694824219}}],"originDataSourceId":"","endTimeNanos":1739349480000000000,"dataTypeName":"com.google.weight","startTimeNanos":1739349480000000000,"modifiedTimeMillis":1739352273513,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.9000015258789}}],"originDataSourceId":"","endTimeNanos":1740479460000000000,"dataTypeName":"com.google.weight","startTimeNanos":1740479460000000000,"modifiedTimeMillis":1740479501173,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.5999984741211}}],"originDataSourceId":"","endTimeNanos":1740519180000000000,"dataTypeName":"com.google.weight","startTimeNanos":1740519180000000000,"modifiedTimeMillis":1740519244127,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.0999984741211}}],"originDataSourceId":"","endTimeNanos":1740601980000000000,"dataTypeName":"com.google.weight","startTimeNanos":1740601980000000000,"modifiedTimeMillis":1740601998232,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.19999694824219}}],"originDataSourceId":"","endTimeNanos":1740698100000000000,"dataTypeName":"com.google.weight","startTimeNanos":1740698100000000000,"modifiedTimeMillis":1740698151010,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":78.19999694824219}}],"originDataSourceId":"","endTimeNanos":1740782760000000000,"dataTypeName":"com.google.weight","startTimeNanos":1740782760000000000,"modifiedTimeMillis":1740782824696,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":77.9000015258789}}],"originDataSourceId":"","endTimeNanos":1740872820000000000,"dataTypeName":"com.google.weight","startTimeNanos":1740872820000000000,"modifiedTimeMillis":1740872858442,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":77.0999984741211}}],"originDataSourceId":"","endTimeNanos":1740952620000000000,"dataTypeName":"com.google.weight","startTimeNanos":1740952620000000000,"modifiedTimeMillis":1740959832660,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":76.69999694824219}}],"originDataSourceId":"","endTimeNanos":1741042680000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741042680000000000,"modifiedTimeMillis":1741042747342,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":76.69999694824219}}],"originDataSourceId":"","endTimeNanos":1741128780000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741128780000000000,"modifiedTimeMillis":1741128805958,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":76.30000305175781}}],"originDataSourceId":"","endTimeNanos":1741218180000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741218180000000000,"modifiedTimeMillis":1741218247447,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":75.9000015258789}}],"originDataSourceId":"","endTimeNanos":1741299720000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741299720000000000,"modifiedTimeMillis":1741303472170,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":75.5}}],"originDataSourceId":"","endTimeNanos":1741392480000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741392480000000000,"modifiedTimeMillis":1741392507025,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":75.30000305175781}}],"originDataSourceId":"","endTimeNanos":1741479720000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741479720000000000,"modifiedTimeMillis":1741479766140,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":75.19999694824219}}],"originDataSourceId":"","endTimeNanos":1741560600000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741560600000000000,"modifiedTimeMillis":1741560645957,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":75.19999694824219}}],"originDataSourceId":"","endTimeNanos":1741648380000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741648380000000000,"modifiedTimeMillis":1741648416200,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":75.19999694824219}}],"originDataSourceId":"","endTimeNanos":1741736280000000000,"dataTypeName":"com.google.weight","startTimeNanos":1741736280000000000,"modifiedTimeMillis":1741736323752,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":73.9000015258789}}],"originDataSourceId":"","endTimeNanos":1742089980000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742089980000000000,"modifiedTimeMillis":1742090010062,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":73.9000015258789}}],"originDataSourceId":"","endTimeNanos":1742176740000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742176740000000000,"modifiedTimeMillis":1742176779569,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":74.69999694824219}}],"originDataSourceId":"","endTimeNanos":1742262300000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742262300000000000,"modifiedTimeMillis":1742262328951,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":74.5}}],"originDataSourceId":"","endTimeNanos":1742349360000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742349360000000000,"modifiedTimeMillis":1742350370346,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":74.80000305175781}}],"originDataSourceId":"","endTimeNanos":1742433780000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742433780000000000,"modifiedTimeMillis":1742433801609,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":73.30000305175781}}],"originDataSourceId":"","endTimeNanos":1742649420000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742649420000000000,"modifiedTimeMillis":1742653857568,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":72.9000015258789}}],"originDataSourceId":"","endTimeNanos":1742697540000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742697540000000000,"modifiedTimeMillis":1742697597283,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":73.0999984741211}}],"originDataSourceId":"","endTimeNanos":1742779920000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742779920000000000,"modifiedTimeMillis":1742824655519,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":73}}],"originDataSourceId":"","endTimeNanos":1742869080000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742869080000000000,"modifiedTimeMillis":1742869119812,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":72.69999694824219}}],"originDataSourceId":"","endTimeNanos":1742951640000000000,"dataTypeName":"com.google.weight","startTimeNanos":1742951640000000000,"modifiedTimeMillis":1742951673541,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":72.5999984741211}}],"originDataSourceId":"","endTimeNanos":1743040320000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743040320000000000,"modifiedTimeMillis":1743040330654,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":72.4000015258789}}],"originDataSourceId":"","endTimeNanos":1743124140000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743124140000000000,"modifiedTimeMillis":1743124194557,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":73.4000015258789}}],"originDataSourceId":"","endTimeNanos":1743209400000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743209400000000000,"modifiedTimeMillis":1743209427203,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":72.9000015258789}}],"originDataSourceId":"","endTimeNanos":1743290880000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743290880000000000,"modifiedTimeMillis":1743290922012,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":72.4000015258789}}],"originDataSourceId":"","endTimeNanos":1743380280000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743380280000000000,"modifiedTimeMillis":1743380342084,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":71.9000015258789}}],"originDataSourceId":"","endTimeNanos":1743464160000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743464160000000000,"modifiedTimeMillis":1743464203266,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":71.5}}],"originDataSourceId":"","endTimeNanos":1743551520000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743551520000000000,"modifiedTimeMillis":1743551588546,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":71.0999984741211}}],"originDataSourceId":"","endTimeNanos":1743638220000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743638220000000000,"modifiedTimeMillis":1743638261195,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":71.0999984741211}}],"originDataSourceId":"","endTimeNanos":1743720300000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743720300000000000,"modifiedTimeMillis":1743720363527,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":70.5999984741211}}],"originDataSourceId":"","endTimeNanos":1743812580000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743812580000000000,"modifiedTimeMillis":1743812633553,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":70.19999694824219}}],"originDataSourceId":"","endTimeNanos":1743897240000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743897240000000000,"modifiedTimeMillis":1743897262642,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":70.19999694824219}}],"originDataSourceId":"","endTimeNanos":1743982500000000000,"dataTypeName":"com.google.weight","startTimeNanos":1743982500000000000,"modifiedTimeMillis":1743982561581,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":70.19999694824219}}],"originDataSourceId":"","endTimeNanos":1744064100000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744064100000000000,"modifiedTimeMillis":1744064170473,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":70.19999694824219}}],"originDataSourceId":"","endTimeNanos":1744152300000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744152300000000000,"modifiedTimeMillis":1744152332651,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.69999694824219}}],"originDataSourceId":"","endTimeNanos":1744237620000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744237620000000000,"modifiedTimeMillis":1744239555248,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.69999694824219}}],"originDataSourceId":"","endTimeNanos":1744327320000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744327320000000000,"modifiedTimeMillis":1744327341538,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.69999694824219}}],"originDataSourceId":"","endTimeNanos":1744419660000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744419660000000000,"modifiedTimeMillis":1744419712105,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.69999694824219}}],"originDataSourceId":"","endTimeNanos":1744503180000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744503180000000000,"modifiedTimeMillis":1744503197620,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.69999694824219}}],"originDataSourceId":"","endTimeNanos":1744586340000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744586340000000000,"modifiedTimeMillis":1744591141143,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.4000015258789}}],"originDataSourceId":"","endTimeNanos":1744670520000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744670520000000000,"modifiedTimeMillis":1744673720329,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.4000015258789}}],"originDataSourceId":"","endTimeNanos":1744754940000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744754940000000000,"modifiedTimeMillis":1744761744476,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.69999694824219}}],"originDataSourceId":"","endTimeNanos":1744843860000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744843860000000000,"modifiedTimeMillis":1744843922055,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.80000305175781}}],"originDataSourceId":"","endTimeNanos":1744931100000000000,"dataTypeName":"com.google.weight","startTimeNanos":1744931100000000000,"modifiedTimeMillis":1744931156246,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.80000305175781}}],"originDataSourceId":"","endTimeNanos":1745016420000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745016420000000000,"modifiedTimeMillis":1745016462305,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.80000305175781}}],"originDataSourceId":"","endTimeNanos":1745109060000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745109060000000000,"modifiedTimeMillis":1745109072353,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":69.4000015258789}}],"originDataSourceId":"","endTimeNanos":1745189640000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745189640000000000,"modifiedTimeMillis":1745189701018,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.9000015258789}}],"originDataSourceId":"","endTimeNanos":1745275920000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745275920000000000,"modifiedTimeMillis":1745275964597,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.5}}],"originDataSourceId":"","endTimeNanos":1745363040000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745363040000000000,"modifiedTimeMillis":1745363083605,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.9000015258789}}],"originDataSourceId":"","endTimeNanos":1745447880000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745447880000000000,"modifiedTimeMillis":1745451098844,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.4000015258789}}],"originDataSourceId":"","endTimeNanos":1745534700000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745534700000000000,"modifiedTimeMillis":1745534724408,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.0999984741211}}],"originDataSourceId":"","endTimeNanos":1745626260000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745626260000000000,"modifiedTimeMillis":1745626275676,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.0999984741211}}],"originDataSourceId":"","endTimeNanos":1745712960000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745712960000000000,"modifiedTimeMillis":1745714866325,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.0999984741211}}],"originDataSourceId":"","endTimeNanos":1745794020000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745794020000000000,"modifiedTimeMillis":1745794059725,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.0999984741211}}],"originDataSourceId":"","endTimeNanos":1745875920000000000,"dataTypeName":"com.google.weight","startTimeNanos":1745875920000000000,"modifiedTimeMillis":1745876179554,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":67.30000305175781}}],"originDataSourceId":"","endTimeNanos":1746059940000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746059940000000000,"modifiedTimeMillis":1746064812970,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.30000305175781}}],"originDataSourceId":"","endTimeNanos":1746149520000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746149520000000000,"modifiedTimeMillis":1746149578045,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.30000305175781}}],"originDataSourceId":"","endTimeNanos":1746232920000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746232920000000000,"modifiedTimeMillis":1746232978841,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.4000015258789}}],"originDataSourceId":"","endTimeNanos":1746320280000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746320280000000000,"modifiedTimeMillis":1746320304542,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.9000015258789}}],"originDataSourceId":"","endTimeNanos":1746407820000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746407820000000000,"modifiedTimeMillis":1746407874832,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.5}}],"originDataSourceId":"","endTimeNanos":1746493860000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746493860000000000,"modifiedTimeMillis":1746493886908,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.5}}],"originDataSourceId":"","endTimeNanos":1746580680000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746580680000000000,"modifiedTimeMillis":1746580718144,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":68.19999694824219}}],"originDataSourceId":"","endTimeNanos":1746665640000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746665640000000000,"modifiedTimeMillis":1746665673424,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":67.30000305175781}}],"originDataSourceId":"","endTimeNanos":1746750900000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746750900000000000,"modifiedTimeMillis":1746750953345,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66.4000015258789}}],"originDataSourceId":"","endTimeNanos":1746840660000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746840660000000000,"modifiedTimeMillis":1746840698857,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66.5999984741211}}],"originDataSourceId":"","endTimeNanos":1746926520000000000,"dataTypeName":"com.google.weight","startTimeNanos":1746926520000000000,"modifiedTimeMillis":1746926564902,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66.69999694824219}}],"originDataSourceId":"","endTimeNanos":1747011660000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747011660000000000,"modifiedTimeMillis":1747015038227,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66.5}}],"originDataSourceId":"","endTimeNanos":1747093740000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747093740000000000,"modifiedTimeMillis":1747093768454,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66.80000305175781}}],"originDataSourceId":"","endTimeNanos":1747175040000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747175040000000000,"modifiedTimeMillis":1747175084564,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66.5999984741211}}],"originDataSourceId":"","endTimeNanos":1747265640000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747265640000000000,"modifiedTimeMillis":1747265682508,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66.5999984741211}}],"originDataSourceId":"","endTimeNanos":1747357680000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747357680000000000,"modifiedTimeMillis":1747357863424,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66}}],"originDataSourceId":"","endTimeNanos":1747435560000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747435560000000000,"modifiedTimeMillis":1747435603819,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66}}],"originDataSourceId":"","endTimeNanos":1747525260000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747525260000000000,"modifiedTimeMillis":1747525291770,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":66}}],"originDataSourceId":"","endTimeNanos":1747611120000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747611120000000000,"modifiedTimeMillis":1747611173041,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.69999694824219}}],"originDataSourceId":"","endTimeNanos":1747698420000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747698420000000000,"modifiedTimeMillis":1747701116934,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.19999694824219}}],"originDataSourceId":"","endTimeNanos":1747780320000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747780320000000000,"modifiedTimeMillis":1747781520006,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.19999694824219}}],"originDataSourceId":"","endTimeNanos":1747871580000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747871580000000000,"modifiedTimeMillis":1747871635474,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.19999694824219}}],"originDataSourceId":"","endTimeNanos":1747957380000000000,"dataTypeName":"com.google.weight","startTimeNanos":1747957380000000000,"modifiedTimeMillis":1747957418370,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.19999694824219}}],"originDataSourceId":"","endTimeNanos":1748044380000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748044380000000000,"modifiedTimeMillis":1748044594287,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.19999694824219}}],"originDataSourceId":"","endTimeNanos":1748131440000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748131440000000000,"modifiedTimeMillis":1748131463441,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":64.80000305175781}}],"originDataSourceId":"","endTimeNanos":1748215980000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748215980000000000,"modifiedTimeMillis":1748215990777,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":64.5999984741211}}],"originDataSourceId":"","endTimeNanos":1748302440000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748302440000000000,"modifiedTimeMillis":1748302644770,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":64.5999984741211}}],"originDataSourceId":"","endTimeNanos":1748387400000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748387400000000000,"modifiedTimeMillis":1748387430913,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":64.5999984741211}}],"originDataSourceId":"","endTimeNanos":1748475300000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748475300000000000,"modifiedTimeMillis":1748475426499,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.0999984741211}}],"originDataSourceId":"","endTimeNanos":1748561340000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748561340000000000,"modifiedTimeMillis":1748561386050,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.19999694824219}}],"originDataSourceId":"","endTimeNanos":1748648700000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748648700000000000,"modifiedTimeMillis":1748648720336,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":65.19999694824219}}],"originDataSourceId":"","endTimeNanos":1748735520000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748735520000000000,"modifiedTimeMillis":1748735542744,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":64.5}}],"originDataSourceId":"","endTimeNanos":1748819940000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748819940000000000,"modifiedTimeMillis":1748819953185,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":64.5}}],"originDataSourceId":"","endTimeNanos":1748906100000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748906100000000000,"modifiedTimeMillis":1748906143839,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":64.5}}],"originDataSourceId":"","endTimeNanos":1748993100000000000,"dataTypeName":"com.google.weight","startTimeNanos":1748993100000000000,"modifiedTimeMillis":1748993117659,"rawTimestampNanos":0},
-        {"fitValue":[{"value":{"fpVal":64}}],"originDataSourceId":"","endTimeNanos":1749079740000000000,"dataTypeName":"com.google.weight","startTimeNanos":1749079740000000000,"modifiedTimeMillis":1749079751038,"rawTimestampNanos":0}
-    ]
+  "Data Source": "raw:com.google.weight:com.google.android.apps.fitness:user_input",
+  "Data Points": [
+    {
+      "fitValue": [{ "value": { "fpVal": 77 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1651252273094000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1651252273094000000,
+      "modifiedTimeMillis": 1651252315313,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1651455840000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1651455840000000000,
+      "modifiedTimeMillis": 1651468987790,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1654914060000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1654914060000000000,
+      "modifiedTimeMillis": 1654914888683,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1655084640000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1655084640000000000,
+      "modifiedTimeMillis": 1655084707386,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 79 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1656295320000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1656295320000000000,
+      "modifiedTimeMillis": 1656309670973,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 77.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1656727380000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1656727380000000000,
+      "modifiedTimeMillis": 1656728015363,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 79.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1657591560000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1657591560000000000,
+      "modifiedTimeMillis": 1657600048283,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 77.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1662270120000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1662270120000000000,
+      "modifiedTimeMillis": 1662270149306,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 77.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1662593400000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1662593400000000000,
+      "modifiedTimeMillis": 1662676833889,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 77.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1662675900000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1662675900000000000,
+      "modifiedTimeMillis": 1662676833889,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 77.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1662767340000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1662767340000000000,
+      "modifiedTimeMillis": 1662774546629,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 76.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1662863700000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1662863700000000000,
+      "modifiedTimeMillis": 1662863751677,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 76.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1663036380000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1663036380000000000,
+      "modifiedTimeMillis": 1663036403320,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 76.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1663370820000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1663370820000000000,
+      "modifiedTimeMillis": 1663370856164,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 77.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1664060640000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1664060640000000000,
+      "modifiedTimeMillis": 1664106702970,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1668730560000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1668730560000000000,
+      "modifiedTimeMillis": 1668730629726,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1668815340000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1668815340000000000,
+      "modifiedTimeMillis": 1668815388882,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1668903420000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1668903420000000000,
+      "modifiedTimeMillis": 1668903428059,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1670114400000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1670114400000000000,
+      "modifiedTimeMillis": 1670114559286,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1671057420000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1671057420000000000,
+      "modifiedTimeMillis": 1671057434956,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 79.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1672617420000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1672617420000000000,
+      "modifiedTimeMillis": 1672617445891,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 80 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1675649160000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1675649160000000000,
+      "modifiedTimeMillis": 1675649183005,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 81 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1706409300000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1706409300000000000,
+      "modifiedTimeMillis": 1706411688229,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 84.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1726453202116000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1726453202116000000,
+      "modifiedTimeMillis": 1726453272875,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1734400440000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1734400440000000000,
+      "modifiedTimeMillis": 1734400493038,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1734481620000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1734481620000000000,
+      "modifiedTimeMillis": 1734481656490,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 84.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1734827760000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1734827760000000000,
+      "modifiedTimeMillis": 1734828609314,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1735533360000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1735533360000000000,
+      "modifiedTimeMillis": 1735553192253,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1735698840000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1735698840000000000,
+      "modifiedTimeMillis": 1735698856266,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1735775400000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1735775400000000000,
+      "modifiedTimeMillis": 1735778950666,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1735863180000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1735863180000000000,
+      "modifiedTimeMillis": 1735863238829,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1735952220000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1735952220000000000,
+      "modifiedTimeMillis": 1735952270974,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736039880000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736039880000000000,
+      "modifiedTimeMillis": 1736039934181,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736121420000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736121420000000000,
+      "modifiedTimeMillis": 1736124032335,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736208480000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736208480000000000,
+      "modifiedTimeMillis": 1736208496766,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736296380000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736296380000000000,
+      "modifiedTimeMillis": 1736296396856,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736380800000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736380800000000000,
+      "modifiedTimeMillis": 1736380845069,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736465580000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736465580000000000,
+      "modifiedTimeMillis": 1736465609267,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736556900000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736556900000000000,
+      "modifiedTimeMillis": 1736556941540,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736642580000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736642580000000000,
+      "modifiedTimeMillis": 1736642597974,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736729520000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736729520000000000,
+      "modifiedTimeMillis": 1736729554279,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736813880000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736813880000000000,
+      "modifiedTimeMillis": 1736813904264,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736896680000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736896680000000000,
+      "modifiedTimeMillis": 1736896718908,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1736976600000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1736976600000000000,
+      "modifiedTimeMillis": 1736976653863,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737070260000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737070260000000000,
+      "modifiedTimeMillis": 1737070281048,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737161220000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737161220000000000,
+      "modifiedTimeMillis": 1737250262319,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737246960000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737246960000000000,
+      "modifiedTimeMillis": 1737246980540,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 86.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737330840000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737330840000000000,
+      "modifiedTimeMillis": 1737330888012,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737417540000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737417540000000000,
+      "modifiedTimeMillis": 1737417604218,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737502980000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737502980000000000,
+      "modifiedTimeMillis": 1737503020421,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 85.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737590520000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737590520000000000,
+      "modifiedTimeMillis": 1737590581655,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 83.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737679500000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737679500000000000,
+      "modifiedTimeMillis": 1737679565650,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 84.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737766320000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737766320000000000,
+      "modifiedTimeMillis": 1737766361966,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 83.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737852540000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737852540000000000,
+      "modifiedTimeMillis": 1737939629685,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 83.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1737937260000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1737937260000000000,
+      "modifiedTimeMillis": 1737937316361,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 83.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738021620000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738021620000000000,
+      "modifiedTimeMillis": 1738025050896,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 83.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738107660000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738107660000000000,
+      "modifiedTimeMillis": 1738107678805,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 83.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738185060000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738185060000000000,
+      "modifiedTimeMillis": 1738185126535,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 82.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738318500000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738318500000000000,
+      "modifiedTimeMillis": 1738363210771,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 81.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738375440000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738375440000000000,
+      "modifiedTimeMillis": 1738375481094,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 81.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738460220000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738460220000000000,
+      "modifiedTimeMillis": 1738460300175,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 81.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738545000000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738545000000000000,
+      "modifiedTimeMillis": 1738545060253,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 81.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738632300000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738632300000000000,
+      "modifiedTimeMillis": 1738632331655,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 81.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738717320000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738717320000000000,
+      "modifiedTimeMillis": 1738717329850,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 80.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738804800000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738804800000000000,
+      "modifiedTimeMillis": 1738848590652,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 81.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738892640000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738892640000000000,
+      "modifiedTimeMillis": 1738892666263,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 80.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1738982580000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1738982580000000000,
+      "modifiedTimeMillis": 1738982630380,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 80.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1739209080000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1739209080000000000,
+      "modifiedTimeMillis": 1739276151448,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 80.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1739272620000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1739272620000000000,
+      "modifiedTimeMillis": 1739272639458,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 80.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1739349480000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1739349480000000000,
+      "modifiedTimeMillis": 1739352273513,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1740479460000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1740479460000000000,
+      "modifiedTimeMillis": 1740479501173,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1740519180000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1740519180000000000,
+      "modifiedTimeMillis": 1740519244127,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1740601980000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1740601980000000000,
+      "modifiedTimeMillis": 1740601998232,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1740698100000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1740698100000000000,
+      "modifiedTimeMillis": 1740698151010,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 78.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1740782760000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1740782760000000000,
+      "modifiedTimeMillis": 1740782824696,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 77.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1740872820000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1740872820000000000,
+      "modifiedTimeMillis": 1740872858442,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 77.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1740952620000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1740952620000000000,
+      "modifiedTimeMillis": 1740959832660,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 76.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741042680000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741042680000000000,
+      "modifiedTimeMillis": 1741042747342,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 76.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741128780000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741128780000000000,
+      "modifiedTimeMillis": 1741128805958,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 76.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741218180000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741218180000000000,
+      "modifiedTimeMillis": 1741218247447,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 75.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741299720000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741299720000000000,
+      "modifiedTimeMillis": 1741303472170,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 75.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741392480000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741392480000000000,
+      "modifiedTimeMillis": 1741392507025,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 75.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741479720000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741479720000000000,
+      "modifiedTimeMillis": 1741479766140,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 75.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741560600000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741560600000000000,
+      "modifiedTimeMillis": 1741560645957,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 75.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741648380000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741648380000000000,
+      "modifiedTimeMillis": 1741648416200,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 75.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1741736280000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1741736280000000000,
+      "modifiedTimeMillis": 1741736323752,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 73.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742089980000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742089980000000000,
+      "modifiedTimeMillis": 1742090010062,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 73.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742176740000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742176740000000000,
+      "modifiedTimeMillis": 1742176779569,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 74.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742262300000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742262300000000000,
+      "modifiedTimeMillis": 1742262328951,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 74.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742349360000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742349360000000000,
+      "modifiedTimeMillis": 1742350370346,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 74.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742433780000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742433780000000000,
+      "modifiedTimeMillis": 1742433801609,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 73.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742649420000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742649420000000000,
+      "modifiedTimeMillis": 1742653857568,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 72.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742697540000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742697540000000000,
+      "modifiedTimeMillis": 1742697597283,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 73.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742779920000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742779920000000000,
+      "modifiedTimeMillis": 1742824655519,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 73 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742869080000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742869080000000000,
+      "modifiedTimeMillis": 1742869119812,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 72.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1742951640000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1742951640000000000,
+      "modifiedTimeMillis": 1742951673541,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 72.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743040320000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743040320000000000,
+      "modifiedTimeMillis": 1743040330654,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 72.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743124140000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743124140000000000,
+      "modifiedTimeMillis": 1743124194557,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 73.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743209400000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743209400000000000,
+      "modifiedTimeMillis": 1743209427203,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 72.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743290880000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743290880000000000,
+      "modifiedTimeMillis": 1743290922012,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 72.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743380280000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743380280000000000,
+      "modifiedTimeMillis": 1743380342084,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 71.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743464160000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743464160000000000,
+      "modifiedTimeMillis": 1743464203266,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 71.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743551520000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743551520000000000,
+      "modifiedTimeMillis": 1743551588546,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 71.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743638220000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743638220000000000,
+      "modifiedTimeMillis": 1743638261195,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 71.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743720300000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743720300000000000,
+      "modifiedTimeMillis": 1743720363527,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 70.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743812580000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743812580000000000,
+      "modifiedTimeMillis": 1743812633553,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 70.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743897240000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743897240000000000,
+      "modifiedTimeMillis": 1743897262642,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 70.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1743982500000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1743982500000000000,
+      "modifiedTimeMillis": 1743982561581,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 70.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744064100000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744064100000000000,
+      "modifiedTimeMillis": 1744064170473,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 70.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744152300000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744152300000000000,
+      "modifiedTimeMillis": 1744152332651,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744237620000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744237620000000000,
+      "modifiedTimeMillis": 1744239555248,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744327320000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744327320000000000,
+      "modifiedTimeMillis": 1744327341538,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744419660000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744419660000000000,
+      "modifiedTimeMillis": 1744419712105,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744503180000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744503180000000000,
+      "modifiedTimeMillis": 1744503197620,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744586340000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744586340000000000,
+      "modifiedTimeMillis": 1744591141143,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744670520000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744670520000000000,
+      "modifiedTimeMillis": 1744673720329,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744754940000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744754940000000000,
+      "modifiedTimeMillis": 1744761744476,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744843860000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744843860000000000,
+      "modifiedTimeMillis": 1744843922055,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1744931100000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1744931100000000000,
+      "modifiedTimeMillis": 1744931156246,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745016420000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745016420000000000,
+      "modifiedTimeMillis": 1745016462305,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745109060000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745109060000000000,
+      "modifiedTimeMillis": 1745109072353,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 69.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745189640000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745189640000000000,
+      "modifiedTimeMillis": 1745189701018,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745275920000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745275920000000000,
+      "modifiedTimeMillis": 1745275964597,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745363040000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745363040000000000,
+      "modifiedTimeMillis": 1745363083605,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745447880000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745447880000000000,
+      "modifiedTimeMillis": 1745451098844,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745534700000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745534700000000000,
+      "modifiedTimeMillis": 1745534724408,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745626260000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745626260000000000,
+      "modifiedTimeMillis": 1745626275676,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745712960000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745712960000000000,
+      "modifiedTimeMillis": 1745714866325,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745794020000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745794020000000000,
+      "modifiedTimeMillis": 1745794059725,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1745875920000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1745875920000000000,
+      "modifiedTimeMillis": 1745876179554,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 67.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746059940000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746059940000000000,
+      "modifiedTimeMillis": 1746064812970,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746149520000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746149520000000000,
+      "modifiedTimeMillis": 1746149578045,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746232920000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746232920000000000,
+      "modifiedTimeMillis": 1746232978841,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746320280000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746320280000000000,
+      "modifiedTimeMillis": 1746320304542,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.9000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746407820000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746407820000000000,
+      "modifiedTimeMillis": 1746407874832,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746493860000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746493860000000000,
+      "modifiedTimeMillis": 1746493886908,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746580680000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746580680000000000,
+      "modifiedTimeMillis": 1746580718144,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 68.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746665640000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746665640000000000,
+      "modifiedTimeMillis": 1746665673424,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 67.30000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746750900000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746750900000000000,
+      "modifiedTimeMillis": 1746750953345,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66.4000015258789 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746840660000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746840660000000000,
+      "modifiedTimeMillis": 1746840698857,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1746926520000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1746926520000000000,
+      "modifiedTimeMillis": 1746926564902,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747011660000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747011660000000000,
+      "modifiedTimeMillis": 1747015038227,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747093740000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747093740000000000,
+      "modifiedTimeMillis": 1747093768454,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747175040000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747175040000000000,
+      "modifiedTimeMillis": 1747175084564,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747265640000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747265640000000000,
+      "modifiedTimeMillis": 1747265682508,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747357680000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747357680000000000,
+      "modifiedTimeMillis": 1747357863424,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747435560000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747435560000000000,
+      "modifiedTimeMillis": 1747435603819,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747525260000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747525260000000000,
+      "modifiedTimeMillis": 1747525291770,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 66 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747611120000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747611120000000000,
+      "modifiedTimeMillis": 1747611173041,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.69999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747698420000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747698420000000000,
+      "modifiedTimeMillis": 1747701116934,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747780320000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747780320000000000,
+      "modifiedTimeMillis": 1747781520006,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747871580000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747871580000000000,
+      "modifiedTimeMillis": 1747871635474,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1747957380000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1747957380000000000,
+      "modifiedTimeMillis": 1747957418370,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748044380000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748044380000000000,
+      "modifiedTimeMillis": 1748044594287,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748131440000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748131440000000000,
+      "modifiedTimeMillis": 1748131463441,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 64.80000305175781 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748215980000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748215980000000000,
+      "modifiedTimeMillis": 1748215990777,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 64.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748302440000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748302440000000000,
+      "modifiedTimeMillis": 1748302644770,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 64.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748387400000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748387400000000000,
+      "modifiedTimeMillis": 1748387430913,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 64.5999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748475300000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748475300000000000,
+      "modifiedTimeMillis": 1748475426499,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.0999984741211 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748561340000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748561340000000000,
+      "modifiedTimeMillis": 1748561386050,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748648700000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748648700000000000,
+      "modifiedTimeMillis": 1748648720336,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 65.19999694824219 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748735520000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748735520000000000,
+      "modifiedTimeMillis": 1748735542744,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 64.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748819940000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748819940000000000,
+      "modifiedTimeMillis": 1748819953185,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 64.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748906100000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748906100000000000,
+      "modifiedTimeMillis": 1748906143839,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 64.5 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1748993100000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1748993100000000000,
+      "modifiedTimeMillis": 1748993117659,
+      "rawTimestampNanos": 0
+    },
+    {
+      "fitValue": [{ "value": { "fpVal": 64 } }],
+      "originDataSourceId": "",
+      "endTimeNanos": 1749079740000000000,
+      "dataTypeName": "com.google.weight",
+      "startTimeNanos": 1749079740000000000,
+      "modifiedTimeMillis": 1749079751038,
+      "rawTimestampNanos": 0
+    }
+  ]
 }

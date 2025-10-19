@@ -31,7 +31,6 @@ bash -lc ls
 **exit:** 0 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -63,7 +62,6 @@ bash -lc ls -a
 ```txt
 .
 ..
-
 ```
 
 </details>
@@ -87,7 +85,6 @@ bash -lc ls -a
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -143,7 +140,6 @@ I'll build a script that fetches the Fortune 100 table from Wikipedia, maps comp
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -413,7 +409,6 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 PY
-
 ```
 
 </details>
@@ -423,7 +418,6 @@ PY
 **exit:** 0 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -676,7 +670,6 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 PY
-
 ```
 
 </details>
@@ -686,7 +679,6 @@ PY
 **exit:** 0 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -964,7 +956,6 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 PY
-
 ```
 
 </details>
@@ -974,7 +965,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -1244,7 +1234,6 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 PY
-
 ```
 
 </details>
@@ -1254,7 +1243,6 @@ PY
 **exit:** 0 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -1288,7 +1276,6 @@ bash -lc chmod +x scrape.py
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -1316,7 +1303,6 @@ bash -lc ./scrape.py
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -1355,7 +1341,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -1383,7 +1368,6 @@ bash -lc ./scrape.py
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -1420,7 +1404,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -1467,7 +1450,6 @@ warn: no SEC match for Liberty Mutual
 warn: no 10-K for USAA
 warn: no SEC match for TIAA
 wrote 100 companies to fortune100_10k.json
-
 ```
 
 </details>
@@ -1541,7 +1523,6 @@ bash -lc jq '.companies[] | select(.ticker == null) | {rank, name}' fortune100_1
   "rank": 98,
   "name": "TIAA"
 }
-
 ```
 
 </details>
@@ -1580,7 +1561,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -1625,7 +1605,6 @@ warn: no SEC match for Liberty Mutual
 warn: no 10-K for USAA
 warn: no SEC match for TIAA
 wrote 100 companies to fortune100_10k.json
-
 ```
 
 </details>
@@ -1668,7 +1647,6 @@ PY
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -1698,7 +1676,6 @@ bash -lc curl -A 'debug/0.1 (contact: ops@example.com)' -s 'https://www.sec.gov/
 **exit:** 0 · **duration:** 0.6s
 
 ```txt
-
 ```
 
 </details>
@@ -1730,8 +1707,6 @@ bash -lc curl -A 'debug/0.1 (contact: ops@example.com)' -s 'https://www.sec.gov/
 ```txt
 {"0":{"cik_str":1045810,"ticker":"NVDA","title":"NVIDIA CORP"},"1":{"cik_str":789019,"ticker":"MSFT","title":"MICROSOFT CORP"},"2":{"cik_str":320193,"ticker":"AAPL","title":"Apple Inc."},"3":{"cik_str":1652044,"ticker":"GOOGL","title":"Alphabet Inc."},"4":{"cik_str":1018724,"ticker":"AMZN","title":"AMAZON COM INC"},"5":{"cik_str":1326801,"ticker":"META","title":"Meta Platforms, Inc."},"6":{"cik_str":1730168,"ticker":"AVGO","title":"Broadcom Inc."},"7":{"cik_str":1067983,"ticker":"BRK-B","title":"BERKSHIRE HATHAWAY INC"},"8":{"cik_str":1318605,"ticker":"TSLA","title":"Tesla, Inc."},"9":{"cik_str":1341439,"ticker":"ORCL","title":"ORACLE CORP"},"10":{"cik_str":19617,"ticker":"JPM","title":"JPMORGAN CHASE & CO"},"11":{"cik_str":104169,"ticker":"WMT","title":"Walmart Inc."},"12":{"cik_str":1403161,"ticker":"V","title":"VISA INC."},"13":{"cik_str":59478,"ticker":"LLY","title":"ELI LILLY & Co"},"14":{"cik_str":884394,"ticker":"SPY","title":"SPDR S&P 500 ETF TRUST"},"15":{"cik_str":1141391,"ticker":"MA","title":"Mastercard Inc"},"16":{"cik_str":1065280,"ticker":"NFLX","title":"NETFLIX INC"},"17":{"cik_str":34088,"ticker":"XOM","title":"EXXON MOBIL CORP"},"18":{"cik_str":1321655,"ticker":"PLTR","title":"Palantir Technologies Inc."},"19":{"cik_str":200406,"ticker":"JNJ","title":"JOHNSON & JOHNSON"},"20":{"cik_str":909832,"ticker":"COST","title":"COSTCO WHOLESALE CORP /NEW"},"21":{"cik_str":354950,"ticker":"HD","title":"HOME DEPOT, INC."},"22":{"cik_str":1577552,"ticker":"BABA","title":"Alibaba Group Holding Ltd"},"23":{"cik_str":1551152,"ticker":"ABBV","title":"AbbVie Inc."},"24":{"cik_str":70858,"ticker":"BAC","title":"BANK OF AMERICA CORP /DE/"},"25":{"cik_str":937966,"ticker":"ASML","title":"ASML HOLDING NV"},"26":{"cik_str":80424,"ticker":"PG","title":"PROCTER & GAMBLE Co"},"27":{"cik_str":40545,"ticker":"GE","title":"GENERAL ELECTRIC CO"},"28":{"cik_str":93410,"ticker":"CVX","title":"CHEVRON CORP"},"29":{"cik_str":1000184,"ticker":"SAP","title":"SAP SE"},"30":{"cik_str":1283699,"ticker":"TMUS","title":"T-Mobile US, Inc."},"31":{"cik_str":21344,"ticker":"KO","title":"COCA COLA CO"},"32":{"cik_str":731766,"ticker":"UNH","title":"UNITEDHEALTH GROUP INC"},"33":{"cik_str":353278,"ticker":"NVO","title":"NOVO NORDISK A S"},"34":{"cik_str":858877,"ticker":"CSCO","title":"CISCO SYSTEMS, INC."},"35":{"cik_str":72971,"ticker":"WFC","title":"WELLS FARGO & COMPANY/MN"},"36":{"cik_str":2488,"ticker":"AMD","title":"ADVANCED MICRO DEVICES INC"},"37":{"cik_str":895421,"ticker":"MS","title":"MORGAN STANLEY"},"38":{"cik_str":51143,"ticker":"IBM","title":"INTERNATIONAL BUSINESS MACHINES CORP"},"39":{"cik_str":1413329,"ticker":"PM","title":"Philip Morris International Inc."},"40":{"cik_str":1094517,"ticker":"TM","title":"TOYOTA MOTOR CORP/"},"41":{"cik_str":886982,"ticker":"GS","title":"GOLDMAN SACHS GROUP INC"},"42":{"cik_str":1089113,"ticker":"HSBC","title":"HSBC HOLDINGS PLC"},"43":{"cik_str":901832,"ticker":"AZN","title":"ASTRAZENECA PLC"},"44":{"cik_str":1114448,"ticker":"NVS","title":"NOVARTIS AG"},"45":{"cik_str":2070829,"ticker":"CYATY","title":"Contemporary Amperex Technology Co., Limited/ADR"},"46":{"cik_str":1800,"ticker":"ABT","title":"ABBOTT LABORATORIES"},"47":{"cik_str":1108524,"ticker":"CRM","title":"Salesforce, Inc."},"48":{"cik_str":4962,"ticker":"AXP","title":"AMERICAN EXPRESS CO"},"49":{"cik_str":1067839,"ticker":"QQQ","title":"INVESCO QQQ TRUST, SERIES 1"},"50":{"cik_str":1393818,"ticker":"BX","title":"Blackstone Inc."},"51":{"cik_str":1707925,"ticker":"LIN","title":"LINDE PLC"},"52":{"cik_str":18230,"ticker":"CAT","title":"CATERPILLAR INC"},"53":{"cik_str":1751008,"ticker":"APP","title":"AppLovin Corp"},"54":{"cik_str":63908,"ticker":"MCD","title":"MCDONALDS CORP"},"55":{"cik_str":101829,"ticker":"RTX","title":"RTX Corp"},"56":{"cik_str":1000275,"ticker":"RY","title":"ROYAL BANK OF CANADA"},"57":{"cik_str":732717,"ticker":"T","title":"AT&T INC."},"58":{"cik_str":1306965,"ticker":"SHEL","title":"Shell plc"},"59":{"cik_str":1744489,"ticker":"DIS","title":"Walt Disney Co"},"60":{"cik_str":310158,"ticker":"MRK","title":"Merck & Co., Inc."},"61":{"cik_str":1594805,"ticker":"SHOP","title":"SHOPIFY INC."},"62":{"cik_str":1373715,"ticker":"NOW","title":"ServiceNow, Inc."},"63":{"cik_str":896878,"ticker":"INTU","title":"INTUIT INC."},"64":{"cik_str":1543151,"ticker":"UBER","title":"Uber Technologies, Inc"},"65":{"cik_str":77476,"ticker":"PEP","title":"PEPSICO INC"},"66":{"cik_str":831001,"ticker":"C","title":"CITIGROUP INC"},"67":{"cik_str":723125,"ticker":"MU","title":"MICRON TECHNOLOGY INC"},"68":{"cik_str":97745,"ticker":"TMO","title":"THERMO FISHER SCIENTIFIC INC."},"69":{"cik_str":732712,"ticker":"VZ","title":"VERIZON COMMUNICATIONS INC"},"70":{"cik_str":804328,"ticker":"QCOM","title":"QUALCOMM INC/DE"},"71":{"cik_str":1596532,"ticker":"ANET","title":"Arista Networks, Inc."},"72":{"cik_str":67088,"ticker":"MUFG","title":"MITSUBISHI UFJ FINANCIAL GROUP INC"},"73":{"cik_str":1737806,"ticker":"PDD","title":"PDD Holdings Inc."},"74":{"cik_str":97476,"ticker":"TXN","title":"TEXAS INSTRUMENTS INC"},"75":{"cik_str":1144967,"ticker":"HDB","
 [... omitted 0 of 1 lines ...]
-
-
 ```
 
 </details>
@@ -1761,7 +1736,6 @@ bash -lc curl -A 'debug/0.1 (contact: ops@example.com)' -s 'https://www.sec.gov/
 **exit:** 0 · **duration:** 0.3s
 
 ```txt
-
 ```
 
 </details>
@@ -1791,7 +1765,6 @@ bash -lc curl -A 'debug/0.1 (contact: ops@example.com)' -s 'https://www.sec.gov/
 **exit:** 0 · **duration:** 0.5s
 
 ```txt
-
 ```
 
 </details>
@@ -1821,7 +1794,6 @@ bash -lc curl -A 'debug/0.1 (contact: ops@example.com)' -s 'https://www.sec.gov/
 **exit:** 0 · **duration:** 0.4s
 
 ```txt
-
 ```
 
 </details>
@@ -1851,7 +1823,6 @@ bash -lc rg -i "walgreen" company_tickers.json
 **exit:** 1 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -1881,7 +1852,6 @@ bash -lc rg -i "boots" company_tickers.json
 **exit:** 1 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -1911,7 +1881,6 @@ bash -lc rg -i '"WBA"' company_tickers.json
 **exit:** 1 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -1942,7 +1911,6 @@ bash -lc jq 'length' company_tickers.json
 
 ```txt
 10121
-
 ```
 
 </details>
@@ -1974,8 +1942,6 @@ bash -lc rg -i 'alliance' company_tickers.json | head
 ```txt
 {"0":{"cik_str":1045810,"ticker":"NVDA","title":"NVIDIA CORP"},"1":{"cik_str":789019,"ticker":"MSFT","title":"MICROSOFT CORP"},"2":{"cik_str":320193,"ticker":"AAPL","title":"Apple Inc."},"3":{"cik_str":1652044,"ticker":"GOOGL","title":"Alphabet Inc."},"4":{"cik_str":1018724,"ticker":"AMZN","title":"AMAZON COM INC"},"5":{"cik_str":1326801,"ticker":"META","title":"Meta Platforms, Inc."},"6":{"cik_str":1730168,"ticker":"AVGO","title":"Broadcom Inc."},"7":{"cik_str":1067983,"ticker":"BRK-B","title":"BERKSHIRE HATHAWAY INC"},"8":{"cik_str":1318605,"ticker":"TSLA","title":"Tesla, Inc."},"9":{"cik_str":1341439,"ticker":"ORCL","title":"ORACLE CORP"},"10":{"cik_str":19617,"ticker":"JPM","title":"JPMORGAN CHASE & CO"},"11":{"cik_str":104169,"ticker":"WMT","title":"Walmart Inc."},"12":{"cik_str":1403161,"ticker":"V","title":"VISA INC."},"13":{"cik_str":59478,"ticker":"LLY","title":"ELI LILLY & Co"},"14":{"cik_str":884394,"ticker":"SPY","title":"SPDR S&P 500 ETF TRUST"},"15":{"cik_str":1141391,"ticker":"MA","title":"Mastercard Inc"},"16":{"cik_str":1065280,"ticker":"NFLX","title":"NETFLIX INC"},"17":{"cik_str":34088,"ticker":"XOM","title":"EXXON MOBIL CORP"},"18":{"cik_str":1321655,"ticker":"PLTR","title":"Palantir Technologies Inc."},"19":{"cik_str":200406,"ticker":"JNJ","title":"JOHNSON & JOHNSON"},"20":{"cik_str":909832,"ticker":"COST","title":"COSTCO WHOLESALE CORP /NEW"},"21":{"cik_str":354950,"ticker":"HD","title":"HOME DEPOT, INC."},"22":{"cik_str":1577552,"ticker":"BABA","title":"Alibaba Group Holding Ltd"},"23":{"cik_str":1551152,"ticker":"ABBV","title":"AbbVie Inc."},"24":{"cik_str":70858,"ticker":"BAC","title":"BANK OF AMERICA CORP /DE/"},"25":{"cik_str":937966,"ticker":"ASML","title":"ASML HOLDING NV"},"26":{"cik_str":80424,"ticker":"PG","title":"PROCTER & GAMBLE Co"},"27":{"cik_str":40545,"ticker":"GE","title":"GENERAL ELECTRIC CO"},"28":{"cik_str":93410,"ticker":"CVX","title":"CHEVRON CORP"},"29":{"cik_str":1000184,"ticker":"SAP","title":"SAP SE"},"30":{"cik_str":1283699,"ticker":"TMUS","title":"T-Mobile US, Inc."},"31":{"cik_str":21344,"ticker":"KO","title":"COCA COLA CO"},"32":{"cik_str":731766,"ticker":"UNH","title":"UNITEDHEALTH GROUP INC"},"33":{"cik_str":353278,"ticker":"NVO","title":"NOVO NORDISK A S"},"34":{"cik_str":858877,"ticker":"CSCO","title":"CISCO SYSTEMS, INC."},"35":{"cik_str":72971,"ticker":"WFC","title":"WELLS FARGO & COMPANY/MN"},"36":{"cik_str":2488,"ticker":"AMD","title":"ADVANCED MICRO DEVICES INC"},"37":{"cik_str":895421,"ticker":"MS","title":"MORGAN STANLEY"},"38":{"cik_str":51143,"ticker":"IBM","title":"INTERNATIONAL BUSINESS MACHINES CORP"},"39":{"cik_str":1413329,"ticker":"PM","title":"Philip Morris International Inc."},"40":{"cik_str":1094517,"ticker":"TM","title":"TOYOTA MOTOR CORP/"},"41":{"cik_str":886982,"ticker":"GS","title":"GOLDMAN SACHS GROUP INC"},"42":{"cik_str":1089113,"ticker":"HSBC","title":"HSBC HOLDINGS PLC"},"43":{"cik_str":901832,"ticker":"AZN","title":"ASTRAZENECA PLC"},"44":{"cik_str":1114448,"ticker":"NVS","title":"NOVARTIS AG"},"45":{"cik_str":2070829,"ticker":"CYATY","title":"Contemporary Amperex Technology Co., Limited/ADR"},"46":{"cik_str":1800,"ticker":"ABT","title":"ABBOTT LABORATORIES"},"47":{"cik_str":1108524,"ticker":"CRM","title":"Salesforce, Inc."},"48":{"cik_str":4962,"ticker":"AXP","title":"AMERICAN EXPRESS CO"},"49":{"cik_str":1067839,"ticker":"QQQ","title":"INVESCO QQQ TRUST, SERIES 1"},"50":{"cik_str":1393818,"ticker":"BX","title":"Blackstone Inc."},"51":{"cik_str":1707925,"ticker":"LIN","title":"LINDE PLC"},"52":{"cik_str":18230,"ticker":"CAT","title":"CATERPILLAR INC"},"53":{"cik_str":1751008,"ticker":"APP","title":"AppLovin Corp"},"54":{"cik_str":63908,"ticker":"MCD","title":"MCDONALDS CORP"},"55":{"cik_str":101829,"ticker":"RTX","title":"RTX Corp"},"56":{"cik_str":1000275,"ticker":"RY","title":"ROYAL BANK OF CANADA"},"57":{"cik_str":732717,"ticker":"T","title":"AT&T INC."},"58":{"cik_str":1306965,"ticker":"SHEL","title":"Shell plc"},"59":{"cik_str":1744489,"ticker":"DIS","title":"Walt Disney Co"},"60":{"cik_str":310158,"ticker":"MRK","title":"Merck & Co., Inc."},"61":{"cik_str":1594805,"ticker":"SHOP","title":"SHOPIFY INC."},"62":{"cik_str":1373715,"ticker":"NOW","title":"ServiceNow, Inc."},"63":{"cik_str":896878,"ticker":"INTU","title":"INTUIT INC."},"64":{"cik_str":1543151,"ticker":"UBER","title":"Uber Technologies, Inc"},"65":{"cik_str":77476,"ticker":"PEP","title":"PEPSICO INC"},"66":{"cik_str":831001,"ticker":"C","title":"CITIGROUP INC"},"67":{"cik_str":723125,"ticker":"MU","title":"MICRON TECHNOLOGY INC"},"68":{"cik_str":97745,"ticker":"TMO","title":"THERMO FISHER SCIENTIFIC INC."},"69":{"cik_str":732712,"ticker":"VZ","title":"VERIZON COMMUNICATIONS INC"},"70":{"cik_str":804328,"ticker":"QCOM","title":"QUALCOMM INC/DE"},"71":{"cik_str":1596532,"ticker":"ANET","title":"Arista Networks, Inc."},"72":{"cik_str":67088,"ticker":"MUFG","title":"MITSUBISHI UFJ FINANCIAL GROUP INC"},"73":{"cik_str":1737806,"ticker":"PDD","title":"PDD Holdings Inc."},"74":{"cik_str":97476,"ticker":"TXN","title":"TEXAS INSTRUMENTS INC"},"75":{"cik_str":1144967,"ticker":"HDB","
 [... omitted 0 of 1 lines ...]
-
-
 ```
 
 </details>
@@ -2005,7 +1971,6 @@ bash -lc rg '"ticker":"WBA"' company_tickers.json
 **exit:** 1 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -2033,7 +1998,6 @@ bash -lc curl -A 'debug/0.1 (contact: ops@example.com)' -s 'https://www.sec.gov/
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -2065,8 +2029,6 @@ bash -lc curl -A 'debug/0.1 (contact: ops@example.com)' -s 'https://www.sec.gov/
 ```txt
 {"fields":["cik","name","ticker","exchange"],"data":[[1045810,"NVIDIA CORP","NVDA","Nasdaq"],[789019,"MICROSOFT CORP","MSFT","Nasdaq"],[320193,"Apple Inc.","AAPL","Nasdaq"],[1652044,"Alphabet Inc.","GOOGL","Nasdaq"],[1018724,"AMAZON COM INC","AMZN","Nasdaq"],[1326801,"Meta Platforms, Inc.","META","Nasdaq"],[1730168,"Broadcom Inc.","AVGO","Nasdaq"],[1067983,"BERKSHIRE HATHAWAY INC","BRK-B","NYSE"],[1318605,"Tesla, Inc.","TSLA","Nasdaq"],[19617,"JPMORGAN CHASE & CO","JPM","NYSE"],[1341439,"ORACLE CORP","ORCL","NYSE"],[104169,"Walmart Inc.","WMT","NYSE"],[1403161,"VISA INC.","V","NYSE"],[59478,"ELI LILLY & Co","LLY","NYSE"],[884394,"SPDR S&P 500 ETF TRUST","SPY","NYSE"],[1141391,"Mastercard Inc","MA","NYSE"],[1065280,"NETFLIX INC","NFLX","Nasdaq"],[34088,"EXXON MOBIL CORP","XOM","NYSE"],[909832,"COSTCO WHOLESALE CORP /NEW","COST","Nasdaq"],[200406,"JOHNSON & JOHNSON","JNJ","NYSE"],[354950,"HOME DEPOT, INC.","HD","NYSE"],[1321655,"Palantir Technologies Inc.","PLTR","Nasdaq"],[1551152,"AbbVie Inc.","ABBV","NYSE"],[70858,"BANK OF AMERICA CORP /DE/","BAC","NYSE"],[1577552,"Alibaba Group Holding Ltd","BABA","NYSE"],[80424,"PROCTER & GAMBLE Co","PG","NYSE"],[937966,"ASML HOLDING NV","ASML","Nasdaq"],[93410,"CHEVRON CORP","CVX","NYSE"],[1000184,"SAP SE","SAP","NYSE"],[40545,"GENERAL ELECTRIC CO","GE","NYSE"],[21344,"COCA COLA CO","KO","NYSE"],[1283699,"T-Mobile US, Inc.","TMUS","Nasdaq"],[731766,"UNITEDHEALTH GROUP INC","UNH","NYSE"],[858877,"CISCO SYSTEMS, INC.","CSCO","Nasdaq"],[72971,"WELLS FARGO & COMPANY/MN","WFC","NYSE"],[1413329,"Philip Morris International Inc.","PM","NYSE"],[2488,"ADVANCED MICRO DEVICES INC","AMD","Nasdaq"],[1094517,"TOYOTA MOTOR CORP/","TM","NYSE"],[895421,"MORGAN STANLEY","MS","NYSE"],[353278,"NOVO NORDISK A S","NVO","NYSE"],[901832,"ASTRAZENECA PLC","AZN","Nasdaq"],[1114448,"NOVARTIS AG","NVS","NYSE"],[1089113,"HSBC HOLDINGS PLC","HSBC","NYSE"],[886982,"GOLDMAN SACHS GROUP INC","GS","NYSE"],[51143,"INTERNATIONAL BUSINESS MACHINES CORP","IBM","NYSE"],[1800,"ABBOTT LABORATORIES","ABT","NYSE"],[1108524,"Salesforce, Inc.","CRM","NYSE"],[1067839,"INVESCO QQQ TRUST, SERIES 1","QQQ","Nasdaq"],[4962,"AMERICAN EXPRESS CO","AXP","NYSE"],[1707925,"LINDE PLC","LIN","Nasdaq"],[1393818,"Blackstone Inc.","BX","NYSE"],[63908,"MCDONALDS CORP","MCD","NYSE"],[1306965,"Shell plc","SHEL","NYSE"],[2070829,"Contemporary Amperex Technology Co., Limited/ADR","CYATY","OTC"],[101829,"RTX Corp","RTX","NYSE"],[1744489,"Walt Disney Co","DIS","NYSE"],[732717,"AT&T INC.","T","NYSE"],[310158,"Merck & Co., Inc.","MRK","NYSE"],[1000275,"ROYAL BANK OF CANADA","RY","NYSE"],[18230,"CATERPILLAR INC","CAT","NYSE"],[1751008,"AppLovin Corp","APP","Nasdaq"],[77476,"PEPSICO INC","PEP","Nasdaq"],[1543151,"Uber Technologies, Inc","UBER","NYSE"],[1373715,"ServiceNow, Inc.","NOW","NYSE"],[97745,"THERMO FISHER SCIENTIFIC INC.","TMO","NYSE"],[732712,"VERIZON COMMUNICATIONS INC","VZ","NYSE"],[831001,"CITIGROUP INC","C","NYSE"],[97476,"TEXAS INSTRUMENTS INC","TXN","Nasdaq"],[1594805,"SHOPIFY INC.","SHOP","Nasdaq"],[896878,"INTUIT INC.","INTU","Nasdaq"],[1144967,"HDFC BANK LTD","HDB","NYSE"],[1737806,"PDD Holdings Inc.","PDD","Nasdaq"],[67088,"MITSUBISHI UFJ FINANCIAL GROUP INC","MUFG","NYSE"],[1075531,"Booking Holdings Inc.","BKNG","Nasdaq"],[723125,"MICRON TECHNOLOGY INC","MU","Nasdaq"],[946770,"DEUTSCHE TELEKOM AG","DTEGY","OTC"],[1596532,"Arista Networks, Inc.","ANET","NYSE"],[804328,"QUALCOMM INC/DE","QCOM","Nasdaq"],[2012383,"BlackRock, Inc.","BLK","NYSE"],[1996810,"GE Vernova Inc.","GEV","NYSE"],[316709,"SCHWAB CHARLES CORP","SCHW","NYSE"],[64040,"S&P Global Inc.","SPGI","NYSE"],[12927,"BOEING CO","BA","NYSE"],[313838,"Sony Group Corp","SONY","NYSE"],[1035267,"INTUITIVE SURGICAL INC","ISRG","Nasdaq"],[1973239,"ARM HOLDINGS PLC /UK","ARM","Nasdaq"],[217410,"UNILEVER PLC","UL","NYSE"],[109198,"TJX COMPANIES INC /DE/","TJX","NYSE"],[60667,"LOWES COMPANIES INC","LOW","NYSE"],[885725,"BOSTON SCIENTIFIC CORP","BSX","NYSE"],[891478,"Banco Santander, S.A.","SAN","NYSE"],[310764,"STRYKER CORP","SYK","NYSE"],[318154,"AMGEN INC","AMGN","Nasdaq"],[1467373,"Accenture plc","ACN","NYSE"],[796343,"ADOBE INC.","ADBE","Nasdaq"],[707549,"LAM RESEARCH CORP","LRCX","Nasdaq"],[753308,"NEXTERA ENERGY INC","NEE","NYSE"],[80661,"PROGRESSIVE CORP/OH/","PGR","NYSE"],[820313,"AMPHENOL CORP /DE/","APH","NYSE"],[927628,"CAPITAL ONE FINANCIAL CORP","COF","NYSE"],[1551182,"Eaton Corp plc","ETN","NYSE"],[882095,"GILEAD SCIENCES, INC.","GILD","Nasdaq"],[1639920,"Spotify Technology S.A.","SPOT","NYSE"],[811809,"BHP Group Ltd","BHP","NYSE"],[879764,"TotalEnergies SE","TTE","NYSE"],[313616,"DANAHER CORP /DE/","DHR","NYSE"],[78003,"PFIZER INC","PFE","NYSE"],[773840,"HONEYWELL INTERNATIONAL INC","HON","Nasdaq"],[6951,"APPLIED MATERIALS INC /DE","AMAT","Nasdaq"],[1404912,"KKR & Co. Inc.","KKR","NYSE"],[100885,"UNION PACIFIC CORP","UNP","NYSE"],[1327567,"Palo Alto Networks Inc","PANW","Nasdaq"],[2046954,"Ultratrex Inc.","UTX",null],[319201,"KLA CORP","KLAC","Nasdaq"],[315189,"DEERE & CO","DE","NYSE"],[947263,"TORONTO DOMINION BANK","TD","NYSE"],[47710,"HITACHI LTD","HTHIY","OTC"],[1610520,"U
 [... omitted 0 of 1 lines ...]
-
-
 ```
 
 </details>
@@ -2097,7 +2059,6 @@ bash -lc rg -i 'WALGREEN' company_tickers_exchange.json
 
 ```txt
 rg: company_tickers_exchange.json: IO error for operation on company_tickers_exchange.json: No such file or directory (os error 2)
-
 ```
 
 </details>
@@ -2127,7 +2088,6 @@ bash -lc curl -A 'debug/0.1 (contact: ops@example.com)' -s 'https://www.sec.gov/
 **exit:** 0 · **duration:** 0.3s
 
 ```txt
-
 ```
 
 </details>
@@ -2157,7 +2117,6 @@ bash -lc rg -i 'WALGREEN' company_tickers_exchange.json
 **exit:** 1 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -2187,7 +2146,6 @@ bash -lc rg '"WBA"' company_tickers_exchange.json
 **exit:** 1 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -2219,8 +2177,6 @@ bash -lc rg -i 'DEERE' company_tickers.json
 ```txt
 {"0":{"cik_str":1045810,"ticker":"NVDA","title":"NVIDIA CORP"},"1":{"cik_str":789019,"ticker":"MSFT","title":"MICROSOFT CORP"},"2":{"cik_str":320193,"ticker":"AAPL","title":"Apple Inc."},"3":{"cik_str":1652044,"ticker":"GOOGL","title":"Alphabet Inc."},"4":{"cik_str":1018724,"ticker":"AMZN","title":"AMAZON COM INC"},"5":{"cik_str":1326801,"ticker":"META","title":"Meta Platforms, Inc."},"6":{"cik_str":1730168,"ticker":"AVGO","title":"Broadcom Inc."},"7":{"cik_str":1067983,"ticker":"BRK-B","title":"BERKSHIRE HATHAWAY INC"},"8":{"cik_str":1318605,"ticker":"TSLA","title":"Tesla, Inc."},"9":{"cik_str":1341439,"ticker":"ORCL","title":"ORACLE CORP"},"10":{"cik_str":19617,"ticker":"JPM","title":"JPMORGAN CHASE & CO"},"11":{"cik_str":104169,"ticker":"WMT","title":"Walmart Inc."},"12":{"cik_str":1403161,"ticker":"V","title":"VISA INC."},"13":{"cik_str":59478,"ticker":"LLY","title":"ELI LILLY & Co"},"14":{"cik_str":884394,"ticker":"SPY","title":"SPDR S&P 500 ETF TRUST"},"15":{"cik_str":1141391,"ticker":"MA","title":"Mastercard Inc"},"16":{"cik_str":1065280,"ticker":"NFLX","title":"NETFLIX INC"},"17":{"cik_str":34088,"ticker":"XOM","title":"EXXON MOBIL CORP"},"18":{"cik_str":1321655,"ticker":"PLTR","title":"Palantir Technologies Inc."},"19":{"cik_str":200406,"ticker":"JNJ","title":"JOHNSON & JOHNSON"},"20":{"cik_str":909832,"ticker":"COST","title":"COSTCO WHOLESALE CORP /NEW"},"21":{"cik_str":354950,"ticker":"HD","title":"HOME DEPOT, INC."},"22":{"cik_str":1577552,"ticker":"BABA","title":"Alibaba Group Holding Ltd"},"23":{"cik_str":1551152,"ticker":"ABBV","title":"AbbVie Inc."},"24":{"cik_str":70858,"ticker":"BAC","title":"BANK OF AMERICA CORP /DE/"},"25":{"cik_str":937966,"ticker":"ASML","title":"ASML HOLDING NV"},"26":{"cik_str":80424,"ticker":"PG","title":"PROCTER & GAMBLE Co"},"27":{"cik_str":40545,"ticker":"GE","title":"GENERAL ELECTRIC CO"},"28":{"cik_str":93410,"ticker":"CVX","title":"CHEVRON CORP"},"29":{"cik_str":1000184,"ticker":"SAP","title":"SAP SE"},"30":{"cik_str":1283699,"ticker":"TMUS","title":"T-Mobile US, Inc."},"31":{"cik_str":21344,"ticker":"KO","title":"COCA COLA CO"},"32":{"cik_str":731766,"ticker":"UNH","title":"UNITEDHEALTH GROUP INC"},"33":{"cik_str":353278,"ticker":"NVO","title":"NOVO NORDISK A S"},"34":{"cik_str":858877,"ticker":"CSCO","title":"CISCO SYSTEMS, INC."},"35":{"cik_str":72971,"ticker":"WFC","title":"WELLS FARGO & COMPANY/MN"},"36":{"cik_str":2488,"ticker":"AMD","title":"ADVANCED MICRO DEVICES INC"},"37":{"cik_str":895421,"ticker":"MS","title":"MORGAN STANLEY"},"38":{"cik_str":51143,"ticker":"IBM","title":"INTERNATIONAL BUSINESS MACHINES CORP"},"39":{"cik_str":1413329,"ticker":"PM","title":"Philip Morris International Inc."},"40":{"cik_str":1094517,"ticker":"TM","title":"TOYOTA MOTOR CORP/"},"41":{"cik_str":886982,"ticker":"GS","title":"GOLDMAN SACHS GROUP INC"},"42":{"cik_str":1089113,"ticker":"HSBC","title":"HSBC HOLDINGS PLC"},"43":{"cik_str":901832,"ticker":"AZN","title":"ASTRAZENECA PLC"},"44":{"cik_str":1114448,"ticker":"NVS","title":"NOVARTIS AG"},"45":{"cik_str":2070829,"ticker":"CYATY","title":"Contemporary Amperex Technology Co., Limited/ADR"},"46":{"cik_str":1800,"ticker":"ABT","title":"ABBOTT LABORATORIES"},"47":{"cik_str":1108524,"ticker":"CRM","title":"Salesforce, Inc."},"48":{"cik_str":4962,"ticker":"AXP","title":"AMERICAN EXPRESS CO"},"49":{"cik_str":1067839,"ticker":"QQQ","title":"INVESCO QQQ TRUST, SERIES 1"},"50":{"cik_str":1393818,"ticker":"BX","title":"Blackstone Inc."},"51":{"cik_str":1707925,"ticker":"LIN","title":"LINDE PLC"},"52":{"cik_str":18230,"ticker":"CAT","title":"CATERPILLAR INC"},"53":{"cik_str":1751008,"ticker":"APP","title":"AppLovin Corp"},"54":{"cik_str":63908,"ticker":"MCD","title":"MCDONALDS CORP"},"55":{"cik_str":101829,"ticker":"RTX","title":"RTX Corp"},"56":{"cik_str":1000275,"ticker":"RY","title":"ROYAL BANK OF CANADA"},"57":{"cik_str":732717,"ticker":"T","title":"AT&T INC."},"58":{"cik_str":1306965,"ticker":"SHEL","title":"Shell plc"},"59":{"cik_str":1744489,"ticker":"DIS","title":"Walt Disney Co"},"60":{"cik_str":310158,"ticker":"MRK","title":"Merck & Co., Inc."},"61":{"cik_str":1594805,"ticker":"SHOP","title":"SHOPIFY INC."},"62":{"cik_str":1373715,"ticker":"NOW","title":"ServiceNow, Inc."},"63":{"cik_str":896878,"ticker":"INTU","title":"INTUIT INC."},"64":{"cik_str":1543151,"ticker":"UBER","title":"Uber Technologies, Inc"},"65":{"cik_str":77476,"ticker":"PEP","title":"PEPSICO INC"},"66":{"cik_str":831001,"ticker":"C","title":"CITIGROUP INC"},"67":{"cik_str":723125,"ticker":"MU","title":"MICRON TECHNOLOGY INC"},"68":{"cik_str":97745,"ticker":"TMO","title":"THERMO FISHER SCIENTIFIC INC."},"69":{"cik_str":732712,"ticker":"VZ","title":"VERIZON COMMUNICATIONS INC"},"70":{"cik_str":804328,"ticker":"QCOM","title":"QUALCOMM INC/DE"},"71":{"cik_str":1596532,"ticker":"ANET","title":"Arista Networks, Inc."},"72":{"cik_str":67088,"ticker":"MUFG","title":"MITSUBISHI UFJ FINANCIAL GROUP INC"},"73":{"cik_str":1737806,"ticker":"PDD","title":"PDD Holdings Inc."},"74":{"cik_str":97476,"ticker":"TXN","title":"TEXAS INSTRUMENTS INC"},"75":{"cik_str":1144967,"ticker":"HDB","
 [... omitted 0 of 1 lines ...]
-
-
 ```
 
 </details>
@@ -2258,7 +2214,6 @@ bash -lc jq 'to_entries[] | select(.value.title | contains("DEERE"))' company_ti
     "title": "DEERE & CO"
   }
 }
-
 ```
 
 </details>
@@ -2286,7 +2241,6 @@ bash -lc jq 'to_entries[] | select(.value.ticker=="WBA")' company_tickers_exchan
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -2316,7 +2270,6 @@ bash -lc jq 'to_entries[] | select(.value.title | test("NEW YORK LIFE"))' compan
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -2355,7 +2308,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -2394,7 +2346,6 @@ PY
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -2433,7 +2384,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -2472,7 +2422,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -2514,7 +2463,6 @@ warn: no SEC match for Liberty Mutual
 warn: no 10-K for USAA
 warn: no SEC match for TIAA
 wrote 100 companies to fortune100_10k.json
-
 ```
 
 </details>
@@ -2558,7 +2506,6 @@ bash -lc jq '.companies[] | select(.name=="Fannie Mae")' fortune100_10k.json
   "latest_10k_revenue_usd": null,
   "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0000310522/000031052225000199/fnm-20241231.htm"
 }
-
 ```
 
 </details>
@@ -2589,7 +2536,6 @@ bash -lc curl -A 'sec-fortune100-scraper/0.1 (contact: ops@example.com)' -s 'htt
 
 ```txt
 541
-
 ```
 
 </details>
@@ -2621,7 +2567,6 @@ bash -lc curl -A 'sec-fortune100-scraper/0.1 (contact: ops@example.com)' -s 'htt
 ```txt
 AccruedFeesAndOtherRevenueReceivable
 RevenuesNetOfInterestExpense
-
 ```
 
 </details>
@@ -2656,7 +2601,6 @@ FairValueAssetsMeasuredOnRecurringBasisGainLossIncludedInTradingRevenue
 InvestmentBankingRevenue
 PrincipalTransactionsRevenue
 RevenuesNetOfInterestExpense
-
 ```
 
 </details>
@@ -2698,7 +2642,6 @@ RefiningAndMarketingRevenue
 RevenueFromContractWithCustomerIncludingAssessedTax
 RevenuesFromTransactionsWithOtherOperatingSegmentsOfSameEntity
 SegmentReportingInformationIntersegmentRevenue
-
 ```
 
 </details>
@@ -2737,7 +2680,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -2776,7 +2718,6 @@ warn: no SEC match for Liberty Mutual
 warn: no 10-K for USAA
 warn: no SEC match for TIAA
 wrote 100 companies to fortune100_10k.json
-
 ```
 
 </details>
@@ -2816,7 +2757,6 @@ bash -lc jq '.companies[] | select(.name=="Fannie Mae")' fortune100_10k.json
   "latest_10k_revenue_usd": 29069000000.0,
   "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0000310522/000031052225000199/fnm-20241231.htm"
 }
-
 ```
 
 </details>
@@ -3147,7 +3087,6 @@ bash -lc curl -A 'sec-fortune100-scraper/0.1 (contact: ops@example.com)' -s 'htt
   "filed": "2025-02-27",
   "val": 53512000000
 }
-
 ```
 
 </details>
@@ -3194,7 +3133,6 @@ bash -lc curl -A 'sec-fortune100-scraper/0.1 (contact: ops@example.com)' -s 'htt
     "2025-09-29"
   ]
 }
-
 ```
 
 </details>
@@ -3238,7 +3176,6 @@ bash -lc jq '.companies[] | select(.name=="Goldman Sachs")' fortune100_10k.json
   "latest_10k_revenue_usd": null,
   "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0001572694/000095017025029231/gsbd-20241231.htm"
 }
-
 ```
 
 </details>
@@ -3281,7 +3218,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -3319,7 +3255,6 @@ warn: no SEC match for Liberty Mutual
 warn: no 10-K for USAA
 warn: no SEC match for TIAA
 wrote 100 companies to fortune100_10k.json
-
 ```
 
 </details>
@@ -3359,7 +3294,6 @@ bash -lc jq '.companies[] | select(.name=="Goldman Sachs")' fortune100_10k.json
   "latest_10k_revenue_usd": 53512000000.0,
   "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0000886982/000088698225000005/gs-20241231.htm"
 }
-
 ```
 
 </details>
@@ -3389,7 +3323,6 @@ bash -lc rm -f company_tickers.json company_tickers_exchange.json
 **exit:** 0 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -3413,7 +3346,6 @@ bash -lc rm -f company_tickers.json company_tickers_exchange.json
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -3444,7 +3376,6 @@ bash -lc jq '[.companies[] | select(.ticker == null)] | length' fortune100_10k.j
 
 ```txt
 6
-
 ```
 
 </details>
@@ -3484,7 +3415,6 @@ bash -lc jq '.companies[] | select(.name=="USAA")' fortune100_10k.json
   "latest_10k_revenue_usd": null,
   "latest_10k_url": null
 }
-
 ```
 
 </details>
@@ -3524,7 +3454,6 @@ bash -lc jq '.companies[] | select(.name=="New York Life Insurance Company")' fo
   "latest_10k_revenue_usd": null,
   "latest_10k_url": null
 }
-
 ```
 
 </details>
@@ -3563,7 +3492,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -3602,7 +3530,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -3640,7 +3567,6 @@ warn: no SEC match for Liberty Mutual
 warn: no SEC match for USAA
 warn: no SEC match for TIAA
 wrote 100 companies to fortune100_10k.json
-
 ```
 
 </details>
@@ -3680,7 +3606,6 @@ bash -lc jq '.companies[] | select(.name=="USAA")' fortune100_10k.json
   "latest_10k_revenue_usd": null,
   "latest_10k_url": null
 }
-
 ```
 
 </details>
@@ -3704,7 +3629,6 @@ bash -lc jq '.companies[] | select(.name=="USAA")' fortune100_10k.json
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -3786,7 +3710,6 @@ bash -lc jq '.companies[:5]' fortune100_10k.json
     "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0000064803/000006480325000007/cvs-20241231.htm"
   }
 ]
-
 ```
 
 </details>
@@ -3814,7 +3737,6 @@ bash -lc curl -A 'sec-fortune100-scraper/0.1 (contact: ops@example.com)' -s 'htt
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -3862,7 +3784,6 @@ RevenueRemainingPerformanceObligation
 SalesRevenueGoodsNet
 SalesRevenueNet
 SalesRevenueServicesNet
-
 ```
 
 </details>
@@ -4189,7 +4110,6 @@ bash -lc jq '.companies[] | select(.name=="Amazon")' fortune100_10k.json
   "latest_10k_revenue_usd": 60453000000.0,
   "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0001018724/000101872425000004/amzn-20241231.htm"
 }
-
 ```
 
 </details>
@@ -4245,7 +4165,6 @@ PY
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -4334,7 +4253,6 @@ PY
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -4445,7 +4363,6 @@ def fetch_revenue(filing: dict[str, Any] | None) -> float | None:
         for unit in SEC_UNITS:
             points = units.get(unit, [])
             if not points:
-
 ```
 
 </details>
@@ -4526,7 +4443,6 @@ def enrich(records: Iterable[dict[str, Any]], mapping: dict[str, dict[str, Any]]
 def main() -> None:
     fortune = fetch_fortune100()
     tickers = fetch_sec_tickers()
-
 ```
 
 </details>
@@ -4599,7 +4515,6 @@ PY
 <details><summary><strong>tool output</strong></summary>
 
 ```txt
-
 ```
 
 </details>
@@ -4687,7 +4602,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -4778,7 +4692,6 @@ def enrich(records: Iterable[dict[str, Any]], mapping: dict[str, dict[str, Any]]
                 "rank": entry["rank"],
                 "name": entry["name"],
                 "ticker": sec_entry["ticker"] if sec_entry else None,
-
 ```
 
 </details>
@@ -4816,7 +4729,6 @@ warn: no SEC match for Liberty Mutual
 warn: no SEC match for USAA
 warn: no SEC match for TIAA
 wrote 100 companies to fortune100_10k.json
-
 ```
 
 </details>
@@ -4856,7 +4768,6 @@ bash -lc jq '.companies[] | select(.name=="Amazon")' fortune100_10k.json
   "latest_10k_revenue_usd": 60453000000.0,
   "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0001018724/000101872425000004/amzn-20241231.htm"
 }
-
 ```
 
 </details>
@@ -4919,7 +4830,6 @@ bash -lc curl -A 'sec-fortune100-scraper/0.1 (contact: ops@example.com)' -s 'htt
   "filed": "2025-02-07",
   "frame": "CY2024"
 }
-
 ```
 
 </details>
@@ -4962,7 +4872,6 @@ PY
 **exit:** 0 · **duration:** 0.1s
 
 ```txt
-
 ```
 
 </details>
@@ -5000,7 +4909,6 @@ warn: no SEC match for Liberty Mutual
 warn: no SEC match for USAA
 warn: no SEC match for TIAA
 wrote 100 companies to fortune100_10k.json
-
 ```
 
 </details>
@@ -5040,7 +4948,6 @@ bash -lc jq '.companies[] | select(.name=="Amazon")' fortune100_10k.json
   "latest_10k_revenue_usd": 637959000000.0,
   "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0001018724/000101872425000004/amzn-20241231.htm"
 }
-
 ```
 
 </details>
@@ -5080,7 +4987,6 @@ bash -lc jq '.companies[] | select(.name=="Apple")' fortune100_10k.json
   "latest_10k_revenue_usd": 391035000000.0,
   "latest_10k_url": "https://www.sec.gov/Archives/edgar/data/0000320193/000032019324000123/aapl-20240928.htm"
 }
-
 ```
 
 </details>
@@ -5111,7 +5017,6 @@ bash -lc jq '[.companies[] | select(.latest_10k_revenue_usd == null)] | length' 
 
 ```txt
 7
-
 ```
 
 </details>
@@ -5145,7 +5050,6 @@ bash -lc git status -sb
 ?? backup/
 ?? fortune100_10k.json
 ?? scrape.py
-
 ```
 
 </details>
@@ -5181,7 +5085,6 @@ backup
 fortune100_10k.json
 .git
 scrape.py
-
 ```
 
 </details>
@@ -5214,7 +5117,6 @@ bash -lc ls backup
 company_tickers_exchange.json
 company_tickers.json
 fortune100_10k.json
-
 ```
 
 </details>
@@ -5244,7 +5146,6 @@ bash -lc rm -rf backup
 **exit:** 0 · **duration:** 0.0s
 
 ```txt
-
 ```
 
 </details>
@@ -5278,7 +5179,6 @@ bash -lc git status -sb
 ?? backup2/
 ?? fortune100_10k.json
 ?? scrape.py
-
 ```
 
 </details>
@@ -5310,7 +5210,6 @@ bash -lc ls
 ```txt
 fortune100_10k.json
 scrape.py
-
 ```
 
 </details>
@@ -5343,7 +5242,6 @@ bash -lc git status -sb
 ## No commits yet on main
 ?? fortune100_10k.json
 ?? scrape.py
-
 ```
 
 </details>
@@ -5377,207 +5275,206 @@ bash -lc nl -ba scrape.py | sed -n '1,200p'
 **exit:** 0 · **duration:** 0.0s
 
 ```txt
-     1	#!/usr/bin/env -S uv run --script
-     2	# /// script
-     3	# requires-python = ">=3.12"
-     4	# dependencies = ["httpx>=0.27", "lxml>=5.2", "orjson>=3.10"]
-     5	# ///
-     6	"""Fetch latest Fortune 100 10-K filing dates and revenues."""
-     7	from __future__ import annotations
-     8
-     9	from datetime import datetime, timezone
-    10	from pathlib import Path
-    11	import re
-    12	import time
-    13	from typing import Any, Iterable
-    14
-    15	import httpx
-    16	import orjson
-    17	from lxml import html
-    18
-    19	FORTUNE_URL = "https://en.wikipedia.org/wiki/List_of_largest_companies_in_the_United_States_by_revenue"
-    20	SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
-    21	SEC_SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik:010d}.json"
-    22	SEC_FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
-    23	USER_AGENT = "sec-fortune100-scraper/0.1 (contact: ops@example.com)"
-    24	REVENUE_CONCEPTS = (
-    25	    "RevenueFromContractWithCustomerExcludingAssessedTax",
-    26	    "RevenueFromContractWithCustomerIncludingAssessedTax",
-    27	    "Revenues",
-    28	    "RevenuesNetOfInterestExpense",
-    29	    "SalesRevenueNet",
-    30	    "SalesRevenueNetOfReturnsAndAllowances",
-    31	    "NetSales",
-    32	    "TotalRevenues",
-    33	)
-    34	SEC_UNITS = ("USD", "USDm", "USD millions")
-    35
-    36	_last_sec_call = 0.0
-    37	client = httpx.Client(headers={"User-Agent": USER_AGENT}, timeout=30.0, follow_redirects=True)
-    38
-    39
-    40	def normalize(token: str) -> str:
-    41	    token = token.lower().strip()
-    42	    token = re.sub(r"^the ", "", token)
-    43	    token = token.replace("&", "and")
-    44	    token = token.replace("companies", "company")
-    45	    token = token.replace("incorporated", "inc")
-    46	    token = token.replace("corporation", "corp")
-    47	    token = token.replace("co.", "company")
-    48	    token = token.replace("cos", "companies")
-    49	    token = token.replace("'s", "s")
-    50	    token = re.sub(r"[^a-z0-9]", "", token)
-    51	    return token
-    52
-    53
-    54	OVERRIDES = {
-    55	    normalize("Fannie Mae"): normalize("Federal National Mortgage Association"),
-    56	    normalize("Freddie Mac"): normalize("Federal Home Loan Mortgage Corporation"),
-    57	    normalize("Publix"): normalize("Publix Super Markets Inc"),
-    58	    normalize("State Farm"): normalize("State Farm Mutual Automobile Insurance Company"),
-    59	    normalize("Ford Motor Company"): normalize("Ford Motor Co"),
-    60	    normalize("Walgreens Boots Alliance"): normalize("Walgreens Boots Alliance Inc"),
-    61	    normalize("The Walt Disney Company"): normalize("Walt Disney Co"),
-    62	    normalize("Energy Transfer Partners"): normalize("Energy Transfer LP"),
-    63	    normalize("John Deere"): normalize("DEERE & CO"),
-    64	}
-    65
-    66	MANUAL_SEC = {
-    67	    normalize("Walgreens Boots Alliance"): {"cik_str": "1618921", "ticker": "WBA", "title": "Walgreens Boots Alliance, Inc."},
-    68	    normalize("The Walt Disney Company"): {"cik_str": "1744489", "ticker": "DIS", "title": "Walt Disney Co"},
-    69	    normalize("John Deere"): {"cik_str": "315189", "ticker": "DE", "title": "DEERE & CO"},
-    70	    normalize("Goldman Sachs"): {"cik_str": "886982", "ticker": "GS", "title": "GOLDMAN SACHS GROUP INC"},
-    71	}
-    72
-    73	NO_SEC = {
-    74	    normalize("USAA"),
-    75	    normalize("TIAA"),
-    76	    normalize("State Farm"),
-    77	    normalize("Publix"),
-    78	    normalize("Liberty Mutual"),
-    79	    normalize("Nationwide Mutual Insurance Company"),
-    80	    normalize("New York Life Insurance Company"),
-    81	}
-    82
-    83
-    84	def throttle_sec() -> None:
-    85	    global _last_sec_call
-    86	    now = time.perf_counter()
-    87	    wait = 0.21 - (now - _last_sec_call)
-    88	    if wait > 0:
-    89	        time.sleep(wait)
-    90	    _last_sec_call = time.perf_counter()
-    91
-    92
-    93	def fetch_fortune100() -> list[dict[str, Any]]:
-    94	    resp = client.get(FORTUNE_URL)
-    95	    resp.raise_for_status()
-    96	    tree = html.fromstring(resp.text)
-    97	    tables = tree.xpath('(//table[contains(@class, "wikitable")])[1]')
-    98	    if not tables:
-    99	        raise RuntimeError("Fortune table not found")
-   100	    table = tables[0]
-   101	    companies: list[dict[str, Any]] = []
-   102	    for row in table.xpath(".//tr"):
-   103	        cols = row.xpath("./td")
-   104	        if len(cols) < 4:
-   105	            continue
-   106	        rank_text = cols[0].text_content().strip()
-   107	        if not rank_text.isdigit():
-   108	            continue
-   109	        name = " ".join(cols[1].text_content().strip().split())
-   110	        revenue_text = re.sub(r"[^0-9.]", "", cols[3].text_content())
-   111	        companies.append(
-   112	            {
-   113	                "rank": int(rank_text),
-   114	                "name": name,
-   115	                "fortune_revenue_musd": float(revenue_text) if revenue_text else None,
-   116	            }
-   117	        )
-   118	        if len(companies) == 100:
-   119	            break
-   120	    if len(companies) < 100:
-   121	        raise RuntimeError("Fortune list shorter than expected")
-   122	    return companies
-   123
-   124
-   125	def fetch_sec_tickers() -> dict[str, dict[str, Any]]:
-   126	    throttle_sec()
-   127	    resp = client.get(SEC_TICKERS_URL)
-   128	    resp.raise_for_status()
-   129	    raw = resp.json()
-   130	    mapping: dict[str, dict[str, Any]] = {}
-   131	    for entry in raw.values():
-   132	        mapping.setdefault(normalize(entry["title"]), entry)
-   133	        mapping.setdefault(normalize(entry["ticker"]), entry)
-   134	    return mapping
-   135
-   136
-   137	def candidate_norms(norm: str) -> list[str]:
-   138	    suffixes = ("", "inc", "corp", "company", "group", "co", "inccompany", "corpcompany")
-   139	    return [norm + suffix for suffix in suffixes]
-   140
-   141
-   142	def resolve_company(name: str, mapping: dict[str, dict[str, Any]]) -> dict[str, Any] | None:
-   143	    norm = normalize(name)
-   144	    if norm in NO_SEC:
-   145	        return None
-   146	    manual = MANUAL_SEC.get(norm)
-   147	    if manual:
-   148	        return manual
-   149	    for candidate in candidate_norms(norm):
-   150	        if candidate in mapping:
-   151	            return mapping[candidate]
-   152	    override = OVERRIDES.get(norm)
-   153	    if override and override in mapping:
-   154	        return mapping[override]
-   155	    hits = [entry for key, entry in mapping.items() if norm and norm in key]
-   156	    if hits:
-   157	        hits.sort(key=lambda item: len(normalize(item["title"])))
-   158	        return hits[0]
-   159	    return None
-   160
-   161	def recent_field(recent: dict[str, list[Any]], field: str, idx: int) -> Any:
-   162	    values = recent.get(field, [])
-   163	    return values[idx] if idx < len(values) else None
-   164
-   165
-   166	def fetch_latest_10k(cik: int | None) -> dict[str, Any] | None:
-   167	    if cik is None:
-   168	        return None
-   169	    throttle_sec()
-   170	    resp = client.get(SEC_SUBMISSIONS_URL.format(cik=cik))
-   171	    if resp.status_code == 404:
-   172	        return None
-   173	    resp.raise_for_status()
-   174	    data = resp.json()
-   175	    recent = data.get("filings", {}).get("recent", {})
-   176	    forms = recent.get("form", [])
-   177	    if not forms:
-   178	        return None
-   179	    indices = [i for i, form in enumerate(forms) if form == "10-K"]
-   180	    if not indices:
-   181	        indices = [i for i, form in enumerate(forms) if form.startswith("10-K")]
-   182	    if not indices:
-   183	        return None
-   184	    idx = indices[0]
-   185	    fy_raw = recent_field(recent, "fy", idx)
-   186	    fy = int(fy_raw) if fy_raw and str(fy_raw).isdigit() else None
-   187	    return {
-   188	        "cik": cik,
-   189	        "ticker": data.get("tickers", [None])[0],
-   190	        "filing_date": recent_field(recent, "filingDate", idx),
-   191	        "fy": fy,
-   192	        "accession": recent_field(recent, "accessionNumber", idx),
-   193	        "document": recent_field(recent, "primaryDocument", idx),
-   194	    }
-   195
-   196
-   197	def fetch_revenue(filing: dict[str, Any] | None) -> float | None:
-   198	    if not filing:
-   199	        return None
-   200	    throttle_sec()
-
+  1	#!/usr/bin/env -S uv run --script
+  2	# /// script
+  3	# requires-python = ">=3.12"
+  4	# dependencies = ["httpx>=0.27", "lxml>=5.2", "orjson>=3.10"]
+  5	# ///
+  6	"""Fetch latest Fortune 100 10-K filing dates and revenues."""
+  7	from __future__ import annotations
+  8
+  9	from datetime import datetime, timezone
+ 10	from pathlib import Path
+ 11	import re
+ 12	import time
+ 13	from typing import Any, Iterable
+ 14
+ 15	import httpx
+ 16	import orjson
+ 17	from lxml import html
+ 18
+ 19	FORTUNE_URL = "https://en.wikipedia.org/wiki/List_of_largest_companies_in_the_United_States_by_revenue"
+ 20	SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
+ 21	SEC_SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik:010d}.json"
+ 22	SEC_FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
+ 23	USER_AGENT = "sec-fortune100-scraper/0.1 (contact: ops@example.com)"
+ 24	REVENUE_CONCEPTS = (
+ 25	    "RevenueFromContractWithCustomerExcludingAssessedTax",
+ 26	    "RevenueFromContractWithCustomerIncludingAssessedTax",
+ 27	    "Revenues",
+ 28	    "RevenuesNetOfInterestExpense",
+ 29	    "SalesRevenueNet",
+ 30	    "SalesRevenueNetOfReturnsAndAllowances",
+ 31	    "NetSales",
+ 32	    "TotalRevenues",
+ 33	)
+ 34	SEC_UNITS = ("USD", "USDm", "USD millions")
+ 35
+ 36	_last_sec_call = 0.0
+ 37	client = httpx.Client(headers={"User-Agent": USER_AGENT}, timeout=30.0, follow_redirects=True)
+ 38
+ 39
+ 40	def normalize(token: str) -> str:
+ 41	    token = token.lower().strip()
+ 42	    token = re.sub(r"^the ", "", token)
+ 43	    token = token.replace("&", "and")
+ 44	    token = token.replace("companies", "company")
+ 45	    token = token.replace("incorporated", "inc")
+ 46	    token = token.replace("corporation", "corp")
+ 47	    token = token.replace("co.", "company")
+ 48	    token = token.replace("cos", "companies")
+ 49	    token = token.replace("'s", "s")
+ 50	    token = re.sub(r"[^a-z0-9]", "", token)
+ 51	    return token
+ 52
+ 53
+ 54	OVERRIDES = {
+ 55	    normalize("Fannie Mae"): normalize("Federal National Mortgage Association"),
+ 56	    normalize("Freddie Mac"): normalize("Federal Home Loan Mortgage Corporation"),
+ 57	    normalize("Publix"): normalize("Publix Super Markets Inc"),
+ 58	    normalize("State Farm"): normalize("State Farm Mutual Automobile Insurance Company"),
+ 59	    normalize("Ford Motor Company"): normalize("Ford Motor Co"),
+ 60	    normalize("Walgreens Boots Alliance"): normalize("Walgreens Boots Alliance Inc"),
+ 61	    normalize("The Walt Disney Company"): normalize("Walt Disney Co"),
+ 62	    normalize("Energy Transfer Partners"): normalize("Energy Transfer LP"),
+ 63	    normalize("John Deere"): normalize("DEERE & CO"),
+ 64	}
+ 65
+ 66	MANUAL_SEC = {
+ 67	    normalize("Walgreens Boots Alliance"): {"cik_str": "1618921", "ticker": "WBA", "title": "Walgreens Boots Alliance, Inc."},
+ 68	    normalize("The Walt Disney Company"): {"cik_str": "1744489", "ticker": "DIS", "title": "Walt Disney Co"},
+ 69	    normalize("John Deere"): {"cik_str": "315189", "ticker": "DE", "title": "DEERE & CO"},
+ 70	    normalize("Goldman Sachs"): {"cik_str": "886982", "ticker": "GS", "title": "GOLDMAN SACHS GROUP INC"},
+ 71	}
+ 72
+ 73	NO_SEC = {
+ 74	    normalize("USAA"),
+ 75	    normalize("TIAA"),
+ 76	    normalize("State Farm"),
+ 77	    normalize("Publix"),
+ 78	    normalize("Liberty Mutual"),
+ 79	    normalize("Nationwide Mutual Insurance Company"),
+ 80	    normalize("New York Life Insurance Company"),
+ 81	}
+ 82
+ 83
+ 84	def throttle_sec() -> None:
+ 85	    global _last_sec_call
+ 86	    now = time.perf_counter()
+ 87	    wait = 0.21 - (now - _last_sec_call)
+ 88	    if wait > 0:
+ 89	        time.sleep(wait)
+ 90	    _last_sec_call = time.perf_counter()
+ 91
+ 92
+ 93	def fetch_fortune100() -> list[dict[str, Any]]:
+ 94	    resp = client.get(FORTUNE_URL)
+ 95	    resp.raise_for_status()
+ 96	    tree = html.fromstring(resp.text)
+ 97	    tables = tree.xpath('(//table[contains(@class, "wikitable")])[1]')
+ 98	    if not tables:
+ 99	        raise RuntimeError("Fortune table not found")
+100	    table = tables[0]
+101	    companies: list[dict[str, Any]] = []
+102	    for row in table.xpath(".//tr"):
+103	        cols = row.xpath("./td")
+104	        if len(cols) < 4:
+105	            continue
+106	        rank_text = cols[0].text_content().strip()
+107	        if not rank_text.isdigit():
+108	            continue
+109	        name = " ".join(cols[1].text_content().strip().split())
+110	        revenue_text = re.sub(r"[^0-9.]", "", cols[3].text_content())
+111	        companies.append(
+112	            {
+113	                "rank": int(rank_text),
+114	                "name": name,
+115	                "fortune_revenue_musd": float(revenue_text) if revenue_text else None,
+116	            }
+117	        )
+118	        if len(companies) == 100:
+119	            break
+120	    if len(companies) < 100:
+121	        raise RuntimeError("Fortune list shorter than expected")
+122	    return companies
+123
+124
+125	def fetch_sec_tickers() -> dict[str, dict[str, Any]]:
+126	    throttle_sec()
+127	    resp = client.get(SEC_TICKERS_URL)
+128	    resp.raise_for_status()
+129	    raw = resp.json()
+130	    mapping: dict[str, dict[str, Any]] = {}
+131	    for entry in raw.values():
+132	        mapping.setdefault(normalize(entry["title"]), entry)
+133	        mapping.setdefault(normalize(entry["ticker"]), entry)
+134	    return mapping
+135
+136
+137	def candidate_norms(norm: str) -> list[str]:
+138	    suffixes = ("", "inc", "corp", "company", "group", "co", "inccompany", "corpcompany")
+139	    return [norm + suffix for suffix in suffixes]
+140
+141
+142	def resolve_company(name: str, mapping: dict[str, dict[str, Any]]) -> dict[str, Any] | None:
+143	    norm = normalize(name)
+144	    if norm in NO_SEC:
+145	        return None
+146	    manual = MANUAL_SEC.get(norm)
+147	    if manual:
+148	        return manual
+149	    for candidate in candidate_norms(norm):
+150	        if candidate in mapping:
+151	            return mapping[candidate]
+152	    override = OVERRIDES.get(norm)
+153	    if override and override in mapping:
+154	        return mapping[override]
+155	    hits = [entry for key, entry in mapping.items() if norm and norm in key]
+156	    if hits:
+157	        hits.sort(key=lambda item: len(normalize(item["title"])))
+158	        return hits[0]
+159	    return None
+160
+161	def recent_field(recent: dict[str, list[Any]], field: str, idx: int) -> Any:
+162	    values = recent.get(field, [])
+163	    return values[idx] if idx < len(values) else None
+164
+165
+166	def fetch_latest_10k(cik: int | None) -> dict[str, Any] | None:
+167	    if cik is None:
+168	        return None
+169	    throttle_sec()
+170	    resp = client.get(SEC_SUBMISSIONS_URL.format(cik=cik))
+171	    if resp.status_code == 404:
+172	        return None
+173	    resp.raise_for_status()
+174	    data = resp.json()
+175	    recent = data.get("filings", {}).get("recent", {})
+176	    forms = recent.get("form", [])
+177	    if not forms:
+178	        return None
+179	    indices = [i for i, form in enumerate(forms) if form == "10-K"]
+180	    if not indices:
+181	        indices = [i for i, form in enumerate(forms) if form.startswith("10-K")]
+182	    if not indices:
+183	        return None
+184	    idx = indices[0]
+185	    fy_raw = recent_field(recent, "fy", idx)
+186	    fy = int(fy_raw) if fy_raw and str(fy_raw).isdigit() else None
+187	    return {
+188	        "cik": cik,
+189	        "ticker": data.get("tickers", [None])[0],
+190	        "filing_date": recent_field(recent, "filingDate", idx),
+191	        "fy": fy,
+192	        "accession": recent_field(recent, "accessionNumber", idx),
+193	        "document": recent_field(recent, "primaryDocument", idx),
+194	    }
+195
+196
+197	def fetch_revenue(filing: dict[str, Any] | None) -> float | None:
+198	    if not filing:
+199	        return None
+200	    throttle_sec()
 ```
 
 </details>
@@ -5608,7 +5505,6 @@ bash -lc jq '[.companies[] | select(.ticker != null)] | length' fortune100_10k.j
 
 ```txt
 93
-
 ```
 
 </details>
@@ -5647,7 +5543,6 @@ bash -lc jq '[.companies[] | select(.ticker == null) | .name]' fortune100_10k.js
   "USAA",
   "TIAA"
 ]
-
 ```
 
 </details>

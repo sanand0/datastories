@@ -17,7 +17,7 @@ async function loadStories() {
             </div>
           </a>
         </div>
-    `
+    `,
     )
     .join("");
 }

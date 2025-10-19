@@ -229,7 +229,7 @@ function drawChart(data) {
     .attr("r", (d) => radiusScale(d.worldwide_gross))
     .attr("fill", (d) => getBoxOfficeColor(d.worldwide_gross))
     .attr("opacity", 0.8)
-    .on("mouseover", function (event, d) {
+    .on("mouseover", function(event, d) {
       // Highlight the circle
       d3.select(this).attr("opacity", 1).attr("stroke", "#333").attr("stroke-width", 2);
 
@@ -254,17 +254,17 @@ function drawChart(data) {
         .style("left", event.pageX + 15 + "px")
         .style("top", event.pageY - 10 + "px");
     })
-    .on("mousemove", function (event) {
+    .on("mousemove", function(event) {
       tooltip.style("left", event.pageX + 15 + "px").style("top", event.pageY - 10 + "px");
     })
-    .on("mouseout", function () {
+    .on("mouseout", function() {
       // Remove highlight
       d3.select(this).attr("opacity", 0.8).attr("stroke", "none");
 
       // Hide tooltip
       tooltip.transition().duration(500).style("opacity", 0);
     })
-    .on("click", function (event, d) {
+    .on("click", function(event, d) {
       window.open(d.link, "_blank");
     });
 

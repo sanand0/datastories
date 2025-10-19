@@ -18,7 +18,6 @@ I vibe-coded data visualizations of my browser history over the last 4 months.
 >
 > Save as plan.md.
 
-
 **STEP 2**: Ran the same with `codex--search` with GPT-5 (high) to create an ideation [plan-b.md](./plan-b.md)
 
 <!-- /home/sanand/.codex/sessions/2025/10/04/rollout-2025-10-04T10-07-19-0199acf9-3d13-7161-9530-14b25677d529.jsonl -->
@@ -58,6 +57,7 @@ I vibe-coded data visualizations of my browser history over the last 4 months.
 > Pick the top 3 ideas.
 >
 > For each of these top 3 ideas:
+>
 > - Create a folder named concisely (2-3 words) based on the story. Use lowercase-hyphenated names.
 > - In each folder, create a concise prompt for Claude Code to generate the visual story in `${folder}/spec.md`.
 >   Do not explain what visual to create or how. Claude Code has a better visual aesthetic and can decide its course.
@@ -116,16 +116,19 @@ That was OK, not too impressive either.
 > Celebrate deep dives, avoid shaming detours.
 >
 > Effect/mood to evoke
+>
 > - Momentum: chains that gather force and coherence.
 > - Texture: some journeys are tight spirals, others are branching explorations.
 > - Reflection: name the themes without reducing them to productivity.
 >
 > Analysis hints:
+>
 > - Prefer Edge’s on-device “Journeys” clusters (`clusters`, `clusters_and_visits`) when populated; otherwise fall back to pure graph walks over `visits.from_visit`.
 > - Re-run SQL on a read-only copy of `history.db`.
 > - Foreground time from `context_annotations.total_foreground_duration` (µs). Time bounds via min/max timestamps per journey/chain.
 >
 > Some existing CSVs for reference:
+>
 > - chains_summary.csv — one row per root `from_visit` chain with visit_count, distinct_domains, start/end timestamps (UTC), duration_sec, total_foreground_sec; built via a recursive CTE that walks `from_visit` from roots.
 > - chain_depths.csv — per chain, maximum depth (longest branch) and total_nodes; useful to pick the most “rabbit‑hole‑ish” journeys.
 > - If `clusters*` tables are non-empty, you can also compute the cluster-level summaries (`clusters_summary.csv`, `cluster_depths.csv`).
@@ -176,16 +179,19 @@ The [result](./rabbit-holes/index.html) is _beautiful_!
 > Focus on empathy: everyone googles in loops; clarity comes from seeing the loops.
 >
 > Effect/mood to evoke
+>
 > - Curiosity resolved: quick funnels feel like a small win.
 > - Discovery vs. dithering: some terms scatter to many sites; others converge.
 > - Practicality: readers pick up how to craft searches that land.
 >
 > Analysis hints:
+>
 > - Re-run SQLite on `history.db`.
 > - Identify search visits via `keyword_search_terms` and find first click-throughs using `visits.from_visit`.
 > - Compute `time_to_click_sec` as `(dest.visit_time - search.visit_time)/1e6` and aggregate by `normalized_term`.
 >
 > Some existing CSVs for reference:
+>
 > - search_funnels_terms.csv — per normalized search term: search_events, clicks, click_rate, avg_time_to_click_sec, unique_dest_domains, top_dest_domain (+ clicks/share), total_dest_foreground_sec.
 > - search_destinations.csv — for each term × destination domain: clicks, avg_time_to_click_sec, total_dest_foreground_sec.
 > - search_samples.csv — sample term → destination titles with timestamps (anonymize as needed in publication).
@@ -208,10 +214,11 @@ The [result](./rabbit-holes/index.html) is _beautiful_!
 > Improve the "What Each Journey Type Reveals" section. Rewrite with big, useful, non-obvious/surprising insights.
 >
 > Modify "The Search Landscape" into a scatterplot that fills the width of the window, where:
->   - x = Number of searches
->   - y = Number of destinations
->   - Size = Number of searches at that (x,y) intersection
->   - Color = Average time to click (divergent scale)
+>
+> - x = Number of searches
+> - y = Number of destinations
+> - Size = Number of searches at that (x,y) intersection
+> - Color = Average time to click (divergent scale)
 >
 > Rewrite the "Reading the Landscape" chart to explain the chart AND share with big, useful, non-obvious/surprising insights.
 
