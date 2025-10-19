@@ -1,0 +1,309 @@
+Sector,Occupation,Model,Win
+Real Estate and Rental and Leasing,Concierges,gpt-4o,0
+Real Estate and Rental and Leasing,Concierges,gemini,18
+Real Estate and Rental and Leasing,Concierges,grok,9
+Real Estate and Rental and Leasing,Concierges,o4-mini-high,20
+Real Estate and Rental and Leasing,Concierges,o3-high,13
+Real Estate and Rental and Leasing,Concierges,gpt-5-high,23
+Real Estate and Rental and Leasing,Concierges,claude,29
+Real Estate and Rental and Leasing,Counter and Rental Clerks,gpt-4o,31
+Real Estate and Rental and Leasing,Counter and Rental Clerks,gemini,41
+Real Estate and Rental and Leasing,Counter and Rental Clerks,grok,38
+Real Estate and Rental and Leasing,Counter and Rental Clerks,o4-mini-high,31
+Real Estate and Rental and Leasing,Counter and Rental Clerks,o3-high,45
+Real Estate and Rental and Leasing,Counter and Rental Clerks,gpt-5-high,57
+Real Estate and Rental and Leasing,Counter and Rental Clerks,claude,81
+Real Estate and Rental and Leasing,"Property, Real Estate, and Community Association Managers",gpt-4o,5
+Real Estate and Rental and Leasing,"Property, Real Estate, and Community Association Managers",gemini,16
+Real Estate and Rental and Leasing,"Property, Real Estate, and Community Association Managers",grok,9
+Real Estate and Rental and Leasing,"Property, Real Estate, and Community Association Managers",o4-mini-high,23
+Real Estate and Rental and Leasing,"Property, Real Estate, and Community Association Managers",o3-high,25
+Real Estate and Rental and Leasing,"Property, Real Estate, and Community Association Managers",gpt-5-high,17
+Real Estate and Rental and Leasing,"Property, Real Estate, and Community Association Managers",claude,34
+Real Estate and Rental and Leasing,Real Estate Brokers,gpt-4o,20
+Real Estate and Rental and Leasing,Real Estate Brokers,gemini,40
+Real Estate and Rental and Leasing,Real Estate Brokers,grok,40
+Real Estate and Rental and Leasing,Real Estate Brokers,o4-mini-high,30
+Real Estate and Rental and Leasing,Real Estate Brokers,o3-high,48
+Real Estate and Rental and Leasing,Real Estate Brokers,gpt-5-high,54
+Real Estate and Rental and Leasing,Real Estate Brokers,claude,50
+Real Estate and Rental and Leasing,Real Estate Sales Agents,gpt-4o,4
+Real Estate and Rental and Leasing,Real Estate Sales Agents,gemini,27
+Real Estate and Rental and Leasing,Real Estate Sales Agents,grok,7
+Real Estate and Rental and Leasing,Real Estate Sales Agents,o4-mini-high,12
+Real Estate and Rental and Leasing,Real Estate Sales Agents,o3-high,25
+Real Estate and Rental and Leasing,Real Estate Sales Agents,gpt-5-high,20
+Real Estate and Rental and Leasing,Real Estate Sales Agents,claude,36
+Manufacturing,Buyers and Purchasing Agents,gpt-4o,9
+Manufacturing,Buyers and Purchasing Agents,gemini,34
+Manufacturing,Buyers and Purchasing Agents,grok,25
+Manufacturing,Buyers and Purchasing Agents,o4-mini-high,41
+Manufacturing,Buyers and Purchasing Agents,o3-high,43
+Manufacturing,Buyers and Purchasing Agents,gpt-5-high,41
+Manufacturing,Buyers and Purchasing Agents,claude,64
+Manufacturing,First-Line Supervisors of Production and Operating Workers,gpt-4o,10
+Manufacturing,First-Line Supervisors of Production and Operating Workers,gemini,22
+Manufacturing,First-Line Supervisors of Production and Operating Workers,grok,24
+Manufacturing,First-Line Supervisors of Production and Operating Workers,o4-mini-high,50
+Manufacturing,First-Line Supervisors of Production and Operating Workers,o3-high,43
+Manufacturing,First-Line Supervisors of Production and Operating Workers,gpt-5-high,57
+Manufacturing,First-Line Supervisors of Production and Operating Workers,claude,58
+Manufacturing,Industrial Engineers,gpt-4o,4
+Manufacturing,Industrial Engineers,gemini,7
+Manufacturing,Industrial Engineers,grok,7
+Manufacturing,Industrial Engineers,o4-mini-high,4
+Manufacturing,Industrial Engineers,o3-high,2
+Manufacturing,Industrial Engineers,gpt-5-high,9
+Manufacturing,Industrial Engineers,claude,17
+Manufacturing,Mechanical Engineers,gpt-4o,4
+Manufacturing,Mechanical Engineers,gemini,8
+Manufacturing,Mechanical Engineers,grok,13
+Manufacturing,Mechanical Engineers,o4-mini-high,20
+Manufacturing,Mechanical Engineers,o3-high,22
+Manufacturing,Mechanical Engineers,gpt-5-high,25
+Manufacturing,Mechanical Engineers,claude,23
+Manufacturing,"Shipping, Receiving, and Inventory Clerks",gpt-4o,27
+Manufacturing,"Shipping, Receiving, and Inventory Clerks",gemini,22
+Manufacturing,"Shipping, Receiving, and Inventory Clerks",grok,18
+Manufacturing,"Shipping, Receiving, and Inventory Clerks",o4-mini-high,53
+Manufacturing,"Shipping, Receiving, and Inventory Clerks",o3-high,64
+Manufacturing,"Shipping, Receiving, and Inventory Clerks",gpt-5-high,57
+Manufacturing,"Shipping, Receiving, and Inventory Clerks",claude,76
+"Professional, Scientific, and Technical Services",Accountants and Auditors,gpt-4o,5
+"Professional, Scientific, and Technical Services",Accountants and Auditors,gemini,2
+"Professional, Scientific, and Technical Services",Accountants and Auditors,grok,2
+"Professional, Scientific, and Technical Services",Accountants and Auditors,o4-mini-high,9
+"Professional, Scientific, and Technical Services",Accountants and Auditors,o3-high,5
+"Professional, Scientific, and Technical Services",Accountants and Auditors,gpt-5-high,15
+"Professional, Scientific, and Technical Services",Accountants and Auditors,claude,24
+"Professional, Scientific, and Technical Services",Computer and Information Systems Managers,gpt-4o,16
+"Professional, Scientific, and Technical Services",Computer and Information Systems Managers,gemini,21
+"Professional, Scientific, and Technical Services",Computer and Information Systems Managers,grok,28
+"Professional, Scientific, and Technical Services",Computer and Information Systems Managers,o4-mini-high,27
+"Professional, Scientific, and Technical Services",Computer and Information Systems Managers,o3-high,39
+"Professional, Scientific, and Technical Services",Computer and Information Systems Managers,gpt-5-high,52
+"Professional, Scientific, and Technical Services",Computer and Information Systems Managers,claude,40
+"Professional, Scientific, and Technical Services",Lawyers,gpt-4o,11
+"Professional, Scientific, and Technical Services",Lawyers,gemini,22
+"Professional, Scientific, and Technical Services",Lawyers,grok,27
+"Professional, Scientific, and Technical Services",Lawyers,o4-mini-high,18
+"Professional, Scientific, and Technical Services",Lawyers,o3-high,27
+"Professional, Scientific, and Technical Services",Lawyers,gpt-5-high,46
+"Professional, Scientific, and Technical Services",Lawyers,claude,46
+"Professional, Scientific, and Technical Services",Project Management Specialists,gpt-4o,9
+"Professional, Scientific, and Technical Services",Project Management Specialists,gemini,9
+"Professional, Scientific, and Technical Services",Project Management Specialists,grok,14
+"Professional, Scientific, and Technical Services",Project Management Specialists,o4-mini-high,24
+"Professional, Scientific, and Technical Services",Project Management Specialists,o3-high,24
+"Professional, Scientific, and Technical Services",Project Management Specialists,gpt-5-high,26
+"Professional, Scientific, and Technical Services",Project Management Specialists,claude,42
+"Professional, Scientific, and Technical Services",Software Developers,gpt-4o,30
+"Professional, Scientific, and Technical Services",Software Developers,gemini,48
+"Professional, Scientific, and Technical Services",Software Developers,grok,50
+"Professional, Scientific, and Technical Services",Software Developers,o4-mini-high,63
+"Professional, Scientific, and Technical Services",Software Developers,o3-high,70
+"Professional, Scientific, and Technical Services",Software Developers,gpt-5-high,68
+"Professional, Scientific, and Technical Services",Software Developers,claude,70
+Government,Administrative Services Managers,gpt-4o,20
+Government,Administrative Services Managers,gemini,36
+Government,Administrative Services Managers,grok,25
+Government,Administrative Services Managers,o4-mini-high,18
+Government,Administrative Services Managers,o3-high,30
+Government,Administrative Services Managers,gpt-5-high,43
+Government,Administrative Services Managers,claude,62
+Government,"Child, Family, and School Social Workers",gpt-4o,7
+Government,"Child, Family, and School Social Workers",gemini,21
+Government,"Child, Family, and School Social Workers",grok,26
+Government,"Child, Family, and School Social Workers",o4-mini-high,22
+Government,"Child, Family, and School Social Workers",o3-high,22
+Government,"Child, Family, and School Social Workers",gpt-5-high,21
+Government,"Child, Family, and School Social Workers",claude,42
+Government,Compliance Officers,gpt-4o,32
+Government,Compliance Officers,gemini,39
+Government,Compliance Officers,grok,52
+Government,Compliance Officers,o4-mini-high,53
+Government,Compliance Officers,o3-high,56
+Government,Compliance Officers,gpt-5-high,69
+Government,Compliance Officers,claude,65
+Government,First-Line Supervisors of Police and Detectives,gpt-4o,14
+Government,First-Line Supervisors of Police and Detectives,gemini,42
+Government,First-Line Supervisors of Police and Detectives,grok,31
+Government,First-Line Supervisors of Police and Detectives,o4-mini-high,31
+Government,First-Line Supervisors of Police and Detectives,o3-high,43
+Government,First-Line Supervisors of Police and Detectives,gpt-5-high,37
+Government,First-Line Supervisors of Police and Detectives,claude,49
+Government,Recreation Workers,gpt-4o,4
+Government,Recreation Workers,gemini,14
+Government,Recreation Workers,grok,19
+Government,Recreation Workers,o4-mini-high,20
+Government,Recreation Workers,o3-high,24
+Government,Recreation Workers,gpt-5-high,40
+Government,Recreation Workers,claude,37
+Health Care and Social Assistance,First-Line Supervisors of Office and Administrative Support Workers,gpt-4o,7
+Health Care and Social Assistance,First-Line Supervisors of Office and Administrative Support Workers,gemini,18
+Health Care and Social Assistance,First-Line Supervisors of Office and Administrative Support Workers,grok,7
+Health Care and Social Assistance,First-Line Supervisors of Office and Administrative Support Workers,o4-mini-high,29
+Health Care and Social Assistance,First-Line Supervisors of Office and Administrative Support Workers,o3-high,27
+Health Care and Social Assistance,First-Line Supervisors of Office and Administrative Support Workers,gpt-5-high,33
+Health Care and Social Assistance,First-Line Supervisors of Office and Administrative Support Workers,claude,41
+Health Care and Social Assistance,Medical Secretaries and Administrative Assistants,gpt-4o,12
+Health Care and Social Assistance,Medical Secretaries and Administrative Assistants,gemini,24
+Health Care and Social Assistance,Medical Secretaries and Administrative Assistants,grok,27
+Health Care and Social Assistance,Medical Secretaries and Administrative Assistants,o4-mini-high,23
+Health Care and Social Assistance,Medical Secretaries and Administrative Assistants,o3-high,42
+Health Care and Social Assistance,Medical Secretaries and Administrative Assistants,gpt-5-high,44
+Health Care and Social Assistance,Medical Secretaries and Administrative Assistants,claude,41
+Health Care and Social Assistance,Medical and Health Services Managers,gpt-4o,6
+Health Care and Social Assistance,Medical and Health Services Managers,gemini,26
+Health Care and Social Assistance,Medical and Health Services Managers,grok,28
+Health Care and Social Assistance,Medical and Health Services Managers,o4-mini-high,17
+Health Care and Social Assistance,Medical and Health Services Managers,o3-high,23
+Health Care and Social Assistance,Medical and Health Services Managers,gpt-5-high,52
+Health Care and Social Assistance,Medical and Health Services Managers,claude,65
+Health Care and Social Assistance,Nurse Practitioners,gpt-4o,12
+Health Care and Social Assistance,Nurse Practitioners,gemini,48
+Health Care and Social Assistance,Nurse Practitioners,grok,44
+Health Care and Social Assistance,Nurse Practitioners,o4-mini-high,38
+Health Care and Social Assistance,Nurse Practitioners,o3-high,42
+Health Care and Social Assistance,Nurse Practitioners,gpt-5-high,56
+Health Care and Social Assistance,Nurse Practitioners,claude,56
+Health Care and Social Assistance,Registered Nurses,gpt-4o,21
+Health Care and Social Assistance,Registered Nurses,gemini,28
+Health Care and Social Assistance,Registered Nurses,grok,19
+Health Care and Social Assistance,Registered Nurses,o4-mini-high,35
+Health Care and Social Assistance,Registered Nurses,o3-high,27
+Health Care and Social Assistance,Registered Nurses,gpt-5-high,31
+Health Care and Social Assistance,Registered Nurses,claude,37
+Finance and Insurance,Customer Service Representatives,gpt-4o,18
+Finance and Insurance,Customer Service Representatives,gemini,40
+Finance and Insurance,Customer Service Representatives,grok,43
+Finance and Insurance,Customer Service Representatives,o4-mini-high,43
+Finance and Insurance,Customer Service Representatives,o3-high,49
+Finance and Insurance,Customer Service Representatives,gpt-5-high,59
+Finance and Insurance,Customer Service Representatives,claude,58
+Finance and Insurance,Financial Managers,gpt-4o,0
+Finance and Insurance,Financial Managers,gemini,7
+Finance and Insurance,Financial Managers,grok,7
+Finance and Insurance,Financial Managers,o4-mini-high,5
+Finance and Insurance,Financial Managers,o3-high,7
+Finance and Insurance,Financial Managers,gpt-5-high,11
+Finance and Insurance,Financial Managers,claude,32
+Finance and Insurance,Financial and Investment Analysts,gpt-4o,7
+Finance and Insurance,Financial and Investment Analysts,gemini,30
+Finance and Insurance,Financial and Investment Analysts,grok,18
+Finance and Insurance,Financial and Investment Analysts,o4-mini-high,20
+Finance and Insurance,Financial and Investment Analysts,o3-high,34
+Finance and Insurance,Financial and Investment Analysts,gpt-5-high,33
+Finance and Insurance,Financial and Investment Analysts,claude,41
+Finance and Insurance,Personal Financial Advisors,gpt-4o,9
+Finance and Insurance,Personal Financial Advisors,gemini,27
+Finance and Insurance,Personal Financial Advisors,grok,16
+Finance and Insurance,Personal Financial Advisors,o4-mini-high,18
+Finance and Insurance,Personal Financial Advisors,o3-high,27
+Finance and Insurance,Personal Financial Advisors,gpt-5-high,20
+Finance and Insurance,Personal Financial Advisors,claude,64
+Finance and Insurance,"Securities, Commodities, and Financial Services Sales Agents",gpt-4o,16
+Finance and Insurance,"Securities, Commodities, and Financial Services Sales Agents",gemini,23
+Finance and Insurance,"Securities, Commodities, and Financial Services Sales Agents",grok,28
+Finance and Insurance,"Securities, Commodities, and Financial Services Sales Agents",o4-mini-high,21
+Finance and Insurance,"Securities, Commodities, and Financial Services Sales Agents",o3-high,23
+Finance and Insurance,"Securities, Commodities, and Financial Services Sales Agents",gpt-5-high,29
+Finance and Insurance,"Securities, Commodities, and Financial Services Sales Agents",claude,42
+Retail Trade,First-Line Supervisors of Retail Sales Workers,gpt-4o,10
+Retail Trade,First-Line Supervisors of Retail Sales Workers,gemini,16
+Retail Trade,First-Line Supervisors of Retail Sales Workers,grok,21
+Retail Trade,First-Line Supervisors of Retail Sales Workers,o4-mini-high,20
+Retail Trade,First-Line Supervisors of Retail Sales Workers,o3-high,29
+Retail Trade,First-Line Supervisors of Retail Sales Workers,gpt-5-high,34
+Retail Trade,First-Line Supervisors of Retail Sales Workers,claude,59
+Retail Trade,General and Operations Managers,gpt-4o,22
+Retail Trade,General and Operations Managers,gemini,40
+Retail Trade,General and Operations Managers,grok,36
+Retail Trade,General and Operations Managers,o4-mini-high,49
+Retail Trade,General and Operations Managers,o3-high,51
+Retail Trade,General and Operations Managers,gpt-5-high,57
+Retail Trade,General and Operations Managers,claude,67
+Retail Trade,Pharmacists,gpt-4o,7
+Retail Trade,Pharmacists,gemini,13
+Retail Trade,Pharmacists,grok,8
+Retail Trade,Pharmacists,o4-mini-high,2
+Retail Trade,Pharmacists,o3-high,11
+Retail Trade,Pharmacists,gpt-5-high,13
+Retail Trade,Pharmacists,claude,26
+Retail Trade,Private Detectives and Investigators,gpt-4o,17
+Retail Trade,Private Detectives and Investigators,gemini,53
+Retail Trade,Private Detectives and Investigators,grok,65
+Retail Trade,Private Detectives and Investigators,o4-mini-high,48
+Retail Trade,Private Detectives and Investigators,o3-high,54
+Retail Trade,Private Detectives and Investigators,gpt-5-high,48
+Retail Trade,Private Detectives and Investigators,claude,70
+Wholesale Trade,First-Line Supervisors of Non-Retail Sales Workers,gpt-4o,25
+Wholesale Trade,First-Line Supervisors of Non-Retail Sales Workers,gemini,24
+Wholesale Trade,First-Line Supervisors of Non-Retail Sales Workers,grok,24
+Wholesale Trade,First-Line Supervisors of Non-Retail Sales Workers,o4-mini-high,54
+Wholesale Trade,First-Line Supervisors of Non-Retail Sales Workers,o3-high,63
+Wholesale Trade,First-Line Supervisors of Non-Retail Sales Workers,gpt-5-high,60
+Wholesale Trade,First-Line Supervisors of Non-Retail Sales Workers,claude,69
+Wholesale Trade,Order Clerks,gpt-4o,7
+Wholesale Trade,Order Clerks,gemini,2
+Wholesale Trade,Order Clerks,grok,6
+Wholesale Trade,Order Clerks,o4-mini-high,7
+Wholesale Trade,Order Clerks,o3-high,13
+Wholesale Trade,Order Clerks,gpt-5-high,23
+Wholesale Trade,Order Clerks,claude,28
+Wholesale Trade,Sales Managers,gpt-4o,22
+Wholesale Trade,Sales Managers,gemini,34
+Wholesale Trade,Sales Managers,grok,43
+Wholesale Trade,Sales Managers,o4-mini-high,62
+Wholesale Trade,Sales Managers,o3-high,70
+Wholesale Trade,Sales Managers,gpt-5-high,79
+Wholesale Trade,Sales Managers,claude,68
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",gpt-4o,22
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",gemini,42
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",grok,45
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",o4-mini-high,43
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",o3-high,54
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",gpt-5-high,68
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",claude,60
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",gpt-4o,4
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",gemini,20
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",grok,20
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",o4-mini-high,20
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",o3-high,24
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",gpt-5-high,29
+Wholesale Trade,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",claude,47
+Information,Audio and Video Technicians,gpt-4o,10
+Information,Audio and Video Technicians,gemini,2
+Information,Audio and Video Technicians,grok,0
+Information,Audio and Video Technicians,o4-mini-high,24
+Information,Audio and Video Technicians,o3-high,20
+Information,Audio and Video Technicians,gpt-5-high,30
+Information,Audio and Video Technicians,claude,2
+Information,Editors,gpt-4o,13
+Information,Editors,gemini,43
+Information,Editors,grok,44
+Information,Editors,o4-mini-high,44
+Information,Editors,o3-high,69
+Information,Editors,gpt-5-high,75
+Information,Editors,claude,64
+Information,Film and Video Editors,gpt-4o,2
+Information,Film and Video Editors,gemini,15
+Information,Film and Video Editors,grok,17
+Information,Film and Video Editors,o4-mini-high,10
+Information,Film and Video Editors,o3-high,12
+Information,Film and Video Editors,gpt-5-high,17
+Information,Film and Video Editors,claude,17
+Information,"News Analysts, Reporters, and Journalists",gpt-4o,19
+Information,"News Analysts, Reporters, and Journalists",gemini,49
+Information,"News Analysts, Reporters, and Journalists",grok,29
+Information,"News Analysts, Reporters, and Journalists",o4-mini-high,35
+Information,"News Analysts, Reporters, and Journalists",o3-high,53
+Information,"News Analysts, Reporters, and Journalists",gpt-5-high,40
+Information,"News Analysts, Reporters, and Journalists",claude,51
+Information,Producers and Directors,gpt-4o,2
+Information,Producers and Directors,gemini,16
+Information,Producers and Directors,grok,16
+Information,Producers and Directors,o4-mini-high,9
+Information,Producers and Directors,o3-high,18
+Information,Producers and Directors,gpt-5-high,29
+Information,Producers and Directors,claude,31

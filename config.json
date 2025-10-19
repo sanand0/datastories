@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "gdpval",
+      "title": "GDPVal: AI Augmentation",
+      "description": "Explore occupations most suitable for AI augmentation based on OpenAI's GDPVal exercise",
+      "link": "gdpval/index.html",
+      "screenshot": "gdpval/screenshot.webp"
+    },
+    {
       "id": "browser-history-rabbit-holes",
       "title": "Rabbit Holes",
       "description": "An interactive map of 3,560 browsing chains showing how sparks turn into deep dives across the web.",
