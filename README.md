@@ -6,6 +6,7 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [LLM Code Deployment](tds-llm-code-deploy/) evaluation. Notes and stories from evaluating an [IITM student project](https://tds.s-anand.net/#/project-llm-code-deployment).
 - [Browser History](browser-history/). Vibe-compute and vibe-visualize my web browsing history.
   - [Search Funnels](browser-history/search-funnels/). "A data story about the journey from search to satisfaction—revealing the hope in swift clicks and the curiosity in meandering paths."
   - [Rabbit Holes](browser-history/rabbit-holes/). "A visualization of browsing journeys - how a single spark becomes momentum, how curiosity tightens into flow, and the tender moment when we surface."
