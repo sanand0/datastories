@@ -6,6 +6,7 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [India's Renewable Energy Revolution](renewable-energy-india-expo/). Analysis of 519 exhibitors at REI Expo 2025 reveals India building complete clean energy value chain—from silicon to O&M—with 85% domestic players, solar dominating 64% of activity, and pragmatic China collaboration.
 - [LLM Code Deployment](tds-llm-code-deploy/) evaluation. Notes and stories from evaluating an [IITM student project](https://tds.s-anand.net/#/project-llm-code-deployment).
 - [Browser History](browser-history/). Vibe-compute and vibe-visualize my web browsing history.
   - [Search Funnels](browser-history/search-funnels/). "A data story about the journey from search to satisfaction—revealing the hope in swift clicks and the curiosity in meandering paths."

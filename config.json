@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "renewable-energy-india-expo",
+      "title": "India's Renewable Energy Revolution",
+      "description": "A narrative of REI Expo 2025 exhibitors: domestic players, solar dominance, and China collaboration.",
+      "link": "renewable-energy-india-expo/index.html",
+      "screenshot": "renewable-energy-india-expo/screenshot.webp"
+    },
+    {
       "id": "gdpval",
       "title": "GDPVal: AI Augmentation",
       "description": "Explore occupations most suitable for AI augmentation based on OpenAI's GDPVal exercise",
