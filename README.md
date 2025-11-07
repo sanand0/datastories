@@ -6,6 +6,7 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [GitHub Copilot Logs - Classroom Analysis](tds-github-copilot/). Analysis of 200+ GitHub Copilot CLI sessions from students completing a coding assignment. Reveals OS distribution, model preferences, version sprawl, and verification practices.
 - [OpenAI Prompt Caching Experiment](openai-caching/). Experiment to validate OpenAI's prompt caching behavior. Findings: caching has variable lag and expiry, but works with single as well as multi-message prompts. Documentation is mostly accurate.
 - [India's Renewable Energy Revolution](renewable-energy-india-expo/). Analysis of 519 exhibitors at REI Expo 2025 reveals India building complete clean energy value chain—from silicon to O&M—with 85% domestic players, solar dominating 64% of activity, and pragmatic China collaboration.
 - [LLM Code Deployment](tds-llm-code-deploy/) evaluation. Notes and stories from evaluating an [IITM student project](https://tds.s-anand.net/#/project-llm-code-deployment).
