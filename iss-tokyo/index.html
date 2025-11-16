@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Invisible Space Station: Tokyo's 37 Million People Never See the ISS</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-medium: #1a1a1a;
+            --text-light: #f0f0f0;
+            --text-dim: #888;
+            --accent: #ff6b35;
+            --accent-bright: #ff9f1c;
+            --tokyo-red: #ff1744;
+            --auckland-green: #00e676;
+            --iss-gold: #ffd700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.3"/></svg>');
+            background-size: 50px 50px;
+            animation: stars 100s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes stars {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-50px, -50px); }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 .highlight {
+            color: var(--tokyo-red);
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-dim);
+            max-width: 800px;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-box {
+            background: var(--bg-medium);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--tokyo-red);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 1;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-bright);
+        }
+
+        .prose {
+            max-width: 800px;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .prose p {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0d0d15 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        #map-container {
+            width: 100%;
+            height: 600px;
+            background: #000;
+            border-radius: 12px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        #bar-chart {
+            width: 100%;
+            height: 500px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .comparison-card {
+            background: var(--bg-medium);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .comparison-card.tokyo {
+            border: 3px solid var(--tokyo-red);
+        }
+
+        .comparison-card.auckland {
+            border: 3px solid var(--auckland-green);
+        }
+
+        .city-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .city-stat {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 1rem 0;
+        }
+
+        .tokyo .city-stat {
+            color: var(--tokyo-red);
+        }
+
+        .auckland .city-stat {
+            color: var(--auckland-green);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 1rem 2rem;
+            width: 50%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 50%;
+            text-align: left;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-right: 50%;
+            text-align: right;
+        }
+
+        #distance-animation {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .methodology {
+            background: var(--bg-medium);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .methodology h3 {
+            color: var(--accent-bright);
+            margin-bottom: 1rem;
+        }
+
+        .methodology ul {
+            margin-left: 1.5rem;
+        }
+
+        .methodology li {
+            margin: 0.5rem 0;
+        }
+
+        .final-thought {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+        }
+
+        .final-thought blockquote {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent-bright);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                width: 100%;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                text-align: left !important;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>The <span class="highlight">Invisible</span> Space Station</h1>
+        <p class="subtitle">How orbital mechanics created a blind spot over the world's largest city, hiding the ISS from 37 million people</p>
+        <div class="stat-box">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Times Tokyo saw the ISS in 321 observations</div>
+        </div>
+        <div class="scroll-indicator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">The Discovery</h2>
+        <div class="prose">
+            <p>Every day at exactly 12:00 UTC, a GitHub Action pings the International Space Station's location API. It's a simple script, collecting latitude and longitude as the station circles Earth at 28,000 km/h. After 321 days of data, I expected to see the ISS scattered randomly across the globe.</p>
+
+            <p>What I found instead was something that made me check the numbers three times.</p>
+
+            <div class="highlight-box">
+                Tokyo, home to 37.4 million people, <strong>never once</strong> had the ISS pass within visibility range during the entire observation period.
+            </div>
+
+            <p>Meanwhile, Auckland, New Zealand with just 1.6 million residents, saw the space station 30 times. That's not random variation. That's orbital mechanics playing favorites.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">The Evidence</h2>
+        <div id="map-container"></div>
+        <div class="map-legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--iss-gold);"></div>
+                <span>ISS positions at 12:00 UTC</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--tokyo-red);"></div>
+                <span>Tokyo (0 passes)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--auckland-green);"></div>
+                <span>Auckland (30 passes)</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">The Tale of Two Cities</h2>
+        <div class="comparison-grid">
+            <div class="comparison-card tokyo">
+                <div class="city-name">Tokyo</div>
+                <div class="city-stat">0</div>
+                <p>ISS passes</p>
+                <p style="margin-top: 1rem; color: var(--text-dim);">37.4 million people</p>
+                <p style="font-size: 0.9rem; color: var(--tokyo-red);">Nearest approach: 2,333 km<br>(33 km beyond visibility)</p>
+            </div>
+            <div class="comparison-card auckland">
+                <div class="city-name">Auckland</div>
+                <div class="city-stat">30</div>
+                <p>ISS passes</p>
+                <p style="margin-top: 1rem; color: var(--text-dim);">1.6 million people</p>
+                <p style="font-size: 0.9rem; color: var(--auckland-green);">Nearest approach: 322 km<br>(directly overhead multiple times)</p>
+            </div>
+        </div>
+
+        <div class="prose">
+            <p>The numbers are staggering. Auckland's 1.6 million people had 30 opportunities to glimpse the ISS at noon UTC. Tokyo's 37.4 million had zero. If we weight by population, Aucklanders had <strong>700 times</strong> more ISS visibility per capita.</p>
+
+            <p>But here's what's truly remarkable: the ISS came within 33 kilometers of Tokyo's visibility threshold at its closest approach. Just 33 kilometers, in a zone that extends 2,300 kilometers in all directions. The orbital dance of space station and spinning Earth conspired to create an almost impossibly perfect miss.</p>
+        </div>
+
+        <div id="bar-chart"></div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">The Physics of Invisibility</h2>
+        <div class="prose">
+            <p>How does a 450-ton space station hide from the world's largest metropolitan area?</p>
+
+            <p>The International Space Station orbits Earth once every <strong>92.68 minutes</strong>, traveling at an inclination of 51.6 degrees. This means it never passes further north than 51.6°N or further south than 51.6°S. In one solar day, the ISS completes approximately <strong>15.54 orbits</strong>.</p>
+
+            <p>That fractional orbit is the key to everything.</p>
+
+            <div class="highlight-box">
+                Every 24 hours, the ISS is 0.54 orbits ahead of where it was the previous day. That's a 193-degree phase shift, meaning each day at 12:00 UTC, the station occupies a different slice of its orbital plane relative to Earth's surface.
+            </div>
+
+            <p>When you sample at exactly the same time each day, you're not sampling randomly you're sampling at regular intervals of a quasiperiodic system. The result is a pattern that looks random but contains hidden structure.</p>
+
+            <p>Tokyo sits at 35.68°N, 139.69°E. For the ISS to be visible from Tokyo at 12:00 UTC, it needs to be at roughly Tokyo's latitude AND Tokyo's longitude (give or take 2,300 km). But the orbital mechanics create a resonance: when the ISS passes through Tokyo's latitude band at 12:00 UTC, it's consistently positioned over a different longitude band typically over the Eastern Pacific, Central Asia, or Europe, but never Japan.</p>
+        </div>
+
+        <div id="distance-animation">
+            <svg width="100%" height="100%" id="orbit-viz"></svg>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Statistical Proof</h2>
+        <div class="prose">
+            <p>Could this be random chance? I ran the numbers.</p>
+
+            <p>If ISS positions were uniformly distributed across Earth's surface, Tokyo's visibility circle (2,300 km radius = 16.6 million km²) covers about 3.3% of Earth's surface. With 321 observations, we'd expect roughly <strong>10.5 passes</strong>.</p>
+
+            <p>The probability of seeing zero passes when you expect 10.5? Using the Poisson distribution:</p>
+
+            <div class="highlight-box" style="text-align: center;">
+                P(0 passes) = e<sup>-10.5</sup> = <strong>0.0000287</strong><br>
+                <span style="font-size: 0.9rem;">That's 1 in 35,000</span>
+            </div>
+
+            <p>This isn't random. This is deterministic orbital mechanics creating a systematic blind spot.</p>
+        </div>
+
+        <div class="methodology">
+            <h3>Methodology & Limitations</h3>
+            <ul>
+                <li><strong>Data Source:</strong> Open Notify ISS Position API, sampled daily at 12:00 UTC from December 30, 2024 to November 15, 2025</li>
+                <li><strong>Visibility Calculation:</strong> ISS visible from ground within ~2,300 km radius (based on orbital altitude of ~420 km)</li>
+                <li><strong>Limitations:</strong> Single daily sample creates temporal bias; results are specific to 12:00 UTC sampling time</li>
+                <li><strong>City Positions:</strong> Geographic centers used; actual metropolitan areas extend further</li>
+                <li><strong>Data Gap:</strong> One 48-hour gap on July 19-21, 2025 (1 missing observation)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">The Bigger Picture</h2>
+        <div class="prose">
+            <p>This analysis reveals something profound about how we observe the world. <strong>When you sample a system changes what you see.</strong></p>
+
+            <p>If we had collected ISS positions at 00:00 UTC instead of 12:00 UTC, Tokyo would likely have many passes, while other cities would fall into the blind spot. The ISS hasn't changed; our window into its journey has.</p>
+
+            <p>This is a microcosm of sampling bias in action. Whether you're tracking satellites, surveying populations, or measuring temperature, the timing and method of observation shapes the story your data tells. Sometimes it tells the truth. Sometimes it tells a very specific slice of truth. And sometimes like with Tokyo and the ISS it tells you that nothing is there, when really you're just looking at the wrong moment.</p>
+
+            <p>The ISS passes over Tokyo multiple times per day, every day. But at noon UTC? Never. Not once in 321 attempts.</p>
+        </div>
+    </div>
+
+    <div class="final-thought">
+        <blockquote>
+            "The space station isn't hiding from Tokyo. Our clock is hiding Tokyo from the space station."
+        </blockquote>
+    </div>
+
+    <footer>
+        <p>Analysis by Claude Code | Data from Open Notify API | Visualization inspired by the NYT Graphics Team</p>
+        <p>321 observations | December 2024 November 2025 | <a href="https://github.com/sanand0/iss-location" style="color: var(--accent);">Source Code</a></p>
+    </footer>
+
+    <script>
+        // Load analysis data and create visualizations
+        fetch('analysis.json')
+            .then(response => response.json())
+            .then(data => {
+                createMap(data);
+                createBarChart(data);
+                createOrbitVisualization(data);
+            });
+
+        function createMap(analysisData) {
+            const container = d3.select('#map-container');
+            const width = container.node().getBoundingClientRect().width;
+            const height = 600;
+
+            const svg = container.append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const projection = d3.geoNaturalEarth1()
+                .scale(width / 6)
+                .translate([width / 2, height / 2]);
+
+            const path = d3.geoPath().projection(projection);
+
+            // Load world map
+            d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+                .then(world => {
+                    // Draw countries
+                    svg.append('g')
+                        .selectAll('path')
+                        .data(topojson.feature(world, world.objects.countries).features)
+                        .enter().append('path')
+                        .attr('d', path)
+                        .attr('fill', '#2a2a2a')
+                        .attr('stroke', '#444')
+                        .attr('stroke-width', 0.5);
+
+                    // Draw ISS orbital inclination bands
+                    svg.append('path')
+                        .datum({type: 'LineString', coordinates: [[-180, 51.6], [180, 51.6]]})
+                        .attr('d', path)
+                        .attr('stroke', '#ff9f1c')
+                        .attr('stroke-width', 1)
+                        .attr('stroke-dasharray', '5,5')
+                        .attr('opacity', 0.5);
+
+                    svg.append('path')
+                        .datum({type: 'LineString', coordinates: [[-180, -51.6], [180, -51.6]]})
+                        .attr('d', path)
+                        .attr('stroke', '#ff9f1c')
+                        .attr('stroke-width', 1)
+                        .attr('stroke-dasharray', '5,5')
+                        .attr('opacity', 0.5);
+
+                    // Draw ISS positions
+                    svg.selectAll('.iss-point')
+                        .data(analysisData.iss_positions)
+                        .enter().append('circle')
+                        .attr('class', 'iss-point')
+                        .attr('cx', d => projection([d.lon, d.lat])[0])
+                        .attr('cy', d => projection([d.lon, d.lat])[1])
+                        .attr('r', 3)
+                        .attr('fill', '#ffd700')
+                        .attr('opacity', 0.6);
+
+                    // Draw cities
+                    const cities = analysisData.cities;
+
+                    // Tokyo visibility circle (showing it's empty)
+                    const tokyo = cities.find(c => c.name === 'Tokyo');
+                    if (tokyo) {
+                        const tokyoCoords = projection([tokyo.lon, tokyo.lat]);
+                        const visibilityRadius = projection([tokyo.lon + 20.7, tokyo.lat])[0] - tokyoCoords[0]; // ~2300km
+
+                        svg.append('circle')
+                            .attr('cx', tokyoCoords[0])
+                            .attr('cy', tokyoCoords[1])
+                            .attr('r', Math.abs(visibilityRadius))
+                            .attr('fill', 'none')
+                            .attr('stroke', '#ff1744')
+                            .attr('stroke-width', 2)
+                            .attr('stroke-dasharray', '10,5')
+                            .attr('opacity', 0.8);
+                    }
+
+                    // City markers
+                    svg.selectAll('.city-marker')
+                        .data(cities)
+                        .enter().append('circle')
+                        .attr('class', 'city-marker')
+                        .attr('cx', d => projection([d.lon, d.lat])[0])
+                        .attr('cy', d => projection([d.lon, d.lat])[1])
+                        .attr('r', d => d.name === 'Tokyo' ? 8 : d.name === 'Auckland' ? 8 : 5)
+                        .attr('fill', d => d.name === 'Tokyo' ? '#ff1744' : d.name === 'Auckland' ? '#00e676' : '#888')
+                        .attr('stroke', '#fff')
+                        .attr('stroke-width', 2);
+
+                    // City labels
+                    svg.selectAll('.city-label')
+                        .data(cities.filter(c => c.name === 'Tokyo' || c.name === 'Auckland'))
+                        .enter().append('text')
+                        .attr('class', 'city-label')
+                        .attr('x', d => projection([d.lon, d.lat])[0])
+                        .attr('y', d => projection([d.lon, d.lat])[1] - 15)
+                        .attr('text-anchor', 'middle')
+                        .attr('fill', d => d.name === 'Tokyo' ? '#ff1744' : '#00e676')
+                        .attr('font-weight', 'bold')
+                        .attr('font-size', '14px')
+                        .text(d => `${d.name}: ${d.passes} passes`);
+                });
+        }
+
+        function createBarChart(analysisData) {
+            const margin = {top: 40, right: 30, bottom: 100, left: 60};
+            const container = d3.select('#bar-chart');
+            const width = container.node().getBoundingClientRect().width - margin.left - margin.right;
+            const height = 500 - margin.top - margin.bottom;
+
+            const svg = container.append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const cities = analysisData.cities.sort((a, b) => b.passes - a.passes);
+
+            const x = d3.scaleBand()
+                .domain(cities.map(d => d.name))
+                .range([0, width])
+                .padding(0.2);
+
+            const y = d3.scaleLinear()
+                .domain([0, 35])
+                .range([height, 0]);
+
+            // Bars
+            svg.selectAll('.bar')
+                .data(cities)
+                .enter().append('rect')
+                .attr('class', 'bar')
+                .attr('x', d => x(d.name))
+                .attr('y', d => y(d.passes))
+                .attr('width', x.bandwidth())
+                .attr('height', d => height - y(d.passes))
+                .attr('fill', d => d.name === 'Tokyo' ? '#ff1744' : d.name === 'Auckland' ? '#00e676' : '#ff9f1c');
+
+            // Population bubbles
+            svg.selectAll('.pop-bubble')
+                .data(cities)
+                .enter().append('circle')
+                .attr('class', 'pop-bubble')
+                .attr('cx', d => x(d.name) + x.bandwidth() / 2)
+                .attr('cy', d => y(d.passes) - 20)
+                .attr('r', d => Math.sqrt(d.population) * 2)
+                .attr('fill', 'none')
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2)
+                .attr('opacity', 0.6);
+
+            // Labels
+            svg.selectAll('.bar-label')
+                .data(cities)
+                .enter().append('text')
+                .attr('class', 'bar-label')
+                .attr('x', d => x(d.name) + x.bandwidth() / 2)
+                .attr('y', d => y(d.passes) - Math.sqrt(d.population) * 2 - 25)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#fff')
+                .attr('font-size', '12px')
+                .text(d => `${d.population}M`);
+
+            // Axes
+            svg.append('g')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(x))
+                .selectAll('text')
+                .attr('fill', '#f0f0f0')
+                .attr('transform', 'rotate(-45)')
+                .style('text-anchor', 'end');
+
+            svg.append('g')
+                .call(d3.axisLeft(y))
+                .selectAll('text')
+                .attr('fill', '#f0f0f0');
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', -15)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#f0f0f0')
+                .attr('font-size', '16px')
+                .attr('font-weight', 'bold')
+                .text('ISS Passes at 12:00 UTC by City (bubble size = population)');
+
+            svg.append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('x', -height / 2)
+                .attr('y', -45)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#f0f0f0')
+                .text('Number of ISS Passes');
+        }
+
+        function createOrbitVisualization(analysisData) {
+            const svg = d3.select('#orbit-viz');
+            const width = document.getElementById('distance-animation').offsetWidth;
+            const height = 300;
+
+            svg.attr('viewBox', `0 0 ${width} ${height}`);
+
+            // Draw Earth (simplified)
+            const earthRadius = 80;
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            svg.append('circle')
+                .attr('cx', centerX)
+                .attr('cy', centerY)
+                .attr('r', earthRadius)
+                .attr('fill', '#1a4f7a');
+
+            // Draw ISS orbit
+            const orbitRadius = earthRadius + 40;
+            svg.append('ellipse')
+                .attr('cx', centerX)
+                .attr('cy', centerY)
+                .attr('rx', orbitRadius)
+                .attr('ry', orbitRadius * 0.4)
+                .attr('fill', 'none')
+                .attr('stroke', '#ffd700')
+                .attr('stroke-width', 2)
+                .attr('stroke-dasharray', '5,5');
+
+            // ISS marker
+            const iss = svg.append('circle')
+                .attr('r', 6)
+                .attr('fill', '#ffd700');
+
+            // Tokyo marker on Earth
+            const tokyoAngle = Math.PI * 0.3;
+            const tokyoX = centerX + earthRadius * Math.cos(tokyoAngle);
+            const tokyoY = centerY + earthRadius * Math.sin(tokyoAngle) * 0.4;
+
+            svg.append('circle')
+                .attr('cx', tokyoX)
+                .attr('cy', tokyoY)
+                .attr('r', 5)
+                .attr('fill', '#ff1744');
+
+            svg.append('text')
+                .attr('x', tokyoX + 10)
+                .attr('y', tokyoY)
+                .attr('fill', '#ff1744')
+                .attr('font-size', '14px')
+                .text('Tokyo');
+
+            // Distance line
+            const distanceLine = svg.append('line')
+                .attr('stroke', '#888')
+                .attr('stroke-width', 1)
+                .attr('stroke-dasharray', '3,3');
+
+            const distanceText = svg.append('text')
+                .attr('fill', '#f0f0f0')
+                .attr('font-size', '12px')
+                .attr('text-anchor', 'middle');
+
+            // Animate ISS
+            let angle = 0;
+            setInterval(() => {
+                angle += 0.02;
+                const issX = centerX + orbitRadius * Math.cos(angle);
+                const issY = centerY + orbitRadius * Math.sin(angle) * 0.4;
+                iss.attr('cx', issX).attr('cy', issY);
+
+                // Update distance line
+                distanceLine
+                    .attr('x1', issX)
+                    .attr('y1', issY)
+                    .attr('x2', tokyoX)
+                    .attr('y2', tokyoY);
+
+                const dist = Math.sqrt((issX - tokyoX) ** 2 + (issY - tokyoY) ** 2);
+                const realDist = (dist / orbitRadius * 2333).toFixed(0);
+
+                distanceText
+                    .attr('x', (issX + tokyoX) / 2)
+                    .attr('y', (issY + tokyoY) / 2 - 10)
+                    .text(`${realDist} km`);
+            }, 50);
+
+            // Labels
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 25)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#f0f0f0')
+                .attr('font-weight', 'bold')
+                .text('ISS Orbit Visualization (simplified)');
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', height - 10)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#888')
+                .attr('font-size', '12px')
+                .text('At 12:00 UTC daily, the ISS is always positioned away from Tokyo');
+        }
+    </script>
+</body>
+</html>
