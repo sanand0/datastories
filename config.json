@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "imdb-democracy-penalty",
+      "title": "IMDb's Hidden Algorithm Bias",
+      "description": "New popular movies on IMDb are punished - not by the algorithm, but the casual movie watchers rating movies lower than devotees.",
+      "link": "imdb-democracy-penalty/index.html",
+      "screenshot": "imdb-democracy-penalty/screenshot.webp"
+    },
+    {
       "id": "renewable-energy-india-expo",
       "title": "India's Renewable Energy Revolution",
       "description": "A narrative of REI Expo 2025 exhibitors: domestic players, solar dominance, and China collaboration.",
