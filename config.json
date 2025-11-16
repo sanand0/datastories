@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "generative-ai-whatsapp-group",
+      "title": "The Great Inversion",
+      "description": "Volume != Influence. Questions are liked less but engaged with more. And more insights from a Generative AI WhatsApp Group",
+      "link": "generative-ai-whatsapp-group/index.html",
+      "screenshot": "generative-ai-whatsapp-group/screenshot.webp"
+    },
+    {
       "id": "imdb-democracy-penalty",
       "title": "IMDb's Hidden Algorithm Bias",
       "description": "New popular movies on IMDb are punished - not by the algorithm, but the casual movie watchers rating movies lower than devotees.",
