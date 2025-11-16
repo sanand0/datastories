@@ -1,6 +1,6 @@
 # IMDb Democracy Penalty
 
-On 16 Nov 2025, I asked [Codex](https://github.com/sanand0/imdbscrape/pull/1) to:
+On 16 Nov 2025, I asked [Claude Code](https://github.com/sanand0/imdbscrape/pull/1) to:
 
 > Discover genuinely surprising insights that would make a smart, informed reader lean forward and say "wait, really?" Think like an investigative data journalist hunting for a scoop. Find stories that:
 >

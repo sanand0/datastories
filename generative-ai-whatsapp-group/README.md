@@ -1,6 +1,6 @@
 # The Great Inversion
 
-On 16 Nov 2025, I asked [Codex](https://github.com/sanand0/generative-ai-group/pull/1):
+On 16 Nov 2025, I asked [Claude Code](https://github.com/sanand0/generative-ai-group/pull/1):
 
 > This repo has WhatsApp conversations from a group related to Generative AI.
 >
