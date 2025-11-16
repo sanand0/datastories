@@ -1,6 +1,6 @@
 # The Invisible Space Station
 
-On 16 Nov 2025, I asked [Claude Code](https://github.com/sanand0/generative-ai-group/pull/1):
+On 16 Nov 2025, I asked [Claude Code](https://github.com/sanand0/iss-tokyo/pull/1):
 
 > This repo has the International Space Station location scraped over time.
 >
