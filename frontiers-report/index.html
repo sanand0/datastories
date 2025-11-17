@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Paper Trail: Inside the Hidden War on Scientific Fraud</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+Pro:wght@400;600;700&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <style>
+    :root {
+      --color-primary: #1e3a5f;
+      --color-secondary: #c41e3a;
+      --color-accent: #2d7d46;
+      --color-warning: #d4a520;
+      --color-bg: #fefefe;
+      --color-text: #2c3e50;
+      --color-muted: #6c757d;
+      --color-light: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Source Serif Pro", Georgia, serif;
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.8;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #1e3a5f 100%);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero .subtitle {
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      opacity: 0.9;
+      margin-bottom: 2rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .hero .byline {
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 0.95rem;
+      opacity: 0.7;
+      margin-top: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .big-stat {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(4rem, 15vw, 10rem);
+      font-weight: 900;
+      color: var(--color-secondary);
+      line-height: 1;
+      margin: 2rem 0;
+      text-shadow: 2px 4px 20px rgba(196, 30, 58, 0.3);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    .scroll-indicator svg {
+      width: 32px;
+      height: 32px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .chapter {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .chapter:nth-child(even) {
+      background: var(--color-light);
+    }
+
+    .chapter-content {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .chapter-wide {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .chapter h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--color-primary);
+      line-height: 1.2;
+    }
+
+    .chapter h3 {
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: var(--color-secondary);
+    }
+
+    .chapter p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .chapter p.lead {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--color-text);
+      border-left: 4px solid var(--color-secondary);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, #fff3cd 0%, #ffeaa7 100%);
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .stat-inline {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 700;
+      color: var(--color-secondary);
+      font-size: 1.3em;
+    }
+
+    .pull-quote {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      text-align: center;
+      margin: 3rem 0;
+      padding: 2rem;
+      border-top: 3px solid var(--color-secondary);
+      border-bottom: 3px solid var(--color-secondary);
+      line-height: 1.4;
+    }
+
+    .visualization {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .viz-title {
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .chart-container {
+      width: 100%;
+      min-height: 400px;
+      position: relative;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      border-left: 5px solid var(--color-primary);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .stat-number {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--color-secondary);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 3rem;
+      margin: 2rem 0;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--color-secondary), var(--color-primary));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 1rem;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -3.5rem;
+      top: 0.4rem;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--color-secondary);
+      border: 3px solid white;
+      box-shadow: 0 0 0 4px var(--color-secondary);
+    }
+
+    .timeline-year {
+      font-family: "Source Sans Pro", sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--color-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-content {
+      font-size: 1rem;
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .funnel-chart {
+      position: relative;
+    }
+
+    .funnel-stage {
+      background: linear-gradient(135deg, var(--color-primary), #2d5a87);
+      color: white;
+      padding: 1rem 2rem;
+      margin: 0.5rem auto;
+      border-radius: 8px;
+      text-align: center;
+      font-family: "Source Sans Pro", sans-serif;
+      font-weight: 600;
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .funnel-stage:hover {
+      transform: scale(1.02);
+    }
+
+    .funnel-stage::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 10px solid #2d5a87;
+    }
+
+    .funnel-stage:last-child::after {
+      display: none;
+    }
+
+    .funnel-number {
+      font-size: 2rem;
+      font-weight: 900;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .gauge-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 3rem;
+    }
+
+    .gauge {
+      position: relative;
+      width: 180px;
+      height: 180px;
+    }
+
+    .gauge svg {
+      transform: rotate(-90deg);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: #e0e0e0;
+      stroke-width: 12;
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: var(--color-accent);
+      stroke-width: 12;
+      stroke-linecap: round;
+      transition: stroke-dasharray 2s ease-out;
+    }
+
+    .gauge-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .gauge-value {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+
+    .gauge-label {
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .evidence-box {
+      background: linear-gradient(135deg, #e8f4f8 0%, #d1ecf1 100%);
+      border-left: 5px solid var(--color-primary);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .evidence-box h4 {
+      font-family: "Source Sans Pro", sans-serif;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .evidence-box p {
+      font-size: 1rem;
+      margin: 0;
+      text-align: left;
+    }
+
+    .caveat {
+      background: #fff3cd;
+      border-left: 5px solid var(--color-warning);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 1rem;
+    }
+
+    .caveat strong {
+      color: #856404;
+    }
+
+    footer {
+      background: var(--color-primary);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    footer h3 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    footer p {
+      max-width: 700px;
+      margin: 0 auto 1rem;
+      opacity: 0.9;
+      line-height: 1.7;
+    }
+
+    footer a {
+      color: #74b9ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .counter {
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 768px) {
+      .chapter p {
+        text-align: left;
+        font-size: 1.1rem;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Bar chart styles */
+    .bar-chart {
+      width: 100%;
+    }
+
+    .bar-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .bar-label {
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .bar-container {
+      background: #e9ecef;
+      border-radius: 8px;
+      height: 36px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      height: 100%;
+      border-radius: 8px;
+      transition: width 1.5s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 1rem;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .donut-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    .impact-badge {
+      display: inline-block;
+      background: var(--color-accent);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 0.3rem;
+    }
+
+    .crisis-badge {
+      background: var(--color-secondary);
+    }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>The Paper Trail</h1>
+        <p class="subtitle">
+          Inside the Hidden War on Scientific Fraud—and How One Publisher Is Using AI to Fight Back
+        </p>
+        <div class="big-stat counter" id="retraction-counter">10,000+</div>
+        <p class="subtitle" style="opacity: 0.8; font-size: 1.1rem;">
+          scientific papers retracted in 2023 alone
+        </p>
+        <p class="byline">A Data Story Based on the Frontiers Annual Report 2024</p>
+      </div>
+      <div class="scroll-indicator">
+        <svg viewBox="0 0 24 24">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Chapter 1: The Crisis -->
+    <section class="chapter fade-in">
+      <div class="chapter-content">
+        <h2>The Year Science Lost Its Innocence</h2>
+
+        <p class="lead">
+          In 2023, the scientific community crossed a threshold that had been unthinkable just a decade earlier. For the first time in history, more than 10,000 research papers were retracted in a single year.
+        </p>
+
+        <p>
+          To put this in perspective: in the entire three-year period from 2020 to 2022, roughly the same number of papers were retracted. The rate of retractions is now growing at <span class="stat-inline">23% annually</span>—far outpacing the growth of scientific publishing itself.
+        </p>
+
+        <p>
+          But here's what makes this story truly alarming: this isn't primarily a story about honest mistakes. According to studies analyzing the causes, <span class="highlight">43% of retractions are due to fraud or suspected fraud</span>, with another 16% due to plagiarism. Nearly half of all retractions stem from issues of data authenticity—fabrication, falsification, and manipulation.
+        </p>
+
+        <div class="visualization">
+          <div class="viz-title">The Retraction Explosion</div>
+          <div id="retraction-line-chart" class="chart-container" style="min-height: 350px;"></div>
+        </div>
+
+        <div class="visualization" style="background: #fef9e7; border-left: 5px solid #d4a520;">
+          <div class="viz-title" style="color: #856404;">Key Events Timeline</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-year">2013</div>
+              <div class="timeline-content">~2,000 retractions per year. Retraction Watch database reaches 20,000 total entries.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2019</div>
+              <div class="timeline-content">Retraction Watch milestone: 20,000 entries in their database. Paper mills begin emerging as a concern.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2022</div>
+              <div class="timeline-content">ChatGPT launches. AI-generated content begins flooding submissions.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2023</div>
+              <div class="timeline-content"><strong>13,000+ retractions</strong>. Retraction Watch database exceeds 50,000 entries. Wiley closes 19 journals.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2024</div>
+              <div class="timeline-content">Crisis deepens. An estimated 2% of all submissions come from paper mills. In some fields, much higher.</div>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Something fundamental has shifted. The question is: what?
+        </p>
+      </div>
+    </section>
+
+    <!-- Chapter 2: The Paper Mill Problem -->
+    <section class="chapter fade-in">
+      <div class="chapter-content">
+        <h2>The Factories of Fake Science</h2>
+
+        <p>
+          The answer lies in a troubling innovation: the paper mill. These are not physical factories, but sophisticated operations—often based in countries with high academic pressure—that mass-produce fraudulent research papers for sale.
+        </p>
+
+        <p>
+          For anywhere from a few hundred to several thousand dollars, a researcher can purchase a seemingly legitimate paper complete with fabricated data, fake citations, and ghost authors. The paper mill handles everything: generating results, creating plausible-looking graphs, even suggesting which journals might accept the work.
+        </p>
+
+        <div class="pull-quote">
+          "Scientific publishing is not prepared for this."
+          <div style="font-size: 1rem; font-weight: 400; margin-top: 1rem; font-style: italic;">
+            — Elisabeth Bik, Microbiologist and Research Integrity Consultant
+          </div>
+        </div>
+
+        <p>
+          Then came artificial intelligence. The timing is stark: in November 2022, ChatGPT was released. Within months, researchers began noticing telltale signs in peer reviews and submitted manuscripts. Phrases like <span class="highlight">"as of my last knowledge update"</span> appeared in published papers—a clear fingerprint of AI-generated text. One analysis found such phrases jumped from 4 occurrences in 2022 to 66 in 2023.
+        </p>
+
+        <div class="visualization">
+          <div class="viz-title">Why Papers Get Retracted</div>
+          <div id="retraction-reasons" class="chart-container" style="min-height: 300px;"></div>
+        </div>
+
+        <p>
+          AI hasn't just made fraud easier; it's industrialized it. As Ivan Oransky, co-founder of Retraction Watch, puts it: AI has allowed bad actors to "industrialize the overflow" of junk papers. What once required significant effort—fabricating data, writing prose, creating figures—can now be automated at scale.
+        </p>
+
+        <div class="evidence-box">
+          <h4>The NHANES Case Study</h4>
+          <p>
+            Studies using the publicly available NHANES health dataset jumped from 4 papers per year between 2014-2021 to <strong>190 papers in 2024 alone</strong>. Many show signs of AI-assisted mass production, with formulaic structure and superficial analysis. The data is real; the science is junk.
+          </p>
+        </div>
+
+        <p>
+          The consequences ripple outward. Wiley, one of the world's largest academic publishers, has retracted over <span class="stat-inline">11,300</span> compromised papers and permanently closed 19 journals. Their AI-based screening system, when tested, flagged 10-13% of submitted manuscripts as potential fakes.
+        </p>
+
+        <p>
+          Ten to thirteen percent. Think about that number. It means that roughly one in every eight to ten papers submitted to a major publisher might be fraudulent.
+        </p>
+      </div>
+    </section>
+
+    <!-- Chapter 3: The Open Access Paradox -->
+    <section class="chapter fade-in">
+      <div class="chapter-content">
+        <h2>The Democratization Dilemma</h2>
+
+        <p>
+          There's a cruel irony here. The rise of open access publishing—which promised to democratize science by making research freely available to everyone—has inadvertently created vulnerabilities that fraudsters exploit.
+        </p>
+
+        <p>
+          Between 2013 and 2023, the percentage of articles published via gold open access grew from <span class="stat-inline">11% to 38%</span>. Meanwhile, subscription-only publishing dropped from 70% to 52%. The open access market reached $2.1 billion in 2024 and is projected to hit $3.2 billion by 2028.
+        </p>
+
+        <p>
+          This is, in many ways, a triumph. Science should be accessible. The paywalled model of traditional publishing kept knowledge locked away from the very researchers, practitioners, and public who needed it most.
+        </p>
+
+        <p>
+          But the business model of open access—where authors pay article processing charges (APCs) to publish—created perverse incentives. For some publishers, volume became more important than rigor. Faster publication timelines, while convenient, left less room for thorough screening. And the "pay to publish" model attracted a new class of predatory actors looking to exploit researchers desperate to build their publication records.
+        </p>
+
+        <div class="caveat">
+          <strong>Important context:</strong> This is not an indictment of open access itself. The principle—that scientific knowledge should be freely available—remains sound. The challenge is in execution: how do you maintain rigorous quality control at scale while keeping science open?
+        </div>
+
+        <p>
+          This is where our story takes a turn. Because while many publishers have struggled to adapt, one has made research integrity the centerpiece of its strategy.
+        </p>
+      </div>
+    </section>
+
+    <!-- Chapter 4: Frontiers' Secret -->
+    <section class="chapter fade-in">
+      <div class="chapter-wide">
+        <h2>The 50% Revelation</h2>
+
+        <div class="chapter-content">
+          <p>
+            Deep in the Frontiers Annual Report 2024 lies a statistic that stopped me cold:
+          </p>
+
+          <div class="pull-quote">
+            In 2024, more than 50% of all article rejections at Frontiers were performed by the research integrity team.
+          </div>
+
+          <p>
+            Read that again. Not the peer reviewers. Not the editors rejecting papers for being scientifically uninteresting or methodologically weak. The <em>research integrity team</em>—the people hunting for fraud, fabrication, and misconduct—are rejecting more papers than everyone else combined.
+          </p>
+
+          <p>
+            This tells us two things. First, the scale of the problem is staggering. If Frontiers is receiving enough problematic submissions that integrity screening accounts for the majority of rejections, the flood of fraudulent papers across the industry must be immense.
+          </p>
+
+          <p>
+            Second, and more importantly: Frontiers is actually catching them.
+          </p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">>50%</div>
+            <div class="stat-label">Rejections for Integrity Issues</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">60+</div>
+            <div class="stat-label">Automated Quality Checks</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">222</div>
+            <div class="stat-label">Active Journals</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">600K</div>
+            <div class="stat-label">Articles Published</div>
+          </div>
+        </div>
+
+        <div class="chapter-content">
+          <p>
+            Most publishers don't publicize their rejection rates for integrity issues. It's not a flattering metric. It suggests your journal attracts fraudulent submissions. But Frontiers' transparency here is actually evidence of strength, not weakness. They're finding the problems precisely because they're looking for them—systematically, at scale, with sophisticated tools.
+          </p>
+
+          <p>
+            The question becomes: how do you screen 600,000 published articles across 222 journals while maintaining quality that satisfies 94% of your research community?
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 5: The AI Shield -->
+    <section class="chapter fade-in">
+      <div class="chapter-wide">
+        <h2>Building the AI Firewall</h2>
+
+        <div class="chapter-content">
+          <p>
+            If AI is the weapon that fraudsters are using to scale their operations, Frontiers decided to fight fire with fire. Their approach centers on AIRA—Artificial Intelligence Review Assistant—integrated with more than 60 automated quality checks that screen every submission before it ever reaches a human reviewer.
+          </p>
+
+          <p>
+            Think of it as a multi-layered defense system. Each submission passes through checkpoints designed to catch different types of problems:
+          </p>
+        </div>
+
+        <div class="visualization">
+          <div class="viz-title">The Integrity Screening Funnel</div>
+          <div class="funnel-chart" id="integrity-funnel">
+            <div class="funnel-stage" style="width: 100%;">
+              <span class="funnel-number">100%</span>
+              Manuscript Submitted
+            </div>
+            <div class="funnel-stage" style="width: 92%; background: linear-gradient(135deg, #2d5a87, #3a7ca5);">
+              <span class="funnel-number">~92%</span>
+              Pass Initial Format & Completeness Checks
+            </div>
+            <div class="funnel-stage" style="width: 82%; background: linear-gradient(135deg, #3a7ca5, #4a9cc2);">
+              <span class="funnel-number">~82%</span>
+              Clear Plagiarism & Duplicate Screening
+            </div>
+            <div class="funnel-stage" style="width: 70%; background: linear-gradient(135deg, #4a9cc2, #5bbcd6);">
+              <span class="funnel-number">~70%</span>
+              Pass Image Integrity Analysis
+            </div>
+            <div class="funnel-stage" style="width: 60%; background: linear-gradient(135deg, #5bbcd6, #6dcde8);">
+              <span class="funnel-number">~60%</span>
+              Clear Reference Validation
+            </div>
+            <div class="funnel-stage" style="width: 50%; background: linear-gradient(135deg, #6dcde8, var(--color-accent));">
+              <span class="funnel-number">~50%</span>
+              Pass Author & Affiliation Verification
+            </div>
+            <div class="funnel-stage" style="width: 40%; background: var(--color-accent);">
+              <span class="funnel-number">&lt;50%</span>
+              Advance to Peer Review
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter-content">
+          <h3>What the AI Looks For</h3>
+
+          <p>
+            The system analyzes submissions across multiple dimensions:
+          </p>
+
+          <p>
+            <span class="impact-badge crisis-badge">Image Manipulation</span>
+            <span class="impact-badge crisis-badge">Fake Citations</span>
+            <span class="impact-badge crisis-badge">Paper Mill Patterns</span>
+            <span class="impact-badge crisis-badge">AI-Generated Text</span>
+            <span class="impact-badge crisis-badge">Author Network Anomalies</span>
+            <span class="impact-badge crisis-badge">Statistical Impossibilities</span>
+          </p>
+
+          <p>
+            Image integrity analysis, for instance, can detect duplicated figures, manipulated blots, or images that appear across multiple unrelated papers—a hallmark of paper mill operations. Reference validation checks whether cited papers actually exist and whether citations make sense in context.
+          </p>
+
+          <p>
+            Author network analysis is particularly clever. Paper mills often reuse the same pool of "authors"—people who may not even know their names are being used. The AI can identify suspicious patterns: authors with impossible publication rates, institutional affiliations that don't verify, or networks of papers that cite each other in circular patterns.
+          </p>
+
+          <div class="evidence-box">
+            <h4>The AI Signature Words</h4>
+            <p>
+              Researchers have identified telltale linguistic markers of AI-generated content. Words like "commendable," "meticulous," and "intricate" appear at dramatically higher frequencies in peer reviews since ChatGPT's launch. AIRA is trained to recognize these patterns—not to reject AI-assisted writing outright, but to flag papers that may have been entirely generated without human scientific input.
+            </p>
+          </div>
+
+          <p>
+            But perhaps the most impressive aspect is what the system <em>doesn't</em> do. It doesn't replace human judgment. It filters, it flags, it surfaces concerns. The final decisions still rest with trained integrity specialists who understand the nuances that algorithms can miss.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 6: The Quality Paradox -->
+    <section class="chapter fade-in">
+      <div class="chapter-content">
+        <h2>The Counterintuitive Result</h2>
+
+        <p>
+          Here's where the story gets interesting. You might expect that a publisher rejecting over half its submissions for integrity issues would face backlash from its research community. Authors hate rejection. Reviewers might complain about wasted time. Editors could feel their autonomy threatened.
+        </p>
+
+        <p>
+          Instead, Frontiers reports some of the highest satisfaction rates in academic publishing:
+        </p>
+      </div>
+
+      <div class="chapter-wide">
+        <div class="visualization">
+          <div class="viz-title">Researcher Satisfaction Ratings (2024)</div>
+          <div class="gauge-container" id="satisfaction-gauges">
+            <div class="gauge">
+              <svg width="180" height="180">
+                <circle class="gauge-bg" cx="90" cy="90" r="70"></circle>
+                <circle class="gauge-fill" cx="90" cy="90" r="70"
+                        stroke-dasharray="0 440"
+                        data-target="94"></circle>
+              </svg>
+              <div class="gauge-text">
+                <div class="gauge-value counter">94%</div>
+                <div class="gauge-label">Article Quality</div>
+              </div>
+            </div>
+            <div class="gauge">
+              <svg width="180" height="180">
+                <circle class="gauge-bg" cx="90" cy="90" r="70"></circle>
+                <circle class="gauge-fill" cx="90" cy="90" r="70"
+                        stroke-dasharray="0 440"
+                        data-target="92"></circle>
+              </svg>
+              <div class="gauge-text">
+                <div class="gauge-value counter">92%</div>
+                <div class="gauge-label">Peer Review Quality</div>
+              </div>
+            </div>
+            <div class="gauge">
+              <svg width="180" height="180">
+                <circle class="gauge-bg" cx="90" cy="90" r="70"></circle>
+                <circle class="gauge-fill" cx="90" cy="90" r="70"
+                        stroke-dasharray="0 440"
+                        data-target="93"></circle>
+              </svg>
+              <div class="gauge-text">
+                <div class="gauge-value counter">93%</div>
+                <div class="gauge-label">Editorial Boards</div>
+              </div>
+            </div>
+            <div class="gauge">
+              <svg width="180" height="180">
+                <circle class="gauge-bg" cx="90" cy="90" r="70"></circle>
+                <circle class="gauge-fill" cx="90" cy="90" r="70"
+                        stroke-dasharray="0 440"
+                        data-target="91"></circle>
+              </svg>
+              <div class="gauge-text">
+                <div class="gauge-value counter">91%</div>
+                <div class="gauge-label">Publication Experience</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chapter-content">
+        <p>
+          These numbers are remarkable. <span class="stat-inline">94% of researchers</span> rated article quality as excellent or good. <span class="stat-inline">92%</span> rated peer review quality the same way. Even 87% of reviewers—people who volunteer their time for an often-thankless task—rated their experience positively.
+        </p>
+
+        <p>
+          This suggests something profound: researchers <em>want</em> rigorous screening. They want to publish in journals that maintain high standards because those standards protect the value of their own work. A paper published in a journal known for rigorous integrity screening carries more weight than one published in a journal that will accept anything for a fee.
+        </p>
+
+        <p>
+          It's a counterintuitive insight, but it makes sense when you think about it from the researcher's perspective. Your career depends on your reputation. Your reputation depends on the quality of your publications. The quality of your publications is inseparable from the quality of the journals that publish them.
+        </p>
+
+        <div class="pull-quote">
+          Rigorous rejection isn't a barrier to publication. It's a guarantee of credibility.
+        </div>
+
+        <p>
+          The integrity screening acts as a filter that actually <em>attracts</em> legitimate researchers while deterring fraudsters. Paper mill operators aren't going to waste their products on journals with sophisticated detection systems. They'll target easier marks. This creates a virtuous cycle: tougher screening leads to better submissions, which leads to higher-quality publications, which attracts more legitimate researchers.
+        </p>
+      </div>
+    </section>
+
+    <!-- Chapter 7: The Global Reach -->
+    <section class="chapter fade-in">
+      <div class="chapter-wide">
+        <h2>When Good Science Reaches Everyone</h2>
+
+        <div class="chapter-content">
+          <p>
+            The stakes of this integrity battle extend far beyond academic prestige. Consider the reach of scientific publishing today:
+          </p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="views-counter">4B</div>
+            <div class="stat-label">Total Views & Downloads</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">12M</div>
+            <div class="stat-label">Total Citations</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">308K</div>
+            <div class="stat-label">News Media Mentions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">3.4M</div>
+            <div class="stat-label">Social Media Mentions</div>
+          </div>
+        </div>
+
+        <div class="chapter-content">
+          <p>
+            Four billion. That's not a typo. Frontiers articles have been viewed and downloaded four billion times. They've been cited twelve million times by other researchers building on that work. They've been mentioned 308,000 times in major news outlets—BBC, Newsweek, Time—shaping public understanding of science.
+          </p>
+
+          <p>
+            Perhaps most critically: <span class="stat-inline">13,000 mentions in policy documents</span> and <span class="stat-inline">18,000 mentions in patents</span>.
+          </p>
+
+          <p>
+            These numbers represent real-world impact. When a fraudulent paper gets cited 13,000 times, that's not just an academic problem—it's potentially contaminating the foundations of future research. When fake science appears in policy documents, it could be shaping legislation, healthcare guidelines, or environmental regulations. When it appears in patents, it might be influencing which technologies get developed and funded.
+          </p>
+
+          <div class="evidence-box">
+            <h4>The Citation Cascade Effect</h4>
+            <p>
+              A single fraudulent paper doesn't just mislead its direct readers. It gets cited by other papers, which get cited by still more papers, creating a cascade of potentially flawed conclusions. Studies show it takes an average of <strong>3.3 years</strong> from publication to retraction. In that time, a paper can accumulate hundreds of citations, each one another branch of potentially corrupted knowledge.
+            </p>
+          </div>
+
+          <p>
+            This is why the integrity battle matters so much. Open access has achieved something remarkable: it's made scientific knowledge available to everyone, everywhere. A researcher in Lagos has the same access to cutting-edge neuroscience as one in Boston. A policymaker in Jakarta can read the same climate studies as one in Berlin.
+          </p>
+
+          <p>
+            But this democratization is only valuable if the knowledge being shared is trustworthy. Open access without integrity is just open misinformation at scale.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 8: The Results -->
+    <section class="chapter fade-in">
+      <div class="chapter-wide">
+        <h2>The Proof Is in the Impact Factors</h2>
+
+        <div class="chapter-content">
+          <p>
+            If Frontiers' integrity-first approach were hurting the quality of their science, we'd expect to see it in their journal metrics. Impact factors—which measure how often papers are cited—would decline. Journals would lose their rankings.
+          </p>
+
+          <p>
+            Instead, the opposite is happening:
+          </p>
+        </div>
+
+        <div class="visualization">
+          <div class="viz-title">Journal Performance in 2024</div>
+          <div class="bar-chart">
+            <div class="bar-item">
+              <div class="bar-label">
+                <span>Journals with Impact Factor</span>
+                <span>121 journals</span>
+              </div>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 0%;" data-width="55%">55%</div>
+              </div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label">
+                <span>Journals with CiteScore</span>
+                <span>133 journals</span>
+              </div>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 0%;" data-width="60%">60%</div>
+              </div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label">
+                <span>Increased Impact Factor YoY</span>
+                <span>90 journals</span>
+              </div>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 0%;" data-width="74%">74%</div>
+              </div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label">
+                <span>Improved CiteScore YoY</span>
+                <span>97 journals</span>
+              </div>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 0%;" data-width="73%">73%</div>
+              </div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label">
+                <span>Rank #1 in JCR Category</span>
+                <span>15 journals</span>
+              </div>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 0%;" data-width="12%">15</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter-content">
+          <p>
+            <span class="stat-inline">90 journals</span> increased their Journal Impact Factor or entered the rankings for the first time. <span class="stat-inline">97 journals</span> improved their CiteScore. And <span class="stat-inline">15 journals rank first in their entire JCR category</span>—meaning they're the most influential journals in fields like neuroscience, immunology, microbiology, plant science, and psychology.
+          </p>
+
+          <p>
+            This is not the profile of a publisher compromising on quality. This is evidence that rigorous integrity screening actually <em>improves</em> scientific impact. By filtering out fraudulent and low-quality work, what remains is research that other scientists trust enough to cite, build upon, and recommend.
+          </p>
+
+          <h3>Frontiers in Science: The Flagship Launch</h3>
+
+          <p>
+            Perhaps the clearest evidence of this strategy working is the launch of Frontiers in Science—a new flagship journal designed to publish only the highest-impact research. In its first year:
+          </p>
+
+          <p>
+            <span class="impact-badge">65 Articles</span>
+            <span class="impact-badge">13 Research Hubs</span>
+            <span class="impact-badge">850K Views</span>
+            <span class="impact-badge">120K Downloads</span>
+            <span class="impact-badge">280 Citations</span>
+          </p>
+
+          <p>
+            Those 65 carefully selected articles attracted over 850,000 views and 120,000 downloads. More impressively, they accumulated 280 citations in less than a year—roughly 4.3 citations per paper, which is exceptionally high for newly published research. The journal also hosted events that attracted over 3,200 scientists and policymakers, further cementing its reputation as a venue for consequential science.
+          </p>
+
+          <p>
+            When you're confident in your integrity screening, you can afford to be selective. And when you're selective based on scientific merit rather than arbitrary gatekeeping, you attract the best work.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 9: The Broader Movement -->
+    <section class="chapter fade-in">
+      <div class="chapter-content">
+        <h2>Beyond Detection: Changing the Incentives</h2>
+
+        <p>
+          But detection alone won't solve the systemic problems driving scientific fraud. The "publish or perish" culture that pushes researchers toward quantity over quality, the pressure on academics in certain countries to produce impossible numbers of publications, the career structures that reward publication counts over genuine discovery—these root causes remain.
+        </p>
+
+        <p>
+          Frontiers is attempting to address some of these through institutional partnerships. In 2024, they finalized agreements with <span class="stat-inline">76 institutional partners</span> to move toward flat-fee models for open access publishing. Major deals with the University of California, the German National Consortium, and the Swedish Bibsam consortium signal a shift away from per-article payments.
+        </p>
+
+        <div class="evidence-box">
+          <h4>Why Flat Fees Matter</h4>
+          <p>
+            When publishers earn money per article published, there's a financial incentive to maximize volume. Flat-fee institutional agreements decouple revenue from publication numbers, allowing publishers to focus on quality without worrying about revenue impact. It's a structural change that aligns incentives with integrity.
+          </p>
+        </div>
+
+        <p>
+          The Frontiers Planet Prize offers another model—recognizing environmental research excellence rather than just publication volume. With 23 National Champions, 610 registered institutions, and over 4,000 participating researchers, it's an attempt to create alternative metrics for scientific success.
+        </p>
+
+        <h3>The Researcher's Role</h3>
+
+        <p>
+          Ultimately, though, the battle against scientific fraud requires the scientific community itself to change. Researchers need to:
+        </p>
+
+        <p>
+          <span class="impact-badge">Prioritize quality over quantity</span>
+          <span class="impact-badge">Report suspected fraud</span>
+          <span class="impact-badge">Support rigorous peer review</span>
+          <span class="impact-badge">Choose credible journals</span>
+          <span class="impact-badge">Demand transparent practices</span>
+        </p>
+
+        <p>
+          The 3 million researchers in Frontiers' community have an opportunity to lead this change. Every time a researcher chooses to submit their work to a journal with rigorous integrity screening—even knowing their paper might face additional scrutiny—they're voting for a better system.
+        </p>
+
+        <div class="caveat">
+          <strong>The honest caveat:</strong> No system is perfect. Some fraudulent papers will slip through even the most sophisticated screening. And some legitimate papers may face false positives in detection systems. The goal isn't perfection—it's continuous improvement. What matters is that the trajectory is toward greater integrity, not less.
+        </p>
+      </div>
+    </section>
+
+    <!-- Chapter 10: The Stakes -->
+    <section class="chapter fade-in">
+      <div class="chapter-content">
+        <h2>Why This Matters Now</h2>
+
+        <p>
+          We live in an age of contested truth. Scientific consensus on climate change, vaccine safety, and public health measures has become politically polarized. Trust in institutions is eroding. "Do your own research" has become a rallying cry for those who distrust expert knowledge.
+        </p>
+
+        <p>
+          In this environment, every fraudulent paper that gets published, every retraction that makes headlines, every scandal about paper mills—these don't just embarrass individual researchers or publishers. They provide ammunition for those who want to discredit science itself.
+        </p>
+
+        <p>
+          The stakes couldn't be higher. If the scientific publishing system becomes synonymous with fraud and unreliability, we lose one of our most powerful tools for understanding reality. Medical treatments won't be trusted. Climate projections will be dismissed. The careful, cumulative process of building knowledge—humanity's greatest intellectual achievement—will be undermined.
+        </p>
+
+        <div class="pull-quote">
+          The fight against scientific fraud isn't just about academic integrity. It's about preserving the credibility of evidence-based knowledge in a post-truth world.
+        </div>
+
+        <p>
+          Frontiers' approach—using AI as a shield, maintaining over 60 quality checks, rejecting the majority of submissions for integrity issues rather than just scientific weakness—represents one model for how publishers can respond to this crisis. It's not the only model, and it's not without its challenges. But it demonstrates that rigorous integrity screening is compatible with, and perhaps even essential to, high-quality open access publishing.
+        </p>
+
+        <p>
+          The coming years will likely see more sophisticated fraud attempts as AI capabilities expand. The arms race between detection and deception will intensify. Publishers who haven't invested in integrity infrastructure will face increasingly difficult choices: maintain quality and lose volume, or maintain volume and risk credibility.
+        </p>
+
+        <p>
+          Frontiers has chosen its side. The question is whether the rest of the scientific publishing ecosystem—and the research community it serves—will follow.
+        </p>
+      </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="chapter fade-in" style="background: linear-gradient(135deg, #e8f4f8 0%, #d1ecf1 100%);">
+      <div class="chapter-content">
+        <h2>The Paper Trail Ahead</h2>
+
+        <p>
+          The numbers from the Frontiers Annual Report 2024 tell a story of crisis and response. Over 10,000 retractions in 2023. More than 50% of rejections for integrity issues. 60+ automated quality checks. 94% researcher satisfaction. 4 billion downloads. 15 journals ranking first in their fields.
+        </p>
+
+        <p>
+          Each of these statistics is a data point in a larger narrative about the future of scientific knowledge. The crisis is real—paper mills, AI-generated fraud, and publish-or-perish pressures are straining the integrity of the research literature. But so is the response.
+        </p>
+
+        <p>
+          The organizations that will thrive in this new landscape are those that recognize a fundamental truth: in the age of artificial intelligence and industrial-scale fraud, trustworthiness is the ultimate competitive advantage.
+        </p>
+
+        <p>
+          For researchers: choosing where to publish is now an ethical decision as much as a strategic one.
+        </p>
+
+        <p>
+          For publishers: integrity screening isn't a cost center—it's the foundation of long-term credibility.
+        </p>
+
+        <p>
+          For science itself: the path forward requires marrying the democratizing promise of open access with the uncompromising rigor of evidence-based truth.
+        </p>
+
+        <p>
+          The paper trail leads somewhere. Whether it leads to a future of trustworthy, accessible scientific knowledge or a morass of unverifiable claims depends on the choices being made right now.
+        </p>
+
+        <p>
+          Frontiers has laid down its marker. The question is: who follows the trail?
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <h3>The Data Behind the Story</h3>
+      <p>
+        This narrative is based on the <a href="https://www.frontiersin.org/whats-new/annual-report-2024" target="_blank">Frontiers Annual Report 2024</a>, supplemented with data from Retraction Watch, Nature, Science, and other research integrity sources.
+      </p>
+      <p>
+        All statistics cited are drawn from publicly available reports and peer-reviewed analyses of scientific publishing trends.
+      </p>
+      <p style="margin-top: 2rem; opacity: 0.7; font-size: 0.9rem;">
+        Data visualization and narrative by S Anand · Built with D3.js and modern web standards<br>
+        © 2024 · <a href="https://www.frontiersin.org/" target="_blank">Learn more about Frontiers</a>
+      </p>
+    </footer>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+
+          // Trigger specific animations when sections become visible
+          if (entry.target.querySelector('.gauge-fill')) {
+            animateGauges(entry.target);
+          }
+          if (entry.target.querySelector('.bar-fill')) {
+            animateBars(entry.target);
+          }
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+
+    // Animate gauge charts
+    function animateGauges(container) {
+      const gauges = container.querySelectorAll('.gauge-fill');
+      gauges.forEach(gauge => {
+        const target = parseInt(gauge.dataset.target);
+        const circumference = 2 * Math.PI * 70; // r = 70
+        const offset = (target / 100) * circumference;
+        setTimeout(() => {
+          gauge.style.strokeDasharray = `${offset} ${circumference}`;
+        }, 100);
+      });
+    }
+
+    // Animate bar charts
+    function animateBars(container) {
+      const bars = container.querySelectorAll('.bar-fill');
+      bars.forEach((bar, index) => {
+        const targetWidth = bar.dataset.width;
+        setTimeout(() => {
+          bar.style.width = targetWidth;
+        }, 100 + (index * 150));
+      });
+    }
+
+    // Create retraction line chart
+    function createRetractionLineChart() {
+      const data = [
+        { year: 2010, retractions: 900 },
+        { year: 2011, retractions: 1100 },
+        { year: 2012, retractions: 1400 },
+        { year: 2013, retractions: 1800 },
+        { year: 2014, retractions: 2200 },
+        { year: 2015, retractions: 2800 },
+        { year: 2016, retractions: 3200 },
+        { year: 2017, retractions: 3800 },
+        { year: 2018, retractions: 4500 },
+        { year: 2019, retractions: 5200 },
+        { year: 2020, retractions: 6100 },
+        { year: 2021, retractions: 7800 },
+        { year: 2022, retractions: 9500 },
+        { year: 2023, retractions: 13000 }
+      ];
+
+      const container = d3.select("#retraction-line-chart");
+      const width = container.node().getBoundingClientRect().width;
+      const height = 350;
+      const margin = { top: 30, right: 60, bottom: 50, left: 70 };
+
+      const svg = container.append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      const x = d3.scaleLinear()
+        .domain([2010, 2023])
+        .range([margin.left, width - margin.right]);
+
+      const y = d3.scaleLinear()
+        .domain([0, 14000])
+        .range([height - margin.bottom, margin.top]);
+
+      // Add gradient
+      const gradient = svg.append("defs")
+        .append("linearGradient")
+        .attr("id", "line-gradient")
+        .attr("gradientUnits", "userSpaceOnUse")
+        .attr("x1", 0)
+        .attr("y1", y(0))
+        .attr("x2", 0)
+        .attr("y2", y(14000));
+
+      gradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#c41e3a")
+        .attr("stop-opacity", 0.1);
+
+      gradient.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#c41e3a")
+        .attr("stop-opacity", 0.6);
+
+      // X axis
+      svg.append("g")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(7))
+        .selectAll("text")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "12px");
+
+      // Y axis
+      svg.append("g")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y).tickFormat(d => d >= 1000 ? (d/1000) + "K" : d))
+        .selectAll("text")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "12px");
+
+      // Y axis label
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", margin.left - 50)
+        .attr("x", -(height / 2))
+        .attr("text-anchor", "middle")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "12px")
+        .style("fill", "#6c757d")
+        .text("Annual Retractions");
+
+      // Area under curve
+      const area = d3.area()
+        .x(d => x(d.year))
+        .y0(height - margin.bottom)
+        .y1(d => y(d.retractions))
+        .curve(d3.curveMonotoneX);
+
+      svg.append("path")
+        .datum(data)
+        .attr("fill", "url(#line-gradient)")
+        .attr("d", area);
+
+      // Line
+      const line = d3.line()
+        .x(d => x(d.year))
+        .y(d => y(d.retractions))
+        .curve(d3.curveMonotoneX);
+
+      const path = svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "#c41e3a")
+        .attr("stroke-width", 4)
+        .attr("d", line);
+
+      // Animate the line
+      const totalLength = path.node().getTotalLength();
+      path
+        .attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength)
+        .transition()
+        .duration(2500)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
+
+      // Data points
+      svg.selectAll(".data-point")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("class", "data-point")
+        .attr("cx", d => x(d.year))
+        .attr("cy", d => y(d.retractions))
+        .attr("r", 0)
+        .attr("fill", "#c41e3a")
+        .attr("stroke", "white")
+        .attr("stroke-width", 2)
+        .transition()
+        .delay((d, i) => 2500 + i * 50)
+        .duration(300)
+        .attr("r", 6);
+
+      // Highlight 2023
+      svg.append("circle")
+        .attr("cx", x(2023))
+        .attr("cy", y(13000))
+        .attr("r", 0)
+        .attr("fill", "none")
+        .attr("stroke", "#c41e3a")
+        .attr("stroke-width", 3)
+        .style("opacity", 0.5)
+        .transition()
+        .delay(3200)
+        .duration(800)
+        .attr("r", 20)
+        .style("opacity", 0)
+        .remove();
+
+      // Annotation for 2023
+      svg.append("text")
+        .attr("x", x(2023) + 10)
+        .attr("y", y(13000) - 15)
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .style("fill", "#c41e3a")
+        .style("opacity", 0)
+        .text("13,000+")
+        .transition()
+        .delay(3000)
+        .duration(500)
+        .style("opacity", 1);
+
+      // ChatGPT annotation
+      svg.append("line")
+        .attr("x1", x(2022))
+        .attr("y1", y(9500))
+        .attr("x2", x(2022))
+        .attr("y2", height - margin.bottom)
+        .attr("stroke", "#d4a520")
+        .attr("stroke-width", 2)
+        .attr("stroke-dasharray", "4,4")
+        .style("opacity", 0)
+        .transition()
+        .delay(3500)
+        .duration(500)
+        .style("opacity", 0.7);
+
+      svg.append("text")
+        .attr("x", x(2022) - 5)
+        .attr("y", height - margin.bottom + 35)
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "11px")
+        .style("fill", "#856404")
+        .style("text-anchor", "middle")
+        .style("opacity", 0)
+        .text("ChatGPT")
+        .transition()
+        .delay(3500)
+        .duration(500)
+        .style("opacity", 1);
+    }
+
+    // Create retraction reasons chart
+    function createRetractionChart() {
+      const data = [
+        { reason: "Fraud / Suspected Fraud", percentage: 43, color: "#c41e3a" },
+        { reason: "Plagiarism", percentage: 16, color: "#d4a520" },
+        { reason: "Duplicate Publication", percentage: 14, color: "#2d7d46" },
+        { reason: "Data Authenticity Issues", percentage: 6, color: "#1e3a5f" },
+        { reason: "Honest Error", percentage: 21, color: "#6c757d" }
+      ];
+
+      const container = d3.select("#retraction-reasons");
+      const width = container.node().getBoundingClientRect().width;
+      const height = 300;
+      const radius = Math.min(width, height) / 2 - 40;
+
+      const svg = container.append("svg")
+        .attr("width", width)
+        .attr("height", height + 100);
+
+      const g = svg.append("g")
+        .attr("transform", `translate(${width/2}, ${height/2})`);
+
+      const pie = d3.pie()
+        .value(d => d.percentage)
+        .sort(null);
+
+      const arc = d3.arc()
+        .innerRadius(radius * 0.6)
+        .outerRadius(radius);
+
+      const arcs = g.selectAll(".arc")
+        .data(pie(data))
+        .enter()
+        .append("g")
+        .attr("class", "arc");
+
+      arcs.append("path")
+        .attr("d", arc)
+        .attr("fill", d => d.data.color)
+        .style("opacity", 0.9)
+        .style("stroke", "white")
+        .style("stroke-width", 2)
+        .on("mouseover", function() {
+          d3.select(this).style("opacity", 1);
+        })
+        .on("mouseout", function() {
+          d3.select(this).style("opacity", 0.9);
+        });
+
+      arcs.append("text")
+        .attr("transform", d => `translate(${arc.centroid(d)})`)
+        .attr("dy", "0.35em")
+        .style("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .style("fill", "white")
+        .text(d => `${d.data.percentage}%`);
+
+      // Legend
+      const legend = svg.append("g")
+        .attr("transform", `translate(${width/2 - 150}, ${height + 20})`);
+
+      const legendItems = legend.selectAll(".legend-item")
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("transform", (d, i) => `translate(${(i % 3) * 120}, ${Math.floor(i / 3) * 25})`);
+
+      legendItems.append("rect")
+        .attr("width", 14)
+        .attr("height", 14)
+        .attr("rx", 3)
+        .attr("fill", d => d.color);
+
+      legendItems.append("text")
+        .attr("x", 20)
+        .attr("y", 12)
+        .style("font-size", "11px")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .text(d => d.reason);
+    }
+
+    // Initialize charts
+    createRetractionLineChart();
+    createRetractionChart();
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Counter animation
+    function animateCounter(element, target, suffix = '') {
+      const duration = 2000;
+      const start = 0;
+      const increment = target / (duration / 16);
+      let current = start;
+
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        element.textContent = Math.floor(current).toLocaleString() + suffix;
+      }, 16);
+    }
+
+    // Animate hero counter on load
+    setTimeout(() => {
+      const counter = document.getElementById('retraction-counter');
+      counter.textContent = '0';
+      animateCounter(counter, 10000, '+');
+    }, 500);
+    </script>
+  </body>
+</html>
