@@ -588,9 +588,300 @@
     .crisis-badge {
       background: var(--color-secondary);
     }
+
+    /* Enhanced tooltip styles */
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 0.9rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 1000;
+      max-width: 300px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .tooltip-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: #74b9ff;
+    }
+
+    .tooltip-value {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ffeaa7;
+      margin-bottom: 4px;
+    }
+
+    .tooltip-detail {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+
+    /* Network/cascade visualization */
+    .network-container {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .network-node {
+      position: absolute;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .network-node:hover {
+      transform: scale(1.2);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      z-index: 10;
+    }
+
+    .network-link {
+      position: absolute;
+      height: 2px;
+      background: rgba(196, 30, 58, 0.3);
+      transform-origin: left center;
+      pointer-events: none;
+    }
+
+    .network-link.active {
+      background: rgba(196, 30, 58, 0.8);
+      height: 3px;
+      animation: pulse-line 1.5s infinite;
+    }
+
+    @keyframes pulse-line {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+
+    /* Comparison chart styles */
+    .comparison-chart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      height: 400px;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+    }
+
+    .comparison-bar-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      max-width: 120px;
+    }
+
+    .comparison-bar {
+      width: 60px;
+      background: linear-gradient(180deg, var(--color-primary) 0%, #2d5a87 100%);
+      border-radius: 8px 8px 0 0;
+      transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .comparison-bar.oa {
+      background: linear-gradient(180deg, var(--color-accent) 0%, #1a5f2a 100%);
+    }
+
+    .comparison-bar:hover {
+      filter: brightness(1.1);
+    }
+
+    .comparison-bar-value {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 700;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .comparison-label {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-muted);
+    }
+
+    /* Animated particle effect */
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--color-secondary);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* Interactive research field selector */
+    .field-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+
+    .field-btn {
+      background: white;
+      border: 2px solid var(--color-primary);
+      color: var(--color-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-family: "Source Sans Pro", sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .field-btn:hover {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .field-btn.active {
+      background: var(--color-primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+    }
+
+    /* Animated stats counter */
+    .big-counter {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--color-secondary);
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .counter-unit {
+      font-size: 2rem;
+      opacity: 0.7;
+    }
+
+    /* Radial progress */
+    .radial-progress {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+    }
+
+    .radial-progress svg {
+      transform: rotate(-90deg);
+    }
+
+    .radial-track {
+      fill: none;
+      stroke: #e0e0e0;
+      stroke-width: 15;
+    }
+
+    .radial-fill {
+      fill: none;
+      stroke-width: 15;
+      stroke-linecap: round;
+      transition: stroke-dasharray 2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .radial-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    /* Sparkline mini charts */
+    .sparkline {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 0.5rem;
+    }
+
+    .sparkline path {
+      fill: none;
+      stroke: var(--color-accent);
+      stroke-width: 2;
+    }
+
+    .sparkline circle {
+      fill: var(--color-secondary);
+    }
+
+    /* Interactive heatmap */
+    .heatmap-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 4px;
+      margin: 1rem 0;
+    }
+
+    .heatmap-cell {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      cursor: pointer;
+    }
+
+    .heatmap-cell:hover {
+      transform: scale(1.3);
+      z-index: 10;
+    }
+
+    .heatmap-legend {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .heatmap-legend-bar {
+      width: 150px;
+      height: 12px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #fee8e8 0%, #c41e3a 100%);
+    }
     </style>
   </head>
   <body>
+    <!-- Global Tooltip -->
+    <div id="global-tooltip" class="tooltip"></div>
+
     <!-- Hero Section -->
     <section class="hero">
       <div class="hero-content">
@@ -727,6 +1018,21 @@
         <p>
           Between 2013 and 2023, the percentage of articles published via gold open access grew from <span class="stat-inline">11% to 38%</span>. Meanwhile, subscription-only publishing dropped from 70% to 52%. The open access market reached $2.1 billion in 2024 and is projected to hit $3.2 billion by 2028.
         </p>
+
+        <div class="visualization">
+          <div class="viz-title">The Open Access Revolution: Market Share Shift (2013-2023)</div>
+          <div id="oa-comparison-chart"></div>
+          <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div style="width: 20px; height: 20px; background: var(--color-accent); border-radius: 4px;"></div>
+              <span style="font-size: 0.9rem; font-weight: 600;">Gold Open Access</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div style="width: 20px; height: 20px; background: var(--color-primary); border-radius: 4px;"></div>
+              <span style="font-size: 0.9rem; font-weight: 600;">Subscription-Only</span>
+            </div>
+          </div>
+        </div>
 
         <p>
           This is, in many ways, a triumph. Science should be accessible. The paywalled model of traditional publishing kept knowledge locked away from the very researchers, practitioners, and public who needed it most.
@@ -1034,6 +1340,14 @@
             </p>
           </div>
 
+          <div class="visualization">
+            <div class="viz-title">Interactive: The Citation Cascade</div>
+            <p style="text-align: center; font-size: 0.9rem; color: var(--color-muted); margin-bottom: 1rem;">
+              Click the red "fraudulent paper" node to see how citations spread. Each connection represents a paper citing another.
+            </p>
+            <div id="citation-cascade" class="network-container"></div>
+          </div>
+
           <p>
             This is why the integrity battle matters so much. Open access has achieved something remarkable: it's made scientific knowledge available to everyone, everywhere. A researcher in Lagos has the same access to cutting-edge neuroscience as one in Boston. A policymaker in Jakarta can read the same climate studies as one in Berlin.
           </p>
@@ -1109,6 +1423,21 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="visualization">
+          <div class="viz-title">Interactive: Top-Ranked Research Fields</div>
+          <p style="text-align: center; font-size: 0.9rem; color: var(--color-muted); margin-bottom: 1rem;">
+            Click on a research field to see detailed performance metrics
+          </p>
+          <div class="field-selector">
+            <button class="field-btn active" data-field="neuroscience">Neuroscience</button>
+            <button class="field-btn" data-field="immunology">Immunology</button>
+            <button class="field-btn" data-field="microbiology">Microbiology</button>
+            <button class="field-btn" data-field="plant-science">Plant Science</button>
+            <button class="field-btn" data-field="psychology">Psychology</button>
+          </div>
+          <div id="field-details" style="min-height: 250px;"></div>
         </div>
 
         <div class="chapter-content">
@@ -1614,6 +1943,476 @@
     createRetractionLineChart();
     createRetractionChart();
 
+    // Global tooltip
+    const tooltip = document.getElementById('global-tooltip');
+
+    function showTooltip(event, title, value, detail) {
+      tooltip.innerHTML = `
+        <div class="tooltip-title">${title}</div>
+        <div class="tooltip-value">${value}</div>
+        <div class="tooltip-detail">${detail}</div>
+      `;
+      tooltip.classList.add('visible');
+      positionTooltip(event);
+    }
+
+    function hideTooltip() {
+      tooltip.classList.remove('visible');
+    }
+
+    function positionTooltip(event) {
+      const x = event.pageX + 15;
+      const y = event.pageY - 10;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      if (tooltip.classList.contains('visible')) {
+        positionTooltip(e);
+      }
+    });
+
+    // Citation Cascade Network Visualization
+    function createCitationCascade() {
+      const container = document.getElementById('citation-cascade');
+      if (!container) return;
+
+      const width = container.offsetWidth;
+      const height = container.offsetHeight;
+
+      // Create nodes representing papers
+      const nodes = [
+        { id: 0, x: width/2, y: 80, size: 50, label: 'Fraud', color: '#c41e3a', citations: 0 },
+        { id: 1, x: width*0.3, y: 180, size: 35, label: '1', color: '#d4a520', citations: 0 },
+        { id: 2, x: width*0.5, y: 180, size: 35, label: '2', color: '#d4a520', citations: 0 },
+        { id: 3, x: width*0.7, y: 180, size: 35, label: '3', color: '#d4a520', citations: 0 },
+        { id: 4, x: width*0.15, y: 280, size: 28, label: '4', color: '#6c757d', citations: 0 },
+        { id: 5, x: width*0.3, y: 280, size: 28, label: '5', color: '#6c757d', citations: 0 },
+        { id: 6, x: width*0.45, y: 280, size: 28, label: '6', color: '#6c757d', citations: 0 },
+        { id: 7, x: width*0.55, y: 280, size: 28, label: '7', color: '#6c757d', citations: 0 },
+        { id: 8, x: width*0.7, y: 280, size: 28, label: '8', color: '#6c757d', citations: 0 },
+        { id: 9, x: width*0.85, y: 280, size: 28, label: '9', color: '#6c757d', citations: 0 },
+        { id: 10, x: width*0.1, y: 380, size: 22, label: '10', color: '#adb5bd', citations: 0 },
+        { id: 11, x: width*0.22, y: 380, size: 22, label: '11', color: '#adb5bd', citations: 0 },
+        { id: 12, x: width*0.34, y: 380, size: 22, label: '12', color: '#adb5bd', citations: 0 },
+        { id: 13, x: width*0.46, y: 380, size: 22, label: '13', color: '#adb5bd', citations: 0 },
+        { id: 14, x: width*0.58, y: 380, size: 22, label: '14', color: '#adb5bd', citations: 0 },
+        { id: 15, x: width*0.70, y: 380, size: 22, label: '15', color: '#adb5bd', citations: 0 },
+        { id: 16, x: width*0.82, y: 380, size: 22, label: '16', color: '#adb5bd', citations: 0 },
+        { id: 17, x: width*0.94, y: 380, size: 22, label: '17', color: '#adb5bd', citations: 0 },
+      ];
+
+      // Citation links (source -> target)
+      const links = [
+        { source: 0, target: 1 },
+        { source: 0, target: 2 },
+        { source: 0, target: 3 },
+        { source: 1, target: 4 },
+        { source: 1, target: 5 },
+        { source: 2, target: 6 },
+        { source: 2, target: 7 },
+        { source: 3, target: 8 },
+        { source: 3, target: 9 },
+        { source: 4, target: 10 },
+        { source: 4, target: 11 },
+        { source: 5, target: 12 },
+        { source: 6, target: 13 },
+        { source: 7, target: 14 },
+        { source: 8, target: 15 },
+        { source: 9, target: 16 },
+        { source: 9, target: 17 },
+      ];
+
+      // Draw links first (behind nodes)
+      links.forEach((link, i) => {
+        const source = nodes[link.source];
+        const target = nodes[link.target];
+        const dx = target.x - source.x;
+        const dy = target.y - source.y;
+        const length = Math.sqrt(dx*dx + dy*dy);
+        const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+        const linkEl = document.createElement('div');
+        linkEl.className = 'network-link';
+        linkEl.id = `link-${link.source}-${link.target}`;
+        linkEl.style.left = source.x + 'px';
+        linkEl.style.top = source.y + 'px';
+        linkEl.style.width = length + 'px';
+        linkEl.style.transform = `rotate(${angle}deg)`;
+        linkEl.style.opacity = '0';
+        container.appendChild(linkEl);
+      });
+
+      // Draw nodes
+      nodes.forEach((node) => {
+        const nodeEl = document.createElement('div');
+        nodeEl.className = 'network-node';
+        nodeEl.id = `node-${node.id}`;
+        nodeEl.style.left = (node.x - node.size/2) + 'px';
+        nodeEl.style.top = (node.y - node.size/2) + 'px';
+        nodeEl.style.width = node.size + 'px';
+        nodeEl.style.height = node.size + 'px';
+        nodeEl.style.background = node.color;
+        nodeEl.style.fontSize = (node.size * 0.4) + 'px';
+        nodeEl.textContent = node.label;
+        nodeEl.style.opacity = node.id === 0 ? '1' : '0.3';
+
+        nodeEl.addEventListener('mouseenter', (e) => {
+          const citingCount = links.filter(l => l.source === node.id).length;
+          const citedByCount = links.filter(l => l.target === node.id).length;
+          showTooltip(e,
+            node.id === 0 ? 'Fraudulent Paper' : `Paper ${node.label}`,
+            node.id === 0 ? 'Year 0' : `Year ${Math.ceil(node.id/3)}`,
+            `Cites: ${citedByCount} papers<br>Cited by: ${citingCount} papers<br>${node.id === 0 ? '<strong>Source of contamination</strong>' : 'Potentially contaminated'}`
+          );
+        });
+
+        nodeEl.addEventListener('mouseleave', hideTooltip);
+
+        if (node.id === 0) {
+          nodeEl.addEventListener('click', () => animateCascade(links, nodes));
+        }
+
+        container.appendChild(nodeEl);
+      });
+
+      // Add instruction text
+      const infoText = document.createElement('div');
+      infoText.style.cssText = 'position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 0.85rem; color: #6c757d; font-weight: 600;';
+      infoText.textContent = 'Year 0 → Year 1 → Year 2 → Year 3 (3.3 years until retraction)';
+      container.appendChild(infoText);
+    }
+
+    function animateCascade(links, nodes) {
+      let delay = 0;
+      const visited = new Set([0]);
+      const queue = [0];
+
+      while (queue.length > 0) {
+        const currentId = queue.shift();
+        const outgoingLinks = links.filter(l => l.source === currentId);
+
+        outgoingLinks.forEach((link) => {
+          if (!visited.has(link.target)) {
+            visited.add(link.target);
+            queue.push(link.target);
+
+            // Animate link
+            setTimeout(() => {
+              const linkEl = document.getElementById(`link-${link.source}-${link.target}`);
+              if (linkEl) {
+                linkEl.style.opacity = '1';
+                linkEl.classList.add('active');
+              }
+            }, delay);
+
+            // Animate node
+            setTimeout(() => {
+              const nodeEl = document.getElementById(`node-${link.target}`);
+              if (nodeEl) {
+                nodeEl.style.opacity = '1';
+                nodeEl.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                  nodeEl.style.transform = 'scale(1)';
+                }, 300);
+              }
+            }, delay + 200);
+
+            delay += 400;
+          }
+        });
+      }
+
+      // Reset after animation completes
+      setTimeout(() => {
+        links.forEach((link) => {
+          const linkEl = document.getElementById(`link-${link.source}-${link.target}`);
+          if (linkEl) {
+            linkEl.classList.remove('active');
+          }
+        });
+      }, delay + 1000);
+    }
+
+    // Open Access Comparison Chart
+    function createOAComparisonChart() {
+      const container = document.getElementById('oa-comparison-chart');
+      if (!container) return;
+
+      const data = [
+        { year: 2013, oa: 11, subscription: 70 },
+        { year: 2015, oa: 16, subscription: 66 },
+        { year: 2017, oa: 22, subscription: 62 },
+        { year: 2019, oa: 28, subscription: 58 },
+        { year: 2021, oa: 33, subscription: 54 },
+        { year: 2023, oa: 38, subscription: 52 },
+      ];
+
+      const width = container.offsetWidth;
+      const height = 400;
+      const margin = { top: 40, right: 30, bottom: 60, left: 50 };
+
+      const svg = d3.select(container).append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      const x = d3.scaleBand()
+        .domain(data.map(d => d.year))
+        .range([margin.left, width - margin.right])
+        .padding(0.3);
+
+      const y = d3.scaleLinear()
+        .domain([0, 80])
+        .range([height - margin.bottom, margin.top]);
+
+      // X axis
+      svg.append("g")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "12px");
+
+      // Y axis
+      svg.append("g")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y).tickFormat(d => d + '%'))
+        .selectAll("text")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "12px");
+
+      // Y axis label
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", margin.left - 40)
+        .attr("x", -(height / 2))
+        .attr("text-anchor", "middle")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "12px")
+        .style("fill", "#6c757d")
+        .text("Market Share (%)");
+
+      // Open Access bars
+      svg.selectAll(".bar-oa")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "bar-oa")
+        .attr("x", d => x(d.year))
+        .attr("y", height - margin.bottom)
+        .attr("width", x.bandwidth() / 2 - 2)
+        .attr("height", 0)
+        .attr("fill", "#2d7d46")
+        .attr("rx", 4)
+        .on("mouseenter", function(event, d) {
+          d3.select(this).attr("fill", "#3a9f5a");
+          showTooltip(event, `Open Access ${d.year}`, `${d.oa}%`, `Market share of scholarly articles published via gold open access`);
+        })
+        .on("mouseleave", function() {
+          d3.select(this).attr("fill", "#2d7d46");
+          hideTooltip();
+        })
+        .transition()
+        .duration(1500)
+        .delay((d, i) => i * 200)
+        .attr("y", d => y(d.oa))
+        .attr("height", d => height - margin.bottom - y(d.oa));
+
+      // Subscription bars
+      svg.selectAll(".bar-sub")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "bar-sub")
+        .attr("x", d => x(d.year) + x.bandwidth() / 2 + 2)
+        .attr("y", height - margin.bottom)
+        .attr("width", x.bandwidth() / 2 - 2)
+        .attr("height", 0)
+        .attr("fill", "#1e3a5f")
+        .attr("rx", 4)
+        .on("mouseenter", function(event, d) {
+          d3.select(this).attr("fill", "#2d5a87");
+          showTooltip(event, `Subscription ${d.year}`, `${d.subscription}%`, `Market share of subscription-only scholarly articles`);
+        })
+        .on("mouseleave", function() {
+          d3.select(this).attr("fill", "#1e3a5f");
+          hideTooltip();
+        })
+        .transition()
+        .duration(1500)
+        .delay((d, i) => i * 200 + 100)
+        .attr("y", d => y(d.subscription))
+        .attr("height", d => height - margin.bottom - y(d.subscription));
+
+      // Value labels
+      svg.selectAll(".label-oa")
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("x", d => x(d.year) + x.bandwidth() / 4)
+        .attr("y", d => y(d.oa) - 5)
+        .attr("text-anchor", "middle")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "11px")
+        .style("font-weight", "bold")
+        .style("fill", "#2d7d46")
+        .style("opacity", 0)
+        .text(d => d.oa + '%')
+        .transition()
+        .delay((d, i) => 1500 + i * 200)
+        .duration(300)
+        .style("opacity", 1);
+
+      svg.selectAll(".label-sub")
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("x", d => x(d.year) + 3*x.bandwidth() / 4)
+        .attr("y", d => y(d.subscription) - 5)
+        .attr("text-anchor", "middle")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "11px")
+        .style("font-weight", "bold")
+        .style("fill", "#1e3a5f")
+        .style("opacity", 0)
+        .text(d => d.subscription + '%')
+        .transition()
+        .delay((d, i) => 1500 + i * 200 + 100)
+        .duration(300)
+        .style("opacity", 1);
+
+      // Trend annotation
+      svg.append("text")
+        .attr("x", width - margin.right - 10)
+        .attr("y", y(45))
+        .attr("text-anchor", "end")
+        .style("font-family", "Source Sans Pro, sans-serif")
+        .style("font-size", "12px")
+        .style("fill", "#c41e3a")
+        .style("font-weight", "bold")
+        .style("opacity", 0)
+        .text("Crossover imminent!")
+        .transition()
+        .delay(2500)
+        .duration(500)
+        .style("opacity", 1);
+    }
+
+    // Research Field Selector
+    function initFieldSelector() {
+      const fieldData = {
+        'neuroscience': {
+          name: 'Frontiers in Neuroscience',
+          rank: '#1 in Neurosciences (JCR)',
+          impactFactor: '4.3',
+          citeScore: '7.2',
+          articles: '5,200+',
+          growth: '+12%',
+          description: 'Leading journal covering all areas of neuroscience research from molecular to cognitive levels.'
+        },
+        'immunology': {
+          name: 'Frontiers in Immunology',
+          rank: '#1 in Immunology (JCR)',
+          impactFactor: '7.3',
+          citeScore: '11.4',
+          articles: '12,000+',
+          growth: '+18%',
+          description: 'Premier open access immunology journal with groundbreaking research in immunity and disease.'
+        },
+        'microbiology': {
+          name: 'Frontiers in Microbiology',
+          rank: '#1 in Microbiology (Scopus)',
+          impactFactor: '5.2',
+          citeScore: '8.9',
+          articles: '8,500+',
+          growth: '+15%',
+          description: 'Comprehensive coverage of microorganisms including bacteria, archaea, viruses, and fungi.'
+        },
+        'plant-science': {
+          name: 'Frontiers in Plant Science',
+          rank: '#1 in Plant Sciences (Scopus)',
+          impactFactor: '5.6',
+          citeScore: '9.1',
+          articles: '7,800+',
+          growth: '+14%',
+          description: 'Advancing plant research from molecular biology to ecosystem-level studies.'
+        },
+        'psychology': {
+          name: 'Frontiers in Psychology',
+          rank: 'Top 5 in Psychology',
+          impactFactor: '3.8',
+          citeScore: '6.4',
+          articles: '15,000+',
+          growth: '+22%',
+          description: 'Largest open access psychology journal covering all major areas of psychological science.'
+        }
+      };
+
+      const buttons = document.querySelectorAll('.field-btn');
+      const detailsContainer = document.getElementById('field-details');
+
+      function showFieldDetails(field) {
+        const data = fieldData[field];
+        if (!data) return;
+
+        detailsContainer.innerHTML = `
+          <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <h4 style="font-family: Source Sans Pro, sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">${data.name}</h4>
+            <p style="font-size: 1rem; color: var(--color-muted); margin-bottom: 1.5rem;">${data.description}</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+              <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                <div style="font-size: 1.5rem; font-weight: 900; color: var(--color-secondary);">${data.rank.split(' ')[0]}</div>
+                <div style="font-size: 0.8rem; color: var(--color-muted);">JCR Rank</div>
+              </div>
+              <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                <div style="font-size: 1.5rem; font-weight: 900; color: var(--color-accent);">${data.impactFactor}</div>
+                <div style="font-size: 0.8rem; color: var(--color-muted);">Impact Factor</div>
+              </div>
+              <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                <div style="font-size: 1.5rem; font-weight: 900; color: var(--color-primary);">${data.citeScore}</div>
+                <div style="font-size: 0.8rem; color: var(--color-muted);">CiteScore</div>
+              </div>
+              <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                <div style="font-size: 1.5rem; font-weight: 900; color: #d4a520;">${data.articles}</div>
+                <div style="font-size: 0.8rem; color: var(--color-muted);">Articles</div>
+              </div>
+              <div style="text-align: center; padding: 1rem; background: #d1fae5; border-radius: 8px;">
+                <div style="font-size: 1.5rem; font-weight: 900; color: #065f46;">${data.growth}</div>
+                <div style="font-size: 0.8rem; color: #065f46;">YoY Growth</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          showFieldDetails(btn.dataset.field);
+        });
+      });
+
+      // Initialize with first field
+      showFieldDetails('neuroscience');
+    }
+
+    // Enhanced donut chart with tooltips
+    function addTooltipsToRetractionChart() {
+      d3.select("#retraction-reasons").selectAll(".arc path")
+        .on("mouseenter", function(event) {
+          const data = d3.select(this).datum().data;
+          d3.select(this).style("opacity", 1).attr("transform", "scale(1.05)");
+          showTooltip(event, data.reason, data.percentage + '%',
+            `${data.percentage}% of all retractions in 2023 were due to ${data.reason.toLowerCase()}`);
+        })
+        .on("mouseleave", function() {
+          d3.select(this).style("opacity", 0.9).attr("transform", "scale(1)");
+          hideTooltip();
+        });
+    }
+
     // Smooth scroll for internal links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
@@ -1648,6 +2447,14 @@
       counter.textContent = '0';
       animateCounter(counter, 10000, '+');
     }, 500);
+
+    // Initialize all interactive features
+    setTimeout(() => {
+      createCitationCascade();
+      createOAComparisonChart();
+      initFieldSelector();
+      addTooltipsToRetractionChart();
+    }, 100);
     </script>
   </body>
 </html>
