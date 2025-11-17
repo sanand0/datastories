@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figure 4: Moral Repugnance vs. Technical Feasibility</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        #plot {
+            width: 100%;
+            height: 700px;
+        }
+        .legend-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .legend-info h3 {
+            margin-top: 0;
+            color: #444;
+        }
+        .quadrant-desc {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .quadrant-item {
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .no-friction { background: rgba(46, 204, 113, 0.2); }
+        .moral-friction { background: rgba(231, 76, 60, 0.2); }
+        .technical-friction { background: rgba(52, 152, 219, 0.2); }
+        .dual-friction { background: rgba(155, 89, 182, 0.2); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Moral Repugnance vs. Technical Feasibility of AI</h1>
+        <div class="subtitle">
+            Based on "Performance or Principle: Resistance to Artificial Intelligence in the U.S. Labor Market"
+            by Simon Friis & James W. Riley (2025)
+        </div>
+        <div id="plot"></div>
+        <div class="legend-info">
+            <h3>Quadrant Definitions</h3>
+            <div class="quadrant-desc">
+                <div class="quadrant-item no-friction">
+                    <strong>No Friction</strong>: High technical feasibility (&gt;0.50), Low moral repugnance (&lt;4.0)
+                </div>
+                <div class="quadrant-item moral-friction">
+                    <strong>Moral Friction</strong>: High technical feasibility (&gt;0.50), High moral repugnance (&gt;4.0)
+                </div>
+                <div class="quadrant-item technical-friction">
+                    <strong>Technical Friction</strong>: Low technical feasibility (&lt;0.50), Low moral repugnance (&lt;4.0)
+                </div>
+                <div class="quadrant-item dual-friction">
+                    <strong>Dual Friction</strong>: Low technical feasibility (&lt;0.50), High moral repugnance (&gt;4.0)
+                </div>
+            </div>
+            <p style="margin-top: 15px; color: #666;">
+                <strong>X-axis:</strong> Technical Feasibility (E1+E2 from Eloundou et al. 2024) - proportion of tasks where AI can reduce time by 50%+<br>
+                <strong>Y-axis:</strong> Moral Repugnance (1-7 scale) - principled resistance to AI use in occupation (4.0 = neutral midpoint)
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Load and parse CSV data
+        fetch('figure4_data.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                const lines = csvText.trim().split('\n');
+                const headers = lines[0].split(',');
+
+                const data = {
+                    'No Friction': { x: [], y: [], text: [] },
+                    'Moral Friction': { x: [], y: [], text: [] },
+                    'Technical Friction': { x: [], y: [], text: [] },
+                    'Dual Friction': { x: [], y: [], text: [] }
+                };
+
+                for (let i = 1; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+
+                    // Parse CSV line (handle commas in occupation names)
+                    const parts = lines[i].split(',');
+                    const quadrant = parts[parts.length - 1];
+                    const repugnance = parseFloat(parts[parts.length - 2]);
+                    const feasibility = parseFloat(parts[parts.length - 3]);
+                    const occupation = parts.slice(0, parts.length - 3).join(',');
+
+                    if (data[quadrant]) {
+                        data[quadrant].x.push(feasibility);
+                        data[quadrant].y.push(repugnance);
+                        data[quadrant].text.push(occupation);
+                    }
+                }
+
+                // Create traces for each quadrant
+                const colors = {
+                    'No Friction': '#2ecc71',
+                    'Moral Friction': '#e74c3c',
+                    'Technical Friction': '#3498db',
+                    'Dual Friction': '#9b59b6'
+                };
+
+                const traces = Object.keys(data).map(quadrant => ({
+                    x: data[quadrant].x,
+                    y: data[quadrant].y,
+                    text: data[quadrant].text,
+                    name: quadrant,
+                    mode: 'markers',
+                    type: 'scatter',
+                    marker: {
+                        size: 10,
+                        color: colors[quadrant],
+                        opacity: 0.7,
+                        line: {
+                            color: 'white',
+                            width: 1
+                        }
+                    },
+                    hovertemplate: '<b>%{text}</b><br>' +
+                                   'Technical Feasibility: %{x:.2f}<br>' +
+                                   'Moral Repugnance: %{y:.2f}<br>' +
+                                   '<extra>' + quadrant + '</extra>'
+                }));
+
+                // Add quadrant dividing lines
+                const shapes = [
+                    // Vertical line at x = 0.50
+                    {
+                        type: 'line',
+                        x0: 0.50,
+                        x1: 0.50,
+                        y0: 1,
+                        y1: 7,
+                        line: {
+                            color: '#999',
+                            width: 2,
+                            dash: 'dash'
+                        }
+                    },
+                    // Horizontal line at y = 4.0
+                    {
+                        type: 'line',
+                        x0: 0,
+                        x1: 1,
+                        y0: 4.0,
+                        y1: 4.0,
+                        line: {
+                            color: '#999',
+                            width: 2,
+                            dash: 'dash'
+                        }
+                    }
+                ];
+
+                // Add quadrant labels
+                const annotations = [
+                    {
+                        x: 0.25,
+                        y: 6.5,
+                        text: '<b>DUAL FRICTION</b>',
+                        showarrow: false,
+                        font: { size: 14, color: '#9b59b6' }
+                    },
+                    {
+                        x: 0.75,
+                        y: 6.5,
+                        text: '<b>MORAL FRICTION</b>',
+                        showarrow: false,
+                        font: { size: 14, color: '#e74c3c' }
+                    },
+                    {
+                        x: 0.25,
+                        y: 1.5,
+                        text: '<b>TECHNICAL FRICTION</b>',
+                        showarrow: false,
+                        font: { size: 14, color: '#3498db' }
+                    },
+                    {
+                        x: 0.75,
+                        y: 1.5,
+                        text: '<b>NO FRICTION</b>',
+                        showarrow: false,
+                        font: { size: 14, color: '#2ecc71' }
+                    }
+                ];
+
+                const layout = {
+                    title: {
+                        text: 'Figure 4: Moral Repugnance vs. Technical Feasibility',
+                        font: { size: 18 }
+                    },
+                    xaxis: {
+                        title: 'Technical Feasibility (E1 + E2)',
+                        range: [-0.05, 1.05],
+                        dtick: 0.25,
+                        gridcolor: '#e0e0e0'
+                    },
+                    yaxis: {
+                        title: 'Moral Repugnance (1-7 scale)',
+                        range: [1, 7],
+                        dtick: 1,
+                        gridcolor: '#e0e0e0'
+                    },
+                    shapes: shapes,
+                    annotations: annotations,
+                    hovermode: 'closest',
+                    legend: {
+                        x: 1.02,
+                        y: 0.5,
+                        bgcolor: 'rgba(255,255,255,0.9)',
+                        bordercolor: '#ccc',
+                        borderwidth: 1
+                    },
+                    plot_bgcolor: 'white',
+                    paper_bgcolor: 'white'
+                };
+
+                const config = {
+                    responsive: true,
+                    displayModeBar: true,
+                    modeBarButtonsToRemove: ['lasso2d', 'select2d']
+                };
+
+                Plotly.newPlot('plot', traces, layout, config);
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                document.getElementById('plot').innerHTML =
+                    '<p style="color: red;">Error loading data. Please ensure figure4_data.csv is in the same directory.</p>';
+            });
+    </script>
+</body>
+</html>
