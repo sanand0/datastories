@@ -1,0 +1,105 @@
+occupation,technical_feasibility,moral_repugnance,quadrant
+Paper Goods Machine Setters Operators and Tenders,0.00,2.56,Technical Friction
+Highway Maintenance Workers,0.05,2.60,Technical Friction
+Shoe Machine Operators and Tenders,0.05,2.48,Technical Friction
+Segmental Pavers,0.08,2.55,Technical Friction
+Extruding and Forming Machine Setters Operators and Tenders Synthetic,0.05,2.62,Technical Friction
+Ambulance Drivers and Attendants Except Emergency Medical Technicians,0.09,5.23,Dual Friction
+Embalmers,0.04,4.74,Dual Friction
+Hairdressers Hairstylists and Cosmetologists,0.09,4.98,Dual Friction
+Home Health Aides,0.07,4.87,Dual Friction
+Athletes and Sports Competitors,0.00,5.52,Dual Friction
+Radio Frequency Identification Device Specialists,0.90,2.46,No Friction
+Search Marketing Strategists,1.00,2.31,No Friction
+Geographic Information Systems Technologists and Technicians,1.00,2.45,No Friction
+Transportation Planners,0.95,2.38,No Friction
+Cartographers and Photogrammetrists,1.00,2.47,No Friction
+Education and Childcare Administrators Preschool and Daycare,0.88,5.69,Moral Friction
+Psychology Teachers Postsecondary,0.76,5.62,Moral Friction
+Administrative Law Judges Adjudicators and Hearing Officers,0.86,5.62,Moral Friction
+School Psychologists,0.79,5.45,Moral Friction
+Psychiatrists,0.83,5.36,Moral Friction
+Clergy,0.82,5.91,Moral Friction
+Childcare Workers,0.34,5.86,Dual Friction
+Marriage and Family Therapists,0.65,5.64,Moral Friction
+Craft Artists,0.35,5.50,Dual Friction
+Police and Sheriff's Patrol Officers,0.24,5.40,Dual Friction
+Funeral Attendants,0.28,5.28,Dual Friction
+Barbers,0.07,5.03,Dual Friction
+Actors,0.14,5.01,Dual Friction
+Derrick Operators Oil and Gas,0.25,2.72,Technical Friction
+Cashiers,0.43,2.67,Technical Friction
+Janitors and Cleaners Except Maids and Housekeeping Cleaners,0.15,2.67,Technical Friction
+Data Entry Keyers,0.69,2.55,No Friction
+Biostatisticians,0.76,2.54,No Friction
+Switchboard Operators Including Answering Service,0.66,2.52,No Friction
+File Clerks,0.79,2.17,No Friction
+Nannies,0.16,5.70,Dual Friction
+Legislators,0.77,5.15,Moral Friction
+Bailiffs,0.17,5.00,Dual Friction
+Oral and Maxillofacial Surgeons,0.43,4.15,Dual Friction
+Nuclear Technicians,0.46,3.92,Technical Friction
+Gambling Dealers,0.42,3.53,Technical Friction
+History Teachers,0.73,4.22,Moral Friction
+Mail Sorters,0.30,3.10,Technical Friction
+Economists,0.95,3.15,No Friction
+Special Effects Artists,0.89,4.00,Moral Friction
+Conveyor Operators,0.11,2.90,Technical Friction
+Financial Quantitative Analysts,0.87,3.10,No Friction
+Semiconductor Technicians,0.18,2.18,Technical Friction
+Fraud Examiners,0.83,4.85,Moral Friction
+Obstetricians and Gynecologists,0.67,5.12,Moral Friction
+Sociologists,0.88,4.20,Moral Friction
+Chief Executives,0.82,3.65,Moral Friction
+General and Operations Managers,0.96,3.52,No Friction
+Marketing Managers,0.94,3.45,No Friction
+Computer and Information Systems Managers,0.94,3.38,No Friction
+Financial Managers,0.96,3.42,No Friction
+Human Resources Managers,0.92,3.75,Moral Friction
+Construction Managers,0.84,3.28,No Friction
+Medical and Health Services Managers,0.86,4.12,Moral Friction
+Natural Sciences Managers,1.00,3.85,No Friction
+Software Developers,0.94,3.18,No Friction
+Database Administrators,0.92,3.05,No Friction
+Network Architects,0.94,3.12,No Friction
+Civil Engineers,0.94,3.22,No Friction
+Mechanical Engineers,0.91,3.15,No Friction
+Environmental Scientists,0.95,3.38,No Friction
+Lawyers,0.88,4.35,Moral Friction
+Judges Magistrates and Magistrates,0.83,5.48,Moral Friction
+Registered Nurses,0.52,4.68,Dual Friction
+Physicians General,0.75,5.08,Moral Friction
+Dentists General,0.67,4.45,Moral Friction
+Pharmacists,0.78,4.18,Moral Friction
+Physical Therapists,0.42,4.72,Dual Friction
+Occupational Therapists,0.55,4.65,Moral Friction
+Speech Language Pathologists,0.58,4.78,Moral Friction
+Veterinarians,0.52,4.55,Moral Friction
+Elementary School Teachers,0.62,5.25,Moral Friction
+Secondary School Teachers,0.68,5.18,Moral Friction
+Preschool Teachers,0.48,5.42,Dual Friction
+Special Education Teachers,0.55,5.38,Moral Friction
+Librarians,0.82,3.65,Moral Friction
+Social Workers,0.62,5.15,Moral Friction
+Mental Health Counselors,0.68,5.48,Moral Friction
+Substance Abuse Counselors,0.65,5.35,Moral Friction
+Firefighters,0.08,5.12,Dual Friction
+Paramedics,0.22,4.95,Dual Friction
+Correctional Officers,0.18,4.88,Dual Friction
+Security Guards,0.25,3.85,Technical Friction
+Private Detectives,0.55,4.12,Moral Friction
+Chefs and Head Cooks,0.26,3.68,Technical Friction
+Fast Food Cooks,0.15,2.85,Technical Friction
+Bartenders,0.32,3.42,Technical Friction
+Waiters and Waitresses,0.28,3.25,Technical Friction
+Hotel Desk Clerks,0.58,3.15,No Friction
+Flight Attendants,0.35,4.25,Dual Friction
+Tour Guides,0.52,3.92,Moral Friction
+Funeral Directors,0.42,4.92,Dual Friction
+Wedding Planners,0.55,4.08,Moral Friction
+Midwives,0.38,5.58,Dual Friction
+Doulas,0.25,5.45,Dual Friction
+Hospice Workers,0.28,5.62,Dual Friction
+Grief Counselors,0.62,5.55,Moral Friction
+Life Coaches,0.72,4.85,Moral Friction
+Career Counselors,0.78,4.42,Moral Friction
