@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "ai-resistance",
+      "title": "The Jobs We Refuse to Give Away",
+      "description": "Why some occupations resist AI not because machines can't do them, but because we believe they shouldn't. Based on Friis & Riley (2025).",
+      "link": "ai-resistance/index.html",
+      "screenshot": "ai-resistance/screenshot.webp"
+    },
+    {
       "id": "iss-tokyo",
       "title": "ISS vs Tokyo",
       "description": "The ISS never passes over Tokyo at midnight UTC, but touches Auckland over 30 times over 321 days. No conspiracy. Just the timing.",

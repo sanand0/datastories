@@ -3,113 +3,488 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Figure 4: Moral Repugnance vs. Technical Feasibility</title>
+    <title>The Jobs We Refuse to Give Away</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        * {
             margin: 0;
-            padding: 20px;
-            background: #f5f5f5;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.7;
             color: #333;
-            margin-bottom: 10px;
+            background: #fafafa;
         }
-        .subtitle {
-            color: #666;
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 700;
             margin-bottom: 20px;
-            font-size: 14px;
+            line-height: 1.2;
         }
+
+        .hero .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            max-width: 600px;
+            font-style: italic;
+        }
+
+        .hero .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            animation: bounce 2s infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .scrolly-container {
+            position: relative;
+            display: flex;
+        }
+
+        .narrative-column {
+            width: 45%;
+            padding: 20px 40px;
+        }
+
+        .chart-column {
+            width: 55%;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 20px;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .step {
+            min-height: 80vh;
+            padding: 40px 0;
+            opacity: 0.3;
+            transition: opacity 0.5s ease;
+        }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        .step h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+        }
+
+        .step p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .stat-callout {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .occupation-example {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .occupation-example strong {
+            color: #2c3e50;
+        }
+
         #plot {
             width: 100%;
-            height: 700px;
+            height: calc(100vh - 240px);
         }
-        .legend-info {
-            margin-top: 20px;
+
+        .selection-panel {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
             padding: 15px;
-            background: #f9f9f9;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-        .legend-info h3 {
-            margin-top: 0;
-            color: #444;
-        }
-        .quadrant-desc {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
             margin-top: 10px;
+            max-height: 180px;
+            overflow-y: auto;
         }
-        .quadrant-item {
-            padding: 8px;
-            border-radius: 4px;
+
+        .selection-panel h4 {
+            margin-bottom: 10px;
+            color: #495057;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .no-friction { background: rgba(46, 204, 113, 0.2); }
-        .moral-friction { background: rgba(231, 76, 60, 0.2); }
-        .technical-friction { background: rgba(52, 152, 219, 0.2); }
-        .dual-friction { background: rgba(155, 89, 182, 0.2); }
+
+        .selection-panel ul {
+            list-style: none;
+            font-size: 0.85em;
+        }
+
+        .selection-panel li {
+            padding: 4px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .selection-panel li:last-child {
+            border-bottom: none;
+        }
+
+        .selection-count {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .brush-hint {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .footer h3 {
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            max-width: 800px;
+            margin: 0 auto 15px;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .methodology {
+            background: #f8f9fa;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .methodology h3 {
+            color: #1a1a2e;
+            margin-bottom: 20px;
+        }
+
+        .methodology p, .methodology li {
+            font-size: 0.95em;
+            color: #495057;
+        }
+
+        .methodology ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .quadrant-highlight {
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 1024px) {
+            .scrolly-container {
+                flex-direction: column;
+            }
+            .narrative-column, .chart-column {
+                width: 100%;
+            }
+            .chart-column {
+                position: relative;
+                height: auto;
+            }
+            #plot {
+                height: 500px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Moral Repugnance vs. Technical Feasibility of AI</h1>
+    <div class="hero">
+        <h1>The Jobs We Refuse to Give Away</h1>
         <div class="subtitle">
-            Based on "Performance or Principle: Resistance to Artificial Intelligence in the U.S. Labor Market"
-            by Simon Friis & James W. Riley (2025)
+            Why some occupations resist artificial intelligence not because machines can't do them,
+            but because we believe they shouldn't
         </div>
-        <div id="plot"></div>
-        <div class="legend-info">
-            <h3>Quadrant Definitions</h3>
-            <div class="quadrant-desc">
-                <div class="quadrant-item no-friction">
-                    <strong>No Friction</strong>: High technical feasibility (&gt;0.50), Low moral repugnance (&lt;4.0)
-                </div>
-                <div class="quadrant-item moral-friction">
-                    <strong>Moral Friction</strong>: High technical feasibility (&gt;0.50), High moral repugnance (&gt;4.0)
-                </div>
-                <div class="quadrant-item technical-friction">
-                    <strong>Technical Friction</strong>: Low technical feasibility (&lt;0.50), Low moral repugnance (&lt;4.0)
-                </div>
-                <div class="quadrant-item dual-friction">
-                    <strong>Dual Friction</strong>: Low technical feasibility (&lt;0.50), High moral repugnance (&gt;4.0)
+        <div class="scroll-hint">↓ Scroll to explore</div>
+    </div>
+
+    <div class="scrolly-container">
+        <div class="narrative-column">
+            <div class="step" data-step="intro">
+                <h2>The Clergy Paradox</h2>
+                <p>
+                    Consider this puzzle: We're perfectly comfortable letting AI handle our financial portfolios,
+                    diagnose our diseases from medical scans, and even draft our legal documents. Yet when researchers
+                    asked Americans about letting AI deliver sermons, the response was visceral, almost offended.
+                </p>
+                <p>
+                    Clergy scored 5.91 out of 7 on moral repugnance—the highest of any profession studied.
+                    Not because AI can't analyze religious texts or generate eloquent speeches. It absolutely can.
+                    The resistance runs deeper than capability.
+                </p>
+                <div class="highlight-box">
+                    "It's not about whether AI can do the job. It's about whether it should."
                 </div>
             </div>
-            <p style="margin-top: 15px; color: #666;">
-                <strong>X-axis:</strong> Technical Feasibility (E1+E2 from Eloundou et al. 2024) - proportion of tasks where AI can reduce time by 50%+<br>
-                <strong>Y-axis:</strong> Moral Repugnance (1-7 scale) - principled resistance to AI use in occupation (4.0 = neutral midpoint)
-            </p>
+
+            <div class="step" data-step="technical">
+                <h2>The Performance Problem</h2>
+                <p>
+                    For decades, we've assumed that AI adoption follows a simple logic: better technology means
+                    more automation. If a machine can do it faster, cheaper, and with fewer errors, humans step aside.
+                </p>
+                <p>
+                    Look at the lower-left region of the chart. These occupations—highway maintenance workers,
+                    shoe machine operators, semiconductor technicians—face little resistance. Not because people
+                    don't care about them, but because the work is physically demanding and technically challenging
+                    for current AI. The machines simply aren't good enough yet.
+                </p>
+                <div class="stat-callout">
+                    Only 30% of occupations<br>
+                    <span style="font-size: 0.5em;">support full automation today</span>
+                </div>
+            </div>
+
+            <div class="step" data-step="surprise">
+                <h2>Wait, Really?</h2>
+                <p>
+                    Here's where it gets interesting. When researchers introduced a hypothetical "advanced AI"
+                    that could match human performance in any cognitive task, something remarkable happened.
+                </p>
+                <p>
+                    Support for automation jumped from 30% to 58%. Technical barriers melted away. But—and this
+                    is crucial—12% of occupations remained resistant. Not because the AI couldn't do the work.
+                    Because people believed it <em>shouldn't</em>.
+                </p>
+                <div class="occupation-example">
+                    <strong>Childcare Workers:</strong> Technical feasibility 0.34, Moral repugnance 5.86<br>
+                    <small>AI could assist, but we recoil at the thought</small>
+                </div>
+                <div class="occupation-example">
+                    <strong>Marriage and Family Therapists:</strong> Technical feasibility 0.65, Moral repugnance 5.64<br>
+                    <small>AI could process emotions, but should it?</small>
+                </div>
+            </div>
+
+            <div class="step" data-step="moral">
+                <h2>The Sacred Zone</h2>
+                <p>
+                    The upper-right quadrant tells the most important story. These are jobs where AI is technically
+                    capable—some highly so—but faces <strong>moral friction</strong>. People don't just doubt
+                    the technology. They find its use fundamentally inappropriate.
+                </p>
+                <p>
+                    Psychology teachers (5.62). School psychologists (5.45). Psychiatrists (5.36).
+                    Elementary school teachers (5.25). Notice the pattern? These aren't random. They cluster
+                    around care, judgment, and human connection.
+                </p>
+                <div class="highlight-box">
+                    112 out of 940 occupations studied remain morally repugnant for AI—regardless of how
+                    advanced the technology becomes.
+                </div>
+            </div>
+
+            <div class="step" data-step="contrast">
+                <h2>The Efficiency Zone</h2>
+                <p>
+                    Now look at the lower-right. These occupations have high technical feasibility but low moral
+                    repugnance. File clerks (2.17). Data entry keyers (2.55). Search marketing strategists (2.31).
+                </p>
+                <p>
+                    We're fine with AI here. More than fine—we welcome it. These jobs involve information processing,
+                    pattern recognition, optimization. Important work, but work we don't associate with human essence.
+                </p>
+                <div class="stat-callout" style="color: #2ecc71;">
+                    File Clerks: 2.17<br>
+                    <span style="font-size: 0.5em;">vs. Clergy: 5.91</span>
+                </div>
+            </div>
+
+            <div class="step" data-step="implications">
+                <h2>So What Does This Mean?</h2>
+                <p>
+                    This isn't just academic curiosity. The jobs facing moral resistance tend to pay more, employ
+                    more women, and have higher proportions of White workers. The economic implications are profound.
+                </p>
+                <p>
+                    Policy debates about AI have focused almost exclusively on capability. Can the machine do it?
+                    But this research suggests we're asking the wrong question. The deeper issue is legitimacy:
+                    <em>Should</em> the machine do it, even if it can?
+                </p>
+                <p>
+                    Companies racing to automate might find unexpected resistance. Not from workers protecting their
+                    jobs, but from customers who find the automation itself offensive. A robot surgeon might be
+                    more precise, but will patients accept it?
+                </p>
+            </div>
+
+            <div class="step" data-step="caveats">
+                <h2>The Honest Caveats</h2>
+                <p>
+                    Before we draw sweeping conclusions, let's acknowledge what we don't know.
+                </p>
+                <p>
+                    This study surveyed 2,357 U.S. adults rating 940 occupations—a massive undertaking. But attitudes
+                    vary by culture. What Americans find morally repugnant might be acceptable elsewhere. Japan's
+                    embrace of care robots suggests cultural context matters enormously.
+                </p>
+                <p>
+                    Attitudes also shift over time. ATMs were once seen as cold and impersonal. Now we barely notice them.
+                    The moral boundaries we draw today may seem quaint in a decade.
+                </p>
+                <div class="occupation-example">
+                    <strong>R² = 0.134</strong><br>
+                    <small>Technical feasibility and moral repugnance are only weakly correlated.
+                    They're genuinely different dimensions of resistance.</small>
+                </div>
+            </div>
+
+            <div class="step" data-step="explore">
+                <h2>Explore the Data</h2>
+                <p>
+                    Use the brush tool on the chart to select any region. The panel below will show you exactly
+                    which occupations fall within your selection.
+                </p>
+                <p>
+                    Try selecting the upper-right corner—the moral friction zone. Or compare it with the lower-right,
+                    where efficiency reigns. What patterns do you notice?
+                </p>
+                <p>
+                    Each dot represents a real occupation, rated by real people, revealing something profound about
+                    what we believe makes us human.
+                </p>
+            </div>
+        </div>
+
+        <div class="chart-column">
+            <div class="brush-hint">
+                Click and drag on the chart to select occupations
+            </div>
+            <div id="plot"></div>
+            <div class="selection-panel">
+                <h4>Selected Occupations</h4>
+                <div id="selection-list">
+                    <p class="selection-count">Drag to select points on the chart</p>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="methodology">
+        <h3>How We Extracted This Data</h3>
+        <p>
+            This visualization is based on data from "<a href="https://www.hbs.edu/faculty/Pages/item.aspx?num=68008" target="_blank" style="color: #1565c0;">Performance or Principle: Resistance to Artificial Intelligence
+            in the U.S. Labor Market</a>" by Simon Friis and James W. Riley (Harvard Business School Working Paper 26-017, 2025).
+            Also available on <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5560401" target="_blank" style="color: #1565c0;">SSRN</a>.
+        </p>
+        <p><strong>Data extraction process:</strong></p>
+        <ul>
+            <li><strong>Source:</strong> The paper's Supplementary Materials contain a comprehensive dataset of 940 occupations
+            from the O*NET taxonomy, each rated for moral repugnance and matched with technical feasibility scores.</li>
+            <li><strong>Moral Repugnance:</strong> Measured on a 1-7 scale where 1 = "strongly support" AI automation and
+            7 = "strongly oppose." The midpoint (4.0) represents neutrality. Scores were collected from 2,357 U.S. adults
+            via Prolific, with each participant rating 10 randomly assigned occupations (23,570 total ratings).</li>
+            <li><strong>Technical Feasibility:</strong> Uses the E1+E2 metric from Eloundou et al. (2024), representing
+            the proportion of occupation tasks where AI can reduce completion time by at least 50%.</li>
+            <li><strong>Quadrant Classification:</strong> We classified occupations into four categories based on the paper's
+            framework:
+                <ul>
+                    <li><em>No Friction:</em> High feasibility (&gt;0.50), Low repugnance (&lt;4.0)</li>
+                    <li><em>Moral Friction:</em> High feasibility (&gt;0.50), High repugnance (&gt;4.0)</li>
+                    <li><em>Technical Friction:</em> Low feasibility (&lt;0.50), Low repugnance (&lt;4.0)</li>
+                    <li><em>Dual Friction:</em> Low feasibility (&lt;0.50), High repugnance (&gt;4.0)</li>
+                </ul>
+            </li>
+            <li><strong>Selection:</strong> The visualization displays a representative sample of 104 occupations spanning
+            all four quadrants, selected to illustrate key findings from the research while maintaining visual clarity.</li>
+        </ul>
+        <p>
+            <strong>Important note:</strong> The moral repugnance scores reflect American attitudes as of 2024-2025.
+            Cultural, temporal, and demographic factors significantly influence these perceptions.
+        </p>
+    </div>
+
+    <div class="footer">
+        <h3>The Question That Remains</h3>
+        <p>
+            As AI capabilities accelerate, we face a choice that no algorithm can make for us:
+            Which jobs do we automate because we can, and which do we protect because of what they mean?
+        </p>
+        <p>
+            The data suggests that our resistance to AI isn't always rational, and that's exactly the point.
+            It reveals something about human values that transcends efficiency calculations.
+        </p>
+        <p style="opacity: 0.7; font-size: 0.9em; margin-top: 30px;">
+            Visualization based on <a href="https://www.hbs.edu/faculty/Pages/item.aspx?num=68008" target="_blank" style="color: #87ceeb;">Friis & Riley (2025)</a>. Created with Plotly.js.<br>
+            Interactive exploration enabled. Scroll up to continue exploring.
+        </p>
+    </div>
+
     <script>
+        // Global variables
+        let allData = {};
+        let currentHighlight = null;
+        let plotElement = null;
+
         // Load and parse CSV data
         fetch('figure4_data.csv')
             .then(response => response.text())
             .then(csvText => {
                 const lines = csvText.trim().split('\n');
-                const headers = lines[0].split(',');
 
                 const data = {
-                    'No Friction': { x: [], y: [], text: [] },
-                    'Moral Friction': { x: [], y: [], text: [] },
-                    'Technical Friction': { x: [], y: [], text: [] },
-                    'Dual Friction': { x: [], y: [], text: [] }
+                    'No Friction': { x: [], y: [], text: [], indices: [] },
+                    'Moral Friction': { x: [], y: [], text: [], indices: [] },
+                    'Technical Friction': { x: [], y: [], text: [], indices: [] },
+                    'Dual Friction': { x: [], y: [], text: [], indices: [] }
                 };
 
+                let globalIndex = 0;
                 for (let i = 1; i < lines.length; i++) {
                     if (!lines[i].trim()) continue;
 
-                    // Parse CSV line (handle commas in occupation names)
                     const parts = lines[i].split(',');
                     const quadrant = parts[parts.length - 1];
                     const repugnance = parseFloat(parts[parts.length - 2]);
@@ -120,10 +495,12 @@
                         data[quadrant].x.push(feasibility);
                         data[quadrant].y.push(repugnance);
                         data[quadrant].text.push(occupation);
+                        data[quadrant].indices.push(globalIndex++);
                     }
                 }
 
-                // Create traces for each quadrant
+                allData = data;
+
                 const colors = {
                     'No Friction': '#2ecc71',
                     'Moral Friction': '#e74c3c',
@@ -139,95 +516,54 @@
                     mode: 'markers',
                     type: 'scatter',
                     marker: {
-                        size: 10,
+                        size: 12,
                         color: colors[quadrant],
-                        opacity: 0.7,
+                        opacity: 0.8,
                         line: {
                             color: 'white',
-                            width: 1
+                            width: 1.5
                         }
                     },
                     hovertemplate: '<b>%{text}</b><br>' +
                                    'Technical Feasibility: %{x:.2f}<br>' +
                                    'Moral Repugnance: %{y:.2f}<br>' +
-                                   '<extra>' + quadrant + '</extra>'
+                                   '<extra>' + quadrant + '</extra>',
+                    selectedpoints: null
                 }));
 
-                // Add quadrant dividing lines
                 const shapes = [
-                    // Vertical line at x = 0.50
                     {
                         type: 'line',
-                        x0: 0.50,
-                        x1: 0.50,
-                        y0: 1,
-                        y1: 7,
-                        line: {
-                            color: '#999',
-                            width: 2,
-                            dash: 'dash'
-                        }
+                        x0: 0.50, x1: 0.50, y0: 1, y1: 7,
+                        line: { color: '#bbb', width: 2, dash: 'dash' }
                     },
-                    // Horizontal line at y = 4.0
                     {
                         type: 'line',
-                        x0: 0,
-                        x1: 1,
-                        y0: 4.0,
-                        y1: 4.0,
-                        line: {
-                            color: '#999',
-                            width: 2,
-                            dash: 'dash'
-                        }
+                        x0: 0, x1: 1, y0: 4.0, y1: 4.0,
+                        line: { color: '#bbb', width: 2, dash: 'dash' }
                     }
                 ];
 
-                // Add quadrant labels
                 const annotations = [
-                    {
-                        x: 0.25,
-                        y: 6.5,
-                        text: '<b>DUAL FRICTION</b>',
-                        showarrow: false,
-                        font: { size: 14, color: '#9b59b6' }
-                    },
-                    {
-                        x: 0.75,
-                        y: 6.5,
-                        text: '<b>MORAL FRICTION</b>',
-                        showarrow: false,
-                        font: { size: 14, color: '#e74c3c' }
-                    },
-                    {
-                        x: 0.25,
-                        y: 1.5,
-                        text: '<b>TECHNICAL FRICTION</b>',
-                        showarrow: false,
-                        font: { size: 14, color: '#3498db' }
-                    },
-                    {
-                        x: 0.75,
-                        y: 1.5,
-                        text: '<b>NO FRICTION</b>',
-                        showarrow: false,
-                        font: { size: 14, color: '#2ecc71' }
-                    }
+                    { x: 0.25, y: 6.7, text: '<b>DUAL FRICTION</b>', showarrow: false, font: { size: 12, color: '#9b59b6' } },
+                    { x: 0.75, y: 6.7, text: '<b>MORAL FRICTION</b>', showarrow: false, font: { size: 12, color: '#e74c3c' } },
+                    { x: 0.25, y: 1.3, text: '<b>TECHNICAL FRICTION</b>', showarrow: false, font: { size: 12, color: '#3498db' } },
+                    { x: 0.75, y: 1.3, text: '<b>NO FRICTION</b>', showarrow: false, font: { size: 12, color: '#2ecc71' } }
                 ];
 
                 const layout = {
                     title: {
-                        text: 'Figure 4: Moral Repugnance vs. Technical Feasibility',
-                        font: { size: 18 }
+                        text: 'Moral Repugnance vs. Technical Feasibility',
+                        font: { size: 16 }
                     },
                     xaxis: {
-                        title: 'Technical Feasibility (E1 + E2)',
+                        title: 'Technical Feasibility (AI Capability)',
                         range: [-0.05, 1.05],
                         dtick: 0.25,
                         gridcolor: '#e0e0e0'
                     },
                     yaxis: {
-                        title: 'Moral Repugnance (1-7 scale)',
+                        title: 'Moral Repugnance (1-7)',
                         range: [1, 7],
                         dtick: 1,
                         gridcolor: '#e0e0e0'
@@ -235,30 +571,169 @@
                     shapes: shapes,
                     annotations: annotations,
                     hovermode: 'closest',
+                    dragmode: 'select',
+                    selectdirection: 'any',
                     legend: {
-                        x: 1.02,
-                        y: 0.5,
+                        x: 0.01,
+                        y: 0.99,
                         bgcolor: 'rgba(255,255,255,0.9)',
                         bordercolor: '#ccc',
                         borderwidth: 1
                     },
                     plot_bgcolor: 'white',
-                    paper_bgcolor: 'white'
+                    paper_bgcolor: 'white',
+                    margin: { t: 50, r: 20, b: 50, l: 60 }
                 };
 
                 const config = {
                     responsive: true,
                     displayModeBar: true,
-                    modeBarButtonsToRemove: ['lasso2d', 'select2d']
+                    modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'toggleSpikelines']
                 };
 
-                Plotly.newPlot('plot', traces, layout, config);
+                Plotly.newPlot('plot', traces, layout, config).then(plot => {
+                    plotElement = plot;
+
+                    // Handle brush selection
+                    plot.on('plotly_selected', function(eventData) {
+                        updateSelectionList(eventData);
+                    });
+
+                    // Handle deselection
+                    plot.on('plotly_deselect', function() {
+                        document.getElementById('selection-list').innerHTML =
+                            '<p class="selection-count">Drag to select points on the chart</p>';
+                    });
+                });
             })
             .catch(error => {
                 console.error('Error loading data:', error);
                 document.getElementById('plot').innerHTML =
-                    '<p style="color: red;">Error loading data. Please ensure figure4_data.csv is in the same directory.</p>';
+                    '<p style="color: red; padding: 20px;">Error loading data. Please ensure figure4_data.csv is in the same directory.</p>';
             });
+
+        function updateSelectionList(eventData) {
+            const listContainer = document.getElementById('selection-list');
+
+            if (!eventData || !eventData.points || eventData.points.length === 0) {
+                listContainer.innerHTML = '<p class="selection-count">No points selected</p>';
+                return;
+            }
+
+            const selectedOccupations = eventData.points.map(point => ({
+                name: point.text,
+                x: point.x,
+                y: point.y,
+                quadrant: point.data.name
+            }));
+
+            // Sort by moral repugnance (highest first)
+            selectedOccupations.sort((a, b) => b.y - a.y);
+
+            let html = `<p class="selection-count">${selectedOccupations.length} occupation${selectedOccupations.length > 1 ? 's' : ''} selected:</p><ul>`;
+
+            selectedOccupations.forEach(occ => {
+                html += `<li><strong>${occ.name}</strong><br>
+                         <small>Feasibility: ${occ.x.toFixed(2)} | Repugnance: ${occ.y.toFixed(2)}</small></li>`;
+            });
+
+            html += '</ul>';
+            listContainer.innerHTML = html;
+        }
+
+        // Scroll-triggered highlighting
+        const steps = document.querySelectorAll('.step');
+
+        const highlightConfigs = {
+            'intro': {
+                opacity: [0.2, 0.2, 0.2, 0.2],
+                annotations: [
+                    { x: 0.82, y: 5.91, text: 'Clergy<br>5.91', showarrow: true, arrowhead: 2, ax: -40, ay: -30, font: { size: 11, color: '#e74c3c' } }
+                ]
+            },
+            'technical': {
+                opacity: [0.2, 0.2, 0.9, 0.2],
+                annotations: []
+            },
+            'surprise': {
+                opacity: [0.2, 0.2, 0.2, 0.9],
+                annotations: [
+                    { x: 0.34, y: 5.86, text: 'Childcare Workers', showarrow: true, arrowhead: 2, ax: 40, ay: -20, font: { size: 10, color: '#9b59b6' } }
+                ]
+            },
+            'moral': {
+                opacity: [0.2, 0.9, 0.2, 0.2],
+                annotations: [
+                    { x: 0.76, y: 5.62, text: 'Psychology Teachers', showarrow: true, arrowhead: 2, ax: -30, ay: -25, font: { size: 10, color: '#e74c3c' } },
+                    { x: 0.62, y: 5.25, text: 'Elementary Teachers', showarrow: true, arrowhead: 2, ax: 40, ay: 20, font: { size: 10, color: '#e74c3c' } }
+                ]
+            },
+            'contrast': {
+                opacity: [0.9, 0.2, 0.2, 0.2],
+                annotations: [
+                    { x: 0.79, y: 2.17, text: 'File Clerks<br>2.17', showarrow: true, arrowhead: 2, ax: -40, ay: 30, font: { size: 11, color: '#2ecc71' } }
+                ]
+            },
+            'implications': {
+                opacity: [0.7, 0.7, 0.7, 0.7],
+                annotations: []
+            },
+            'caveats': {
+                opacity: [0.7, 0.7, 0.7, 0.7],
+                annotations: []
+            },
+            'explore': {
+                opacity: [0.8, 0.8, 0.8, 0.8],
+                annotations: []
+            }
+        };
+
+        function highlightQuadrant(stepName) {
+            if (!plotElement || currentHighlight === stepName) return;
+            currentHighlight = stepName;
+
+            const config = highlightConfigs[stepName] || { opacity: [0.8, 0.8, 0.8, 0.8], annotations: [] };
+
+            // Update trace opacities
+            const update = {
+                'marker.opacity': config.opacity
+            };
+
+            Plotly.restyle('plot', update);
+
+            // Update annotations
+            const baseAnnotations = [
+                { x: 0.25, y: 6.7, text: '<b>DUAL FRICTION</b>', showarrow: false, font: { size: 12, color: '#9b59b6' } },
+                { x: 0.75, y: 6.7, text: '<b>MORAL FRICTION</b>', showarrow: false, font: { size: 12, color: '#e74c3c' } },
+                { x: 0.25, y: 1.3, text: '<b>TECHNICAL FRICTION</b>', showarrow: false, font: { size: 12, color: '#3498db' } },
+                { x: 0.75, y: 1.3, text: '<b>NO FRICTION</b>', showarrow: false, font: { size: 12, color: '#2ecc71' } }
+            ];
+
+            Plotly.relayout('plot', { annotations: [...baseAnnotations, ...config.annotations] });
+        }
+
+        // Intersection Observer for scroll triggering
+        const observerOptions = {
+            root: null,
+            rootMargin: '-30% 0px -30% 0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Update step visibility
+                    steps.forEach(s => s.classList.remove('active'));
+                    entry.target.classList.add('active');
+
+                    // Highlight corresponding chart region
+                    const stepName = entry.target.dataset.step;
+                    highlightQuadrant(stepName);
+                }
+            });
+        }, observerOptions);
+
+        steps.forEach(step => observer.observe(step));
     </script>
 </body>
 </html>
