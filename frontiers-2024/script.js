@@ -83,9 +83,9 @@ const chartConfigs = {
         render: renderImpactShowcase
     },
     institutional: {
-        type: 'partnerships',
+        type: 'bar-horizontal',
         title: 'Institutional Partnerships (2024)',
-        subtitle: 'Universities voting with their budgets',
+        subtitle: '371 institutions across 76 partnerships',
         render: renderPartnerships
     },
     broader: {
@@ -129,6 +129,9 @@ function initScrollObserver() {
         return;
     }
 
+    let updateTimeout = null;
+    let pendingUpdate = null;
+
     const observerOptions = {
         root: null,
         rootMargin: '-30% 0px -30% 0px',
@@ -136,27 +139,47 @@ function initScrollObserver() {
     };
 
     const observer = new IntersectionObserver((entries) => {
-        // Find the most visible entry
+        // Find the most visible entry across ALL currently intersecting steps
         let mostVisible = null;
         let maxRatio = 0;
 
-        entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-                maxRatio = entry.intersectionRatio;
-                mostVisible = entry;
+        // Check all steps, not just the ones in this callback
+        steps.forEach(step => {
+            const rect = step.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+
+            // Calculate how much of the step is in the "sweet spot" (30% margins)
+            const top = Math.max(rect.top, viewportHeight * 0.3);
+            const bottom = Math.min(rect.bottom, viewportHeight * 0.7);
+            const visibleHeight = Math.max(0, bottom - top);
+            const stepHeight = rect.height;
+            const ratio = stepHeight > 0 ? visibleHeight / stepHeight : 0;
+
+            if (ratio > maxRatio && ratio > 0.1) {
+                maxRatio = ratio;
+                mostVisible = step;
             }
         });
 
         if (mostVisible) {
-            // Update step visibility
-            steps.forEach(s => s.classList.remove('active'));
-            mostVisible.target.classList.add('active');
+            pendingUpdate = mostVisible;
 
-            // Update chart
-            const stepName = mostVisible.target.dataset.step;
-            if (stepName) {
-                updateChart(stepName);
-            }
+            // Debounce the update to prevent flicker
+            clearTimeout(updateTimeout);
+            updateTimeout = setTimeout(() => {
+                if (pendingUpdate) {
+                    // Update step visibility
+                    steps.forEach(s => s.classList.remove('active'));
+                    pendingUpdate.classList.add('active');
+
+                    // Update chart
+                    const stepName = pendingUpdate.dataset.step;
+                    if (stepName) {
+                        updateChart(stepName);
+                    }
+                    pendingUpdate = null;
+                }
+            }, 100); // 100ms debounce
         }
     }, observerOptions);
 
@@ -630,27 +653,59 @@ function renderImpactShowcase(container) {
 }
 
 function renderPartnerships(container) {
+    // Use horizontal bar chart for clearer visualization
+    const partners = [
+        { name: 'German National Consortium', institutions: 200, color: '#3498db' },
+        { name: 'Swedish Bibsam Consortium', institutions: 85, color: '#e67e22' },
+        { name: 'Other Institutional Partners', institutions: 76, color: '#9b59b6' },
+        { name: 'University of California System', institutions: 10, color: '#e74c3c' }
+    ];
+
     const trace = {
-        type: 'treemap',
-        labels: ['All Partners', 'Germany', 'UC System', 'Sweden', 'Others'],
-        parents: ['', 'All Partners', 'All Partners', 'All Partners', 'All Partners'],
-        values: [371, 200, 10, 85, 76],
-        text: ['76 Total Partners', 'German Consortium<br>200 institutions', 'UC System<br>10 campuses', 'Swedish Bibsam<br>85 institutions', 'Other Partners<br>76 institutions'],
-        textposition: 'middle center',
+        type: 'bar',
+        y: partners.map(p => p.name),
+        x: partners.map(p => p.institutions),
+        orientation: 'h',
         marker: {
-            colors: ['#ecf0f1', '#3498db', '#e74c3c', '#f39c12', '#9b59b6'],
+            color: partners.map(p => p.color),
             line: {
                 color: 'white',
-                width: 3
+                width: 2
             }
         },
-        hovertemplate: '<b>%{label}</b><br>%{text}<extra></extra>'
+        text: partners.map(p => `${p.institutions} institutions`),
+        textposition: 'auto',
+        textfont: {
+            color: 'white',
+            size: 13,
+            family: 'Georgia, serif'
+        },
+        hovertemplate: '<b>%{y}</b><br>%{x} institutions<extra></extra>'
     };
 
     const layout = {
         title: '',
-        margin: { t: 20, r: 20, b: 20, l: 20 },
-        paper_bgcolor: 'white'
+        xaxis: {
+            title: 'Number of Institutions',
+            gridcolor: '#e0e0e0',
+            rangemode: 'tozero'
+        },
+        yaxis: {
+            title: '',
+            automargin: true
+        },
+        plot_bgcolor: 'white',
+        paper_bgcolor: 'white',
+        margin: { t: 30, r: 20, b: 60, l: 250 },
+        annotations: [{
+            x: 0.5,
+            y: 1.15,
+            xref: 'paper',
+            yref: 'paper',
+            text: '<b>Total: 371 institutions across 76 partnerships</b>',
+            showarrow: false,
+            font: { size: 14, color: '#2c3e50', family: 'Georgia' }
+        }]
     };
 
     const config = {
