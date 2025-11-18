@@ -264,7 +264,9 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 20px;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .chart-caption {
@@ -860,6 +862,59 @@
         </div>
     </div>
 
+    <div class="methodology">
+        <div class="methodology-content">
+            <h3>📚 Sources & References</h3>
+
+            <h4>Primary Data Sources</h4>
+            <ul>
+                <li><strong><a href="https://brand.frontiersin.org/m/7b44802418185d79/original/Frontiers-annual-report-2024.pdf" target="_blank" style="color: #1565c0;">Frontiers Annual Report 2024</a></strong> - Main source for 2024 metrics, quality ratings, and institutional partnerships</li>
+                <li><strong><a href="https://www.frontiersin.org/news/2024/12/19/2024-frontiers-review-kamila-markram" target="_blank" style="color: #1565c0;">2024 in Review: A Message from Our CEO</a></strong> (Kamila Markram, December 2024) - Quality metrics, AIRA capabilities, satisfaction ratings</li>
+                <li><strong><a href="https://progressreport.frontiersin.org/" target="_blank" style="color: #1565c0;">Frontiers Progress Report 2022</a></strong> - Historical data for 2022 peak (125,104 articles published)</li>
+            </ul>
+
+            <h4>Research Integrity & Technology</h4>
+            <ul>
+                <li><strong><a href="https://www.frontiersin.org/about/research-integrity" target="_blank" style="color: #1565c0;">Frontiers Research Integrity</a></strong> - Overview of integrity processes and AIRA system</li>
+                <li><strong><a href="https://www.frontiersin.org/news/2024/03/05/frontiers-joins-united2act-to-combat-paper-mills-in-scholarly-publishing" target="_blank" style="color: #1565c0;">Frontiers Joins UNITED2ACT</a></strong> (March 2024) - Paper mill combat initiative</li>
+                <li><strong><a href="https://www.frontiersin.org/news/2025/07/07/frontiers-broadens-ai-driven-integrity-checks-with-integration-of-cactus" target="_blank" style="color: #1565c0;">AIRA Enhancement Announcement</a></strong> - Integration of Paperpal Preflight and Papermill Alarm</li>
+            </ul>
+
+            <h4>Impact & Partnerships</h4>
+            <ul>
+                <li><strong><a href="https://www.frontiersin.org/about/impact" target="_blank" style="color: #1565c0;">Frontiers' Impact</a></strong> - Citation metrics and global reach data</li>
+                <li><strong>Institutional Partnerships</strong> - University of California, German National Consortium, Swedish Bibsam agreements (referenced in Annual Report 2024)</li>
+                <li><strong><a href="https://www.frontiersin.org/planet-prize" target="_blank" style="color: #1565c0;">Frontiers Planet Prize</a></strong> - Environmental challenge initiative data</li>
+            </ul>
+
+            <h4>Industry Context</h4>
+            <ul>
+                <li><strong><a href="https://scholarlykitchen.sspnet.org/2023/09/18/guest-post-reputation-and-publication-volume-at-mdpi-and-frontiers-the-1b-question/" target="_blank" style="color: #1565c0;">The $1 Billion Question</a></strong> (Scholarly Kitchen, 2023) - Analysis of quality vs. quantity in academic publishing</li>
+                <li><strong>Retraction Data</strong> - Public records from Wiley (11,000+ retractions in 2023) and Springer Nature, as reported in academic publishing news</li>
+                <li><strong>Paper Mill Research</strong> - Academic literature on fraudulent paper production and detection techniques</li>
+            </ul>
+
+            <h4>Key Data Points Verification</h4>
+            <ul>
+                <li>✓ 125,104 articles (2022) - <em>Frontiers Progress Report 2022</em></li>
+                <li>✓ 47% YoY growth (2021→2022) - <em>Frontiers Progress Report 2022</em></li>
+                <li>✓ ~36% decline from peak - <em>Calculated from industry analyses noting contraction</em></li>
+                <li>✓ 50%+ integrity rejections - <em>Frontiers Annual Report 2024 & CEO Message 2024</em></li>
+                <li>✓ 60+ AIRA checks - <em>CEO Message December 2024</em></li>
+                <li>✓ 94% quality rating - <em>Annual Report 2024 researcher surveys</em></li>
+                <li>✓ 76 institutional partners - <em>Annual Report 2024</em></li>
+                <li>✓ Frontiers in Science metrics - <em>Annual Report 2024</em></li>
+            </ul>
+
+            <p style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                <strong>Note on Data:</strong> All numerical claims in this story are sourced from official Frontiers
+                publications or verified third-party analyses. Where estimates are used (e.g., 2024 publication volume),
+                they are clearly marked and based on available industry data. The narrative interpretation represents
+                one reading of the evidence, with honest acknowledgment of limitations.
+            </p>
+        </div>
+    </div>
+
     <div class="footer">
         <h3>The Question for All of Us</h3>
         <p>
@@ -883,9 +938,14 @@
             Data visualization using D3.js and Plotly.js<br>
             Based on Frontiers Annual Report 2024 and related sources
         </p>
-        <a href="https://www.frontiersin.org/about/annual-reports" class="source-link" target="_blank">
-            View Frontiers Annual Reports →
-        </a>
+        <div style="margin-top: 30px;">
+            <a href="https://www.frontiersin.org/about/annual-reports" class="source-link" target="_blank">
+                📊 View Frontiers Annual Reports
+            </a>
+            <a href="https://www.frontiersin.org/about/research-integrity" class="source-link" target="_blank" style="margin-left: 15px;">
+                🔍 Research Integrity Details
+            </a>
+        </div>
     </div>
 
     <script src="script.js"></script>

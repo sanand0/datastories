@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screenshot Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .content {
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            opacity: 0.95;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .byline {
+            font-size: 1.1em;
+            opacity: 0.7;
+            margin-top: 30px;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration"></div>
+    <div class="content">
+        <h1>The Publisher Who<br>Chose to Shrink</h1>
+        <div class="subtitle">
+            In 2022, Frontiers was the world's fastest-growing academic publisher.<br>
+            Then they did something almost unheard of: they deliberately cut their output by more than a third.
+        </div>
+        <div class="byline">
+            A story about choosing quality over growth in the age of AI-generated fraud
+        </div>
+    </div>
+</body>
+</html>

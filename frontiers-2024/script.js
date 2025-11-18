@@ -124,27 +124,45 @@ const chartConfigs = {
 function initScrollObserver() {
     const steps = document.querySelectorAll('.step');
 
+    if (steps.length === 0) {
+        console.error('No .step elements found');
+        return;
+    }
+
     const observerOptions = {
         root: null,
-        rootMargin: '-40% 0px -40% 0px',
-        threshold: 0.3
+        rootMargin: '-30% 0px -30% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1]
     };
 
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Update step visibility
-                steps.forEach(s => s.classList.remove('active'));
-                entry.target.classList.add('active');
+        // Find the most visible entry
+        let mostVisible = null;
+        let maxRatio = 0;
 
-                // Update chart
-                const stepName = entry.target.dataset.step;
-                updateChart(stepName);
+        entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+                maxRatio = entry.intersectionRatio;
+                mostVisible = entry;
             }
         });
+
+        if (mostVisible) {
+            // Update step visibility
+            steps.forEach(s => s.classList.remove('active'));
+            mostVisible.target.classList.add('active');
+
+            // Update chart
+            const stepName = mostVisible.target.dataset.step;
+            if (stepName) {
+                updateChart(stepName);
+            }
+        }
     }, observerOptions);
 
     steps.forEach(step => observer.observe(step));
+
+    console.log(`Observing ${steps.length} steps`);
 }
 
 // Update chart based on current step
