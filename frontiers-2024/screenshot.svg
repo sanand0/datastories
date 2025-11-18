@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="800" height="600" fill="#0f2027"/>
+
+    <!-- Gradient overlay -->
+    <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0f2027;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#203a43;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2c5364;stop-opacity:1" />
+        </linearGradient>
+        <radialGradient id="pulse">
+            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.05" />
+            <stop offset="70%" style="stop-color:#ffffff;stop-opacity:0" />
+        </radialGradient>
+    </defs>
+
+    <rect width="800" height="600" fill="url(#grad1)"/>
+    <ellipse cx="600" cy="200" rx="400" ry="400" fill="url(#pulse)"/>
+
+    <!-- Title -->
+    <text x="400" y="100" font-family="Georgia, serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">
+        The Publisher Who
+    </text>
+    <text x="400" y="150" font-family="Georgia, serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">
+        Chose to Shrink
+    </text>
+
+    <!-- Subtitle -->
+    <text x="400" y="210" font-family="Georgia, serif" font-size="18" fill="white" text-anchor="middle" opacity="0.9" font-style="italic">
+        In 2022, Frontiers was the world's fastest-growing academic publisher.
+    </text>
+    <text x="400" y="235" font-family="Georgia, serif" font-size="18" fill="white" text-anchor="middle" opacity="0.9" font-style="italic">
+        Then they did something almost unheard of: they deliberately cut
+    </text>
+    <text x="400" y="260" font-family="Georgia, serif" font-size="18" fill="white" text-anchor="middle" opacity="0.9" font-style="italic">
+        their output by more than a third.
+    </text>
+
+    <!-- Chart representation -->
+    <g transform="translate(100, 320)">
+        <!-- Axes -->
+        <line x1="50" y1="200" x2="650" y2="200" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+        <line x1="50" y1="0" x2="50" y2="200" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+
+        <!-- Data line (simplified strategic pivot) -->
+        <polyline points="50,150 150,120 250,90 350,70 450,70 550,40 600,100 650,120"
+                  fill="none" stroke="#e74c3c" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- Quality pivot zone -->
+        <rect x="550" y="0" width="100" height="200" fill="#27ae60" opacity="0.2"/>
+
+        <!-- Peak annotation -->
+        <circle cx="550" cy="40" r="6" fill="#e74c3c" stroke="white" stroke-width="2"/>
+        <text x="550" y="25" font-family="Georgia, serif" font-size="12" fill="#e74c3c" text-anchor="middle">
+            Peak: 125,104
+        </text>
+
+        <!-- Decline annotation -->
+        <circle cx="650" cy="120" r="6" fill="#27ae60" stroke="white" stroke-width="2"/>
+        <text x="650" y="140" font-family="Georgia, serif" font-size="12" fill="#27ae60" text-anchor="middle">
+            -36%
+        </text>
+
+        <!-- Zone label -->
+        <text x="600" y="100" font-family="Georgia, serif" font-size="11" fill="#27ae60" text-anchor="middle">
+            Quality Pivot
+        </text>
+    </g>
+
+    <!-- Byline -->
+    <text x="400" y="570" font-family="Georgia, serif" font-size="14" fill="white" text-anchor="middle" opacity="0.7">
+        A story about choosing quality over growth in the age of AI-generated fraud
+    </text>
+</svg>
