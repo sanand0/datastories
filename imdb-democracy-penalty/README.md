@@ -67,11 +67,11 @@ I uncovered a **genuinely counterintuitive finding** that challenges conventiona
 
 ### What I Delivered
 
-1.  **3 comprehensive Python analysis scripts** with statistical validation
-2.  **Robustness checks**: Bootstrap CIs, permutation tests, temporal consistency, subsample stability
-3.  **Beautiful interactive visualizations** using D3.js (scatter plots, bar charts, penalty distributions)
-4.  **Malcolm Gladwell-style narrative** (~2000 words) that builds tension and reveals the mystery
-5.  **Complete GitHub Pages site** in `_site/` folder ready for publishing
+1. **3 comprehensive Python analysis scripts** with statistical validation
+2. **Robustness checks**: Bootstrap CIs, permutation tests, temporal consistency, subsample stability
+3. **Beautiful interactive visualizations** using D3.js (scatter plots, bar charts, penalty distributions)
+4. **Malcolm Gladwell-style narrative** (~2000 words) that builds tension and reveals the mystery
+5. **Complete GitHub Pages site** in `_site/` folder ready for publishing
 
 ### Why This Matters
 

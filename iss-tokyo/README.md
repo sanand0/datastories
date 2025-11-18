@@ -59,13 +59,13 @@ This isn't random chance - the probability is p < 0.0001. It's deterministic orb
 
 ### Key Findings:
 
-1.  **The 33km Miss**: Tokyo's nearest ISS approach was 2,333 km - just 33 km beyond the 2,300 km visibility threshold. An almost impossibly perfect miss.
+1. **The 33km Miss**: Tokyo's nearest ISS approach was 2,333 km - just 33 km beyond the 2,300 km visibility threshold. An almost impossibly perfect miss.
 
-2.  **700x Disparity**: Auckland residents had 700x more ISS visibility per capita than Tokyo residents.
+2. **700x Disparity**: Auckland residents had 700x more ISS visibility per capita than Tokyo residents.
 
-3.  **Sampling Bias in Action**: The 12:00 UTC sampling time creates temporal-orbital resonance that systematically excludes certain Earth locations.
+3. **Sampling Bias in Action**: The 12:00 UTC sampling time creates temporal-orbital resonance that systematically excludes certain Earth locations.
 
-4.  **Statistical Proof**: Expected 10.5 passes for Tokyo, got 0. Poisson probability: 2.87×10⁻⁵
+4. **Statistical Proof**: Expected 10.5 passes for Tokyo, got 0. Poisson probability: 2.87×10⁻⁵
 
 ### What I Created:
 
@@ -81,9 +81,9 @@ This isn't random chance - the probability is p < 0.0001. It's deterministic orb
 
 ### To Enable GitHub Pages:
 
-1.  Go to **Repository Settings > Pages**
-2.  Set Source to **Deploy from a branch**
-3.  Select the branch and set folder to **`/_site`** (or root if you move files)
-4.  The site will be live at `https://sanand0.github.io/iss-location/`
+1. Go to **Repository Settings > Pages**
+2. Set Source to **Deploy from a branch**
+3. Select the branch and set folder to **`/_site`** (or root if you move files)
+4. The site will be live at `https://sanand0.github.io/iss-location/`
 
 The story is written in Gladwell style - building tension around the mystery, making abstract orbital mechanics concrete, and revealing a profound truth about sampling bias that extends far beyond space stations.

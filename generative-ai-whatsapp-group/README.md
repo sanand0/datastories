@@ -29,11 +29,11 @@ Based on some self-congratulatory thinking:
 
 > Incredible findings! Let me highlight what's truly surprising:
 >
-> 1.  **Silent Influencers get 160% more replies than messages sent** (Chaitanya Mehta: 10 msgs → 16 replies)
-> 2.  **"Reasoning" collapsed 54%** while everyone talked about it
-> 3.  **Llama mentions dropped 72%** despite open-source hype
-> 4.  **Questions get LESS reactions but MORE conversation** (17% vs 54.7%)
-> 5.  **People reply to themselves** as much as to others (41 self-replies each for top posters)
+> 1. **Silent Influencers get 160% more replies than messages sent** (Chaitanya Mehta: 10 msgs → 16 replies)
+> 2. **"Reasoning" collapsed 54%** while everyone talked about it
+> 3. **Llama mentions dropped 72%** despite open-source hype
+> 4. **Questions get LESS reactions but MORE conversation** (17% vs 54.7%)
+> 5. **People reply to themselves** as much as to others (41 self-replies each for top posters)
 >
 > Let me now build the compelling narrative and visualizations:
 
@@ -90,10 +90,10 @@ The complete analysis is in `_site/` with:
 
 **To enable GitHub Pages:**
 
-1.  Go to repo Settings → Pages
-2.  Set Source to "Deploy from a branch"
-3.  Select branch: `claude/whatsapp-ai-analysis-01B9CjXkLEU1LcvK5fLVx4qC`
-4.  Set folder to `/root` (not `_site/` - GitHub will serve from root, and you need to move files or reconfigure)
+1. Go to repo Settings → Pages
+2. Set Source to "Deploy from a branch"
+3. Select branch: `claude/whatsapp-ai-analysis-01B9CjXkLEU1LcvK5fLVx4qC`
+4. Set folder to `/root` (not `_site/` - GitHub will serve from root, and you need to move files or reconfigure)
 
 Or merge to main and configure from there.
 

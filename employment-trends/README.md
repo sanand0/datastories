@@ -259,12 +259,12 @@ ae = ae.merge(industry[["industry_code", "industry_name", "level"]])
 # Option A – use ce.industry.level (0 = Total Nonfarm … 8 = detail)
 parent_map = {}
 for code, lvl in industry[["industry_code", "level"]].values:
-  if lvl == 0:
-    continue
-  parent_map[code] = industry.loc[
-    industry.level == lvl - 1 & industry.industry_code.str.startswith(code[:2]),
-    "industry_code",
-  ].iat[0]
+    if lvl == 0:
+        continue
+    parent_map[code] = industry.loc[
+        industry.level == lvl - 1 & industry.industry_code.str.startswith(code[:2]),
+        "industry_code",
+    ].iat[0]
 ae["parent"] = ae.industry_code.map(parent_map)
 ```
 
@@ -355,8 +355,8 @@ Analyzed
 
 ```python
 with open(path_industry, "r") as f:
-  for _ in range(10):
-    print(f.readline())
+    for _ in range(10):
+        print(f.readline())
 ```
 
 ```
@@ -387,8 +387,8 @@ Analyzed
 
 ```python
 with open(path_series, "r") as f:
-  for _ in range(10):
-    print(f.readline())
+    for _ in range(10):
+        print(f.readline())
 ```
 
 ```
@@ -634,9 +634,9 @@ Analyzed
 # find row containing 'CES Industry Code'
 pub_full = pd.read_excel(path_xlsx, sheet_name="CES_Pub_NAICS_24", header=None)
 for i, val in enumerate(pub_full[0].tolist()):
-  if str(val).strip() == "CES Industry Code":
-    print("Header row index:", i)
-    break
+    if str(val).strip() == "CES Industry Code":
+        print("Header row index:", i)
+        break
 ```
 
 ```
@@ -687,12 +687,12 @@ Analyzed
 # Load pub file with header=1
 pub = pd.read_excel(path_xlsx, sheet_name="CES_Pub_NAICS_24", header=1, dtype=str)
 pub = pub[
-  [
-    "CES Industry Code",
-    "Next Highest Published Level",
-    "NSA Published Series",
-    "SA Published Series(2)",
-  ]
+    [
+        "CES Industry Code",
+        "Next Highest Published Level",
+        "NSA Published Series",
+        "SA Published Series(2)",
+    ]
 ]
 pub.head()
 ```
@@ -724,9 +724,9 @@ Analyzed
 ```python
 # Build mapping
 def clean_code(code):
-  if pd.isna(code):
-    return None
-  return code.replace("-", "")
+    if pd.isna(code):
+        return None
+    return code.replace("-", "")
 
 
 pub["child_code"] = pub["CES Industry Code"].apply(clean_code)
@@ -775,7 +775,7 @@ Analyzed
 ```python
 industry["display_level"] = industry["display_level"].astype(int)
 leaf_series = leaf_series.merge(
-  industry[["industry_code", "display_level"]], on="industry_code", how="left"
+    industry[["industry_code", "display_level"]], on="industry_code", how="left"
 )
 leaf_series.head()
 ```
@@ -812,42 +812,40 @@ Analyzed
 ```python
 # Make dictionary: (industry_code, seasonal) -> series_id
 series01_seasonal_map = {
-  (row.industry_code, row.seasonal): row.series_id for row in series01.itertuples()
+    (row.industry_code, row.seasonal): row.series_id for row in series01.itertuples()
 }
 
 
 def build_hierarchy(industry_code, seasonal):
-  parents = []
-  current = industry_code
-  while True:
-    parent = parent_map.get(current) if "parent_map" in locals() else None
-    if parent is None:
-      break
-    sid = series01_seasonal_map.get((parent, seasonal))
-    if sid is None:
-      # If not found for same seasonal, maybe find either seasonal?
-      sid = series01_seasonal_map.get((parent, "S")) or series01_seasonal_map.get(
-        (parent, "U")
-      )
-    if sid is None:
-      # If still not found, break
-      # but we expect found if data is consistent.
-      break
-    parents.append(sid)
-    current = parent
-  return " ".join(parents)
+    parents = []
+    current = industry_code
+    while True:
+        parent = parent_map.get(current) if "parent_map" in locals() else None
+        if parent is None:
+            break
+        sid = series01_seasonal_map.get((parent, seasonal))
+        if sid is None:
+            # If not found for same seasonal, maybe find either seasonal?
+            sid = series01_seasonal_map.get((parent, "S")) or series01_seasonal_map.get(
+                (parent, "U")
+            )
+        if sid is None:
+            # If still not found, break
+            # but we expect found if data is consistent.
+            break
+        parents.append(sid)
+        current = parent
+    return " ".join(parents)
 
 
 # Build parent_map
 parent_map = {
-  row.child_code: row.parent_code
-  for row in pub.itertuples()
-  if row.parent_code is not None
+    row.child_code: row.parent_code for row in pub.itertuples() if row.parent_code is not None
 }
 
 # Let's test on few
 for idx, row in leaf_series.head(5).iterrows():
-  print(row.series_id, build_hierarchy(row.industry_code, row.seasonal))
+    print(row.series_id, build_hierarchy(row.industry_code, row.seasonal))
 ```
 
 ```
@@ -929,8 +927,7 @@ Analyzed
 
 ```python
 series01_seasonal_map = {
-  (row.industry_code, row.seasonal): row.series_id
-  for row in series01.itertuples(index=False)
+    (row.industry_code, row.seasonal): row.series_id for row in series01.itertuples(index=False)
 }
 len(series01_seasonal_map)
 ```
@@ -945,35 +942,35 @@ Analyzed
 
 ```python
 parent_map = {
-  row.child_code: row.parent_code
-  for row in pub.itertuples(index=False)
-  if row.parent_code is not None
+    row.child_code: row.parent_code
+    for row in pub.itertuples(index=False)
+    if row.parent_code is not None
 }
 
 
 def build_hierarchy(industry_code, seasonal):
-  parents = []
-  current = industry_code
-  while True:
-    parent = parent_map.get(current)
-    if parent is None:
-      break
-    sid = series01_seasonal_map.get((parent, seasonal))
-    if sid is None:
-      # fallback to other seasonal
-      sid = series01_seasonal_map.get((parent, "S")) or series01_seasonal_map.get(
-        (parent, "U")
-      )
-    if sid is None:
-      break
-    parents.append(sid)
-    current = parent
-  return " ".join(parents)
+    parents = []
+    current = industry_code
+    while True:
+        parent = parent_map.get(current)
+        if parent is None:
+            break
+        sid = series01_seasonal_map.get((parent, seasonal))
+        if sid is None:
+            # fallback to other seasonal
+            sid = series01_seasonal_map.get((parent, "S")) or series01_seasonal_map.get(
+                (parent, "U")
+            )
+        if sid is None:
+            break
+        parents.append(sid)
+        current = parent
+    return " ".join(parents)
 
 
 # Test
 for idx, row in leaf_series.head(5).iterrows():
-  print(row.series_id, build_hierarchy(row.industry_code, row.seasonal))
+    print(row.series_id, build_hierarchy(row.industry_code, row.seasonal))
 ```
 
 ```
@@ -1002,7 +999,7 @@ Analyzed
 
 ```python
 for idx, row in leaf_series.head(5).iterrows():
-  print(row["series_id"], build_hierarchy(row["industry_code"], row["seasonal"]))
+    print(row["series_id"], build_hierarchy(row["industry_code"], row["seasonal"]))
 ```
 
 ```
@@ -1096,7 +1093,7 @@ Analyzed
 
 ```python
 for idx, row in leaf_series.head(5).iterrows():
-  print(row["series_id"], build_hierarchy(row["industry_code"], row["seasonal"]))
+    print(row["series_id"], build_hierarchy(row["industry_code"], row["seasonal"]))
 ```
 
 ```
@@ -1113,7 +1110,7 @@ Analyzed
 
 ```python
 leaf_series["hierarchy"] = leaf_series.apply(
-  lambda r: build_hierarchy(r["industry_code"], r["seasonal"]), axis=1
+    lambda r: build_hierarchy(r["industry_code"], r["seasonal"]), axis=1
 )
 output_df = leaf_series[["series_id", "series_title", "display_level", "hierarchy"]]
 output_df.head()
@@ -1141,7 +1138,7 @@ Analyzed
 
 ```python
 def parents_count(h):
-  return 0 if h.strip() == "" else len(h.split())
+    return 0 if h.strip() == "" else len(h.split())
 
 
 output_df["parent_count"] = output_df["hierarchy"].apply(parents_count)
@@ -1170,9 +1167,9 @@ Analyzed
 ```python
 idx = output_df.index[0]
 (
-  output_df.loc[idx, "hierarchy"],
-  output_df.loc[idx, "display_level"],
-  parents_count(output_df.loc[idx, "hierarchy"]),
+    output_df.loc[idx, "hierarchy"],
+    output_df.loc[idx, "display_level"],
+    parents_count(output_df.loc[idx, "hierarchy"]),
 )
 ```
 
@@ -1205,15 +1202,15 @@ Analyzed
 
 ```python
 def hierarchy_codes(industry_code):
-  codes = []
-  current = industry_code
-  while True:
-    parent = parent_map.get(current)
-    if parent is None:
-      break
-    codes.append(parent)
-    current = parent
-  return codes
+    codes = []
+    current = industry_code
+    while True:
+        parent = parent_map.get(current)
+        if parent is None:
+            break
+        codes.append(parent)
+        current = parent
+    return codes
 
 
 hier_codes = hierarchy_codes("10113300")
@@ -1329,12 +1326,12 @@ total = len(df)
 
 # Prepare cumulative drops
 levels_to_drop = [
-  lambda x: x >= 7,
-  lambda x: x == 6,
-  lambda x: x == 5,
-  lambda x: x == 4,
-  lambda x: x == 3,
-  lambda x: x == 2,
+    lambda x: x >= 7,
+    lambda x: x == 6,
+    lambda x: x == 5,
+    lambda x: x == 4,
+    lambda x: x == 3,
+    lambda x: x == 2,
 ]
 
 counts = []
@@ -1343,13 +1340,13 @@ current_total = total
 counts.append(("Original", current_total))
 
 for cond_fn, label in zip(
-  levels_to_drop,
-  ["drop >=7", "drop ==6", "drop ==5", "drop ==4", "drop ==3", "drop ==2"],
+    levels_to_drop,
+    ["drop >=7", "drop ==6", "drop ==5", "drop ==4", "drop ==3", "drop ==2"],
 ):
-  # Drop rows satisfying cond_fn on display_level
-  remaining = remaining[~cond_fn(remaining["display_level"])]
-  current_total = len(remaining)
-  counts.append((label, current_total))
+    # Drop rows satisfying cond_fn on display_level
+    remaining = remaining[~cond_fn(remaining["display_level"])]
+    current_total = len(remaining)
+    counts.append((label, current_total))
 
 # Convert to DataFrame for display
 counts_df = pd.DataFrame(counts, columns=["After", "Leaf count"])
@@ -1540,8 +1537,8 @@ Analyzed
 zip_path = "/mnt/data/archive.zip"
 assert os.path.exists(zip_path)
 with zipfile.ZipFile(zip_path) as z:
-  # list names
-  names = z.namelist()
+    # list names
+    names = z.namelist()
 names
 ```
 
@@ -1567,12 +1564,12 @@ filtered_rows = []
 target_set = set(series_ids)
 
 with zipfile.ZipFile(zip_path) as z:
-  with z.open("all.data.combined.csv") as f:
-    # It is bytes; decode per line
-    reader = csv.reader(io.TextIOWrapper(f, encoding="utf-8"))
-    header = next(reader)
-    # Determine index of fields
-    header
+    with z.open("all.data.combined.csv") as f:
+        # It is bytes; decode per line
+        reader = csv.reader(io.TextIOWrapper(f, encoding="utf-8"))
+        header = next(reader)
+        # Determine index of fields
+        header
 ```
 
 I’ll open Python for the analysis and load the leaf hierarchy. As I list the series IDs, I notice some trailing spaces—I'll strip them. There are 32 series. Next, I’ll unzip the file but only need `all.data.combined.csv`. I’ll read it line by line and expect columns like `series_id`, `year`, `period`, `value`, and `footnote_codes`. After that, I’ll parse those and inspect the data, as it seems like it’s newline-delimited. I’ll filter it accordingly.
@@ -1581,8 +1578,8 @@ Analyzed
 
 ```python
 with zipfile.ZipFile(zip_path) as z:
-  with z.open("all.data.combined.csv") as f:
-    text = f.read(1000).decode("utf-8")
+    with z.open("all.data.combined.csv") as f:
+        text = f.read(1000).decode("utf-8")
 text.splitlines()[:5]
 ```
 
@@ -1608,21 +1605,21 @@ Analyzed
 filtered_dict = {sid: [] for sid in series_ids}
 
 with zipfile.ZipFile(zip_path) as z:
-  with z.open("all.data.combined.csv") as f:
-    for line in io.TextIOWrapper(f, encoding="utf-8"):
-      if line.startswith("series_id"):
-        continue
-      # series_id,year,period,value,footnote_codes,original_file
-      parts = line.rstrip("\n").split(",")
-      sid = parts[0]
-      if sid in target_set:
-        year = int(parts[1])
-        period = parts[2]
-        value = parts[3]
-        if value == "":
-          continue
-        val = float(value)
-        filtered_dict[sid].append((year, period, val))
+    with z.open("all.data.combined.csv") as f:
+        for line in io.TextIOWrapper(f, encoding="utf-8"):
+            if line.startswith("series_id"):
+                continue
+            # series_id,year,period,value,footnote_codes,original_file
+            parts = line.rstrip("\n").split(",")
+            sid = parts[0]
+            if sid in target_set:
+                year = int(parts[1])
+                period = parts[2]
+                value = parts[3]
+                if value == "":
+                    continue
+                val = float(value)
+                filtered_dict[sid].append((year, period, val))
 # Count
 {sid: len(vals) for sid, vals in filtered_dict.items()}
 ```
@@ -1668,7 +1665,7 @@ Analyzed
 
 ```python
 series_title_map = {
-  row["series_id"].strip(): row["series_title"] for _, row in level4_df.iterrows()
+    row["series_id"].strip(): row["series_title"] for _, row in level4_df.iterrows()
 }
 # Titles for series_ids
 titles = {sid: series_title_map.get(sid, "") for sid in series_ids}
@@ -1703,54 +1700,54 @@ records = []
 metadata = []
 
 for sid, data in filtered_dict.items():
-  if not data:
-    continue
-  # sort by year, period
-  # Convert period 'M01' to int
-  data_sorted = sorted(data, key=lambda x: (x[0], int(x[1][1:])))
-  # Determine baseline
-  base_val = None
-  base_year = None
-  base_period = None
-  for year, period, val in data_sorted:
-    if year == 1980 and period == "M01":
-      base_val = val
-      base_year = year
-      base_period = period
-      break
-  if base_val is None:
-    # baseline is first record
-    base_year, base_period, base_val = data_sorted[0]
-  # Compute index values
-  series_years = []
-  index_vals = []
-  abs_vals = []
-  dates = []
-  for year, period, val in data_sorted:
-    idx = val / base_val * 100 if base_val != 0 else np.nan
-    series_years.append(year)
-    index_vals.append(idx)
-    abs_vals.append(val)
-    month = int(period[1:])
-    dates.append(pd.Timestamp(year=year, month=month, day=1))
-  # Add to records
-  for date, idx in zip(dates, index_vals):
-    records.append({"series_id": sid, "date": date, "index": idx})
-  # Metadata
-  end_year, end_period, end_val = data_sorted[-1]
-  growth_pct = (end_val / base_val - 1) * 100 if base_val != 0 else np.nan
-  metadata.append(
-    {
-      "series_id": sid,
-      "series_title": titles.get(sid, ""),
-      "start_year": base_year,
-      "start_period": base_period,
-      "end_year": end_year,
-      "end_period": end_period,
-      "value": end_val,
-      "growth_pct": growth_pct,
-    }
-  )
+    if not data:
+        continue
+    # sort by year, period
+    # Convert period 'M01' to int
+    data_sorted = sorted(data, key=lambda x: (x[0], int(x[1][1:])))
+    # Determine baseline
+    base_val = None
+    base_year = None
+    base_period = None
+    for year, period, val in data_sorted:
+        if year == 1980 and period == "M01":
+            base_val = val
+            base_year = year
+            base_period = period
+            break
+    if base_val is None:
+        # baseline is first record
+        base_year, base_period, base_val = data_sorted[0]
+    # Compute index values
+    series_years = []
+    index_vals = []
+    abs_vals = []
+    dates = []
+    for year, period, val in data_sorted:
+        idx = val / base_val * 100 if base_val != 0 else np.nan
+        series_years.append(year)
+        index_vals.append(idx)
+        abs_vals.append(val)
+        month = int(period[1:])
+        dates.append(pd.Timestamp(year=year, month=month, day=1))
+    # Add to records
+    for date, idx in zip(dates, index_vals):
+        records.append({"series_id": sid, "date": date, "index": idx})
+    # Metadata
+    end_year, end_period, end_val = data_sorted[-1]
+    growth_pct = (end_val / base_val - 1) * 100 if base_val != 0 else np.nan
+    metadata.append(
+        {
+            "series_id": sid,
+            "series_title": titles.get(sid, ""),
+            "start_year": base_year,
+            "start_period": base_period,
+            "end_year": end_year,
+            "end_period": end_period,
+            "value": end_val,
+            "growth_pct": growth_pct,
+        }
+    )
 # Create dataframes
 df_records = pd.DataFrame(records)
 df_meta = pd.DataFrame(metadata)
@@ -1783,47 +1780,47 @@ records = []
 metadata = []
 
 for sid, data in filtered_dict.items():
-  if not data:
-    continue
-  # Filter to M01-M12 only
-  data = [t for t in data if t[1].startswith("M") and t[1] != "M13"]
-  if not data:
-    continue
-  data_sorted = sorted(data, key=lambda x: (x[0], int(x[1][1:])))
-  # Baseline
-  base_val = None
-  base_year = None
-  base_period = None
-  for year, period, val in data_sorted:
-    if year == 1980 and period == "M01":
-      base_val = val
-      base_year = year
-      base_period = period
-      break
-  if base_val is None:
-    base_year, base_period, base_val = data_sorted[0]
-  # handle base_val == 0
-  if base_val == 0:
-    continue
-  for year, period, val in data_sorted:
-    month = int(period[1:])
-    idx = val / base_val * 100
-    date = pd.Timestamp(year=year, month=month, day=1)
-    records.append({"series_id": sid, "date": date, "index": idx})
-  end_year, end_period, end_val = data_sorted[-1]
-  growth_pct = (end_val / base_val - 1) * 100
-  metadata.append(
-    {
-      "series_id": sid,
-      "series_title": titles.get(sid, ""),
-      "start_year": base_year,
-      "start_period": base_period,
-      "end_year": end_year,
-      "end_period": end_period,
-      "value": end_val,
-      "growth_pct": growth_pct,
-    }
-  )
+    if not data:
+        continue
+    # Filter to M01-M12 only
+    data = [t for t in data if t[1].startswith("M") and t[1] != "M13"]
+    if not data:
+        continue
+    data_sorted = sorted(data, key=lambda x: (x[0], int(x[1][1:])))
+    # Baseline
+    base_val = None
+    base_year = None
+    base_period = None
+    for year, period, val in data_sorted:
+        if year == 1980 and period == "M01":
+            base_val = val
+            base_year = year
+            base_period = period
+            break
+    if base_val is None:
+        base_year, base_period, base_val = data_sorted[0]
+    # handle base_val == 0
+    if base_val == 0:
+        continue
+    for year, period, val in data_sorted:
+        month = int(period[1:])
+        idx = val / base_val * 100
+        date = pd.Timestamp(year=year, month=month, day=1)
+        records.append({"series_id": sid, "date": date, "index": idx})
+    end_year, end_period, end_val = data_sorted[-1]
+    growth_pct = (end_val / base_val - 1) * 100
+    metadata.append(
+        {
+            "series_id": sid,
+            "series_title": titles.get(sid, ""),
+            "start_year": base_year,
+            "start_period": base_period,
+            "end_year": end_year,
+            "end_period": end_period,
+            "value": end_val,
+            "growth_pct": growth_pct,
+        }
+    )
 df_records = pd.DataFrame(records)
 df_meta = pd.DataFrame(metadata)
 len(df_meta)
@@ -1886,8 +1883,8 @@ meta = pd.read_csv(meta_path)
 # Plot
 plt.figure(figsize=(12, 6))
 for sid, grp in df.groupby("series_id"):
-  growth = meta.loc[meta.series_id == sid, "growth_pct"].values[0]
-  plt.plot(grp["date"], grp["index"], label=f"{sid} ({growth:.1f}%)")
+    growth = meta.loc[meta.series_id == sid, "growth_pct"].values[0]
+    plt.plot(grp["date"], grp["index"], label=f"{sid} ({growth:.1f}%)")
 
 plt.xlabel("Year")
 plt.ylabel("Index (Jan 1980 = 100)")
@@ -1966,44 +1963,38 @@ meta_df = pd.read_csv("/mnt/data/level4_series_metadata.csv")
 
 # Compute yearly averages
 index_df["year"] = index_df["date"].dt.year
-annual = (
-  index_df.groupby(["series_id", "year"]).agg(index=("index", "mean")).reset_index()
-)
+annual = index_df.groupby(["series_id", "year"]).agg(index=("index", "mean")).reset_index()
 
 # Re‑compute growth vs. first available year (or 1980)
 growth_info = []
 for sid, grp in annual.groupby("series_id"):
-  grp_sorted = grp.sort_values("year")
-  start_index = grp_sorted.loc[grp_sorted["year"] == 1980, "index"]
-  if not start_index.empty:
-    base_val = start_index.iloc[0]
-    base_year = 1980
-  else:
-    base_val = grp_sorted["index"].iloc[0]
-    base_year = grp_sorted["year"].iloc[0]
+    grp_sorted = grp.sort_values("year")
+    start_index = grp_sorted.loc[grp_sorted["year"] == 1980, "index"]
+    if not start_index.empty:
+        base_val = start_index.iloc[0]
+        base_year = 1980
+    else:
+        base_val = grp_sorted["index"].iloc[0]
+        base_year = grp_sorted["year"].iloc[0]
 
-  latest_val = grp_sorted["index"].iloc[-1]
-  growth_pct = (latest_val / base_val - 1) * 100
-  growth_info.append(
-    (sid, base_year, grp_sorted["year"].iloc[-1], latest_val, growth_pct)
-  )
+    latest_val = grp_sorted["index"].iloc[-1]
+    growth_pct = (latest_val / base_val - 1) * 100
+    growth_info.append((sid, base_year, grp_sorted["year"].iloc[-1], latest_val, growth_pct))
 
 growth_df = pd.DataFrame(
-  growth_info,
-  columns=["series_id", "start_year", "end_year", "end_value", "growth_pct"],
+    growth_info,
+    columns=["series_id", "start_year", "end_year", "end_value", "growth_pct"],
 )
 
 # Merge title info
-growth_df = growth_df.merge(
-  meta_df[["series_id", "series_title"]], on="series_id", how="left"
-)
+growth_df = growth_df.merge(meta_df[["series_id", "series_title"]], on="series_id", how="left")
 
 # Plot yearly averages
 plt.figure(figsize=(12, 6))
 for sid, grp in annual.groupby("series_id"):
-  g = growth_df[growth_df.series_id == sid]
-  growth_pct = g["growth_pct"].values[0]
-  plt.plot(grp["year"], grp["index"], marker="o", label=f"{sid} ({growth_pct:.1f}%)")
+    g = growth_df[growth_df.series_id == sid]
+    growth_pct = g["growth_pct"].values[0]
+    plt.plot(grp["year"], grp["index"], marker="o", label=f"{sid} ({growth_pct:.1f}%)")
 
 plt.xlabel("Year")
 plt.ylabel("Index (Start=100)")
@@ -2014,10 +2005,8 @@ plt.show()
 
 # Display growth table
 tools.display_dataframe_to_user(
-  "Yearly averaged growth summary",
-  growth_df[
-    ["series_id", "series_title", "start_year", "end_year", "end_value", "growth_pct"]
-  ],
+    "Yearly averaged growth summary",
+    growth_df[["series_id", "series_title", "start_year", "end_year", "end_value", "growth_pct"]],
 )
 ```
 
@@ -2083,9 +2072,7 @@ meta_df = pd.read_csv("/mnt/data/level4_series_metadata.csv")
 
 # Compute yearly averages (already done before, but recompute to be safe)
 index_df["year"] = index_df["date"].dt.year
-annual = (
-  index_df.groupby(["series_id", "year"]).agg(index=("index", "mean")).reset_index()
-)
+annual = index_df.groupby(["series_id", "year"]).agg(index=("index", "mean")).reset_index()
 
 # Get growth info table for legend labels
 growth_df = meta_df[["series_id", "growth_pct"]]
@@ -2093,8 +2080,8 @@ growth_df = meta_df[["series_id", "growth_pct"]]
 # Plot without markers for smoother lines
 plt.figure(figsize=(12, 6))
 for sid, grp in annual.groupby("series_id"):
-  growth_pct = growth_df.loc[growth_df.series_id == sid, "growth_pct"].values[0]
-  plt.plot(grp["year"], grp["index"], linewidth=1.5, label=f"{sid} ({growth_pct:.1f}%)")
+    growth_pct = growth_df.loc[growth_df.series_id == sid, "growth_pct"].values[0]
+    plt.plot(grp["year"], grp["index"], linewidth=1.5, label=f"{sid} ({growth_pct:.1f}%)")
 
 plt.xlabel("Year")
 plt.ylabel("Index (Start = 100)")
@@ -2144,9 +2131,7 @@ meta_df = pd.read_csv("/mnt/data/level4_series_metadata.csv")
 
 # Compute yearly averages
 index_df["year"] = index_df["date"].dt.year
-annual = (
-  index_df.groupby(["series_id", "year"]).agg(index=("index", "mean")).reset_index()
-)
+annual = index_df.groupby(["series_id", "year"]).agg(index=("index", "mean")).reset_index()
 
 # Convert indices from 100-base to 1-base
 annual["index"] = annual["index"] / 100.0
@@ -2154,42 +2139,42 @@ annual["index"] = annual["index"] / 100.0
 
 # Build concise titles
 def concise(title: str) -> str:
-  # Remove generic prefix/suffix
-  title = re.sub(r"All employees, thousands, ", "", title, flags=re.I)
-  title = title.replace(", seasonally adjusted", "")
-  # Abbreviations
-  abbrev = {
-    "construction": "Constr",
-    "transportation": "Transp",
-    "manufacturing": "Mfg",
-    "professional and business services": "Prof & Bus Svcs",
-    "education and health services": "Edu & Health",
-    "leisure and hospitality": "Leisure & Hosp",
-    "wholesale": "Whlsl",
-    "information": "Info",
-    "financial activities": "Finance",
-    "and": "&",
-    "specialty": "Spec",
-    "contractors": "Contr",
-    "oil and gas extraction": "Oil & Gas",
-    "residential": "Res",
-    "nonresidential": "Nonres",
-    "mining and logging": "Mining & Logging",
-    "trade": "Trade",
-    "services": "Svcs",
-    "transportation and warehousing": "Transp & Wareh",
-    "warehousing": "Wareh",
-    "administrative and support and waste management and remediation services": "Admin & Waste Svcs",
-  }
-  # Lower for replacements ignoring case
-  lowered = title.lower()
-  for k, v in abbrev.items():
-    lowered = re.sub(k, v, lowered, flags=re.I)
-  # Restore capitalization of initials
-  concise_title = lowered.title()
-  # Remove excessive whitespace & commas
-  concise_title = re.sub(r"\s+", " ", concise_title).strip(" ,")
-  return concise_title
+    # Remove generic prefix/suffix
+    title = re.sub(r"All employees, thousands, ", "", title, flags=re.I)
+    title = title.replace(", seasonally adjusted", "")
+    # Abbreviations
+    abbrev = {
+        "construction": "Constr",
+        "transportation": "Transp",
+        "manufacturing": "Mfg",
+        "professional and business services": "Prof & Bus Svcs",
+        "education and health services": "Edu & Health",
+        "leisure and hospitality": "Leisure & Hosp",
+        "wholesale": "Whlsl",
+        "information": "Info",
+        "financial activities": "Finance",
+        "and": "&",
+        "specialty": "Spec",
+        "contractors": "Contr",
+        "oil and gas extraction": "Oil & Gas",
+        "residential": "Res",
+        "nonresidential": "Nonres",
+        "mining and logging": "Mining & Logging",
+        "trade": "Trade",
+        "services": "Svcs",
+        "transportation and warehousing": "Transp & Wareh",
+        "warehousing": "Wareh",
+        "administrative and support and waste management and remediation services": "Admin & Waste Svcs",
+    }
+    # Lower for replacements ignoring case
+    lowered = title.lower()
+    for k, v in abbrev.items():
+        lowered = re.sub(k, v, lowered, flags=re.I)
+    # Restore capitalization of initials
+    concise_title = lowered.title()
+    # Remove excessive whitespace & commas
+    concise_title = re.sub(r"\s+", " ", concise_title).strip(" ,")
+    return concise_title
 
 
 meta_df["short_title"] = meta_df["series_title"].apply(concise)
@@ -2200,9 +2185,9 @@ growth_df = meta_df[["series_id", "growth_pct", "short_title"]]
 # Plot without markers, smooth lines
 plt.figure(figsize=(12, 6))
 for sid, grp in annual.groupby("series_id"):
-  row = growth_df[growth_df.series_id == sid].iloc[0]
-  label = f"{row.short_title} ({row.growth_pct:.1f}%)"
-  plt.plot(grp["year"], grp["index"], linewidth=1.5, label=label)
+    row = growth_df[growth_df.series_id == sid].iloc[0]
+    label = f"{row.short_title} ({row.growth_pct:.1f}%)"
+    plt.plot(grp["year"], grp["index"], linewidth=1.5, label=label)
 
 plt.xlabel("Year")
 plt.ylabel("Index (1980 = 1)")
@@ -2213,10 +2198,8 @@ plt.show()
 
 # Also display updated metadata table for reference
 tools.display_dataframe_to_user(
-  "Concise series titles and growth",
-  meta_df[
-    ["series_id", "short_title", "start_year", "end_year", "end_value", "growth_pct"]
-  ],
+    "Concise series titles and growth",
+    meta_df[["series_id", "short_title", "start_year", "end_year", "end_value", "growth_pct"]],
 )
 ```
 
@@ -2263,7 +2246,7 @@ Analyzed
 ```python
 # Prepare display-friendly dataframe
 display_cols = meta_df[
-  ["series_id", "short_title", "start_year", "end_year", "value", "growth_pct"]
+    ["series_id", "short_title", "start_year", "end_year", "value", "growth_pct"]
 ].copy()
 display_cols = display_cols.rename(columns={"value": "end_value"})
 
@@ -2332,45 +2315,43 @@ meta_df = pd.read_csv("/mnt/data/level4_series_metadata.csv")
 
 # --- Filter: keep only Seasonally Adjusted series ---
 seasonal_mask = ~meta_df["series_title"].str.contains(
-  "Not seasonally adjusted", case=False, na=False
+    "Not seasonally adjusted", case=False, na=False
 )
 meta_df = meta_df[seasonal_mask]
 
 
 # Re‑use concise title function from previous code
 def concise(title: str) -> str:
-  title = re.sub(r"All employees, thousands, ", "", title, flags=re.I)
-  title = title.replace(", seasonally adjusted", "").replace(
-    ", seasonally adjusted", ""
-  )
-  abbrev = {
-    "construction": "Constr",
-    "transportation": "Transp",
-    "manufacturing": "Mfg",
-    "professional and business services": "Prof & Bus Svcs",
-    "education and health services": "Edu & Health",
-    "leisure and hospitality": "Leisure & Hosp",
-    "wholesale": "Whlsl",
-    "information": "Info",
-    "financial activities": "Finance",
-    "and": "&",
-    "specialty": "Spec",
-    "contractors": "Contr",
-    "oil and gas extraction": "Oil & Gas",
-    "residential": "Res",
-    "nonresidential": "Nonres",
-    "trade": "Trade",
-    "services": "Svcs",
-    "administrative and support and waste management and remediation services": "Admin & Waste Svcs",
-    "transportation and warehousing": "Transp & Wareh",
-    "warehousing": "Wareh",
-  }
-  lowered = title.lower()
-  for k, v in abbrev.items():
-    lowered = re.sub(k, v.lower(), lowered, flags=re.I)
-  concise_title = lowered.title()
-  concise_title = re.sub(r"\s+", " ", concise_title).strip(" ,")
-  return concise_title
+    title = re.sub(r"All employees, thousands, ", "", title, flags=re.I)
+    title = title.replace(", seasonally adjusted", "").replace(", seasonally adjusted", "")
+    abbrev = {
+        "construction": "Constr",
+        "transportation": "Transp",
+        "manufacturing": "Mfg",
+        "professional and business services": "Prof & Bus Svcs",
+        "education and health services": "Edu & Health",
+        "leisure and hospitality": "Leisure & Hosp",
+        "wholesale": "Whlsl",
+        "information": "Info",
+        "financial activities": "Finance",
+        "and": "&",
+        "specialty": "Spec",
+        "contractors": "Contr",
+        "oil and gas extraction": "Oil & Gas",
+        "residential": "Res",
+        "nonresidential": "Nonres",
+        "trade": "Trade",
+        "services": "Svcs",
+        "administrative and support and waste management and remediation services": "Admin & Waste Svcs",
+        "transportation and warehousing": "Transp & Wareh",
+        "warehousing": "Wareh",
+    }
+    lowered = title.lower()
+    for k, v in abbrev.items():
+        lowered = re.sub(k, v.lower(), lowered, flags=re.I)
+    concise_title = lowered.title()
+    concise_title = re.sub(r"\s+", " ", concise_title).strip(" ,")
+    return concise_title
 
 
 meta_df["short_title"] = meta_df["series_title"].apply(concise)
@@ -2389,9 +2370,9 @@ growth_df = meta_df[["series_id", "growth_pct", "short_title"]]
 # Plot
 plt.figure(figsize=(12, 6))
 for sid, grp in annual.groupby("series_id"):
-  row = growth_df[growth_df.series_id == sid].iloc[0]
-  label = f"{row.short_title} ({row.growth_pct:.1f}%)"
-  plt.plot(grp["year"], grp["index"], linewidth=1.5, label=label)
+    row = growth_df[growth_df.series_id == sid].iloc[0]
+    label = f"{row.short_title} ({row.growth_pct:.1f}%)"
+    plt.plot(grp["year"], grp["index"], linewidth=1.5, label=label)
 
 plt.xlabel("Year")
 plt.ylabel("Index (1980 = 1)")
@@ -2402,10 +2383,8 @@ plt.show()
 
 # Display the updated metadata for reference
 tools.display_dataframe_to_user(
-  "Seasonally adjusted concise series & growth",
-  meta_df[
-    ["series_id", "short_title", "start_year", "end_year", "value", "growth_pct"]
-  ],
+    "Seasonally adjusted concise series & growth",
+    meta_df[["series_id", "short_title", "start_year", "end_year", "value", "growth_pct"]],
 )
 ```
 
@@ -2469,7 +2448,7 @@ meta_df = pd.read_csv("/mnt/data/level4_series_metadata.csv")
 
 # Filter to Seasonally Adjusted only
 seasonal_mask = ~meta_df["series_title"].str.contains(
-  "Not seasonally adjusted", case=False, na=False
+    "Not seasonally adjusted", case=False, na=False
 )
 meta_df = meta_df[seasonal_mask]
 index_df = index_df[index_df["series_id"].isin(meta_df["series_id"])]
@@ -2477,10 +2456,10 @@ index_df = index_df[index_df["series_id"].isin(meta_df["series_id"])]
 
 # Concise title function
 def concise(title: str) -> str:
-  title = re.sub(r"All employees, thousands, ", "", title, flags=re.I)
-  title = title.replace(", seasonally adjusted", "")
-  # Basic shortening: keep first 60 chars max
-  return title.split(",")[0][:60]
+    title = re.sub(r"All employees, thousands, ", "", title, flags=re.I)
+    title = title.replace(", seasonally adjusted", "")
+    # Basic shortening: keep first 60 chars max
+    return title.split(",")[0][:60]
 
 
 meta_df["short_title"] = meta_df["series_title"].apply(concise)
@@ -2500,24 +2479,24 @@ color_palette = mpl.cm.get_cmap("tab10").colors[:8]  # 8 distinct colors
 series_ids = list(meta_df["series_id"])
 styles = []
 for i, sid in enumerate(series_ids):
-  color = color_palette[i % 8]
-  linestyle = "-" if i < 8 else "--"
-  styles.append((sid, color, linestyle))
+    color = color_palette[i % 8]
+    linestyle = "-" if i < 8 else "--"
+    styles.append((sid, color, linestyle))
 
 # Plot
 plt.figure(figsize=(12, 6))
 for sid, color, linestyle in styles:
-  grp = annual[annual["series_id"] == sid]
-  row = growth_info[growth_info.series_id == sid].iloc[0]
-  label = f"{row.short_title} ({row.growth_pct:.1f}%)"
-  plt.plot(
-    grp["year"],
-    grp["index"],
-    linewidth=1.6,
-    color=color,
-    linestyle=linestyle,
-    label=label,
-  )
+    grp = annual[annual["series_id"] == sid]
+    row = growth_info[growth_info.series_id == sid].iloc[0]
+    label = f"{row.short_title} ({row.growth_pct:.1f}%)"
+    plt.plot(
+        grp["year"],
+        grp["index"],
+        linewidth=1.6,
+        color=color,
+        linestyle=linestyle,
+        label=label,
+    )
 
 plt.xlabel("Year")
 plt.ylabel("Index (1980 = 1)")
@@ -2556,18 +2535,18 @@ meta_df = pd.read_csv("/mnt/data/level4_series_metadata.csv")
 
 # Keep only Seasonally Adjusted
 meta_df = meta_df[
-  ~meta_df["series_title"].str.contains("Not seasonally adjusted", case=False, na=False)
+    ~meta_df["series_title"].str.contains("Not seasonally adjusted", case=False, na=False)
 ]
 index_df = index_df[index_df["series_id"].isin(meta_df["series_id"])]
 
 
 # Concise title
 def concise(title: str) -> str:
-  title = re.sub(r"All employees, thousands, ", "", title, flags=re.I)
-  title = title.replace(", seasonally adjusted", "")
-  # Trim and condense spaces
-  title = re.sub(r"\s+", " ", title).strip(" ,")
-  return title.title()[:60]  # cap length
+    title = re.sub(r"All employees, thousands, ", "", title, flags=re.I)
+    title = title.replace(", seasonally adjusted", "")
+    # Trim and condense spaces
+    title = re.sub(r"\s+", " ", title).strip(" ,")
+    return title.title()[:60]  # cap length
 
 
 meta_df["short_title"] = meta_df["series_title"].apply(concise)
@@ -2587,23 +2566,23 @@ color_palette = mpl.cm.get_cmap("tab10").colors[:8]
 styles = []
 
 for i, row in meta_df.iterrows():
-  sid = row["series_id"]
-  color = color_palette[i % 8]
-  linestyle = "-" if i < 8 else "--"
-  styles.append((sid, color, linestyle, row["short_title"], row["growth_pct"]))
+    sid = row["series_id"]
+    color = color_palette[i % 8]
+    linestyle = "-" if i < 8 else "--"
+    styles.append((sid, color, linestyle, row["short_title"], row["growth_pct"]))
 
 # Plot
 plt.figure(figsize=(12, 6))
 for sid, color, linestyle, short_title, growth_pct in styles:
-  grp = annual[annual["series_id"] == sid]
-  plt.plot(
-    grp["year"],
-    grp["index_pct"],
-    linewidth=1.6,
-    color=color,
-    linestyle=linestyle,
-    label=f"{short_title} ({growth_pct:.1f}%)",
-  )
+    grp = annual[annual["series_id"] == sid]
+    plt.plot(
+        grp["year"],
+        grp["index_pct"],
+        linewidth=1.6,
+        color=color,
+        linestyle=linestyle,
+        label=f"{short_title} ({growth_pct:.1f}%)",
+    )
 
 plt.xlabel("Year")
 plt.ylabel("Index (1980 = 100%)")
