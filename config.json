@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "code-review-shubham",
+      "title": "Code Review of Shubham's GitHub",
+      "description": "A comprehensive review of all repositories committed to in 2025 under Shubham's GitHub account, analyzing code quality, architecture, and technical debt.",
+      "link": "code-review-shubham/index.html",
+      "screenshot": "code-review-shubham/screenshot.webp"
+    },
+    {
       "id": "frontiers-2024",
       "title": "The Publisher Who Chose to Shrink",
       "description": "How Frontiers deliberately cut output by 36% to fight AI-generated fraud and won with quality. A counterintuitive victory in academic publishing.",
