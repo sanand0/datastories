@@ -1,0 +1,390 @@
+{
+  "executive_summary": {
+    "total_repos": 19,
+    "total_commits_2025": 83,
+    "total_size_kb": 10064,
+    "date_range": "2025-01-01 to 2025-11-18",
+    "critical_findings": 3,
+    "warning_findings": 5,
+    "info_findings": 2
+  },
+  "repositories": [
+    {
+      "name": "20SHUBHAM",
+      "commits_2025": 9,
+      "size_kb": 15,
+      "language": null,
+      "pushed_at": "2025-01-14T20:12:21Z",
+      "created_at": "2025-01-14T19:46:39Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/20SHUBHAM"
+    },
+    {
+      "name": "20SHUBHAM.github.io",
+      "commits_2025": 32,
+      "size_kb": 405,
+      "language": null,
+      "pushed_at": "2025-11-17T13:26:45Z",
+      "created_at": "2025-01-01T08:09:32Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/20SHUBHAM.github.io"
+    },
+    {
+      "name": "add1",
+      "commits_2025": 1,
+      "size_kb": 0,
+      "language": null,
+      "pushed_at": "2025-11-07T13:35:58Z",
+      "created_at": "2025-11-07T13:35:58Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/add1"
+    },
+    {
+      "name": "ANPR-Autometic-Number-Plate-Detection-And-Recognition-",
+      "commits_2025": 1,
+      "size_kb": 4689,
+      "language": "Jupyter Notebook",
+      "pushed_at": "2025-01-14T15:47:51Z",
+      "created_at": "2022-04-01T07:18:08Z",
+      "description": "autometic number plate detection model",
+      "url": "https://github.com/20SHUBHAM/ANPR-Autometic-Number-Plate-Detection-And-Recognition-"
+    },
+    {
+      "name": "Apollo-Finvest-AI-Assignment-Approch-01",
+      "commits_2025": 9,
+      "size_kb": 16,
+      "language": "Python",
+      "pushed_at": "2025-03-07T17:57:01Z",
+      "created_at": "2025-03-07T17:44:18Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/Apollo-Finvest-AI-Assignment-Approch-01"
+    },
+    {
+      "name": "Apollo-Finvest-AI-Assignment-Approch-02",
+      "commits_2025": 4,
+      "size_kb": 12,
+      "language": "Python",
+      "pushed_at": "2025-03-07T18:05:37Z",
+      "created_at": "2025-03-07T17:57:55Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/Apollo-Finvest-AI-Assignment-Approch-02"
+    },
+    {
+      "name": "EDA-on-instacart-dataset",
+      "commits_2025": 1,
+      "size_kb": 210,
+      "language": "Jupyter Notebook",
+      "pushed_at": "2025-01-14T15:51:10Z",
+      "created_at": "2022-02-28T07:11:22Z",
+      "description": ".",
+      "url": "https://github.com/20SHUBHAM/EDA-on-instacart-dataset"
+    },
+    {
+      "name": "Generative-AI_LLM-Powered-PDF-Question-Answer-Chatbot",
+      "commits_2025": 6,
+      "size_kb": 15,
+      "language": "Python",
+      "pushed_at": "2025-01-14T15:43:24Z",
+      "created_at": "2025-01-14T15:37:39Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/Generative-AI_LLM-Powered-PDF-Question-Answer-Chatbot"
+    },
+    {
+      "name": "Resume_Parser_Python",
+      "commits_2025": 1,
+      "size_kb": 53,
+      "language": "Jupyter Notebook",
+      "pushed_at": "2025-01-14T15:52:15Z",
+      "created_at": "2021-12-31T10:40:02Z",
+      "description": "extract contents from an resume file",
+      "url": "https://github.com/20SHUBHAM/Resume_Parser_Python"
+    },
+    {
+      "name": "Rusiia-vs-Ukrain-Tweet-Sentiment-Analysis",
+      "commits_2025": 1,
+      "size_kb": 3070,
+      "language": "Jupyter Notebook",
+      "pushed_at": "2025-01-14T15:49:57Z",
+      "created_at": "2022-03-18T13:53:14Z",
+      "description": "by using nltk sentiment analysis of russia vs ukraine war tweets",
+      "url": "https://github.com/20SHUBHAM/Rusiia-vs-Ukrain-Tweet-Sentiment-Analysis"
+    },
+    {
+      "name": "ShubhamJ_tinyt",
+      "commits_2025": 1,
+      "size_kb": 0,
+      "language": null,
+      "pushed_at": "2025-08-29T07:31:26Z",
+      "created_at": "2025-08-29T07:31:25Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/ShubhamJ_tinyt"
+    },
+    {
+      "name": "Tintroupe_replit",
+      "commits_2025": 1,
+      "size_kb": 0,
+      "language": null,
+      "pushed_at": "2025-09-01T06:28:58Z",
+      "created_at": "2025-09-01T06:28:57Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/Tintroupe_replit"
+    },
+    {
+      "name": "Tinyt",
+      "commits_2025": 1,
+      "size_kb": 106,
+      "language": null,
+      "pushed_at": "2025-08-28T09:12:01Z",
+      "created_at": "2025-08-25T07:03:30Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/Tinyt"
+    },
+    {
+      "name": "tinytroupe_agentic",
+      "commits_2025": 4,
+      "size_kb": 81,
+      "language": "Python",
+      "pushed_at": "2025-08-21T06:34:02Z",
+      "created_at": "2025-08-18T06:21:43Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/tinytroupe_agentic"
+    },
+    {
+      "name": "tinyt_01",
+      "commits_2025": 1,
+      "size_kb": 98,
+      "language": null,
+      "pushed_at": "2025-08-28T10:25:58Z",
+      "created_at": "2025-08-28T09:22:57Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/tinyt_01"
+    },
+    {
+      "name": "tinyt_agentic",
+      "commits_2025": 3,
+      "size_kb": 158,
+      "language": "Python",
+      "pushed_at": "2025-08-21T10:20:22Z",
+      "created_at": "2025-08-21T07:00:40Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/tinyt_agentic"
+    },
+    {
+      "name": "Tinyt_agentic_from_scratch",
+      "commits_2025": 1,
+      "size_kb": 241,
+      "language": null,
+      "pushed_at": "2025-08-25T06:49:42Z",
+      "created_at": "2025-08-21T12:19:40Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/Tinyt_agentic_from_scratch"
+    },
+    {
+      "name": "Tinyt_dry_run_01",
+      "commits_2025": 1,
+      "size_kb": 0,
+      "language": null,
+      "pushed_at": "2025-08-29T06:34:15Z",
+      "created_at": "2025-08-29T06:34:15Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/Tinyt_dry_run_01"
+    },
+    {
+      "name": "TQ",
+      "commits_2025": 5,
+      "size_kb": 895,
+      "language": "Jupyter Notebook",
+      "pushed_at": "2025-09-18T15:19:12Z",
+      "created_at": "2025-09-18T15:12:30Z",
+      "description": null,
+      "url": "https://github.com/20SHUBHAM/TQ"
+    }
+  ],
+  "code_quality": {
+    "total_lines_analyzed": 7468,
+    "total_functions": 259,
+    "total_classes": 30,
+    "issues_by_repo": {
+      "Generative-AI_LLM-Powered-PDF-Question-Answer-Chatbot": 1,
+      "Apollo-Finvest-AI-Assignment-Approch-02": 10,
+      "tinyt_agentic": 19,
+      "tinytroupe_agentic": 16,
+      "Apollo-Finvest-AI-Assignment-Approch-01": 1
+    }
+  },
+  "security_findings": {
+    "Apollo-Finvest-AI-Assignment-Approch-01": {
+      "security": [
+        "\u26a0\ufe0f  .env file with values committed: .env"
+      ],
+      "anti_patterns": [],
+      "architectural": [],
+      "best_practices": []
+    },
+    "Apollo-Finvest-AI-Assignment-Approch-02": {
+      "security": [],
+      "anti_patterns": [],
+      "architectural": [],
+      "best_practices": [
+        "Many unpinned dependencies (8/8): requirements.txt"
+      ]
+    },
+    "Generative-AI_LLM-Powered-PDF-Question-Answer-Chatbot": {
+      "security": [
+        "\u26a0\ufe0f  .env file with values committed: .env"
+      ],
+      "anti_patterns": [],
+      "architectural": [],
+      "best_practices": []
+    },
+    "tinyt_agentic": {
+      "security": [],
+      "anti_patterns": [],
+      "architectural": [
+        "Large main file (270 lines): tinytroupe_agentic/main.py"
+      ],
+      "best_practices": []
+    },
+    "tinytroupe_agentic": {
+      "security": [],
+      "anti_patterns": [],
+      "architectural": [
+        "Large main file (270 lines): main.py"
+      ],
+      "best_practices": [
+        "No exception handling: agents/qa_assistant.py",
+        "No exception handling: agents/summary_generator.py",
+        "No exception handling: agents/persona_generator.py",
+        "No exception handling: agents/custom_summary_generator.py",
+        "No exception handling: core/tinytroupe_integration.py"
+      ]
+    }
+  },
+  "dependencies": {
+    "Generative-AI_LLM-Powered-PDF-Question-Answer-Chatbot": [
+      "langchain==0.2.7",
+      "langchain_community==0.2.7",
+      "langchain_core==0.2.18",
+      "langchain_groq==0.1.6",
+      "langchain_huggingface==0.0.3",
+      "python-dotenv==1.0.1",
+      "streamlit==1.12.0",
+      "pypdf==4.2.0",
+      "faiss-cpu==1.8.0.post1",
+      "altair==4.2.2"
+    ],
+    "Apollo-Finvest-AI-Assignment-Approch-02": [
+      "cryptography",
+      "twilio",
+      "transformers",
+      "datasets",
+      "numpy",
+      "flask",
+      "sentencepiece",
+      "soundfile"
+    ],
+    "tinyt_agentic": [
+      "fastapi==0.110.0",
+      "uvicorn==0.24.0",
+      "python-multipart==0.0.7",
+      "jinja2==3.1.2",
+      "python-dotenv==1.0.1",
+      "pydantic==2.9.2",
+      "aiofiles==23.2.1",
+      "openai==1.3.0",
+      "requests==2.31.0"
+    ],
+    "tinytroupe_agentic": [
+      "fastapi==0.104.1",
+      "uvicorn==0.24.0",
+      "python-multipart==0.0.6",
+      "jinja2==3.1.2",
+      "python-dotenv==1.0.0",
+      "pydantic==2.5.0",
+      "aiofiles==23.2.1",
+      "openai==1.3.0",
+      "requests==2.31.0"
+    ],
+    "Apollo-Finvest-AI-Assignment-Approch-01": [
+      "Flask==3.0.2",
+      "cryptography==42.0.5",
+      "requests==2.31.0",
+      "twilio==9.0.5",
+      "python-dotenv==1.0.1"
+    ]
+  },
+  "prioritized_actions": [
+    {
+      "priority": "CRITICAL",
+      "action": "Rotate exposed API credentials",
+      "repos": [
+        "Apollo-Finvest-AI-Assignment-Approch-01",
+        "Generative-AI_LLM-Powered-PDF-Question-Answer-Chatbot"
+      ],
+      "effort": "Low (1 hour)",
+      "impact": "High (prevents security breach)"
+    },
+    {
+      "priority": "CRITICAL",
+      "action": "Add exception handling to agent modules",
+      "repos": [
+        "tinytroupe_agentic"
+      ],
+      "effort": "Medium (4 hours)",
+      "impact": "High (production readiness)"
+    },
+    {
+      "priority": "HIGH",
+      "action": "Consolidate tinytroupe repositories",
+      "repos": [
+        "tinyt_agentic",
+        "tinytroupe_agentic",
+        "Tinyt",
+        "tinyt_01",
+        "Tinyt_agentic_from_scratch",
+        "Tinyt_dry_run_01",
+        "ShubhamJ_tinyt",
+        "Tintroupe_replit"
+      ],
+      "effort": "Medium (6 hours)",
+      "impact": "High (reduces maintenance burden)"
+    },
+    {
+      "priority": "HIGH",
+      "action": "Pin all dependencies with versions",
+      "repos": [
+        "Apollo-Finvest-AI-Assignment-Approch-02"
+      ],
+      "effort": "Low (30 minutes)",
+      "impact": "Medium (prevents future breakage)"
+    },
+    {
+      "priority": "MEDIUM",
+      "action": "Add .env to .gitignore across all repos",
+      "repos": [
+        "All"
+      ],
+      "effort": "Low (1 hour)",
+      "impact": "Medium (prevents future credential leaks)"
+    },
+    {
+      "priority": "MEDIUM",
+      "action": "Refactor long functions (>50 lines)",
+      "repos": [
+        "tinytroupe_agentic",
+        "tinyt_agentic"
+      ],
+      "effort": "High (8 hours)",
+      "impact": "Medium (improves testability)"
+    },
+    {
+      "priority": "LOW",
+      "action": "Add pytest test suite",
+      "repos": [
+        "All active projects"
+      ],
+      "effort": "High (16+ hours)",
+      "impact": "High (enables CI/CD)"
+    }
+  ]
+}
