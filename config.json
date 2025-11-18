@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "frontiers-2024",
+      "title": "The Publisher Who Chose to Shrink",
+      "description": "How Frontiers deliberately cut output by 36% to fight AI-generated fraud and won with quality. A counterintuitive victory in academic publishing.",
+      "link": "frontiers-2024/index.html",
+      "screenshot": "frontiers-2024/screenshot.webp"
+    },
+    {
       "id": "ai-resistance",
       "title": "The Jobs We Refuse to Give Away",
       "description": "Why some occupations resist AI not because machines can't do them, but because we believe they shouldn't. Based on Friis & Riley (2025).",
