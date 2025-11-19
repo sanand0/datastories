@@ -9,3 +9,6 @@ npx -y --package markdown-to-html-cli markdown-to-html --source vipassana/README
 npx -y --package markdown-to-html-cli markdown-to-html --source chatgpt-vs-google/README.md --output chatgpt-vs-google/index.html
 npx -y --package markdown-to-html-cli markdown-to-html --source google-searches/README.md --output google-searches/index.html
 npx -y --package markdown-to-html-cli markdown-to-html --source browser-history/README.md --output browser-history/index.html
+npx -y --package markdown-to-html-cli markdown-to-html --source tds-improvements/README.md --output tds-improvements/index.html
+npx -y --package markdown-to-html-cli markdown-to-html --source tds-improvements/summary.md --output tds-improvements/summary.html
+npx -y --package markdown-to-html-cli markdown-to-html --source tds-improvements/learnings.md --output tds-improvements/learnings.html

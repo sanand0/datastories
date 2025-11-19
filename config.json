@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "tds-improvements",
+      "title": "TDS Improvements",
+      "description": "An analysis of improvements in the IITM Tools in Data science course based on student performance data since 2024.",
+      "link": "tds-improvements/index.html",
+      "screenshot": "tds-improvements/screenshot.webp"
+    },
+    {
       "id": "code-review-shubham",
       "title": "Code Review of Shubham's GitHub",
       "description": "A comprehensive review of all repositories committed to in 2025 under Shubham's GitHub account, analyzing code quality, architecture, and technical debt.",

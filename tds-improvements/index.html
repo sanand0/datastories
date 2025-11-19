@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <style>
+[data-color-mode*='light'], [data-color-mode*='light'] body, .markdown-style[theme*='light'] { --color-prettylights-syntax-comment: #6e7781; --color-prettylights-syntax-constant: #0550ae; --color-prettylights-syntax-entity: #8250df; --color-prettylights-syntax-storage-modifier-import: #24292f; --color-prettylights-syntax-entity-tag: #116329; --color-prettylights-syntax-keyword: #cf222e; --color-prettylights-syntax-string: #0a3069; --color-prettylights-syntax-variable: #953800; --color-prettylights-syntax-brackethighlighter-unmatched: #82071e; --color-prettylights-syntax-invalid-illegal-text: #f6f8fa; --color-prettylights-syntax-invalid-illegal-bg: #82071e; --color-prettylights-syntax-carriage-return-text: #f6f8fa; --color-prettylights-syntax-carriage-return-bg: #cf222e; --color-prettylights-syntax-string-regexp: #116329; --color-prettylights-syntax-markup-list: #3b2300; --color-prettylights-syntax-markup-heading: #0550ae; --color-prettylights-syntax-markup-italic: #24292f; --color-prettylights-syntax-markup-bold: #24292f; --color-prettylights-syntax-markup-deleted-text: #82071e; --color-prettylights-syntax-markup-deleted-bg: #FFEBE9; --color-prettylights-syntax-markup-inserted-text: #116329; --color-prettylights-syntax-markup-inserted-bg: #dafbe1; --color-prettylights-syntax-markup-changed-text: #953800; --color-prettylights-syntax-markup-changed-bg: #ffd8b5; --color-prettylights-syntax-markup-ignored-text: #eaeef2; --color-prettylights-syntax-markup-ignored-bg: #0550ae; --color-prettylights-syntax-meta-diff-range: #8250df; --color-prettylights-syntax-brackethighlighter-angle: #57606a; --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f; --color-prettylights-syntax-constant-other-reference-link: #0a3069; --color-fg-default: #24292f; --color-fg-muted: #57606a; --color-fg-subtle: #6e7781; --color-canvas-default: #ffffff; --color-canvas-subtle: #f6f8fa; --color-border-default: #d0d7de; --color-border-muted: hsla(210,18%,87%,1); --color-neutral-muted: rgba(175,184,193,0.2); --color-accent-fg: #0969da; --color-accent-emphasis: #0969da; --color-attention-subtle: #fff8c5; --color-danger-fg: #cf222e; }
+[data-color-mode*='dark'], [data-color-mode*='dark'] body, .markdown-style[theme*='dark'] { --color-prettylights-syntax-comment: #8b949e; --color-prettylights-syntax-constant: #79c0ff; --color-prettylights-syntax-entity: #d2a8ff; --color-prettylights-syntax-storage-modifier-import: #c9d1d9; --color-prettylights-syntax-entity-tag: #7ee787; --color-prettylights-syntax-keyword: #ff7b72; --color-prettylights-syntax-string: #a5d6ff; --color-prettylights-syntax-variable: #ffa657; --color-prettylights-syntax-brackethighlighter-unmatched: #f85149; --color-prettylights-syntax-invalid-illegal-text: #f0f6fc; --color-prettylights-syntax-invalid-illegal-bg: #8e1519; --color-prettylights-syntax-carriage-return-text: #f0f6fc; --color-prettylights-syntax-carriage-return-bg: #b62324; --color-prettylights-syntax-string-regexp: #7ee787; --color-prettylights-syntax-markup-list: #f2cc60; --color-prettylights-syntax-markup-heading: #1f6feb; --color-prettylights-syntax-markup-italic: #c9d1d9; --color-prettylights-syntax-markup-bold: #c9d1d9; --color-prettylights-syntax-markup-deleted-text: #ffdcd7; --color-prettylights-syntax-markup-deleted-bg: #67060c; --color-prettylights-syntax-markup-inserted-text: #aff5b4; --color-prettylights-syntax-markup-inserted-bg: #033a16; --color-prettylights-syntax-markup-changed-text: #ffdfb6; --color-prettylights-syntax-markup-changed-bg: #5a1e02; --color-prettylights-syntax-markup-ignored-text: #c9d1d9; --color-prettylights-syntax-markup-ignored-bg: #1158c7; --color-prettylights-syntax-meta-diff-range: #d2a8ff; --color-prettylights-syntax-brackethighlighter-angle: #8b949e; --color-prettylights-syntax-sublimelinter-gutter-mark: #484f58; --color-prettylights-syntax-constant-other-reference-link: #a5d6ff; --color-fg-default: #c9d1d9; --color-fg-muted: #8b949e; --color-fg-subtle: #484f58; --color-canvas-default: #0d1117; --color-canvas-subtle: #161b22; --color-border-default: #30363d; --color-border-muted: #21262d; --color-neutral-muted: rgba(110,118,129,0.4); --color-accent-fg: #58a6ff; --color-accent-emphasis: #1f6feb; --color-attention-subtle: rgba(187,128,9,0.15); --color-danger-fg: #f85149; }
+.markdown-style { display: block; -webkit-text-size-adjust: 100%; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"; font-size: 16px; line-height: 1.5; word-wrap: break-word; color: var(--color-fg-default); background-color: var(--color-canvas-default); } .markdown-style details, .markdown-style figcaption, .markdown-style figure { display: block; } .markdown-style summary { display: list-item; } .markdown-style [hidden] { display: none !important; } .markdown-style a { background-color: transparent; color: var(--color-accent-fg); text-decoration: none; } .markdown-style a:active, .markdown-style a:hover { outline-width: 0; } .markdown-style abbr[title] { border-bottom: none; text-decoration: underline dotted; } .markdown-style b, .markdown-style strong { font-weight: 600; } .markdown-style dfn { font-style: italic; } .markdown-style h1 { margin: .67em 0; font-weight: 600; padding-bottom: .3em; font-size: 2em; border-bottom: 1px solid var(--color-border-muted); } .markdown-style mark { background-color: var(--color-attention-subtle); color: var(--color-text-primary); } .markdown-style small { font-size: 90%; } .markdown-style sub, .markdown-style sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; } .markdown-style sub { bottom: -0.25em; } .markdown-style sup { top: -0.5em; } .markdown-style img { border-style: none; max-width: 100%; box-sizing: content-box; background-color: var(--color-canvas-default); } .markdown-style code, .markdown-style kbd, .markdown-style pre, .markdown-style samp { font-family: monospace,monospace; font-size: 1em; } .markdown-style figure { margin: 1em 40px; } .markdown-style hr { box-sizing: content-box; overflow: hidden; background: transparent; border-bottom: 1px solid var(--color-border-muted); height: .25em; padding: 0; margin: 24px 0; background-color: var(--color-border-default); border: 0; } .markdown-style input { font: inherit; margin: 0; overflow: visible; font-family: inherit; font-size: inherit; line-height: inherit; } .markdown-style [type=button], .markdown-style [type=reset], .markdown-style [type=submit] { -webkit-appearance: button; } .markdown-style [type=button]::-moz-focus-inner, .markdown-style [type=reset]::-moz-focus-inner, .markdown-style [type=submit]::-moz-focus-inner { border-style: none; padding: 0; } .markdown-style [type=button]:-moz-focusring, .markdown-style [type=reset]:-moz-focusring, .markdown-style [type=submit]:-moz-focusring { outline: 1px dotted ButtonText; } .markdown-style [type=checkbox], .markdown-style [type=radio] { box-sizing: border-box; padding: 0; } .markdown-style [type=number]::-webkit-inner-spin-button, .markdown-style [type=number]::-webkit-outer-spin-button { height: auto; } .markdown-style [type=search] { -webkit-appearance: textfield; outline-offset: -2px; } .markdown-style [type=search]::-webkit-search-cancel-button, .markdown-style [type=search]::-webkit-search-decoration { -webkit-appearance: none; } .markdown-style ::-webkit-input-placeholder { color: inherit; opacity: .54; } .markdown-style ::-webkit-file-upload-button { -webkit-appearance: button; font: inherit; } .markdown-style a:hover { text-decoration: underline; } .markdown-style hr::before { display: table; content: ""; } .markdown-style hr::after { display: table; clear: both; content: ""; } .markdown-style table { border-spacing: 0; border-collapse: collapse; display: block; width: max-content; max-width: 100%; overflow: auto; } .markdown-style td, .markdown-style th { padding: 0; } .markdown-style details summary { cursor: pointer; } .markdown-style details:not([open])>*:not(summary) { display: none !important; } .markdown-style kbd { display: inline-block; padding: 3px 5px; font: 11px ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace; line-height: 10px; color: var(--color-fg-default); vertical-align: middle; background-color: var(--color-canvas-subtle); border: solid 1px var(--color-neutral-muted); border-bottom-color: var(--color-neutral-muted); border-radius: 6px; box-shadow: inset 0 -1px 0 var(--color-neutral-muted); } .markdown-style h1, .markdown-style h2, .markdown-style h3, .markdown-style h4, .markdown-style h5, .markdown-style h6 { margin-top: 24px; margin-bottom: 16px; font-weight: 600; line-height: 1.25; } .markdown-style h2 { font-weight: 600; padding-bottom: .3em; font-size: 1.5em; border-bottom: 1px solid var(--color-border-muted); } .markdown-style h3 { font-weight: 600; font-size: 1.25em; } .markdown-style h4 { font-weight: 600; font-size: 1em; } .markdown-style h5 { font-weight: 600; font-size: .875em; } .markdown-style h6 { font-weight: 600; font-size: .85em; color: var(--color-fg-muted); } .markdown-style p { margin-top: 0; margin-bottom: 10px; } .markdown-style blockquote { margin: 0; padding: 0 1em; color: var(--color-fg-muted); border-left: .25em solid var(--color-border-default); } .markdown-style ul, .markdown-style ol { margin-top: 0; margin-bottom: 0; padding-left: 2em; } .markdown-style ol ol, .markdown-style ul ol { list-style-type: lower-roman; } .markdown-style ul ul ol, .markdown-style ul ol ol, .markdown-style ol ul ol, .markdown-style ol ol ol { list-style-type: lower-alpha; } .markdown-style dd { margin-left: 0; } .markdown-style tt, .markdown-style code { font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace; font-size: 12px; } .markdown-style pre { margin-top: 0; margin-bottom: 0; font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace; font-size: 12px; word-wrap: normal; } .markdown-style .octicon { display: inline-block; overflow: visible !important; vertical-align: text-bottom; fill: currentColor; } .markdown-style ::placeholder { color: var(--color-fg-subtle); opacity: 1; } .markdown-style input::-webkit-outer-spin-button, .markdown-style input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; appearance: none; }
+.markdown-style .token.comment, .markdown-style .token.prolog, .markdown-style .token.doctype, .markdown-style .token.cdata { color: var(--color-prettylights-syntax-comment); } .markdown-style .token.namespace { opacity: 0.7; } .markdown-style .token.tag, .markdown-style .token.selector, .markdown-style .token.constant, .markdown-style .token.symbol, .markdown-style .token.deleted { color: var(--color-prettylights-syntax-entity-tag); } .markdown-style .token.maybe-class-name { color: var(--color-prettylights-syntax-variable); } .markdown-style .token.property-access, .markdown-style .token.operator, .markdown-style .token.boolean, .markdown-style .token.number, .markdown-style .token.selector .markdown-style .token.class, .markdown-style .token.attr-name, .markdown-style .token.string, .markdown-style .token.char, .markdown-style .token.builtin { color: var(--color-prettylights-syntax-constant); } .markdown-style .token.deleted { color: var(--color-prettylights-syntax-markup-deleted-text); } .markdown-style .token.property { color: var(--color-prettylights-syntax-constant); } .markdown-style .token.punctuation { color: var(--color-prettylights-syntax-markup-bold); } .markdown-style .token.function { color: var(--color-prettylights-syntax-entity); } .markdown-style .code-line .token.deleted { background-color: var(--color-prettylights-syntax-markup-deleted-bg); } .markdown-style .token.inserted { color: var(--color-prettylights-syntax-markup-inserted-text); } .markdown-style .code-line .token.inserted { background-color: var(--color-prettylights-syntax-markup-inserted-bg); } .markdown-style .token.variable { color: var(--color-prettylights-syntax-constant); } .markdown-style .token.entity, .markdown-style .token.url, .language-css .markdown-style .token.string, .style .markdown-style .token.string { color: var(--color-prettylights-syntax-string); } .markdown-style .token.color, .markdown-style .token.atrule, .markdown-style .token.attr-value, .markdown-style .token.function, .markdown-style .token.class-name { color: var(--color-prettylights-syntax-string); } .markdown-style .token.rule, .markdown-style .token.regex, .markdown-style .token.important, .markdown-style .token.keyword { color: var(--color-prettylights-syntax-keyword); } .markdown-style .token.coord { color: var(--color-prettylights-syntax-meta-diff-range); } .markdown-style .token.important, .markdown-style .token.bold { font-weight: bold; } .markdown-style .token.italic { font-style: italic; } .markdown-style .token.entity { cursor: help; }
+.markdown-style [data-catalyst] { display: block; } .markdown-style g-emoji { font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; font-size: 1em; font-style: normal !important; font-weight: 400; line-height: 1; vertical-align: -0.075em; } .markdown-style g-emoji img { width: 1em; height: 1em; } .markdown-style::before { display: table; content: ""; } .markdown-style::after { display: table; clear: both; content: ""; } .markdown-style>*:first-child { margin-top: 0 !important; } .markdown-style>*:last-child { margin-bottom: 0 !important; } .markdown-style a:not([href]) { color: inherit; text-decoration: none; } .markdown-style .absent { color: var(--color-danger-fg); } .markdown-style a.anchor { float: left; padding-right: 4px; margin-left: -20px; line-height: 1; } .markdown-style a.anchor:focus { outline: none; } .markdown-style p, .markdown-style blockquote, .markdown-style ul, .markdown-style ol, .markdown-style dl, .markdown-style table, .markdown-style pre, .markdown-style details { margin-top: 0; margin-bottom: 16px; } .markdown-style blockquote>:first-child { margin-top: 0; } .markdown-style blockquote>:last-child { margin-bottom: 0; } .markdown-style sup>a::before { content: "["; } .markdown-style sup>a::after { content: "]"; }
+.markdown-style .octicon-video { border: 1px solid #d0d7de !important; border-radius: 6px !important; display: block; } .markdown-style .octicon-video summary { border-bottom: 1px solid #d0d7de !important; padding: 8px 16px !important; cursor: pointer; } .markdown-style .octicon-video > video { display: block !important; max-width: 100% !important; padding: 2px; box-sizing: border-box; border-bottom-right-radius: 6px !important; border-bottom-left-radius: 6px !important; } .markdown-style details.octicon-video:not([open])>*:not(summary) { display: none !important; } .markdown-style details.octicon-video:not([open]) > summary { border-bottom: 0 !important; } .markdown-style h1 .octicon-link, .markdown-style h2 .octicon-link, .markdown-style h3 .octicon-link, .markdown-style h4 .octicon-link, .markdown-style h5 .octicon-link, .markdown-style h6 .octicon-link { color: var(--color-fg-default); vertical-align: middle; visibility: hidden; } .markdown-style h1:hover .anchor, .markdown-style h2:hover .anchor, .markdown-style h3:hover .anchor, .markdown-style h4:hover .anchor, .markdown-style h5:hover .anchor, .markdown-style h6:hover .anchor { text-decoration: none; } .markdown-style h1:hover .anchor .octicon-link, .markdown-style h2:hover .anchor .octicon-link, .markdown-style h3:hover .anchor .octicon-link, .markdown-style h4:hover .anchor .octicon-link, .markdown-style h5:hover .anchor .octicon-link, .markdown-style h6:hover .anchor .octicon-link { visibility: visible; } .markdown-style h1 tt, .markdown-style h1 code, .markdown-style h2 tt, .markdown-style h2 code, .markdown-style h3 tt, .markdown-style h3 code, .markdown-style h4 tt, .markdown-style h4 code, .markdown-style h5 tt, .markdown-style h5 code, .markdown-style h6 tt, .markdown-style h6 code { padding: 0 .2em; font-size: inherit; } .markdown-style ul.no-list, .markdown-style ol.no-list { padding: 0; list-style-type: none; } .markdown-style ol[type="1"] { list-style-type: decimal; } .markdown-style ol[type=a] { list-style-type: lower-alpha; } .markdown-style ol[type=i] { list-style-type: lower-roman; } .markdown-style div>ol:not([type]) { list-style-type: decimal; } .markdown-style ul ul, .markdown-style ul ol, .markdown-style ol ol, .markdown-style ol ul { margin-top: 0; margin-bottom: 0; } .markdown-style li>p { margin-top: 16px; } .markdown-style li+li { margin-top: .25em; } .markdown-style dl { padding: 0; } .markdown-style dl dt { padding: 0; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: 600; } .markdown-style dl dd { padding: 0 16px; margin-bottom: 16px; } .markdown-style table th { font-weight: 600; } .markdown-style table th, .markdown-style table td { padding: 6px 13px; border: 1px solid var(--color-border-default); } .markdown-style table tr { background-color: var(--color-canvas-default); border-top: 1px solid var(--color-border-muted); } .markdown-style table tr:nth-child(2n) { background-color: var(--color-canvas-subtle); } .markdown-style table img { background-color: transparent; vertical-align: middle; } .markdown-style img[align=right] { padding-left: 20px; } .markdown-style img[align=left] { padding-right: 20px; } .markdown-style .emoji { max-width: none; vertical-align: text-top; background-color: transparent; } .markdown-style span.frame { display: block; overflow: hidden; } .markdown-style span.frame>span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0 0; overflow: hidden; border: 1px solid var(--color-border-default); } .markdown-style span.frame span img { display: block; float: left; } .markdown-style span.frame span span { display: block; padding: 5px 0 0; clear: both; color: var(--color-fg-default); } .markdown-style span.align-center { display: block; overflow: hidden; clear: both; } .markdown-style span.align-center>span { display: block; margin: 13px auto 0; overflow: hidden; text-align: center; } .markdown-style span.align-center span img { margin: 0 auto; text-align: center; } .markdown-style span.align-right { display: block; overflow: hidden; clear: both; } .markdown-style span.align-right>span { display: block; margin: 13px 0 0; overflow: hidden; text-align: right; } .markdown-style span.align-right span img { margin: 0; text-align: right; } .markdown-style span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; } .markdown-style span.float-left span { margin: 13px 0 0; } .markdown-style span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; } .markdown-style span.float-right>span { display: block; margin: 13px auto 0; overflow: hidden; text-align: right; } .markdown-style code, .markdown-style tt { padding: .2em .4em; margin: 0; font-size: 85%; background-color: var(--color-neutral-muted); border-radius: 6px; } .markdown-style code br, .markdown-style tt br { display: none; } .markdown-style del code { text-decoration: inherit; } .markdown-style pre code { font-size: 100%; } .markdown-style pre>code { padding: 0; margin: 0; word-break: normal; white-space: pre; background: transparent; border: 0; } .markdown-style pre { position: relative; font-size: 85%; line-height: 1.45; background-color: var(--color-canvas-subtle); border-radius: 6px; } .markdown-style pre code, .markdown-style pre tt { display: inline; max-width: auto; padding: 0; margin: 0; overflow: visible; line-height: inherit; word-wrap: normal; background-color: transparent; border: 0; } .markdown-style pre > code { padding: 16px; overflow: auto; display: block; } .markdown-style .csv-data td, .markdown-style .csv-data th { padding: 5px; overflow: hidden; font-size: 12px; line-height: 1; text-align: left; white-space: nowrap; } .markdown-style .csv-data .blob-num { padding: 10px 8px 9px; text-align: right; background: var(--color-canvas-default); border: 0; } .markdown-style .csv-data tr { border-top: 0; } .markdown-style .csv-data th { font-weight: 600; background: var(--color-canvas-subtle); border-top: 0; } .markdown-style .footnotes { font-size: 12px; color: var(--color-fg-muted); border-top: 1px solid var(--color-border-default); } .markdown-style .footnotes ol { padding-left: 16px; } .markdown-style .footnotes li { position: relative; } .markdown-style .footnotes li:target::before { position: absolute; top: -8px; right: -8px; bottom: -8px; left: -24px; pointer-events: none; content: ""; border: 2px solid var(--color-accent-emphasis); border-radius: 6px; } .markdown-style .footnotes li:target { color: var(--color-fg-default); } .markdown-style .footnotes .data-footnote-backref g-emoji { font-family: monospace; } .markdown-style .task-list-item { list-style-type: none; } .markdown-style .task-list-item label { font-weight: 400; } .markdown-style .task-list-item.enabled label { cursor: pointer; } .markdown-style .task-list-item+.task-list-item { margin-top: 3px; } .markdown-style .task-list-item .handle { display: none; } .markdown-style .task-list-item-checkbox, .markdown-style input[type="checkbox"] { margin: 0 .2em .25em -1.6em; vertical-align: middle; } .markdown-style .contains-task-list:dir(rtl) .task-list-item-checkbox, .markdown-style .contains-task-list:dir(rtl) input[type="checkbox"] { margin: 0 -1.6em .25em .2em; } .markdown-style ::-webkit-calendar-picker-indicator { filter: invert(50%); }
+
+/** copy button style **/
+.markdown-style pre .copied {
+  display: flex;
+  position: absolute;
+  cursor: pointer;
+  color: #a5afbb;
+  top: 6px;
+  right: 6px;
+  border-radius: 5px;
+  background: #82828226;
+  padding: 6px;
+  font-size: 12px;
+  transition: all .3s;
+}
+.markdown-style pre .copied:not(.active) { visibility: hidden; }
+.markdown-style pre:hover .copied { visibility: visible; }
+.markdown-style pre:hover .copied:hover { background: #4caf50; color: #fff; }
+.markdown-style pre:hover .copied:active,
+.markdown-style pre .copied.active { background: #2e9b33; color: #fff; }
+.markdown-style pre .copied svg { position: relative; }
+.markdown-style pre .copied .octicon-copy { display: block; }
+.markdown-style pre .copied .octicon-check { display: none; }
+.markdown-style pre .active .octicon-copy { display: none; }
+.markdown-style pre .active .octicon-check { display: block; }
+
+/** octicon style **/
+.markdown-style h1:hover a.anchor .octicon-link:before,
+.markdown-style h2:hover a.anchor .octicon-link:before,
+.markdown-style h3:hover a.anchor .octicon-link:before,
+.markdown-style h4:hover a.anchor .octicon-link:before,
+.markdown-style h5:hover a.anchor .octicon-link:before,
+.markdown-style h6:hover a.anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>");
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>");
+}
+
+.markdown-style ::-webkit-scrollbar {
+  background: transparent;
+  width: 8px;
+  height: 8px;
+}
+
+.markdown-style ::-webkit-scrollbar-thumb {
+  background: var(--color-fg-muted);
+  border-radius: 10px;
+}
+</style>
+  </head>
+  <body><dark-mode style="position: fixed; top: 8px; left: 10px; z-index: 999;" dark="Dark" light="Light" permanent="true"></dark-mode><script>const t=document;const e="_dark_mode_theme_";const s="permanent";const o="colorschemechange";const i="permanentcolorscheme";const h="light";const r="dark";const n=(t,e,s=e)=>{Object.defineProperty(t,s,{enumerable:true,get(){const t=this.getAttribute(e);return t===null?"":t},set(t){this.setAttribute(e,t)}})};const c=(t,e,s=e)=>{Object.defineProperty(t,s,{enumerable:true,get(){return this.hasAttribute(e)},set(t){if(t){this.setAttribute(e,"")}else{this.removeAttribute(e)}}})};class a extends HTMLElement{static get observedAttributes(){return["mode",h,r,s]}LOCAL_NANE=e;constructor(){super();this.t()}connectedCallback(){n(this,"mode");n(this,r);n(this,h);c(this,s);const a=localStorage.getItem(e);if(a&&[h,r].includes(a)){this.mode=a;this.permanent=true}if(this.permanent&&!a){localStorage.setItem(e,this.mode)}const l=[h,r].includes(a);if(this.permanent&&a){this.o()}else{if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){this.mode=r;this.o()}if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches){this.mode=h;this.o()}}if(!this.permanent&&!l){window.matchMedia("(prefers-color-scheme: light)").onchange=t=>{this.mode=t.matches?h:r;this.o()};window.matchMedia("(prefers-color-scheme: dark)").onchange=t=>{this.mode=t.matches?r:h;this.o()}}const d=new MutationObserver(((s,h)=>{this.mode=t.documentElement.dataset.colorMode;if(this.permanent&&l){localStorage.setItem(e,this.mode);this.i(i,{permanent:this.permanent})}this.h();this.i(o,{colorScheme:this.mode})}));d.observe(t.documentElement,{attributes:true});this.i(o,{colorScheme:this.mode});this.h()}attributeChangedCallback(t,s,o){if(t==="mode"&&s!==o&&[h,r].includes(o)){const t=localStorage.getItem(e);if(this.mode===t){this.mode=o;this.h();this.o()}else if(this.mode&&this.mode!==t){this.h();this.o()}}else if((t===h||t===r)&&s!==o){this.h()}if(t==="permanent"&&typeof this.permanent==="boolean"){this.permanent?localStorage.setItem(e,this.mode):localStorage.removeItem(e)}}o(){t.documentElement.setAttribute("data-color-mode",this.mode)}h(){this.icon.textContent=this.mode===h?"🌒":"🌞";this.text.textContent=this.mode===h?this.getAttribute(r):this.getAttribute(h);if(!this.text.textContent&&this.text.parentElement&&this.text){this.text.parentElement.removeChild(this.text)}}t(){var s=this.attachShadow({mode:"open"});this.label=t.createElement("span");this.label.setAttribute("class","wrapper");this.label.onclick=()=>{this.mode=this.mode===h?r:h;if(this.permanent){localStorage.setItem(e,this.mode)}this.o();this.h()};s.appendChild(this.label);this.icon=t.createElement("span");this.icon.part="icon";this.label.appendChild(this.icon);this.text=t.createElement("span");this.text.part="text";this.label.appendChild(this.text);const o=`
+[data-color-mode*='dark'], [data-color-mode*='dark'] body {
+  color-scheme: dark;
+  --color-theme-bg: #0d1117;
+  --color-theme-text: #c9d1d9;
+  background-color: var(--color-theme-bg);
+  color: var(--color-theme-text);
+}
+
+[data-color-mode*='light'], [data-color-mode*='light'] body {
+  color-scheme: light;
+  --color-theme-bg: #fff;
+  --color-theme-text: #24292f;
+  background-color: var(--color-theme-bg);
+  color: var(--color-theme-text);
+}`;const i="_dark_mode_style_";const n=t.getElementById(i);if(!n){var c=t.createElement("style");c.id=i;c.textContent=o;t.head.appendChild(c)}var a=t.createElement("style");a.textContent=`
+    .wrapper { cursor: pointer; user-select: none; position: relative; }
+    .wrapper > span + span { margin-left: .4rem; }
+    `;s.appendChild(a)}i(t,e){this.dispatchEvent(new CustomEvent(t,{bubbles:true,composed:true,detail:e}))}}customElements.define("dark-mode",a);</script><div style="max-width: 960px; margin: 0 auto 60px auto; padding: 8px;max-width: 960px;" class="markdown-style">
+    <h1 id="the-hidden-patterns-in-19000-student-exams"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-hidden-patterns-in-19000-student-exams"><span class="octicon octicon-link"></span></a>The Hidden Patterns in 19,000 Student Exams</h1>
+    <h2 id="what-the-data-reveals-about-improving-learning-outcomes"><a class="anchor" aria-hidden="true" tabindex="-1" href="#what-the-data-reveals-about-improving-learning-outcomes"><span class="octicon octicon-link"></span></a>What the Data Reveals About Improving Learning Outcomes</h2>
+    <p><strong>November 19, 2025</strong></p>
+    <hr>
+    <h2 id="executive-summary"><a class="anchor" aria-hidden="true" tabindex="-1" href="#executive-summary"><span class="octicon octicon-link"></span></a>Executive Summary</h2>
+    <p>When 69% of students wait until the last moment to submit their work, and infrastructure deployment questions see 90% failure rates while data analysis questions succeed 84% of the time, something systematic is happening. This analysis of 19,257 exam submissions from 6,186 students reveals that <strong>small, targeted interventions could help 5,000 students annually</strong> improve their performance by 6.5-10 percentage points.</p>
+    <p><strong>The key insight:</strong> Many "performance problems" are actually <strong>design problems</strong>. The biggest quick win isn't teaching more—it's fixing how we measure learning through partial credit on complex multi-step questions.</p>
+    <p><strong>Three evidence-based recommendations:</strong></p>
+    <ol>
+      <li><strong>Add partial credit to infrastructure questions</strong> (confidence: ⭐⭐⭐⭐, impact: +4-6 pp)</li>
+      <li><strong>Address the deadline-afternoon crisis</strong> (confidence: ⭐⭐⭐⭐, impact: +2-3 pp)</li>
+      <li><strong>Provide time-of-day awareness tools</strong> (confidence: ⭐⭐⭐, impact: +0.5-1 pp)</li>
+    </ol>
+    <p>Expected outcome: Pass rates improve from <strong>71.5% to 78-82%</strong>.</p>
+    <ul>
+      <li><a href="summary.html">Full executive summary</a></li>
+      <li><a href="learnings.html">Meta learnings</a></li>
+    </ul>
+    <hr>
+    <h2 id="part-i-the-mystery-of-the-afternoon-deadline"><a class="anchor" aria-hidden="true" tabindex="-1" href="#part-i-the-mystery-of-the-afternoon-deadline"><span class="octicon octicon-link"></span></a>Part I: The Mystery of the Afternoon Deadline</h2>
+    <h3 id="the-pattern-that-shouldnt-exist"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-pattern-that-shouldnt-exist"><span class="octicon octicon-link"></span></a>The Pattern That Shouldn't Exist</h3>
+    <p>Every instructor has noticed it: some students consistently submit at the last minute, others plan ahead. The conventional wisdom says procrastinators do worse because they're less motivated, less organized, or less capable.</p>
+    <p>But when we analyzed 19,257 submissions, we found something stranger.</p>
+    <p><strong>The data showed two surprising patterns:</strong></p>
+    <ol>
+      <li>Students submitting on deadline day scored 15.4 percentage points lower than those who submitted early (63.8% vs 79.2%)</li>
+      <li>But this effect completely disappeared in the morning—it only happened in the afternoon</li>
+    </ol>
+    <p>
+      <img src="1_deadline_effect.webp" alt="Deadline Effect">
+    </p>
+    <p><strong>Wait, what?</strong></p>
+    <p>If procrastination were simply about poor planning or low motivation, it should affect performance equally at all times of day. Instead, students submitting on deadline day in the <strong>morning scored almost identically</strong> to early submitters (74.1% vs 75.4%, only 1.3 pp difference), while those submitting in the <strong>afternoon crashed</strong> (55.1% vs 80.2%, a devastating 25.2 pp gap).</p>
+    <h3 id="following-the-thread"><a class="anchor" aria-hidden="true" tabindex="-1" href="#following-the-thread"><span class="octicon octicon-link"></span></a>Following the Thread</h3>
+    <p>To understand this, we tracked 2,236 students who varied their submission timing across multiple exams. This "within-subject" analysis let us see how <strong>the same students</strong> performed under different circumstances—effectively using each student as their own control.</p>
+    <p><strong>Result:</strong> When the same students submitted on deadline day vs. 1-5 days early, they scored <strong>7.4 percentage points lower</strong> (67.4% vs 74.8%, p &#x3C; 0.0000000001). This wasn't about "good students plan ahead"—it was about deadline urgency degrading performance.</p>
+    <h3 id="the-afternoon-multiplier"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-afternoon-multiplier"><span class="octicon octicon-link"></span></a>The Afternoon Multiplier</h3>
+    <p>But here's where it gets interesting. We found 131 students who submitted work both in the morning (5-8 AM) and afternoon (1-4 PM). Same students, different times of day:</p>
+    <p>
+      <img src="3_time_of_day.webp" alt="Time of Day Effect">
+    </p>
+    <ul>
+      <li><strong>Morning performance: 79.9%</strong></li>
+      <li><strong>Afternoon performance: 56.9%</strong></li>
+      <li><strong>Gap: 23 percentage points</strong> (p &#x3C; 0.000000001)</li>
+    </ul>
+    <p>The afternoon dip is real—and it's not unique to our data. Published research shows cognitive performance declines 7-40% in the afternoon depending on the task (Valdez, 2019). Our 23-point gap sits at the high end but within the documented range.</p>
+    <h3 id="the-compound-effect"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-compound-effect"><span class="octicon octicon-link"></span></a>The Compound Effect</h3>
+    <p>When you combine deadline urgency with the afternoon dip, you get a perfect storm:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Condition</th>
+          <th>Average Score</th>
+          <th>Sample Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Early + Morning</td>
+          <td>75.4%</td>
+          <td>138 students</td>
+        </tr>
+        <tr>
+          <td>Early + Afternoon</td>
+          <td>80.2%</td>
+          <td>1,143 students</td>
+        </tr>
+        <tr>
+          <td>Deadline + Morning</td>
+          <td>74.1%</td>
+          <td>115 students</td>
+        </tr>
+        <tr>
+          <td><strong>Deadline + Afternoon</strong></td>
+          <td><strong>55.1%</strong></td>
+          <td><strong>3,813 students</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Nearly 4,000 students—20% of all submissions—are caught in this trap: rushing to meet a deadline during the worst possible time for cognitive performance.</p>
+    <h3 id="whats-really-happening"><a class="anchor" aria-hidden="true" tabindex="-1" href="#whats-really-happening"><span class="octicon octicon-link"></span></a>What's Really Happening?</h3>
+    <p>The research on deadline stress and circadian rhythms provides clues:</p>
+    <ol>
+      <li><strong>Glucose crash:</strong> The post-lunch dip (1-4 PM) is linked to declining blood glucose and core body temperature</li>
+      <li><strong>Stress hormones:</strong> Deadline urgency triggers cortisol release, which impairs complex problem-solving</li>
+      <li><strong>Working memory:</strong> Both time pressure and afternoon fatigue reduce working memory capacity</li>
+      <li><strong>No error recovery:</strong> Students submitting at the last minute have no buffer to fix technical issues or catch mistakes</li>
+    </ol>
+    <p>A meta-analysis of academic procrastination (Kim &#x26; Seo, 2015) found a 5-point grade penalty for last-minute work. Our within-subject finding of 7.4 points aligns with published research.</p>
+    <h3 id="the-business-case"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-business-case"><span class="octicon octicon-link"></span></a>The Business Case</h3>
+    <p><strong>Current state:</strong> 13,299 submissions (69%) happen on deadline day, averaging 63.8%.</p>
+    <p><strong>Opportunity:</strong> If we could shift just 30% of deadline-day submissions to 1-5 days early:</p>
+    <ul>
+      <li><strong>Students helped:</strong> ~4,000 annually</li>
+      <li><strong>Performance gain:</strong> +7.4 percentage points per student</li>
+      <li><strong>Pass rate improvement:</strong> +2-3 percentage points overall</li>
+    </ul>
+    <p>But here's the critical insight: <strong>Simply moving the deadline won't work.</strong></p>
+    <p>An Israeli study (Artzi &#x26; Tobol, 2022) tested deadline interventions in vocational colleges and found <strong>no effect</strong> on completion rates or performance. Deadlines alone don't address underlying constraints or behaviors.</p>
+    <p><strong>What might work:</strong></p>
+    <ul>
+      <li>Deadline education: "Students submitting on deadline afternoons score 25 points lower"</li>
+      <li>Early submission incentives: +2% bonus for submissions 2+ days early</li>
+      <li>Flexible windows: 24-hour submission periods allowing students to choose optimal times</li>
+      <li>Morning-specific deadlines: Shift from Sunday 11 PM to Monday 9 AM</li>
+    </ul>
+    <hr>
+    <h2 id="part-ii-the-measurement-problem"><a class="anchor" aria-hidden="true" tabindex="-1" href="#part-ii-the-measurement-problem"><span class="octicon octicon-link"></span></a>Part II: The Measurement Problem</h2>
+    <h3 id="when-93-get-zero"><a class="anchor" aria-hidden="true" tabindex="-1" href="#when-93-get-zero"><span class="octicon octicon-link"></span></a>When 93% Get Zero</h3>
+    <p>While investigating why infrastructure questions were so much harder than data processing questions (31% vs 84% success), we discovered something unsettling.</p>
+    <p>On the hardest infrastructure questions:</p>
+    <ul>
+      <li><code>q-github-action-playwright</code>: <strong>93.4% scored zero</strong></li>
+      <li><code>q-fastapi-vision-translate-captcha</code>: <strong>92.3% scored zero</strong></li>
+      <li><code>q-fastapi-llm-query</code>: <strong>91.0% scored zero</strong></li>
+    </ul>
+    <p>Compare this to data processing questions:</p>
+    <ul>
+      <li><code>q-clean-up-student-marks</code>: <strong>5.6% scored zero</strong></li>
+      <li><code>q-use-google-sheets</code>: <strong>5.5% scored zero</strong></li>
+      <li><code>q-sql-average-salary</code>: <strong>12.8% scored zero</strong></li>
+    </ul>
+    <p>
+      <img src="4_infrastructure_gap.webp" alt="Infrastructure Gap">
+    </p>
+    <p>This isn't a normal distribution of learning outcomes. It's a <strong>cliff</strong>.</p>
+    <h3 id="unpacking-a-hard-question"><a class="anchor" aria-hidden="true" tabindex="-1" href="#unpacking-a-hard-question"><span class="octicon octicon-link"></span></a>Unpacking a "Hard" Question</h3>
+    <p>Let's examine <code>q-github-action-playwright</code> (6.6% success rate). To get credit, students must:</p>
+    <ol>
+      <li><strong>Understand GitHub Actions</strong> (YAML syntax, workflow triggers)</li>
+      <li><strong>Know Playwright API</strong> (browser automation, selectors)</li>
+      <li><strong>Grasp CI/CD concepts</strong> (testing in pipelines, environment setup)</li>
+      <li><strong>Debug effectively</strong> (read logs, fix errors)</li>
+      <li><strong>Configure correctly</strong> (dependencies, versions, secrets)</li>
+    </ol>
+    <p>This is <strong>five distinct skills</strong>. If a student masters 4 out of 5, they get the same score as someone who knows none: <strong>zero points</strong>.</p>
+    <h3 id="the-partial-credit-hypothesis"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-partial-credit-hypothesis"><span class="octicon octicon-link"></span></a>The Partial Credit Hypothesis</h3>
+    <p>What if the "53-point infrastructure gap" isn't about students lacking skills—it's about how we're measuring those skills?</p>
+    <p>Consider two students:</p>
+    <p><strong>Student A:</strong></p>
+    <ul>
+      <li>Sets up GitHub Action correctly ✓</li>
+      <li>Configures Playwright properly ✓</li>
+      <li>Writes test code correctly ✓</li>
+      <li>Makes one syntax error in YAML ✗</li>
+      <li>Test doesn't run → <strong>Zero points</strong></li>
+    </ul>
+    <p><strong>Student B:</strong></p>
+    <ul>
+      <li>Uses wrong CI/CD platform ✗</li>
+      <li>Doesn't know Playwright ✗</li>
+      <li>No test code ✗</li>
+      <li>Random YAML copied from internet ✗</li>
+      <li>Complete failure → <strong>Zero points</strong></li>
+    </ul>
+    <p>Our current system treats these students identically. But Student A demonstrates substantial infrastructure knowledge—they just need to catch one syntax error.</p>
+    <h3 id="the-evidence"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-evidence"><span class="octicon octicon-link"></span></a>The Evidence</h3>
+    <p>Research on educational assessment consistently finds that partial credit:</p>
+    <ul>
+      <li>Increases measurement reliability</li>
+      <li>Reduces random error</li>
+      <li>Better differentiates levels of understanding</li>
+      <li>Provides diagnostic information for improvement</li>
+    </ul>
+    <p>In our data, questions with partial credit naturally built in (like <code>q-duckdb-sales-over-time</code> with its 70.4% success) show much healthier score distributions—students at various skill levels can demonstrate what they know.</p>
+    <h3 id="the-experiment-we-need"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-experiment-we-need"><span class="octicon octicon-link"></span></a>The Experiment We Need</h3>
+    <p><strong>Hypothesis:</strong> Adding partial credit to infrastructure questions will improve measured success rates from 31% to 50-60% <strong>without any teaching changes</strong>.</p>
+    <p><strong>How to test:</strong></p>
+    <ol>
+      <li>
+        <p>Create detailed rubrics for infrastructure questions:</p>
+        <ul>
+          <li>Correct approach/architecture: 20%</li>
+          <li>Partial implementation: 40%</li>
+          <li>Working solution with issues: 70%</li>
+          <li>Complete solution: 100%</li>
+        </ul>
+      </li>
+      <li>
+        <p>Re-grade a sample of existing submissions with new rubric</p>
+      </li>
+      <li>
+        <p>Compare distributions</p>
+      </li>
+    </ol>
+    <p><strong>Expected outcome:</strong> Many students currently scoring zero will show they have partial mastery.</p>
+    <p><strong>Business case:</strong></p>
+    <ul>
+      <li><strong>No curriculum changes needed</strong> (biggest win)</li>
+      <li><strong>Immediate implementation</strong> (just create rubrics)</li>
+      <li><strong>Impact:</strong> +4-6 percentage points on infrastructure-heavy exams</li>
+      <li><strong>Side benefit:</strong> Better diagnostic data shows where students actually struggle</li>
+    </ul>
+    <hr>
+    <h2 id="part-iii-the-decline-paradox"><a class="anchor" aria-hidden="true" tabindex="-1" href="#part-iii-the-decline-paradox"><span class="octicon octicon-link"></span></a>Part III: The Decline Paradox</h2>
+    <h3 id="the-surprising-trajectory"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-surprising-trajectory"><span class="octicon octicon-link"></span></a>The Surprising Trajectory</h3>
+    <p>Conventional wisdom says practice improves performance. And indeed, students who take multiple exams score higher overall than single-exam takers (70.1% vs 53.3%).</p>
+    <p>But when we tracked 2,703 individual students across their exam journey, we found something troubling:</p>
+    <p>
+      <img src="2_practice_paradox.webp" alt="Practice Paradox">
+    </p>
+    <ul>
+      <li><strong>First exam average: 74.4%</strong></li>
+      <li><strong>Middle exams average: 70.4%</strong></li>
+      <li><strong>Last exam average: 60.3%</strong></li>
+      <li><strong>Change: -14.2 percentage points</strong></li>
+    </ul>
+    <p>Only 28.6% of students improved from first to last exam. <strong>57% declined.</strong></p>
+    <h3 id="solving-the-paradox"><a class="anchor" aria-hidden="true" tabindex="-1" href="#solving-the-paradox"><span class="octicon octicon-link"></span></a>Solving the Paradox</h3>
+    <p>How can "practice helps" and "students decline" both be true?</p>
+    <p><strong>The answer: Selection bias and exam difficulty progression.</strong></p>
+    <p>Students who take multiple exams start stronger (60.3% on first attempt) compared to one-time takers (53.3%). They're self-selecting—more motivated, more capable, more persistent. The high average performance of multi-exam takers reflects who they are, not what practice does.</p>
+    <p>But for individuals, the pattern is decline. Why?</p>
+    <p>
+      <strong>Explanation 1: Difficulty escalation</strong>
+      Looking at exam series progression:
+    </p>
+    <p><strong>tds-2025-09 series:</strong></p>
+    <ul>
+      <li>GA1: 80.5% → GA2: 48.6% → GA3: 60.5% → GA4: 44.9%</li>
+      <li>Correlation with exam number: <strong>r = -0.76</strong> (later exams much harder)</li>
+    </ul>
+    <p><strong>tds-2025-05 series:</strong></p>
+    <ul>
+      <li>GA1: 73.9% → GA2: 57.6% → GA3: 70.2% → GA4: 81.2% → GA5: 83.4%</li>
+      <li>Correlation: <strong>r = +0.48</strong> (later exams easier, but inconsistent)</li>
+    </ul>
+    <p>
+      <strong>Explanation 2: Exam fatigue</strong>
+      Students taking 5+ exams may experience:
+    </p>
+    <ul>
+      <li>Declining motivation ("I've already proven myself")</li>
+      <li>Time pressure from other commitments</li>
+      <li>Strategic effort allocation (front-load important exams)</li>
+    </ul>
+    <p>
+      <strong>Explanation 3: Survivorship bias</strong>
+      45.6% of students take only one exam. They score 53.3% on average and never return. Among students who persist:
+    </p>
+    <ul>
+      <li>Some are improving (28.6%)</li>
+      <li>More are declining or plateauing (71.4%)</li>
+    </ul>
+    <p>The ones who persist aren't necessarily learning more—they may have other reasons to continue (program requirements, personal goals).</p>
+    <h3 id="what-research-says"><a class="anchor" aria-hidden="true" tabindex="-1" href="#what-research-says"><span class="octicon octicon-link"></span></a>What Research Says</h3>
+    <p>The testing effect (Rowland, 2014) shows retrieval practice improves retention (effect size g = 0.50). But that research is about:</p>
+    <ul>
+      <li><strong>Low-stakes</strong> formative quizzes</li>
+      <li><strong>Immediate feedback</strong></li>
+      <li><strong>Spaced practice</strong></li>
+      <li><strong>Voluntary engagement</strong></li>
+    </ul>
+    <p>Our data involves:</p>
+    <ul>
+      <li><strong>High-stakes</strong> summative exams</li>
+      <li><strong>Delayed feedback</strong></li>
+      <li><strong>Compressed timelines</strong></li>
+      <li><strong>Required assessment</strong></li>
+    </ul>
+    <p>These are fundamentally different contexts. The beneficial "testing effect" may not apply to repeated high-stakes exams, especially when exam difficulty increases.</p>
+    <h3 id="the-implication"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-implication"><span class="octicon octicon-link"></span></a>The Implication</h3>
+    <p><strong>Don't mandate more high-stakes exams.</strong> The evidence shows:</p>
+    <ul>
+      <li>Individuals decline across attempts</li>
+      <li>Later exams are often harder</li>
+      <li>High-stakes testing creates stress, not learning</li>
+    </ul>
+    <p><strong>What might work instead:</strong></p>
+    <ul>
+      <li><strong>Low-stakes formative quizzes</strong> with immediate feedback</li>
+      <li><strong>Calibrated difficulty progression</strong> (don't make later exams systematically harder)</li>
+      <li><strong>Burnout monitoring</strong> (declining performance is a warning sign)</li>
+      <li><strong>Optional practice</strong> (self-selected engagement, not mandated)</li>
+    </ul>
+    <p>The goal isn't more assessment—it's better learning support.</p>
+    <hr>
+    <h2 id="part-iv-the-recommendations"><a class="anchor" aria-hidden="true" tabindex="-1" href="#part-iv-the-recommendations"><span class="octicon octicon-link"></span></a>Part IV: The Recommendations</h2>
+    <h3 id="tier-1-high-confidence-high-impact"><a class="anchor" aria-hidden="true" tabindex="-1" href="#tier-1-high-confidence-high-impact"><span class="octicon octicon-link"></span></a>Tier 1: High Confidence, High Impact</h3>
+    <h4 id="1-add-partial-credit-to-infrastructure-questions"><a class="anchor" aria-hidden="true" tabindex="-1" href="#1-add-partial-credit-to-infrastructure-questions"><span class="octicon octicon-link"></span></a>1. Add Partial Credit to Infrastructure Questions</h4>
+    <p><strong>The problem:</strong> 90-93% of students get zero on complex multi-step infrastructure questions, but many demonstrate partial mastery of component skills.</p>
+    <p>
+      <strong>The solution:</strong>
+      Create detailed rubrics that award credit for:
+    </p>
+    <ul>
+      <li>Correct architectural approach (20-30%)</li>
+      <li>Partial implementation (40-60%)</li>
+      <li>Working solution with minor issues (70-90%)</li>
+      <li>Complete, polished solution (100%)</li>
+    </ul>
+    <p><strong>Why it works:</strong></p>
+    <ul>
+      <li>Addresses measurement error, not teaching gaps</li>
+      <li>No curriculum changes required</li>
+      <li>Immediate implementation possible</li>
+      <li>Better diagnostic information for improvement</li>
+    </ul>
+    <p><strong>Expected impact:</strong> Infrastructure success rates improve from 31% to 50-60%, translating to <strong>+4-6 percentage points</strong> on infrastructure-heavy ROE exams.</p>
+    <p><strong>Confidence:</strong> ⭐⭐⭐⭐ High (clear measurement issue, well-supported by assessment research)</p>
+    <p><strong>How to implement:</strong></p>
+    <ol>
+      <li>Pilot with 100 existing submissions (re-grade with rubric)</li>
+      <li>Measure distribution change</li>
+      <li>Adjust rubric based on results</li>
+      <li>Roll out for future exams</li>
+      <li>Train TAs on consistent application</li>
+    </ol>
+    <p><strong>Timeline:</strong> 2-4 weeks</p>
+    <hr>
+    <h4 id="2-address-the-deadline-afternoon-crisis"><a class="anchor" aria-hidden="true" tabindex="-1" href="#2-address-the-deadline-afternoon-crisis"><span class="octicon octicon-link"></span></a>2. Address the Deadline-Afternoon Crisis</h4>
+    <p><strong>The problem:</strong> 3,813 students (20% of submissions) submit on deadline day in the afternoon, suffering a 25-point performance penalty.</p>
+    <p>
+      <strong>The solution:</strong>
+      Multi-pronged approach:
+    </p>
+    <p><strong>A. Educational campaign:</strong></p>
+    <ul>
+      <li>Email 3 days before deadline: "Students who submit on deadline afternoons score 25 points lower"</li>
+      <li>Personalized performance dashboards showing students their own timing patterns</li>
+      <li>Short explainer video on the science of afternoon dip and deadline stress</li>
+    </ul>
+    <p><strong>B. Incentive structure:</strong></p>
+    <ul>
+      <li>+2% bonus for submissions 2+ days early</li>
+      <li>Gamification: "🏆 Early Bird Badge" for consistent early submission</li>
+      <li>Public leaderboard (opt-in) of early submitters</li>
+    </ul>
+    <p><strong>C. Flexible deadlines:</strong></p>
+    <ul>
+      <li>24-hour submission windows (e.g., Sunday 8 AM - Monday 8 AM) allowing chronotype optimization</li>
+      <li>Option to choose "morning track" deadlines (e.g., Monday 9 AM) vs "evening track" (Sunday 11 PM)</li>
+    </ul>
+    <p><strong>Why it works:</strong></p>
+    <ul>
+      <li>Within-subject evidence shows 7.4 pp effect of deadline timing</li>
+      <li>Interaction effect (25 pp in afternoon) is massive and actionable</li>
+      <li>Aligns with published research on procrastination and circadian rhythms</li>
+      <li>Multiple touchpoints increase adoption</li>
+    </ul>
+    <p><strong>Expected impact:</strong> If 10-15% of students adopt better timing, overall pass rate improves by <strong>+2-3 percentage points</strong>.</p>
+    <p><strong>Confidence:</strong> ⭐⭐⭐⭐ High (strong within-subject evidence, validated against external research)</p>
+    <p><strong>Limitations:</strong></p>
+    <ul>
+      <li>Can't force behavior change (must respect student autonomy)</li>
+      <li>Some students have legitimate constraints (work schedules, family)</li>
+      <li>Bonuses may not motivate all students equally</li>
+    </ul>
+    <p><strong>How to implement:</strong></p>
+    <ol>
+      <li>A/B test: Half receive education + incentives, half don't</li>
+      <li>Track submission timing and performance changes</li>
+      <li>Measure adoption rates and impact</li>
+      <li>Scale successful interventions</li>
+    </ol>
+    <p><strong>Timeline:</strong> 1-2 months for pilot, 3-6 months for full rollout</p>
+    <hr>
+    <h3 id="tier-2-medium-confidence-medium-impact"><a class="anchor" aria-hidden="true" tabindex="-1" href="#tier-2-medium-confidence-medium-impact"><span class="octicon octicon-link"></span></a>Tier 2: Medium Confidence, Medium Impact</h3>
+    <h4 id="3-infrastructure-bootcamp"><a class="anchor" aria-hidden="true" tabindex="-1" href="#3-infrastructure-bootcamp"><span class="octicon octicon-link"></span></a>3. Infrastructure Bootcamp</h4>
+    <p><strong>The problem:</strong> Even with partial credit, infrastructure skills lag behind data processing skills.</p>
+    <p>
+      <strong>The solution:</strong>
+      Dedicated 2-week intensive module <strong>before</strong> first infrastructure-heavy exam:
+    </p>
+    <p><strong>Week 1:</strong> Foundations</p>
+    <ul>
+      <li>Day 1-2: Docker basics (containers, images, Dockerfiles)</li>
+      <li>Day 3-4: FastAPI fundamentals (routes, requests, responses)</li>
+      <li>Day 5: Local deployment and testing</li>
+    </ul>
+    <p><strong>Week 2:</strong> Advanced</p>
+    <ul>
+      <li>Day 1-2: GitHub Actions (CI/CD, workflows, automation)</li>
+      <li>Day 3-4: Cloud deployment (Vercel, Railway, debugging)</li>
+      <li>Day 5: Integration project (deploy a working API)</li>
+    </ul>
+    <p><strong>Pedagogy:</strong></p>
+    <ul>
+      <li>Hands-on labs (not lectures)</li>
+      <li>Pair programming for debugging</li>
+      <li>"Deploy your first API" challenge with TA support</li>
+      <li>Office hours specifically for infrastructure issues</li>
+    </ul>
+    <p><strong>Expected impact:</strong> Infrastructure question success improves from 31% to 55-70% (hard to separate from partial credit effect).</p>
+    <p><strong>Confidence:</strong> ⭐⭐⭐ Medium-High (addresses real skills gap, but resource-intensive)</p>
+    <p><strong>Timeline:</strong> 6-12 months (curriculum development, TA training)</p>
+    <hr>
+    <h4 id="4-time-of-day-awareness-dashboard"><a class="anchor" aria-hidden="true" tabindex="-1" href="#4-time-of-day-awareness-dashboard"><span class="octicon octicon-link"></span></a>4. Time-of-Day Awareness Dashboard</h4>
+    <p><strong>The problem:</strong> Students perform 23 points better in morning vs afternoon, but most don't know their personal patterns.</p>
+    <p>
+      <strong>The solution:</strong>
+      Personalized performance dashboard showing:
+    </p>
+    <ul>
+      <li>"Your average score by time of day"</li>
+      <li>"You score X% higher when submitting in the morning"</li>
+      <li>Calendar heatmap of your submission patterns</li>
+      <li>Recommended optimal submission times</li>
+    </ul>
+    <p><strong>Why it might work:</strong></p>
+    <ul>
+      <li>Data-driven personalization is compelling</li>
+      <li>Small nudge, no coercion</li>
+      <li>Respects individual chronotypes</li>
+    </ul>
+    <p><strong>Expected impact:</strong> 5-10% of students optimize timing, improving overall pass rate by <strong>+0.5-1 percentage point</strong>.</p>
+    <p><strong>Confidence:</strong> ⭐⭐⭐ Medium (effect is real, but sample not fully representative, and adoption uncertain)</p>
+    <p><strong>Limitations:</strong></p>
+    <ul>
+      <li>Based on 131 students who are higher performers (74.3% vs 67.6% average)</li>
+      <li>May not generalize to struggling students</li>
+      <li>Can't separate circadian rhythm from environment</li>
+    </ul>
+    <p><strong>Timeline:</strong> 2-3 months (dashboard development)</p>
+    <hr>
+    <h3 id="tier-3-dont-do-evidence-contradicts"><a class="anchor" aria-hidden="true" tabindex="-1" href="#tier-3-dont-do-evidence-contradicts"><span class="octicon octicon-link"></span></a>Tier 3: Don't Do (Evidence Contradicts)</h3>
+    <h4 id="-mandate-more-practice-exams"><a class="anchor" aria-hidden="true" tabindex="-1" href="#-mandate-more-practice-exams"><span class="octicon octicon-link"></span></a>❌ Mandate More Practice Exams</h4>
+    <p><strong>Why not:</strong></p>
+    <ul>
+      <li>Students decline -14.2 pp across attempts (not improve)</li>
+      <li>High-stakes exam fatigue is different from beneficial low-stakes retrieval practice</li>
+      <li>Later exams often harder, confounding "practice" with increased difficulty</li>
+      <li>Creates burnout, not learning</li>
+    </ul>
+    <p><strong>What to do instead:</strong></p>
+    <ul>
+      <li>Offer <strong>optional</strong> low-stakes formative quizzes</li>
+      <li>Calibrate difficulty to not increase systematically</li>
+      <li>Monitor for declining performance (warning sign of burnout)</li>
+    </ul>
+    <hr>
+    <h2 id="part-v-expected-outcomes"><a class="anchor" aria-hidden="true" tabindex="-1" href="#part-v-expected-outcomes"><span class="octicon octicon-link"></span></a>Part V: Expected Outcomes</h2>
+    <h3 id="projected-impact"><a class="anchor" aria-hidden="true" tabindex="-1" href="#projected-impact"><span class="octicon octicon-link"></span></a>Projected Impact</h3>
+    <p><strong>Current state:</strong></p>
+    <ul>
+      <li>Overall pass rate: 71.5%</li>
+      <li>Average score: 67.6%</li>
+      <li>Students helped: 0 (baseline)</li>
+    </ul>
+    <p><strong>With Tier 1 interventions:</strong></p>
+    <ul>
+      <li>Projected pass rate: <strong>78-82%</strong></li>
+      <li>Improvement: <strong>+6.5-10 percentage points</strong></li>
+      <li>Students helped annually: <strong>~5,000</strong></li>
+    </ul>
+    <p><strong>Breakdown by intervention:</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Intervention</th>
+          <th>Students Affected</th>
+          <th>Impact</th>
+          <th>Confidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Partial credit (infrastructure)</td>
+          <td>~3,000</td>
+          <td>+4-6 pp</td>
+          <td>⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Deadline-time education</td>
+          <td>~1,500</td>
+          <td>+2-3 pp</td>
+          <td>⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Time-of-day dashboard</td>
+          <td>~500</td>
+          <td>+0.5-1 pp</td>
+          <td>⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Infrastructure bootcamp</td>
+          <td>~2,000</td>
+          <td>Improve skills</td>
+          <td>⭐⭐⭐</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>Why conservative?</strong></p>
+    <ul>
+      <li>Effects measured with within-subject designs (stronger causal inference)</li>
+      <li>Sample biases acknowledged and accounted for</li>
+      <li>Interaction effects reduce simple main effects</li>
+      <li>External validation against published research</li>
+      <li>Honest about what we don't know</li>
+    </ul>
+    <hr>
+    <h2 id="part-vi-implementation-roadmap"><a class="anchor" aria-hidden="true" tabindex="-1" href="#part-vi-implementation-roadmap"><span class="octicon octicon-link"></span></a>Part VI: Implementation Roadmap</h2>
+    <h3 id="phase-1-quick-wins-0-2-months"><a class="anchor" aria-hidden="true" tabindex="-1" href="#phase-1-quick-wins-0-2-months"><span class="octicon octicon-link"></span></a>Phase 1: Quick Wins (0-2 months)</h3>
+    <p><strong>Week 1-2:</strong></p>
+    <ul class="contains-task-list">
+      <li class="task-list-item"><input type="checkbox" disabled> Create partial credit rubrics for top 10 infrastructure questions</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Pilot test with 100 existing submissions</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Measure distribution changes</li>
+    </ul>
+    <p><strong>Week 3-4:</strong></p>
+    <ul class="contains-task-list">
+      <li class="task-list-item"><input type="checkbox" disabled> Design A/B test for deadline-time education</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Create email templates and dashboard mockups</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Set up tracking infrastructure</li>
+    </ul>
+    <p><strong>Week 5-8:</strong></p>
+    <ul class="contains-task-list">
+      <li class="task-list-item"><input type="checkbox" disabled> Launch A/B test with next exam cohort</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Deploy partial credit rubrics</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Begin infrastructure bootcamp curriculum design</li>
+    </ul>
+    <h3 id="phase-2-scaling-3-6-months"><a class="anchor" aria-hidden="true" tabindex="-1" href="#phase-2-scaling-3-6-months"><span class="octicon octicon-link"></span></a>Phase 2: Scaling (3-6 months)</h3>
+    <p><strong>Months 3-4:</strong></p>
+    <ul class="contains-task-list">
+      <li class="task-list-item"><input type="checkbox" disabled> Analyze A/B test results</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Iterate on successful interventions</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Expand partial credit to all infrastructure questions</li>
+    </ul>
+    <p><strong>Months 5-6:</strong></p>
+    <ul class="contains-task-list">
+      <li class="task-list-item"><input type="checkbox" disabled> Full deployment of deadline-time education</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Launch time-of-day dashboard (if pilot successful)</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Prepare infrastructure bootcamp for next term</li>
+    </ul>
+    <h3 id="phase-3-optimization-6-12-months"><a class="anchor" aria-hidden="true" tabindex="-1" href="#phase-3-optimization-6-12-months"><span class="octicon octicon-link"></span></a>Phase 3: Optimization (6-12 months)</h3>
+    <p><strong>Months 7-9:</strong></p>
+    <ul class="contains-task-list">
+      <li class="task-list-item"><input type="checkbox" disabled> Run infrastructure bootcamp</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Measure impact on infrastructure question success rates</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Collect qualitative feedback from students</li>
+    </ul>
+    <p><strong>Months 10-12:</strong></p>
+    <ul class="contains-task-list">
+      <li class="task-list-item"><input type="checkbox" disabled> Comprehensive impact evaluation</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Compare actual vs. projected improvements</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Identify additional opportunities</li>
+    </ul>
+    <hr>
+    <h2 id="limitations-and-caveats"><a class="anchor" aria-hidden="true" tabindex="-1" href="#limitations-and-caveats"><span class="octicon octicon-link"></span></a>Limitations and Caveats</h2>
+    <h3 id="what-we-know-with-confidence"><a class="anchor" aria-hidden="true" tabindex="-1" href="#what-we-know-with-confidence"><span class="octicon octicon-link"></span></a>What We Know with Confidence</h3>
+    <ul>
+      <li>✅ <strong>Deadline-afternoon interaction:</strong> 25 pp penalty (p &#x3C; 0.0000000001, validated within-subject)</li>
+      <li>✅ <strong>Infrastructure questions:</strong> 90-93% zeros suggest measurement issue, not just skills gap</li>
+      <li>✅ <strong>Time-of-day effect:</strong> 23 pp difference validated with within-subject design</li>
+      <li>✅ <strong>Practice paradox:</strong> Students decline -14 pp (not improve) across high-stakes exams</li>
+    </ul>
+    <h3 id="what-remains-uncertain"><a class="anchor" aria-hidden="true" tabindex="-1" href="#what-remains-uncertain"><span class="octicon octicon-link"></span></a>What Remains Uncertain</h3>
+    <ul>
+      <li>❓ <strong>Generalizability:</strong> Time-of-day sample (131 students) are higher performers—may not generalize to all students</li>
+      <li>❓ <strong>Causality:</strong> Can't prove causation without randomized controlled trials</li>
+      <li>❓ <strong>Interactions:</strong> Complex interactions between factors not fully explored</li>
+      <li>❓ <strong>Context:</strong> Student constraints (work, family, health) not captured in data</li>
+    </ul>
+    <h3 id="assumptions-and-biases"><a class="anchor" aria-hidden="true" tabindex="-1" href="#assumptions-and-biases"><span class="octicon octicon-link"></span></a>Assumptions and Biases</h3>
+    <ul>
+      <li>⚠️ <strong>Selection bias:</strong> Within-subject samples self-selected (students who vary behavior are different)</li>
+      <li>⚠️ <strong>Missing data:</strong> Students who drop out not captured</li>
+      <li>⚠️ <strong>Measurement error:</strong> All-or-nothing scoring inflates infrastructure difficulty</li>
+      <li>⚠️ <strong>Confounds:</strong> Unmeasured variables may explain effects</li>
+    </ul>
+    <h3 id="statistical-considerations"><a class="anchor" aria-hidden="true" tabindex="-1" href="#statistical-considerations"><span class="octicon octicon-link"></span></a>Statistical Considerations</h3>
+    <p><strong>Multiple testing:</strong> Performed 20+ tests; some secondary findings may be false positives (though main effects survive Bonferroni correction at α = 0.0025)</p>
+    <p><strong>Sample sizes:</strong> Primary effects have large samples (2,000-13,000), but some subanalyses rely on smaller samples (131-1,446)</p>
+    <p><strong>Effect sizes:</strong> All reported effects include confidence intervals and align with published research where available</p>
+    <hr>
+    <h2 id="conclusion"><a class="anchor" aria-hidden="true" tabindex="-1" href="#conclusion"><span class="octicon octicon-link"></span></a>Conclusion</h2>
+    <p>The data reveals that student performance problems often have <strong>design solutions</strong>.</p>
+    <p>The biggest quick win isn't teaching more content—it's <strong>fixing how we measure learning</strong> through partial credit on complex questions. This addresses measurement error and could improve infrastructure success rates from 31% to 50-60% without any curriculum changes.</p>
+    <p>The second opportunity is <strong>educating students about timing interactions</strong>. The "deadline effect" isn't about procrastination per se—it's about the compound impact of deadline urgency during the afternoon cognitive dip. Simple awareness and flexible deadlines could help 1,500 students annually.</p>
+    <p>Together, these evidence-based interventions could improve pass rates from <strong>71.5% to 78-82%</strong>, helping <strong>~5,000 students annually</strong>—without requiring massive resource investment or curriculum overhaul.</p>
+    <p>The path forward is clear. The question is: will we act on the evidence?</p>
+    <hr>
+    <h2 id="appendix-methodology"><a class="anchor" aria-hidden="true" tabindex="-1" href="#appendix-methodology"><span class="octicon octicon-link"></span></a>Appendix: Methodology</h2>
+    <h3 id="data-sources"><a class="anchor" aria-hidden="true" tabindex="-1" href="#data-sources"><span class="octicon octicon-link"></span></a>Data Sources</h3>
+    <ul>
+      <li>19,257 exam submissions from cloud-based assessment platform</li>
+      <li>6,186 unique students (anonymized)</li>
+      <li>26 distinct quizzes/assessments</li>
+      <li>Time period: October 2024 - October 2025</li>
+      <li>Fields: Student ID, quiz ID, timestamp, question-level scores, total score</li>
+    </ul>
+    <h3 id="statistical-approach"><a class="anchor" aria-hidden="true" tabindex="-1" href="#statistical-approach"><span class="octicon octicon-link"></span></a>Statistical Approach</h3>
+    <p><strong>Between-subjects analysis:</strong></p>
+    <ul>
+      <li>Independent t-tests comparing different student groups</li>
+      <li>Effect sizes (Cohen's d)</li>
+      <li>Multiple regression for confound control</li>
+    </ul>
+    <p><strong>Within-subjects analysis:</strong></p>
+    <ul>
+      <li>Paired t-tests comparing same students under different conditions</li>
+      <li>Longitudinal tracking of individual trajectories</li>
+      <li>Interaction analysis (deadline × time-of-day)</li>
+    </ul>
+    <p><strong>Validation:</strong></p>
+    <ul>
+      <li>Cross-checked against 15+ published research studies</li>
+      <li>Effect sizes compared to meta-analyses</li>
+      <li>Robustness tests across exam types and time periods</li>
+    </ul>
+    <h3 id="significance-thresholds"><a class="anchor" aria-hidden="true" tabindex="-1" href="#significance-thresholds"><span class="octicon octicon-link"></span></a>Significance Thresholds</h3>
+    <ul>
+      <li>α = 0.05 for primary hypotheses</li>
+      <li>Bonferroni correction (α = 0.0025) for multiple testing</li>
+      <li>Cohen's d: 0.2 (small), 0.5 (medium), 0.8 (large)</li>
+      <li>Minimum sample size: n ≥ 50 per group (n ≥ 30 for within-subject)</li>
+    </ul>
+    <h3 id="tools"><a class="anchor" aria-hidden="true" tabindex="-1" href="#tools"><span class="octicon octicon-link"></span></a>Tools</h3>
+    <ul>
+      <li>Python 3.11 (pandas, numpy, scipy, matplotlib, seaborn)</li>
+      <li>Statistical tests: Independent/paired t-tests, correlation, regression</li>
+      <li>Visualizations: All charts created with matplotlib/seaborn</li>
+    </ul>
+    <h3 id="code-availability"><a class="anchor" aria-hidden="true" tabindex="-1" href="#code-availability"><span class="octicon octicon-link"></span></a>Code Availability</h3>
+    <p>All analysis code available in repository for full reproducibility.</p>
+    <hr>
+    <ul>
+      <li><strong>Analysis conducted by:</strong> Claude Sonnet 4 (Anthropic AI)</li>
+      <li><strong>Date:</strong> November 19, 2025</li>
+      <li><strong>Repository:</strong> Contains data, code, and visualizations</li>
+      <li><strong>Contact:</strong> Available for questions and collaboration</li>
+    </ul>
+    <script>/*! @uiw/copy-to-clipboard v1.0.12 | MIT (c) 2021 Kenny Wang | https://github.com/uiwjs/copy-to-clipboard.git */
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e="undefined"!=typeof globalThis?globalThis:e||self).copyTextToClipboard=t()}(this,(function(){"use strict";return function(e,t){const o=document.createElement("textarea");o.value=e,o.setAttribute("readonly",""),o.style={position:"absolute",left:"-9999px"},document.body.appendChild(o);const n=document.getSelection().rangeCount>0&&document.getSelection().getRangeAt(0);o.select();let c=!1;try{c=!!document.execCommand("copy")}catch(e){c=!1}document.body.removeChild(o),n&&document.getSelection&&(document.getSelection().removeAllRanges(),document.getSelection().addRange(n)),t&&t(c)}}));
+
+function copied(target, str) {
+  target.classList.add('active');
+  copyTextToClipboard(target.dataset.code, function() {
+    setTimeout(() => {
+      target.classList.remove('active');
+    }, 2000);
+  });
+}</script>
+  </div></body>
+</html>
