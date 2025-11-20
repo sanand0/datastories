@@ -1,0 +1,77 @@
+[
+  {
+    "cuisine": "Creative",
+    "count": 36,
+    "percentage": 21.052631578947366
+  },
+  {
+    "cuisine": "Japanese",
+    "count": 15,
+    "percentage": 8.771929824561402
+  },
+  {
+    "cuisine": "Modern Cuisine",
+    "count": 10,
+    "percentage": 5.847953216374268
+  },
+  {
+    "cuisine": "Creative, Contemporary",
+    "count": 7,
+    "percentage": 4.093567251461988
+  },
+  {
+    "cuisine": "Innovative",
+    "count": 5,
+    "percentage": 2.923976608187134
+  },
+  {
+    "cuisine": "Creative, Modern Cuisine",
+    "count": 5,
+    "percentage": 2.923976608187134
+  },
+  {
+    "cuisine": "Modern Cuisine, Creative",
+    "count": 4,
+    "percentage": 2.3391812865497075
+  },
+  {
+    "cuisine": "Creative, Seafood",
+    "count": 4,
+    "percentage": 2.3391812865497075
+  },
+  {
+    "cuisine": "French Contemporary",
+    "count": 4,
+    "percentage": 2.3391812865497075
+  },
+  {
+    "cuisine": "Cantonese",
+    "count": 4,
+    "percentage": 2.3391812865497075
+  },
+  {
+    "cuisine": "French, Contemporary",
+    "count": 4,
+    "percentage": 2.3391812865497075
+  },
+  {
+    "cuisine": "French",
+    "count": 3,
+    "percentage": 1.7543859649122806
+  },
+  {
+    "cuisine": "Classic French",
+    "count": 3,
+    "percentage": 1.7543859649122806
+  },
+  {
+    "cuisine": "Mediterranean Cuisine, Contemporary",
+    "count": 3,
+    "percentage": 1.7543859649122806
+  },
+  {
+    "cuisine": "Contemporary, French",
+    "count": 3,
+    "percentage": 1.7543859649122806
+  }
+]

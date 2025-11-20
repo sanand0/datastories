@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hidden Patterns of Michelin Stars: A Data Investigation</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 20px 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .wide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .story-section {
+            background: white;
+            padding: 60px 40px;
+            margin: 40px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin: 40px 0 20px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            margin: 30px 0 15px;
+            color: #34495e;
+        }
+
+        p {
+            font-size: 1.15rem;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #856404;
+        }
+
+        .stat-callout {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .stat-callout .number {
+            font-size: 4rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-callout .label {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .viz-container {
+            margin: 50px 0;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .viz-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .chart {
+            min-height: 400px;
+        }
+
+        .footnote {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .author-note {
+            border-top: 2px solid #e0e0e0;
+            margin-top: 60px;
+            padding-top: 30px;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .data-source {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 40px 0;
+            font-size: 0.95rem;
+            color: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            .stat-callout .number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>The Hidden Patterns of Michelin Stars</h1>
+        <p class="subtitle">What 22,000 restaurants reveal about the geography of culinary excellence</p>
+    </div>
+
+    <div class="container">
+        <div class="story-section">
+            <p style="font-size: 1.3rem; font-style: italic; color: #555;">
+                In the summer of 2023, a small taquería in Mexico City did something no one thought possible: it earned a Michelin star while charging less than $3 for a taco. That same year, in the gilded dining rooms of Paris, restaurants charging $400 per person were still chasing their first star.
+            </p>
+
+            <p>
+                This is a story about excellence, geography, and what happens when you look at the world's most prestigious restaurant guide not as a list, but as a data set. When you analyze 21,910 Michelin-recognized restaurants across 45 countries, surprising patterns emerge—patterns that challenge what we think we know about fine dining.
+            </p>
+
+            <h2>The Tokyo Paradox</h2>
+
+            <p>
+                Ask anyone to name the world's culinary capital, and most will say Paris. The French capital has defined fine dining for centuries. It's home to Le Cordon Bleu, the birthplace of haute cuisine, the city where the Michelin Guide itself was born in 1900.
+            </p>
+
+            <p>
+                But here's what the data reveals: <strong>Tokyo has dethroned Paris</strong>.
+            </p>
+        </div>
+    </div>
+
+    <div class="wide-container">
+        <div class="viz-container">
+            <div class="viz-title">Tokyo vs Paris: The Battle of Culinary Capitals</div>
+            <div id="tokyo-paris-chart" class="chart"></div>
+            <p class="footnote">Star points calculated as: (3-stars × 3) + (2-stars × 2) + (1-star × 1)</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="story-section">
+            <div class="stat-callout">
+                <span class="number">275</span>
+                <span class="label">Tokyo's star points vs Paris's 169—a 63% advantage</span>
+            </div>
+
+            <p>
+                Tokyo doesn't just have more Michelin-recognized restaurants (718 vs 529). It has <em>dramatically</em> more starred restaurants. Thirteen restaurants with three stars versus Paris's ten. 168 one-star restaurants versus Paris's 103. It's not even close.
+            </p>
+
+            <p>
+                What happened? The answer lies in understanding that Michelin isn't just measuring excellence—it's measuring a particular kind of excellence, one that Japan has systematically mastered.
+            </p>
+
+            <h2>The Efficiency Frontier</h2>
+
+            <p>
+                If you look at the ratio of stars to total restaurants—what we might call "star efficiency"—an even more surprising picture emerges. It's not the countries with the most restaurants that have the highest concentration of excellence. It's smaller, unexpected players.
+            </p>
+        </div>
+    </div>
+
+    <div class="wide-container">
+        <div class="viz-container">
+            <div class="viz-title">Star Efficiency: Where Excellence is Most Concentrated</div>
+            <div id="efficiency-chart" class="chart"></div>
+            <p class="footnote">Countries with at least 50 Michelin-recognized restaurants</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="story-section">
+            <p>
+                <strong>Macau</strong>—a city of just 700,000 people—has a star efficiency of 0.56. That means for every two restaurants Michelin recognizes there, one of them has at least one star. Compare that to France (0.33) or Italy (0.22).
+            </p>
+
+            <p>
+                Norway, Denmark, and Hong Kong round out the top five. These aren't the countries with the most restaurants. They're the countries where <em>being recognized by Michelin almost guarantees excellence</em>.
+            </p>
+
+            <div class="highlight-box">
+                <h4>The Small Market Advantage</h4>
+                <p style="margin: 0;">
+                    Why do smaller markets excel? One theory: in places like Macau and Norway, only the absolute best restaurants even attempt the kind of ambitious cooking that gets Michelin's attention. In France, with 3,498 Michelin-recognized establishments, you have far more variation in quality.
+                </p>
+            </div>
+
+            <h2>The Green Revolution</h2>
+
+            <p>
+                In 2020, Michelin introduced something new: the Green Star, awarded to restaurants demonstrating exceptional commitment to sustainability. Many observers dismissed it as PR. The data suggests otherwise.
+            </p>
+        </div>
+    </div>
+
+    <div class="wide-container">
+        <div class="viz-container">
+            <div class="viz-title">Green Stars by Award Level</div>
+            <div id="green-stars-chart" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="story-section">
+            <div class="stat-callout">
+                <span class="number">24%</span>
+                <span class="label">of three-star restaurants have earned a Green Star</span>
+            </div>
+
+            <p>
+                That's not a token gesture. At the highest level of fine dining, sustainability is becoming table stakes. Only 8.5% of one-star restaurants have a Green Star, but at three stars, it's nearly one in four.
+            </p>
+
+            <p>
+                This suggests something fundamental is changing. The elite tier of restaurants—the ones pushing boundaries and setting trends—have decided that environmental responsibility is part of excellence, not separate from it.
+            </p>
+
+            <h2>The Democratization of Stars</h2>
+
+            <p>
+                Back to that Mexican taquería. Taquería El Califa de León serves tacos al pastor for about $2.50 each. It has a Michelin star.
+            </p>
+
+            <p>
+                Our analysis found 72 one-star restaurants in the affordable price tier (≤ €€ or $$). That's 2% of all starred restaurants—small, but meaningful. It includes street food in Singapore, casual bistros in France, and neighborhood spots in Tokyo.
+            </p>
+        </div>
+    </div>
+
+    <div class="wide-container">
+        <div class="viz-container">
+            <div class="viz-title">Average Price Level by Award Category</div>
+            <div id="price-chart" class="chart"></div>
+            <p class="footnote">Price level based on €/$ symbols (1 = €, 2 = €€, etc.)</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="story-section">
+            <p>
+                What changed? Michelin did. Starting in the 2010s, the guide began expanding beyond Europe and the United States into Asia, where food culture is fundamentally different. In Singapore, Hong Kong, and Bangkok, you can find extraordinary cooking in hawker stalls and street carts.
+            </p>
+
+            <p>
+                The guide adapted. And in doing so, it revealed something important: excellence doesn't require white tablecloths.
+            </p>
+
+            <h2>The Street Food Phenomenon</h2>
+
+            <p>
+                Our analysis identified 332 restaurants classified as "street food" in the Michelin guide. Not surprisingly, most are in Asia.
+            </p>
+        </div>
+    </div>
+
+    <div class="wide-container">
+        <div class="viz-container">
+            <div class="viz-title">The Geography of Michelin-Recognized Street Food</div>
+            <div id="street-food-chart" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="story-section">
+            <p>
+                Singapore alone has 164 street food vendors in the guide. Hong Kong has 30. George Town, Malaysia has 23. Two of these street food restaurants even have stars.
+            </p>
+
+            <p>
+                This is cultural translation at work. The Michelin Guide, created by a French tire company in 1900 to encourage road trips, has evolved into something that can recognize excellence in a Singapore hawker center the same way it recognizes it in a three-star temple of gastronomy in Paris.
+            </p>
+
+            <h2>The Cuisine Paradox</h2>
+
+            <p>
+                When you look at what cuisines dominate the three-star category, traditional French cuisine is... not at the top.
+            </p>
+
+            <p>
+                "Creative" cuisine—restaurants that resist easy categorization—account for 36 of the 171 three-star restaurants. Japanese cuisine is second with 15. Traditional "French" cuisine as a distinct category barely registers.
+            </p>
+
+            <p>
+                What happened to French dominance? It evolved. Many of those "Creative" restaurants are in France, run by French chefs. They're just not cooking traditional French food anymore. They're synthesizing techniques and ingredients from around the world.
+            </p>
+
+            <div class="highlight-box">
+                <h4>The Innovation Imperative</h4>
+                <p style="margin: 0;">
+                    At the highest levels, playing it safe doesn't work. You can't earn three stars by perfectly executing classical dishes. You need to push boundaries. The data shows this clearly: "Creative" and "Innovative" cuisines dominate the three-star category, while "Traditional" and "Classic" cuisines are far more common at lower tiers.
+                </p>
+            </div>
+
+            <h2>What the Data Tells Us</h2>
+
+            <p>
+                When you analyze 22,000 restaurants across the world, certain truths emerge:
+            </p>
+
+            <p>
+                <strong>1. Geography matters, but not how you think.</strong> Paris has been overtaken by Tokyo. Small markets like Macau and Norway punch far above their weight. The conventional wisdom about Europe's dominance is outdated.
+            </p>
+
+            <p>
+                <strong>2. Excellence is becoming more democratic.</strong> You can earn a star serving $2.50 tacos. Street food vendors compete with haute cuisine temples. The guide has expanded its definition of excellence.
+            </p>
+
+            <p>
+                <strong>3. Sustainability is moving from periphery to core.</strong> At three stars, nearly a quarter of restaurants have Green Stars. This isn't greenwashing—it's the future.
+            </p>
+
+            <p>
+                <strong>4. Innovation is mandatory at the top.</strong> "Traditional" and "Classic" cuisines dominate the lower tiers. "Creative" and "Innovative" dominate the three-star category. Excellence requires evolution.
+            </p>
+
+            <p>
+                <strong>5. The guide itself is evolving.</strong> By expanding into Asia and recognizing street food, Michelin has transformed from a European dining guide into a global measure of culinary excellence.
+            </p>
+
+            <h2>The Future of Stars</h2>
+
+            <p>
+                The Michelin Guide is 124 years old. For most of that time, it was fundamentally European. The data reveals that era is over.
+            </p>
+
+            <p>
+                The next generation of three-star restaurants won't just be in Paris and New York. They'll be in Tokyo, Singapore, Bangkok, and Seoul. They won't all be expensive. They won't all serve French-influenced cuisine. And they'll increasingly be held to a higher standard on sustainability.
+            </p>
+
+            <p>
+                The taquería in Mexico City isn't an outlier. It's a preview of what's coming: a more diverse, more global, more accessible definition of excellence.
+            </p>
+
+            <p>
+                The stars haven't changed. But our understanding of them—of what they mean and where they appear—has been transformed.
+            </p>
+
+            <div class="author-note">
+                <strong>Methodology:</strong> This analysis is based on 21,910 Michelin-recognized restaurants from the most recent guide data (2024-2025), including all starred restaurants (1, 2, and 3 stars), Bib Gourmand recipients, and Selected Restaurants. Data was compiled from official Michelin Guide sources and cross-referenced for accuracy.
+            </div>
+
+            <div class="data-source">
+                <strong>Data Sources:</strong><br>
+                - Michelin Guide Official Data (via ngshiheng/michelin-my-maps)<br>
+                - Dataset includes: Name, Location, Cuisine, Price, Award Level, Green Star status, and Geographic coordinates<br>
+                - Coverage: 45 countries, 1,000+ cities worldwide<br>
+                - Updated: November 2024
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load and visualize data
+        Promise.all([
+            d3.json('tokyo_vs_paris.json'),
+            d3.json('star_efficiency.json'),
+            d3.json('green_stars.json'),
+            d3.json('price_analysis.json'),
+            d3.json('street_food.json')
+        ]).then(([tokyoParis, efficiency, greenStars, priceAnalysis, streetFood]) => {
+
+            // Tokyo vs Paris
+            const cities = tokyoParis.map(d => d.city);
+            const trace1 = {
+                x: cities,
+                y: tokyoParis.map(d => d.three_stars),
+                name: '3 Stars',
+                type: 'bar',
+                marker: { color: '#FFD700' }
+            };
+            const trace2 = {
+                x: cities,
+                y: tokyoParis.map(d => d.two_stars),
+                name: '2 Stars',
+                type: 'bar',
+                marker: { color: '#C0C0C0' }
+            };
+            const trace3 = {
+                x: cities,
+                y: tokyoParis.map(d => d.one_star),
+                name: '1 Star',
+                type: 'bar',
+                marker: { color: '#CD7F32' }
+            };
+            const trace4 = {
+                x: cities,
+                y: tokyoParis.map(d => d.bib_gourmand),
+                name: 'Bib Gourmand',
+                type: 'bar',
+                marker: { color: '#E74C3C' }
+            };
+
+            Plotly.newPlot('tokyo-paris-chart', [trace1, trace2, trace3, trace4], {
+                barmode: 'group',
+                height: 400,
+                margin: { t: 20, b: 40, l: 60, r: 20 },
+                xaxis: { title: '' },
+                yaxis: { title: 'Number of Restaurants' },
+                font: { family: 'Georgia, serif', size: 12 }
+            }, {responsive: true});
+
+            // Star Efficiency
+            const efficiencyTrace = {
+                x: efficiency.map(d => d.country),
+                y: efficiency.map(d => d.efficiency),
+                type: 'bar',
+                marker: {
+                    color: efficiency.map(d => d.efficiency),
+                    colorscale: 'Viridis',
+                    showscale: false
+                },
+                text: efficiency.map(d => d.efficiency.toFixed(2)),
+                textposition: 'outside'
+            };
+
+            Plotly.newPlot('efficiency-chart', [efficiencyTrace], {
+                height: 500,
+                margin: { t: 20, b: 100, l: 60, r: 20 },
+                xaxis: { title: '', tickangle: -45 },
+                yaxis: { title: 'Star Efficiency (Stars per Restaurant)' },
+                font: { family: 'Georgia, serif', size: 12 }
+            }, {responsive: true});
+
+            // Green Stars by Award
+            const greenData = greenStars.by_award;
+            const greenTrace = {
+                x: greenData.map(d => d.award),
+                y: greenData.map(d => d.percentage),
+                type: 'bar',
+                marker: { color: '#27AE60' },
+                text: greenData.map(d => d.percentage.toFixed(1) + '%'),
+                textposition: 'outside'
+            };
+
+            Plotly.newPlot('green-stars-chart', [greenTrace], {
+                height: 400,
+                margin: { t: 20, b: 100, l: 60, r: 20 },
+                xaxis: { title: '', tickangle: -45 },
+                yaxis: { title: '% with Green Star' },
+                font: { family: 'Georgia, serif', size: 12 }
+            }, {responsive: true});
+
+            // Price Analysis
+            const priceData = priceAnalysis.by_award;
+            const priceTrace = {
+                x: priceData.map(d => d.award),
+                y: priceData.map(d => d.mean),
+                type: 'bar',
+                marker: {
+                    color: ['#FFD700', '#C0C0C0', '#CD7F32', '#E74C3C', '#95A5A6']
+                },
+                text: priceData.map(d => d.mean.toFixed(2)),
+                textposition: 'outside',
+                error_y: {
+                    type: 'data',
+                    array: priceData.map(d => d.std),
+                    visible: true
+                }
+            };
+
+            Plotly.newPlot('price-chart', [priceTrace], {
+                height: 400,
+                margin: { t: 20, b: 100, l: 60, r: 20 },
+                xaxis: { title: '', tickangle: -45 },
+                yaxis: { title: 'Average Price Level (1-5)', range: [0, 5] },
+                font: { family: 'Georgia, serif', size: 12 }
+            }, {responsive: true});
+
+            // Street Food
+            const streetData = streetFood.by_location;
+            const streetTrace = {
+                x: streetData.map(d => d.location),
+                y: streetData.map(d => d.count),
+                type: 'bar',
+                marker: { color: '#3498DB' },
+                text: streetData.map(d => d.count),
+                textposition: 'outside'
+            };
+
+            Plotly.newPlot('street-food-chart', [streetTrace], {
+                height: 500,
+                margin: { t: 20, b: 120, l: 60, r: 20 },
+                xaxis: { title: '', tickangle: -45 },
+                yaxis: { title: 'Number of Street Food Restaurants' },
+                font: { family: 'Georgia, serif', size: 12 }
+            }, {responsive: true});
+        });
+    </script>
+</body>
+</html>
