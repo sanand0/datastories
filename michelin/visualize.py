@@ -19,39 +19,7 @@ df['Country'] = df['Country'].replace({
 print("Generating visualization data...")
 
 # ============================================================================
-# VIZ 1: World Map of Michelin Stars
-# ============================================================================
-
-star_data = []
-for _, row in df.iterrows():
-    if pd.notna(row['Latitude']) and pd.notna(row['Longitude']):
-        star_points = 0
-        if row['Award'] == '3 Stars':
-            star_points = 3
-        elif row['Award'] == '2 Stars':
-            star_points = 2
-        elif row['Award'] == '1 Star':
-            star_points = 1
-
-        star_data.append({
-            'name': row['Name'],
-            'lat': row['Latitude'],
-            'lon': row['Longitude'],
-            'location': row['Location'],
-            'award': row['Award'],
-            'stars': star_points,
-            'cuisine': row['Cuisine'],
-            'price': row['Price'],
-            'greenStar': bool(row['GreenStar'])
-        })
-
-with open('map_data.json', 'w') as f:
-    json.dump(star_data, f)
-
-print(f"✓ Generated map_data.json with {len(star_data)} restaurants")
-
-# ============================================================================
-# VIZ 2: Tokyo vs Paris Star Comparison
+# VIZ 1: Tokyo vs Paris Star Comparison
 # ============================================================================
 
 cities = ['Tokyo, Japan', 'Paris, France']
@@ -149,27 +117,7 @@ with open('green_stars.json', 'w') as f:
 print("✓ Generated green_stars.json")
 
 # ============================================================================
-# VIZ 5: Cuisine Analysis for 3-Star Restaurants
-# ============================================================================
-
-three_star = df[df['Award'] == '3 Stars']
-cuisine_3star = three_star['Cuisine'].value_counts()
-
-cuisine_data = []
-for cuisine, count in cuisine_3star.head(15).items():
-    cuisine_data.append({
-        'cuisine': cuisine,
-        'count': int(count),
-        'percentage': float(count/len(three_star)*100)
-    })
-
-with open('three_star_cuisines.json', 'w') as f:
-    json.dump(cuisine_data, f, indent=2)
-
-print("✓ Generated three_star_cuisines.json")
-
-# ============================================================================
-# VIZ 6: Price Analysis
+# VIZ 5: Price Analysis
 # ============================================================================
 
 def extract_price_level(price):
@@ -232,28 +180,12 @@ with open('street_food.json', 'w') as f:
 
 print("✓ Generated street_food.json")
 
-# ============================================================================
-# VIZ 8: Country Rankings
-# ============================================================================
-
-country_rankings = []
-for country in df['Country'].value_counts().head(20).index:
-    country_df = df[df['Country'] == country]
-    country_rankings.append({
-        'country': country,
-        'total': len(country_df),
-        'three_stars': len(country_df[country_df['Award'] == '3 Stars']),
-        'two_stars': len(country_df[country_df['Award'] == '2 Stars']),
-        'one_star': len(country_df[country_df['Award'] == '1 Star']),
-        'bib_gourmand': len(country_df[country_df['Award'] == 'Bib Gourmand']),
-        'green_stars': int((country_df['GreenStar'] == 1).sum())
-    })
-
-with open('country_rankings.json', 'w') as f:
-    json.dump(country_rankings, f, indent=2)
-
-print("✓ Generated country_rankings.json")
-
 print("\n" + "=" * 80)
 print("✓ ALL VISUALIZATION DATA GENERATED")
 print("=" * 80)
+print("\nGenerated files for index.html:")
+print("  - tokyo_vs_paris.json")
+print("  - star_efficiency.json")
+print("  - green_stars.json")
+print("  - price_analysis.json")
+print("  - street_food.json")
