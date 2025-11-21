@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "michelin",
+      "title": "Michelin Star Restaurants",
+      "description": "An analysis of 22,000 Michelin star restaurants to uncover trends in cuisine, location and ratings.",
+      "link": "michelin/index.html",
+      "screenshot": "michelin/screenshot.webp"
+    },
+    {
       "id": "tds-improvements",
       "title": "TDS Improvements",
       "description": "An analysis of improvements in the IITM Tools in Data science course based on student performance data since 2024.",

@@ -1,0 +1,59 @@
+{
+  "total": 332,
+  "by_location": [
+    {
+      "location": "Singapore",
+      "count": 164
+    },
+    {
+      "location": "Hong Kong, Hong Kong SAR China",
+      "count": 30
+    },
+    {
+      "location": "George Town, Malaysia",
+      "count": 23
+    },
+    {
+      "location": "Bangkok, Thailand",
+      "count": 15
+    },
+    {
+      "location": "Taipei, Taiwan",
+      "count": 15
+    },
+    {
+      "location": "Hanoi, Vietnam",
+      "count": 10
+    },
+    {
+      "location": "Ho Chi Minh City, Vietnam",
+      "count": 9
+    },
+    {
+      "location": "Chiang Mai, Thailand",
+      "count": 8
+    },
+    {
+      "location": "Macau",
+      "count": 8
+    },
+    {
+      "location": "Phuket, Thailand",
+      "count": 6
+    }
+  ],
+  "by_award": [
+    {
+      "award": "Bib Gourmand",
+      "count": 175
+    },
+    {
+      "award": "Selected Restaurants",
+      "count": 155
+    },
+    {
+      "award": "1 Star",
+      "count": 2
+    }
+  ]
+}

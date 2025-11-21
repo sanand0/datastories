@@ -1,0 +1,22 @@
+[
+  {
+    "city": "Tokyo",
+    "total": 718,
+    "three_stars": 13,
+    "two_stars": 34,
+    "one_star": 168,
+    "bib_gourmand": 223,
+    "selected": 280,
+    "star_points": 275
+  },
+  {
+    "city": "Paris",
+    "total": 529,
+    "three_stars": 10,
+    "two_stars": 18,
+    "one_star": 103,
+    "bib_gourmand": 44,
+    "selected": 354,
+    "star_points": 169
+  }
+]

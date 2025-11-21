@@ -1,0 +1,92 @@
+[
+  {
+    "country": "Macau",
+    "totalStars": 34,
+    "totalRestaurants": 61,
+    "efficiency": 0.5573770491803278
+  },
+  {
+    "country": "Norway",
+    "totalStars": 30,
+    "totalRestaurants": 62,
+    "efficiency": 0.4838709677419355
+  },
+  {
+    "country": "Denmark",
+    "totalStars": 58,
+    "totalRestaurants": 125,
+    "efficiency": 0.464
+  },
+  {
+    "country": "Hong Kong",
+    "totalStars": 112,
+    "totalRestaurants": 246,
+    "efficiency": 0.45528455284552843
+  },
+  {
+    "country": "Japan",
+    "totalStars": 549,
+    "totalRestaurants": 1398,
+    "efficiency": 0.3927038626609442
+  },
+  {
+    "country": "Sweden",
+    "totalStars": 37,
+    "totalRestaurants": 98,
+    "efficiency": 0.37755102040816324
+  },
+  {
+    "country": "Germany",
+    "totalStars": 485,
+    "totalRestaurants": 1437,
+    "efficiency": 0.337508698677801
+  },
+  {
+    "country": "Switzerland",
+    "totalStars": 222,
+    "totalRestaurants": 681,
+    "efficiency": 0.32599118942731276
+  },
+  {
+    "country": "Austria",
+    "totalStars": 105,
+    "totalRestaurants": 365,
+    "efficiency": 0.2876712328767123
+  },
+  {
+    "country": "Netherlands",
+    "totalStars": 169,
+    "totalRestaurants": 606,
+    "efficiency": 0.27887788778877887
+  },
+  {
+    "country": "Portugal",
+    "totalStars": 59,
+    "totalRestaurants": 227,
+    "efficiency": 0.2599118942731278
+  },
+  {
+    "country": "France",
+    "totalStars": 900,
+    "totalRestaurants": 3498,
+    "efficiency": 0.25728987993138935
+  },
+  {
+    "country": "China",
+    "totalStars": 189,
+    "totalRestaurants": 745,
+    "efficiency": 0.2536912751677852
+  },
+  {
+    "country": "Spain",
+    "totalStars": 384,
+    "totalRestaurants": 1515,
+    "efficiency": 0.25346534653465347
+  },
+  {
+    "country": "Luxembourg",
+    "totalStars": 15,
+    "totalRestaurants": 61,
+    "efficiency": 0.2459016393442623
+  }
+]

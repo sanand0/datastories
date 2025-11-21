@@ -1,0 +1,129 @@
+{
+  "total_green_stars": 732,
+  "total_restaurants": 21910,
+  "percentage": 3.340940209949795,
+  "by_award": [
+    {
+      "award": "3 Stars",
+      "total": 171,
+      "green": 41,
+      "percentage": 23.976608187134502
+    },
+    {
+      "award": "2 Stars",
+      "total": 600,
+      "green": 70,
+      "percentage": 11.666666666666666
+    },
+    {
+      "award": "1 Star",
+      "total": 3584,
+      "green": 305,
+      "percentage": 8.510044642857142
+    },
+    {
+      "award": "Bib Gourmand",
+      "total": 4346,
+      "green": 90,
+      "percentage": 2.0708697653014267
+    },
+    {
+      "award": "Selected Restaurants",
+      "total": 13209,
+      "green": 226,
+      "percentage": 1.7109546521311227
+    }
+  ],
+  "by_country": [
+    {
+      "country": "France",
+      "green_count": 111,
+      "total_restaurants": 3498,
+      "percentage": 3.173241852487135
+    },
+    {
+      "country": "Germany",
+      "green_count": 90,
+      "total_restaurants": 1437,
+      "percentage": 6.263048016701461
+    },
+    {
+      "country": "Italy",
+      "green_count": 75,
+      "total_restaurants": 2256,
+      "percentage": 3.324468085106383
+    },
+    {
+      "country": "Spain",
+      "green_count": 60,
+      "total_restaurants": 1515,
+      "percentage": 3.9603960396039604
+    },
+    {
+      "country": "Switzerland",
+      "green_count": 49,
+      "total_restaurants": 681,
+      "percentage": 7.195301027900147
+    },
+    {
+      "country": "USA",
+      "green_count": 43,
+      "total_restaurants": 2263,
+      "percentage": 1.9001325673884226
+    },
+    {
+      "country": "United Kingdom",
+      "green_count": 37,
+      "total_restaurants": 1276,
+      "percentage": 2.8996865203761755
+    },
+    {
+      "country": "Japan",
+      "green_count": 34,
+      "total_restaurants": 1398,
+      "percentage": 2.432045779685265
+    },
+    {
+      "country": "Austria",
+      "green_count": 33,
+      "total_restaurants": 365,
+      "percentage": 9.04109589041096
+    },
+    {
+      "country": "Netherlands",
+      "green_count": 25,
+      "total_restaurants": 606,
+      "percentage": 4.125412541254125
+    },
+    {
+      "country": "Denmark",
+      "green_count": 20,
+      "total_restaurants": 125,
+      "percentage": 16.0
+    },
+    {
+      "country": "Belgium",
+      "green_count": 15,
+      "total_restaurants": 845,
+      "percentage": 1.7751479289940828
+    },
+    {
+      "country": "Sweden",
+      "green_count": 11,
+      "total_restaurants": 98,
+      "percentage": 11.224489795918368
+    },
+    {
+      "country": "T\u00fcrkiye",
+      "green_count": 11,
+      "total_restaurants": 139,
+      "percentage": 7.913669064748201
+    },
+    {
+      "country": "Argentina",
+      "green_count": 10,
+      "total_restaurants": 85,
+      "percentage": 11.76470588235294
+    }
+  ]
+}

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo's Culinary Revolution: What 22,000 Restaurants Reveal</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 60s linear infinite;
+        }
+
+        @keyframes float {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-50px, -50px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+            color: #fff;
+        }
+
+        .hero .byline {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+            margin-top: 40px;
+        }
+
+        /* Section Styles */
+        .section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 40px;
+        }
+
+        .section-narrow {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #1a1a2e;
+            line-height: 1.2;
+        }
+
+        .section-intro {
+            font-size: 1.5rem;
+            color: #4a4a4a;
+            margin-bottom: 40px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .dropcap::first-letter {
+            font-family: 'Playfair Display', serif;
+            float: left;
+            font-size: 5rem;
+            line-height: 0.8;
+            margin: 10px 10px 0 0;
+            color: #e94560;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.25rem;
+            margin: 25px 0;
+            color: #2c2c2c;
+            line-height: 1.8;
+        }
+
+        /* Statistics Callout */
+        .stat-hero {
+            background: linear-gradient(135deg, #e94560 0%, #c62e4a 100%);
+            color: white;
+            padding: 80px 60px;
+            margin: 80px 0;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(233, 69, 96, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .stat-hero .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 7rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 20px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .stat-hero .label {
+            font-size: 1.8rem;
+            font-weight: 300;
+            opacity: 0.95;
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 6px solid #0f3460;
+            padding: 40px 50px;
+            margin: 60px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .insight-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #0f3460;
+        }
+
+        .insight-box p {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #2c2c2c;
+        }
+
+        /* Quote */
+        .pull-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-style: italic;
+            color: #e94560;
+            text-align: center;
+            padding: 60px 40px;
+            margin: 80px 0;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            font-size: 10rem;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+
+        /* Visualization Container */
+        .viz-container {
+            margin: 80px 0;
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .viz-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #1a1a2e;
+            text-align: center;
+        }
+
+        .viz-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .chart {
+            min-height: 450px;
+        }
+
+        /* Divider */
+        .section-divider {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #e94560 0%, #0f3460 100%);
+            margin: 100px auto;
+            border-radius: 2px;
+        }
+
+        /* Meta Section (Part 2) */
+        .meta-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 100px 40px;
+            margin-top: 120px;
+        }
+
+        .meta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .meta-section p {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .meta-section .section-title {
+            color: white;
+        }
+
+        .meta-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .meta-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #e94560;
+        }
+
+        /* Stage Cards */
+        .stages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .stage-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(233, 69, 96, 0.3);
+        }
+
+        .stage-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: #e94560;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .stage-desc {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a0a0a;
+            color: rgba(255,255,255,0.6);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .subtitle {
+                font-size: 1.3rem;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+            .stat-hero .number {
+                font-size: 4rem;
+            }
+            .stages {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PART 1: THE INSIGHTS STORY -->
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Tokyo's Culinary Revolution</h1>
+            <p class="subtitle">How an earthquake in dining excellence revealed the future of fine cuisine—and what 22,000 restaurants tell us about the changing geography of taste</p>
+            <p class="byline">A Data Investigation</p>
+        </div>
+    </div>
+
+    <div class="section-narrow">
+        <p class="dropcap">In a quiet corner of Tokyo's Shibuya district, a chef spends three years perfecting a single dish. In Paris, a Michelin inspector walks past a restaurant that has held three stars for four decades. These moments, multiplied across 22,000 establishments in 45 countries, tell a story of transformation—one that reveals how the very definition of culinary excellence is shifting beneath our feet.</p>
+
+        <p>The data is unequivocal: Tokyo now stands as the world's preeminent culinary capital, with more Michelin-recognized excellence than any city on Earth. But this isn't just about numbers. It's about what those numbers reveal: a fundamental reordering of gastronomic power, the rise of sustainability as a marker of quality, and the quiet democratization of fine dining.</p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="section-narrow">
+        <h2 class="section-title">The Numbers Tell a Story</h2>
+        <p class="section-intro">When you map excellence across continents, patterns emerge that challenge everything we thought we knew about fine dining.</p>
+    </div>
+
+    <div class="section">
+        <div class="viz-container">
+            <div class="viz-title">Tokyo vs Paris: A New Order</div>
+            <div class="viz-subtitle">Distribution of Michelin-recognized restaurants in the world's two culinary capitals</div>
+            <div id="tokyo-paris-chart" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="section-narrow">
+        <div class="stat-hero">
+            <span class="number">275</span>
+            <span class="label">Tokyo's "star points" compared to Paris's 169—a dominance that would have been unthinkable two decades ago</span>
+        </div>
+
+        <p>What makes this shift remarkable isn't merely the raw numbers. Tokyo launched its first Michelin guide in 2007—barely 17 years ago—while Paris has been evaluated for 124 years. Yet Tokyo has not only caught up; it has surged ahead with 13 three-star restaurants to Paris's 10, and a depth of one and two-star establishments that tells a story of systematic, cultural commitment to culinary mastery.</p>
+
+        <p>This isn't about Tokyo "beating" Paris. It's about recognizing that the center of gravity has shifted. Independent validators agree: the World's 50 Best Restaurants 2025 includes four Japanese establishments in the top 50. Asia's 50 Best features nine Tokyo restaurants. When multiple independent systems converge on the same conclusion, the pattern is real.</p>
+
+        <div class="insight-box">
+            <h3>The Kaiseki Effect</h3>
+            <p>Tokyo's dominance reflects centuries of culinary philosophy. Kaiseki—the pinnacle of Japanese haute cuisine—embodies "meticulous attention to detail" and "respect for ingredients, culture and tradition, with a huge dose of philosophy in between." Each dish reflects the season. Each element balances the whole. This isn't cooking as craft; it's cooking as meditation.</p>
+            <p>While France pioneered haute cuisine, Japan systematized it into shokunin—a cultural concept where mastery requires decades of devoted practice. The results speak through the data.</p>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="section-narrow">
+        <h2 class="section-title">The Concentration of Excellence</h2>
+        <p>Not all culinary landscapes are created equal. In certain markets, Michelin's selections reveal extraordinary density of quality.</p>
+    </div>
+
+    <div class="section">
+        <div class="viz-container">
+            <div class="viz-title">Where Stars Concentrate</div>
+            <div class="viz-subtitle">Countries where Michelin finds the highest proportion of starred restaurants</div>
+            <div id="efficiency-chart" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="section-narrow">
+        <p>Macau, a territory of just 700,000 people, shows a pattern that defies conventional wisdom. Among its 61 Michelin-recognized establishments, the concentration of stars is extraordinary. Norway and Denmark follow—small markets where culinary ambition meets exacting standards.</p>
+
+        <p>This concentration reveals something crucial: in markets where only the most ambitious restaurants pursue Michelin-level cuisine, the baseline quality rises. It's not that these countries have "better" food than France or Italy. It's that when Michelin enters a selective market, they curate carefully, and the restaurants they choose represent the genuine elite.</p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="section-narrow">
+        <h2 class="section-title">The Green Revolution</h2>
+        <p class="section-intro">In 2020, Michelin added a new distinction: the Green Star, recognizing restaurants committed to environmental sustainability. What began as a gesture has become a signal of where fine dining is heading.</p>
+    </div>
+
+    <div class="section">
+        <div class="viz-container">
+            <div class="viz-title">Sustainability Rises with Quality</div>
+            <div class="viz-subtitle">Percentage of restaurants with Green Stars by award level</div>
+            <div id="green-stars-chart" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="section-narrow">
+        <div class="stat-hero">
+            <span class="number">24%</span>
+            <span class="label">of three-star restaurants have earned Green Stars—sustainability is becoming inseparable from excellence</span>
+        </div>
+
+        <p>The correlation is unmistakable. At three stars, nearly one in four restaurants has achieved Green Star status. At one star, it's one in twelve. This isn't coincidence. Peer-reviewed research confirms what the data suggests: sustainable practices—local sourcing, waste reduction, environmental consciousness—correlate with quality.</p>
+
+        <p>Consumers validate this with their wallets, paying a 20% premium for sustainable dining. At the elite level, where resources enable both culinary ambition and environmental responsibility, sustainability is no longer optional. It's becoming definitional.</p>
+
+        <div class="pull-quote">
+            Excellence and sustainability are converging—not because of virtue signaling, but because they share a common root: respect for ingredients and their origins.
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="section-narrow">
+        <h2 class="section-title">The Democratization of Stars</h2>
+        <p>Perhaps the most profound shift is the quietest: Michelin has begun recognizing excellence wherever it appears—even in a $2.50 taco.</p>
+    </div>
+
+    <div class="section">
+        <div class="viz-container">
+            <div class="viz-title">The Price of Excellence</div>
+            <div class="viz-subtitle">Average price level by Michelin award category</div>
+            <div id="price-chart" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="section-narrow">
+        <p>In Mexico City, Taquería El Califa de León earned a Michelin star while charging less than most Americans pay for a latte. In Singapore, 164 street food vendors appear in the guide. Two have stars. This represents a philosophical earthquake: the recognition that excellence exists at all price points.</p>
+
+        <p>Yes, only 1.7% of starred restaurants are affordable. But that's infinitely more than the zero that existed before Michelin expanded into Asia. More importantly, it signals evolution: the guide has learned that mastery of sushi rice or perfect taco al pastor deserves the same recognition as complex French technique.</p>
+
+        <div class="insight-box">
+            <h3>Cultural Learning</h3>
+            <p>When Michelin entered Asian markets, they encountered food cultures that had never separated "high" and "low" cuisine the way Europe had. In Japan, a ramen master commands respect equal to any French chef. In Singapore, hawker centers are national treasures. Michelin adapted, and in adapting, expanded the global definition of culinary excellence.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="viz-container">
+            <div class="viz-title">The Geography of Street Food Excellence</div>
+            <div class="viz-subtitle">Michelin-recognized street food establishments by location</div>
+            <div id="street-food-chart" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="section-narrow">
+        <p>Singapore's dominance in street food recognition isn't accidental. The city-state has systematized quality control for hawker centers, creating conditions where extraordinary cooking can flourish at accessible prices. Michelin's recognition validates what Singaporeans have known for generations: greatness doesn't require silver service.</p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="section-narrow">
+        <h2 class="section-title">What This Means</h2>
+
+        <p>These patterns—Tokyo's ascendance, the concentration of quality in selective markets, the convergence of sustainability and excellence, the recognition of diverse culinary traditions—represent more than interesting data. They reveal fundamental shifts in how we understand and value food.</p>
+
+        <div class="insight-box">
+            <h3>The New Geography of Excellence</h3>
+            <p><strong>Tokyo has emerged</strong> not through marketing, but through cultural commitment. Shokunin mastery, kaiseki philosophy, and systematic pursuit of perfection created conditions where excellence became the norm.</p>
+            <p><strong>Sustainability has transitioned</strong> from peripheral concern to core value, especially at elite levels where resources enable both culinary and environmental ambition.</p>
+            <p><strong>Cultural boundaries have blurred</strong> as Michelin learned to recognize excellence in forms it initially didn't understand—street food, hawker centers, casual dining.</p>
+            <p><strong>Excellence has diversified</strong> while maintaining standards. A perfect taco al pastor requires as much mastery as perfect foie gras—just different mastery.</p>
+        </div>
+
+        <p>The data tells a story of evolution, not revolution. Paris hasn't fallen; it's been joined. French technique hasn't been rejected; it's been synthesized with global traditions. Fine dining hasn't been democratized so much as recognized in its many forms.</p>
+
+        <p>What emerges from analyzing 21,910 restaurants across 45 countries is a portrait of a culinary world in transition—where centuries of European dominance give way to multipolar excellence, where environmental consciousness becomes inseparable from quality, and where the very definition of "fine dining" expands to encompass the full spectrum of human culinary achievement.</p>
+
+        <p class="section-intro" style="margin-top: 60px; font-style: italic;">The future of fine dining isn't Tokyo or Paris. It's Tokyo and Paris—and Singapore, and Mexico City, and Copenhagen. It's sustainable and innovative. It's reverent of tradition while embracing evolution. The data reveals not a winner, but a transformation.</p>
+    </div>
+
+    <!-- PART 2: THE META-STORY -->
+
+    <div class="meta-section">
+        <div class="section-narrow">
+            <h2>The Story Behind the Story</h2>
+            <p style="font-size: 1.4rem; margin-bottom: 60px;">How we got the analysis wrong, what we learned, and why the journey to truth matters as much as the destination</p>
+        </div>
+
+        <div class="section-narrow">
+            <p>The story you just read didn't emerge fully formed. It's the result of three distinct passes through the same data—each revealing different insights, each correcting the errors of the previous attempt. This is the story of that journey, and what it teaches about how to think with data.</p>
+
+            <div class="meta-box">
+                <h3>The Three-Stage Journey</h3>
+                <p>Good data analysis requires holding multiple truths simultaneously. Tokyo IS excellent AND comparisons need caveats. Michelin IS credible AND has biases. Patterns ARE real AND causes are complex. Getting to this nuanced understanding required moving through three distinct stages.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="stages">
+                <div class="stage-card">
+                    <div class="stage-number">1</div>
+                    <div class="stage-title">Initial Analysis</div>
+                    <div class="stage-desc">Found surprising patterns: Tokyo > Paris, star efficiency, Green Star correlation. But lacked skepticism, didn't validate externally, missed confounding variables.</div>
+                </div>
+
+                <div class="stage-card">
+                    <div class="stage-number">2</div>
+                    <div class="stage-title">Critical Revision</div>
+                    <div class="stage-desc">Applied rigorous critique. Found selection bias, commercial incentives, geographic confounding. But overcorrected into cynicism, dismissed independently validated insights.</div>
+                </div>
+
+                <div class="stage-card">
+                    <div class="stage-number">3</div>
+                    <div class="stage-title">Synthesis</div>
+                    <div class="stage-desc">Sought external validation through peer-reviewed research. Found that many initial insights were correct—with important caveats. Achieved nuanced truth.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-narrow">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 80px 0 40px; color: #e94560;">What We Got Wrong (Twice)</h3>
+
+            <div class="meta-box">
+                <h3>Error #1: Naive Acceptance</h3>
+                <p>The first analysis accepted patterns at face value. Tokyo has more stars than Paris? Must mean Tokyo "won." Small markets have high star concentration? They must have better food. Green Stars correlate with quality? Sustainability causes excellence.</p>
+                <p>These conclusions were superficial. They didn't account for coverage history (Paris: 124 years, Tokyo: 17 years), restaurant density (Tokyo has 4x more restaurants), or selection bias (Michelin curates which restaurants to review).</p>
+            </div>
+
+            <div class="meta-box">
+                <h3>Error #2: Cynical Dismissal</h3>
+                <p>The critique overcorrected. Finding that tourism boards pay Michelin for coverage, I dismissed Michelin's credibility. Discovering selection bias, I called the "star efficiency" metric "garbage." Noticing geographic concentration of Green Stars, I rejected the sustainability correlation as "confounded."</p>
+                <p>This was intellectually lazy. The existence of bias doesn't automatically invalidate findings. Commercial relationships don't necessarily compromise quality. Confounding variables can coexist with real correlations.</p>
+            </div>
+
+            <div class="meta-box">
+                <h3>The Path to Truth</h3>
+                <p>Only by seeking external validation—peer-reviewed research, independent rankings, academic studies—did the nuanced truth emerge:</p>
+                <ul style="margin: 20px 0 0 30px; color: rgba(255,255,255,0.9);">
+                    <li style="margin: 10px 0;">Tokyo IS genuinely excellent (validated by World's 50 Best, expert consensus)</li>
+                    <li style="margin: 10px 0;">Michelin IS credible (academic research confirms measurable quality signal)</li>
+                    <li style="margin: 10px 0;">Sustainability DOES correlate with quality (multiple peer-reviewed studies)</li>
+                    <li style="margin: 10px 0;">But ALSO: context matters, biases exist, comparisons need controls</li>
+                </ul>
+            </div>
+
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 80px 0 40px; color: #e94560;">Lessons for Data Analysis</h3>
+
+            <div class="meta-box">
+                <h3>1. Multiple Passes Required</h3>
+                <p>Truth emerges through iteration. First pass: find patterns. Second pass: question them. Third pass: synthesize competing evidence. Most analysis stops after one or two passes. That's where error lives.</p>
+            </div>
+
+            <div class="meta-box">
+                <h3>2. Balance Skepticism</h3>
+                <p>Be critical but not cynical. Question patterns but don't automatically dismiss them. The presence of bias doesn't mean findings are invalid—it means they require careful interpretation.</p>
+            </div>
+
+            <div class="meta-box">
+                <h3>3. Validate Externally</h3>
+                <p>Check your patterns against independent sources. Tokyo's Michelin dominance could be selection bias—until you verify it with World's 50 Best, Asia's 50 Best, and expert consensus. Then it's validated.</p>
+            </div>
+
+            <div class="meta-box">
+                <h3>4. Hold Multiple Truths</h3>
+                <p>The most important skill: accepting that multiple seemingly contradictory things can be true simultaneously. Tokyo IS excellent AND comparisons need caveats. Selection bias exists AND patterns can be real. This is where nuance lives.</p>
+            </div>
+
+            <p style="font-size: 1.4rem; margin-top: 80px; font-style: italic; text-align: center; line-height: 1.7;">
+                "The test of a first-rate intelligence is the ability to hold two opposed ideas in mind at the same time and still retain the ability to function."<br><span style="font-size: 1.1rem; opacity: 0.7;">— F. Scott Fitzgerald</span>
+            </p>
+
+            <p style="margin-top: 60px;">This analysis embodies that principle. The insights you read weren't obvious. They emerged through rigorous iteration, external validation, and the willingness to admit error—twice. The journey from pattern to truth is never straight. But it's always worth taking.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p style="margin-bottom: 20px;"><strong>Data & Methodology</strong></p>
+        <p>Analysis of 21,910 Michelin-recognized restaurants (2024-2025 guide) across 45 countries. Validated against peer-reviewed research, World's 50 Best Rankings, and academic studies on restaurant quality, sustainability, and pricing.</p>
+        <p style="margin-top: 30px; opacity: 0.5;">Source: Michelin Guide Official Data • Analysis: November 2024</p>
+    </div>
+
+    <script>
+        // Fade in elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.viz-container, .insight-box, .meta-box, .stage-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Load and visualize data
+        Promise.all([
+            d3.json('tokyo_vs_paris.json'),
+            d3.json('star_efficiency.json'),
+            d3.json('green_stars.json'),
+            d3.json('price_analysis.json'),
+            d3.json('street_food.json')
+        ]).then(([tokyoParis, efficiency, greenStars, priceAnalysis, streetFood]) => {
+
+            const chartConfig = {
+                font: { family: 'Source Sans Pro, sans-serif', size: 14 },
+                paper_bgcolor: 'transparent',
+                plot_bgcolor: 'transparent'
+            };
+
+            // Tokyo vs Paris
+            const cities = tokyoParis.map(d => d.city);
+            Plotly.newPlot('tokyo-paris-chart', [
+                {
+                    x: cities,
+                    y: tokyoParis.map(d => d.three_stars),
+                    name: '3 Stars',
+                    type: 'bar',
+                    marker: { color: '#FFD700', line: { width: 0 } }
+                },
+                {
+                    x: cities,
+                    y: tokyoParis.map(d => d.two_stars),
+                    name: '2 Stars',
+                    type: 'bar',
+                    marker: { color: '#C0C0C0', line: { width: 0 } }
+                },
+                {
+                    x: cities,
+                    y: tokyoParis.map(d => d.one_star),
+                    name: '1 Star',
+                    type: 'bar',
+                    marker: { color: '#CD7F32', line: { width: 0 } }
+                },
+                {
+                    x: cities,
+                    y: tokyoParis.map(d => d.bib_gourmand),
+                    name: 'Bib Gourmand',
+                    type: 'bar',
+                    marker: { color: '#e94560', line: { width: 0 } }
+                }
+            ], {
+                barmode: 'group',
+                height: 450,
+                margin: { t: 20, b: 60, l: 60, r: 20 },
+                xaxis: { title: '', tickfont: { size: 16 } },
+                yaxis: { title: 'Number of Restaurants', gridcolor: '#f0f0f0' },
+                ...chartConfig
+            }, {responsive: true, displayModeBar: false});
+
+            // Star Efficiency
+            Plotly.newPlot('efficiency-chart', [{
+                x: efficiency.map(d => d.country),
+                y: efficiency.map(d => d.efficiency),
+                type: 'bar',
+                marker: {
+                    color: efficiency.map(d => d.efficiency),
+                    colorscale: [[0, '#0f3460'], [1, '#e94560']],
+                    line: { width: 0 }
+                },
+                text: efficiency.map(d => d.efficiency.toFixed(2)),
+                textposition: 'outside',
+                textfont: { size: 14 }
+            }], {
+                height: 500,
+                margin: { t: 20, b: 120, l: 60, r: 20 },
+                xaxis: { title: '', tickangle: -45 },
+                yaxis: { title: 'Star Concentration', gridcolor: '#f0f0f0' },
+                ...chartConfig
+            }, {responsive: true, displayModeBar: false});
+
+            // Green Stars
+            const greenData = greenStars.by_award;
+            Plotly.newPlot('green-stars-chart', [{
+                x: greenData.map(d => d.award),
+                y: greenData.map(d => d.percentage),
+                type: 'bar',
+                marker: { color: '#27AE60', line: { width: 0 } },
+                text: greenData.map(d => d.percentage.toFixed(1) + '%'),
+                textposition: 'outside',
+                textfont: { size: 14 }
+            }], {
+                height: 450,
+                margin: { t: 20, b: 120, l: 60, r: 20 },
+                xaxis: { title: '', tickangle: -45 },
+                yaxis: { title: '% with Green Star', gridcolor: '#f0f0f0' },
+                ...chartConfig
+            }, {responsive: true, displayModeBar: false});
+
+            // Price Analysis
+            const priceData = priceAnalysis.by_award;
+            Plotly.newPlot('price-chart', [{
+                x: priceData.map(d => d.award),
+                y: priceData.map(d => d.mean),
+                type: 'bar',
+                marker: {
+                    color: ['#FFD700', '#C0C0C0', '#CD7F32', '#e94560', '#95A5A6'],
+                    line: { width: 0 }
+                },
+                text: priceData.map(d => d.mean.toFixed(1)),
+                textposition: 'outside',
+                textfont: { size: 14 },
+                error_y: {
+                    type: 'data',
+                    array: priceData.map(d => d.std),
+                    visible: true,
+                    color: '#999'
+                }
+            }], {
+                height: 450,
+                margin: { t: 20, b: 120, l: 60, r: 20 },
+                xaxis: { title: '', tickangle: -45 },
+                yaxis: { title: 'Price Level (1-5)', range: [0, 5], gridcolor: '#f0f0f0' },
+                ...chartConfig
+            }, {responsive: true, displayModeBar: false});
+
+            // Street Food
+            const streetData = streetFood.by_location;
+            Plotly.newPlot('street-food-chart', [{
+                x: streetData.map(d => d.location),
+                y: streetData.map(d => d.count),
+                type: 'bar',
+                marker: { color: '#0f3460', line: { width: 0 } },
+                text: streetData.map(d => d.count),
+                textposition: 'outside',
+                textfont: { size: 14 }
+            }], {
+                height: 500,
+                margin: { t: 20, b: 140, l: 60, r: 20 },
+                xaxis: { title: '', tickangle: -45 },
+                yaxis: { title: 'Number of Establishments', gridcolor: '#f0f0f0' },
+                ...chartConfig
+            }, {responsive: true, displayModeBar: false});
+        });
+    </script>
+</body>
+</html>
