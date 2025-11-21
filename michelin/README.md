@@ -52,6 +52,7 @@ python3 critical_revision.py # Critical examination
 ## Data Sources
 
 ### Primary Dataset
+
 - **Source:** Michelin Guide Official Data (via [ngshiheng/michelin-my-maps](https://github.com/ngshiheng/michelin-my-maps))
 - **Coverage:** 21,910 restaurants across 45 countries
 - **Awards:** 3 Stars (171), 2 Stars (600), 1 Star (3,584), Bib Gourmand (4,346), Selected (13,209)
@@ -59,11 +60,13 @@ python3 critical_revision.py # Critical examination
 - **Updated:** November 2024
 
 ### Historical Data
+
 - **michelin_1star.csv:** 549 restaurants (2018-2019)
 - **michelin_2star.csv:** 110 restaurants (2018-2019)
 - **michelin_3star.csv:** 36 restaurants (2019)
 
 ### Validation Sources
+
 - World's 50 Best Restaurants rankings
 - Asia's 50 Best Restaurants rankings
 - Peer-reviewed academic research on restaurant quality, sustainability, and pricing
@@ -160,11 +163,13 @@ open index.html  # Will load JSON files via JavaScript
 **Pattern:** Tokyo has 718 Michelin-recognized restaurants vs Paris's 529, with 275 "star points" vs 169.
 
 **Validation:**
+
 - World's 50 Best 2025: 4 Japanese restaurants in top 50 (Sézanne #7)
 - Asia's 50 Best: 9 Tokyo restaurants in top 50
 - Independent experts (CNN, Saveur) rank Tokyo in world's top 3
 
 **Context:**
+
 - Tokyo has 17 years of coverage vs Paris's 124 years
 - Tokyo has 160,000 total restaurants vs Paris's 40,000
 - Tokyo launched in 2007 with 191 stars immediately
@@ -178,6 +183,7 @@ open index.html  # Will load JSON files via JavaScript
 **Pattern:** Small markets show high "star efficiency" (Macau: 0.56, Norway: 0.48, Denmark: 0.46).
 
 **Interpretation:** This could reflect:
+
 - Genuinely higher quality density
 - More selective initial coverage in smaller markets
 - Cultural factors (small populations, high culinary standards)
@@ -191,6 +197,7 @@ open index.html  # Will load JSON files via JavaScript
 **Pattern:** 24% of 3-star restaurants have Green Stars vs 8.5% of 1-star restaurants.
 
 **Validation:**
+
 - Peer-reviewed research: Sustainable practices significantly influence customer satisfaction
 - Consumers pay 20% premium for sustainable dining (multiple studies)
 - Local sourcing promotes freshness and quality perceptions
@@ -206,6 +213,7 @@ open index.html  # Will load JSON files via JavaScript
 **Pattern:** 332 street food restaurants recognized, 73 starred restaurants at affordable prices (1.7%).
 
 **Interpretation:**
+
 - Glass-half-empty: Only 1.7% affordable
 - Glass-half-full: Infinitely more than zero before Asian expansion
 
@@ -218,16 +226,19 @@ open index.html  # Will load JSON files via JavaScript
 This project demonstrates that truth emerges through iteration, not single-pass analysis:
 
 ### Stage 1: Initial Analysis
+
 - **Approach:** Pattern identification, descriptive statistics
 - **Output:** Initial findings (Tokyo > Paris, star efficiency, Green Stars)
 - **Limitation:** Insufficient external validation, didn't control for confounds
 
 ### Stage 2: Critical Examination (CRITICAL_ANALYSIS.md)
+
 - **Approach:** External research, checking for biases, seeking contradictory evidence
 - **Output:** Critique revealing selection bias, commercial incentives, confounding
 - **Limitation:** Overcorrected into excessive cynicism, dismissed validated insights
 
 ### Stage 3: Meta-Critique (corrections.md, SYNTHESIS.md)
+
 - **Approach:** Synthesizing competing evidence, balancing skepticism with validation
 - **Output:** Nuanced conclusions with explicit confidence levels
 - **Result:** Tokyo IS excellent (validated) AND comparisons need caveats
@@ -293,6 +304,7 @@ This project demonstrates that truth emerges through iteration, not single-pass 
 **Impact:** "Star efficiency" metric is biased because denominator (total restaurants reviewed) is itself selective.
 
 **Mitigation:**
+
 - Acknowledge bias explicitly
 - Interpret as "where Michelin finds concentrated excellence"
 - Don't claim direct comparability across markets
@@ -301,12 +313,14 @@ This project demonstrates that truth emerges through iteration, not single-pass 
 ### Confounding Variables
 
 **Tokyo vs Paris comparison confounded by:**
+
 - Coverage duration (124 years vs 17 years)
 - Restaurant density (160K vs 40K total restaurants)
 - Selection strategy (comprehensive vs selective)
 - Cultural differences
 
 **Mitigation:**
+
 - Present context explicitly
 - Don't claim simple causation
 - Validate Tokyo's excellence independently
@@ -314,11 +328,13 @@ This project demonstrates that truth emerges through iteration, not single-pass 
 ### Correlation vs Causation
 
 **Green Stars correlation with award level:**
+
 - Could be: Sustainability → Quality
 - Could be: Quality → Resources → Sustainability
 - Could be: Both driven by third factor (resources, culture)
 
 **Approach:**
+
 - Present correlation, not causation
 - Note that peer-reviewed research supports genuine link
 - Acknowledge directionality is uncertain
@@ -499,6 +515,7 @@ Date: November 2024
 ## Contact
 
 For questions about methodology or findings, see the complete analysis in:
+
 - **CRITICAL_ANALYSIS.md** - Detailed critique
 - **corrections.md** - Meta-critique
 - **SYNTHESIS.md** - Complete journey
@@ -517,6 +534,6 @@ For questions about methodology or findings, see the complete analysis in:
 **Last Updated:** November 2024
 **Version:** 3.0 (Final - Post Meta-Critique)
 
-*"The test of a first-rate intelligence is the ability to hold two opposed ideas in mind at the same time and still retain the ability to function." — F. Scott Fitzgerald*
+_"The test of a first-rate intelligence is the ability to hold two opposed ideas in mind at the same time and still retain the ability to function." — F. Scott Fitzgerald_
 
 This analysis demonstrates that principle: Tokyo IS excellent AND comparisons need caveats. Michelin IS credible AND has biases. Patterns ARE real AND causes are complex. Good data analysis requires holding all these truths simultaneously.
