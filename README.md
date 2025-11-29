@@ -6,7 +6,7 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
-- [TDS Project 2: The Gate](tds-project-2025-11/index.html). Why only 29% of students mastered LLM problem-solving—and what the other 71% couldn't figure out, based on 535 IITM students in November 2025.
+- [TDS Project 2: The Cliff](tds-project-2025-11/). Why only 29% of students mastered LLM problem-solving—and what the other 71% couldn't figure out, based on 535 IITM students in November 2025. Also see [The Gate](tds-project-2025-11/gate.html) for how many students got stuck at the "gate" step.
 - [Market Mix Modeling Insights](mmm/). Rather than wasting millions pushing past saturation points, invest in brand equity and pulsing spend during high-leverage moments.
 - [Michelin Star Restaurants](michelin/). An analysis of 22,000 Michelin star restaurants to uncover trends in cuisine, location and ratings.
 - [TDS Improvements](tds-improvements/). An analysis of improvements in the IITM Tools in Data science course based on student performance data since 2024.
