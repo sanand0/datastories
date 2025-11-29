@@ -49,7 +49,9 @@ def build_token_pool(encoding: tiktoken.Encoding, total_tokens: int) -> List[int
     return ids
 
 
-def decode_slice(encoding: tiktoken.Encoding, token_ids: Sequence[int], start: int, end: int) -> str:
+def decode_slice(
+    encoding: tiktoken.Encoding, token_ids: Sequence[int], start: int, end: int
+) -> str:
     return encoding.decode(token_ids[start:end])
 
 
@@ -139,7 +141,9 @@ def parse_request_headers(stderr: bytes) -> List[Dict[str, str]]:
         if not line.startswith("> "):
             continue
         stripped = line[2:]
-        if not stripped or stripped.upper().startswith(("GET ", "POST ", "PUT ", "DELETE ", "PATCH ")):
+        if not stripped or stripped.upper().startswith(
+            ("GET ", "POST ", "PUT ", "DELETE ", "PATCH ")
+        ):
             continue
         key, _, value = stripped.partition(":")
         if not value:

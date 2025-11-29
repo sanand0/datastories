@@ -61,9 +61,18 @@ def summarize(
             )
         header = f"{strategy} / {length_label}"
         tables.append(
-            header + "\n" + tabulate(
+            header
+            + "\n"
+            + tabulate(
                 display_rows,
-                headers=["stage", "prompt_tokens", "cached_tokens", "elapsed", "messages", "local_estimate"],
+                headers=[
+                    "stage",
+                    "prompt_tokens",
+                    "cached_tokens",
+                    "elapsed",
+                    "messages",
+                    "local_estimate",
+                ],
                 tablefmt="github",
             ),
         )
