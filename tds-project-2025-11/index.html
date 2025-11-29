@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cliff</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --accent-red: #e74c3c;
+            --accent-orange: #f39c12;
+            --accent-blue: #3498db;
+            --accent-green: #27ae60;
+            --bg-cream: #faf9f7;
+            --border-light: #e5e5e5;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: var(--bg-cream);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .wide-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .byline {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-top: 1px solid var(--border-light);
+            padding-top: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lead {
+            font-size: 1.35rem;
+            line-height: 1.7;
+        }
+
+        .pullquote {
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--text-primary);
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 1.5rem;
+            margin: 2.5rem 0;
+            line-height: 1.5;
+        }
+
+        .stat-highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(52, 152, 219, 0.2) 60%);
+            padding: 0 2px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        .chart-title {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .chart-subtitle {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .annotation {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.8rem;
+            background: #fff3cd;
+            border-left: 3px solid var(--accent-orange);
+            padding: 12px 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .callout-box {
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin: 2rem 0;
+        }
+
+        .callout-box h3 {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin: 0 0 1rem 0;
+        }
+
+        .callout-box p {
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .population-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 2rem 0;
+        }
+
+        .pop-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        .pop-card .number {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .pop-card .label {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .pop-card .pct {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        .section-break {
+            text-align: center;
+            margin: 4rem 0;
+            color: var(--text-secondary);
+        }
+
+        .section-break::before {
+            content: "• • •";
+            letter-spacing: 0.5em;
+        }
+
+        .ladder-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .ladder-bar {
+            height: 24px;
+            border-radius: 2px;
+            margin-right: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .ladder-label {
+            font-size: 0.85rem;
+            min-width: 120px;
+        }
+
+        .ladder-pct {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-left: auto;
+        }
+
+        .tier-label {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-left: 8px;
+        }
+
+        .tier-easy { background: #d4edda; color: #155724; }
+        .tier-medium { background: #fff3cd; color: #856404; }
+        .tier-hard { background: #f8d7da; color: #721c24; }
+
+        footer {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-light);
+            margin-top: 4rem;
+            padding-top: 2rem;
+        }
+
+        .methodology {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-top: 2rem;
+        }
+
+        .methodology h4 {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .methodology p {
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .population-grid { grid-template-columns: repeat(2, 1fr); }
+            .pullquote { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>The Cliff</h1>
+    <p class="subtitle">Why only 29% of students mastered LLM problem-solving—and what the other 71% couldn't figure out</p>
+    <p class="byline">Analysis of 535 students • IIT Madras Tools in Data Science • November 2025</p>
+
+    <p class="lead">In November 2025, 535 students at IIT Madras faced a deceptively simple challenge: solve 21 problems using large language models. The problems ranged from extracting data from PDFs to reconstructing file shards to computing F1 scores. No coding expertise required—just the ability to prompt an AI effectively.</p>
+
+    <p>The expectation was a classic bell curve. Some students would struggle, most would land in the middle, and a few would excel. Instead, something far more interesting emerged.</p>
+</div>
+
+<div class="wide-container">
+    <div class="chart-container">
+        <p class="chart-title">The distribution of student marks was anything but normal</p>
+        <p class="chart-subtitle">Number of students by final score (out of 21 possible marks)</p>
+        <canvas id="mainDistribution" height="200"></canvas>
+        <div class="annotation">
+            <strong>Notice the valley.</strong> Almost no one scored between 9 and 11. Students either stopped early or pushed through to high scores. The middle ground is nearly empty.
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <p>Look at that chart carefully. There's a <span class="stat-highlight">spike at 1 mark</span>—85 students who answered exactly one question. There's a <span class="stat-highlight">cluster between 4 and 7</span>. And then there's a gap, a valley, before the distribution rises again into a second peak around 14-16 marks.</p>
+
+    <p>This isn't noise. This is signal.</p>
+
+    <p class="pullquote">"The multimodality suggests that we're not looking at one population with varying abilities. We're looking at several distinct populations who approached the challenge in fundamentally different ways."</p>
+
+    <div class="section-break"></div>
+
+    <h2>The Four Tribes</h2>
+
+    <p>When you fit a Gaussian Mixture Model to this data—a statistical technique that identifies distinct clusters within a population—the algorithm confidently reports four groups. Not three, not five. Four.</p>
+</div>
+
+<div class="wide-container">
+    <div class="population-grid">
+        <div class="pop-card">
+            <div class="number" style="color: var(--accent-red)">85</div>
+            <div class="label">Non-starters</div>
+            <div class="pct">16% • 1 mark</div>
+        </div>
+        <div class="pop-card">
+            <div class="number" style="color: var(--accent-orange)">114</div>
+            <div class="label">Easy-tier</div>
+            <div class="pct">22% • 2-4 marks</div>
+        </div>
+        <div class="pop-card">
+            <div class="number" style="color: var(--accent-blue)">174</div>
+            <div class="label">Medium-tier</div>
+            <div class="pct">33% • 5-8 marks</div>
+        </div>
+        <div class="pop-card">
+            <div class="number" style="color: var(--accent-green)">153</div>
+            <div class="label">High-completers</div>
+            <div class="pct">29% • 9-21 marks</div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <p>The first tribe—the <strong>Non-starters</strong>—is easy to explain. These 85 students answered exactly one question: the entry-level warmup. Their median attempt count was just 3. They registered, tried the system once, and disappeared. Perhaps they were busy, perhaps they were intimidated, perhaps they simply didn't care. Their engagement was minimal.</p>
+
+    <p>But here's where it gets interesting.</p>
+
+    <p>The second tribe—the <strong>Easy-tier</strong> students—tried much harder. They made an average of 31 attempts each. They clearly wanted to succeed. Yet they averaged only 3.5 marks. They solved the obvious questions: the entry problem, the markdown extraction, the Git command, the UV dependency check. All questions with success rates above 70%.</p>
+
+    <p>And then they stopped.</p>
+
+    <div class="section-break"></div>
+
+    <h2>The Ladder of Difficulty</h2>
+
+    <p>To understand why, you need to see the questions themselves—not their content, but their success rates. This is the ladder that students had to climb:</p>
+</div>
+
+<div class="wide-container">
+    <div class="chart-container">
+        <p class="chart-title">Question difficulty ladder</p>
+        <p class="chart-subtitle">Percentage of students who solved each question</p>
+        <div id="ladderChart" style="padding: 20px 0;"></div>
+        <div class="annotation">
+            <strong>The cliff is visible.</strong> Above the 70% line, questions are "easy"—straightforward LLM prompting works. Below 20%, questions require creative problem-solving. The vast middle ground separates those who can adapt from those who can't.
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <p>The four questions above the 70% line are what I call the <strong>"gimmes"</strong>—problems where a simple, obvious prompt to an LLM produces the answer. Ask Claude to extract text from a markdown file? Easy. Ask it to run a Git command? Straightforward. These questions test whether you can use an LLM at all.</p>
+
+    <p>Below the 70% line, something changes. The <strong>heatmap</strong> question requires image analysis. The <strong>audio passphrase</strong> question demands audio transcription. The <strong>gh-tree</strong> question needs understanding of GitHub's API. These aren't harder because they require more knowledge—they're harder because they require <em>different approaches</em>.</p>
+
+    <p>And below the 20% line? Those questions—rate limiting, RAG systems, F1 score computation—require students to break down complex problems, iterate on failing approaches, and combine multiple LLM capabilities in novel ways.</p>
+
+    <p class="pullquote">"The Easy-tier students could use LLMs. The High-completers could <em>think with</em> LLMs."</p>
+
+    <div class="section-break"></div>
+
+    <h2>The Evidence for Skill, Not Just Effort</h2>
+
+    <p>Here's the finding that convinced me this isn't just about persistence:</p>
+</div>
+
+<div class="wide-container">
+    <div class="chart-container">
+        <p class="chart-title">Efficiency tells the real story</p>
+        <p class="chart-subtitle">Marks earned per attempt, by population</p>
+        <canvas id="efficiencyChart" height="250"></canvas>
+    </div>
+</div>
+
+<div class="container">
+    <p>If the difference between populations were simply effort—who tried harder, who spent more time—you'd expect efficiency to be roughly equal across groups. Everyone would earn marks at the same rate; the high scorers would just have more attempts.</p>
+
+    <p>That's not what the data shows.</p>
+
+    <p>The <strong>High-completers</strong> earned marks at a rate of <span class="stat-highlight">30% per attempt</span>. The <strong>Medium-tier</strong> students? Just <span class="stat-highlight">14%</span>. The high scorers weren't just trying more—they were succeeding more often. Their prompts worked. Their approaches were sound. When they hit a wall, they found a way around it.</p>
+
+    <div class="callout-box">
+        <h3>A Tale of Two Students</h3>
+        <p>Consider two anonymized students from the dataset. One made 115 attempts and earned 20 marks—solving questions across all difficulty tiers, including the hardest ones like rate-limiting and RAG. Another made 45 attempts but earned only 6 marks—all from easy and medium questions. Both worked hard. Only one had the skill to translate that effort into results.</p>
+    </div>
+
+    <div class="section-break"></div>
+
+    <h2>What the Cliff Really Represents</h2>
+
+    <p>The valley in the distribution—the cliff between 8 and 12 marks—isn't arbitrary. It's the boundary between two fundamentally different modes of working with LLMs.</p>
+
+    <p><strong>Below the cliff</strong>, students were <em>using</em> LLMs. They could describe what they wanted and get reasonable outputs for straightforward tasks. They could follow patterns. They could solve problems that looked like problems they'd seen before.</p>
+
+    <p><strong>Above the cliff</strong>, students were <em>thinking with</em> LLMs. They could decompose novel problems. They could recognize when an approach wasn't working and pivot. They could combine tools—vision, code execution, web retrieval—in ways the problems didn't explicitly suggest.</p>
+</div>
+
+<div class="wide-container">
+    <div class="chart-container">
+        <p class="chart-title">The composition of each population</p>
+        <p class="chart-subtitle">Average questions solved by difficulty tier</p>
+        <canvas id="compositionChart" height="280"></canvas>
+        <div class="annotation">
+            <strong>The gap is in the middle.</strong> Everyone who engaged solved the easy questions. But only the High-completers dominated the medium tier (8.6 of 10 questions) and attempted the hard tier at all.
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <p>The High-completers didn't just solve more questions—they solved <em>different kinds</em> of questions. They averaged 8.6 medium-tier questions compared to 2.1 for Medium-tier students. They averaged 2.2 hard-tier questions compared to nearly zero for everyone else.</p>
+
+    <p>This is the clearest evidence that we're seeing a <strong>skill difference</strong>, not just an effort difference. The populations aren't distinguished by how much they tried, but by what they were capable of accomplishing.</p>
+
+    <div class="section-break"></div>
+
+    <h2>The Uncomfortable Implication</h2>
+
+    <p>These findings carry a weight that's hard to ignore.</p>
+
+    <p>If 71% of students—smart students, at one of India's premier technical institutions—couldn't cross the cliff despite genuine effort, then we have a problem that isn't solved by "just teach everyone to use ChatGPT."</p>
+
+    <p>The 29% who succeeded aren't just better at prompting. They have a <strong>different cognitive relationship</strong> with AI tools. They treat LLMs as thinking partners rather than answer machines. They iterate. They debug. They recognize patterns in their own failures.</p>
+
+    <p>The question for educators—for anyone designing AI curricula—is stark: <strong>Is this skill teachable?</strong></p>
+
+    <p>I don't have that answer. But the data suggests that if we want to move students from the Easy-tier to the High-completers, we need to do more than expose them to AI tools. We need to teach them how to <em>think algorithmically about their own problem-solving</em>—to notice when an approach isn't working, to decompose problems into smaller pieces, to treat the LLM as a capable but fallible collaborator.</p>
+
+    <p>That's a harder curriculum to design. But it's the curriculum that matters.</p>
+
+    <footer>
+        <div class="methodology">
+            <h4>Methodology & Limitations</h4>
+            <p>This analysis is based on 535 students who submitted at least one response to Project 2 of the IIT Madras Tools in Data Science course in November 2025. A "mark" was awarded for each unique question solved correctly at least once. Population boundaries were determined using Gaussian Mixture Model clustering (BIC-optimized), supported by manual inspection of distribution valleys.</p>
+            <p style="margin-top: 1rem;"><strong>Limitations:</strong> This analysis cannot distinguish skill from prior experience, domain knowledge, or access to better tools. The efficiency metric assumes all attempts are equal, which may not hold. Time invested per attempt is not captured. The four-population model is a statistical convenience—reality may be more continuous.</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+// Main distribution chart
+const mainCtx = document.getElementById('mainDistribution').getContext('2d');
+const marks = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
+const counts = [85,15,23,76,55,66,31,22,13,9,6,10,16,23,19,20,10,3,9,11,4];
+
+const colors = marks.map(m => {
+    if (m === 1) return '#e74c3c';
+    if (m <= 4) return '#f39c12';
+    if (m <= 8) return '#3498db';
+    return '#27ae60';
+});
+
+new Chart(mainCtx, {
+    type: 'bar',
+    data: {
+        labels: marks,
+        datasets: [{
+            data: counts,
+            backgroundColor: colors,
+            borderColor: colors.map(c => c),
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: ctx => `${ctx.raw} students`
+                }
+            }
+        },
+        scales: {
+            x: {
+                title: { display: true, text: 'Marks', font: { family: 'Source Sans Pro' } },
+                grid: { display: false }
+            },
+            y: {
+                title: { display: true, text: 'Number of students', font: { family: 'Source Sans Pro' } },
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// Ladder chart (HTML-based for better control)
+const ladderData = [
+    { name: 'entry', pct: 96.3, tier: 'easy' },
+    { name: 'md', pct: 77.8, tier: 'easy' },
+    { name: 'git', pct: 77.6, tier: 'easy' },
+    { name: 'uv', pct: 70.7, tier: 'easy' },
+    { name: 'heatmap', pct: 56.3, tier: 'medium' },
+    { name: 'audio-passphrase', pct: 46.5, tier: 'medium' },
+    { name: 'gh-tree', pct: 36.4, tier: 'medium' },
+    { name: 'invoice', pct: 28.4, tier: 'medium' },
+    { name: 'logs', pct: 28.0, tier: 'medium' },
+    { name: 'orders', pct: 26.5, tier: 'medium' },
+    { name: 'chart', pct: 26.0, tier: 'medium' },
+    { name: 'cache', pct: 24.9, tier: 'medium' },
+    { name: 'shards', pct: 22.2, tier: 'medium' },
+    { name: 'embed', pct: 21.7, tier: 'medium' },
+    { name: 'csv', pct: 17.4, tier: 'hard' },
+    { name: 'tools', pct: 14.8, tier: 'hard' },
+    { name: 'diff', pct: 12.5, tier: 'hard' },
+    { name: 'guard', pct: 6.0, tier: 'hard' },
+    { name: 'rate', pct: 5.8, tier: 'hard' },
+    { name: 'rag', pct: 5.6, tier: 'hard' },
+    { name: 'f1', pct: 5.0, tier: 'hard' }
+];
+
+const ladderContainer = document.getElementById('ladderChart');
+const tierColors = { easy: '#27ae60', medium: '#f39c12', hard: '#e74c3c' };
+const tierLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard' };
+
+ladderData.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'ladder-item';
+    div.innerHTML = `
+        <span class="ladder-label">${item.name}</span>
+        <div class="ladder-bar" style="width: ${item.pct * 3}px; background: ${tierColors[item.tier]}"></div>
+        <span class="tier-label tier-${item.tier}">${tierLabels[item.tier]}</span>
+        <span class="ladder-pct">${item.pct}%</span>
+    `;
+    ladderContainer.appendChild(div);
+});
+
+// Efficiency chart
+const effCtx = document.getElementById('efficiencyChart').getContext('2d');
+new Chart(effCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Non-starters', 'Easy-tier', 'Medium-tier', 'High-completers'],
+        datasets: [{
+            label: 'Marks per attempt',
+            data: [0.19, 0.12, 0.14, 0.30],
+            backgroundColor: ['#e74c3c', '#f39c12', '#3498db', '#27ae60'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        indexAxis: 'y',
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: ctx => `${(ctx.raw * 100).toFixed(0)}% success rate per attempt`
+                }
+            }
+        },
+        scales: {
+            x: {
+                title: { display: true, text: 'Efficiency (marks per attempt)', font: { family: 'Source Sans Pro' } },
+                beginAtZero: true,
+                max: 0.35,
+                ticks: {
+                    callback: v => `${(v * 100).toFixed(0)}%`
+                }
+            },
+            y: {
+                grid: { display: false }
+            }
+        }
+    }
+});
+
+// Composition chart
+const compCtx = document.getElementById('compositionChart').getContext('2d');
+new Chart(compCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Non-starters', 'Easy-tier', 'Medium-tier', 'High-completers'],
+        datasets: [
+            {
+                label: 'Easy tier (4 possible)',
+                data: [1.0, 3.4, 3.9, 3.8],
+                backgroundColor: '#27ae60'
+            },
+            {
+                label: 'Medium tier (10 possible)',
+                data: [0.0, 0.1, 2.1, 8.6],
+                backgroundColor: '#f39c12'
+            },
+            {
+                label: 'Hard tier (7 possible)',
+                data: [0.0, 0.0, 0.2, 2.2],
+                backgroundColor: '#e74c3c'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: { font: { family: 'Source Sans Pro' } }
+            }
+        },
+        scales: {
+            x: {
+                stacked: true,
+                grid: { display: false }
+            },
+            y: {
+                stacked: true,
+                title: { display: true, text: 'Average questions solved', font: { family: 'Source Sans Pro' } },
+                max: 16
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
