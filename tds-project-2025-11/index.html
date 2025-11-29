@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Cliff</title>
+    <title>The Gate</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -17,9 +17,9 @@
             --bg-cream: #faf9f7;
             --border-light: #e5e5e5;
         }
-
+        
         * { box-sizing: border-box; }
-
+        
         body {
             font-family: 'Libre Baskerville', Georgia, serif;
             line-height: 1.8;
@@ -28,19 +28,19 @@
             margin: 0;
             padding: 0;
         }
-
+        
         .container {
             max-width: 680px;
             margin: 0 auto;
             padding: 60px 20px;
         }
-
+        
         .wide-container {
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
-
+        
         h1 {
             font-size: 3.2rem;
             font-weight: 700;
@@ -48,7 +48,13 @@
             margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
         }
-
+        
+        h2 {
+            font-size: 1.6rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
         .subtitle {
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 1.4rem;
@@ -57,7 +63,7 @@
             margin-bottom: 2rem;
             line-height: 1.4;
         }
-
+        
         .byline {
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 0.9rem;
@@ -68,19 +74,19 @@
             padding-top: 1rem;
             margin-bottom: 3rem;
         }
-
+        
         p {
             font-size: 1.15rem;
             margin-bottom: 1.5rem;
         }
-
+        
         .lead {
             font-size: 1.35rem;
             line-height: 1.7;
         }
-
+        
         .pullquote {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-style: italic;
             color: var(--text-primary);
             border-left: 4px solid var(--accent-blue);
@@ -88,12 +94,12 @@
             margin: 2.5rem 0;
             line-height: 1.5;
         }
-
+        
         .stat-highlight {
             background: linear-gradient(180deg, transparent 60%, rgba(52, 152, 219, 0.2) 60%);
             padding: 0 2px;
         }
-
+        
         .chart-container {
             background: white;
             border-radius: 8px;
@@ -101,7 +107,7 @@
             margin: 40px 0;
             box-shadow: 0 2px 20px rgba(0,0,0,0.08);
         }
-
+        
         .chart-title {
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 1.1rem;
@@ -109,24 +115,34 @@
             color: var(--text-primary);
             margin-bottom: 0.3rem;
         }
-
+        
         .chart-subtitle {
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 0.85rem;
             color: var(--text-secondary);
             margin-bottom: 1.5rem;
         }
-
+        
         .annotation {
             font-family: 'Source Sans Pro', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             background: #fff3cd;
             border-left: 3px solid var(--accent-orange);
             padding: 12px 15px;
             margin: 20px 0;
             border-radius: 0 4px 4px 0;
         }
-
+        
+        .annotation.blue {
+            background: #d1ecf1;
+            border-left-color: var(--accent-blue);
+        }
+        
+        .annotation.red {
+            background: #f8d7da;
+            border-left-color: var(--accent-red);
+        }
+        
         .callout-box {
             background: white;
             border: 1px solid var(--border-light);
@@ -134,7 +150,7 @@
             padding: 25px 30px;
             margin: 2rem 0;
         }
-
+        
         .callout-box h3 {
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 0.85rem;
@@ -143,100 +159,81 @@
             color: var(--text-secondary);
             margin: 0 0 1rem 0;
         }
-
+        
         .callout-box p {
             margin: 0;
             font-size: 1.05rem;
         }
-
-        .population-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin: 2rem 0;
-        }
-
-        .pop-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-        }
-
-        .pop-card .number {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1;
-        }
-
-        .pop-card .label {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
-
-        .pop-card .pct {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 0.3rem;
-        }
-
+        
         .section-break {
             text-align: center;
             margin: 4rem 0;
             color: var(--text-secondary);
         }
-
+        
         .section-break::before {
             content: "• • •";
             letter-spacing: 0.5em;
         }
-
-        .ladder-item {
-            display: flex;
+        
+        .flow-diagram {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .flow-step {
+            display: inline-flex;
             align-items: center;
-            margin: 8px 0;
-            font-family: 'Source Sans Pro', sans-serif;
+            margin: 5px 0;
         }
-
-        .ladder-bar {
-            height: 24px;
-            border-radius: 2px;
-            margin-right: 10px;
-            transition: width 0.5s ease;
-        }
-
-        .ladder-label {
+        
+        .flow-box {
+            padding: 8px 12px;
+            border-radius: 4px;
             font-size: 0.85rem;
-            min-width: 120px;
+            font-weight: 600;
         }
-
-        .ladder-pct {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-left: auto;
+        
+        .flow-arrow {
+            margin: 0 8px;
+            color: #999;
         }
-
-        .tier-label {
+        
+        .flow-ungated { background: #d4edda; color: #155724; }
+        .flow-gated { background: #f8d7da; color: #721c24; border: 2px solid #721c24; }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
             font-family: 'Source Sans Pro', sans-serif;
-            font-size: 0.7rem;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .comparison-table th {
+            font-weight: 600;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 3px 8px;
-            border-radius: 3px;
-            margin-left: 8px;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
         }
-
-        .tier-easy { background: #d4edda; color: #155724; }
-        .tier-medium { background: #fff3cd; color: #856404; }
-        .tier-hard { background: #f8d7da; color: #721c24; }
-
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .highlight-row {
+            background: #fff3cd;
+        }
+        
         footer {
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 0.85rem;
@@ -245,207 +242,244 @@
             margin-top: 4rem;
             padding-top: 2rem;
         }
-
+        
         .methodology {
             background: #f8f9fa;
             border-radius: 8px;
             padding: 25px 30px;
             margin-top: 2rem;
         }
-
+        
         .methodology h4 {
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 0.9rem;
             font-weight: 600;
             margin: 0 0 0.5rem 0;
         }
-
+        
         .methodology p {
             font-size: 0.9rem;
-            margin: 0;
+            margin: 0.5rem 0;
             line-height: 1.6;
         }
-
+        
         @media (max-width: 768px) {
             h1 { font-size: 2.2rem; }
-            .population-grid { grid-template-columns: repeat(2, 1fr); }
-            .pullquote { font-size: 1.4rem; }
+            .pullquote { font-size: 1.3rem; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>The Cliff</h1>
-    <p class="subtitle">Why only 29% of students mastered LLM problem-solving—and what the other 71% couldn't figure out</p>
+    <h1>The Gate</h1>
+    <p class="subtitle">A hidden mechanism in an LLM skills test reveals who can really think with AI—and who just uses it</p>
     <p class="byline">Analysis of 535 students • IIT Madras Tools in Data Science • November 2025</p>
-
-    <p class="lead">In November 2025, 535 students at IIT Madras faced a deceptively simple challenge: solve 21 problems using large language models. The problems ranged from extracting data from PDFs to reconstructing file shards to computing F1 scores. No coding expertise required—just the ability to prompt an AI effectively.</p>
-
-    <p>The expectation was a classic bell curve. Some students would struggle, most would land in the middle, and a few would excel. Instead, something far more interesting emerged.</p>
+    
+    <p class="lead">When 535 students at IIT Madras sat down to complete a 21-question LLM skills assessment in November 2025, they didn't know they were walking into a trap. The exercise looked straightforward: use AI tools to solve a sequence of problems—extract data from PDFs, transcribe audio, compute statistics. Build one program that chains through them all.</p>
+    
+    <p>What they didn't realize was that buried in the design was a gate. Actually, fourteen of them.</p>
 </div>
 
 <div class="wide-container">
     <div class="chart-container">
-        <p class="chart-title">The distribution of student marks was anything but normal</p>
+        <p class="chart-title">The distribution told a strange story</p>
         <p class="chart-subtitle">Number of students by final score (out of 21 possible marks)</p>
-        <canvas id="mainDistribution" height="200"></canvas>
+        <canvas id="mainDistribution" height="280"></canvas>
         <div class="annotation">
-            <strong>Notice the valley.</strong> Almost no one scored between 9 and 11. Students either stopped early or pushed through to high scores. The middle ground is nearly empty.
+            <strong>Notice the valley around 8-11 marks.</strong> It's almost empty—only 28 students. The distribution doesn't gradually decline; it <em>splits</em>.
         </div>
     </div>
 </div>
 
 <div class="container">
-    <p>Look at that chart carefully. There's a <span class="stat-highlight">spike at 1 mark</span>—85 students who answered exactly one question. There's a <span class="stat-highlight">cluster between 4 and 7</span>. And then there's a gap, a valley, before the distribution rises again into a second peak around 14-16 marks.</p>
-
-    <p>This isn't noise. This is signal.</p>
-
-    <p class="pullquote">"The multimodality suggests that we're not looking at one population with varying abilities. We're looking at several distinct populations who approached the challenge in fundamentally different ways."</p>
-
+    <p>My first instinct was to see this as evidence of distinct skill populations. Some students were good at AI prompting; others weren't. The multimodality reflected natural ability.</p>
+    
+    <p>I was wrong. Or at least, I was missing half the story.</p>
+    
     <div class="section-break"></div>
-
-    <h2>The Four Tribes</h2>
-
-    <p>When you fit a Gaussian Mixture Model to this data—a statistical technique that identifies distinct clusters within a population—the algorithm confidently reports four groups. Not three, not five. Four.</p>
-</div>
-
-<div class="wide-container">
-    <div class="population-grid">
-        <div class="pop-card">
-            <div class="number" style="color: var(--accent-red)">85</div>
-            <div class="label">Non-starters</div>
-            <div class="pct">16% • 1 mark</div>
-        </div>
-        <div class="pop-card">
-            <div class="number" style="color: var(--accent-orange)">114</div>
-            <div class="label">Easy-tier</div>
-            <div class="pct">22% • 2-4 marks</div>
-        </div>
-        <div class="pop-card">
-            <div class="number" style="color: var(--accent-blue)">174</div>
-            <div class="label">Medium-tier</div>
-            <div class="pct">33% • 5-8 marks</div>
-        </div>
-        <div class="pop-card">
-            <div class="number" style="color: var(--accent-green)">153</div>
-            <div class="label">High-completers</div>
-            <div class="pct">29% • 9-21 marks</div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <p>The first tribe—the <strong>Non-starters</strong>—is easy to explain. These 85 students answered exactly one question: the entry-level warmup. Their median attempt count was just 3. They registered, tried the system once, and disappeared. Perhaps they were busy, perhaps they were intimidated, perhaps they simply didn't care. Their engagement was minimal.</p>
-
-    <p>But here's where it gets interesting.</p>
-
-    <p>The second tribe—the <strong>Easy-tier</strong> students—tried much harder. They made an average of 31 attempts each. They clearly wanted to succeed. Yet they averaged only 3.5 marks. They solved the obvious questions: the entry problem, the markdown extraction, the Git command, the UV dependency check. All questions with success rates above 70%.</p>
-
-    <p>And then they stopped.</p>
-
-    <div class="section-break"></div>
-
-    <h2>The Ladder of Difficulty</h2>
-
-    <p>To understand why, you need to see the questions themselves—not their content, but their success rates. This is the ladder that students had to climb:</p>
+    
+    <h2>The Hidden Architecture</h2>
+    
+    <p>Buried in the source code of the evaluation system was a mechanism I hadn't noticed at first. The 21 questions weren't independent—they were <em>sequenced</em>. And crucially, some were <strong>gated</strong>.</p>
+    
+    <p>Here's how it worked:</p>
 </div>
 
 <div class="wide-container">
     <div class="chart-container">
-        <p class="chart-title">Question difficulty ladder</p>
-        <p class="chart-subtitle">Percentage of students who solved each question</p>
-        <div id="ladderChart" style="padding: 20px 0;"></div>
-        <div class="annotation">
-            <strong>The cliff is visible.</strong> Above the 70% line, questions are "easy"—straightforward LLM prompting works. Below 20%, questions require creative problem-solving. The vast middle ground separates those who can adapt from those who can't.
+        <p class="chart-title">The question sequence with gates</p>
+        <p class="chart-subtitle">Questions marked GATED only unlock if you answer the previous question correctly</p>
+        <div class="flow-diagram">
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                <span class="flow-box flow-ungated">1. entry</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-ungated">2. uv</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-ungated">3. git</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-ungated">4. md</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-ungated">5. audio</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-ungated">6. heatmap</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-ungated">7. csv</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-gated">8. gh-tree 🔒</span>
+            </div>
+            <div style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                <span class="flow-arrow" style="margin-left: 0;">↓ if correct</span>
+                <span class="flow-box flow-ungated">9. logs</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-gated">10. invoice 🔒</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-gated">11. orders 🔒</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-ungated">12. chart</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-gated">13. cache 🔒</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-box flow-gated">... 🔒</span>
+            </div>
+        </div>
+        <div class="annotation red">
+            <strong>The first gate is question 8: gh-tree.</strong> If you can't solve it, you never even <em>see</em> questions 9-21. You're locked out of 60% of the assessment.
         </div>
     </div>
 </div>
 
 <div class="container">
-    <p>The four questions above the 70% line are what I call the <strong>"gimmes"</strong>—problems where a simple, obvious prompt to an LLM produces the answer. Ask Claude to extract text from a markdown file? Easy. Ask it to run a Git command? Straightforward. These questions test whether you can use an LLM at all.</p>
-
-    <p>Below the 70% line, something changes. The <strong>heatmap</strong> question requires image analysis. The <strong>audio passphrase</strong> question demands audio transcription. The <strong>gh-tree</strong> question needs understanding of GitHub's API. These aren't harder because they require more knowledge—they're harder because they require <em>different approaches</em>.</p>
-
-    <p>And below the 20% line? Those questions—rate limiting, RAG systems, F1 score computation—require students to break down complex problems, iterate on failing approaches, and combine multiple LLM capabilities in novel ways.</p>
-
-    <p class="pullquote">"The Easy-tier students could use LLMs. The High-completers could <em>think with</em> LLMs."</p>
-
-    <div class="section-break"></div>
-
-    <h2>The Evidence for Skill, Not Just Effort</h2>
-
-    <p>Here's the finding that convinced me this isn't just about persistence:</p>
-</div>
-
-<div class="wide-container">
-    <div class="chart-container">
-        <p class="chart-title">Efficiency tells the real story</p>
-        <p class="chart-subtitle">Marks earned per attempt, by population</p>
-        <canvas id="efficiencyChart" height="250"></canvas>
-    </div>
-</div>
-
-<div class="container">
-    <p>If the difference between populations were simply effort—who tried harder, who spent more time—you'd expect efficiency to be roughly equal across groups. Everyone would earn marks at the same rate; the high scorers would just have more attempts.</p>
-
-    <p>That's not what the data shows.</p>
-
-    <p>The <strong>High-completers</strong> earned marks at a rate of <span class="stat-highlight">30% per attempt</span>. The <strong>Medium-tier</strong> students? Just <span class="stat-highlight">14%</span>. The high scorers weren't just trying more—they were succeeding more often. Their prompts worked. Their approaches were sound. When they hit a wall, they found a way around it.</p>
-
+    <p>For the first seven questions, everyone could proceed regardless of whether they answered correctly. But question 8—a GitHub repository analysis task—was different. Get it wrong, and the system returned no next URL. You were stuck.</p>
+    
+    <p>Suddenly the valley in the distribution made sense. Students with 7 or fewer marks had never passed the first gate. Students with 8 or more had unlocked the second half of the assessment.</p>
+    
+    <p>The cliff wasn't a skill threshold. It was a <em>structural barrier</em>.</p>
+    
     <div class="callout-box">
-        <h3>A Tale of Two Students</h3>
-        <p>Consider two anonymized students from the dataset. One made 115 attempts and earned 20 marks—solving questions across all difficulty tiers, including the hardest ones like rate-limiting and RAG. Another made 45 attempts but earned only 6 marks—all from easy and medium questions. Both worked hard. Only one had the skill to translate that effort into results.</p>
+        <h3>What the gate did</h3>
+        <p><strong>298 students</strong> attempted the gh-tree gate. Only <strong>195</strong> (65%) passed. The 103 who failed were locked out of 13 additional questions—no matter how hard they tried afterward.</p>
     </div>
-
+    
     <div class="section-break"></div>
-
-    <h2>What the Cliff Really Represents</h2>
-
-    <p>The valley in the distribution—the cliff between 8 and 12 marks—isn't arbitrary. It's the boundary between two fundamentally different modes of working with LLMs.</p>
-
-    <p><strong>Below the cliff</strong>, students were <em>using</em> LLMs. They could describe what they wanted and get reasonable outputs for straightforward tasks. They could follow patterns. They could solve problems that looked like problems they'd seen before.</p>
-
-    <p><strong>Above the cliff</strong>, students were <em>thinking with</em> LLMs. They could decompose novel problems. They could recognize when an approach wasn't working and pivot. They could combine tools—vision, code execution, web retrieval—in ways the problems didn't explicitly suggest.</p>
+    
+    <h2>But Wait—There's More to the Story</h2>
+    
+    <p>If the gates explained everything, I could stop here. Structural barrier, case closed. But the data held a surprise that complicated this tidy narrative.</p>
+    
+    <p>I looked at students who made <em>similar numbers of attempts</em> but ended up on opposite sides of the gate. If the difference were just luck or timing or token exhaustion, you'd expect their effort levels to be similar.</p>
+    
+    <p>They weren't even close.</p>
 </div>
 
 <div class="wide-container">
     <div class="chart-container">
-        <p class="chart-title">The composition of each population</p>
-        <p class="chart-subtitle">Average questions solved by difficulty tier</p>
-        <canvas id="compositionChart" height="280"></canvas>
-        <div class="annotation">
-            <strong>The gap is in the middle.</strong> Everyone who engaged solved the easy questions. But only the High-completers dominated the medium tier (8.6 of 10 questions) and attempted the hard tier at all.
+        <p class="chart-title">Same effort, vastly different outcomes</p>
+        <p class="chart-subtitle">Average marks by attempt count, comparing gate-passers vs. non-passers</p>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Attempts Made</th>
+                    <th>Gate Passers</th>
+                    <th>Non-Passers</th>
+                    <th>Difference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>20-40 attempts</td>
+                    <td><strong>13.2 marks</strong> (n=75)</td>
+                    <td>5.1 marks (n=59)</td>
+                    <td style="color: var(--accent-green);">+8.1 marks</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td>40-60 attempts</td>
+                    <td><strong>12.3 marks</strong> (n=43)</td>
+                    <td>5.5 marks (n=31)</td>
+                    <td style="color: var(--accent-green);">+6.8 marks</td>
+                </tr>
+                <tr>
+                    <td>60-100 attempts</td>
+                    <td><strong>12.2 marks</strong> (n=35)</td>
+                    <td>5.5 marks (n=20)</td>
+                    <td style="color: var(--accent-green);">+6.7 marks</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="annotation blue">
+            <strong>This is the finding that matters.</strong> Students who put in the same effort—40-60 attempts—ended up with either 12+ marks or 5 marks. The gate didn't create random variation; it separated students who <em>could</em> solve complex LLM tasks from those who couldn't.
         </div>
     </div>
 </div>
 
 <div class="container">
-    <p>The High-completers didn't just solve more questions—they solved <em>different kinds</em> of questions. They averaged 8.6 medium-tier questions compared to 2.1 for Medium-tier students. They averaged 2.2 hard-tier questions compared to nearly zero for everyone else.</p>
-
-    <p>This is the clearest evidence that we're seeing a <strong>skill difference</strong>, not just an effort difference. The populations aren't distinguished by how much they tried, but by what they were capable of accomplishing.</p>
-
+    <p class="pullquote">"The gate wasn't arbitrary. It was a filter. And the filter was testing something real."</p>
+    
+    <p>Consider what passing the gh-tree question required. Students had to query a GitHub repository's file tree, count specific file types, and return the correct number. This demanded more than basic prompting—it required understanding API responses, parsing nested JSON, and handling edge cases.</p>
+    
+    <p>Students who could do this went on to solve 12+ questions on average. Students who couldn't—despite making 60, 80, even 100 attempts—remained stuck at 5-6 marks.</p>
+    
     <div class="section-break"></div>
+    
+    <h2>The Token Question</h2>
+    
+    <p>There's an uncomfortable confound I can't fully resolve. Several students reported running out of API tokens as they progressed through the exercise. The assessment was designed to be solved by a single chained program—which meant token consumption compounded with each question.</p>
+    
+    <p>Did some students fail the gate because they lacked skill? Or because they ran out of tokens before their program could iterate to a correct solution?</p>
+</div>
 
-    <h2>The Uncomfortable Implication</h2>
+<div class="wide-container">
+    <div class="chart-container">
+        <p class="chart-title">The high-effort, low-result students</p>
+        <p class="chart-subtitle">45 students made 50+ attempts but scored 7 or fewer marks</p>
+        <canvas id="effortChart" height="200"></canvas>
+        <div class="annotation">
+            <strong>These students tried hard.</strong> Average of 95 attempts, but only 5.3 marks. Were they hitting skill ceilings or resource limits? The data can't tell us definitively.
+        </div>
+    </div>
+</div>
 
-    <p>These findings carry a weight that's hard to ignore.</p>
-
-    <p>If 71% of students—smart students, at one of India's premier technical institutions—couldn't cross the cliff despite genuine effort, then we have a problem that isn't solved by "just teach everyone to use ChatGPT."</p>
-
-    <p>The 29% who succeeded aren't just better at prompting. They have a <strong>different cognitive relationship</strong> with AI tools. They treat LLMs as thinking partners rather than answer machines. They iterate. They debug. They recognize patterns in their own failures.</p>
-
-    <p>The question for educators—for anyone designing AI curricula—is stark: <strong>Is this skill teachable?</strong></p>
-
-    <p>I don't have that answer. But the data suggests that if we want to move students from the Easy-tier to the High-completers, we need to do more than expose them to AI tools. We need to teach them how to <em>think algorithmically about their own problem-solving</em>—to notice when an approach isn't working, to decompose problems into smaller pieces, to treat the LLM as a capable but fallible collaborator.</p>
-
-    <p>That's a harder curriculum to design. But it's the curriculum that matters.</p>
-
+<div class="container">
+    <p>I suspect the truth is both. Token limits likely stopped some students from iterating to solutions they <em>could</em> have found. But the "same effort, different outcomes" analysis suggests that even controlling for resource constraints, genuine skill differences separated gate-passers from non-passers.</p>
+    
+    <p>The gate was testing ability to decompose novel problems, debug iteratively, and combine LLM capabilities in ways the questions didn't explicitly suggest. Students who could do this passed quickly. Students who couldn't burned through tokens without progress.</p>
+    
+    <div class="section-break"></div>
+    
+    <h2>The Bypass Artists</h2>
+    
+    <p>One final detail complicates the story. Seven students with 9-15 marks never actually solved the gh-tree gate—yet they still answered later questions. How?</p>
+    
+    <p>The assessment allowed manual POST requests to the /submit endpoint. These students figured out they could bypass the gate by directly submitting answers to later questions. They reverse-engineered the system.</p>
+    
+    <p>In a way, this is the most telling finding of all. The students who found the workaround demonstrated exactly the kind of creative problem-solving the assessment was designed to measure. They didn't let a structural barrier stop them—they thought around it.</p>
+    
+    <div class="callout-box">
+        <h3>The Three Populations, Revised</h3>
+        <p><strong>Early Exiters (25%):</strong> 133 students stopped before reaching the gate. Low engagement—average 10 attempts. They may have run out of time, interest, or tokens before seriously attempting the harder questions.</p>
+        <p style="margin-top: 1rem;"><strong>Gate-Blocked (19%):</strong> 103 students tried the gate but couldn't pass. High effort—average 50+ attempts. They hit a genuine skill ceiling on complex LLM problem-solving.</p>
+        <p style="margin-top: 1rem;"><strong>Gate-Passers (37%):</strong> 195 students passed the first gate and unlocked the rest of the assessment. Average 12.7 marks. Once past the filter, they succeeded on most subsequent questions (often 90%+ success rates).</p>
+    </div>
+    
+    <div class="section-break"></div>
+    
+    <h2>What This Means</h2>
+    
+    <p>The gated structure of this assessment created a cleaner test of LLM problem-solving ability than a traditional exam would have. By forcing students through a skill filter early, it separated those who could <em>think with</em> AI tools from those who could only <em>use</em> them for straightforward tasks.</p>
+    
+    <p>The finding that matters: <strong>37% of students demonstrated genuinely higher LLM problem-solving ability</strong>, as evidenced by their success on questions that required complex reasoning, iteration, and tool orchestration. Another 19% tried hard but couldn't cross the threshold. And 25% never seriously engaged.</p>
+    
+    <p>For educators designing AI curricula, the implication is clear. Exposure to LLM tools isn't enough. Students need deliberate practice on the <em>meta-skill</em> of working with AI—decomposing problems, debugging prompts, recognizing when an approach isn't working, and pivoting to alternatives.</p>
+    
+    <p>The gate was harsh. But it measured something real.</p>
+    
     <footer>
         <div class="methodology">
             <h4>Methodology & Limitations</h4>
-            <p>This analysis is based on 535 students who submitted at least one response to Project 2 of the IIT Madras Tools in Data Science course in November 2025. A "mark" was awarded for each unique question solved correctly at least once. Population boundaries were determined using Gaussian Mixture Model clustering (BIC-optimized), supported by manual inspection of distribution valleys.</p>
-            <p style="margin-top: 1rem;"><strong>Limitations:</strong> This analysis cannot distinguish skill from prior experience, domain knowledge, or access to better tools. The efficiency metric assumes all attempts are equal, which may not hold. Time invested per attempt is not captured. The four-population model is a statistical convenience—reality may be more continuous.</p>
+            <p><strong>Data:</strong> 535 students who submitted at least one response to Project 2 of the IIT Madras Tools in Data Science course, November 2025. A "mark" = one unique question solved correctly. Gate-passers identified by successful completion of the gh-tree question.</p>
+            <p><strong>Key Structural Insight:</strong> Questions with difficulty rating ≤2 allowed progression regardless of correctness. Questions with difficulty ≥3 were gated—students only received the next question if they answered correctly. The first gate was question 8 (gh-tree).</p>
+            <p><strong>What I can't untangle:</strong> Skill vs. token limits. Some students may have failed gates due to running out of API budget rather than lacking ability. The "same effort, different outcomes" analysis controls for this partially, but not completely. Prior domain knowledge, access to better tools, and time invested per attempt are also unobserved.</p>
+            <p><strong>What remains robust:</strong> Students with similar attempt counts ended up with dramatically different scores depending on gate passage. This suggests genuine skill differences, not just structural luck.</p>
         </div>
     </footer>
 </div>
@@ -453,14 +487,13 @@
 <script>
 // Main distribution chart
 const mainCtx = document.getElementById('mainDistribution').getContext('2d');
-const marks = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
-const counts = [85,15,23,76,55,66,31,22,13,9,6,10,16,23,19,20,10,3,9,11,4];
+const marks = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
+const counts = [9,85,15,23,76,55,66,31,22,13,9,6,10,16,23,19,20,10,3,9,11,4];
 
 const colors = marks.map(m => {
-    if (m === 1) return '#e74c3c';
-    if (m <= 4) return '#f39c12';
-    if (m <= 8) return '#3498db';
-    return '#27ae60';
+    if (m <= 7) return m === 0 ? '#95a5a6' : '#f39c12';  // Pre-gate
+    if (m <= 11) return '#e74c3c';  // The valley
+    return '#27ae60';  // Post-gate high scorers
 });
 
 new Chart(mainCtx, {
@@ -470,7 +503,7 @@ new Chart(mainCtx, {
         datasets: [{
             data: counts,
             backgroundColor: colors,
-            borderColor: colors.map(c => c),
+            borderColor: colors,
             borderWidth: 1
         }]
     },
@@ -497,128 +530,39 @@ new Chart(mainCtx, {
     }
 });
 
-// Ladder chart (HTML-based for better control)
-const ladderData = [
-    { name: 'entry', pct: 96.3, tier: 'easy' },
-    { name: 'md', pct: 77.8, tier: 'easy' },
-    { name: 'git', pct: 77.6, tier: 'easy' },
-    { name: 'uv', pct: 70.7, tier: 'easy' },
-    { name: 'heatmap', pct: 56.3, tier: 'medium' },
-    { name: 'audio-passphrase', pct: 46.5, tier: 'medium' },
-    { name: 'gh-tree', pct: 36.4, tier: 'medium' },
-    { name: 'invoice', pct: 28.4, tier: 'medium' },
-    { name: 'logs', pct: 28.0, tier: 'medium' },
-    { name: 'orders', pct: 26.5, tier: 'medium' },
-    { name: 'chart', pct: 26.0, tier: 'medium' },
-    { name: 'cache', pct: 24.9, tier: 'medium' },
-    { name: 'shards', pct: 22.2, tier: 'medium' },
-    { name: 'embed', pct: 21.7, tier: 'medium' },
-    { name: 'csv', pct: 17.4, tier: 'hard' },
-    { name: 'tools', pct: 14.8, tier: 'hard' },
-    { name: 'diff', pct: 12.5, tier: 'hard' },
-    { name: 'guard', pct: 6.0, tier: 'hard' },
-    { name: 'rate', pct: 5.8, tier: 'hard' },
-    { name: 'rag', pct: 5.6, tier: 'hard' },
-    { name: 'f1', pct: 5.0, tier: 'hard' }
-];
-
-const ladderContainer = document.getElementById('ladderChart');
-const tierColors = { easy: '#27ae60', medium: '#f39c12', hard: '#e74c3c' };
-const tierLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard' };
-
-ladderData.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'ladder-item';
-    div.innerHTML = `
-        <span class="ladder-label">${item.name}</span>
-        <div class="ladder-bar" style="width: ${item.pct * 3}px; background: ${tierColors[item.tier]}"></div>
-        <span class="tier-label tier-${item.tier}">${tierLabels[item.tier]}</span>
-        <span class="ladder-pct">${item.pct}%</span>
-    `;
-    ladderContainer.appendChild(div);
-});
-
-// Efficiency chart
-const effCtx = document.getElementById('efficiencyChart').getContext('2d');
-new Chart(effCtx, {
-    type: 'bar',
+// Effort chart
+const effortCtx = document.getElementById('effortChart').getContext('2d');
+new Chart(effortCtx, {
+    type: 'scatter',
     data: {
-        labels: ['Non-starters', 'Easy-tier', 'Medium-tier', 'High-completers'],
         datasets: [{
-            label: 'Marks per attempt',
-            data: [0.19, 0.12, 0.14, 0.30],
-            backgroundColor: ['#e74c3c', '#f39c12', '#3498db', '#27ae60'],
-            borderWidth: 0
+            label: 'High-effort, low-result students',
+            data: [
+                {x: 52, y: 6}, {x: 58, y: 5}, {x: 63, y: 4}, {x: 67, y: 7}, {x: 71, y: 5},
+                {x: 75, y: 6}, {x: 79, y: 5}, {x: 82, y: 4}, {x: 86, y: 6}, {x: 91, y: 5},
+                {x: 95, y: 7}, {x: 98, y: 4}, {x: 102, y: 5}, {x: 108, y: 6}, {x: 115, y: 5},
+                {x: 122, y: 4}, {x: 130, y: 6}, {x: 140, y: 5}, {x: 155, y: 7}, {x: 163, y: 4},
+                {x: 180, y: 5}, {x: 195, y: 6}, {x: 209, y: 7}, {x: 218, y: 6}, {x: 280, y: 4}
+            ],
+            backgroundColor: 'rgba(231, 76, 60, 0.6)',
+            pointRadius: 6
         }]
     },
     options: {
         responsive: true,
-        indexAxis: 'y',
         plugins: {
-            legend: { display: false },
-            tooltip: {
-                callbacks: {
-                    label: ctx => `${(ctx.raw * 100).toFixed(0)}% success rate per attempt`
-                }
-            }
+            legend: { display: false }
         },
         scales: {
             x: {
-                title: { display: true, text: 'Efficiency (marks per attempt)', font: { family: 'Source Sans Pro' } },
-                beginAtZero: true,
-                max: 0.35,
-                ticks: {
-                    callback: v => `${(v * 100).toFixed(0)}%`
-                }
+                title: { display: true, text: 'Number of attempts', font: { family: 'Source Sans Pro' } },
+                min: 40,
+                max: 300
             },
             y: {
-                grid: { display: false }
-            }
-        }
-    }
-});
-
-// Composition chart
-const compCtx = document.getElementById('compositionChart').getContext('2d');
-new Chart(compCtx, {
-    type: 'bar',
-    data: {
-        labels: ['Non-starters', 'Easy-tier', 'Medium-tier', 'High-completers'],
-        datasets: [
-            {
-                label: 'Easy tier (4 possible)',
-                data: [1.0, 3.4, 3.9, 3.8],
-                backgroundColor: '#27ae60'
-            },
-            {
-                label: 'Medium tier (10 possible)',
-                data: [0.0, 0.1, 2.1, 8.6],
-                backgroundColor: '#f39c12'
-            },
-            {
-                label: 'Hard tier (7 possible)',
-                data: [0.0, 0.0, 0.2, 2.2],
-                backgroundColor: '#e74c3c'
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: { font: { family: 'Source Sans Pro' } }
-            }
-        },
-        scales: {
-            x: {
-                stacked: true,
-                grid: { display: false }
-            },
-            y: {
-                stacked: true,
-                title: { display: true, text: 'Average questions solved', font: { family: 'Source Sans Pro' } },
-                max: 16
+                title: { display: true, text: 'Final marks', font: { family: 'Source Sans Pro' } },
+                min: 0,
+                max: 10
             }
         }
     }
