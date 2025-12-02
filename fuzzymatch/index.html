@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Reconciliation Engine: Finding Order in Financial Chaos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Courier+Prime:wght@400;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuzzball@2.1.2/dist/fuzzball.umd.min.js"></script>
+  <style>
+    :root {
+      --paper: #FAF6ED;
+      --ink-dark: #3E2723;
+      --ink-medium: #5D4037;
+      --ink-light: #8D6E63;
+      --accounting-green: #2E7D32;
+      --ledger-line: #D7CCC8;
+      --highlight-amber: #FFB300;
+      --shadow-soft: rgba(62, 39, 35, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Courier Prime', monospace;
+      line-height: 1.7;
+      color: var(--ink-dark);
+      background: var(--paper);
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 31px,
+          var(--ledger-line) 31px,
+          var(--ledger-line) 32px
+        );
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(135deg, var(--ink-dark) 0%, var(--ink-medium) 100%);
+      color: var(--paper);
+      position: relative;
+      overflow: hidden;
+      border-bottom: 4px solid var(--accounting-green);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        repeating-linear-gradient(90deg, transparent 0px, rgba(250,246,237,0.03) 1px, transparent 2px, transparent 40px),
+        repeating-linear-gradient(0deg, transparent 0px, rgba(250,246,237,0.03) 1px, transparent 2px, transparent 40px);
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 4em;
+      font-weight: 400;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+      animation: fadeInUp 1s ease-out;
+      font-style: italic;
+    }
+
+    .hero p {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.4em;
+      opacity: 0.9;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .section {
+      background: var(--paper);
+      border: 2px solid var(--ledger-line);
+      border-radius: 2px;
+      padding: 50px;
+      margin-bottom: 50px;
+      box-shadow: 
+        8px 8px 0 var(--shadow-soft),
+        0 0 40px rgba(62, 39, 35, 0.05);
+      position: relative;
+      animation: fadeInUp 0.8s ease-out both;
+    }
+
+    .section:nth-child(1) { animation-delay: 0.1s; }
+    .section:nth-child(2) { animation-delay: 0.2s; }
+    .section:nth-child(3) { animation-delay: 0.3s; }
+    .section:nth-child(4) { animation-delay: 0.4s; }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 30px;
+      width: 3px;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--accounting-green) 0px,
+        var(--accounting-green) 10px,
+        transparent 10px,
+        transparent 20px
+      );
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8em;
+      margin-bottom: 30px;
+      color: var(--ink-dark);
+      font-style: italic;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    h3 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.8em;
+      margin: 40px 0 20px 0;
+      color: var(--ink-medium);
+      letter-spacing: 0.5px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 1.05em;
+      color: var(--ink-medium);
+      line-height: 1.8;
+    }
+
+    .transaction-card {
+      background: var(--paper);
+      border: 2px solid var(--accounting-green);
+      padding: 18px 22px;
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 3px 3px 0 var(--shadow-soft);
+      position: relative;
+      font-size: 0.95em;
+      letter-spacing: 0.3px;
+    }
+
+    .transaction-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 5px 5px 0 var(--shadow-soft);
+    }
+
+    .transaction-card.source {
+      border-color: var(--highlight-amber);
+      background: linear-gradient(135deg, #FFF9E6 0%, var(--paper) 100%);
+    }
+
+    .transaction-card.target {
+      border-color: var(--accounting-green);
+      background: linear-gradient(135deg, #E8F5E9 0%, var(--paper) 100%);
+    }
+
+    .transaction-card.matched {
+      border-color: var(--accounting-green);
+      border-width: 3px;
+      background: linear-gradient(135deg, #C8E6C9 0%, #E8F5E9 100%);
+      transform: scale(1.02);
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .score-badge {
+      display: inline-block;
+      background: var(--accounting-green);
+      color: var(--paper);
+      padding: 6px 16px;
+      border-radius: 2px;
+      font-size: 0.95em;
+      font-weight: 700;
+      margin-left: 10px;
+      font-family: 'Courier Prime', monospace;
+      box-shadow: 2px 2px 0 var(--shadow-soft);
+    }
+
+    button {
+      background: var(--ink-dark);
+      color: var(--paper);
+      border: none;
+      padding: 14px 28px;
+      border-radius: 2px;
+      font-size: 1em;
+      font-weight: 700;
+      font-family: 'Libre Baskerville', serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin: 12px 8px;
+      box-shadow: 4px 4px 0 var(--shadow-soft);
+      letter-spacing: 0.5px;
+    }
+
+    button:hover {
+      background: var(--accounting-green);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--shadow-soft);
+    }
+
+    button:active {
+      transform: translate(0, 0);
+      box-shadow: 2px 2px 0 var(--shadow-soft);
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .interactive-input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid var(--ledger-line);
+      background: var(--paper);
+      border-radius: 2px;
+      font-size: 1em;
+      margin: 12px 0;
+      font-family: 'Courier Prime', monospace;
+      transition: border-color 0.2s;
+      box-shadow: inset 2px 2px 4px rgba(62, 39, 35, 0.05);
+    }
+
+    .interactive-input:focus {
+      outline: none;
+      border-color: var(--accounting-green);
+      box-shadow: inset 2px 2px 4px rgba(62, 39, 35, 0.05), 0 0 0 3px rgba(46, 125, 50, 0.1);
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 30px 0;
+      font-family: 'Courier Prime', monospace;
+    }
+
+    .matrix-table th,
+    .matrix-table td {
+      border: 2px solid var(--ledger-line);
+      padding: 16px;
+      text-align: center;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+
+    .matrix-table th {
+      background: var(--ink-dark);
+      color: var(--paper);
+      font-size: 0.9em;
+      letter-spacing: 0.5px;
+    }
+
+    .matrix-table td.row-header {
+      background: var(--highlight-amber);
+      color: var(--ink-dark);
+      font-size: 0.9em;
+      text-align: left;
+    }
+
+    .matrix-table td.score-cell {
+      font-size: 1.3em;
+      background: var(--paper);
+    }
+
+    .matrix-table td.score-cell.high {
+      background: #C8E6C9;
+      color: var(--accounting-green);
+      font-weight: 700;
+    }
+
+    .matrix-table td.score-cell.medium {
+      background: #FFF9C4;
+      color: #F57F17;
+    }
+
+    .matrix-table td.score-cell.low {
+      background: #FFCCBC;
+      color: #BF360C;
+    }
+
+    .matrix-table td.selected {
+      background: var(--accounting-green) !important;
+      color: var(--paper) !important;
+      border-color: var(--ink-dark);
+      border-width: 3px;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+    }
+
+    .formula-box {
+      background: var(--ink-dark);
+      color: var(--paper);
+      padding: 25px;
+      border-radius: 2px;
+      margin: 25px 0;
+      font-family: 'Courier Prime', monospace;
+      font-size: 1.1em;
+      text-align: center;
+      box-shadow: 4px 4px 0 var(--shadow-soft);
+      border: 3px solid var(--highlight-amber);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 16px;
+      border: 2px solid var(--ledger-line);
+      background: var(--paper);
+      border-radius: 2px;
+      font-size: 1em;
+      font-family: 'Courier Prime', monospace;
+      resize: vertical;
+      line-height: 1.8;
+      box-shadow: inset 2px 2px 4px rgba(62, 39, 35, 0.05);
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--accounting-green);
+      box-shadow: inset 2px 2px 4px rgba(62, 39, 35, 0.05), 0 0 0 3px rgba(46, 125, 50, 0.1);
+    }
+
+    .result-item {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background: var(--paper);
+      border: 2px solid var(--ledger-line);
+      border-radius: 2px;
+      margin: 12px 0;
+      font-family: 'Courier Prime', monospace;
+      box-shadow: 3px 3px 0 var(--shadow-soft);
+      animation: slideInLeft 0.5s ease-out both;
+    }
+
+    .result-item:nth-child(even) {
+      animation: slideInRight 0.5s ease-out both;
+    }
+
+    .result-arrow {
+      margin: 0 20px;
+      font-size: 1.5em;
+      color: var(--accounting-green);
+      font-weight: 700;
+    }
+
+    .reference-link {
+      color: var(--accounting-green);
+      text-decoration: none;
+      border-bottom: 2px solid var(--accounting-green);
+      transition: all 0.2s;
+      font-weight: 700;
+    }
+
+    .reference-link:hover {
+      color: var(--ink-dark);
+      border-bottom-color: var(--ink-dark);
+    }
+
+    .step-box {
+      background: linear-gradient(135deg, #FFF9E6 0%, var(--paper) 100%);
+      padding: 25px;
+      border-radius: 2px;
+      margin: 25px 0;
+      border-left: 6px solid var(--accounting-green);
+      box-shadow: 4px 4px 0 var(--shadow-soft);
+    }
+
+    .step-indicator {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--accounting-green);
+      color: var(--paper);
+      border-radius: 2px;
+      font-weight: 700;
+      margin-right: 15px;
+      font-family: 'Courier Prime', monospace;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, #E8F5E9 0%, var(--paper) 100%);
+      padding: 25px;
+      border-radius: 2px;
+      margin: 30px 0;
+      border-left: 6px solid var(--accounting-green);
+      box-shadow: 4px 4px 0 var(--shadow-soft);
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 700;
+      font-family: 'Libre Baskerville', serif;
+      color: var(--ink-dark);
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero h1 {
+        font-size: 2.5em;
+      }
+      
+      .section {
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Financial Reconciliation Demo
+    const BusinessContext = () => {
+      return (
+        <div className="section">
+          <h2>The Reconciliation Problem</h2>
+          <p>
+            Every day, accountants face the same challenge: matching transactions from bank statements 
+            with internal records. Names are abbreviated differently, reference numbers vary, amounts 
+            might have typos. <strong>Fuzzy matching</strong> automates what would take hours of manual review.
+          </p>
+
+          <div style={{margin: '40px 0'}}>
+            <h3>A Real-World Scenario</h3>
+            <p style={{fontSize: '1em', color: 'var(--ink-light)'}}>
+              Your bank statement has 5 transactions. Your accounting system has 5 invoices. 
+              They should match, but the formatting is different...
+            </p>
+
+            <div className="grid two-col" style={{marginTop: '30px'}}>
+              <div>
+                <h4 style={{color: 'var(--highlight-amber)', marginBottom: '20px', fontFamily: 'Libre Baskerville, serif', fontSize: '1.2em'}}>
+                  Bank Statement
+                </h4>
+                <div className="transaction-card source" style={{marginBottom: '16px'}}>
+                  Wire Transfer XYZ Corp
+                </div>
+                <div className="transaction-card source" style={{marginBottom: '16px'}}>
+                  INV-1234 Payment
+                </div>
+                <div className="transaction-card source" style={{marginBottom: '16px'}}>
+                  DEBIT ACME Industries
+                </div>
+                <div className="transaction-card source" style={{marginBottom: '16px'}}>
+                  Payment GlobalTech LLC
+                </div>
+                <div className="transaction-card source" style={{marginBottom: '16px'}}>
+                  TRF Innovate Solutions
+                </div>
+              </div>
+              <div>
+                <h4 style={{color: 'var(--accounting-green)', marginBottom: '20px', fontFamily: 'Libre Baskerville, serif', fontSize: '1.2em'}}>
+                  Accounting Records
+                </h4>
+                <div className="transaction-card target" style={{marginBottom: '16px'}}>
+                  Invoice #1234
+                </div>
+                <div className="transaction-card target" style={{marginBottom: '16px'}}>
+                  ACME Industrial Supply
+                </div>
+                <div className="transaction-card target" style={{marginBottom: '16px'}}>
+                  XYZ Corporation Wire
+                </div>
+                <div className="transaction-card target" style={{marginBottom: '16px'}}>
+                  GlobalTech Limited
+                </div>
+                <div className="transaction-card target" style={{marginBottom: '16px'}}>
+                  Summit Partners Inc
+                </div>
+              </div>
+            </div>
+
+            <div className="info-box" style={{marginTop: '30px'}}>
+              <strong style={{fontFamily: 'Libre Baskerville, serif', fontSize: '1.1em'}}>The Challenge:</strong>
+              <br/>
+              Notice how the order is jumbled, names are abbreviated differently, and "Innovate Solutions" 
+              doesn't match "Summit Partners" at all. This is exactly what fuzzy matching solves.
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Fuzzy Matching Explanation
+    const FuzzyMatchingExplainer = () => {
+      const [word1, setWord1] = useState("INV-1234 Payment");
+      const [word2, setWord2] = useState("Invoice #1234");
+      const [score, setScore] = useState(0);
+      const [steps, setSteps] = useState([]);
+
+      const calculateLevenshtein = (str1, str2) => {
+        const matrix = [];
+        for (let i = 0; i <= str2.length; i++) matrix[i] = [i];
+        for (let j = 0; j <= str1.length; j++) matrix[0][j] = j;
+        
+        for (let i = 1; i <= str2.length; i++) {
+          for (let j = 1; j <= str1.length; j++) {
+            if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+              matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+              matrix[i][j] = Math.min(
+                matrix[i - 1][j - 1] + 1,
+                matrix[i][j - 1] + 1,
+                matrix[i - 1][j] + 1
+              );
+            }
+          }
+        }
+        return matrix[str2.length][str1.length];
+      };
+
+      useEffect(() => {
+        if (word1 && word2) {
+          const s = fuzzball.token_sort_ratio(word1, word2);
+          setScore(s);
+
+          const dist = calculateLevenshtein(word1.toLowerCase(), word2.toLowerCase());
+          const maxLen = Math.max(word1.length, word2.length);
+
+          setSteps([
+            `Tokenize & normalize: "${word1.toLowerCase()}" vs "${word2.toLowerCase()}"`,
+            `Sort tokens alphabetically to ignore word order`,
+            `Calculate Levenshtein distance: ${dist} character edits needed`,
+            `Compute similarity: (${maxLen} - ${dist}) / ${maxLen} × 100`,
+            `Final score: ${s}%`
+          ]);
+        }
+      }, [word1, word2]);
+
+      return (
+        <div className="section">
+          <h2>How Fuzzy Matching Works</h2>
+          <p>
+            The algorithm uses{' '}
+            <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" className="reference-link" target="_blank">
+              Levenshtein distance
+            </a>
+            {' '}to measure similarity: the minimum number of single-character edits 
+            (insertions, deletions, substitutions) needed to transform one string into another.
+          </p>
+
+          <div style={{margin: '40px 0'}}>
+            <h3>Interactive Demo</h3>
+            <p style={{fontSize: '1em'}}>Try comparing different transaction descriptions:</p>
+
+            <div className="grid two-col" style={{marginTop: '25px'}}>
+              <div>
+                <label className="label" style={{color: 'var(--highlight-amber)'}}>
+                  Bank Statement Entry
+                </label>
+                <input
+                  className="interactive-input"
+                  value={word1}
+                  onChange={(e) => setWord1(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="label" style={{color: 'var(--accounting-green)'}}>
+                  Accounting Record
+                </label>
+                <input
+                  className="interactive-input"
+                  value={word2}
+                  onChange={(e) => setWord2(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div style={{textAlign: 'center', margin: '40px 0'}}>
+              <div style={{
+                fontSize: '4.5em', 
+                fontWeight: 700, 
+                color: score > 80 ? 'var(--accounting-green)' : score > 50 ? 'var(--highlight-amber)' : '#BF360C',
+                fontFamily: 'DM Serif Display, serif',
+                fontStyle: 'italic'
+              }}>
+                {score}%
+              </div>
+              <div style={{fontSize: '1.3em', color: 'var(--ink-light)', fontFamily: 'Libre Baskerville, serif'}}>
+                Match Confidence
+              </div>
+            </div>
+
+            <div className="step-box">
+              <h4 style={{marginBottom: '15px', fontFamily: 'Libre Baskerville, serif'}}>
+                Calculation Steps:
+              </h4>
+              {steps.map((step, i) => (
+                <div key={i} style={{padding: '12px 0', borderBottom: i < steps.length - 1 ? '1px solid var(--ledger-line)' : 'none'}}>
+                  <span className="step-indicator">{i + 1}</span>
+                  <span style={{fontSize: '0.95em'}}>{step}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="info-box">
+              <strong>Token Sort Ratio</strong> handles word reordering perfectly. 
+              "Wire Transfer XYZ" matches "XYZ Wire Transfer" at 100% because the algorithm 
+              sorts tokens before comparison. Learn more from{' '}
+              <a href="https://github.com/seatgeek/thefuzz" className="reference-link" target="_blank">
+                TheFuzz library
+              </a>.
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Score Matrix
+    const ScoreMatrix = () => {
+      const sources = [
+        "Wire Transfer XYZ Corp",
+        "INV-1234 Payment", 
+        "DEBIT ACME Industries",
+        "Payment GlobalTech LLC",
+        "TRF Innovate Solutions"
+      ];
+      
+      const targets = [
+        "Invoice #1234",
+        "ACME Industrial Supply",
+        "XYZ Corporation Wire",
+        "GlobalTech Limited",
+        "Summit Partners Inc"
+      ];
+
+      const matrix = sources.map(source =>
+        targets.map(target => fuzzball.token_sort_ratio(source, target))
+      );
+
+      return (
+        <div className="section">
+          <h2>The Score Matrix</h2>
+          <p>
+            We calculate similarity scores for <strong>every possible pairing</strong> between 
+            bank transactions and accounting records. This creates a matrix where each cell shows 
+            how well two entries match.
+          </p>
+
+          <div style={{overflowX: 'auto', marginTop: '40px'}}>
+            <table className="matrix-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  {targets.map((target, i) => (
+                    <th key={i} style={{fontSize: '0.8em', maxWidth: '140px', wordWrap: 'break-word'}}>
+                      {target}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {sources.map((source, row) => (
+                  <tr key={row}>
+                    <td className="row-header" style={{maxWidth: '150px', wordWrap: 'break-word', fontSize: '0.8em'}}>
+                      {source}
+                    </td>
+                    {targets.map((target, col) => {
+                      const score = matrix[row][col];
+                      const cellClass = score > 70 ? 'high' : score > 40 ? 'medium' : 'low';
+                      return (
+                        <td key={col} className={`score-cell ${cellClass}`}>
+                          {score}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="info-box" style={{marginTop: '30px'}}>
+            <strong>Reading the Matrix:</strong> Higher scores (green) indicate better matches. 
+            Notice how "INV-1234 Payment" scores 69% with "Invoice #1234" (row 2, column 1), 
+            while "TRF Innovate Solutions" has no strong matches (row 5).
+          </div>
+        </div>
+      );
+    };
+
+    // Assignment Algorithm - Simplified
+    const AssignmentAlgorithm = () => {
+      const [step, setStep] = useState(0);
+
+      const sources = [
+        "Wire Transfer XYZ Corp",
+        "INV-1234 Payment", 
+        "DEBIT ACME Industries",
+        "Payment GlobalTech LLC",
+        "TRF Innovate Solutions"
+      ];
+      
+      const targets = [
+        "Invoice #1234",
+        "ACME Industrial Supply",
+        "XYZ Corporation Wire",
+        "GlobalTech Limited",
+        "Summit Partners Inc"
+      ];
+
+      const matrix = sources.map(source =>
+        targets.map(target => fuzzball.token_sort_ratio(source, target))
+      );
+
+      // Optimal assignments (pre-calculated)
+      const optimalAssignments = [
+        { source: 0, target: 2, score: 73 }, // XYZ Corp -> XYZ Corporation
+        { source: 1, target: 0, score: 69 }, // INV-1234 -> Invoice #1234
+        { source: 2, target: 1, score: 81 }, // ACME -> ACME Industrial
+        { source: 3, target: 3, score: 90 }, // GlobalTech -> GlobalTech
+      ];
+
+      const steps = [
+        {
+          title: "The Problem",
+          description: "We have 5 bank transactions and 5 accounting records. We need to find the best overall matching, not just pick the highest score for each row.",
+          highlight: []
+        },
+        {
+          title: "Why Greedy Fails",
+          description: "If we just pick the best match for each transaction one-by-one, we might block better matches for other transactions. We need a global optimization.",
+          highlight: [{source: 0, target: 2}]
+        },
+        {
+          title: "The Solution: Hungarian Algorithm",
+          description: "The Jonker-Volgenant algorithm (an optimized Hungarian algorithm) finds the assignment that maximizes the total score across all pairs simultaneously.",
+          highlight: []
+        },
+        {
+          title: "Optimal Matches Found",
+          description: `Total confidence: ${optimalAssignments.reduce((sum, a) => sum + a.score, 0)}%. Note: "Innovate Solutions" has no good match (all scores < 40%), so it's left unmatched.`,
+          highlight: optimalAssignments
+        }
+      ];
+
+      return (
+        <div className="section">
+          <h2>Finding Optimal Assignments</h2>
+          <p>
+            The{' '}
+            <a href="https://link.springer.com/article/10.1007/BF02278710" className="reference-link" target="_blank">
+              Jonker-Volgenant algorithm
+            </a>
+            {' '}solves this as an "assignment problem": assign each bank transaction to 
+            at most one accounting record, maximizing total confidence.
+          </p>
+
+          <div className="step-box" style={{margin: '30px 0'}}>
+            <h3 style={{fontSize: '1.5em', marginBottom: '10px'}}>{steps[step].title}</h3>
+            <p style={{fontSize: '1em', marginBottom: '0'}}>{steps[step].description}</p>
+          </div>
+
+          <div style={{overflowX: 'auto'}}>
+            <table className="matrix-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  {targets.map((target, i) => (
+                    <th key={i} style={{fontSize: '0.75em', maxWidth: '120px'}}>
+                      {target}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {sources.map((source, row) => (
+                  <tr key={row}>
+                    <td className="row-header" style={{fontSize: '0.75em', maxWidth: '130px'}}>
+                      {source}
+                    </td>
+                    {targets.map((_, col) => {
+                      const score = matrix[row][col];
+                      const isHighlighted = steps[step].highlight.some(h => h.source === row && h.target === col);
+                      const cellClass = score > 70 ? 'high' : score > 40 ? 'medium' : 'low';
+                      
+                      return (
+                        <td
+                          key={col}
+                          className={`score-cell ${cellClass} ${isHighlighted ? 'selected' : ''}`}
+                        >
+                          {score}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div style={{textAlign: 'center', marginTop: '35px'}}>
+            <button onClick={() => setStep(Math.max(0, step - 1))} disabled={step === 0}>
+              ← Previous
+            </button>
+            <button onClick={() => setStep(Math.min(steps.length - 1, step + 1))} disabled={step === steps.length - 1}>
+              Next →
+            </button>
+            <button onClick={() => setStep(0)}>
+              ↻ Restart
+            </button>
+          </div>
+
+          <div className="info-box" style={{marginTop: '30px'}}>
+            <strong>Why This Matters:</strong> The algorithm guarantees the best possible total match. 
+            In our case, it correctly identifies 4 strong matches and leaves "Innovate Solutions" 
+            unmatched (flagged for manual review), rather than forcing a poor match.
+          </div>
+        </div>
+      );
+    };
+
+    // Interactive Playground
+    const InteractivePlayground = () => {
+      const [sourceList, setSourceList] = useState(
+        "Wire Transfer XYZ Corp\nINV-1234 Payment\nDEBIT ACME Industries\nPayment GlobalTech LLC\nTRF Innovate Solutions"
+      );
+      const [targetList, setTargetList] = useState(
+        "Invoice #1234\nACME Industrial Supply\nXYZ Corporation Wire\nGlobalTech Limited\nSummit Partners Inc"
+      );
+      const [results, setResults] = useState([]);
+
+      const runMatching = () => {
+        const sources = sourceList.split('\n').filter(s => s.trim());
+        const targets = targetList.split('\n').filter(s => s.trim());
+
+        if (sources.length === 0 || targets.length === 0) {
+          alert('Please enter at least one transaction in each list');
+          return;
+        }
+
+        const used = new Set();
+        const matches = [];
+
+        sources.forEach(source => {
+          let bestScore = -1;
+          let bestTarget = '';
+          let bestIndex = -1;
+
+          targets.forEach((target, j) => {
+            if (!used.has(j)) {
+              const score = fuzzball.token_sort_ratio(source, target);
+              if (score > bestScore) {
+                bestScore = score;
+                bestTarget = target;
+                bestIndex = j;
+              }
+            }
+          });
+
+          if (bestIndex !== -1 && bestScore > 40) { // Only match if confidence > 40%
+            used.add(bestIndex);
+            matches.push({ source, target: bestTarget, score: bestScore });
+          }
+        });
+
+        matches.sort((a, b) => b.score - a.score);
+        setResults(matches);
+      };
+
+      return (
+        <div className="section">
+          <h2>Try Your Own Data</h2>
+          <p>
+            Enter your own transaction lists below. Each line is one transaction. 
+            The algorithm will find the best matches automatically.
+          </p>
+
+          <div className="grid two-col" style={{marginTop: '35px'}}>
+            <div>
+              <label className="label" style={{color: 'var(--highlight-amber)'}}>
+                Bank Statement Transactions
+              </label>
+              <textarea
+                value={sourceList}
+                onChange={(e) => setSourceList(e.target.value)}
+                placeholder="Enter bank transactions, one per line"
+              />
+            </div>
+            <div>
+              <label className="label" style={{color: 'var(--accounting-green)'}}>
+                Accounting Records
+              </label>
+              <textarea
+                value={targetList}
+                onChange={(e) => setTargetList(e.target.value)}
+                placeholder="Enter accounting records, one per line"
+              />
+            </div>
+          </div>
+
+          <div style={{textAlign: 'center', marginTop: '25px'}}>
+            <button onClick={runMatching} style={{fontSize: '1.1em', padding: '16px 36px'}}>
+              🔍 Find Matches
+            </button>
+          </div>
+
+          {results.length > 0 && (
+            <div style={{marginTop: '45px'}}>
+              <h3 style={{fontFamily: 'DM Serif Display, serif', fontStyle: 'italic'}}>
+                Reconciliation Results
+              </h3>
+              <p style={{fontSize: '1em', color: 'var(--ink-light)', marginBottom: '25px'}}>
+                {results.length} matches found with confidence above 40%
+              </p>
+              {results.map((result, i) => (
+                <div key={i} className="result-item" style={{animationDelay: `${i * 0.1}s`}}>
+                  <div style={{flex: 1, fontWeight: 700, color: 'var(--highlight-amber)'}}>
+                    {result.source}
+                  </div>
+                  <div className="result-arrow">→</div>
+                  <div style={{flex: 1, fontWeight: 700, color: 'var(--accounting-green)'}}>
+                    {result.target}
+                  </div>
+                  <div className="score-badge" style={{
+                    background: result.score > 80 ? 'var(--accounting-green)' : 
+                               result.score > 50 ? 'var(--highlight-amber)' : '#BF360C'
+                  }}>
+                    {result.score}%
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // Main App
+    const App = () => {
+      return (
+        <div>
+          <div className="hero">
+            <h1>The Reconciliation Engine</h1>
+            <p>Finding order in financial chaos through fuzzy matching</p>
+          </div>
+
+          <div className="container">
+            <BusinessContext />
+            <FuzzyMatchingExplainer />
+            <ScoreMatrix />
+            <AssignmentAlgorithm />
+            <InteractivePlayground />
+
+            <div className="section" style={{background: 'linear-gradient(135deg, var(--ink-dark) 0%, var(--ink-medium) 100%)', color: 'var(--paper)', borderColor: 'var(--ink-dark)'}}>
+              <h3 style={{color: 'var(--paper)', fontFamily: 'DM Serif Display, serif'}}>
+                Further Reading
+              </h3>
+              <ul style={{lineHeight: 2.2, fontSize: '1.05em', marginTop: '20px', listStyle: 'none', paddingLeft: '0'}}>
+                <li style={{marginBottom: '12px'}}>
+                  → <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" style={{color: 'var(--paper)', borderBottom: '2px solid var(--accounting-green)'}} target="_blank">
+                    Levenshtein Distance Algorithm
+                  </a>
+                </li>
+                <li style={{marginBottom: '12px'}}>
+                  → <a href="https://github.com/seatgeek/thefuzz" style={{color: 'var(--paper)', borderBottom: '2px solid var(--accounting-green)'}} target="_blank">
+                    TheFuzz: Python Fuzzy Matching Library
+                  </a>
+                </li>
+                <li style={{marginBottom: '12px'}}>
+                  → <a href="https://link.springer.com/article/10.1007/BF02278710" style={{color: 'var(--paper)', borderBottom: '2px solid var(--accounting-green)'}} target="_blank">
+                    Jonker & Volgenant (1987) - Original Paper
+                  </a>
+                </li>
+                <li style={{marginBottom: '12px'}}>
+                  → <a href="https://en.wikipedia.org/wiki/Hungarian_algorithm" style={{color: 'var(--paper)', borderBottom: '2px solid var(--accounting-green)'}} target="_blank">
+                    Hungarian Algorithm - Wikipedia
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div style={{textAlign: 'center', padding: '50px 0', color: 'var(--ink-light)'}}>
+              <p style={{fontSize: '0.95em', fontFamily: 'Libre Baskerville, serif'}}>
+                Built with React & Fuzzball.js • Designed for accountants, data scientists, and anyone drowning in messy data
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>

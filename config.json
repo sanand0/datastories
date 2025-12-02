@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "fuzzymatch",
+      "title": "The Reconciliation Engine",
+      "description": "Fuzzy search playground that reconciles bank transactions to accounting records using similarity scores and optimal assignments.",
+      "link": "fuzzymatch/index.html",
+      "screenshot": "fuzzymatch/screenshot.webp"
+    },
+    {
       "id": "tds-project-2025-11",
       "title": "TDS Project 2: The Cliff",
       "description": "Why only 29% of students mastered LLM problem-solving—and what the other 71% couldn't figure out - an analysis of 535 students at IIT Madras Tools in Data Science, November 2025",
