@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "indian-batting-greats",
+      "title": "Indian Batting Greats",
+      "description": "Ranked Indian batting legends with an LLM-chosen metric: batting average x log(total runs), plotted across their active years.",
+      "link": "indian-batting-greats/index.html",
+      "screenshot": "indian-batting-greats/screenshot.webp"
+    },
+    {
       "id": "fuzzymatch",
       "title": "The Reconciliation Engine",
       "description": "Fuzzy search playground that reconciles bank transactions to accounting records using similarity scores and optimal assignments.",

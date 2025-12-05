@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Measure of Greatness: Indian Batting Through the Ages</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #fafafa;
+            margin-bottom: 40vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #000;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .byline {
+            font-size: 0.9rem;
+            color: #999;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .dropcap::first-letter {
+            float: left;
+            font-size: 5rem;
+            line-height: 0.85;
+            margin: 0.1rem 0.1rem 0 0;
+            font-weight: 700;
+        }
+
+        .pullquote {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #333;
+            margin: 2rem 0;
+            padding-left: 2rem;
+            border-left: 4px solid #333;
+        }
+
+        .viz-container {
+            margin: 3rem 0;
+            background: white;
+            padding: 2rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .viz-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .viz-subtitle {
+            font-size: 0.95rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        #chart {
+            width: 100%;
+            height: 600px;
+            position: relative;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            pointer-events: none;
+            display: none;
+            z-index: 1000;
+            max-width: 250px;
+            line-height: 1.4;
+        }
+
+        .metric-box {
+            background: #f0f0f0;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .metric-formula {
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .era-note {
+            background: #fff9e6;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid #ffc107;
+            font-size: 1rem;
+        }
+
+        .ranking-list {
+            margin: 2rem 0;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .ranking-item {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: white;
+            border-left: 4px solid #2196f3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ranking-item:nth-child(1) { border-color: #ffd700; background: #fffef0; }
+        .ranking-item:nth-child(2) { border-color: #c0c0c0; background: #fafafa; }
+        .ranking-item:nth-child(3) { border-color: #cd7f32; background: #fff8f0; }
+
+        .rank-number {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #666;
+            margin-right: 1rem;
+        }
+
+        .player-name {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .player-score {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #2196f3;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        select, input[type="range"] {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-line {
+            width: 30px;
+            height: 3px;
+            background: currentColor;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1.1rem; }
+            #chart { height: 500px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Measure of Greatness</h1>
+        <div class="subtitle">How do you compare Sachin Tendulkar to Sunil Gavaskar? A journey through time, runs, and the mathematics of batting mastery</div>
+        <div class="byline">A Data Story · December 2025</div>
+
+        <p class="dropcap">It was a Tuesday evening in Chennai when my father turned to me and said, "Kohli just scored his second consecutive century." The match—India versus South Africa, December 3rd, 2025—was still in progress, but already the conversation had shifted from the present to the past. "How does he compare to the greats?" I wondered. It's the question that haunts every generation of cricket fans, the one that turns dinner table conversations into statistical battlegrounds.</p>
+
+        <p>The problem, as any cricket statistician will tell you, is deceptively simple: How do you measure batting greatness across eras? The game Sunil Gavaskar played in the 1970s—on uncovered pitches, with helmets just becoming fashionable, facing the West Indian pace battery at their most fearsome—bears little resemblance to the game Virat Kohli plays today. Between them lies Sachin Tendulkar, who bridged both worlds, playing from 1989 to 2013, watching the game transform around him.</p>
+
+        <p class="pullquote">"The batting average is cricket's most elegant statistic: runs divided by dismissals. But elegance, like batting itself, has its complications."</p>
+
+        <p>Consider the numbers. Between 2000 and 2010, batting averages soared to historic heights—runs per wicket reached 34.62, compared to just 29.7 in the periods before and after. Thirty-six batsmen scored over 4,000 runs in that golden decade, sixteen of them averaging over 50. It was, statistically speaking, the easiest time to be a batsman in Test cricket history. Covered pitches, smaller boundaries, thicker bats, better protective equipment—all conspired to make run-scoring easier than it had ever been.</p>
+
+        <div class="era-note">
+            <strong>The Era Problem:</strong> In the early 2000s, conditions were exceptionally favorable for batsmen, with batting averages 8% higher than surrounding periods. This means a player averaging 50 in that era might be equivalent to someone averaging 46 in a tougher period. Yet traditional statistics treat them identically.
+        </div>
+
+        <p>This is where the mathematics of measurement gets interesting. ChatGPT, when posed with this exact question, spent twelve minutes thinking—an eternity in AI time—before proposing a deceptively simple solution.</p>
+
+        <div class="metric-box">
+            <div class="metric-formula"><strong>Impact Score = Batting Average × ln(Career Runs)</strong></div>
+            <p style="margin-top: 1rem; text-align: center; color: #666;">Where batting average measures "how hard are you to dismiss" and the natural logarithm of runs rewards longevity with diminishing returns</p>
+        </div>
+
+        <p>Why the logarithm? Because 15,000 runs shouldn't count as three times more impressive than 5,000 runs. Longevity matters, but it shouldn't dominate. The logarithm compresses the scale—doubling your runs doesn't double your greatness, it adds to it proportionally. It's a mathematical way of saying: consistency over time is valuable, but there are diminishing returns to sheer accumulation.</p>
+
+        <p>What's fascinating about this metric is what it leaves out. Strike rate—how fast you score—doesn't appear. In an era increasingly obsessed with T20 cricket and aggressive batting, this feels almost heretical. But for Test cricket, where matches stretch over five days, the speed of scoring has historically mattered less than the ability to not get out. Until the 21st century, players who sustained an average above 50 were considered exceptional.</p>
+
+        <div class="viz-container">
+            <div class="viz-title">Indian Batting Mastery Across Generations</div>
+            <div class="viz-subtitle">Each line represents a career span; hover to see details. Impact Score = Average × ln(Runs)</div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>Filter by runs:</label>
+                    <select id="runsFilter">
+                        <option value="2000">2,000+ runs</option>
+                        <option value="4000" selected>4,000+ runs</option>
+                        <option value="6000">6,000+ runs</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Min average:</label>
+                    <select id="avgFilter">
+                        <option value="35">35+</option>
+                        <option value="40" selected>40+</option>
+                        <option value="45">45+</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="chart"></div>
+            <div class="tooltip" id="tooltip"></div>
+
+            <div class="legend">
+                <div class="legend-item" style="color: #ff6b6b;">
+                    <div class="legend-line"></div>
+                    <span>Impact > 500</span>
+                </div>
+                <div class="legend-item" style="color: #4ecdc4;">
+                    <div class="legend-line"></div>
+                    <span>Impact 450-500</span>
+                </div>
+                <div class="legend-item" style="color: #95a5a6;">
+                    <div class="legend-line"></div>
+                    <span>Impact 400-450</span>
+                </div>
+                <div class="legend-item" style="color: #ddd;">
+                    <div class="legend-line"></div>
+                    <span>Impact < 400</span>
+                </div>
+            </div>
+        </div>
+
+        <p>What emerges from this analysis is both expected and surprising. Sachin Tendulkar dominates with an Impact Score of 520.3—the combination of 15,921 runs and a 53.78 average creating an almost unreachable peak. But right behind him is Rahul Dravid at 499.6, a reminder that "The Wall" was more than just defensively solid; he was relentlessly consistent across 163 Tests.</p>
+
+        <div class="ranking-list">
+            <div class="ranking-item">
+                <span class="rank-number">1.</span>
+                <span class="player-name">Sachin Tendulkar (1989-2013)</span>
+                <span class="player-score">520.3</span>
+            </div>
+            <div class="ranking-item">
+                <span class="rank-number">2.</span>
+                <span class="player-name">Rahul Dravid (1996-2012)</span>
+                <span class="player-score">499.6</span>
+            </div>
+            <div class="ranking-item">
+                <span class="rank-number">3.</span>
+                <span class="player-name">Sunil Gavaskar (1971-1987)</span>
+                <span class="player-score">471.5</span>
+            </div>
+            <div class="ranking-item">
+                <span class="rank-number">4.</span>
+                <span class="player-name">Virender Sehwag (2001-2013)</span>
+                <span class="player-score">447.3</span>
+            </div>
+            <div class="ranking-item">
+                <span class="rank-number">5.</span>
+                <span class="player-name">Virat Kohli (2011-2025)</span>
+                <span class="player-score">427.8</span>
+            </div>
+        </div>
+
+        <p>Gavaskar ranks third at 471.5, and here's where the metric reveals something profound: he played in one of the toughest eras for batting, yet his 51.12 average stands tall. Adjusted for era, his accomplishment might be even more remarkable than the raw number suggests. Virender Sehwag's fourth-place ranking (447.3) captures his unique contribution—a 49.43 average that demolished the notion that Test openers needed to be cautious.</p>
+
+        <p>And then there's Kohli, currently at 427.8. His career is still unfolding—at 37, playing primarily ODIs now after retiring from Tests—and that 46.85 average sits below the magical 50 mark that separates the very good from the great. Yet his 9,230 runs in just 123 Tests (compared to Tendulkar's 200) suggest a scoring rate that reflects modern cricket's faster tempo.</p>
+
+        <p class="pullquote">"What's interesting isn't just who ranks where—it's what the metric reveals about how we value batting achievement."</p>
+
+        <p>The elephant in the room, of course, is what this metric doesn't capture. It treats all runs as equal, whether scored on a raging turner in Chennai or a flat pitch in Dubai. It doesn't distinguish between runs scored against Australia's fearsome pace attack and runs against a weaker bowling side. It ignores match situations—a century when your team is 50 for 5 versus one when you're cruising at 300 for 2.</p>
+
+        <p>But perhaps that's the point. Perfect measurement is impossible in cricket, just as it's impossible in life. What we're left with are proxies, approximations, ways of starting conversations rather than ending them. Tendulkar's 15,921 runs came across 329 innings over 24 years, a sustained excellence that transcends any single statistical measure. Gavaskar's 34 centuries included some of the most courageous innings ever played, facing an era of hostile fast bowling without adequate protection.</p>
+
+        <p>The metric does, however, surface one uncomfortable truth: total runs matter more in this calculation than we might like to admit. It's there in the logarithm, ensuring that accumulated runs contribute substantially to the final score. Yashasvi Jaiswal, the young opener with a stratospheric 49.23 average, ranks ninth with an Impact Score of 385.4—but he's played just 28 Tests. Will he maintain that average over 100 Tests? History suggests probably not. A career batting average over 50 is exceptional, achieved by only a handful of players.</p>
+
+        <p>Back to that Tuesday evening in Chennai. As Kohli's innings unfolded on the television, father and son could have argued about techniques, about eras, about whether facing Curtly Ambrose and Courtney Walsh was harder than facing today's bowlers with better fitness but less raw pace. Instead, they now had a number to discuss, a framework for comparison that acknowledged both quality (average) and quantity (runs) while recognizing that more isn't always proportionally better (the logarithm).</p>
+
+        <p>Is it perfect? No. Is it better than simple averages? Arguably yes. Does it settle the debate about who is India's greatest batsman? Of course not. But it does what good metrics do: it starts a conversation with numbers, and lets the stories fill in the rest.</p>
+
+        <p>The visualization above tells its own story—lines stretching across decades, some thick and confident (Tendulkar's nearly quarter-century career), others shorter but brilliant (Jaiswal's promising start, still unfolding). Together, they form a tapestry of Indian cricket history, each thread representing thousands of hours at the crease, millions of balls faced, and the dreams of a billion fans.</p>
+
+        <p>In the end, measuring greatness might be less about finding the perfect formula and more about acknowledging its impossibility while trying anyway. Because the attempt itself—the father and son discussing cricket over dinner, the statistician poring over numbers late into the night, the AI spending twelve minutes thinking about runs and averages—is part of what makes cricket beautiful. The game may be played on the field, but it lives on in these moments of measurement, comparison, and endless debate.</p>
+
+        <p><em>Data source: ESPNcricinfo Statsguru (accessed December 2025)</em></p>
+
+        <hr style="margin-bottom: 40px">
+
+        <h2><a href="interactive.html">Interactive Plot by Gemini</a></h2>
+
+    </div>
+
+    <script>
+        // Data from ESPNcricinfo
+        const players = [
+            {name: "SR Tendulkar", start: 1989, end: 2013, runs: 15921, avg: 53.78, matches: 200},
+            {name: "R Dravid", start: 1996, end: 2012, runs: 13265, avg: 52.63, matches: 163},
+            {name: "SM Gavaskar", start: 1971, end: 1987, runs: 10122, avg: 51.12, matches: 125},
+            {name: "V Kohli", start: 2011, end: 2025, runs: 9230, avg: 46.85, matches: 123},
+            {name: "VVS Laxman", start: 1996, end: 2012, runs: 8781, avg: 45.97, matches: 134},
+            {name: "V Sehwag", start: 2001, end: 2013, runs: 8503, avg: 49.43, matches: 103},
+            {name: "SC Ganguly", start: 1996, end: 2008, runs: 7212, avg: 42.17, matches: 113},
+            {name: "CA Pujara", start: 2010, end: 2023, runs: 7195, avg: 43.60, matches: 103},
+            {name: "DB Vengsarkar", start: 1976, end: 1992, runs: 6868, avg: 42.13, matches: 116},
+            {name: "M Azharuddin", start: 1984, end: 2000, runs: 6215, avg: 45.03, matches: 99},
+            {name: "GR Viswanath", start: 1969, end: 1983, runs: 6080, avg: 41.93, matches: 91},
+            {name: "M Amarnath", start: 1969, end: 1988, runs: 4378, avg: 42.50, matches: 69},
+            {name: "RG Sharma", start: 2013, end: 2024, runs: 4301, avg: 40.57, matches: 67},
+            {name: "G Gambhir", start: 2004, end: 2016, runs: 4154, avg: 41.95, matches: 58},
+            {name: "PR Umrigar", start: 1948, end: 1962, runs: 3631, avg: 42.22, matches: 59},
+            {name: "RR Pant", start: 2018, end: 2025, runs: 3476, avg: 42.91, matches: 49},
+            {name: "NS Sidhu", start: 1983, end: 1999, runs: 3202, avg: 42.13, matches: 51},
+            {name: "Shubman Gill", start: 2020, end: 2025, runs: 2843, avg: 43.07, matches: 40},
+            {name: "YBK Jaiswal", start: 2023, end: 2025, runs: 2511, avg: 49.23, matches: 28},
+            {name: "S Dhawan", start: 2013, end: 2018, runs: 2315, avg: 40.61, matches: 34},
+            {name: "VS Hazare", start: 1946, end: 1953, runs: 2192, avg: 47.65, matches: 30}
+        ];
+
+        // Calculate impact score
+        players.forEach(p => {
+            p.impact = p.avg * Math.log(p.runs);
+        });
+
+        function getColor(impact) {
+            if (impact >= 500) return '#ff6b6b';
+            if (impact >= 450) return '#4ecdc4';
+            if (impact >= 400) return '#95a5a6';
+            return '#ddd';
+        }
+
+        function renderChart() {
+            const runsFilter = parseInt(document.getElementById('runsFilter').value);
+            const avgFilter = parseInt(document.getElementById('avgFilter').value);
+
+            const filtered = players.filter(p => p.runs >= runsFilter && p.avg >= avgFilter);
+
+            const chart = document.getElementById('chart');
+            const tooltip = document.getElementById('tooltip');
+
+            chart.innerHTML = '';
+
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+            svg.setAttribute('viewBox', '0 0 800 600');
+
+            const padding = {top: 20, right: 120, bottom: 50, left: 60};
+            const width = 800 - padding.left - padding.right;
+            const height = 600 - padding.top - padding.bottom;
+
+            const minYear = 1945;
+            const maxYear = 2026;
+            const minImpact = 350;
+            const maxImpact = 550;
+
+            const xScale = (year) => padding.left + (year - minYear) / (maxYear - minYear) * width;
+            const yScale = (impact) => padding.top + height - (impact - minImpact) / (maxImpact - minImpact) * height;
+
+            // Grid lines
+            for (let i = minImpact; i <= maxImpact; i += 25) {
+                const y = yScale(i);
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', padding.left + width);
+                line.setAttribute('y2', y);
+                line.setAttribute('stroke', '#f0f0f0');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padding.left - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('font-size', '11');
+                text.setAttribute('fill', '#999');
+                text.textContent = i;
+                svg.appendChild(text);
+            }
+
+            // Vertical year lines
+            for (let year = 1950; year <= 2025; year += 10) {
+                const x = xScale(year);
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x);
+                line.setAttribute('y1', padding.top);
+                line.setAttribute('x2', x);
+                line.setAttribute('y2', padding.top + height);
+                line.setAttribute('stroke', '#f5f5f5');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x);
+                text.setAttribute('y', padding.top + height + 20);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('font-size', '11');
+                text.setAttribute('fill', '#666');
+                text.textContent = year;
+                svg.appendChild(text);
+            }
+
+            // Axes
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding.left);
+            xAxis.setAttribute('y1', padding.top + height);
+            xAxis.setAttribute('x2', padding.left + width);
+            xAxis.setAttribute('y2', padding.top + height);
+            xAxis.setAttribute('stroke', '#333');
+            xAxis.setAttribute('stroke-width', '2');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', padding.left);
+            yAxis.setAttribute('y1', padding.top);
+            yAxis.setAttribute('x2', padding.left);
+            yAxis.setAttribute('y2', padding.top + height);
+            yAxis.setAttribute('stroke', '#333');
+            yAxis.setAttribute('stroke-width', '2');
+            svg.appendChild(yAxis);
+
+            // Axis labels
+            const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            xLabel.setAttribute('x', padding.left + width / 2);
+            xLabel.setAttribute('y', padding.top + height + 40);
+            xLabel.setAttribute('text-anchor', 'middle');
+            xLabel.setAttribute('font-size', '13');
+            xLabel.setAttribute('font-weight', '600');
+            xLabel.setAttribute('fill', '#333');
+            xLabel.textContent = 'Career Span';
+            svg.appendChild(xLabel);
+
+            const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yLabel.setAttribute('x', -(padding.top + height / 2));
+            yLabel.setAttribute('y', 20);
+            yLabel.setAttribute('text-anchor', 'middle');
+            yLabel.setAttribute('font-size', '13');
+            yLabel.setAttribute('font-weight', '600');
+            yLabel.setAttribute('fill', '#333');
+            yLabel.setAttribute('transform', 'rotate(-90)');
+            yLabel.textContent = 'Impact Score';
+            svg.appendChild(yLabel);
+
+            // Draw career lines
+            filtered.forEach(player => {
+                const x1 = xScale(player.start);
+                const x2 = xScale(player.end);
+                const y = yScale(player.impact);
+                const color = getColor(player.impact);
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y);
+                line.setAttribute('stroke', color);
+                line.setAttribute('stroke-width', '3');
+                line.setAttribute('stroke-linecap', 'round');
+                svg.appendChild(line);
+
+                // Add label at end
+                if (x2 + 5 < padding.left + width) {
+                    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    label.setAttribute('x', x2 + 5);
+                    label.setAttribute('y', y + 4);
+                    label.setAttribute('font-size', '10');
+                    label.setAttribute('fill', color);
+                    label.setAttribute('font-weight', '600');
+                    label.textContent = player.name.replace(/^[A-Z]{1,3} /, '');
+                    svg.appendChild(label);
+                }
+
+                // Interactive group
+                const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                group.style.cursor = 'pointer';
+
+                const hitArea = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                hitArea.setAttribute('x', x1 - 5);
+                hitArea.setAttribute('y', y - 8);
+                hitArea.setAttribute('width', x2 - x1 + 10);
+                hitArea.setAttribute('height', 16);
+                hitArea.setAttribute('fill', 'transparent');
+
+                group.appendChild(hitArea);
+
+                group.addEventListener('mouseenter', (e) => {
+                    tooltip.style.display = 'block';
+                    tooltip.innerHTML = `
+                        <strong>${player.name}</strong><br/>
+                        ${player.start}–${player.end} (${player.matches} Tests)<br/>
+                        ${player.runs.toLocaleString()} runs @ ${player.avg}<br/>
+                        <strong>Impact Score: ${player.impact.toFixed(1)}</strong>
+                    `;
+                });
+
+                group.addEventListener('mousemove', (e) => {
+                    const rect = chart.getBoundingClientRect();
+                    tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
+                    tooltip.style.top = (e.clientY - rect.top - 10) + 'px';
+                });
+
+                group.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+
+                svg.appendChild(group);
+            });
+
+            chart.appendChild(svg);
+        }
+
+        document.getElementById('runsFilter').addEventListener('change', renderChart);
+        document.getElementById('avgFilter').addEventListener('change', renderChart);
+
+        renderChart();
+    </script>
+</body>
+</html>
