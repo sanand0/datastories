@@ -1,0 +1,31 @@
+"pickup_ntaname","dropoff_ntaname","avg_fare","avg_tip_pct","trips"
+"Battery Park City-Lower Manhattan","Windsor Terrace",17.734777140961604,0.22789556572274444,31860
+"Murray Hill-Kips Bay","Greenpoint",14.999738598686886,0.2178599148343857,97934
+"Murray Hill-Kips Bay","Hunters Point-Sunnyside-West Maspeth",12.779789586234829,0.21205245554018962,245034
+"East Village","Gramercy",5.527207805626017,0.2074194518493466,1704678
+"East Village","Stuyvesant Town-Cooper Village",5.528325706691817,0.20707953987962496,307054
+"East Village","East Village",6.391712381528714,0.20649995752337225,1942128
+"Gramercy","Gramercy",6.909077797315506,0.20539046976195321,1044172
+"Gramercy","East Village",5.824666573169497,0.20530856698144279,1462668
+"Battery Park City-Lower Manhattan","Bensonhurst East",29.366835120037003,0.20427772161600916,8310
+"Midtown-Midtown South","Greenpoint",17.40984027869081,0.20373537286252846,326448
+"West Village","West Village",6.256150557488691,0.20361411375870997,8929870
+"Murray Hill-Kips Bay","Gramercy",5.6105189544382075,0.20348975253162255,2081510
+"Gramercy","Hunters Point-Sunnyside-West Maspeth",14.455289046900283,0.2033910098601263,124166
+"Turtle Bay-East Midtown","Greenpoint",14.75194072166612,0.20322165464732933,130776
+"SoHo-TriBeCa-Civic Center-Little Italy","SoHo-TriBeCa-Civic Center-Little Italy",6.686592426054613,0.2027548500079904,5681736
+"Chinatown","East Village",5.899846024523883,0.20223525604212517,1377834
+"Battery Park City-Lower Manhattan","Carroll Gardens-Columbia Street-Red Hook",13.095857139555363,0.20094037490522504,144784
+"Gramercy","Greenpoint",16.647610944327937,0.20079538050608534,64670
+"Battery Park City-Lower Manhattan","Park Slope-Gowanus",16.19686150382726,0.20031705654110474,211592
+"SoHo-TriBeCa-Civic Center-Little Italy","Brooklyn Heights-Cobble Hill",10.63299993450877,0.20009474074980493,393796
+"SoHo-TriBeCa-Civic Center-Little Italy","Carroll Gardens-Columbia Street-Red Hook",13.431039680127876,0.1998833436077279,344606
+"Gramercy","Murray Hill-Kips Bay",5.878731381262994,0.19894766027583008,2854072
+"Murray Hill-Kips Bay","Murray Hill-Kips Bay",6.769849986354254,0.19893004603467332,3152716
+"Hudson Yards-Chelsea-Flatiron-Union Square","Hudson Yards-Chelsea-Flatiron-Union Square",6.522149240022001,0.19859626844204198,15524666
+"Murray Hill-Kips Bay","Middle Village",20.705019293388904,0.19850321638419371,17620
+"SoHo-TriBeCa-Civic Center-Little Italy","West Village",6.732180044656538,0.19835682117046372,6913586
+"Hudson Yards-Chelsea-Flatiron-Union Square","Greenpoint",19.310751291192098,0.19834004149054985,246614
+"Yorkville","Airport",30.78173733853211,0.19809739029818715,844834
+"Gramercy","Stuyvesant Town-Cooper Village",5.634575985525913,0.19809139483454238,231876
+"Gramercy","East Elmhurst",26.762245596277783,0.1978852496322304,8550

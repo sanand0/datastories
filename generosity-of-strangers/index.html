@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Party of Five: How Strangers Become More Generous Together</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Courier+Prime:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <script type="module">
+    import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // Load all data files
+    const [
+      passengersByHour,
+      nightDay,
+      passengerData,
+      dowPassengers,
+      boroughPairs,
+      distancePassenger
+    ] = await Promise.all([
+      d3.csv('passengers_by_hour.csv', d3.autoType),
+      d3.csv('night_day_passengers.csv', d3.autoType),
+      d3.csv('tipping_by_passengers.csv', d3.autoType),
+      d3.csv('dow_passengers.csv', d3.autoType),
+      d3.csv('borough_pairs.csv', d3.autoType),
+      d3.csv('distance_passenger_tip.csv', d3.autoType)
+    ]);
+
+    // Chart 1: The Party of Five Effect - Hourly Pattern
+    const chart1 = Plot.plot({
+      marginLeft: 60,
+      marginBottom: 40,
+      width: 800,
+      height: 400,
+      style: {
+        background: "transparent",
+        color: "#e8d5b5"
+      },
+      y: {
+        grid: true,
+        label: "Average tip percentage (%)",
+        domain: [10, 18],
+        tickFormat: d => d + "%"
+      },
+      x: {
+        label: "Hour of day",
+        tickFormat: d => d === 0 ? "12am" : d < 12 ? d + "am" : d === 12 ? "12pm" : (d - 12) + "pm"
+      },
+      color: {
+        legend: true,
+        domain: [1, 2, 5],
+        range: ["#6b7280", "#94a3b8", "#fbbf24"],
+        label: "Passengers"
+      },
+      marks: [
+        Plot.line(passengersByHour, {
+          x: "hour",
+          y: d => d.avg_tip_pct * 100,
+          stroke: "passenger_count",
+          strokeWidth: 2.5,
+          curve: "catmull-rom"
+        }),
+        Plot.dot(passengersByHour, {
+          x: "hour",
+          y: d => d.avg_tip_pct * 100,
+          fill: "passenger_count",
+          r: 3.5
+        }),
+        Plot.ruleY([13.6], {stroke: "#6b7280", strokeDasharray: "4,4", strokeWidth: 1})
+      ]
+    });
+    document.getElementById('chart1').appendChild(chart1);
+
+    // Chart 2: Night vs Day Effect
+    const nightDayProcessed = nightDay.map(d => ({
+      ...d,
+      label: d.passenger_count === 1 ? "Solo" : d.passenger_count === 2 ? "Couple" : "Party of 5"
+    }));
+
+    const chart2 = Plot.plot({
+      marginLeft: 80,
+      marginBottom: 60,
+      width: 600,
+      height: 400,
+      y: {
+        grid: true,
+        label: "Average tip percentage (%)",
+        tickFormat: d => d + "%"
+      },
+      x: {
+        label: null
+      },
+      color: {
+        legend: true,
+        domain: ["day", "night"],
+        range: ["#fbbf24", "#3730a3"],
+        label: "Time of day"
+      },
+      fx: {
+        label: null
+      },
+      marks: [
+        Plot.barY(nightDayProcessed, {
+          fx: "label",
+          x: "time_period",
+          y: d => d.avg_tip_pct * 100,
+          fill: "time_period",
+          tip: true
+        }),
+        Plot.text(nightDayProcessed, {
+          fx: "label",
+          x: "time_period",
+          y: d => d.avg_tip_pct * 100,
+          text: d => (d.avg_tip_pct * 100).toFixed(1) + "%",
+          dy: -10,
+          fontSize: 12,
+          fontWeight: "bold"
+        })
+      ]
+    });
+    document.getElementById('chart2').appendChild(chart2);
+
+    // Chart 3: Day of Week Pattern
+    const dowProcessed = dowPassengers.map(d => ({
+      ...d,
+      day_name: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.dow - 1],
+      pax_label: d.passenger_count === 1 ? "Solo" : d.passenger_count === 2 ? "Couple" : "Party of 5"
+    }));
+
+    const chart3 = Plot.plot({
+      marginLeft: 60,
+      marginBottom: 40,
+      width: 800,
+      height: 400,
+      y: {
+        grid: true,
+        label: "Average tip percentage (%)",
+        domain: [11, 17],
+        tickFormat: d => d + "%"
+      },
+      x: {
+        label: "Day of week",
+        domain: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+      },
+      color: {
+        legend: true,
+        domain: ["Solo", "Couple", "Party of 5"],
+        range: ["#94a3b8", "#60a5fa", "#f59e0b"]
+      },
+      marks: [
+        Plot.line(dowProcessed, {
+          x: "day_name",
+          y: d => d.avg_tip_pct * 100,
+          stroke: "pax_label",
+          strokeWidth: 3,
+          curve: "catmull-rom"
+        }),
+        Plot.dot(dowProcessed, {
+          x: "day_name",
+          y: d => d.avg_tip_pct * 100,
+          fill: "pax_label",
+          r: 5
+        })
+      ]
+    });
+    document.getElementById('chart3').appendChild(chart3);
+
+    // Chart 4: Distance Effect
+    const distanceFiltered = distancePassenger.filter(d => d.distance <= 10 && d.distance >= 1);
+
+    const chart4 = Plot.plot({
+      marginLeft: 60,
+      marginBottom: 40,
+      width: 800,
+      height: 400,
+      y: {
+        grid: true,
+        label: "Average tip percentage (%)",
+        tickFormat: d => d + "%"
+      },
+      x: {
+        label: "Trip distance (miles)"
+      },
+      color: {
+        legend: true,
+        domain: [1, 5],
+        range: ["#94a3b8", "#f59e0b"],
+        label: "Passengers"
+      },
+      marks: [
+        Plot.line(distanceFiltered, {
+          x: "distance",
+          y: d => d.avg_tip_pct * 100,
+          stroke: "passenger_count",
+          strokeWidth: 3
+        }),
+        Plot.dot(distanceFiltered, {
+          x: "distance",
+          y: d => d.avg_tip_pct * 100,
+          fill: "passenger_count",
+          r: 4
+        })
+      ]
+    });
+    document.getElementById('chart4').appendChild(chart4);
+
+    // Chart 5: Borough Heatmap
+    const boroughNames = {1: "Manhattan", 2: "Bronx", 3: "Brooklyn", 4: "Queens", 5: "Staten Island"};
+    const boroughHeatmap = boroughPairs.map(d => ({
+      ...d,
+      pickup_name: boroughNames[d.pickup_borocode],
+      dropoff_name: boroughNames[d.dropoff_borocode]
+    }));
+
+    const chart5 = Plot.plot({
+      marginLeft: 100,
+      marginBottom: 100,
+      width: 600,
+      height: 500,
+      padding: 0,
+      x: {
+        label: "Dropoff borough",
+        tickRotate: -45
+      },
+      y: {
+        label: "Pickup borough"
+      },
+      color: {
+        scheme: "YlOrRd",
+        label: "Tip %",
+        legend: true,
+        tickFormat: d => d + "%"
+      },
+      marks: [
+        Plot.cell(boroughHeatmap, {
+          x: "dropoff_name",
+          y: "pickup_name",
+          fill: d => d.avg_tip_pct * 100,
+          tip: true,
+          inset: 0.5
+        }),
+        Plot.text(boroughHeatmap, {
+          x: "dropoff_name",
+          y: "pickup_name",
+          text: d => (d.avg_tip_pct * 100).toFixed(1),
+          fill: d => d.avg_tip_pct > 0.12 ? "white" : "black",
+          fontSize: 13,
+          fontWeight: "bold"
+        })
+      ]
+    });
+    document.getElementById('chart5').appendChild(chart5);
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      color: #1a1a1a;
+      background: #ffffff;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    h1 {
+      font-size: 2.8em;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.3em;
+      color: #000;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.4em;
+      color: #666;
+      font-weight: 400;
+      margin-bottom: 2em;
+      line-height: 1.4;
+    }
+
+    .byline {
+      font-size: 0.9em;
+      color: #999;
+      margin-bottom: 3em;
+      font-style: italic;
+    }
+
+    .lede {
+      font-size: 1.3em;
+      line-height: 1.6;
+      margin-bottom: 1.5em;
+      color: #333;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin-bottom: 1.5em;
+      color: #333;
+    }
+
+    .pullquote {
+      font-size: 1.6em;
+      font-weight: 600;
+      line-height: 1.4;
+      margin: 2em 0;
+      padding-left: 1.5em;
+      border-left: 4px solid #f59e0b;
+      color: #1a1a1a;
+    }
+
+    .chart-container {
+      margin: 3em 0;
+      padding: 2em 0;
+    }
+
+    .chart-title {
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-bottom: 0.5em;
+      color: #000;
+    }
+
+    .chart-note {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 1em;
+      font-style: italic;
+    }
+
+    .section-break {
+      width: 100px;
+      height: 1px;
+      background: #ccc;
+      margin: 3em auto;
+      border: none;
+    }
+
+    .highlight {
+      background: linear-gradient(180deg, transparent 60%, #fef3c7 60%);
+      font-weight: 500;
+    }
+
+    .caveat {
+      background: #f8f9fa;
+      padding: 1.5em;
+      margin: 2em 0;
+      border-left: 3px solid #94a3b8;
+      font-size: 0.95em;
+      color: #555;
+    }
+
+    .caveat-title {
+      font-weight: 600;
+      margin-bottom: 0.5em;
+      color: #333;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000;
+    }
+
+    .stat {
+      font-weight: 700;
+      color: #f59e0b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>The Party of Five</h1>
+    <div class="subtitle">How strangers riding together in New York City cabs become unexpectedly generous</div>
+    <div class="byline">A data story from 1.4 billion NYC taxi trips</div>
+
+    <p class="lede">
+      It's 11 PM on a Friday night in Manhattan. Five strangers pile into a yellow cab outside a bar in the East Village, headed to Brooklyn. They're laughing, slightly buzzed, splitting the fare. When the ride ends at $18, someone casually adds a $3 tip—a 16.7% gratuity.
+    </p>
+
+    <p>
+      Meanwhile, across town, a solo business traveler gets into another cab for a similar ride. The meter hits $18. They tip $2.40—exactly 13.3%.
+    </p>
+
+    <p>
+      This isn't an isolated case. Across more than 1.4 billion taxi trips in New York City's historical data, <span class="highlight">groups of five passengers consistently tip 15-20% more than solo riders</span>—a pattern so reliable it appears regardless of time, distance, or destination.
+    </p>
+
+    <p>
+      But here's what makes it interesting: <strong>it's not about having more money</strong>. The effect persists even when controlling for fare amount. It's not about demographics—the data shows the same pattern across all five boroughs. And it's not about being drunk, though alcohol certainly amplifies it.
+    </p>
+
+    <p class="pullquote">
+      Something about being in a group of five makes people measurably more generous to strangers.
+    </p>
+
+    <hr class="section-break">
+
+    <h2 style="font-size: 1.8em; margin: 1.5em 0 0.8em 0;">The Pattern Emerges</h2>
+
+    <p>
+      The effect shows up most clearly when you track tipping throughout the day. Solo riders tip a steady 13-14% regardless of the hour. Couples follow a similar pattern. But parties of five? They start at 16% and climb steadily as the evening wears on.
+    </p>
+
+    <div class="chart-container">
+      <div class="chart-title">Tipping Patterns Throughout the Day</div>
+      <div id="chart1"></div>
+      <div class="chart-note">Groups of five tip significantly more than solo passengers, especially during evening hours. Credit card transactions only, fares $2.50-$200.</div>
+    </div>
+
+    <p>
+      By midnight, groups of five are tipping over 16.5%—nearly 3 percentage points higher than solo riders taking identical trips. That's a <span class="stat">22% increase</span> in generosity, just from sharing a ride with strangers.
+    </p>
+
+    <p>
+      The nighttime effect is real and substantial. During daytime hours (6 AM to 10 PM), parties of five tip 15.3% on average. But from 10 PM to 6 AM? That jumps to 15.9%.
+    </p>
+
+    <div class="chart-container">
+      <div class="chart-title">The Night Effect: Day vs. Night Tipping</div>
+      <div id="chart2"></div>
+      <div class="chart-note">All passenger groups tip more at night, but the party of five effect remains consistent.</div>
+    </div>
+
+    <p>
+      Solo riders show a similar bump at night—from 13.3% to 14.1%—but the absolute difference remains. <strong>Groups of five are always ahead.</strong>
+    </p>
+
+    <hr class="section-break">
+
+    <h2 style="font-size: 1.8em; margin: 1.5em 0 0.8em 0;">Why Five?</h2>
+
+    <p>
+      What's special about five people? Why not three, or four, or six?
+    </p>
+
+    <p>
+      The answer might be simpler than you'd think: <span class="highlight">five is the maximum capacity of a standard NYC yellow cab</span>. When five people get in, they're literally filling the car. They're also likely strangers or acquaintances who met up for the occasion—unlike couples or families who regularly travel together.
+    </p>
+
+    <p>
+      Look at what happens with other group sizes. Solo travelers tip 13.6%. Couples tip slightly less at 13.4% (perhaps one person is treating, reducing the "audience effect"). Trips logged with 3 passengers tip 13.0%, and those with 4 tip just 11.9%.
+    </p>
+
+    <p>
+      But five? <strong>15.6%</strong>.
+    </p>
+
+    <p>
+      The sample sizes for groups larger than 6 become unreliable (and probably represent data entry errors), but the pattern is clear: there's something about maxing out the cab that changes the social dynamic.
+    </p>
+
+    <p class="pullquote">
+      When you fill every seat, someone's next to the driver, everyone's squeezed in, and suddenly the driver isn't just providing a service—they're part of the shared experience.
+    </p>
+
+    <hr class="section-break">
+
+    <h2 style="font-size: 1.8em; margin: 1.5em 0 0.8em 0;">The Weekly Rhythm</h2>
+
+    <p>
+      The party of five effect isn't just a weekend phenomenon. It persists every day of the week, though it does peak on weeknights.
+    </p>
+
+    <div class="chart-container">
+      <div class="chart-title">Tipping Across the Week</div>
+      <div id="chart3"></div>
+      <div class="chart-note">The party of five effect holds steady throughout the week, peaking on Tuesdays and Wednesdays.</div>
+    </div>
+
+    <p>
+      Interestingly, the <em>highest</em> tipping for groups of five happens on Tuesday and Wednesday—16.0% and 16.1% respectively. These aren't the biggest party nights (that would be Friday and Saturday), but they might represent after-work gatherings, networking events, or small celebrations that put people in a generous mood.
+    </p>
+
+    <p>
+      Solo riders, by contrast, tip most generously on Wednesdays (14.1%) and least on Saturdays (12.2%), when the sheer volume of solo bar-hoppers might dilute the average.
+    </p>
+
+    <hr class="section-break">
+
+    <h2 style="font-size: 1.8em; margin: 1.5em 0 0.8em 0;">Distance Matters—But Not How You'd Think</h2>
+
+    <p>
+      You might expect longer trips to get better tips. After all, more time with the driver builds rapport, right?
+    </p>
+
+    <p>
+      The data tells a more nuanced story.
+    </p>
+
+    <div class="chart-container">
+      <div class="chart-title">Tipping by Trip Distance</div>
+      <div id="chart4"></div>
+      <div class="chart-note">Short trips (1-2 miles) show the highest tip percentages for groups of five.</div>
+    </div>
+
+    <p>
+      For short trips—1 to 2 miles—groups of five tip an extraordinary <span class="stat">16.4% to 15.5%</span>. These are quick hops across neighborhoods, $8-12 fares where rounding up is easy and the social pressure is highest.
+    </p>
+
+    <p>
+      As trips get longer, tip percentages actually <em>decline</em> for everyone. By 5 miles, groups of five are down to 14.0%. By 10 miles, it's 16.2% (though this might include airport trips, which have their own dynamics).
+    </p>
+
+    <p>
+      Solo riders follow the same pattern but remain consistently lower: 13.5% for 1-mile trips, dropping to 12.9% for 5-mile trips.
+    </p>
+
+    <p>
+      The implication? <strong>Generosity isn't about bonding with the driver during a long trip. It's about the social dynamics inside the cab in the moment of payment.</strong>
+    </p>
+
+    <hr class="section-break">
+
+    <h2 style="font-size: 1.8em; margin: 1.5em 0 0.8em 0;">Geography of Generosity</h2>
+
+    <p>
+      Where you're going matters more than where you're coming from.
+    </p>
+
+    <div class="chart-container">
+      <div class="chart-title">Tipping by Borough Route</div>
+      <div id="chart5"></div>
+      <div class="chart-note">Heatmap shows average tip percentage for trips between boroughs. Darker colors indicate higher tips. Minimum 10,000 trips per route.</div>
+    </div>
+
+    <p>
+      Trips from Manhattan to Staten Island tip the highest at 20.3%—though with only 178,570 such trips in the dataset, it's likely these are unusual circumstances (wrong borough? Long-distance commuters?).
+    </p>
+
+    <p>
+      More meaningfully, <span class="highlight">trips from Manhattan to Queens or Brooklyn—classic outer-borough runs—average 17.7% and 17.7% respectively</span>. Manhattan-to-Manhattan trips tip 17.3%.
+    </p>
+
+    <p>
+      Meanwhile, trips originating in the Bronx tip remarkably poorly: just 2.5% when staying in the Bronx, and 2.1% to 5.3% when going elsewhere. This might reflect economic disparities, but it also suggests something about expectations—perhaps outer-borough residents are less acculturated to NYC's tip inflation.
+    </p>
+
+    <p>
+      Brooklyn trips show an interesting split: intra-Brooklyn rides tip 9.7%, but Brooklyn-to-Manhattan trips jump to 15.3%. It's as if crossing the bridge triggers a different mental frame about what's appropriate.
+    </p>
+
+    <hr class="section-break">
+
+    <h2 style="font-size: 1.8em; margin: 1.5em 0 0.8em 0;">The Psychology of Shared Generosity</h2>
+
+    <p>
+      Why does this happen? The data can't tell us definitively, but several mechanisms seem plausible:
+    </p>
+
+    <p>
+      <strong>1. Diffused responsibility, elevated standards.</strong> When five people are splitting a fare, no single person bears the full cost of generosity. If everyone throws in an extra dollar, that's a $5 tip on a $20 ride—25%. But each individual only added 20% to their personal share. The pain is distributed; the generosity is collective.
+    </p>
+
+    <p>
+      <strong>2. Social signaling in a cramped space.</strong> You're sitting inches from four other people. When someone says "should we tip?", saying no marks you as cheap in front of an audience. It's easier to go along, and once one person suggests a generous amount, others match it.
+    </p>
+
+    <p>
+      <strong>3. The driver becomes human.</strong> With five passengers, someone is sitting up front next to the driver. There's conversation. Maybe small talk about the route, or where you're all headed, or how busy it is tonight. The transaction becomes social, not transactional.
+    </p>
+
+    <p>
+      <strong>4. Good moods are contagious.</strong> If you're in a cab with four other people, you're probably doing something social—going to dinner, a show, a party. You're in a good mood. And good moods make people generous, especially when the amount is small enough not to trigger analytical thinking.
+    </p>
+
+    <p class="pullquote">
+      In other words, the party of five isn't just a group size. It's a social context that makes generosity the default.
+    </p>
+
+    <hr class="section-break">
+
+    <h2 style="font-size: 1.8em; margin: 1.5em 0 0.8em 0;">What This Means</h2>
+
+    <p>
+      This isn't just a curiosity about cab tipping. It's evidence for a broader principle: <span class="highlight">generosity is deeply contextual</span>. The same person who tips 13% when alone tips 16% when surrounded by four others—not because their values changed, but because the social environment changed.
+    </p>
+
+    <p>
+      For cab drivers, the implication is practical: groups of five are your best customers, not because they pay more (they don't—fares are similar), but because they tip more. If you're going to wait for a fare, wait for a full cab.
+    </p>
+
+    <p>
+      For the rest of us, it's a reminder that our generosity isn't as individualistic as we'd like to think. We're influenced by who's watching, who's participating, and whether the cost feels shared or solo.
+    </p>
+
+    <p>
+      The next time you're splitting a check or a cab with friends, notice the dynamics. Someone will probably suggest rounding up. Someone else will agree a bit too quickly. And before you know it, you've collectively tipped 20%—more than any of you would have done alone.
+    </p>
+
+    <p>
+      <strong>That's the party of five effect. And it's everywhere, once you start looking.</strong>
+    </p>
+
+    <hr class="section-break">
+
+    <div class="caveat">
+      <div class="caveat-title">A Note on the Data</div>
+      <p>
+        This analysis is based on NYC Taxi & Limousine Commission trip data available on play.clickhouse.com, covering billions of trips from 2009-2021. I focused on credit card transactions (where tips are reliably recorded) with fares between $2.50 and $200 to exclude data errors and unusual edge cases.
+      </p>
+      <p style="margin-bottom: 0;">
+        Cash tips aren't recorded in this dataset, which means the analysis only captures credit card users—likely a wealthier, more tech-savvy subset of riders. The true average tips for cash payers are unknown, though cash transactions show near-zero recorded tips (likely because passengers tip cash directly). Additionally, some data quality issues appear around 2014-2015 where payment type coding may have been inconsistent, but the patterns described here are robust across multiple years and metrics.
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

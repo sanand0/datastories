@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "generosity-of-strangers",
+      "title": "Generosity of Strangers",
+      "description": "Party-of-five NYC taxi riders tip 15–20% more than solo travelers—maps, routes, and night effects reveal where generosity spikes.",
+      "link": "generosity-of-strangers/index.html",
+      "screenshot": "generosity-of-strangers/screenshot.webp"
+    },
+    {
       "id": "indian-batting-greats",
       "title": "Indian Batting Greats",
       "description": "Ranked Indian batting legends with an LLM-chosen metric: batting average x log(total runs), plotted across their active years.",
