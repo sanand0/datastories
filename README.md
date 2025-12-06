@@ -6,6 +6,7 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [OLAP Git Commits](olap-commits/). Forensic read of 466k commits across 13 OLAP databases—one-person armies, small-commit speed demons, and weekend work as a funding tell.
 - [Generosity of Strangers](generosity-of-strangers/). Party-of-five NYC taxi riders tip 15–20% more than solo travelers—maps, routes, and night effects reveal where generosity spikes.
 - [Indian Batting Greats](indian-batting-greats/). Ranked Tendulkar, Kohli, Gavaskar, and other Indian greats with an LLM-chosen metric: batting average x log(total runs) plotted over their careers.
 - [The Reconciliation Engine](fuzzymatch/). Fuzzy search playground that reconciles bank transactions to accounting records using similarity scores and optimal assignments.

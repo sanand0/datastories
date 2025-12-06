@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Secret Lives of OLAP Databases</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e14;
+            --bg-darker: #050709;
+            --bg-light: #1a1f29;
+            --accent-teal: #00d4aa;
+            --accent-coral: #ff6b6b;
+            --accent-gold: #ffd93d;
+            --accent-blue: #4d9fff;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a8b5c1;
+            --text-dim: #6a7484;
+            --glow: rgba(0, 212, 170, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+            font-size: 22px;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 170, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(77, 159, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 107, 107, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            animation: bgPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-teal);
+            border-radius: 4px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 800;
+            text-align: center;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue), var(--accent-coral));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.5s both;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .hero-meta {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            text-align: center;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 15px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content Container */
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section styles */
+        section {
+            margin-bottom: 8rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            color: var(--accent-teal);
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 600;
+            margin: 3rem 0 1.5rem;
+            color: var(--accent-gold);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-size: clamp(1.2rem, 2.2vw, 1.4rem);
+        }
+
+        /* Pullquote */
+        .pullquote {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--accent-coral);
+            margin: 4rem 0;
+            padding: 3rem 2rem;
+            position: relative;
+            border-left: 4px solid var(--accent-coral);
+            background: linear-gradient(90deg, rgba(255, 107, 107, 0.1) 0%, transparent 100%);
+        }
+
+        .pullquote::before {
+            content: '"';
+            position: absolute;
+            top: 0;
+            left: -0.5rem;
+            font-size: 6rem;
+            color: var(--accent-coral);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        /* Wait really callout */
+        .wait-really {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 217, 61, 0.15));
+            border: 2px solid var(--accent-coral);
+            padding: 2.5rem 2rem 2rem 2rem;
+            margin: 3rem 0;
+            border-radius: 8px;
+            position: relative;
+            overflow: visible;
+        }
+
+        .wait-really::before {
+            content: 'WAIT, REALLY?';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--bg-dark);
+            padding: 0 1rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-coral);
+            letter-spacing: 0.1em;
+            line-height: 1.5;
+        }
+
+        .wait-really p {
+            margin-bottom: 0;
+        }
+
+        /* Stats table */
+        .stats-table {
+            width: 100%;
+            margin: 3rem 0;
+            border-collapse: collapse;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            background: rgba(26, 31, 41, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .stats-table thead {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue));
+        }
+
+        .stats-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--bg-dark);
+        }
+
+        .stats-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(168, 181, 193, 0.1);
+            color: var(--text-primary);
+        }
+
+        .stats-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .stats-table tr:hover {
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .stat-highlight {
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        /* Inline code and emphasis */
+        code, .mono {
+            font-family: 'IBM Plex Mono', monospace;
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent-teal);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        strong {
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        em {
+            font-style: italic;
+            color: var(--accent-blue);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 2rem 0 2rem 2rem;
+            color: var(--text-primary);
+        }
+
+        li {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Divider */
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+            margin: 5rem 0;
+            opacity: 0.5;
+        }
+
+        /* Data visualization */
+        .data-viz {
+            margin: 4rem 0;
+            padding: 3rem;
+            background: var(--bg-light);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            position: relative;
+        }
+
+        .data-viz-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+        }
+
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            min-width: 150px;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 30px;
+            background: var(--bg-darker);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue));
+            border-radius: 15px;
+            transition: width 1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .bar-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--bg-dark);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* Metric cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-darker) 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--glow);
+        }
+
+        .metric-value {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-coral);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Conclusion section */
+        .conclusion {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(77, 159, 255, 0.1));
+            border: 2px solid var(--accent-teal);
+            border-radius: 12px;
+            padding: 4rem 3rem;
+            margin: 6rem 0;
+        }
+
+        .conclusion h2 {
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(168, 181, 193, 0.2);
+        }
+
+        footer p {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-table {
+                font-size: 0.75rem;
+            }
+
+            .stats-table th,
+            .stats-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .bar-label {
+                min-width: 100px;
+                font-size: 0.75rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .data-viz {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Scroll progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue), var(--accent-coral));
+            z-index: 9999;
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Number counter animation */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-count {
+            animation: countUp 0.8s ease-out both;
+        }
+
+        /* Emoji styling */
+        .emoji {
+            font-style: normal;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="hero">
+        <h1 class="hero-title">The Secret Lives of OLAP Databases</h1>
+        <p class="hero-subtitle">What 466,000 commits reveal about building the future of data</p>
+        <p class="hero-meta">A forensic analysis of 17 years of development history across 13 major databases</p>
+        <div class="scroll-indicator">
+            <svg width="30" height="45" viewBox="0 0 30 45" fill="none">
+                <rect x="1" y="1" width="28" height="43" rx="14" stroke="currentColor" stroke-width="2" opacity="0.6"/>
+                <circle cx="15" cy="15" r="4" fill="currentColor" opacity="0.6">
+                    <animate attributeName="cy" values="15;30;15" dur="2s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+        </div>
+    </div>
+
+    <div class="content">
+        <section id="intro">
+            <h2>The Paradox of the One-Person Army</h2>
+            <p>On May 27, 2020, something extraordinary happened at TimescaleDB. In a single day, the project saw 227 commits—a <strong>31-sigma event</strong>, meaning it was so statistically improbable that it should occur once in the lifetime of the universe. Seven developers were active that day, churning through 151,700 lines of code.</p>
+            
+            <p>What were they doing? The commit messages reveal a frenzy of activity around a critical feature launch. But here's what the data doesn't show in isolation: this was an outlier in a pattern that defines open source database development.</p>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">50%</div>
+                    <div class="metric-label">One Person's Code</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">466K</div>
+                    <div class="metric-label">Total Commits</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">13</div>
+                    <div class="metric-label">Databases</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">17</div>
+                    <div class="metric-label">Years</div>
+                </div>
+            </div>
+
+            <p>TimescaleDB's top contributor, Sven Klemm, has written 1,629 commits—representing <strong>27% of the entire project</strong>. Meanwhile, at QuestDB, Vlad Ilyushchenko has authored nearly <strong>50% of all commits</strong> (2,793 out of 5,638).</p>
+
+            <div class="wait-really">
+                <p><strong>Half the code in a database used by companies worldwide comes from one person's keyboard.</strong></p>
+            </div>
+
+            <p>This isn't a bug—it's the signature of modern OLAP development. But it tells a story that contradicts everything we think we know about how "serious" infrastructure software gets built.</p>
+        </section>
+
+        <hr>
+
+        <section id="commit-culture">
+            <h2>The 12-Line Culture vs. The 1,000-Line Bombers</h2>
+            
+            <p>When Mark Raasveldt commits code to DuckDB, he changes an average of 12 lines. When the same developer works on the project, the median commit touches just 22 lines total—among the smallest "blast radius" in our dataset.</p>
+
+            <p>Compare this to Apache Kylin, where the average commit changes <strong>817 lines</strong> of code, with a median of 56 lines.</p>
+
+            <div class="data-viz">
+                <div class="data-viz-title">Median Lines Per Commit</div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <span class="bar-label">ClickHouse</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 14%;" data-animate>
+                                <span class="bar-value">12</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">DuckDB</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 26%;" data-animate>
+                                <span class="bar-value">22</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Kylin</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 66%;" data-animate>
+                                <span class="bar-value">56</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Hive</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 100%;" data-animate>
+                                <span class="bar-value">85</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Database</th>
+                        <th>Median Lines</th>
+                        <th>Top Contributor</th>
+                        <th>Philosophy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ClickHouse</td>
+                        <td class="stat-highlight">12</td>
+                        <td>15% (Alexey)</td>
+                        <td>Surgical precision</td>
+                    </tr>
+                    <tr>
+                        <td>DuckDB</td>
+                        <td class="stat-highlight">22</td>
+                        <td>18% (Mark)</td>
+                        <td>Incremental refinement</td>
+                    </tr>
+                    <tr>
+                        <td>Kylin</td>
+                        <td class="stat-highlight">56</td>
+                        <td>11% (Qian)</td>
+                        <td>Big-bang integration</td>
+                    </tr>
+                    <tr>
+                        <td>Hive</td>
+                        <td class="stat-highlight">85</td>
+                        <td>9% (Ashutosh)</td>
+                        <td>Enterprise evolution</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Two Distinct Philosophies</h3>
+            <ol>
+                <li><strong>The Refiners</strong> (ClickHouse, DuckDB, Materialize): Small commits, high frequency, intensive iteration. These teams make 1,000 small bets.</li>
+                <li><strong>The Architects</strong> (Kylin, Hive, QuestDB): Large commits, deliberate changes, structural thinking. These teams make 100 big bets.</li>
+            </ol>
+
+            <div class="pullquote">
+                The Refiners are winning the velocity war. ClickHouse ships 32.3 commits per day. DuckDB ships 24.3. Meanwhile, Kylin manages 0.79 commits per day.
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="weekend-warriors">
+            <h2>The Weekend Warrior Effect</h2>
+            
+            <p>Apache DataFusion developers commit <strong>19.8% of their code on weekends</strong>—the highest rate in our dataset. ClickHouse is second at 15.1%. At the other extreme, RisingWave developers commit just 5.2% on weekends.</p>
+
+            <p>But weekend work tells only half the story. Look at <strong>off-hours commits</strong> (before 8am or after 8pm UTC):</p>
+
+            <div class="data-viz">
+                <div class="data-viz-title">Off-Hours Commit Percentage</div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <span class="bar-label">Apache Pinot</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 100%;" data-animate>
+                                <span class="bar-value">81.7%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Hive</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 79%;" data-animate>
+                                <span class="bar-value">64.3%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">DuckDB</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 44%;" data-animate>
+                                <span class="bar-value">35.6%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">RisingWave</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 14%;" data-animate>
+                                <span class="bar-value">11.1%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wait-really">
+                <p>Most Apache projects show a "passion project" pattern, with developers contributing heavily outside typical work hours.</p>
+            </div>
+
+            <p>This isn't about work-life balance—it's about funding models. Projects dominated by evening/weekend commits often have distributed volunteer maintainers. Projects with business-hours patterns typically have full-time employees working on them.</p>
+
+            <p class="pullquote">You can predict a project's corporate backing by when developers commit.</p>
+        </section>
+
+        <hr>
+
+        <section id="retention">
+            <h2>The 78% Rule: DuckDB's Retention Magic</h2>
+            
+            <p>Here's a number that should make every open source maintainer lean forward: <strong>78.6% of DuckDB contributors who make a second commit do so within one week of their first.</strong></p>
+
+            <p>Let that sink in. A newcomer submits a pull request. Within 7 days, they're back for more. The median time to a second commit? <strong>Zero days</strong>—meaning most contributors commit multiple times on the same day they start.</p>
+
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Database</th>
+                        <th>% Return Week 1</th>
+                        <th>Median Days</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>DuckDB</strong></td>
+                        <td class="stat-highlight">78.6%</td>
+                        <td class="stat-highlight">0 days</td>
+                    </tr>
+                    <tr>
+                        <td>ClickHouse</td>
+                        <td>70.0%</td>
+                        <td>1 day</td>
+                    </tr>
+                    <tr>
+                        <td>Materialize</td>
+                        <td>69.1%</td>
+                        <td>2 days</td>
+                    </tr>
+                    <tr>
+                        <td>Trino</td>
+                        <td>28.9%</td>
+                        <td>22 days</td>
+                    </tr>
+                    <tr>
+                        <td>Hive</td>
+                        <td>32.1%</td>
+                        <td>20 days</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>What's DuckDB's Secret?</h3>
+            <ol>
+                <li><strong>Ultra-small commit size</strong> (22 lines median) = Lower barrier to entry</li>
+                <li><strong>Fast review cycles</strong> (same-day merges common)</li>
+                <li><strong>High pair-programming signal</strong> (125.6 average same-day commits between contributor pairs)</li>
+            </ol>
+
+            <div class="pullquote">
+                DuckDB has engineered a flywheel that turns drive-by contributors into core committers.
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="velocity">
+            <h2>The Velocity Cliff</h2>
+            
+            <p>Let's talk about project health. The conventional wisdom says mature projects slow down. The data says otherwise.</p>
+
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Database</th>
+                        <th>Velocity Change</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>QuestDB</strong></td>
+                        <td class="stat-highlight">+40.8%</td>
+                        <td><span class="emoji">🚀</span> Growing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DataFusion</strong></td>
+                        <td class="stat-highlight">+32.2%</td>
+                        <td><span class="emoji">🚀</span> Growing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ClickHouse</strong></td>
+                        <td class="stat-highlight">+23.6%</td>
+                        <td><span class="emoji">🚀</span> Growing</td>
+                    </tr>
+                    <tr>
+                        <td>StarRocks</td>
+                        <td style="color: var(--accent-coral);">-43.6%</td>
+                        <td><span class="emoji">⚠️</span> Slowing</td>
+                    </tr>
+                    <tr>
+                        <td>RisingWave</td>
+                        <td style="color: var(--accent-coral);">-39.5%</td>
+                        <td><span class="emoji">⚠️</span> Slowing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kylin</strong></td>
+                        <td style="color: var(--accent-coral);"><strong>-46.8%</strong></td>
+                        <td><span class="emoji">🚨</span> Critical</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Three Projects in Serious Trouble</h3>
+            <ol>
+                <li><strong>Apache Kylin</strong>: Dropped from 90 commits/month to 20 (-78%). Just 3 active contributors in the last 6 months vs. 21 the prior period. This is what project abandonment looks like.</li>
+                <li><strong>StarRocks</strong>: Despite 159 active contributors, velocity is down 44%. The community is still engaged, but something changed mid-2023.</li>
+                <li><strong>RisingWave</strong>: Down 40% despite being one of the youngest projects. Why is a 2021-vintage database already slowing?</li>
+            </ol>
+
+            <div class="wait-really">
+                <p>QuestDB—remember the 50%-one-person project?—is accelerating. The answer: +55.6% growth in active developers (18→28). Vlad Ilyushchenko is finally getting help.</p>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="collaboration">
+            <h2>The Collaboration Paradox</h2>
+            
+            <p>Here's a number that correlates with project success: <strong>active collaborating pairs.</strong></p>
+
+            <p>This metric counts how many pairs of developers commit code on the same day regularly (10+ shared days). It's a proxy for how much real-time collaboration happens:</p>
+
+            <div class="data-viz">
+                <div class="data-viz-title">Active Collaborating Pairs</div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <span class="bar-label">ClickHouse</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 100%;" data-animate>
+                                <span class="bar-value">21,753</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">StarRocks</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 12%;" data-animate>
+                                <span class="bar-value">2,588</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">DuckDB</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 9%;" data-animate>
+                                <span class="bar-value">2,033</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">QuestDB</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 0.3%;" data-animate>
+                                <span class="bar-value">61</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>Look at ClickHouse's 21,753 pairs. With 2,459 total contributors, that means the average developer has collaborated with <strong>8.8 other developers on the same day.</strong></p>
+
+            <p>DuckDB, with 641 contributors, averages <strong>3.2 same-day collaborators</strong> per developer.</p>
+
+            <p>QuestDB, with 188 contributors, averages just <strong>0.3 same-day collaborators</strong>.</p>
+
+            <div class="pullquote">
+                This is the difference between a project culture and a personal project that happens to be public.
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="refactoring">
+            <h2>Growing vs. Refining</h2>
+            
+            <p>Every line of code ever written eventually becomes a bug or maintenance burden. Smart teams know this. So let's look at the ratio of lines added to lines deleted:</p>
+
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Database</th>
+                        <th>Add/Delete Ratio</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>StarRocks</strong></td>
+                        <td class="stat-highlight">3.28</td>
+                        <td>Rapid expansion</td>
+                    </tr>
+                    <tr>
+                        <td>Apache Druid</td>
+                        <td>2.76</td>
+                        <td>Growing</td>
+                    </tr>
+                    <tr>
+                        <td>RisingWave</td>
+                        <td>1.96</td>
+                        <td>Growing</td>
+                    </tr>
+                    <tr>
+                        <td>ClickHouse</td>
+                        <td>1.62</td>
+                        <td>Balanced</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DuckDB</strong></td>
+                        <td class="stat-highlight">1.26</td>
+                        <td><strong>Heavy refactoring</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="wait-really">
+                <p>DuckDB deletes almost as much code as it adds. For every 100 lines added, 79 are deleted somewhere else. This isn't shrinking—this is <strong>disciplined evolution.</strong></p>
+            </div>
+
+            <p>StarRocks, by contrast, adds 3.28 lines for every line deleted. The codebase is ballooning.</p>
+
+            <p>But there's a twist: DuckDB is only 7 years old. It's not mature by age—it's mature by discipline.</p>
+
+            <div class="pullquote">
+                Project age doesn't determine technical debt. Refactoring culture does.
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="conclusion">
+            <h2>The Hidden Order in Half a Million Commits</h2>
+            
+            <p>From weekend work patterns, we can infer funding models. From commit sizes, we can predict velocity. From newcomer retention, we can forecast community health. From collaboration pairs, we can measure culture.</p>
+
+            <p>The data reveals that success in database development isn't about lines of code, genius developers, or language choices. It's about <strong>culture, consistency, and collaboration systems</strong> that make small, incremental progress feel effortless.</p>
+
+            <p>ClickHouse didn't become dominant by having the smartest developers. It won by having <strong>21,753 collaborating pairs</strong> making <strong>32 commits per day</strong> over <strong>17 years</strong>.</p>
+
+            <p>DuckDB didn't explode in popularity because of superior algorithms. It won by making contributors' <strong>second commits happen in zero days</strong> and keeping the median commit size at <strong>22 lines</strong>.</p>
+
+            <div class="pullquote">
+                In open source infrastructure, culture is code. The commit log doesn't just record what changed—it records how the team works, how newcomers are welcomed, how crises are handled, and whether the project is built to last.
+            </div>
+
+            <p style="text-align: center; margin-top: 3rem; font-size: 1.5rem; color: var(--accent-teal);"><strong>And 466,000 commits don't lie.</strong></p>
+        </section>
+    </div>
+
+    <footer>
+        <p>Analysis by Anand S • December 2025</p>
+        <p>Data extracted from public GitHub repositories</p>
+    </footer>
+
+    <script>
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height);
+            document.getElementById('progressBar').style.transform = `scaleX(${scrolled})`;
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate bar charts when visible
+                    const bars = entry.target.querySelectorAll('.bar-fill[data-animate]');
+                    bars.forEach((bar, index) => {
+                        const targetWidth = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = targetWidth;
+                        }, index * 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Counter animation for metric cards
+        const animateValue = (element, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        // Observe metric cards for counter animation
+        const metricObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const valueElement = entry.target.querySelector('.metric-value');
+                    if (valueElement && !valueElement.dataset.animated) {
+                        valueElement.dataset.animated = 'true';
+                        const text = valueElement.textContent;
+                        const numMatch = text.match(/\d+/);
+                        if (numMatch) {
+                            const targetValue = parseInt(numMatch[0]);
+                            const suffix = text.replace(/\d+/, '');
+                            animateValue(valueElement, 0, targetValue, 1500);
+                            setTimeout(() => {
+                                valueElement.textContent = text;
+                            }, 1500);
+                        }
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.metric-card').forEach(card => {
+            metricObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
