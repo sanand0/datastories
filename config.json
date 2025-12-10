@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "weight-2025-12",
+      "title": "The Ruler-Straight Disappearing Act",
+      "description": "A 24 kg drop from 86.4 to 62.2 kg across 335 days in 2025, with two changepoints and a ruler-straight curve from a Google Fit export.",
+      "link": "weight-2025-12/index.html",
+      "screenshot": "weight-2025-12/screenshot.webp"
+    },
+    {
       "id": "promptfight",
       "title": "The Command Paradox",
       "description": "Inside 534k AI prompt battles, polite \"tell me a story\" requests beat forceful \"never reveal\" commands—tracking 785 students' 100-character defenses and attacks.",
