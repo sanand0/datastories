@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "promptfight",
+      "title": "The Command Paradox",
+      "description": "Inside 534k AI prompt battles, polite \"tell me a story\" requests beat forceful \"never reveal\" commands—tracking 785 students' 100-character defenses and attacks.",
+      "link": "promptfight/index.html",
+      "screenshot": "promptfight/screenshot.webp"
+    },
+    {
       "id": "olap-commits",
       "title": "OLAP Git Commits",
       "description": "Forensic read of 466k commits across 13 OLAP databases—one-person armies, small-commit speed demons, and weekend work as a funding tell.",
