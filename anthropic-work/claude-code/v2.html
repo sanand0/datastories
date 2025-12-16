@@ -1,0 +1,2767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI's Impact on Engineer Productivity at Anthropic</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f7fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            background: #edf2f7;
+        }
+
+        .tab.active {
+            color: #667eea;
+            background: white;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .pattern-description {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+        }
+
+        .pattern-description h2 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .pattern-description p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .chart-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .chart {
+            min-height: 400px;
+            position: relative;
+        }
+
+        .metric-highlight {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 0 2px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+            z-index: 1000;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chart-container {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: backwards;
+        }
+
+        .chart-container:nth-child(2) { animation-delay: 0.1s; }
+        .chart-container:nth-child(3) { animation-delay: 0.2s; }
+        .chart-container:nth-child(4) { animation-delay: 0.3s; }
+        .chart-container:nth-child(5) { animation-delay: 0.4s; }
+        .chart-container:nth-child(6) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI's Impact on Engineer Productivity</h1>
+            <p class="subtitle">How Claude is Transforming Work at Anthropic</p>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="fullstack">Pattern 1: Becoming Full-Stack</div>
+            <div class="tab" data-tab="iteration">Pattern 2: Faster Learning & Iteration</div>
+            <div class="tab" data-tab="neglected">Pattern 3: Tackling Neglected Tasks</div>
+        </div>
+
+        <div id="fullstack" class="tab-content active">
+            <div class="pattern-description">
+                <h2>🎯 Engineers Becoming More "Full-Stack"</h2>
+                <p>With AI assistance, engineers are successfully tackling tasks beyond their core expertise. Backend engineers build sophisticated UIs, researchers create interactive visualizations, and security engineers analyze unfamiliar codebases. <span class="metric-highlight">27%</span> of Claude-assisted work consists of tasks that wouldn't have been done otherwise, enabling engineers to become truly full-stack across domains they previously "would've been scared to touch."</p>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Skill Domain Expansion</div>
+                    <div id="chart1-1" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Cross-Domain Task Flow</div>
+                    <div id="chart1-2" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Team Capability Heatmap</div>
+                    <div id="chart1-3" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Skill Acquisition Stream</div>
+                    <div id="chart1-4" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Knowledge Domain Network</div>
+                    <div id="chart1-5" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Full-Stack Evolution Gauge</div>
+                    <div id="chart1-6" class="chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="iteration" class="tab-content">
+            <div class="pattern-description">
+                <h2>⚡ Accelerating Learning & Iteration Speed</h2>
+                <p>AI enables dramatically faster feedback loops and learning cycles. Engineers report productivity boosts from <span class="metric-highlight">20% → 50%</span>, with tasks that previously took weeks now completed in hours. Claude now handles <span class="metric-highlight">21.2</span> consecutive actions (up 116% from 9.8) while requiring <span class="metric-highlight">33%</span> fewer human interventions, creating tighter, more efficient iteration cycles.</p>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Iteration Cycle Acceleration</div>
+                    <div id="chart2-1" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Productivity Velocity Over Time</div>
+                    <div id="chart2-2" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Time Compression Effect</div>
+                    <div id="chart2-3" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Feedback Loop Tightness</div>
+                    <div id="chart2-4" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">AI Autonomy Score</div>
+                    <div id="chart2-5" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Human-AI Turn Distribution</div>
+                    <div id="chart2-6" class="chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="neglected" class="tab-content">
+            <div class="pattern-description">
+                <h2>🔧 Tackling Previously-Neglected Tasks</h2>
+                <p>AI enables engineers to address the "papercuts" and quality-of-life improvements that were previously deprioritized. <span class="metric-highlight">8.6%</span> of Claude Code tasks involve fixing these small but important issues—refactoring code, building internal tools, creating documentation, and running exploratory experiments. This represents a fundamental shift in what engineers can afford to spend time on.</p>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Backlog Clearance Animation</div>
+                    <div id="chart3-1" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Work Composition Evolution</div>
+                    <div id="chart3-2" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Task Priority Matrix Shift</div>
+                    <div id="chart3-3" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Papercut Accumulation & Resolution</div>
+                    <div id="chart3-4" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Work Type Flow Transformation</div>
+                    <div id="chart3-5" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Quality-of-Life Impact Grid</div>
+                    <div id="chart3-6" class="chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Tooltip
+        const tooltip = d3.select('#tooltip');
+
+        // ============================================================================
+        // PATTERN 1: FULLSTACK CHARTS
+        // ============================================================================
+
+        // Chart 1-1: Skill Domain Expansion (Radar Chart)
+        function createRadarChart() {
+            const width = 450;
+            const height = 450;
+            const margin = 60;
+            const radius = Math.min(width, height) / 2 - margin;
+
+            const domains = ['Frontend', 'Backend', 'DevOps', 'Data Science', 'Security', 'Testing', 'Database'];
+            const beforeData = [25, 85, 30, 20, 15, 40, 50];
+            const afterData = [70, 90, 75, 65, 60, 80, 80];
+
+            const svg = d3.select('#chart1-1')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${width/2}, ${height/2})`);
+
+            const angleSlice = Math.PI * 2 / domains.length;
+            const rScale = d3.scaleLinear()
+                .domain([0, 100])
+                .range([0, radius]);
+
+            // Grid circles
+            for (let i = 1; i <= 5; i++) {
+                g.append('circle')
+                    .attr('r', radius / 5 * i)
+                    .style('fill', 'none')
+                    .style('stroke', '#e2e8f0')
+                    .style('stroke-width', '1px');
+            }
+
+            // Axes
+            const axis = g.selectAll('.axis')
+                .data(domains)
+                .enter()
+                .append('g')
+                .attr('class', 'axis');
+
+            axis.append('line')
+                .attr('x1', 0)
+                .attr('y1', 0)
+                .attr('x2', (d, i) => rScale(100) * Math.cos(angleSlice * i - Math.PI / 2))
+                .attr('y2', (d, i) => rScale(100) * Math.sin(angleSlice * i - Math.PI / 2))
+                .style('stroke', '#cbd5e0')
+                .style('stroke-width', '2px');
+
+            axis.append('text')
+                .attr('x', (d, i) => rScale(110) * Math.cos(angleSlice * i - Math.PI / 2))
+                .attr('y', (d, i) => rScale(110) * Math.sin(angleSlice * i - Math.PI / 2))
+                .attr('text-anchor', 'middle')
+                .attr('dy', '0.35em')
+                .style('font-size', '13px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text(d => d);
+
+            const radarLine = d3.lineRadial()
+                .radius(d => rScale(d))
+                .angle((d, i) => i * angleSlice)
+                .curve(d3.curveLinearClosed);
+
+            // Before area
+            g.append('path')
+                .datum(beforeData)
+                .attr('d', radarLine)
+                .style('fill', '#fbbf24')
+                .style('fill-opacity', 0.2)
+                .style('stroke', '#fbbf24')
+                .style('stroke-width', '3px');
+
+            // After area (animated)
+            const afterPath = g.append('path')
+                .datum(afterData)
+                .attr('d', radarLine)
+                .style('fill', '#667eea')
+                .style('fill-opacity', 0)
+                .style('stroke', '#667eea')
+                .style('stroke-width', '3px');
+
+            const pathLength = afterPath.node().getTotalLength();
+
+            afterPath
+                .style('stroke-dasharray', pathLength + ' ' + pathLength)
+                .style('stroke-dashoffset', pathLength)
+                .transition()
+                .duration(2000)
+                .ease(d3.easeCubicOut)
+                .style('stroke-dashoffset', 0)
+                .style('fill-opacity', 0.3);
+
+            // Legend
+            const legend = svg.append('g')
+                .attr('transform', 'translate(320, 20)');
+
+            [['Before AI', '#fbbf24'], ['After AI', '#667eea']].forEach((item, i) => {
+                legend.append('rect')
+                    .attr('y', i * 25)
+                    .attr('width', 20)
+                    .attr('height', 20)
+                    .attr('fill', item[1]);
+
+                legend.append('text')
+                    .attr('x', 25)
+                    .attr('y', i * 25 + 15)
+                    .text(item[0])
+                    .style('font-size', '12px')
+                    .style('fill', '#4a5568');
+            });
+        }
+
+        // Chart 1-2: Cross-Domain Task Flow
+        function createTaskFlow() {
+            const width = 450;
+            const height = 450;
+
+            const roles = [
+                {name: 'Backend Eng', color: '#667eea', before: [90, 5, 5], after: [60, 25, 15]},
+                {name: 'Frontend Eng', color: '#f59e0b', before: [5, 90, 5], after: [30, 55, 15]},
+                {name: 'Security Eng', color: '#10b981', before: [10, 5, 85], after: [25, 20, 55]}
+            ];
+
+            const svg = d3.select('#chart1-2')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            let isAfter = false;
+
+            function draw(showAfter) {
+                svg.selectAll('*').remove();
+
+                svg.append('text')
+                    .attr('x', width / 2)
+                    .attr('y', 25)
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '14px')
+                    .style('font-weight', '600')
+                    .style('fill', '#2d3748')
+                    .text(showAfter ? 'After AI: Cross-Functional Work' : 'Before AI: Specialized Roles');
+
+                const roleY = [120, 220, 320];
+
+                roles.forEach((role, roleIdx) => {
+                    const y = roleY[roleIdx];
+                    const data = showAfter ? role.after : role.before;
+
+                    svg.append('text')
+                        .attr('x', 50)
+                        .attr('y', y + 20)
+                        .attr('text-anchor', 'end')
+                        .style('font-size', '13px')
+                        .style('font-weight', '600')
+                        .style('fill', role.color)
+                        .text(role.name);
+
+                    let xOffset = 100;
+                    data.forEach((percentage, taskIdx) => {
+                        const barWidth = percentage * 2.5;
+
+                        svg.append('rect')
+                            .attr('x', xOffset)
+                            .attr('y', y)
+                            .attr('width', 0)
+                            .attr('height', 40)
+                            .attr('fill', taskIdx === roleIdx ? role.color : d3.color(role.color).copy({opacity: 0.3}))
+                            .attr('rx', 4)
+                            .transition()
+                            .duration(800)
+                            .delay(roleIdx * 150)
+                            .attr('width', barWidth);
+
+                        if (percentage > 5) {
+                            svg.append('text')
+                                .attr('x', xOffset + barWidth / 2)
+                                .attr('y', y + 20)
+                                .attr('text-anchor', 'middle')
+                                .attr('dy', '0.35em')
+                                .style('font-size', '12px')
+                                .style('font-weight', '600')
+                                .style('fill', taskIdx === roleIdx ? 'white' : role.color)
+                                .style('opacity', 0)
+                                .text(percentage + '%')
+                                .transition()
+                                .duration(500)
+                                .delay(roleIdx * 150 + 800)
+                                .style('opacity', 1);
+                        }
+
+                        xOffset += barWidth + 5;
+                    });
+                });
+
+                // Legend
+                const tasks = ['Backend', 'Frontend', 'Security'];
+                tasks.forEach((task, i) => {
+                    svg.append('rect')
+                        .attr('x', 100 + i * 100)
+                        .attr('y', height - 40)
+                        .attr('width', 15)
+                        .attr('height', 15)
+                        .attr('fill', roles[i].color)
+                        .attr('rx', 2);
+
+                    svg.append('text')
+                        .attr('x', 120 + i * 100)
+                        .attr('y', height - 28)
+                        .style('font-size', '11px')
+                        .style('fill', '#4a5568')
+                        .text(task);
+                });
+            }
+
+            draw(false);
+
+            setInterval(() => {
+                isAfter = !isAfter;
+                draw(isAfter);
+            }, 3000);
+        }
+
+        // Chart 1-3: Team Capability Heatmap
+        function createCapabilityHeatmap() {
+            const width = 450;
+            const height = 450;
+            const margin = {top: 80, right: 40, bottom: 60, left: 120};
+
+            const teams = ['Backend', 'Frontend', 'Security', 'Research', 'Infrastructure'];
+            const skills = ['Frontend', 'Backend', 'DevOps', 'Data Viz', 'Testing'];
+
+            const beforeData = [
+                [20, 90, 40, 30, 50],
+                [85, 30, 35, 45, 40],
+                [25, 50, 60, 20, 70],
+                [30, 45, 25, 55, 35],
+                [35, 60, 90, 30, 65]
+            ];
+
+            const afterData = [
+                [65, 95, 70, 70, 75],
+                [90, 60, 65, 75, 70],
+                [60, 75, 80, 55, 85],
+                [70, 70, 60, 85, 65],
+                [65, 80, 95, 65, 85]
+            ];
+
+            const svg = d3.select('#chart1-3')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const cellWidth = (width - margin.left - margin.right) / skills.length;
+            const cellHeight = (height - margin.top - margin.bottom) / teams.length;
+
+            const colorScale = d3.scaleSequential(d3.interpolateRgb('#fee', '#667eea'))
+                .domain([0, 100]);
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+            const title = svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '16px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Before AI');
+
+            teams.forEach((team, i) => {
+                svg.append('text')
+                    .attr('x', margin.left - 10)
+                    .attr('y', margin.top + i * cellHeight + cellHeight / 2)
+                    .attr('text-anchor', 'end')
+                    .attr('dy', '0.35em')
+                    .style('font-size', '12px')
+                    .style('font-weight', '600')
+                    .style('fill', '#4a5568')
+                    .text(team);
+            });
+
+            skills.forEach((skill, i) => {
+                svg.append('text')
+                    .attr('x', margin.left + i * cellWidth + cellWidth / 2)
+                    .attr('y', margin.top - 10)
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '12px')
+                    .style('font-weight', '600')
+                    .style('fill', '#4a5568')
+                    .text(skill);
+            });
+
+            let showingAfter = false;
+
+            function drawCells(data, label) {
+                g.selectAll('.cell').remove();
+                g.selectAll('.cell-text').remove();
+
+                teams.forEach((team, i) => {
+                    skills.forEach((skill, j) => {
+                        const value = data[i][j];
+
+                        const cell = g.append('rect')
+                            .attr('class', 'cell')
+                            .attr('x', j * cellWidth)
+                            .attr('y', i * cellHeight)
+                            .attr('width', cellWidth - 2)
+                            .attr('height', cellHeight - 2)
+                            .attr('rx', 4)
+                            .style('fill', colorScale(0))
+                            .style('cursor', 'pointer')
+                            .on('mouseover', function(event) {
+                                d3.select(this).style('stroke', '#2d3748').style('stroke-width', '2px');
+                                tooltip
+                                    .style('opacity', 1)
+                                    .html(`<strong>${team}</strong><br>${skill}: ${value}%`)
+                                    .style('left', (event.pageX + 10) + 'px')
+                                    .style('top', (event.pageY - 10) + 'px');
+                            })
+                            .on('mouseout', function() {
+                                d3.select(this).style('stroke', 'none');
+                                tooltip.style('opacity', 0);
+                            });
+
+                        cell.transition()
+                            .duration(1000)
+                            .delay(i * 100 + j * 50)
+                            .style('fill', colorScale(value));
+
+                        g.append('text')
+                            .attr('class', 'cell-text')
+                            .attr('x', j * cellWidth + cellWidth / 2)
+                            .attr('y', i * cellHeight + cellHeight / 2)
+                            .attr('text-anchor', 'middle')
+                            .attr('dy', '0.35em')
+                            .style('font-size', '13px')
+                            .style('font-weight', '600')
+                            .style('fill', value > 60 ? 'white' : '#2d3748')
+                            .style('opacity', 0)
+                            .text(value)
+                            .transition()
+                            .duration(500)
+                            .delay(i * 100 + j * 50 + 1000)
+                            .style('opacity', 1);
+                    });
+                });
+
+                title.text(label);
+            }
+
+            drawCells(beforeData, 'Before AI');
+
+            setInterval(() => {
+                showingAfter = !showingAfter;
+                drawCells(showingAfter ? afterData : beforeData, showingAfter ? 'After AI' : 'Before AI');
+            }, 4000);
+        }
+
+        // Chart 1-4: Skill Acquisition Stream (Streamgraph)
+        function createSkillStream() {
+            const width = 450;
+            const height = 450;
+            const margin = {top: 60, right: 40, bottom: 60, left: 60};
+
+            const svg = d3.select('#chart1-4')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Skill Accumulation Over 12 Months');
+
+            const months = ['Aug', 'Oct', 'Dec', 'Feb', 'Apr', 'Jun'];
+            const skills = [
+                {name: 'Backend', color: '#667eea'},
+                {name: 'Frontend', color: '#f59e0b'},
+                {name: 'DevOps', color: '#10b981'},
+                {name: 'Data Viz', color: '#ec4899'}
+            ];
+
+            // Generate stream data
+            const data = months.map((month, i) => {
+                const baseGrowth = i / (months.length - 1);
+                return {
+                    month,
+                    Backend: 70 + baseGrowth * 10 + Math.random() * 5,
+                    Frontend: 20 + baseGrowth * 40 + Math.random() * 5,
+                    DevOps: 30 + baseGrowth * 35 + Math.random() * 5,
+                    'Data Viz': 15 + baseGrowth * 40 + Math.random() * 5
+                };
+            });
+
+            const xScale = d3.scalePoint()
+                .domain(months)
+                .range([margin.left, width - margin.right]);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, 200])
+                .range([height - margin.bottom, margin.top]);
+
+            // Stack the data
+            const stack = d3.stack()
+                .keys(skills.map(s => s.name))
+                .offset(d3.stackOffsetWiggle);
+
+            const series = stack(data);
+
+            const area = d3.area()
+                .x((d, i) => xScale(months[i]))
+                .y0(d => yScale(d[0]))
+                .y1(d => yScale(d[1]))
+                .curve(d3.curveCatmullRom);
+
+            const g = svg.append('g');
+
+            // Draw streams
+            series.forEach((s, i) => {
+                const path = g.append('path')
+                    .datum(s)
+                    .attr('fill', skills[i].color)
+                    .attr('opacity', 0.7)
+                    .attr('d', area)
+                    .on('mouseover', function() {
+                        d3.select(this).attr('opacity', 1);
+                    })
+                    .on('mouseout', function() {
+                        d3.select(this).attr('opacity', 0.7);
+                    });
+
+                const pathLength = path.node().getTotalLength();
+
+                path
+                    .attr('stroke', skills[i].color)
+                    .attr('stroke-width', 2)
+                    .style('stroke-dasharray', pathLength)
+                    .style('stroke-dashoffset', pathLength)
+                    .transition()
+                    .duration(2000)
+                    .delay(i * 200)
+                    .style('stroke-dashoffset', 0);
+            });
+
+            // X axis
+            svg.append('g')
+                .attr('transform', `translate(0, ${height - margin.bottom})`)
+                .call(d3.axisBottom(xScale))
+                .style('font-size', '11px');
+
+            // Legend
+            const legend = svg.append('g')
+                .attr('transform', `translate(${width - 120}, 60)`);
+
+            skills.forEach((skill, i) => {
+                legend.append('rect')
+                    .attr('y', i * 22)
+                    .attr('width', 15)
+                    .attr('height', 15)
+                    .attr('fill', skill.color)
+                    .attr('rx', 2);
+
+                legend.append('text')
+                    .attr('x', 20)
+                    .attr('y', i * 22 + 12)
+                    .style('font-size', '11px')
+                    .style('fill', '#4a5568')
+                    .text(skill.name);
+            });
+        }
+
+        // Chart 1-5: Knowledge Domain Network (Force-directed graph)
+        function createKnowledgeNetwork() {
+            const width = 450;
+            const height = 450;
+
+            const svg = d3.select('#chart1-5')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 25)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('AI Creates Knowledge Bridges');
+
+            const nodes = [
+                {id: 'Backend', group: 1, size: 30},
+                {id: 'Frontend', group: 2, size: 30},
+                {id: 'DevOps', group: 3, size: 25},
+                {id: 'Security', group: 4, size: 25},
+                {id: 'Data', group: 5, size: 25},
+                {id: 'Testing', group: 6, size: 20},
+                {id: 'AI', group: 0, size: 40}
+            ];
+
+            // Before AI: few connections
+            const beforeLinks = [
+                {source: 'Backend', target: 'Frontend', strength: 0.3},
+                {source: 'Backend', target: 'DevOps', strength: 0.5}
+            ];
+
+            // After AI: many connections through AI
+            const afterLinks = [
+                {source: 'AI', target: 'Backend', strength: 0.8},
+                {source: 'AI', target: 'Frontend', strength: 0.8},
+                {source: 'AI', target: 'DevOps', strength: 0.7},
+                {source: 'AI', target: 'Security', strength: 0.7},
+                {source: 'AI', target: 'Data', strength: 0.7},
+                {source: 'AI', target: 'Testing', strength: 0.6},
+                {source: 'Backend', target: 'Frontend', strength: 0.5},
+                {source: 'Frontend', target: 'Data', strength: 0.4}
+            ];
+
+            const color = d3.scaleOrdinal(d3.schemeSet2);
+
+            let showingAfter = false;
+
+            function draw(links) {
+                svg.selectAll('.network-group').remove();
+
+                const g = svg.append('g')
+                    .attr('class', 'network-group');
+
+                const simulation = d3.forceSimulation(nodes)
+                    .force('link', d3.forceLink(links).id(d => d.id).distance(80))
+                    .force('charge', d3.forceManyBody().strength(-200))
+                    .force('center', d3.forceCenter(width / 2, height / 2))
+                    .force('collision', d3.forceCollide().radius(d => d.size + 5));
+
+                const link = g.append('g')
+                    .selectAll('line')
+                    .data(links)
+                    .enter()
+                    .append('line')
+                    .attr('stroke', '#cbd5e0')
+                    .attr('stroke-width', d => d.strength * 3)
+                    .attr('stroke-opacity', 0);
+
+                link.transition()
+                    .duration(1000)
+                    .attr('stroke-opacity', 0.6);
+
+                const node = g.append('g')
+                    .selectAll('g')
+                    .data(nodes)
+                    .enter()
+                    .append('g')
+                    .call(d3.drag()
+                        .on('start', dragstarted)
+                        .on('drag', dragged)
+                        .on('end', dragended));
+
+                node.append('circle')
+                    .attr('r', d => d.size)
+                    .attr('fill', d => d.id === 'AI' ? '#667eea' : color(d.group))
+                    .attr('stroke', '#fff')
+                    .attr('stroke-width', 2)
+                    .style('cursor', 'pointer')
+                    .on('mouseover', function(event, d) {
+                        d3.select(this).attr('r', d.size * 1.2);
+                        tooltip
+                            .style('opacity', 1)
+                            .html(`<strong>${d.id}</strong>`)
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 10) + 'px');
+                    })
+                    .on('mouseout', function(event, d) {
+                        d3.select(this).attr('r', d.size);
+                        tooltip.style('opacity', 0);
+                    });
+
+                node.append('text')
+                    .text(d => d.id)
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', '.35em')
+                    .style('font-size', d => d.id === 'AI' ? '14px' : '11px')
+                    .style('font-weight', '600')
+                    .style('fill', d => d.id === 'AI' ? 'white' : '#2d3748')
+                    .style('pointer-events', 'none');
+
+                simulation.on('tick', () => {
+                    link
+                        .attr('x1', d => d.source.x)
+                        .attr('y1', d => d.source.y)
+                        .attr('x2', d => d.target.x)
+                        .attr('y2', d => d.target.y);
+
+                    node
+                        .attr('transform', d => `translate(${d.x},${d.y})`);
+                });
+
+                function dragstarted(event, d) {
+                    if (!event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                }
+
+                function dragged(event, d) {
+                    d.fx = event.x;
+                    d.fy = event.y;
+                }
+
+                function dragended(event, d) {
+                    if (!event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                }
+            }
+
+            draw(beforeLinks);
+
+            setInterval(() => {
+                showingAfter = !showingAfter;
+                draw(showingAfter ? afterLinks : beforeLinks);
+            }, 5000);
+        }
+
+        // Chart 1-6: Full-Stack Evolution Gauge (Radial progress with particles)
+        function createFullStackGauge() {
+            const width = 450;
+            const height = 450;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = 120;
+
+            const svg = d3.select('#chart1-6')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Full-Stack Capability Score');
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${centerX}, ${centerY})`);
+
+            // Background circle
+            g.append('circle')
+                .attr('r', radius)
+                .attr('fill', 'none')
+                .attr('stroke', '#e2e8f0')
+                .attr('stroke-width', 20);
+
+            // Progress arc
+            const arc = d3.arc()
+                .innerRadius(radius - 10)
+                .outerRadius(radius + 10)
+                .startAngle(0);
+
+            const progressArc = g.append('path')
+                .datum({endAngle: 0})
+                .attr('fill', '#667eea')
+                .attr('d', arc);
+
+            // Animate from 35% to 78%
+            progressArc.transition()
+                .duration(3000)
+                .attrTween('d', function(d) {
+                    const interpolate = d3.interpolate(0, Math.PI * 2 * 0.78);
+                    return function(t) {
+                        d.endAngle = interpolate(t);
+                        return arc(d);
+                    };
+                });
+
+            // Center text
+            const scoreText = g.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dy', '-0.2em')
+                .style('font-size', '48px')
+                .style('font-weight', '700')
+                .style('fill', '#667eea')
+                .text('0%');
+
+            // Animate score
+            scoreText.transition()
+                .duration(3000)
+                .tween('text', function() {
+                    const interpolate = d3.interpolate(0, 78);
+                    return function(t) {
+                        this.textContent = Math.round(interpolate(t)) + '%';
+                    };
+                });
+
+            g.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dy', '1.5em')
+                .style('font-size', '14px')
+                .style('fill', '#4a5568')
+                .text('Full-Stack Score');
+
+            // Add floating particles
+            const particles = 30;
+            for (let i = 0; i < particles; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = radius + 30 + Math.random() * 40;
+
+                g.append('circle')
+                    .attr('cx', 0)
+                    .attr('cy', 0)
+                    .attr('r', 2 + Math.random() * 3)
+                    .attr('fill', '#667eea')
+                    .attr('opacity', 0)
+                    .transition()
+                    .delay(1000 + i * 50)
+                    .duration(1000)
+                    .attr('opacity', 0.6)
+                    .attr('cx', Math.cos(angle) * distance)
+                    .attr('cy', Math.sin(angle) * distance)
+                    .transition()
+                    .duration(1000)
+                    .attr('opacity', 0)
+                    .on('end', function() {
+                        d3.select(this).remove();
+                    });
+            }
+
+            // Labels
+            const labels = [
+                {angle: 0, text: 'Before: 35%', color: '#f59e0b'},
+                {angle: Math.PI * 1.56, text: 'After: 78%', color: '#10b981'}
+            ];
+
+            labels.forEach(label => {
+                const x = Math.cos(label.angle - Math.PI / 2) * (radius + 50);
+                const y = Math.sin(label.angle - Math.PI / 2) * (radius + 50);
+
+                g.append('text')
+                    .attr('x', x)
+                    .attr('y', y)
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '12px')
+                    .style('font-weight', '600')
+                    .style('fill', label.color)
+                    .text(label.text);
+            });
+        }
+
+        // ============================================================================
+        // PATTERN 2: ITERATION SPEED CHARTS
+        // ============================================================================
+
+        // Chart 2-1: Iteration Cycle Spiral
+        function createIterationSpiral() {
+            const width = 450;
+            const height = 450;
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            const svg = d3.select('#chart2-1')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            function drawSpiral(iterations, timePerIteration, color, startDelay) {
+                const points = [];
+                const angleStep = (Math.PI * 2) / 8;
+
+                for (let i = 0; i <= iterations; i++) {
+                    const angle = i * angleStep;
+                    const radius = 30 + (i * 15);
+                    const x = centerX + radius * Math.cos(angle);
+                    const y = centerY + radius * Math.sin(angle);
+                    points.push({x, y, iteration: i, time: i * timePerIteration});
+                }
+
+                const line = d3.line()
+                    .x(d => d.x)
+                    .y(d => d.y)
+                    .curve(d3.curveCardinal);
+
+                const path = svg.append('path')
+                    .datum(points)
+                    .attr('d', line)
+                    .attr('fill', 'none')
+                    .attr('stroke', color)
+                    .attr('stroke-width', 3);
+
+                const pathLength = path.node().getTotalLength();
+
+                path
+                    .attr('stroke-dasharray', pathLength + ' ' + pathLength)
+                    .attr('stroke-dashoffset', pathLength)
+                    .transition()
+                    .duration(3000)
+                    .delay(startDelay)
+                    .ease(d3.easeCubicInOut)
+                    .attr('stroke-dashoffset', 0);
+
+                svg.selectAll(`.marker-${color.replace('#', '')}`)
+                    .data(points.slice(0, -1))
+                    .enter()
+                    .append('circle')
+                    .attr('class', `marker-${color.replace('#', '')}`)
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y)
+                    .attr('r', 0)
+                    .attr('fill', color)
+                    .transition()
+                    .duration(300)
+                    .delay((d, i) => startDelay + (i / iterations) * 3000)
+                    .attr('r', 6);
+
+                return points[points.length - 1].time;
+            }
+
+            svg.append('circle')
+                .attr('cx', centerX)
+                .attr('cy', centerY)
+                .attr('r', 8)
+                .attr('fill', '#2d3748');
+
+            svg.append('text')
+                .attr('x', centerX)
+                .attr('y', centerY - 15)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Start');
+
+            drawSpiral(4, 5, '#f59e0b', 0);
+            drawSpiral(12, 0.5, '#667eea', 1500);
+
+            const legend = svg.append('g')
+                .attr('transform', 'translate(50, 370)');
+
+            legend.append('rect')
+                .attr('width', 150)
+                .attr('height', 70)
+                .attr('fill', 'white')
+                .attr('stroke', '#e2e8f0')
+                .attr('rx', 6);
+
+            [['Before: 20 days', '#f59e0b'], ['After: 6 days', '#667eea']].forEach((item, i) => {
+                legend.append('line')
+                    .attr('x1', 10)
+                    .attr('y1', 20 + i * 25)
+                    .attr('x2', 30)
+                    .attr('y2', 20 + i * 25)
+                    .attr('stroke', item[1])
+                    .attr('stroke-width', 3);
+
+                legend.append('text')
+                    .attr('x', 35)
+                    .attr('y', 24 + i * 25)
+                    .style('font-size', '11px')
+                    .text(item[0]);
+            });
+        }
+
+        // Chart 2-2: Productivity Velocity
+        function createVelocityChart() {
+            const width = 450;
+            const height = 450;
+            const margin = {top: 40, right: 40, bottom: 60, left: 60};
+
+            const svg = d3.select('#chart2-2')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const months = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+            const data = months.map((month, i) => ({
+                month,
+                usage: 28 + (59 - 28) * (i / 11),
+                productivity: 20 + (50 - 20) * (i / 11),
+                velocity: (20 + (50 - 20) * (i / 11)) / 10
+            }));
+
+            const xScale = d3.scalePoint()
+                .domain(months)
+                .range([margin.left, width - margin.right])
+                .padding(0.5);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, 70])
+                .range([height - margin.bottom, margin.top]);
+
+            svg.append('g')
+                .attr('transform', `translate(0, ${height - margin.bottom})`)
+                .call(d3.axisBottom(xScale))
+                .style('font-size', '11px');
+
+            svg.append('g')
+                .attr('transform', `translate(${margin.left}, 0)`)
+                .call(d3.axisLeft(yScale).ticks(5).tickFormat(d => d + '%'))
+                .style('font-size', '11px');
+
+            svg.append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('x', -height / 2)
+                .attr('y', 20)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .style('font-weight', '600')
+                .style('fill', '#4a5568')
+                .text('Productivity Boost (%)');
+
+            const usageLine = d3.line()
+                .x(d => xScale(d.month))
+                .y(d => yScale(d.usage))
+                .curve(d3.curveMonotoneX);
+
+            const usagePath = svg.append('path')
+                .datum(data)
+                .attr('fill', 'none')
+                .attr('stroke', '#fbbf24')
+                .attr('stroke-width', 2)
+                .attr('d', usageLine);
+
+            const usageLength = usagePath.node().getTotalLength();
+
+            usagePath
+                .attr('stroke-dasharray', usageLength + ' ' + usageLength)
+                .attr('stroke-dashoffset', usageLength)
+                .transition()
+                .duration(2000)
+                .ease(d3.easeCubicOut)
+                .attr('stroke-dashoffset', 0);
+
+            const prodLine = d3.line()
+                .x(d => xScale(d.month))
+                .y(d => yScale(d.productivity))
+                .curve(d3.curveMonotoneX);
+
+            const prodPath = svg.append('path')
+                .datum(data)
+                .attr('fill', 'none')
+                .attr('stroke', '#667eea')
+                .attr('stroke-width', 3)
+                .attr('d', prodLine);
+
+            const prodLength = prodPath.node().getTotalLength();
+
+            prodPath
+                .attr('stroke-dasharray', prodLength + ' ' + prodLength)
+                .attr('stroke-dashoffset', prodLength)
+                .transition()
+                .duration(2000)
+                .ease(d3.easeCubicOut)
+                .attr('stroke-dashoffset', 0);
+
+            // Define arrowhead
+            svg.append('defs')
+                .append('marker')
+                .attr('id', 'arrowhead')
+                .attr('markerWidth', 10)
+                .attr('markerHeight', 10)
+                .attr('refX', 5)
+                .attr('refY', 3)
+                .attr('orient', 'auto')
+                .append('polygon')
+                .attr('points', '0 0, 6 3, 0 6')
+                .attr('fill', '#10b981');
+
+            data.forEach((d, i) => {
+                if (i > 0 && i % 2 === 0) {
+                    const x = xScale(d.month);
+                    const y = yScale(d.productivity);
+                    const prevY = yScale(data[i-1].productivity);
+                    const arrowLength = (prevY - y) * 1.5;
+
+                    svg.append('line')
+                        .attr('x1', x)
+                        .attr('y1', y + 10)
+                        .attr('x2', x)
+                        .attr('y2', y + 10)
+                        .attr('stroke', '#10b981')
+                        .attr('stroke-width', 2)
+                        .attr('marker-end', 'url(#arrowhead)')
+                        .transition()
+                        .duration(800)
+                        .delay(2000 + i * 100)
+                        .attr('y2', y - arrowLength + 10);
+                }
+            });
+
+            const legend = svg.append('g')
+                .attr('transform', `translate(${width - 150}, 50)`);
+
+            [['Usage %', '#fbbf24'], ['Productivity %', '#667eea'], ['Acceleration', '#10b981']].forEach((item, i) => {
+                legend.append('line')
+                    .attr('x1', 0)
+                    .attr('y1', i * 25)
+                    .attr('x2', 20)
+                    .attr('y2', i * 25)
+                    .attr('stroke', item[1])
+                    .attr('stroke-width', i === 2 ? 2 : 3);
+
+                if (i === 2) {
+                    legend.append('polygon')
+                        .attr('points', '20,-3 20,3 26,0')
+                        .attr('fill', item[1])
+                        .attr('transform', `translate(0, ${i * 25})`);
+                }
+
+                legend.append('text')
+                    .attr('x', 30)
+                    .attr('y', i * 25 + 4)
+                    .style('font-size', '11px')
+                    .style('fill', '#4a5568')
+                    .text(item[0]);
+            });
+        }
+
+        // Chart 2-3: Time Compression
+        function createTimeCompression() {
+            const width = 450;
+            const height = 450;
+            const margin = {top: 60, right: 40, bottom: 60, left: 150};
+
+            const svg = d3.select('#chart2-3')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const tasks = [
+                {name: 'Build UI Feature', before: 168, after: 8},
+                {name: 'Debug Complex Issue', before: 72, after: 4},
+                {name: 'Write Tests', before: 40, after: 2},
+                {name: 'Refactor Module', before: 80, after: 6},
+                {name: 'Create Dashboard', before: 120, after: 3}
+            ];
+
+            const maxHours = Math.max(...tasks.map(t => t.before));
+
+            const yScale = d3.scaleBand()
+                .domain(tasks.map(t => t.name))
+                .range([margin.top, height - margin.bottom])
+                .padding(0.3);
+
+            const xScale = d3.scaleLinear()
+                .domain([0, maxHours])
+                .range([margin.left, width - margin.right]);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Task Time Compression (hours)');
+
+            svg.append('g')
+                .attr('transform', `translate(${margin.left}, 0)`)
+                .call(d3.axisLeft(yScale))
+                .style('font-size', '11px');
+
+            svg.append('g')
+                .attr('transform', `translate(0, ${height - margin.bottom})`)
+                .call(d3.axisBottom(xScale).ticks(6))
+                .style('font-size', '11px');
+
+            tasks.forEach((task, i) => {
+                const y = yScale(task.name);
+                const barHeight = yScale.bandwidth();
+
+                svg.append('rect')
+                    .attr('x', margin.left)
+                    .attr('y', y)
+                    .attr('width', 0)
+                    .attr('height', barHeight)
+                    .attr('fill', '#fbbf24')
+                    .attr('opacity', 0.3)
+                    .attr('rx', 4)
+                    .transition()
+                    .duration(1000)
+                    .delay(i * 150)
+                    .attr('width', xScale(task.before) - margin.left);
+
+                svg.append('rect')
+                    .attr('x', margin.left)
+                    .attr('y', y)
+                    .attr('width', 0)
+                    .attr('height', barHeight)
+                    .attr('fill', '#667eea')
+                    .attr('rx', 4)
+                    .transition()
+                    .duration(1000)
+                    .delay(i * 150 + 500)
+                    .attr('width', xScale(task.after) - margin.left);
+
+                const ratio = Math.round(task.before / task.after);
+                svg.append('text')
+                    .attr('x', xScale(task.before) + 10)
+                    .attr('y', y + barHeight / 2)
+                    .attr('dy', '0.35em')
+                    .style('font-size', '12px')
+                    .style('font-weight', '700')
+                    .style('fill', '#10b981')
+                    .style('opacity', 0)
+                    .text(`${ratio}x faster`)
+                    .transition()
+                    .duration(500)
+                    .delay(i * 150 + 1500)
+                    .style('opacity', 1);
+
+                svg.append('text')
+                    .attr('x', xScale(task.before) - 5)
+                    .attr('y', y + barHeight / 2 - 15)
+                    .attr('text-anchor', 'end')
+                    .style('font-size', '10px')
+                    .style('fill', '#f59e0b')
+                    .style('opacity', 0)
+                    .text(`${task.before}h`)
+                    .transition()
+                    .duration(500)
+                    .delay(i * 150 + 1000)
+                    .style('opacity', 1);
+
+                svg.append('text')
+                    .attr('x', xScale(task.after) - 5)
+                    .attr('y', y + barHeight / 2 + 18)
+                    .attr('text-anchor', 'end')
+                    .style('font-size', '10px')
+                    .style('fill', '#667eea')
+                    .style('font-weight', '600')
+                    .style('opacity', 0)
+                    .text(`${task.after}h`)
+                    .transition()
+                    .duration(500)
+                    .delay(i * 150 + 1500)
+                    .style('opacity', 1);
+            });
+
+            const legend = svg.append('g')
+                .attr('transform', `translate(${margin.left}, ${height - 35})`);
+
+            [['Before AI', '#fbbf24', 0.3], ['After AI', '#667eea', 1]].forEach((item, i) => {
+                legend.append('rect')
+                    .attr('x', i * 100)
+                    .attr('width', 15)
+                    .attr('height', 15)
+                    .attr('fill', item[1])
+                    .attr('opacity', item[2]);
+
+                legend.append('text')
+                    .attr('x', i * 100 + 20)
+                    .attr('y', 12)
+                    .style('font-size', '11px')
+                    .style('fill', '#4a5568')
+                    .text(item[0]);
+            });
+        }
+
+        // Chart 2-4: Feedback Loop Tightness (Concentric circles contracting)
+        function createFeedbackLoops() {
+            const width = 450;
+            const height = 450;
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            const svg = d3.select('#chart2-4')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Feedback Loop Contraction');
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${centerX}, ${centerY})`);
+
+            // Before: Large, slow circles
+            const beforeCircles = [
+                {radius: 160, delay: 0, duration: 3000, color: '#f59e0b'},
+                {radius: 120, delay: 500, duration: 2500, color: '#f59e0b'},
+                {radius: 80, delay: 1000, duration: 2000, color: '#f59e0b'}
+            ];
+
+            // After: Small, fast circles
+            const afterCircles = [
+                {radius: 80, delay: 0, duration: 1000, color: '#667eea'},
+                {radius: 50, delay: 200, duration: 800, color: '#667eea'},
+                {radius: 30, delay: 400, duration: 600, color: '#667eea'}
+            ];
+
+            function animateCircles(circles, label, yOffset) {
+                const group = g.append('g');
+
+                group.append('text')
+                    .attr('y', yOffset)
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '12px')
+                    .style('font-weight', '600')
+                    .style('fill', circles[0].color)
+                    .text(label);
+
+                circles.forEach(circle => {
+                    const c = group.append('circle')
+                        .attr('r', 0)
+                        .attr('fill', 'none')
+                        .attr('stroke', circle.color)
+                        .attr('stroke-width', 3)
+                        .attr('opacity', 0.8);
+
+                    function pulse() {
+                        c.transition()
+                            .duration(circle.duration)
+                            .ease(d3.easeLinear)
+                            .attr('r', circle.radius)
+                            .attr('opacity', 0)
+                            .on('end', () => {
+                                c.attr('r', 0).attr('opacity', 0.8);
+                                pulse();
+                            });
+                    }
+
+                    setTimeout(pulse, circle.delay);
+                });
+            }
+
+            animateCircles(beforeCircles, 'Before AI: Slow Loops', -180);
+            animateCircles(afterCircles, 'After AI: Rapid Loops', 160);
+
+            // Center indicator
+            g.append('circle')
+                .attr('r', 8)
+                .attr('fill', '#10b981');
+
+            g.append('text')
+                .attr('y', 25)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '11px')
+                .style('fill', '#4a5568')
+                .text('Engineer');
+        }
+
+        // Chart 2-5: AI Autonomy Score (Liquid fill gauge)
+        function createAutonomyGauge() {
+            const width = 450;
+            const height = 450;
+            const centerX = width / 2;
+            const centerY = height / 2 + 20;
+            const radius = 100;
+
+            const svg = d3.select('#chart2-5')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('AI Autonomy Growth');
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${centerX}, ${centerY})`);
+
+            // Container circle
+            g.append('circle')
+                .attr('r', radius)
+                .attr('fill', 'none')
+                .attr('stroke', '#cbd5e0')
+                .attr('stroke-width', 3);
+
+            // Liquid wave
+            const waveHeight = 10;
+            const waveLength = radius * 2;
+            const wavePoints = 50;
+
+            const waveData = d3.range(wavePoints).map(i => {
+                const x = (i / (wavePoints - 1)) * waveLength - waveLength / 2;
+                const y = Math.sin((i / wavePoints) * Math.PI * 4) * waveHeight;
+                return {x, y};
+            });
+
+            const waveLine = d3.line()
+                .x(d => d.x)
+                .y(d => d.y)
+                .curve(d3.curveBasis);
+
+            // Create clip path
+            g.append('defs')
+                .append('clipPath')
+                .attr('id', 'wave-clip')
+                .append('circle')
+                .attr('r', radius);
+
+            const waveGroup = g.append('g')
+                .attr('clip-path', 'url(#wave-clip)');
+
+            // Fill from 46% to 116% (representing 9.8 to 21.2 tool calls)
+            const fillStart = radius * 2 * (1 - 0.46);
+            const fillEnd = -radius * 2 * 0.16;
+
+            const liquidRect = waveGroup.append('rect')
+                .attr('x', -radius)
+                .attr('y', fillStart - radius)
+                .attr('width', radius * 2)
+                .attr('height', radius * 2)
+                .attr('fill', '#667eea')
+                .attr('opacity', 0.6);
+
+            liquidRect.transition()
+                .duration(3000)
+                .ease(d3.easeCubicOut)
+                .attr('y', fillEnd - radius);
+
+            // Wave animation
+            const wave = waveGroup.append('path')
+                .datum(waveData)
+                .attr('d', waveLine)
+                .attr('fill', 'none')
+                .attr('stroke', '#667eea')
+                .attr('stroke-width', 2)
+                .attr('transform', `translate(0, ${fillStart})`);
+
+            wave.transition()
+                .duration(3000)
+                .ease(d3.easeCubicOut)
+                .attr('transform', `translate(0, ${fillEnd})`);
+
+            function animateWave() {
+                wave.transition()
+                    .duration(2000)
+                    .ease(d3.easeSinInOut)
+                    .attr('transform', function() {
+                        const currentY = fillEnd;
+                        return `translate(0, ${currentY + 5})`;
+                    })
+                    .transition()
+                    .duration(2000)
+                    .ease(d3.easeSinInOut)
+                    .attr('transform', `translate(0, ${fillEnd})`)
+                    .on('end', animateWave);
+            }
+
+            setTimeout(animateWave, 3000);
+
+            // Score text
+            const scoreText = g.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dy', '0.35em')
+                .style('font-size', '36px')
+                .style('font-weight', '700')
+                .style('fill', 'white')
+                .text('9.8');
+
+            scoreText.transition()
+                .duration(3000)
+                .tween('text', function() {
+                    const interpolate = d3.interpolate(9.8, 21.2);
+                    return function(t) {
+                        this.textContent = interpolate(t).toFixed(1);
+                    };
+                });
+
+            g.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('y', 30)
+                .style('font-size', '12px')
+                .style('fill', 'white')
+                .text('Consecutive Actions');
+
+            // Labels
+            [
+                {y: -radius - 20, text: 'Before: 9.8', color: '#f59e0b'},
+                {y: radius + 35, text: 'After: 21.2 (+116%)', color: '#10b981'}
+            ].forEach(label => {
+                g.append('text')
+                    .attr('y', label.y)
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '13px')
+                    .style('font-weight', '600')
+                    .style('fill', label.color)
+                    .text(label.text);
+            });
+        }
+
+        // Chart 2-6: Human-AI Turn Distribution (Violin plot)
+        function createTurnDistribution() {
+            const width = 450;
+            const height = 450;
+            const margin = {top: 60, right: 60, bottom: 60, left: 80};
+
+            const svg = d3.select('#chart2-6')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Human Intervention Distribution');
+
+            // Simplified violin plot data
+            const beforeDist = d3.range(1, 10).map(i => ({
+                x: 'Before AI',
+                y: i,
+                density: Math.exp(-Math.pow(i - 6.2, 2) / 4) * 30
+            }));
+
+            const afterDist = d3.range(1, 8).map(i => ({
+                x: 'After AI',
+                y: i,
+                density: Math.exp(-Math.pow(i - 4.1, 2) / 3) * 40
+            }));
+
+            const xScale = d3.scaleBand()
+                .domain(['Before AI', 'After AI'])
+                .range([margin.left, width - margin.right])
+                .padding(0.3);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, 10])
+                .range([height - margin.bottom, margin.top]);
+
+            svg.append('g')
+                .attr('transform', `translate(${margin.left}, 0)`)
+                .call(d3.axisLeft(yScale))
+                .style('font-size', '11px');
+
+            svg.append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('x', -height / 2)
+                .attr('y', 25)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .style('font-weight', '600')
+                .style('fill', '#4a5568')
+                .text('Human Turns per Task');
+
+            svg.append('g')
+                .attr('transform', `translate(0, ${height - margin.bottom})`)
+                .call(d3.axisBottom(xScale))
+                .style('font-size', '12px');
+
+            // Draw violins
+            const violinWidth = xScale.bandwidth();
+
+            function drawViolin(data, color) {
+                const x = xScale(data[0].x) + violinWidth / 2;
+
+                const area = d3.area()
+                    .x0(d => x - d.density)
+                    .x1(d => x + d.density)
+                    .y(d => yScale(d.y))
+                    .curve(d3.curveCatmullRom);
+
+                const path = svg.append('path')
+                    .datum(data)
+                    .attr('d', area)
+                    .attr('fill', color)
+                    .attr('opacity', 0.6)
+                    .attr('stroke', color)
+                    .attr('stroke-width', 2);
+
+                const pathLength = path.node().getTotalLength();
+
+                path
+                    .attr('stroke-dasharray', pathLength)
+                    .attr('stroke-dashoffset', pathLength)
+                    .transition()
+                    .duration(2000)
+                    .attr('stroke-dashoffset', 0);
+
+                // Mean line
+                const mean = data[0].x === 'Before AI' ? 6.2 : 4.1;
+                svg.append('line')
+                    .attr('x1', x - 40)
+                    .attr('x2', x + 40)
+                    .attr('y1', yScale(mean))
+                    .attr('y2', yScale(mean))
+                    .attr('stroke', '#2d3748')
+                    .attr('stroke-width', 3)
+                    .attr('stroke-dasharray', '5,5')
+                    .attr('opacity', 0)
+                    .transition()
+                    .delay(2000)
+                    .duration(500)
+                    .attr('opacity', 1);
+
+                // Mean label
+                svg.append('text')
+                    .attr('x', x + 50)
+                    .attr('y', yScale(mean))
+                    .attr('dy', '0.35em')
+                    .style('font-size', '12px')
+                    .style('font-weight', '600')
+                    .style('fill', color)
+                    .style('opacity', 0)
+                    .text(`μ = ${mean}`)
+                    .transition()
+                    .delay(2000)
+                    .duration(500)
+                    .style('opacity', 1);
+            }
+
+            drawViolin(beforeDist, '#f59e0b');
+            setTimeout(() => drawViolin(afterDist, '#667eea'), 500);
+
+            // Annotation
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', height - 20)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '11px')
+                .style('fill', '#10b981')
+                .style('font-weight', '600')
+                .text('33% fewer human interventions needed');
+        }
+
+        // ============================================================================
+        // PATTERN 3: NEGLECTED TASKS CHARTS
+        // ============================================================================
+
+        // Chart 3-1: Backlog Clearance Animation
+        function createBacklogClearance() {
+            const width = 450;
+            const height = 450;
+
+            const svg = d3.select('#chart3-1')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const tasks = [
+                {name: 'Refactor legacy code', priority: 'low'},
+                {name: 'Update documentation', priority: 'low'},
+                {name: 'Build internal tool', priority: 'medium'},
+                {name: 'Create test suite', priority: 'medium'},
+                {name: 'Fix code formatting', priority: 'low'},
+                {name: 'Add logging', priority: 'low'},
+                {name: 'Optimize queries', priority: 'medium'},
+                {name: 'Build dashboard', priority: 'medium'},
+                {name: 'Security audit', priority: 'high'},
+                {name: 'Performance test', priority: 'medium'}
+            ];
+
+            const backlogX = 100;
+            const completedX = 300;
+            const startY = 80;
+            const taskHeight = 35;
+
+            svg.append('text')
+                .attr('x', backlogX)
+                .attr('y', 40)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#4a5568')
+                .text('Backlog');
+
+            svg.append('text')
+                .attr('x', completedX)
+                .attr('y', 40)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#10b981')
+                .text('Completed');
+
+            const backlogCounter = svg.append('text')
+                .attr('x', backlogX)
+                .attr('y', 60)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '20px')
+                .style('font-weight', '700')
+                .style('fill', '#f59e0b')
+                .text(tasks.length);
+
+            const completedCounter = svg.append('text')
+                .attr('x', completedX)
+                .attr('y', 60)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '20px')
+                .style('font-weight', '700')
+                .style('fill', '#10b981')
+                .text('0');
+
+            let backlogCount = tasks.length;
+            let completedCount = 0;
+
+            const taskGroups = svg.selectAll('.task')
+                .data(tasks)
+                .enter()
+                .append('g')
+                .attr('class', 'task')
+                .attr('transform', (d, i) => `translate(${backlogX}, ${startY + i * taskHeight})`);
+
+            taskGroups.append('rect')
+                .attr('x', -60)
+                .attr('y', 0)
+                .attr('width', 120)
+                .attr('height', 28)
+                .attr('rx', 4)
+                .attr('fill', d => d.priority === 'high' ? '#ef4444' : d.priority === 'medium' ? '#f59e0b' : '#cbd5e0')
+                .attr('opacity', 0.8);
+
+            taskGroups.append('text')
+                .attr('x', 0)
+                .attr('y', 14)
+                .attr('text-anchor', 'middle')
+                .attr('dy', '0.35em')
+                .style('font-size', '9px')
+                .style('fill', d => d.priority === 'low' ? '#2d3748' : 'white')
+                .style('font-weight', '600')
+                .text(d => d.name);
+
+            function animateTasks() {
+                taskGroups.each(function(d, i) {
+                    d3.select(this)
+                        .transition()
+                        .duration(800)
+                        .delay(i * 400)
+                        .attr('transform', `translate(${completedX}, ${startY + i * taskHeight})`)
+                        .on('start', function() {
+                            backlogCount--;
+                            completedCount++;
+                            backlogCounter.text(backlogCount);
+                            completedCounter.text(completedCount);
+                        });
+
+                    d3.select(this).select('rect')
+                        .transition()
+                        .duration(800)
+                        .delay(i * 400)
+                        .attr('fill', '#10b981');
+                });
+
+                setTimeout(() => {
+                    taskGroups
+                        .transition()
+                        .duration(0)
+                        .attr('transform', (d, i) => `translate(${backlogX}, ${startY + i * taskHeight})`);
+
+                    taskGroups.select('rect')
+                        .transition()
+                        .duration(0)
+                        .attr('fill', d => d.priority === 'high' ? '#ef4444' : d.priority === 'medium' ? '#f59e0b' : '#cbd5e0');
+
+                    backlogCount = tasks.length;
+                    completedCount = 0;
+                    backlogCounter.text(backlogCount);
+                    completedCounter.text(completedCount);
+
+                    setTimeout(animateTasks, 1000);
+                }, tasks.length * 400 + 2000);
+            }
+
+            setTimeout(animateTasks, 1000);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', height - 20)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '13px')
+                .style('font-weight', '600')
+                .style('fill', '#667eea')
+                .text('🤖 AI-Assisted: 27% new work completed');
+        }
+
+        // Chart 3-2: Work Composition Evolution (Donut)
+        function createWorkComposition() {
+            const width = 450;
+            const height = 450;
+            const radius = Math.min(width, height) / 2 - 40;
+
+            const svg = d3.select('#chart3-2')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const beforeData = [
+                {label: 'Critical Features', value: 45, color: '#ef4444'},
+                {label: 'Bug Fixes', value: 35, color: '#f59e0b'},
+                {label: 'Maintenance', value: 15, color: '#fbbf24'},
+                {label: 'Nice-to-Haves', value: 5, color: '#cbd5e0'}
+            ];
+
+            const afterData = [
+                {label: 'Critical Features', value: 33, color: '#ef4444'},
+                {label: 'Bug Fixes', value: 25, color: '#f59e0b'},
+                {label: 'Maintenance', value: 15, color: '#fbbf24'},
+                {label: 'Nice-to-Haves', value: 27, color: '#667eea'}
+            ];
+
+            let showingAfter = false;
+
+            function drawDonut(data, label) {
+                svg.selectAll('*').remove();
+
+                const g = svg.append('g')
+                    .attr('transform', `translate(${width/2}, ${height/2})`);
+
+                svg.append('text')
+                    .attr('x', width / 2)
+                    .attr('y', 30)
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '16px')
+                    .style('font-weight', '600')
+                    .style('fill', '#2d3748')
+                    .text(label);
+
+                const pie = d3.pie()
+                    .value(d => d.value)
+                    .sort(null);
+
+                const arc = d3.arc()
+                    .innerRadius(radius * 0.6)
+                    .outerRadius(radius);
+
+                const arcs = g.selectAll('.arc')
+                    .data(pie(data))
+                    .enter()
+                    .append('g')
+                    .attr('class', 'arc');
+
+                arcs.append('path')
+                    .attr('d', arc)
+                    .attr('fill', d => d.data.color)
+                    .attr('opacity', 0)
+                    .on('mouseover', function(event, d) {
+                        d3.select(this)
+                            .transition()
+                            .duration(200)
+                            .attr('opacity', 1)
+                            .attr('transform', 'scale(1.05)');
+
+                        tooltip
+                            .style('opacity', 1)
+                            .html(`<strong>${d.data.label}</strong><br>${d.data.value}%`)
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 10) + 'px');
+                    })
+                    .on('mouseout', function() {
+                        d3.select(this)
+                            .transition()
+                            .duration(200)
+                            .attr('opacity', 0.9)
+                            .attr('transform', 'scale(1)');
+
+                        tooltip.style('opacity', 0);
+                    })
+                    .transition()
+                    .duration(1000)
+                    .delay((d, i) => i * 150)
+                    .attr('opacity', 0.9)
+                    .attrTween('d', function(d) {
+                        const interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d);
+                        return function(t) {
+                            return arc(interpolate(t));
+                        };
+                    });
+
+                g.append('text')
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', '-0.5em')
+                    .style('font-size', '32px')
+                    .style('font-weight', '700')
+                    .style('fill', '#2d3748')
+                    .text('100%');
+
+                g.append('text')
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', '1.5em')
+                    .style('font-size', '14px')
+                    .style('fill', '#4a5568')
+                    .text('Work Volume');
+
+                arcs.append('text')
+                    .attr('transform', d => `translate(${arc.centroid(d)})`)
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', '0.35em')
+                    .style('font-size', '14px')
+                    .style('font-weight', '700')
+                    .style('fill', 'white')
+                    .style('opacity', 0)
+                    .text(d => d.data.value + '%')
+                    .transition()
+                    .duration(500)
+                    .delay((d, i) => i * 150 + 1000)
+                    .style('opacity', 1);
+
+                const legend = svg.append('g')
+                    .attr('transform', 'translate(30, 350)');
+
+                data.forEach((d, i) => {
+                    const legendRow = legend.append('g')
+                        .attr('transform', `translate(0, ${i * 25})`);
+
+                    legendRow.append('rect')
+                        .attr('width', 15)
+                        .attr('height', 15)
+                        .attr('fill', d.color)
+                        .attr('rx', 2);
+
+                    legendRow.append('text')
+                        .attr('x', 20)
+                        .attr('y', 12)
+                        .style('font-size', '11px')
+                        .style('fill', '#4a5568')
+                        .text(d.label);
+                });
+            }
+
+            drawDonut(beforeData, 'Before AI');
+
+            setInterval(() => {
+                showingAfter = !showingAfter;
+                drawDonut(showingAfter ? afterData : beforeData, showingAfter ? 'After AI: +27% New Work' : 'Before AI');
+            }, 4000);
+        }
+
+        // Chart 3-3: Task Priority Matrix
+        function createPriorityMatrix() {
+            const width = 450;
+            const height = 450;
+            const margin = {top: 60, right: 40, bottom: 60, left: 60};
+
+            const svg = d3.select('#chart3-3')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const quadrants = [
+                {x: 0, y: 0, label: 'Do First', color: '#ef4444', opacity: 0.1},
+                {x: 1, y: 0, label: 'Schedule', color: '#667eea', opacity: 0.15},
+                {x: 0, y: 1, label: 'Delegate', color: '#f59e0b', opacity: 0.1},
+                {x: 1, y: 1, label: 'Eliminate', color: '#cbd5e0', opacity: 0.1}
+            ];
+
+            const quadWidth = (width - margin.left - margin.right) / 2;
+            const quadHeight = (height - margin.top - margin.bottom) / 2;
+
+            quadrants.forEach(q => {
+                svg.append('rect')
+                    .attr('x', margin.left + q.x * quadWidth)
+                    .attr('y', margin.top + q.y * quadHeight)
+                    .attr('width', quadWidth)
+                    .attr('height', quadHeight)
+                    .attr('fill', q.color)
+                    .attr('opacity', q.opacity);
+
+                svg.append('text')
+                    .attr('x', margin.left + q.x * quadWidth + quadWidth / 2)
+                    .attr('y', margin.top + q.y * quadHeight + 25)
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '13px')
+                    .style('font-weight', '600')
+                    .style('fill', q.color === '#cbd5e0' ? '#4a5568' : q.color)
+                    .text(q.label);
+            });
+
+            svg.append('line')
+                .attr('x1', margin.left)
+                .attr('y1', height / 2)
+                .attr('x2', width - margin.right)
+                .attr('y2', height / 2)
+                .attr('stroke', '#2d3748')
+                .attr('stroke-width', 2);
+
+            svg.append('line')
+                .attr('x1', width / 2)
+                .attr('y1', margin.top)
+                .attr('x2', width / 2)
+                .attr('y2', height - margin.bottom)
+                .attr('stroke', '#2d3748')
+                .attr('stroke-width', 2);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', height - 20)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .style('font-weight', '600')
+                .style('fill', '#4a5568')
+                .text('Urgency →');
+
+            svg.append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('x', -height / 2)
+                .attr('y', 20)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .style('font-weight', '600')
+                .style('fill', '#4a5568')
+                .text('← Importance');
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 25)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('AI Enables "Important but Not Urgent" Work');
+
+            const beforeTasks = [
+                {x: 30, y: 30, size: 8, color: '#ef4444'},
+                {x: 25, y: 35, size: 8, color: '#ef4444'},
+                {x: 35, y: 25, size: 8, color: '#ef4444'},
+                {x: 40, y: 65, size: 6, color: '#f59e0b'},
+                {x: 35, y: 70, size: 6, color: '#f59e0b'}
+            ];
+
+            const afterTasks = [
+                {x: 30, y: 30, size: 7, color: '#ef4444'},
+                {x: 70, y: 25, size: 10, color: '#667eea'},
+                {x: 75, y: 30, size: 10, color: '#667eea'},
+                {x: 65, y: 35, size: 10, color: '#667eea'},
+                {x: 80, y: 28, size: 10, color: '#667eea'},
+                {x: 72, y: 40, size: 10, color: '#667eea'},
+                {x: 35, y: 65, size: 6, color: '#f59e0b'},
+                {x: 30, y: 35, size: 7, color: '#ef4444'}
+            ];
+
+            const xScale = d3.scaleLinear()
+                .domain([0, 100])
+                .range([margin.left, width - margin.right]);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, 100])
+                .range([margin.top, height - margin.bottom]);
+
+            let showingAfter = false;
+
+            function drawTasks(tasks, label) {
+                svg.selectAll('.task-dot').remove();
+                svg.selectAll('.phase-label').remove();
+
+                svg.append('text')
+                    .attr('class', 'phase-label')
+                    .attr('x', margin.left + 10)
+                    .attr('y', margin.top + 50)
+                    .style('font-size', '12px')
+                    .style('font-weight', '600')
+                    .style('fill', label.includes('After') ? '#667eea' : '#4a5568')
+                    .text(label);
+
+                svg.selectAll('.task-dot')
+                    .data(tasks)
+                    .enter()
+                    .append('circle')
+                    .attr('class', 'task-dot')
+                    .attr('cx', d => xScale(d.x))
+                    .attr('cy', d => yScale(d.y))
+                    .attr('r', 0)
+                    .attr('fill', d => d.color)
+                    .attr('opacity', 0.8)
+                    .on('mouseover', function(event, d) {
+                        d3.select(this)
+                            .transition()
+                            .duration(200)
+                            .attr('r', d.size * 1.5)
+                            .attr('opacity', 1);
+                    })
+                    .on('mouseout', function(event, d) {
+                        d3.select(this)
+                            .transition()
+                            .duration(200)
+                            .attr('r', d.size)
+                            .attr('opacity', 0.8);
+                    })
+                    .transition()
+                    .duration(800)
+                    .delay((d, i) => i * 100)
+                    .attr('r', d => d.size);
+            }
+
+            drawTasks(beforeTasks, 'Before AI');
+
+            setInterval(() => {
+                showingAfter = !showingAfter;
+                drawTasks(showingAfter ? afterTasks : beforeTasks, showingAfter ? 'After AI: Tackling Nice-to-Haves' : 'Before AI');
+            }, 4000);
+        }
+
+        // Chart 3-4: Papercut Accumulation & Resolution (Bubble chart)
+        function createPapercutBubbles() {
+            const width = 450;
+            const height = 450;
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            const svg = d3.select('#chart3-4')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Papercut Resolution (8.6% of Tasks)');
+
+            const papercuts = [
+                {name: 'Code formatting', size: 15, x: 0, y: 0},
+                {name: 'Logging', size: 20, x: 0, y: 0},
+                {name: 'Docs', size: 18, x: 0, y: 0},
+                {name: 'Tests', size: 22, x: 0, y: 0},
+                {name: 'Refactor', size: 25, x: 0, y: 0},
+                {name: 'Config', size: 12, x: 0, y: 0},
+                {name: 'Types', size: 16, x: 0, y: 0},
+                {name: 'Comments', size: 14, x: 0, y: 0},
+                {name: 'Imports', size: 13, x: 0, y: 0},
+                {name: 'Utils', size: 19, x: 0, y: 0}
+            ];
+
+            // Position bubbles randomly
+            papercuts.forEach(p => {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 60 + Math.random() * 80;
+                p.x = centerX + Math.cos(angle) * distance;
+                p.y = centerY + Math.sin(angle) * distance;
+            });
+
+            const simulation = d3.forceSimulation(papercuts)
+                .force('charge', d3.forceManyBody().strength(-100))
+                .force('center', d3.forceCenter(centerX, centerY))
+                .force('collision', d3.forceCollide().radius(d => d.size + 2))
+                .stop();
+
+            for (let i = 0; i < 100; i++) simulation.tick();
+
+            const bubbles = svg.selectAll('.bubble')
+                .data(papercuts)
+                .enter()
+                .append('g')
+                .attr('class', 'bubble')
+                .attr('transform', d => `translate(${d.x}, ${d.y})`);
+
+            bubbles.append('circle')
+                .attr('r', 0)
+                .attr('fill', '#f59e0b')
+                .attr('opacity', 0.6)
+                .attr('stroke', '#f59e0b')
+                .attr('stroke-width', 2)
+                .style('cursor', 'pointer')
+                .on('mouseover', function(event, d) {
+                    tooltip
+                        .style('opacity', 1)
+                        .html(`<strong>${d.name}</strong><br>Papercut task`)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 10) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.style('opacity', 0);
+                })
+                .transition()
+                .duration(1000)
+                .delay((d, i) => i * 200)
+                .attr('r', d => d.size);
+
+            bubbles.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dy', '0.35em')
+                .style('font-size', '10px')
+                .style('font-weight', '600')
+                .style('fill', 'white')
+                .style('opacity', 0)
+                .text(d => d.name)
+                .transition()
+                .duration(500)
+                .delay((d, i) => i * 200 + 1000)
+                .style('opacity', 1);
+
+            // Animate "popping" bubbles (resolving papercuts)
+            function popBubbles() {
+                bubbles.each(function(d, i) {
+                    const bubble = d3.select(this);
+
+                    setTimeout(() => {
+                        bubble.select('circle')
+                            .transition()
+                            .duration(500)
+                            .attr('fill', '#10b981')
+                            .attr('r', d.size * 1.3)
+                            .transition()
+                            .duration(300)
+                            .attr('r', 0)
+                            .attr('opacity', 0);
+
+                        bubble.select('text')
+                            .transition()
+                            .duration(500)
+                            .style('opacity', 0);
+                    }, i * 300 + 3000);
+                });
+
+                // Reset
+                setTimeout(() => {
+                    bubbles.select('circle')
+                        .attr('r', d => d.size)
+                        .attr('fill', '#f59e0b')
+                        .attr('opacity', 0.6);
+
+                    bubbles.select('text')
+                        .style('opacity', 1);
+
+                    setTimeout(popBubbles, 2000);
+                }, papercuts.length * 300 + 5000);
+            }
+
+            popBubbles();
+
+            // Center label
+            svg.append('text')
+                .attr('x', centerX)
+                .attr('y', height - 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '12px')
+                .style('fill', '#4a5568')
+                .text('Small fixes that improve quality of life');
+        }
+
+        // Chart 3-5: Work Type Flow Transformation (Alluvial/Sankey)
+        function createWorkFlow() {
+            const width = 450;
+            const height = 450;
+            const margin = {top: 60, right: 40, bottom: 40, left: 40};
+
+            const svg = d3.select('#chart3-5')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Work Type Transformation');
+
+            const categories = [
+                {name: 'Critical', before: 45, after: 33, color: '#ef4444'},
+                {name: 'Fixes', before: 35, after: 25, color: '#f59e0b'},
+                {name: 'Maintenance', before: 15, after: 15, color: '#fbbf24'},
+                {name: 'Nice-to-Have', before: 5, after: 27, color: '#667eea'}
+            ];
+
+            const leftX = 80;
+            const rightX = width - 80;
+            const startY = margin.top;
+            const endY = height - margin.bottom;
+
+            const yScale = d3.scaleLinear()
+                .domain([0, 100])
+                .range([startY, endY]);
+
+            // Draw flows
+            let beforeY = 0;
+            let afterY = 0;
+
+            categories.forEach((cat, i) => {
+                const beforeHeight = (endY - startY) * cat.before / 100;
+                const afterHeight = (endY - startY) * cat.after / 100;
+
+                // Left bar
+                svg.append('rect')
+                    .attr('x', leftX - 20)
+                    .attr('y', yScale(beforeY))
+                    .attr('width', 40)
+                    .attr('height', 0)
+                    .attr('fill', cat.color)
+                    .attr('opacity', 0.8)
+                    .transition()
+                    .duration(1000)
+                    .delay(i * 200)
+                    .attr('height', beforeHeight);
+
+                // Right bar
+                svg.append('rect')
+                    .attr('x', rightX - 20)
+                    .attr('y', yScale(afterY))
+                    .attr('width', 40)
+                    .attr('height', 0)
+                    .attr('fill', cat.color)
+                    .attr('opacity', 0.8)
+                    .transition()
+                    .duration(1000)
+                    .delay(i * 200 + 500)
+                    .attr('height', afterHeight);
+
+                // Flow path
+                const path = `
+                    M ${leftX + 20} ${yScale(beforeY + cat.before / 2)}
+                    C ${(leftX + rightX) / 2} ${yScale(beforeY + cat.before / 2)},
+                      ${(leftX + rightX) / 2} ${yScale(afterY + cat.after / 2)},
+                      ${rightX - 20} ${yScale(afterY + cat.after / 2)}
+                `;
+
+                svg.append('path')
+                    .attr('d', path)
+                    .attr('fill', 'none')
+                    .attr('stroke', cat.color)
+                    .attr('stroke-width', Math.min(beforeHeight, afterHeight))
+                    .attr('opacity', 0)
+                    .transition()
+                    .duration(1000)
+                    .delay(i * 200 + 1000)
+                    .attr('opacity', 0.3);
+
+                // Labels
+                svg.append('text')
+                    .attr('x', leftX - 30)
+                    .attr('y', yScale(beforeY + cat.before / 2))
+                    .attr('text-anchor', 'end')
+                    .attr('dy', '0.35em')
+                    .style('font-size', '11px')
+                    .style('fill', '#4a5568')
+                    .text(`${cat.before}%`);
+
+                svg.append('text')
+                    .attr('x', rightX + 30)
+                    .attr('y', yScale(afterY + cat.after / 2))
+                    .attr('text-anchor', 'start')
+                    .attr('dy', '0.35em')
+                    .style('font-size', '11px')
+                    .style('fill', '#4a5568')
+                    .text(`${cat.after}%`);
+
+                beforeY += cat.before;
+                afterY += cat.after;
+            });
+
+            // Column labels
+            svg.append('text')
+                .attr('x', leftX)
+                .attr('y', height - 15)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '13px')
+                .style('font-weight', '600')
+                .style('fill', '#4a5568')
+                .text('Before AI');
+
+            svg.append('text')
+                .attr('x', rightX)
+                .attr('y', height - 15)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '13px')
+                .style('font-weight', '600')
+                .style('fill', '#667eea')
+                .text('After AI');
+
+            // Legend
+            const legend = svg.append('g')
+                .attr('transform', `translate(${width - 140}, ${height - 150})`);
+
+            legend.append('rect')
+                .attr('width', 130)
+                .attr('height', 110)
+                .attr('fill', 'white')
+                .attr('stroke', '#e2e8f0')
+                .attr('rx', 6);
+
+            categories.forEach((cat, i) => {
+                legend.append('rect')
+                    .attr('x', 10)
+                    .attr('y', 10 + i * 25)
+                    .attr('width', 15)
+                    .attr('height', 15)
+                    .attr('fill', cat.color)
+                    .attr('rx', 2);
+
+                legend.append('text')
+                    .attr('x', 30)
+                    .attr('y', 22 + i * 25)
+                    .style('font-size', '11px')
+                    .style('fill', '#4a5568')
+                    .text(cat.name);
+            });
+        }
+
+        // Chart 3-6: Quality-of-Life Impact Grid (Icon-based)
+        function createQoLGrid() {
+            const width = 450;
+            const height = 450;
+            const margin = {top: 60, right: 40, bottom: 40, left: 40};
+
+            const svg = d3.select('#chart3-6')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '14px')
+                .style('font-weight', '600')
+                .style('fill', '#2d3748')
+                .text('Quality-of-Life Improvements');
+
+            const improvements = [
+                {label: 'Refactoring', emoji: '🔧', impact: 8},
+                {label: 'Documentation', emoji: '📝', impact: 7},
+                {label: 'Testing', emoji: '✅', impact: 9},
+                {label: 'Code Style', emoji: '💅', impact: 6},
+                {label: 'Logging', emoji: '📊', impact: 7},
+                {label: 'Optimization', emoji: '⚡', impact: 8},
+                {label: 'Tools', emoji: '🛠️', impact: 9},
+                {label: 'Config', emoji: '⚙️', impact: 6},
+                {label: 'Types', emoji: '🏷️', impact: 7},
+                {label: 'Comments', emoji: '💬', impact: 5},
+                {label: 'Cleanup', emoji: '🧹', impact: 8},
+                {label: 'Dashboard', emoji: '📈', impact: 9}
+            ];
+
+            const cols = 4;
+            const rows = Math.ceil(improvements.length / cols);
+            const cellWidth = (width - margin.left - margin.right) / cols;
+            const cellHeight = (height - margin.top - margin.bottom) / rows;
+
+            const impactColor = d3.scaleSequential(d3.interpolateRgb('#fef3c7', '#10b981'))
+                .domain([0, 10]);
+
+            improvements.forEach((item, i) => {
+                const col = i % cols;
+                const row = Math.floor(i / cols);
+                const x = margin.left + col * cellWidth;
+                const y = margin.top + row * cellHeight;
+
+                const cell = svg.append('g')
+                    .attr('transform', `translate(${x + cellWidth / 2}, ${y + cellHeight / 2})`);
+
+                // Background
+                cell.append('rect')
+                    .attr('x', -cellWidth / 2 + 5)
+                    .attr('y', -cellHeight / 2 + 5)
+                    .attr('width', cellWidth - 10)
+                    .attr('height', cellHeight - 10)
+                    .attr('rx', 8)
+                    .attr('fill', impactColor(0))
+                    .attr('stroke', '#e2e8f0')
+                    .attr('stroke-width', 2)
+                    .style('cursor', 'pointer')
+                    .on('mouseover', function(event) {
+                        d3.select(this).attr('stroke', '#667eea').attr('stroke-width', 3);
+                        tooltip
+                            .style('opacity', 1)
+                            .html(`<strong>${item.label}</strong><br>Impact: ${item.impact}/10`)
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 10) + 'px');
+                    })
+                    .on('mouseout', function() {
+                        d3.select(this).attr('stroke', '#e2e8f0').attr('stroke-width', 2);
+                        tooltip.style('opacity', 0);
+                    })
+                    .transition()
+                    .duration(1000)
+                    .delay(i * 100)
+                    .attr('fill', impactColor(item.impact));
+
+                // Emoji
+                cell.append('text')
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', '-0.5em')
+                    .style('font-size', '32px')
+                    .style('opacity', 0)
+                    .text(item.emoji)
+                    .transition()
+                    .duration(500)
+                    .delay(i * 100 + 500)
+                    .style('opacity', 1);
+
+                // Label
+                cell.append('text')
+                    .attr('text-anchor', 'middle')
+                    .attr('dy', '2em')
+                    .style('font-size', '11px')
+                    .style('font-weight', '600')
+                    .style('fill', '#2d3748')
+                    .style('opacity', 0)
+                    .text(item.label)
+                    .transition()
+                    .duration(500)
+                    .delay(i * 100 + 700)
+                    .style('opacity', 1);
+            });
+
+            // Impact scale
+            svg.append('text')
+                .attr('x', margin.left)
+                .attr('y', height - 10)
+                .style('font-size', '11px')
+                .style('fill', '#4a5568')
+                .text('Lower Impact');
+
+            svg.append('text')
+                .attr('x', width - margin.right)
+                .attr('y', height - 10)
+                .attr('text-anchor', 'end')
+                .style('font-size', '11px')
+                .style('fill', '#10b981')
+                .style('font-weight', '600')
+                .text('Higher Impact ✨');
+        }
+
+        // Initialize all charts
+        createRadarChart();
+        createTaskFlow();
+        createCapabilityHeatmap();
+        createSkillStream();
+        createKnowledgeNetwork();
+        createFullStackGauge();
+
+        createIterationSpiral();
+        createVelocityChart();
+        createTimeCompression();
+        createFeedbackLoops();
+        createAutonomyGauge();
+        createTurnDistribution();
+
+        createBacklogClearance();
+        createWorkComposition();
+        createPriorityMatrix();
+        createPapercutBubbles();
+        createWorkFlow();
+        createQoLGrid();
+    </script>
+</body>
+</html>

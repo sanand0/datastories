@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "anthropic-work",
+      "title": "Communicating Insights Visually",
+      "description": "How top AI chatbots and coding agents translate Anthropic’s “How AI is transforming work at Anthropic” into diverse animated chart ideas—compared and ranked.",
+      "link": "anthropic-work/index.html",
+      "screenshot": "anthropic-work/screenshot.webp"
+    },
+    {
       "id": "weight-2025-12",
       "title": "The Ruler-Straight Disappearing Act",
       "description": "A 24 kg drop from 86.4 to 62.2 kg across 335 days in 2025, with two changepoints and a ruler-straight curve from a Google Fit export.",

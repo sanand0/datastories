@@ -1,0 +1,2829 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How AI is transforming work at Anthropic — animated productivity patterns</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    :root{
+      --bg:#0b0f17; --panel:#101827; --panel2:#0f172a;
+      --text:#e8eefc; --muted:#a8b3cf;
+      --line:#22304a; --accent:#7dd3fc; --accent2:#a78bfa; --good:#34d399; --warn:#fbbf24;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0; background: radial-gradient(1200px 700px at 15% 0%, #0e1b38 0%, var(--bg) 55%);
+      color:var(--text); font-family:var(--sans);
+    }
+    header{
+      padding:28px 18px 12px;
+      max-width:1200px; margin:0 auto;
+    }
+    h1{ margin:0 0 8px; font-size:22px; letter-spacing:.2px; }
+    .sub{
+      color:var(--muted); line-height:1.45; font-size:13px; max-width:980px;
+    }
+    .pillrow{
+      display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;
+    }
+    .pill{
+      font: 12px/1 var(--mono);
+      padding:8px 10px; border-radius:999px;
+      background: rgba(125,211,252,.08);
+      border:1px solid rgba(125,211,252,.18);
+      color:#cfefff;
+    }
+    .wrap{ max-width:1200px; margin:0 auto; padding:10px 18px 40px; }
+    .tabs{
+      display:flex; gap:10px; flex-wrap:wrap;
+      padding:10px; border-radius:999px;
+      background: rgba(16,24,39,.55); border:1px solid rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      position:sticky; top:12px; backdrop-filter: blur(10px);
+      z-index:5;
+    }
+    .tabbtn{
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.0);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:13px;
+      display:flex; align-items:center; gap:8px;
+      transition:.15s transform, .15s background, .15s border-color;
+      user-select:none;
+    }
+    .tabbtn:hover{ transform: translateY(-1px); border-color: rgba(125,211,252,.35); }
+    .tabbtn.active{
+      background: linear-gradient(90deg, rgba(125,211,252,.22), rgba(167,139,250,.22));
+      border-color: rgba(125,211,252,.45);
+    }
+    .tabcontent{ display:none; margin-top:14px; }
+    .tabcontent.active{ display:block; }
+
+    .sectionhead{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
+      margin:14px 0 10px;
+    }
+    .sectionhead h2{ margin:0; font-size:16px; letter-spacing:.2px; }
+    .sectionhead .hint{ color:var(--muted); font-size:12px; line-height:1.35; max-width:720px; }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:12px;
+    }
+    .card{
+      grid-column: span 12;
+      background: linear-gradient(180deg, rgba(16,24,39,.9), rgba(16,24,39,.62));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    @media(min-width: 980px){
+      .card{ grid-column: span 4; }
+    }
+    .card .top{
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      background: rgba(15,23,42,.5);
+    }
+    .titleRow{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .card h3{ margin:0 0 6px; font-size:14px; letter-spacing:.2px;}
+    .meta{
+      color:var(--muted); font-size:12px; line-height:1.35;
+    }
+    .controls{
+      display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+      justify-content:flex-end;
+      min-width: 210px;
+    }
+    .btn{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.0);
+      color:var(--text);
+      padding:7px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:12px;
+      transition:.15s transform, .15s background, .15s border-color;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(125,211,252,.35); }
+    .btn.primary{
+      background: rgba(125,211,252,.16);
+      border-color: rgba(125,211,252,.35);
+      color:#d7f3ff;
+    }
+    .range{
+      display:flex; align-items:center; gap:8px;
+      color:var(--muted); font-size:12px;
+    }
+    input[type="range"]{ width: 140px; }
+    .viz{
+      padding:12px 12px 14px;
+    }
+    svg{ width:100%; height:260px; display:block; }
+    .foot{
+      padding:0 14px 14px;
+      color:var(--muted);
+      font-size:11.5px;
+      line-height:1.35;
+    }
+    .kbd{ font-family:var(--mono); font-size:11px; padding:2px 6px; border-radius:6px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.25); color:#d6def6; }
+
+    .tip{
+      position:fixed; pointer-events:none;
+      background: rgba(10,14,24,.92);
+      border:1px solid rgba(255,255,255,.10);
+      padding:10px 10px;
+      border-radius:12px;
+      max-width: 340px;
+      box-shadow: var(--shadow);
+      opacity:0;
+      transform: translateY(6px);
+      transition: .10s opacity, .10s transform;
+      z-index: 99;
+      font-size:12px;
+      color:#eaf1ff;
+    }
+    .tip .small{ color:var(--muted); font-size:11px; margin-top:6px; line-height:1.35; }
+    .legend{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:8px;
+      color:var(--muted); font-size:11.5px;
+    }
+    .sw{ width:10px; height:10px; border-radius:3px; display:inline-block; margin-right:6px; }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>How AI is transforming work at Anthropic — 3 patterns × 6 animated, interactive charts</h1>
+  <div class="sub">
+    Uses the article’s reported anchors (survey + interviews + Claude Code telemetry) and deterministic synthetic micro-data where needed.
+    <br/>
+    <span class="kbd">Before</span> = ~12 months earlier (survey: 28% usage, +20% productivity). <span class="kbd">After</span> = “now” (59% usage, +50% productivity). For telemetry, “Before” ≈ Feb 2025 and “After” ≈ Aug 2025.
+  </div>
+  <div class="pillrow">
+    <div class="pill">Survey: usage 28% → 59%</div>
+    <div class="pill">Survey: productivity +20% → +50%</div>
+    <div class="pill">New work: 27% wouldn’t exist otherwise</div>
+    <div class="pill">Telemetry: tool-call streak 9.8 → 21.2</div>
+    <div class="pill">Telemetry: human turns 6.2 → 4.1</div>
+    <div class="pill">Telemetry: complexity 3.2 → 3.8</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="tabs" role="tablist" aria-label="Productivity patterns">
+    <button class="tabbtn active" data-tab="t1" role="tab" aria-selected="true">① More “full-stack” output</button>
+    <button class="tabbtn" data-tab="t2" role="tab" aria-selected="false">② Faster learning + tighter loops</button>
+    <button class="tabbtn" data-tab="t3" role="tab" aria-selected="false">③ Previously-neglected tasks get done</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <section id="t1" class="tabcontent active">
+    <div class="sectionhead">
+      <h2>① Engineers are getting a lot more done, becoming more “full-stack”</h2>
+      <div class="hint">
+        Focus on <b>breadth</b> (cross-domain confidence + task-mix drift), not “hours saved”.
+        Includes xenographic metaphors: passports, alluvial “career drift”, block-stacking workbenches.
+      </div>
+    </div>
+
+    <div class="gallery">
+      <!-- 1 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Skill Bloom (xenographic radar morph)</h3>
+              <div class="meta">Metric: “Can I successfully ship in this domain?” (0–100), especially outside primary expertise.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="skillBloom" data-state="after">After</button>
+              <button class="btn" data-toggle="skillBloom" data-state="before">Before</button>
+              <div class="range">
+                <span>morph</span>
+                <input type="range" min="0" max="1" step="0.01" value="1" data-slider="skillBloom"/>
+              </div>
+            </div>
+          </div>
+          <div class="legend">
+            <span><span class="sw" style="background:rgba(125,211,252,.85)"></span>After</span>
+            <span><span class="sw" style="background:rgba(167,139,250,.85)"></span>Before</span>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-skillBloom" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Synthetic, but grounded in the article’s qualitative claims. Hover points for “why this domain expands”.</div>
+      </div>
+
+      <!-- 2 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Team × Task Heatmap (full-stack drift)</h3>
+              <div class="meta">Metric: share of a team’s Claude Code usage spent on tasks outside their “core”.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="heatmap1" data-state="after">After</button>
+              <button class="btn" data-toggle="heatmap1" data-state="before">Before</button>
+              <div class="range">
+                <span>morph</span>
+                <input type="range" min="0" max="1" step="0.01" value="1" data-slider="heatmap1"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-heatmap1" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Includes several article examples (Security: code understanding; Alignment/Safety: front-end; Non-technical: debugging + data science).</div>
+      </div>
+
+      <!-- 3 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Task portfolio shift (Feb → Aug 2025)</h3>
+              <div class="meta">Anchors: “new features” 14.3%→36.9%, “design/planning” 1.0%→9.9% (article).</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="stack1" data-state="after">Aug 2025</button>
+              <button class="btn" data-toggle="stack1" data-state="before">Feb 2025</button>
+              <button class="btn" data-action="play" data-play="stack1">Play</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-stack1" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">“Full-stack” as a behavioral footprint: more planning + building, and a different mix of work.</div>
+      </div>
+
+      <!-- 4 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Career Drift Alluvial (role → task spillover)</h3>
+              <div class="meta">Xenographic: watch “what you were hired for” leak into “what you now ship”.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="flow1" data-state="after">After</button>
+              <button class="btn" data-toggle="flow1" data-state="before">Before</button>
+              <div class="range">
+                <span>morph</span>
+                <input type="range" min="0" max="1" step="0.01" value="1" data-slider="flow1"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-flow1" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Hover a ribbon: it narrates the “I’m not supposed to do this… but I can now.” moment.</div>
+      </div>
+
+      <!-- 5 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Skill Passport (stamps appear + age)</h3>
+              <div class="meta">Xenographic: each stamp = a shipped artifact in an “adjacent” domain.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="stamps1" data-state="after">After</button>
+              <button class="btn" data-toggle="stamps1" data-state="before">Before</button>
+              <button class="btn" data-action="play" data-play="stamps1">Stamp</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-stamps1" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Idea: show “breadth” as a collectible. Animation style = satisfying “thunk” stamping.</div>
+      </div>
+
+      <!-- 6 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Workbench Blocks (polyomino task stacking)</h3>
+              <div class="meta">Metaphor: the same day fits more “weird-shaped” tasks when AI trims edge friction.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="poly1" data-state="after">After</button>
+              <button class="btn" data-toggle="poly1" data-state="before">Before</button>
+              <button class="btn" data-action="play" data-play="poly1">Drop</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-poly1" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">A deliberately “non-chart” chart. Interaction: click columns to “prioritize” a domain.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2 -->
+  <section id="t2" class="tabcontent">
+    <div class="sectionhead">
+      <h2>② Engineers are accelerating learning + iteration speed (tighter feedback loops)</h2>
+      <div class="hint">
+        Focus on <b>loop latency</b>, <b>usage→productivity</b> coupling, and <b>autonomy</b>.
+        Includes kinetic “raceways”, spirals, and token-flow pipelines.
+      </div>
+    </div>
+
+    <div class="gallery">
+      <!-- 1 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Feedback Loop Raceway (animated loop)</h3>
+              <div class="meta">Metric: “time per iterate” compressed from “couple weeks” to “couple hours” (article quote).</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="race" data-state="after">After</button>
+              <button class="btn" data-toggle="race" data-state="before">Before</button>
+              <div class="range">
+                <span>AI%</span>
+                <input type="range" min="0" max="100" step="1" value="59" data-slider="raceAI"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-race" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Drag AI%: loop speed re-maps. Encodes “activation energy drops” + “live feedback” vibe.</div>
+      </div>
+
+      <!-- 2 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Usage vs Productivity (132 respondents, constrained)</h3>
+              <div class="meta">Anchors: mean usage 28%→59%, mean productivity +20%→+50%, ~14% power users &gt; +100% (article).</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="scatter" data-state="after">After</button>
+              <button class="btn" data-toggle="scatter" data-state="before">Before</button>
+              <button class="btn" data-action="play" data-play="scatter">Play</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-scatter" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Hover a dot: see the individual before→after “jump”. Deterministic synthetic data.</div>
+      </div>
+
+      <!-- 3 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Autonomy + Oversight (telemetry bars)</h3>
+              <div class="meta">Anchors: complexity 3.2→3.8, tool-call streak 9.8→21.2, human turns 6.2→4.1 (article).</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="autonomy" data-state="after">Aug 2025</button>
+              <button class="btn" data-toggle="autonomy" data-state="before">Feb 2025</button>
+              <button class="btn" data-action="play" data-play="autonomy">Play</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-autonomy" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">“Tighter loop”: fewer human turns, longer action chains, and higher complexity.</div>
+      </div>
+
+      <!-- 4 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Loop Latency Violin (distribution morph)</h3>
+              <div class="meta">Xenographic: the whole org’s loop-times collapse from “weeks” to “hours”.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="violin2" data-state="after">After</button>
+              <button class="btn" data-toggle="violin2" data-state="before">Before</button>
+              <button class="btn" data-action="play" data-play="violin2">Pulse</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-violin2" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Novel cue: density “breathes” faster when loops are shorter.</div>
+      </div>
+
+      <!-- 5 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Iteration Spiral (turns per day)</h3>
+              <div class="meta">Metaphor: same calendar day → more learning cycles. The spiral tightens + speeds up.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="spiral2" data-state="after">After</button>
+              <button class="btn" data-toggle="spiral2" data-state="before">Before</button>
+              <div class="range">
+                <span>speed</span>
+                <input type="range" min="0.5" max="2.5" step="0.01" value="1.4" data-slider="spiral2"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-spiral2" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">A “feel” chart. Hover the comet for implied “cycles/day”.</div>
+      </div>
+
+      <!-- 6 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Prompt→Ship Token Flow (pipeline kinetics)</h3>
+              <div class="meta">Tokens represent iterations. After = faster tokens + fewer backtracks.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="pipe2" data-state="after">After</button>
+              <button class="btn" data-toggle="pipe2" data-state="before">Before</button>
+              <button class="btn" data-action="play" data-play="pipe2">Burst</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-pipe2" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Good for storytelling: “the org becomes less viscous.”</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3 -->
+  <section id="t3" class="tabcontent">
+    <div class="sectionhead">
+      <h2>③ Engineers are tackling previously-neglected tasks</h2>
+      <div class="hint">
+        Focus on <b>unblockable backlog</b> (work that “wouldn’t have been done”), <b>papercuts</b> (8.6% of Claude Code tasks),
+        and how the delegation boundary changes what gets attempted.
+      </div>
+    </div>
+
+    <div class="gallery">
+      <!-- 1 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Backlog Iceberg (27% “new work” revealed)</h3>
+              <div class="meta">Anchor: 27% of Claude-assisted work “wouldn’t have been done otherwise” (article).</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="iceberg" data-state="after">After</button>
+              <button class="btn" data-toggle="iceberg" data-state="before">Before</button>
+              <button class="btn" data-action="play" data-play="iceberg">Animate</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-iceberg" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Metaphor: AI lowers the “waterline” (activation energy), so buried tasks surface.</div>
+      </div>
+
+      <!-- 2 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Papercut Compounding (cumulative curve)</h3>
+              <div class="meta">Anchor: 8.6% of Claude Code tasks are “papercut fixes” (article). Minutes mapping is synthetic.</div>
+            </div>
+            <div class="controls">
+              <div class="range">
+                <span>engineers</span>
+                <input type="range" min="20" max="200" step="1" value="132" data-slider="papercutsN"/>
+              </div>
+              <button class="btn" data-action="play" data-play="papercuts">Play</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-papercuts" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Small fixes don’t just save time once—they save time repeatedly.</div>
+      </div>
+
+      <!-- 3 -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Delegation Frontier (verifiable × stakes)</h3>
+              <div class="meta">Based on the article’s delegation heuristics (“easily verifiable”, “low stakes”, “well-defined”).</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="frontier" data-state="after">After</button>
+              <button class="btn" data-toggle="frontier" data-state="before">Before</button>
+              <button class="btn" data-action="play" data-play="frontier">Play</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-frontier" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Boundary expands, but “high-stakes + low-verifiability” remains sticky.</div>
+      </div>
+
+      <!-- 4 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Long-Tail Completion (Pareto tail lights up)</h3>
+              <div class="meta">Metaphor: AI turns “nice-to-haves” into “actually done”.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="tail3" data-state="after">After</button>
+              <button class="btn" data-toggle="tail3" data-state="before">Before</button>
+              <div class="range">
+                <span>energy</span>
+                <input type="range" min="0" max="1" step="0.01" value="0.85" data-slider="tail3"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-tail3" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Slider = activation energy drop. Watch the “tail” flip from grey to green.</div>
+      </div>
+
+      <!-- 5 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Maintenance Debt Mountain (area reverses)</h3>
+              <div class="meta">Xenographic: “debt” is a landscape—AI makes it cheaper to terraform.</div>
+            </div>
+            <div class="controls">
+              <button class="btn" data-action="play" data-play="debt3">Erode</button>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-debt3" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">Before: debt climbs. After: papercuts + automation flatten / reduce it.</div>
+      </div>
+
+      <!-- 6 NEW -->
+      <div class="card">
+        <div class="top">
+          <div class="titleRow">
+            <div>
+              <h3>Backlog Conveyor (tasks that “never happened” now ship)</h3>
+              <div class="meta">Kinetic xenographic: work items move from “idea bin” to “done bin”.</div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" data-toggle="conv3" data-state="after">After</button>
+              <button class="btn" data-toggle="conv3" data-state="before">Before</button>
+              <div class="range">
+                <span>speed</span>
+                <input type="range" min="0.6" max="2.5" step="0.01" value="1.6" data-slider="conv3"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="viz"><svg id="chart-conv3" viewBox="0 0 520 260"></svg></div>
+        <div class="foot">After adds a special “ghost” task class = 27% work that wouldn’t exist otherwise.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+/* ----------------------------
+   Deterministic randomness
+-----------------------------*/
+function mulberry32(seed){
+  return function(){
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rand = mulberry32(20251203);
+function shuffleInPlace(arr, randomFn){
+  for(let i=arr.length-1; i>0; --i){
+    const j = Math.floor(randomFn()*(i+1));
+    const tmp = arr[i]; arr[i]=arr[j]; arr[j]=tmp;
+  }
+  return arr;
+}
+
+/* ----------------------------
+   Tooltip helpers
+-----------------------------*/
+const tip = d3.select("#tip");
+function showTip(html, x, y){
+  tip.html(html)
+     .style("left", (x + 12) + "px")
+     .style("top",  (y + 10) + "px")
+     .style("opacity", 1)
+     .style("transform","translateY(0px)");
+}
+function hideTip(){
+  tip.style("opacity", 0).style("transform","translateY(6px)");
+}
+
+/* ----------------------------
+   Tabs
+-----------------------------*/
+document.querySelectorAll(".tabbtn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".tabbtn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const id = btn.dataset.tab;
+    document.querySelectorAll(".tabcontent").forEach(sec=>sec.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  });
+});
+
+/* ----------------------------
+   Common helpers
+-----------------------------*/
+const clamp = (x,a,b)=>Math.max(a,Math.min(b,x));
+const lerp = (a,b,t)=>a+(b-a)*t;
+
+/* ============================================================
+   CHART 1: Skill Bloom radar morph
+============================================================ */
+function chartSkillBloom(){
+  const svg = d3.select("#chart-skillBloom");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, cx=180, cy=135;
+  const rMax=95;
+
+  const domains = [
+    {k:"Front-end UI", why:"Interview: backend engineers shipped complex UIs by iterating with Claude."},
+    {k:"Transactional DBs", why:"Quote: “transactional databases… previously I would've been scared to touch.”"},
+    {k:"DevOps / Linux", why:"Quote: “I don’t know Git or Linux… Claude covers my lack of experience.”"},
+    {k:"Security review", why:"Article: Security uses Claude for code understanding; supervision matters."},
+    {k:"Data viz", why:"Article: Alignment/Safety build front-end visualizations of data."},
+    {k:"Testing + QA", why:"Article: AI enables more thorough testing + “useful but tedious work.”"}
+  ];
+
+  const before = [0.22,0.18,0.28,0.35,0.20,0.30];
+  const after  = [0.70,0.62,0.66,0.52,0.58,0.64];
+
+  const g = svg.append("g");
+  d3.range(1,6).map(i=>i/5).forEach(t=>{
+    g.append("circle")
+      .attr("cx",cx).attr("cy",cy).attr("r", rMax*t)
+      .attr("fill","none")
+      .attr("stroke","rgba(255,255,255,.07)");
+  });
+
+  const ang = (i)=> (Math.PI*2) * (i/domains.length) - Math.PI/2;
+  domains.forEach((d,i)=>{
+    const a=ang(i);
+    const x = cx + Math.cos(a)*rMax;
+    const y = cy + Math.sin(a)*rMax;
+    g.append("line")
+      .attr("x1",cx).attr("y1",cy).attr("x2",x).attr("y2",y)
+      .attr("stroke","rgba(255,255,255,.10)");
+    g.append("text")
+      .attr("x", cx + Math.cos(a)*(rMax+18))
+      .attr("y", cy + Math.sin(a)*(rMax+18))
+      .attr("fill","rgba(232,238,252,.85)")
+      .attr("font-size", 11)
+      .attr("text-anchor", Math.cos(a)>0.2 ? "start" : (Math.cos(a)<-0.2 ? "end":"middle"))
+      .attr("dominant-baseline","middle")
+      .text(d.k);
+  });
+
+  g.append("text").attr("x", 340).attr("y", 60).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Confidence to ship (synthetic)");
+  g.append("text").attr("x", 340).attr("y", 78).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("0  25  50  75  100");
+
+  const line = d3.lineRadial()
+    .angle((d,i)=>ang(i))
+    .radius(d=>d*rMax)
+    .curve(d3.curveCardinalClosed.tension(0.75));
+
+  svg.append("path")
+    .attr("transform",`translate(${cx},${cy})`)
+    .attr("d", line(before))
+    .attr("fill","rgba(167,139,250,.16)")
+    .attr("stroke","rgba(167,139,250,.85)")
+    .attr("stroke-width",2);
+
+  const polyAfter = svg.append("path")
+    .attr("transform",`translate(${cx},${cy})`)
+    .attr("d", line(after))
+    .attr("fill","rgba(125,211,252,.18)")
+    .attr("stroke","rgba(125,211,252,.90)")
+    .attr("stroke-width",2);
+
+  const dots = svg.append("g").attr("transform",`translate(${cx},${cy})`);
+  const dot = dots.selectAll("circle").data(domains).enter().append("circle")
+    .attr("r", 5)
+    .attr("fill","rgba(125,211,252,.95)")
+    .attr("stroke","rgba(0,0,0,.25)")
+    .attr("stroke-width",1)
+    .style("cursor","help");
+
+  const dotLabel = dots.selectAll("text").data(domains).enter().append("text")
+    .attr("fill","rgba(232,238,252,.9)")
+    .attr("font-size", 10)
+    .attr("text-anchor","middle")
+    .attr("dy",-10)
+    .text((d,i)=>Math.round(after[i]*100));
+
+  function setT(t, animate=true){
+    const v = before.map((b,i)=>lerp(b, after[i], t));
+    const dur = animate ? 600 : 0;
+
+    polyAfter.transition().duration(dur).attr("d", line(v));
+
+    dot.transition().duration(dur)
+      .attr("cx",(d,i)=> Math.cos(ang(i))*v[i]*rMax)
+      .attr("cy",(d,i)=> Math.sin(ang(i))*v[i]*rMax);
+
+    dotLabel.transition().duration(dur)
+      .attr("x",(d,i)=> Math.cos(ang(i))*v[i]*rMax)
+      .attr("y",(d,i)=> Math.sin(ang(i))*v[i]*rMax)
+      .text((d,i)=>Math.round(v[i]*100));
+  }
+
+  dot.on("mousemove",(event,d)=>{
+    showTip(`<b>${d.k}</b><div class="small">${d.why}</div>`, event.clientX, event.clientY);
+  }).on("mouseleave", hideTip);
+
+  setT(1,false);
+  return { setT };
+}
+const skillBloom = chartSkillBloom();
+
+/* ============================================================
+   CHART 2: Heatmap — team × task drift
+============================================================ */
+function chartHeatmap1(){
+  const svg = d3.select("#chart-heatmap1");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, margin={l:110,r:12,t:24,b:36};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  const teams = ["Security","Infra","Alignment/Safety","Pre-training","Non-technical"];
+  const tasks = ["Debugging","Code understanding","New features","Front-end","Data science","Design/planning"];
+
+  const before = [
+    [28,42,14, 2, 3, 1],
+    [30,30,18, 1, 2, 1],
+    [26,28,20, 3, 4, 1],
+    [24,20,14.3, 2, 3, 1.0],
+    [32,18,12, 1, 7, 1]
+  ];
+  const after = [
+    [26,48.9,30, 2, 2, 4],
+    [24,24,34, 2, 2, 6],
+    [22,22,36, 7.5, 4, 8],
+    [18,16,54.6, 2, 3, 6],
+    [51.5,16,22, 2, 12.7, 3]
+  ];
+
+  function normalizeRow(row){
+    const s = d3.sum(row);
+    return row.map(v=>v*100/s);
+  }
+  const B = before.map(normalizeRow);
+  const A = after.map(normalizeRow);
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+
+  const x = d3.scaleBand().domain(tasks).range([0,innerW]).padding(0.05);
+  const y = d3.scaleBand().domain(teams).range([0,innerH]).padding(0.10);
+  const color = d3.scaleLinear().domain([0, 30, 60]).range(["rgba(255,255,255,.06)","rgba(125,211,252,.25)","rgba(52,211,153,.34)"]);
+
+  svg.append("text").attr("x", margin.l).attr("y", 16).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Task share by team (hover for notes)");
+
+  svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`)
+    .selectAll("text").data(teams).enter().append("text")
+    .attr("x",-10).attr("y", d=>y(d)+y.bandwidth()/2)
+    .attr("text-anchor","end").attr("dominant-baseline","middle")
+    .attr("fill","rgba(232,238,252,.9)").attr("font-size",11)
+    .text(d=>d);
+
+  svg.append("g").attr("transform",`translate(${margin.l},${margin.t+innerH+20})`)
+    .selectAll("text").data(tasks).enter().append("text")
+    .attr("x", d=>x(d)+x.bandwidth()/2).attr("y", 0)
+    .attr("text-anchor","middle")
+    .attr("fill","rgba(168,179,207,.95)").attr("font-size",10)
+    .text(d=>d.split("/")[0]);
+
+  const cells = [];
+  teams.forEach((team,ri)=>{
+    tasks.forEach((task,ci)=>{
+      cells.push({team,task, ri, ci, b:B[ri][ci], a:A[ri][ci]});
+    });
+  });
+
+  const rect = g.selectAll("rect").data(cells).enter().append("rect")
+    .attr("x", d=>x(d.task)).attr("y", d=>y(d.team))
+    .attr("width", x.bandwidth()).attr("height", y.bandwidth())
+    .attr("rx", 8).attr("ry", 8)
+    .attr("fill", d=>color(d.a))
+    .attr("stroke","rgba(255,255,255,.08)");
+
+  const label = g.selectAll("text.val").data(cells).enter().append("text")
+    .attr("class","val")
+    .attr("x", d=>x(d.task)+x.bandwidth()/2).attr("y", d=>y(d.team)+y.bandwidth()/2)
+    .attr("text-anchor","middle").attr("dominant-baseline","middle")
+    .attr("fill","rgba(232,238,252,.92)").attr("font-size",10)
+    .text(d=>Math.round(d.a)+"%");
+
+  let curT = 1;
+  rect.on("mousemove",(event,d)=>{
+    const note = (()=>{
+      if(d.team==="Security" && d.task==="Code understanding") return "Article example: Security uses Claude heavily for code understanding.";
+      if(d.team==="Alignment/Safety" && d.task==="Front-end") return "Article example: Alignment/Safety uses Claude for front-end data visualizations.";
+      if(d.team==="Pre-training" && d.task==="New features") return "Article example: Pre-training runs extra experiments (counted as new features).";
+      if(d.team==="Non-technical" && d.task==="Debugging") return "Article example: Non-technical users often debug (e.g., Git/network issues).";
+      return "Full-stack drift: tasks spread beyond the team’s historical center of gravity.";
+    })();
+    showTip(
+      `<b>${d.team}</b> × <b>${d.task}</b><br/>Share: <b>${d3.format(".1f")(lerp(d.b,d.a,curT))}%</b>`+
+      `<div class="small">${note}</div>`,
+      event.clientX, event.clientY
+    );
+  }).on("mouseleave", hideTip);
+
+  function setT(t, animate=true){
+    curT = t;
+    const dur = animate ? 600 : 0;
+    rect.transition().duration(dur)
+      .attr("fill", d=>color(lerp(d.b,d.a,t)));
+    label.transition().duration(dur)
+      .text(d=>Math.round(lerp(d.b,d.a,t))+"%");
+  }
+
+  setT(1,false);
+  return { setT };
+}
+const heatmap1 = chartHeatmap1();
+
+/* ============================================================
+   CHART 3: Task portfolio stacked bar (Feb vs Aug 2025)
+============================================================ */
+function chartStack1(){
+  const svg = d3.select("#chart-stack1");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, margin={l:22,r:22,t:24,b:44};
+  const innerW=W-margin.l-margin.r;
+
+  const cats = [
+    {k:"New features", c:"rgba(52,211,153,.55)"},
+    {k:"Debugging", c:"rgba(125,211,252,.45)"},
+    {k:"Code understanding", c:"rgba(167,139,250,.45)"},
+    {k:"Refactoring", c:"rgba(251,191,36,.40)"},
+    {k:"Front-end", c:"rgba(45,212,191,.35)"},
+    {k:"Data science", c:"rgba(248,113,113,.35)"},
+    {k:"Design/planning", c:"rgba(232,121,249,.35)"}
+  ];
+
+  const feb = {
+    "New features": 14.3,
+    "Debugging": 33.0,
+    "Code understanding": 28.0,
+    "Refactoring": 12.0,
+    "Front-end": 4.0,
+    "Data science": 7.7,
+    "Design/planning": 1.0
+  };
+  const aug = {
+    "New features": 36.9,
+    "Debugging": 24.0,
+    "Code understanding": 18.5,
+    "Refactoring": 6.8,
+    "Front-end": 4.8,
+    "Data science": 9.1,
+    "Design/planning": 9.9
+  };
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+  svg.append("text").attr("x", margin.l).attr("y", 16).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Claude Code usage distribution (anchored to article for key shifts)");
+
+  const x = d3.scaleLinear().domain([0,100]).range([0,innerW]);
+  const y0 = 92;
+
+  g.append("rect").attr("x",0).attr("y",y0-26).attr("width",innerW).attr("height",52)
+    .attr("rx",14).attr("fill","rgba(255,255,255,.04)").attr("stroke","rgba(255,255,255,.07)");
+
+  const order = cats.map(d=>d.k);
+
+  function segments(data){
+    let acc=0;
+    return order.map(k=>{
+      const v = data[k];
+      const s = {k, x0:acc, x1:acc+v, v};
+      acc += v;
+      return s;
+    });
+  }
+  const febSeg = segments(feb);
+  const augSeg = segments(aug);
+
+  const seg = g.selectAll("rect.seg").data(augSeg, d=>d.k).enter().append("rect")
+    .attr("class","seg")
+    .attr("x", d=>x(d.x0)).attr("y", y0-26)
+    .attr("width", d=>x(d.v)-x(0)).attr("height",52)
+    .attr("rx", 10)
+    .attr("fill", d=>cats.find(c=>c.k===d.k).c)
+    .attr("stroke","rgba(0,0,0,.15)");
+
+  const labels = g.selectAll("text.lab").data(augSeg).enter().append("text")
+    .attr("class","lab")
+    .attr("x", d=>x((d.x0+d.x1)/2))
+    .attr("y", y0+4)
+    .attr("text-anchor","middle")
+    .attr("fill","rgba(232,238,252,.92)")
+    .attr("font-size", 10)
+    .text(d=> (d.v>=6 ? `${d.k} ${d3.format(".1f")(d.v)}%` : ""));
+
+  const yearText = g.append("text")
+    .attr("x", 0).attr("y", y0-40)
+    .attr("fill","rgba(232,238,252,.92)")
+    .attr("font-size", 12)
+    .text("After (Aug 2025)");
+
+  seg.on("mousemove",(event,d)=>{
+    const anchor = (d.k==="New features" || d.k==="Design/planning")
+      ? "Directly reported in article."
+      : "Plausible complement so totals sum to 100 (anchored categories remain exact).";
+    showTip(
+      `<b>${d.k}</b><br/>Share: <b>${d3.format(".1f")(d.v)}%</b><div class="small">${anchor}</div>`,
+      event.clientX, event.clientY
+    );
+  }).on("mouseleave", hideTip);
+
+  function apply(which, animate=true){
+    const data = (which==="before") ? febSeg : augSeg;
+    const dur = animate ? 650 : 0;
+
+    yearText.text(which==="before" ? "Before (Feb 2025)" : "After (Aug 2025)");
+
+    seg.data(data, d=>d.k).transition().duration(dur)
+      .attr("x", d=>x(d.x0))
+      .attr("width", d=>x(d.v)-x(0));
+
+    labels.data(data, d=>d.k).transition().duration(dur)
+      .attr("x", d=>x((d.x0+d.x1)/2))
+      .text(d=> (d.v>=6 ? `${d.k} ${d3.format(".1f")(d.v)}%` : ""));
+  }
+
+  let playing=false, timer=null;
+  function play(){
+    if(playing) return;
+    playing=true;
+    const seq=["before","after","before","after"];
+    let i=0;
+    timer=setInterval(()=>{
+      apply(seq[i%seq.length], true);
+      i++;
+      if(i>=seq.length){ clearInterval(timer); playing=false; }
+    }, 900);
+  }
+
+  apply("after", false);
+  return { apply, play };
+}
+const stack1 = chartStack1();
+
+/* ============================================================
+   CHART 4 (Tab1 NEW): Career Drift Alluvial (simple ribbons)
+============================================================ */
+function chartFlow1(){
+  const svg = d3.select("#chart-flow1");
+  svg.selectAll("*").remove();
+  const W=520,H=260, margin={l:20,r:20,t:24,b:18};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  svg.append("text").attr("x", margin.l).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Role → shipped-task spillover (xenographic alluvial ribbons)");
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+
+  const left = ["Backend","Infra","Security","Research","Non-tech"];
+  const right = ["UI","DB","DevOps","Data viz","Security review","Planning"];
+
+  // Values are “share of shipped artifacts touched” (synthetic), designed to show cross-over expansion.
+  const linksBefore = [
+    ["Backend","DB",16],["Backend","UI",3],["Backend","DevOps",4],["Backend","Planning",1],
+    ["Infra","DevOps",14],["Infra","DB",3],["Infra","Planning",1],
+    ["Security","Security review",14],["Security","DB",2],["Security","Planning",1],
+    ["Research","Planning",6],["Research","Data viz",2],["Research","DB",1],
+    ["Non-tech","DevOps",6],["Non-tech","Data viz",2],["Non-tech","UI",1]
+  ];
+  const linksAfter = [
+    ["Backend","DB",16],["Backend","UI",9],["Backend","DevOps",7],["Backend","Planning",4],["Backend","Data viz",3],
+    ["Infra","DevOps",12],["Infra","DB",5],["Infra","Planning",4],["Infra","UI",2],
+    ["Security","Security review",14],["Security","DB",4],["Security","Planning",3],["Security","DevOps",2],
+    ["Research","Planning",8],["Research","Data viz",6],["Research","DB",2],["Research","UI",2],
+    ["Non-tech","DevOps",7],["Non-tech","Data viz",5],["Non-tech","UI",4],["Non-tech","Planning",2]
+  ];
+
+  const notes = {
+    "Backend→UI":"Interview: backend engineers shipped complex UI by iterating with Claude.",
+    "Non-tech→DevOps":"Article examples: non-technical users debugging Git/network issues.",
+    "Non-tech→Data viz":"Article example: non-technical segment showed meaningful data science usage.",
+    "Security→Planning":"Article: supervision paradox; higher-level thinking still needs human judgment.",
+    "Research→UI":"Article: research-ish roles building front-end visualizations."
+  };
+
+  const xL=40, xR=innerW-40;
+  const nodeH=18, pad=10;
+
+  function layout(links){
+    // totals
+    const Ltot = new Map(left.map(k=>[k,0]));
+    const Rtot = new Map(right.map(k=>[k,0]));
+    links.forEach(([a,b,v])=>{ Ltot.set(a, Ltot.get(a)+v); Rtot.set(b, Rtot.get(b)+v); });
+
+    // y positions (stacked)
+    const Lpos=new Map(), Rpos=new Map();
+    let y=10;
+    left.forEach(k=>{
+      const h = Math.max(nodeH, (Ltot.get(k) || 0)*3.1);
+      Lpos.set(k,{y0:y, y1:y+h, h});
+      y += h + pad;
+    });
+    y=10;
+    right.forEach(k=>{
+      const h = Math.max(nodeH, (Rtot.get(k) || 0)*3.1);
+      Rpos.set(k,{y0:y, y1:y+h, h});
+      y += h + pad;
+    });
+
+    // per-node running offset for link stacking
+    const Loff=new Map(left.map(k=>[k,0]));
+    const Roff=new Map(right.map(k=>[k,0]));
+
+    const linkObjs = links.map(([a,b,v])=>{
+      const la=Lpos.get(a), rb=Rpos.get(b);
+      const w = Math.max(2.2, v*1.0);
+      const ya = la.y0 + (Loff.get(a) + w/2);
+      const yb = rb.y0 + (Roff.get(b) + w/2);
+      Loff.set(a, Loff.get(a)+w);
+      Roff.set(b, Roff.get(b)+w);
+      return {a,b,v,w, ya, yb};
+    });
+
+    return {Lpos,Rpos, linkObjs};
+  }
+
+  const Lnodes = g.append("g");
+  const Rnodes = g.append("g");
+
+  function drawNodes(){
+    // Left
+    Lnodes.selectAll("*").remove();
+    left.forEach(k=>{
+      const p = curLayout.Lpos.get(k);
+      Lnodes.append("rect").attr("x", xL-28).attr("y", p.y0)
+        .attr("width", 56).attr("height", p.h)
+        .attr("rx", 12).attr("fill","rgba(255,255,255,.04)")
+        .attr("stroke","rgba(255,255,255,.08)");
+      Lnodes.append("text").attr("x", xL-34).attr("y", p.y0 + p.h/2)
+        .attr("text-anchor","end").attr("dominant-baseline","middle")
+        .attr("fill","rgba(232,238,252,.92)").attr("font-size",11)
+        .text(k);
+    });
+    // Right
+    Rnodes.selectAll("*").remove();
+    right.forEach(k=>{
+      const p = curLayout.Rpos.get(k);
+      Rnodes.append("rect").attr("x", xR-28).attr("y", p.y0)
+        .attr("width", 56).attr("height", p.h)
+        .attr("rx", 12).attr("fill","rgba(255,255,255,.04)")
+        .attr("stroke","rgba(255,255,255,.08)");
+      Rnodes.append("text").attr("x", xR+34).attr("y", p.y0 + p.h/2)
+        .attr("text-anchor","start").attr("dominant-baseline","middle")
+        .attr("fill","rgba(232,238,252,.92)").attr("font-size",11)
+        .text(k);
+    });
+  }
+
+  const linkG = g.append("g");
+
+  function pathD(ya,yb){
+    const mid=(xL+xR)/2;
+    return `M ${xL} ${ya}
+            C ${mid-40} ${ya}, ${mid+40} ${yb}, ${xR} ${yb}`;
+  }
+
+  const layoutB = layout(linksBefore);
+  const layoutA = layout(linksAfter);
+  let curLayout = layoutA;
+
+  const key = d => `${d.a}→${d.b}`;
+  const allKeys = new Set([...layoutB.linkObjs.map(key), ...layoutA.linkObjs.map(key)]);
+  const merged = Array.from(allKeys).map(k=>{
+    const b = layoutB.linkObjs.find(d=>key(d)===k) || {a:k.split("→")[0], b:k.split("→")[1], v:0, w:0, ya:0, yb:0};
+    const a = layoutA.linkObjs.find(d=>key(d)===k) || {a:k.split("→")[0], b:k.split("→")[1], v:0, w:0, ya:0, yb:0};
+    return {k, b, a};
+  });
+
+  function computeAt(t){
+    // interpolate layouts by recalculating full layout at interpolated link weights,
+    // so that node heights and link positions evolve smoothly.
+    const links = merged.map(m=>{
+      const v = lerp(m.b.v, m.a.v, t);
+      return [m.a.a || m.b.a, m.a.b || m.b.b, v];
+    }).filter(d=>d[2] > 0.05);
+    return layout(links);
+  }
+
+  function colorFor(a,b){
+    const special = (a==="Non-tech" || b==="UI" || b==="Data viz");
+    return special ? "rgba(125,211,252,.55)" : "rgba(52,211,153,.45)";
+  }
+
+  function setT(t, animate=true){
+    const dur = animate ? 700 : 0;
+    curLayout = computeAt(t);
+    drawNodes();
+
+    const links = curLayout.linkObjs.map(d=>({...d, id:`${d.a}→${d.b}`}));
+    const sel = linkG.selectAll("path").data(links, d=>d.id);
+
+    sel.exit().transition().duration(dur).style("opacity",0).remove();
+
+    const enter = sel.enter().append("path")
+      .attr("fill","none")
+      .attr("stroke-linecap","round")
+      .style("opacity",0.0)
+      .attr("stroke", d=>colorFor(d.a,d.b))
+      .attr("stroke-width", d=>Math.max(1.5, d.w))
+      .attr("d", d=>pathD(d.ya,d.yb));
+
+    const mergedSel = enter.merge(sel);
+
+    mergedSel
+      .on("mousemove",(event,d)=>{
+        const tipKey = `${d.a}→${d.b}`;
+        const note = notes[tipKey] || "Cross-domain work becomes less ‘forbidden’ when AI lowers activation energy.";
+        showTip(
+          `<b>${d.a}</b> → <b>${d.b}</b><br/>Flow: <b>${d3.format(".0f")(d.w)}</b> (visual width)`+
+          `<div class="small">${note}</div>`,
+          event.clientX, event.clientY
+        );
+      })
+      .on("mouseleave", hideTip);
+
+    mergedSel.transition().duration(dur)
+      .style("opacity",0.95)
+      .attr("stroke-width", d=>Math.max(1.5, d.w))
+      .attr("d", d=>pathD(d.ya,d.yb));
+  }
+
+  setT(1,false);
+  return { setT };
+}
+const flow1 = chartFlow1();
+
+/* ============================================================
+   CHART 5 (Tab1 NEW): Skill Passport stamps
+============================================================ */
+function chartStamps1(){
+  const svg = d3.select("#chart-stamps1");
+  svg.selectAll("*").remove();
+  const W=520,H=260;
+
+  svg.append("text").attr("x", 16).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Xenographic: breadth as passport stamps (each stamp = shipped artifact in an adjacent domain)");
+
+  const g = svg.append("g").attr("transform","translate(14,28)");
+
+  const stamps = [
+    {k:"UI PR", note:"Backend ships UI with AI help."},
+    {k:"SQL migration", note:"Confidence to touch transactional DBs rises."},
+    {k:"CI fix", note:"DevOps edge friction drops."},
+    {k:"Cache tweak", note:"More complex systems work attempted."},
+    {k:"Test suite", note:"Testing becomes less tedious."},
+    {k:"Doc cleanup", note:"Documentation no longer ‘below the line’."},
+    {k:"Viz dashboard", note:"Data viz prototypes proliferate."},
+    {k:"Security read", note:"Code understanding at scale."},
+    {k:"Perf profile", note:"Explore/measure/iterate loops tighten."},
+    {k:"Refactor", note:"Papercuts become cheap."},
+    {k:"API client", note:"Unfamiliar SDKs become approachable."},
+    {k:"CLI script", note:"Small tools get built instead of postponed."}
+  ];
+
+  const cols=4, w=120, h=62, pad=10;
+  stamps.forEach((d,i)=>{
+    d.x = (i%cols)*(w+pad);
+    d.y = Math.floor(i/cols)*(h+pad);
+  });
+
+  const frame = g.append("rect")
+    .attr("x",0).attr("y",0).attr("width", 4*w+3*pad).attr("height", 3*h+2*pad)
+    .attr("rx",16).attr("fill","rgba(255,255,255,.03)")
+    .attr("stroke","rgba(255,255,255,.07)");
+
+  const cells = g.selectAll("g.st").data(stamps).enter().append("g")
+    .attr("class","st")
+    .attr("transform", d=>`translate(${d.x+10},${d.y+10})`)
+    .style("cursor","help");
+
+  cells.append("rect")
+    .attr("width", w-20).attr("height", h-20).attr("rx", 14)
+    .attr("fill","rgba(167,139,250,.10)")
+    .attr("stroke","rgba(167,139,250,.28)")
+    .attr("stroke-width",1.5);
+
+  cells.append("text")
+    .attr("x",(w-20)/2).attr("y",(h-20)/2 - 2)
+    .attr("text-anchor","middle").attr("dominant-baseline","middle")
+    .attr("fill","rgba(232,238,252,.92)").attr("font-size",11)
+    .text(d=>d.k);
+
+  // “Ink” overlay that pops in
+  const ink = cells.append("g").attr("class","ink")
+    .attr("transform",`translate(${(w-20)/2},${(h-20)/2})`)
+    .style("opacity", 0);
+
+  ink.append("circle").attr("r", 18).attr("fill","rgba(52,211,153,.18)");
+  ink.append("text").attr("text-anchor","middle").attr("dominant-baseline","middle")
+    .attr("fill","rgba(52,211,153,.95)").attr("font-size",12)
+    .text("✓");
+
+  cells.on("mousemove",(event,d)=>{
+    showTip(`<b>${d.k}</b><div class="small">${d.note}</div>`, event.clientX, event.clientY);
+  }).on("mouseleave", hideTip);
+
+  // before vs after: how many stamps are “earned”
+  const beforeN = 4;
+  const afterN  = 10;
+
+  function set(which, animate=true){
+    const N = (which==="before") ? beforeN : afterN;
+    const dur = animate ? 420 : 0;
+    cells.each(function(d,i){
+      const on = i < N;
+      d3.select(this).select(".ink")
+        .transition().duration(dur)
+        .delay(animate ? i*28 : 0)
+        .style("opacity", on ? 1 : 0)
+        .attr("transform", on ? `translate(${(w-20)/2},${(h-20)/2}) scale(1)` :
+                                `translate(${(w-20)/2},${(h-20)/2}) scale(0.65)`);
+    });
+  }
+
+  function play(){
+    // stamp one by one to N=afterN
+    cells.select(".ink").style("opacity",0);
+    cells.each(function(d,i){
+      const on = i < afterN;
+      if(!on) return;
+      d3.select(this).select(".ink")
+        .transition().duration(180)
+        .delay(i*85)
+        .style("opacity",1)
+        .attr("transform", `translate(${(w-20)/2},${(h-20)/2}) scale(1.2)`)
+        .transition().duration(220)
+        .attr("transform", `translate(${(w-20)/2},${(h-20)/2}) scale(1)`);
+    });
+  }
+
+  set("after", false);
+  return { set, play };
+}
+const stamps1 = chartStamps1();
+
+/* ============================================================
+   CHART 6 (Tab1 NEW): Workbench blocks
+============================================================ */
+function chartPoly1(){
+  const svg = d3.select("#chart-poly1");
+  svg.selectAll("*").remove();
+  const W=520,H=260;
+
+  svg.append("text").attr("x", 16).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Xenographic: polyomino tasks stack into domain bins (more variety fits after AI)");
+
+  const g = svg.append("g").attr("transform","translate(16,30)");
+
+  const bins = ["UI","DB","DevOps","Data","Security"];
+  const x = d3.scaleBand().domain(bins).range([0, W-32]).padding(0.14);
+
+  g.selectAll("rect.bin").data(bins).enter().append("rect")
+    .attr("class","bin")
+    .attr("x", d=>x(d)).attr("y", 10)
+    .attr("width", x.bandwidth()).attr("height", 200)
+    .attr("rx", 16)
+    .attr("fill","rgba(255,255,255,.03)")
+    .attr("stroke","rgba(255,255,255,.07)");
+
+  g.selectAll("text.lbl").data(bins).enter().append("text")
+    .attr("class","lbl")
+    .attr("x", d=>x(d)+x.bandwidth()/2).attr("y", 230)
+    .attr("text-anchor","middle")
+    .attr("fill","rgba(168,179,207,.95)")
+    .attr("font-size",11)
+    .text(d=>d);
+
+  // “interest” boosts by clicking a bin
+  let focus = null;
+  g.selectAll("rect.bin").style("cursor","pointer")
+    .on("click",(event,d)=>{
+      focus = (focus===d) ? null : d;
+      g.selectAll("rect.bin")
+        .attr("stroke", b=> (focus===b) ? "rgba(125,211,252,.45)" : "rgba(255,255,255,.07)")
+        .attr("fill", b=> (focus===b) ? "rgba(125,211,252,.06)" : "rgba(255,255,255,.03)");
+    });
+
+  const shapes = [
+    [[0,0],[1,0],[0,1]],             // L3
+    [[0,0],[1,0],[2,0],[1,1]],       // T4
+    [[0,0],[1,0],[1,1],[2,1]],       // Z4
+    [[0,0],[0,1],[0,2],[1,2]],       // J4
+    [[0,0],[1,0],[2,0]],             // I3
+    [[0,0],[1,0],[0,1],[1,1]]        // O4
+  ];
+
+  const colors = {
+    UI:"rgba(125,211,252,.55)",
+    DB:"rgba(167,139,250,.45)",
+    DevOps:"rgba(52,211,153,.45)",
+    Data:"rgba(251,191,36,.40)",
+    Security:"rgba(248,113,113,.35)"
+  };
+
+  function pickBin(state){
+    // Before: mostly in “home bins” (DB/DevOps), After: more spread + focus bias.
+    const r = rand();
+    const weights = (state==="before")
+      ? {UI:0.10, DB:0.30, DevOps:0.26, Data:0.18, Security:0.16}
+      : {UI:0.20, DB:0.22, DevOps:0.18, Data:0.20, Security:0.20};
+
+    if(focus){
+      weights[focus] *= 1.8;
+      const s = Object.values(weights).reduce((a,b)=>a+b,0);
+      Object.keys(weights).forEach(k=>weights[k]/=s);
+    }
+
+    let acc=0;
+    for(const k of bins){
+      acc += weights[k];
+      if(r<=acc) return k;
+    }
+    return "DB";
+  }
+
+  const stackHeights = new Map(bins.map(b=>[b, 0]));
+  const unit=10;
+
+  const piecesG = g.append("g");
+
+  function dropOne(state){
+    const bin = pickBin(state);
+    const bx = x(bin) + 10;
+    const bw = x.bandwidth() - 20;
+    const top = 10 + 200 - 10; // bottom inside bin
+    const sh = shapes[Math.floor(rand()*shapes.length)];
+    const wCells = d3.max(sh, p=>p[0])+1;
+    const hCells = d3.max(sh, p=>p[1])+1;
+
+    const px = bx + Math.floor(rand() * Math.max(1, (bw - wCells*unit)));
+    const baseY = top - stackHeights.get(bin) - hCells*unit;
+
+    stackHeights.set(bin, stackHeights.get(bin) + hCells*unit + 2);
+
+    const grp = piecesG.append("g")
+      .attr("transform", `translate(${px},${-40})`)
+      .style("opacity",0.0);
+
+    grp.selectAll("rect").data(sh).enter().append("rect")
+      .attr("x", d=>d[0]*unit).attr("y", d=>d[1]*unit)
+      .attr("width", unit-1).attr("height", unit-1)
+      .attr("rx", 3)
+      .attr("fill", colors[bin])
+      .attr("stroke","rgba(0,0,0,.15)");
+
+    grp.transition().duration(520)
+      .style("opacity",1)
+      .attr("transform", `translate(${px},${baseY})`)
+      .ease(d3.easeCubicOut);
+  }
+
+  function reset(){
+    piecesG.selectAll("*").remove();
+    bins.forEach(b=>stackHeights.set(b, 0));
+  }
+
+  function play(state){
+    reset();
+    const n = (state==="before") ? 18 : 28;
+    for(let i=0;i<n;i++){
+      setTimeout(()=>dropOne(state), i*90);
+    }
+  }
+
+  let cur="after";
+  function set(which){
+    cur = which;
+    play(cur);
+  }
+
+  set("after");
+  return { set, play:()=>play(cur) };
+}
+const poly1 = chartPoly1();
+
+/* ============================================================
+   CHART 4: Feedback Loop Raceway
+============================================================ */
+function chartRace(){
+  const svg = d3.select("#chart-race");
+  svg.selectAll("*").remove();
+  const W=520,H=260, cx=260, cy=132;
+
+  svg.append("text").attr("x", 16).attr("y", 16).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Loop latency shrinks as AI involvement rises (interactive)");
+
+  const g = svg.append("g");
+  const r=88;
+
+  g.append("circle").attr("cx",cx).attr("cy",cy).attr("r", r)
+    .attr("fill","none").attr("stroke","rgba(255,255,255,.08)").attr("stroke-width",10);
+
+  g.append("circle").attr("cx",cx).attr("cy",cy).attr("r", r)
+    .attr("fill","none").attr("stroke","rgba(125,211,252,.20)").attr("stroke-width",10)
+    .attr("stroke-dasharray","8 10");
+
+  const nodes = [
+    {k:"Idea", a:-90},
+    {k:"Prompt", a:-25},
+    {k:"Code", a:35},
+    {k:"Test", a:95},
+    {k:"Review", a:160}
+  ];
+  function polar(aDeg, rad){
+    const a = (aDeg-90) * Math.PI/180;
+    return [cx + Math.cos(a)*rad, cy + Math.sin(a)*rad];
+  }
+  nodes.forEach(n=>{
+    const [x,y]=polar(n.a, r+26);
+    g.append("text").attr("x",x).attr("y",y)
+      .attr("fill","rgba(232,238,252,.9)").attr("font-size",11)
+      .attr("text-anchor","middle").attr("dominant-baseline","middle")
+      .text(n.k);
+  });
+
+  const dot = g.append("circle").attr("r", 7)
+    .attr("fill","rgba(52,211,153,.95)")
+    .attr("stroke","rgba(0,0,0,.25)")
+    .attr("stroke-width",1);
+
+  function hoursPerLoop(aiPct){
+    const p = clamp(aiPct/100, 0, 1);
+    return lerp(80, 2, Math.pow(p, 0.75)); // 0% ≈ 2 work-weeks, 100% ≈ a couple hours
+  }
+
+  const label = g.append("text").attr("x", cx).attr("y", cy+6)
+    .attr("text-anchor","middle").attr("fill","rgba(232,238,252,.92)")
+    .attr("font-size", 14);
+
+  const sub = g.append("text").attr("x", cx).attr("y", cy+26)
+    .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.95)")
+    .attr("font-size", 11);
+
+  let t0=performance.now(), ai=59;
+  function tick(now){
+    const h = hoursPerLoop(ai);
+    const loopSeconds = clamp(h,2,80) * 0.18;
+    const phase = ((now - t0)/1000) / loopSeconds;
+    const ang = phase * 2*Math.PI - Math.PI/2;
+    dot.attr("cx", cx + Math.cos(ang)*r).attr("cy", cy + Math.sin(ang)*r);
+
+    label.text(`~${d3.format(".1f")(h)} hours / loop`);
+    sub.text(`AI involvement: ${ai}% (survey anchor: 28%→59%)`);
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  function setAI(pct){ ai = +pct; }
+  function setState(which){ setAI(which==="before" ? 28 : 59); }
+  return { setAI, setState };
+}
+const race = chartRace();
+
+/* ============================================================
+   CHART 5: Usage vs Productivity scatter (132 synthetic)
+============================================================ */
+function chartScatter(){
+  const svg = d3.select("#chart-scatter");
+  svg.selectAll("*").remove();
+  const W=520,H=260, margin={l:44,r:18,t:24,b:36};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  svg.append("text").attr("x", margin.l).attr("y", 16).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Synthetic respondents constrained to match the article’s reported aggregates");
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+  const x = d3.scaleLinear().domain([0,100]).range([0,innerW]);
+  const y = d3.scaleLinear().domain([0,140]).range([innerH,0]);
+  d3.range(0,141,20).forEach(v=>{
+    g.append("line").attr("x1",0).attr("x2",innerW).attr("y1",y(v)).attr("y2",y(v))
+      .attr("stroke","rgba(255,255,255,.06)");
+    g.append("text").attr("x",-10).attr("y",y(v)).attr("text-anchor","end").attr("dominant-baseline","middle")
+      .attr("fill","rgba(168,179,207,.9)").attr("font-size",10).text(v+"%");
+  });
+
+  g.append("text").attr("x", innerW/2).attr("y", innerH+28)
+    .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Claude usage (% of work)");
+
+  g.append("text").attr("x", -32).attr("y", innerH/2)
+    .attr("transform",`rotate(-90,${-32},${innerH/2})`)
+    .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Self-reported productivity boost");
+
+  const N=132;
+  const data = d3.range(N).map(i=>{
+    const u = Math.pow(rand(), 0.65);
+    let ub = clamp(12 + 46*u + (rand()-0.5)*10, 0, 90);
+    let ua = clamp(30 + 70*u + (rand()-0.5)*12, 0, 98);
+
+    let pb = clamp(4 + 0.65*ub + (rand()-0.5)*18, 0, 110);
+    let pa = clamp(8 + 0.78*ua + (rand()-0.5)*22, 0, 140);
+
+    return {i, ub, ua, pb, pa};
+  });
+
+  function rescale(values, targetMean){
+    const mean = d3.mean(values);
+    const s = targetMean/mean;
+    return values.map(v=>clamp(v*s, 0, 140));
+  }
+  const ub2 = rescale(data.map(d=>d.ub), 28);
+  const ua2 = rescale(data.map(d=>d.ua), 59);
+  const pb2 = rescale(data.map(d=>d.pb), 20);
+  let pa2 = rescale(data.map(d=>d.pa), 50);
+
+  data.forEach((d,i)=>{ d.ub=ub2[i]; d.ua=ua2[i]; d.pb=pb2[i]; d.pa=pa2[i]; });
+
+  const powerCount = Math.round(0.14*N);
+  const idx = shuffleInPlace(d3.range(N), rand).slice(0,powerCount);
+  idx.forEach(i=>{
+    data[i].pa = clamp(105 + 30*rand(), 101, 140);
+    data[i].ua = clamp(data[i].ua + 10*rand(), 55, 98);
+  });
+
+  pa2 = rescale(data.map(d=>d.pa), 50);
+  data.forEach((d,i)=> d.pa = pa2[i]);
+
+  const dot = g.selectAll("circle").data(data).enter().append("circle")
+    .attr("r", 4.4)
+    .attr("fill","rgba(125,211,252,.85)")
+    .attr("stroke","rgba(0,0,0,.25)")
+    .attr("stroke-width",1)
+    .style("cursor","crosshair");
+
+  const link = g.append("g").selectAll("line").data(data).enter().append("line")
+    .attr("stroke","rgba(255,255,255,.10)")
+    .attr("stroke-width",1)
+    .attr("opacity",0);
+
+  function set(which, animate=true){
+    const dur = animate ? 700 : 0;
+    dot.transition().duration(dur)
+      .attr("cx", d=>x(which==="before"?d.ub:d.ua))
+      .attr("cy", d=>y(which==="before"?d.pb:d.pa))
+      .attr("fill", which==="before" ? "rgba(167,139,250,.85)" : "rgba(125,211,252,.85)");
+    link.attr("opacity",0);
+  }
+
+  dot.on("mousemove",(event,d)=>{
+    link.attr("opacity", l => (l.i===d.i ? 1 : 0))
+      .attr("x1", l=>x(l.ub)).attr("y1", l=>y(l.pb))
+      .attr("x2", l=>x(l.ua)).attr("y2", l=>y(l.pa));
+
+    showTip(
+      `<b>Respondent #${d.i+1}</b><br/>`+
+      `Usage: <b>${d3.format(".0f")(d.ub)}%</b> → <b>${d3.format(".0f")(d.ua)}%</b><br/>`+
+      `Prod: <b>+${d3.format(".0f")(d.pb)}%</b> → <b>+${d3.format(".0f")(d.pa)}%</b>`+
+      `<div class="small">Anchors enforced: means 28→59 usage, 20→50 productivity; ~14% “power users” after.</div>`,
+      event.clientX, event.clientY
+    );
+  }).on("mouseleave", ()=>{
+    link.attr("opacity",0);
+    hideTip();
+  });
+
+  function play(){
+    set("before", true);
+    setTimeout(()=>set("after", true), 900);
+  }
+
+  set("after", false);
+  return { set, play };
+}
+const scatter = chartScatter();
+
+/* ============================================================
+   CHART 6: Autonomy bars (telemetry anchors)
+============================================================ */
+function chartAutonomy(){
+  const svg = d3.select("#chart-autonomy");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, margin={l:44,r:18,t:24,b:40};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  svg.append("text").attr("x", margin.l).attr("y", 16).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Telemetry anchors from the article (Feb 2025 vs Aug 2025)");
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+
+  const metrics = [
+    {k:"Task complexity (1–5)", b:3.2, a:3.8, max:5, note:"Article: average complexity increased 3.2→3.8."},
+    {k:"Max tool-call streak", b:9.8, a:21.2, max:25, note:"Article: 116% increase, 9.8→21.2."},
+    {k:"Human turns / transcript", b:6.2, a:4.1, max:8, note:"Article: 33% decrease, 6.2→4.1."}
+  ];
+
+  const x = d3.scaleBand().domain(metrics.map(d=>d.k)).range([0,innerW]).padding(0.22);
+  const y = d3.scaleLinear().domain([0, d3.max(metrics,d=>d.max)]).range([innerH, 0]);
+
+  d3.range(0, 26, 5).forEach(v=>{
+    g.append("line").attr("x1",0).attr("x2",innerW).attr("y1",y(v)).attr("y2",y(v))
+      .attr("stroke","rgba(255,255,255,.06)");
+  });
+
+  g.append("g").attr("transform",`translate(0,${innerH+24})`)
+    .selectAll("text").data(metrics).enter().append("text")
+      .attr("x", d=>x(d.k)+x.bandwidth()/2).attr("y", 0)
+      .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.9)")
+      .attr("font-size",10)
+      .text(d=>d.k.replace(" / transcript",""));
+
+  const bars = g.selectAll("rect").data(metrics).enter().append("rect")
+    .attr("x", d=>x(d.k)).attr("width", x.bandwidth())
+    .attr("y", d=>y(d.a)).attr("height", d=>innerH - y(d.a))
+    .attr("rx", 12)
+    .attr("fill","rgba(52,211,153,.45)")
+    .attr("stroke","rgba(255,255,255,.10)");
+
+  const val = g.selectAll("text.v").data(metrics).enter().append("text")
+    .attr("class","v")
+    .attr("x", d=>x(d.k)+x.bandwidth()/2)
+    .attr("y", d=>y(d.a)-8)
+    .attr("text-anchor","middle")
+    .attr("fill","rgba(232,238,252,.92)")
+    .attr("font-size", 12)
+    .text(d=>d3.format(".1f")(d.a));
+
+  const caption = g.append("text").attr("x", 0).attr("y", innerH+10)
+    .attr("fill","rgba(168,179,207,.95)").attr("font-size",11)
+    .text("After (Aug 2025)");
+
+  bars.on("mousemove",(event,d)=> showTip(`<b>${d.k}</b><div class="small">${d.note}</div>`, event.clientX, event.clientY))
+      .on("mouseleave", hideTip);
+
+  function set(which, animate=true){
+    const dur = animate ? 650 : 0;
+    caption.text(which==="before" ? "Before (Feb 2025)" : "After (Aug 2025)");
+    bars.transition().duration(dur)
+      .attr("y", d=>y(which==="before"?d.b:d.a))
+      .attr("height", d=>innerH - y(which==="before"?d.b:d.a))
+      .attr("fill", which==="before" ? "rgba(167,139,250,.45)" : "rgba(52,211,153,.45)");
+    val.transition().duration(dur)
+      .attr("y", d=>y(which==="before"?d.b:d.a)-8)
+      .text(d=>d3.format(".1f")(which==="before"?d.b:d.a));
+  }
+
+  function play(){
+    set("before", true);
+    setTimeout(()=>set("after", true), 900);
+  }
+
+  set("after", false);
+  return { set, play };
+}
+const autonomy = chartAutonomy();
+
+/* ============================================================
+   CHART 7: Iceberg (27% new work)
+============================================================ */
+function chartIceberg(){
+  const svg = d3.select("#chart-iceberg");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260;
+  const g = svg.append("g");
+
+  svg.append("text").attr("x", 16).attr("y", 16).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("27% of Claude-assisted work wouldn’t have been done otherwise (article)");
+
+  const ocean = g.append("rect").attr("x",0).attr("y",120).attr("width",W).attr("height",H-120)
+    .attr("fill","rgba(125,211,252,.10)");
+  const waterline = g.append("line").attr("x1",0).attr("x2",W).attr("y1",120).attr("y2",120)
+    .attr("stroke","rgba(125,211,252,.35)").attr("stroke-width",2)
+    .attr("stroke-dasharray","6 6");
+
+  const ice = [[120,90],[180,40],[260,58],[320,34],[395,84],[365,190],[270,230],[160,200]];
+
+  svg.append("defs").append("clipPath").attr("id","iceClip")
+    .append("polygon").attr("points", ice.map(p=>p.join(",")).join(" "));
+
+  const icePoly = g.append("polygon")
+    .attr("points", ice.map(p=>p.join(",")).join(" "))
+    .attr("fill","rgba(232,238,252,.14)")
+    .attr("stroke","rgba(232,238,252,.30)")
+    .attr("stroke-width",2);
+
+  const hatch = g.append("rect").attr("x", 96).attr("y", 120).attr("width", 340).attr("height", 120)
+    .attr("fill","rgba(52,211,153,.10)")
+    .attr("clip-path","url(#iceClip)");
+
+  g.append("text").attr("x", 340).attr("y", 58).attr("fill","rgba(232,238,252,.92)")
+    .attr("font-size", 13).attr("text-anchor","middle").text("Planned work");
+  g.append("text").attr("x", 340).attr("y", 78).attr("fill","rgba(168,179,207,.95)")
+    .attr("font-size", 11).attr("text-anchor","middle").text("…already worth doing");
+
+  const newLabel = g.append("text").attr("x", 340).attr("y", 200)
+    .attr("fill","rgba(52,211,153,.92)").attr("font-size", 13).attr("text-anchor","middle");
+  const newLabel2 = g.append("text").attr("x", 340).attr("y", 220)
+    .attr("fill","rgba(168,179,207,.95)").attr("font-size", 11).attr("text-anchor","middle");
+
+  function set(which, animate=true){
+    const baseY = 118;
+    const drop = 70;
+    const t = (which==="before") ? 0.15 : 0.85;
+    const y = baseY + drop*(t-0.15);
+
+    const dur = animate ? 900 : 0;
+    ocean.transition().duration(dur).attr("y", y).attr("height", H-y);
+    waterline.transition().duration(dur).attr("y1",y).attr("y2",y);
+    hatch.transition().duration(dur).attr("y", y).attr("height", H-y);
+
+    const pct = (which==="before") ? 10 : 27;
+    newLabel.text(`${pct}% “new work” becomes feasible`);
+    newLabel2.text(which==="before" ? "Mostly stays submerged" : "e.g., dashboards, exploratory work, docs/tests, papercuts");
+  }
+
+  function play(){
+    set("before", true);
+    setTimeout(()=>set("after", true), 1000);
+  }
+
+  icePoly.on("mousemove",(event)=>{
+    showTip(
+      `<b>“New work” iceberg</b><div class="small">Article: engineers estimate <b>27%</b> of Claude-assisted work wouldn’t have been done otherwise.</div>`,
+      event.clientX, event.clientY
+    );
+  }).on("mouseleave", hideTip);
+
+  set("after", false);
+  return { set, play };
+}
+const iceberg = chartIceberg();
+
+/* ============================================================
+   CHART 8: Papercuts compounding (8.6% tasks)
+============================================================ */
+function chartPapercuts(){
+  const svg = d3.select("#chart-papercuts");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, margin={l:44,r:18,t:24,b:36};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  svg.append("text").attr("x", margin.l).attr("y", 16).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Papercuts: small fixes that save time repeatedly (anchor: 8.6% of Claude Code tasks)");
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+
+  const weeks = d3.range(1,25);
+
+  function buildSeries(N){
+    const localRand = mulberry32(12345 + N);
+    const tasksPerWeek = 40;
+    const papercutsPerEngPerWeek = tasksPerWeek * 0.086;
+
+    const saveDist = d3.range(1200).map(()=> 2 + 10*Math.pow(localRand(), 1.2)); // 2..12 min/week
+    function pickSave(){ return saveDist[Math.floor(localRand()*saveDist.length)]; }
+
+    let totalRecurring = 0;
+    const out = [];
+    weeks.forEach(w=>{
+      const newPapercuts = papercutsPerEngPerWeek * N;
+      let added = 0;
+      const samples = 120;
+      for(let i=0;i<samples;i++) added += pickSave();
+      added = (added/samples) * newPapercuts;
+      totalRecurring += added;
+
+      out.push({
+        w,
+        weeklySaved: totalRecurring,
+        cumulative: (out.length? out[out.length-1].cumulative : 0) + totalRecurring
+      });
+    });
+    return out;
+  }
+
+  const x = d3.scaleLinear().domain([1,24]).range([0,innerW]);
+  const y = d3.scaleLinear().domain([0, 1]).range([innerH,0]);
+
+  const area = d3.area()
+    .x(d=>x(d.w))
+    .y0(innerH)
+    .y1(d=>y(d.cumulative));
+
+  const line = d3.line()
+    .x(d=>x(d.w))
+    .y(d=>y(d.cumulative))
+    .curve(d3.curveMonotoneX);
+
+  const pathA = g.append("path").attr("fill","rgba(125,211,252,.18)");
+  const pathL = g.append("path").attr("fill","none").attr("stroke","rgba(125,211,252,.85)").attr("stroke-width",2.5);
+
+  g.append("text").attr("x", innerW/2).attr("y", innerH+28).attr("text-anchor","middle")
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Weeks");
+
+  const big = g.append("text").attr("x", 10).attr("y", 22).attr("fill","rgba(52,211,153,.92)").attr("font-size",14);
+  const small = g.append("text").attr("x", 10).attr("y", 40).attr("fill","rgba(168,179,207,.95)").attr("font-size",11);
+
+  let curN = 132;
+  let series = buildSeries(curN);
+
+  function updateScales(){
+    const maxC = d3.max(series, d=>d.cumulative);
+    y.domain([0, maxC*1.08]);
+  }
+
+  function draw(animate=true){
+    updateScales();
+    const dur = animate ? 900 : 0;
+
+    pathA.datum(series).transition().duration(dur).attr("d", area);
+    pathL.datum(series).transition().duration(dur).attr("d", line);
+
+    const final = series[series.length-1].cumulative;
+    const hours = final/60;
+    big.text(`${d3.format(".1f")(hours)} hours saved (24w, ~${curN} engineers)`);
+    small.text("Synthetic mapping: 8.6% papercuts → recurring savings that compound.");
+
+    const marker = g.selectAll("circle.mk").data([series[series.length-1]]).join("circle")
+      .attr("class","mk")
+      .attr("r", 5)
+      .attr("fill","rgba(52,211,153,.95)")
+      .attr("cx", d=>x(d.w))
+      .attr("cy", d=>y(d.cumulative));
+
+    marker.on("mousemove",(event,d)=>{
+      showTip(
+        `<b>Week ${d.w}</b><br/>Cumulative: <b>${d3.format(",.0f")(d.cumulative)} min</b><br/>This week’s recurring savings: <b>${d3.format(",.0f")(d.weeklySaved)} min</b>`+
+        `<div class="small">Anchor: 8.6% tasks are papercuts. Minutes mapping is synthetic but consistent.</div>`,
+        event.clientX, event.clientY
+      );
+    }).on("mouseleave", hideTip);
+  }
+
+  function play(){
+    const saved = buildSeries(curN);
+    series = saved.map(d=>({w:d.w, weeklySaved:0, cumulative:0}));
+    draw(false);
+
+    const start = performance.now();
+    const dur = 1400;
+    function step(now){
+      const p = clamp((now-start)/dur, 0, 1);
+      series = saved.map(d=>({w:d.w, weeklySaved:d.weeklySaved*p, cumulative:d.cumulative*p}));
+      draw(false);
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function setN(N, animate=true){
+    curN = +N;
+    series = buildSeries(curN);
+    draw(animate);
+  }
+
+  setN(curN, false);
+  return { setN, play };
+}
+const papercuts = chartPapercuts();
+
+/* ============================================================
+   CHART 9: Delegation Frontier
+============================================================ */
+function chartFrontier(){
+  const svg = d3.select("#chart-frontier");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, margin={l:46,r:18,t:24,b:40};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  svg.append("text").attr("x", margin.l).attr("y", 16).attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Delegation boundary shifts with trust + autonomy — but high-stakes/low-verifiability remains hard");
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+
+  const x = d3.scaleLinear().domain([0,1]).range([0,innerW]);
+  const y = d3.scaleLinear().domain([0,1]).range([innerH,0]);
+
+  g.append("text").attr("x", innerW/2).attr("y", innerH+28)
+    .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Verifiability (sniff-checkable →)");
+
+  g.append("text").attr("x", -34).attr("y", innerH/2)
+    .attr("transform",`rotate(-90,${-34},${innerH/2})`)
+    .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Stakes (higher ↑)");
+
+  g.append("line").attr("x1",0).attr("y1",innerH).attr("x2",innerW).attr("y2",0)
+    .attr("stroke","rgba(255,255,255,.05)").attr("stroke-dasharray","6 8");
+
+  const tasks = [
+    {k:"Throwaway debug", v:0.85, s:0.20, note:"Low-stakes throwaway debug goes straight to Claude."},
+    {k:"Refactor papercut", v:0.80, s:0.35, note:"Papercuts become cheap enough to do now."},
+    {k:"Write SQL (unfamiliar)", v:0.78, s:0.30, note:"Trust progression begins with checkable unfamiliar tasks."},
+    {k:"Add tests", v:0.75, s:0.45, note:"Easy-to-verify via test results; more thorough testing."},
+    {k:"UI prototype", v:0.70, s:0.40, note:"Backend engineer ships UI by iterating with Claude."},
+    {k:"Implement new feature", v:0.62, s:0.55, note:"New-feature share increases; still needs oversight."},
+    {k:"Caching optimization", v:0.55, s:0.65, note:"Higher-complexity work attempted in Aug 2025."},
+    {k:"Security-sensitive change", v:0.45, s:0.85, note:"Supervision paradox: ‘smart in a dangerous way’."},
+    {k:"Architectural taste", v:0.35, s:0.78, note:"High-level taste/context stays human-heavy."},
+    {k:"Prompting vs doing", v:0.58, s:0.42, note:"If it’s faster to prompt than execute, delegation expands."}
+  ].map(t=>({...t, v: clamp(t.v + (rand()-0.5)*0.05, 0,1), s: clamp(t.s + (rand()-0.5)*0.05, 0,1)}));
+
+  function frontier(which){
+    return d3.range(0,1.001,0.05).map(v=>{
+      const base = 0.15 + 0.75*Math.pow(v, 1.4);
+      const lift = (which==="after") ? 0.16 : 0.00;
+      const cap  = (which==="after") ? 0.84 : 0.68;
+      return {v, sMax: clamp(base + lift, 0, cap)};
+    });
+  }
+
+  const area = d3.area()
+    .x(d=>x(d.v))
+    .y0(innerH)
+    .y1(d=>y(d.sMax))
+    .curve(d3.curveMonotoneX);
+
+  const line = d3.line()
+    .x(d=>x(d.v))
+    .y(d=>y(d.sMax))
+    .curve(d3.curveMonotoneX);
+
+  const region = g.append("path").attr("fill","rgba(52,211,153,.10)");
+  const boundary = g.append("path").attr("fill","none").attr("stroke","rgba(52,211,153,.85)").attr("stroke-width",2.5);
+
+  const capText = g.append("text").attr("x", 10).attr("y", 18)
+    .attr("fill","rgba(232,238,252,.92)").attr("font-size",12);
+
+  const dots = g.selectAll("circle.task").data(tasks).enter().append("circle")
+    .attr("class","task")
+    .attr("r", 5.2)
+    .attr("cx", d=>x(d.v))
+    .attr("cy", d=>y(d.s))
+    .attr("fill","rgba(125,211,252,.85)")
+    .attr("stroke","rgba(0,0,0,.25)")
+    .attr("stroke-width",1)
+    .style("cursor","help");
+
+  g.selectAll("text.tasklab").data(tasks).enter().append("text")
+    .attr("class","tasklab")
+    .attr("x", d=>x(d.v)+8)
+    .attr("y", d=>y(d.s)+4)
+    .attr("fill","rgba(232,238,252,.78)")
+    .attr("font-size",10)
+    .text(d=>d.k);
+
+  dots.on("mousemove",(event,d)=> showTip(`<b>${d.k}</b><div class="small">${d.note}</div>`, event.clientX, event.clientY))
+      .on("mouseleave", hideTip);
+
+  function set(which, animate=true){
+    const pts = frontier(which);
+    const dur = animate ? 800 : 0;
+    region.transition().duration(dur).attr("d", area(pts));
+    boundary.transition().duration(dur).attr("d", line(pts));
+    capText.text(which==="before"
+      ? "Before: delegate only low-stakes / easy-to-verify"
+      : "After: broader delegation, still bounded by stakes + verifiability");
+  }
+
+  function play(){
+    set("before", true);
+    setTimeout(()=>set("after", true), 1000);
+  }
+
+  set("after", false);
+  return { set, play };
+}
+const frontier = chartFrontier();
+
+/* ============================================================
+   CHART 10 (Tab2 NEW): Violin / density morph
+============================================================ */
+function chartViolin2(){
+  const svg = d3.select("#chart-violin2");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, margin={l:44,r:18,t:24,b:38};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  svg.append("text").attr("x", margin.l).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Loop latency distribution (synthetic), anchored to ‘weeks → hours’ qualitative claim");
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+  const x = d3.scaleLinear().domain([0,80]).range([0,innerW]);
+  const y = d3.scaleLinear().domain([0,1]).range([innerH,0]);
+
+  g.append("text").attr("x", innerW/2).attr("y", innerH+28)
+    .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Hours per iterate");
+
+  // deterministic gaussian
+  function gauss(r){
+    let u=0,v=0;
+    while(u===0) u=r();
+    while(v===0) v=r();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
+
+  function samples(which){
+    const r = mulberry32(which==="before" ? 5511 : 5512);
+    const n=900;
+    const out=[];
+    for(let i=0;i<n;i++){
+      // before: lognormal-ish around ~35-55h, after: around ~3-8h
+      if(which==="before"){
+        const z = gauss(r);
+        const val = Math.exp(3.65 + 0.35*z) / 10; // ≈ 20..80
+        out.push(clamp(val, 0.5, 80));
+      }else{
+        const z = gauss(r);
+        const val = Math.exp(2.0 + 0.35*z) / 10; // ≈ 1..15
+        out.push(clamp(val, 0.3, 80));
+      }
+    }
+    return out;
+  }
+
+  const sB = samples("before");
+  const sA = samples("after");
+
+  function kde(samples){
+    const xs = d3.range(0,80.001,1.0);
+    const bw = 3.0;
+    const dens = xs.map(x0=>{
+      let sum=0;
+      for(const v of samples){
+        const u=(x0-v)/bw;
+        sum += Math.exp(-0.5*u*u);
+      }
+      return {x:x0, d: sum / samples.length};
+    });
+    const max = d3.max(dens,d=>d.d);
+    dens.forEach(d=>d.d/=max); // normalize to 0..1
+    return dens;
+  }
+
+  const dB = kde(sB);
+  const dA = kde(sA);
+
+  const area = d3.area()
+    .x(d=>x(d.x))
+    .y0(d=> y(0.50 - d.d*0.42))
+    .y1(d=> y(0.50 + d.d*0.42))
+    .curve(d3.curveCatmullRom.alpha(0.6));
+
+  const centerLine = g.append("line")
+    .attr("x1",0).attr("x2",innerW)
+    .attr("y1",y(0.5)).attr("y2",y(0.5))
+    .attr("stroke","rgba(255,255,255,.06)");
+
+  const blob = g.append("path")
+    .attr("fill","rgba(125,211,252,.18)")
+    .attr("stroke","rgba(125,211,252,.85)")
+    .attr("stroke-width",2);
+
+  const tag = g.append("text").attr("x", 10).attr("y", 18)
+    .attr("fill","rgba(232,238,252,.92)").attr("font-size",12);
+
+  let pulseTimer=null;
+  function pulse(){
+    if(pulseTimer) return;
+    let on=true;
+    pulseTimer = setInterval(()=>{
+      blob.transition().duration(280)
+        .attr("stroke-width", on ? 3.5 : 2.0)
+        .attr("fill", on ? "rgba(52,211,153,.14)" : "rgba(125,211,252,.18)");
+      on=!on;
+    }, 360);
+    setTimeout(()=>{ clearInterval(pulseTimer); pulseTimer=null; }, 2200);
+  }
+
+  function set(which, animate=true){
+    const dur = animate ? 700 : 0;
+    tag.text(which==="before" ? "Before: long, spread-out loops" : "After: short, tight loops");
+    blob.transition().duration(dur)
+      .attr("d", area(which==="before" ? dB : dA))
+      .attr("stroke", which==="before" ? "rgba(167,139,250,.85)" : "rgba(125,211,252,.85)")
+      .attr("fill", which==="before" ? "rgba(167,139,250,.16)" : "rgba(125,211,252,.18)");
+  }
+
+  blob.on("mousemove",(event)=>{
+    showTip(
+      `<b>Latency distribution</b><div class="small">Not a single number: the whole distribution shifts left. Great for “the org feels faster” narratives.</div>`,
+      event.clientX, event.clientY
+    );
+  }).on("mouseleave", hideTip);
+
+  set("after", false);
+  return { set, play:pulse };
+}
+const violin2 = chartViolin2();
+
+/* ============================================================
+   CHART 11 (Tab2 NEW): Iteration Spiral
+============================================================ */
+function chartSpiral2(){
+  const svg = d3.select("#chart-spiral2");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, cx=260, cy=140;
+
+  svg.append("text").attr("x", 16).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Metaphor: more learning cycles per day (spiral tightens + speeds up)");
+
+  const g = svg.append("g");
+
+  // spiral path
+  const turns=5.3;
+  const pts = d3.range(0, 1.001, 0.01).map(t=>{
+    const a = t * turns * 2*Math.PI;
+    const r = 10 + t*92;
+    return [cx + Math.cos(a)*r, cy + Math.sin(a)*r];
+  });
+
+  g.append("path")
+    .attr("d", d3.line()(pts))
+    .attr("fill","none")
+    .attr("stroke","rgba(255,255,255,.10)")
+    .attr("stroke-width",2);
+
+  const comet = g.append("circle")
+    .attr("r", 7)
+    .attr("fill","rgba(52,211,153,.95)")
+    .attr("stroke","rgba(0,0,0,.25)")
+    .attr("stroke-width",1);
+
+  const tail = g.append("path")
+    .attr("fill","none")
+    .attr("stroke","rgba(52,211,153,.25)")
+    .attr("stroke-width",4)
+    .attr("stroke-linecap","round");
+
+  const label = g.append("text")
+    .attr("x", cx).attr("y", 40)
+    .attr("text-anchor","middle")
+    .attr("fill","rgba(232,238,252,.92)")
+    .attr("font-size", 13);
+
+  const sub = g.append("text")
+    .attr("x", cx).attr("y", 60)
+    .attr("text-anchor","middle")
+    .attr("fill","rgba(168,179,207,.95)")
+    .attr("font-size", 11);
+
+  let state="after";
+  let speed=1.4;
+  const pathLen = (function(){
+    const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d", d3.line()(pts));
+    return p.getTotalLength();
+  })();
+
+  // build a real SVG path for sampling
+  const pathNode = g.append("path").attr("d", d3.line()(pts)).attr("fill","none").attr("stroke","none").node();
+
+  function impliedCycles(){
+    // Just a story number (not a claim): before ~1-2/day, after ~6-10/day
+    return (state==="before") ? (1.6*speed) : (7.5*speed);
+  }
+
+  function set(which, animate=true){
+    state = which;
+    label.text(which==="before" ? "Before: fewer iterations/day" : "After: many iterations/day");
+    sub.text(`Implied cycles/day: ~${d3.format(".1f")(impliedCycles())}`);
+  }
+
+  function setSpeed(v){
+    speed = +v;
+    sub.text(`Implied cycles/day: ~${d3.format(".1f")(impliedCycles())}`);
+  }
+
+  comet.on("mousemove",(event)=>{
+    showTip(
+      `<b>Iteration spiral</b><div class="small">Useful when you want a visceral “we’re looping constantly now” graphic, not a bar chart.</div>`,
+      event.clientX, event.clientY
+    );
+  }).on("mouseleave", hideTip);
+
+  let t0=performance.now();
+  function tick(now){
+    const base = (state==="before") ? 0.06 : 0.18;
+    const phase = ((now - t0)/1000) * base * speed; // fraction per sec
+    const tt = (phase % 1);
+
+    const p = pathNode.getPointAtLength(tt * pathLen);
+    comet.attr("cx", p.x).attr("cy", p.y);
+
+    // short tail behind
+    const tailPts = d3.range(0,1.01,0.2).map(k=>{
+      const tBack = (tt - k*0.035 + 1) % 1;
+      const q = pathNode.getPointAtLength(tBack * pathLen);
+      return [q.x,q.y];
+    });
+    tail.attr("d", d3.line().curve(d3.curveCatmullRom.alpha(0.6))(tailPts));
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  set("after", false);
+  return { set, setSpeed };
+}
+const spiral2 = chartSpiral2();
+
+/* ============================================================
+   CHART 12 (Tab2 NEW): Prompt→Ship Token Flow
+============================================================ */
+function chartPipe2(){
+  const svg = d3.select("#chart-pipe2");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260;
+  svg.append("text").attr("x", 16).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Pipeline kinetics: tokens represent iterations; after = faster + fewer backtracks");
+
+  const g = svg.append("g").attr("transform","translate(16,34)");
+
+  const steps = ["Plan","Prompt","Code","Test","Review","Ship"];
+  const x = d3.scalePoint().domain(steps).range([20, W-52]).padding(0.4);
+
+  // nodes
+  const node = g.selectAll("g.node").data(steps).enter().append("g").attr("class","node")
+    .attr("transform", d=>`translate(${x(d)},${88})`);
+
+  node.append("rect")
+    .attr("x",-34).attr("y",-18).attr("width",68).attr("height",36)
+    .attr("rx", 14)
+    .attr("fill","rgba(255,255,255,.04)")
+    .attr("stroke","rgba(255,255,255,.08)");
+
+  node.append("text")
+    .attr("text-anchor","middle").attr("dominant-baseline","middle")
+    .attr("fill","rgba(232,238,252,.92)").attr("font-size",11)
+    .text(d=>d);
+
+  // edges
+  const edges = d3.pairs(steps).map(([a,b])=>({a,b}));
+  const edge = g.selectAll("path.edge").data(edges).enter().append("path")
+    .attr("class","edge")
+    .attr("fill","none")
+    .attr("stroke","rgba(125,211,252,.20)")
+    .attr("stroke-width",4)
+    .attr("stroke-linecap","round")
+    .attr("d", d=>{
+      const x1=x(d.a), x2=x(d.b);
+      return `M ${x1} 88 C ${(x1+x2)/2} 58, ${(x1+x2)/2} 118, ${x2} 88`;
+    });
+
+  // tokens
+  const tokenG = g.append("g");
+  let state="after";
+  let tokens = d3.range(10).map(i=>({id:i, t:rand(), lane: (rand()<0.5? -1:1)}));
+
+  function tokenPos(t){
+    const path = edge.nodes()[0]; // use first edge for length reference (we’ll map across edges discretely)
+    return t;
+  }
+
+  function stepToken(d, dt){
+    // before: slower and occasional backtrack; after: faster and fewer backtracks
+    const base = (state==="before") ? 0.07 : 0.16;
+    d.t += dt * base;
+    if(d.t>1){
+      d.t = 0;
+      d.lane = (rand()<0.5? -1:1);
+    }
+  }
+
+  function drawTokens(){
+    const sel = tokenG.selectAll("circle").data(tokens, d=>d.id);
+    sel.enter().append("circle")
+      .attr("r", 5.2)
+      .attr("fill","rgba(52,211,153,.95)")
+      .attr("stroke","rgba(0,0,0,.25)")
+      .attr("stroke-width",1)
+      .merge(sel);
+
+    // Place each token on a random segment of the pipeline
+    tokenG.selectAll("circle").each(function(d){
+      const seg = Math.floor(d.t * (steps.length-1));
+      const localT = (d.t*(steps.length-1)) - seg;
+      const e = edges[clamp(seg,0,edges.length-1)];
+
+      // build temp path for this edge
+      const x1=x(e.a), x2=x(e.b);
+      const tmp = document.createElementNS("http://www.w3.org/2000/svg","path");
+      tmp.setAttribute("d", `M ${x1} 88 C ${(x1+x2)/2} 58, ${(x1+x2)/2} 118, ${x2} 88`);
+      const L = tmp.getTotalLength();
+      const p = tmp.getPointAtLength(localT * L);
+
+      // lane offsets (visual “parallel pipes”)
+      const oy = d.lane * 10;
+
+      d3.select(this).attr("cx", p.x).attr("cy", p.y + oy)
+        .attr("fill", state==="before" ? "rgba(167,139,250,.92)" : "rgba(52,211,153,.95)");
+    });
+  }
+
+  // backtrack “sparks” (before only)
+  const sparks = g.append("g");
+  function spawnSpark(){
+    if(state!=="before") return;
+    const e = edges[Math.floor(rand()*(edges.length-1))];
+    const x1=x(e.a), x2=x(e.b);
+    const xx = lerp(x1,x2, rand());
+    const s = sparks.append("circle").attr("cx", xx).attr("cy", 148)
+      .attr("r", 2.5).attr("fill","rgba(251,191,36,.85)").style("opacity",0.9);
+    s.transition().duration(650).attr("cy", 88).style("opacity",0).remove();
+  }
+
+  let last=performance.now();
+  function tick(now){
+    const dt = Math.min(0.05, (now-last)/1000);
+    last=now;
+
+    tokens.forEach(t=>stepToken(t, dt));
+    drawTokens();
+
+    if(state==="before" && rand()<0.08) spawnSpark();
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  function set(which){
+    state = which;
+  }
+  function play(){
+    // quick burst of tokens
+    tokens = d3.range(18).map(i=>({id:i, t:rand(), lane:(rand()<0.5?-1:1)}));
+    setTimeout(()=>{ tokens = d3.range(10).map(i=>({id:i, t:rand(), lane:(rand()<0.5?-1:1)})); }, 1600);
+  }
+
+  // hover explanation
+  g.append("rect").attr("x",0).attr("y",0).attr("width",W-32).attr("height",210)
+    .attr("fill","transparent")
+    .on("mousemove",(event)=>{
+      showTip(
+        `<b>Token flow</b><div class="small">After: higher throughput, fewer “bounce backs”. Before: more sparks = rework/backtracking.</div>`,
+        event.clientX, event.clientY
+      );
+    }).on("mouseleave", hideTip);
+
+  set("after");
+  return { set, play };
+}
+const pipe2 = chartPipe2();
+
+/* ============================================================
+   CHART 13 (Tab3 NEW): Long-tail completion
+============================================================ */
+function chartTail3(){
+  const svg = d3.select("#chart-tail3");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, margin={l:34,r:14,t:24,b:36};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  svg.append("text").attr("x", margin.l).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Long-tail tasks: the tail lights up as activation energy drops");
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+
+  // 28 tasks, descending “importance”
+  const tasks = d3.range(28).map(i=>{
+    const imp = Math.pow(1 - i/28, 1.8); // importance curve
+    return {i, imp, label: (i<6?"Core":"Long tail")};
+  });
+
+  const x = d3.scaleBand().domain(tasks.map(d=>d.i)).range([0,innerW]).padding(0.18);
+  const y = d3.scaleLinear().domain([0,1]).range([innerH,0]);
+
+  // baseline bars
+  g.selectAll("rect.base").data(tasks).enter().append("rect")
+    .attr("class","base")
+    .attr("x", d=>x(d.i)).attr("y", d=>y(d.imp))
+    .attr("width", x.bandwidth()).attr("height", d=>innerH - y(d.imp))
+    .attr("rx", 6)
+    .attr("fill","rgba(255,255,255,.04)")
+    .attr("stroke","rgba(255,255,255,.06)");
+
+  const done = g.selectAll("rect.done").data(tasks).enter().append("rect")
+    .attr("class","done")
+    .attr("x", d=>x(d.i)).attr("y", d=>y(d.imp))
+    .attr("width", x.bandwidth()).attr("height", d=>innerH - y(d.imp))
+    .attr("rx", 6)
+    .attr("fill","rgba(52,211,153,.45)")
+    .attr("stroke","rgba(0,0,0,.12)")
+    .style("opacity", 0);
+
+  g.append("text").attr("x", innerW/2).attr("y", innerH+28)
+    .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Task rank (left = high priority, right = long tail)");
+
+  const tag = g.append("text").attr("x", 10).attr("y", 18)
+    .attr("fill","rgba(232,238,252,.92)").attr("font-size",12);
+
+  function completionCount(state, energy){
+    // energy in [0,1]; higher means easier to start/finish
+    // before: mostly top tasks; after: many tail tasks.
+    const base = (state==="before") ? 10 : 18;
+    const extra = Math.round(energy * ((state==="before") ? 6 : 10));
+    return clamp(base + extra, 0, tasks.length);
+  }
+
+  let curState="after";
+  let curEnergy=0.85;
+
+  function set(state, energy, animate=true){
+    curState = state;
+    curEnergy = energy;
+
+    const k = completionCount(state, energy);
+    tag.text(state==="before" ? "Before: long tail stays grey" : "After: long tail turns green");
+
+    const dur = animate ? 650 : 0;
+    done.transition().duration(dur)
+      .style("opacity", d => (d.i < k ? 1 : 0))
+      .attr("fill", d => (d.i < 6 ? "rgba(125,211,252,.45)" : "rgba(52,211,153,.45)"));
+
+    done.on("mousemove",(event,d)=>{
+      const isDone = d.i < k;
+      const note = isDone
+        ? "This class of work now clears the “worth it” bar."
+        : "Still below the line—too much activation energy.";
+      showTip(
+        `<b>Task #${d.i+1}</b><br/>Importance: <b>${d3.format(".2f")(d.imp)}</b><br/>Status: <b>${isDone?"Done":"Deferred"}</b>`+
+        `<div class="small">${note}</div>`,
+        event.clientX, event.clientY
+      );
+    }).on("mouseleave", hideTip);
+  }
+
+  set("after", curEnergy, false);
+  return { set, setEnergy:(e)=>set(curState, +e, false) };
+}
+const tail3 = chartTail3();
+
+/* ============================================================
+   CHART 14 (Tab3 NEW): Maintenance debt mountain
+============================================================ */
+function chartDebt3(){
+  const svg = d3.select("#chart-debt3");
+  svg.selectAll("*").remove();
+
+  const W=520,H=260, margin={l:44,r:18,t:24,b:36};
+  const innerW=W-margin.l-margin.r, innerH=H-margin.t-margin.b;
+
+  svg.append("text").attr("x", margin.l).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Debt landscape: before climbs; after erodes (xenographic ‘terraforming’)");
+
+  const g = svg.append("g").attr("transform",`translate(${margin.l},${margin.t})`);
+
+  const weeks = d3.range(0,25);
+  // deterministic synthetic debt series
+  const before = weeks.map(w=>({w, d: 18 + 3.2*w + 6*Math.sin(w/3)}));
+  const after  = weeks.map(w=>({w, d: 55 + 1.0*w - 2.1*Math.max(0, w-10) + 3*Math.sin(w/4)}));
+
+  const x = d3.scaleLinear().domain([0,24]).range([0,innerW]);
+  const y = d3.scaleLinear().domain([0, d3.max(before,d=>d.d)*1.1]).range([innerH,0]);
+
+  g.append("text").attr("x", innerW/2).attr("y", innerH+28)
+    .attr("text-anchor","middle").attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Weeks");
+
+  const area = d3.area().x(d=>x(d.w)).y0(innerH).y1(d=>y(d.d)).curve(d3.curveMonotoneX);
+  const line = d3.line().x(d=>x(d.w)).y(d=>y(d.d)).curve(d3.curveMonotoneX);
+
+  const fill = g.append("path").attr("fill","rgba(167,139,250,.16)");
+  const stroke = g.append("path").attr("fill","none").attr("stroke","rgba(167,139,250,.85)").attr("stroke-width",2.5);
+
+  const cap = g.append("text").attr("x", 10).attr("y", 18)
+    .attr("fill","rgba(232,238,252,.92)").attr("font-size",12);
+
+  const marker = g.append("circle").attr("r",5).attr("fill","rgba(52,211,153,.95)")
+    .attr("stroke","rgba(0,0,0,.25)").attr("stroke-width",1);
+
+  function setSeries(series, colorStroke, colorFill, label, animate=true){
+    const dur = animate ? 900 : 0;
+    cap.text(label);
+    fill.transition().duration(dur).attr("d", area(series)).attr("fill", colorFill);
+    stroke.transition().duration(dur).attr("d", line(series)).attr("stroke", colorStroke);
+
+    const last = series[series.length-1];
+    marker.transition().duration(dur).attr("cx", x(last.w)).attr("cy", y(last.d));
+  }
+
+  function play(){
+    setSeries(before, "rgba(248,113,113,.85)", "rgba(248,113,113,.14)", "Before: debt climbs", true);
+    setTimeout(()=>{
+      setSeries(after, "rgba(52,211,153,.85)", "rgba(52,211,153,.14)", "After: papercuts/automation erode debt", true);
+    }, 1100);
+  }
+
+  g.append("rect").attr("x",0).attr("y",0).attr("width",innerW).attr("height",innerH)
+    .attr("fill","transparent")
+    .on("mousemove",(event)=>{
+      showTip(
+        `<b>Debt mountain</b><div class="small">Useful when “we fixed 200 tiny things” is the real story. The payoff is slope-change, not a single big spike.</div>`,
+        event.clientX, event.clientY
+      );
+    }).on("mouseleave", hideTip);
+
+  setSeries(after, "rgba(52,211,153,.85)", "rgba(52,211,153,.14)", "After: papercuts/automation erode debt", false);
+  return { play };
+}
+const debt3 = chartDebt3();
+
+/* ============================================================
+   CHART 15 (Tab3 NEW): Backlog conveyor
+============================================================ */
+function chartConv3(){
+  const svg = d3.select("#chart-conv3");
+  svg.selectAll("*").remove();
+  const W=520,H=260;
+
+  svg.append("text").attr("x", 16).attr("y", 16)
+    .attr("fill","rgba(168,179,207,.9)").attr("font-size",11)
+    .text("Kinetic xenographic: work items flow from “idea” to “done” (ghost tasks = 27% new work)");
+
+  const g = svg.append("g").attr("transform","translate(16,34)");
+
+  // bins
+  g.append("rect").attr("x",0).attr("y",40).attr("width",160).attr("height",170)
+    .attr("rx",18).attr("fill","rgba(255,255,255,.03)").attr("stroke","rgba(255,255,255,.07)");
+  g.append("text").attr("x",80).attr("y",62).attr("text-anchor","middle")
+    .attr("fill","rgba(168,179,207,.95)").attr("font-size",11).text("Idea bin");
+
+  g.append("rect").attr("x",W-32-160).attr("y",40).attr("width",160).attr("height",170)
+    .attr("rx",18).attr("fill","rgba(255,255,255,.03)").attr("stroke","rgba(255,255,255,.07)");
+  g.append("text").attr("x",W-32-80).attr("y",62).attr("text-anchor","middle")
+    .attr("fill","rgba(168,179,207,.95)").attr("font-size",11).text("Done bin");
+
+  // belt
+  const beltY=130;
+  g.append("rect").attr("x",160).attr("y",beltY-18).attr("width",W-32-320).attr("height",36)
+    .attr("rx",18).attr("fill","rgba(125,211,252,.08)").attr("stroke","rgba(125,211,252,.18)");
+
+  g.append("line").attr("x1",160).attr("x2",W-32-160).attr("y1",beltY).attr("y2",beltY)
+    .attr("stroke","rgba(255,255,255,.08)").attr("stroke-dasharray","6 8");
+
+  const itemsG = g.append("g");
+
+  let state="after";
+  let speed=1.6; // user slider multiplies base
+  let items = [];
+  let nextId=0;
+
+  function spawn(){
+    // after: more items and some “ghost” items
+    const ghost = (state==="after" && rand()<0.27);
+    const kind = ghost ? "Ghost (new work)" : (rand()<0.35 ? "Papercut" : "Feature");
+    const c = ghost ? "rgba(232,121,249,.35)" : (kind==="Papercut" ? "rgba(52,211,153,.45)" : "rgba(125,211,252,.45)");
+    items.push({
+      id: nextId++,
+      x: 40 + rand()*80,
+      y: 80 + rand()*110,
+      vx: 0,
+      kind, c, ghost
+    });
+  }
+
+  function update(dt){
+    // move items from idea bin → belt → done bin
+    items.forEach(it=>{
+      // target path: go to belt entry, then across, then into done bin
+      const entryX = 170;
+      const exitX  = W-32-170;
+      const doneX  = W-32-60 - rand()*80;
+
+      const baseV = (state==="before") ? 40 : 78;
+      const v = baseV * speed;
+
+      if(it.x < entryX){
+        it.vx = v*0.6;
+        it.y = lerp(it.y, beltY, 0.03);
+      }else if(it.x < exitX){
+        it.vx = v;
+        it.y = beltY + (Math.sin((it.x/40)+(it.id))*6);
+      }else{
+        it.vx = v*0.5;
+        it.y = lerp(it.y, 120 + rand()*60, 0.05);
+      }
+      it.x += it.vx * dt;
+    });
+
+    // remove done items
+    items = items.filter(it=>it.x < W-32-20);
+
+    // spawn rate
+    const rate = (state==="before") ? 0.55 : 0.95;
+    if(rand() < rate*dt) spawn();
+  }
+
+  function draw(){
+    const sel = itemsG.selectAll("g.item").data(items, d=>d.id);
+    sel.exit().remove();
+
+    const enter = sel.enter().append("g").attr("class","item").style("cursor","help");
+    enter.append("rect")
+      .attr("width", 34).attr("height", 18).attr("rx", 7)
+      .attr("stroke","rgba(0,0,0,.15)");
+
+    enter.append("text")
+      .attr("x", 17).attr("y", 13)
+      .attr("text-anchor","middle")
+      .attr("fill","rgba(232,238,252,.92)")
+      .attr("font-size",9);
+
+    const merged = enter.merge(sel);
+    merged.attr("transform", d=>`translate(${d.x},${d.y})`);
+    merged.select("rect").attr("fill", d=>d.c);
+    merged.select("text").text(d=>d.ghost ? "👻" : (d.kind==="Papercut" ? "🧽" : "⚙️"));
+
+    merged.on("mousemove",(event,d)=>{
+      const extra = d.ghost
+        ? "Article anchor: 27% of work wouldn’t exist otherwise."
+        : "Feels small → compounds big.";
+      showTip(`<b>${d.kind}</b><div class="small">${extra}</div>`, event.clientX, event.clientY);
+    }).on("mouseleave", hideTip);
+  }
+
+  const caption = g.append("text").attr("x", 160).attr("y", 28)
+    .attr("fill","rgba(232,238,252,.92)").attr("font-size",12);
+
+  function set(which){
+    state = which;
+    caption.text(which==="before" ? "Before: fewer items; mostly ‘worth it’ work" : "After: more throughput + ghost items (new work)");
+  }
+  function setSpeed(v){ speed = +v; }
+
+  let last=performance.now();
+  function tick(now){
+    const dt = Math.min(0.05, (now-last)/1000);
+    last=now;
+    update(dt);
+    draw();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  set("after");
+  return { set, setSpeed };
+}
+const conv3 = chartConv3();
+
+/* ============================================================
+   Wiring UI controls
+============================================================ */
+function wireToggles(){
+  document.querySelectorAll("[data-toggle]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const target = btn.dataset.toggle;
+      const state = btn.dataset.state;
+
+      document.querySelectorAll(`[data-toggle="${target}"]`).forEach(b=>b.classList.remove("primary"));
+      btn.classList.add("primary");
+
+      if(target==="skillBloom"){
+        const t = (state==="before") ? 0 : 1;
+        document.querySelector(`[data-slider="skillBloom"]`).value = t;
+        skillBloom.setT(t, true);
+      }
+      if(target==="heatmap1"){
+        const t = (state==="before") ? 0 : 1;
+        document.querySelector(`[data-slider="heatmap1"]`).value = t;
+        heatmap1.setT(t, true);
+      }
+      if(target==="stack1"){
+        stack1.apply(state==="before" ? "before" : "after", true);
+      }
+      if(target==="flow1"){
+        const t = (state==="before") ? 0 : 1;
+        document.querySelector(`[data-slider="flow1"]`).value = t;
+        flow1.setT(t, true);
+      }
+      if(target==="stamps1"){
+        stamps1.set(state==="before" ? "before" : "after", true);
+      }
+      if(target==="poly1"){
+        poly1.set(state==="before" ? "before" : "after");
+      }
+      if(target==="race"){
+        race.setState(state);
+        document.querySelector(`[data-slider="raceAI"]`).value = (state==="before"?28:59);
+      }
+      if(target==="scatter"){
+        scatter.set(state==="before" ? "before" : "after", true);
+      }
+      if(target==="autonomy"){
+        autonomy.set(state==="before" ? "before" : "after", true);
+      }
+      if(target==="violin2"){
+        violin2.set(state==="before" ? "before" : "after", true);
+      }
+      if(target==="spiral2"){
+        spiral2.set(state==="before" ? "before" : "after");
+      }
+      if(target==="pipe2"){
+        pipe2.set(state==="before" ? "before" : "after");
+      }
+      if(target==="iceberg"){
+        iceberg.set(state==="before" ? "before" : "after", true);
+      }
+      if(target==="frontier"){
+        frontier.set(state==="before" ? "before" : "after", true);
+      }
+      if(target==="tail3"){
+        tail3.set(state==="before" ? "before" : "after", +document.querySelector(`[data-slider="tail3"]`).value, true);
+      }
+      if(target==="conv3"){
+        conv3.set(state==="before" ? "before" : "after");
+      }
+    });
+  });
+
+  // sliders
+  document.querySelector(`[data-slider="skillBloom"]`).addEventListener("input",(e)=> skillBloom.setT(+e.target.value, false));
+  document.querySelector(`[data-slider="heatmap1"]`).addEventListener("input",(e)=> heatmap1.setT(+e.target.value, false));
+  document.querySelector(`[data-slider="flow1"]`).addEventListener("input",(e)=> flow1.setT(+e.target.value, false));
+  document.querySelector(`[data-slider="raceAI"]`).addEventListener("input",(e)=> race.setAI(+e.target.value));
+  document.querySelector(`[data-slider="papercutsN"]`).addEventListener("input",(e)=> papercuts.setN(+e.target.value, true));
+  document.querySelector(`[data-slider="spiral2"]`).addEventListener("input",(e)=> spiral2.setSpeed(+e.target.value));
+  document.querySelector(`[data-slider="tail3"]`).addEventListener("input",(e)=> tail3.setEnergy(+e.target.value));
+  document.querySelector(`[data-slider="conv3"]`).addEventListener("input",(e)=> conv3.setSpeed(+e.target.value));
+
+  // play buttons
+  document.querySelectorAll(`[data-action="play"]`).forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const which = btn.dataset.play;
+      if(which==="stack1") stack1.play();
+      if(which==="scatter") scatter.play();
+      if(which==="autonomy") autonomy.play();
+      if(which==="iceberg") iceberg.play();
+      if(which==="papercuts") papercuts.play();
+      if(which==="frontier") frontier.play();
+      if(which==="stamps1") stamps1.play();
+      if(which==="poly1") poly1.play();
+      if(which==="violin2") violin2.play();
+      if(which==="pipe2") pipe2.play();
+      if(which==="debt3") debt3.play();
+    });
+  });
+}
+wireToggles();
+
+window.addEventListener("scroll", hideTip, {passive:true});
+window.addEventListener("touchstart", hideTip, {passive:true});
+</script>
+</body>
+</html>
+
+<!-- https://chatgpt.com/c/69410f63-60b0-8322-9180-9a4fc9dd2782 -->

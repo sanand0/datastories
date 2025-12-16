@@ -1,0 +1,2104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AI → Engineer Productivity Patterns (Anthropic)</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      :root {
+        --bg0: #070a10;
+        --bg1: #0b1325;
+        --ink: #e9edff;
+        --muted: rgba(233, 237, 255, 0.7);
+        --glass: rgba(255, 255, 255, 0.06);
+        --stroke: rgba(233, 237, 255, 0.16);
+        --a: #9dffcb;
+        --b: #7aa7ff;
+        --c: #ff6fd8;
+        --warn: #ffd166;
+        --danger: #ff5e7d;
+        --shadow: 0 12px 40px rgba(0, 0, 0, 0.38);
+      }
+
+      html,
+      body {
+        height: 100%;
+        background: radial-gradient(1200px 700px at 15% 10%, rgba(122, 167, 255, 0.18), transparent 55%),
+          radial-gradient(900px 560px at 88% 16%, rgba(255, 111, 216, 0.16), transparent 50%),
+          radial-gradient(700px 520px at 70% 92%, rgba(157, 255, 203, 0.12), transparent 55%),
+          linear-gradient(180deg, var(--bg0), var(--bg1));
+        color: var(--ink);
+        font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+
+      .wrap {
+        max-width: 1180px;
+      }
+
+      .hero {
+        border: 1px solid var(--stroke);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+      }
+
+      .hero h1 {
+        font-family: "Fraunces", ui-serif, Georgia, serif;
+        font-variation-settings: "SOFT" 65, "WONK" 0;
+        letter-spacing: 0.2px;
+      }
+
+      .subtle {
+        color: var(--muted);
+      }
+
+      .pill {
+        border: 1px solid var(--stroke);
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      .nav-pills .nav-link {
+        color: rgba(233, 237, 255, 0.78);
+        border: 1px solid transparent;
+      }
+
+      .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, rgba(122, 167, 255, 0.28), rgba(157, 255, 203, 0.14));
+        border: 1px solid rgba(233, 237, 255, 0.2);
+        color: var(--ink);
+      }
+
+      .cardish {
+        border: 1px solid var(--stroke);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+      }
+
+      .chart-slot {
+        height: 360px;
+        border-radius: 16px;
+        border: 1px solid rgba(233, 237, 255, 0.12);
+        background: radial-gradient(800px 380px at 55% 40%, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.08));
+        overflow: hidden;
+        position: relative;
+      }
+
+      .chart-slot svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .tiny {
+        font-size: 0.9rem;
+      }
+
+      .tag {
+        font-size: 0.82rem;
+        letter-spacing: 0.4px;
+        color: rgba(233, 237, 255, 0.75);
+      }
+
+      .kbdish {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 0.85rem;
+        padding: 0.08rem 0.45rem;
+        border-radius: 0.55rem;
+        border: 1px solid rgba(233, 237, 255, 0.18);
+        background: rgba(0, 0, 0, 0.24);
+        color: rgba(233, 237, 255, 0.92);
+      }
+
+      .slider {
+        accent-color: var(--a);
+      }
+
+      .btn-ghost {
+        border: 1px solid rgba(233, 237, 255, 0.22);
+        background: rgba(0, 0, 0, 0.18);
+        color: rgba(233, 237, 255, 0.92);
+      }
+
+      .btn-ghost:hover {
+        border-color: rgba(233, 237, 255, 0.35);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .tooltipish {
+        position: absolute;
+        pointer-events: none;
+        z-index: 50;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(233, 237, 255, 0.22);
+        background: rgba(6, 10, 18, 0.88);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+        color: rgba(233, 237, 255, 0.95);
+        font-size: 0.92rem;
+        line-height: 1.25;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 140ms ease, transform 140ms ease;
+        max-width: 290px;
+      }
+
+      .tooltipish.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .tooltipish .t-title {
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+
+      .tooltipish .t-row {
+        color: rgba(233, 237, 255, 0.78);
+      }
+
+      .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        display: inline-block;
+        margin-right: 8px;
+        vertical-align: -1px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <main class="container-fluid py-4">
+      <div class="wrap mx-auto">
+        <section class="hero rounded-4 p-4 p-md-5 mb-4">
+          <div class="d-flex flex-column flex-lg-row gap-4 align-items-lg-end justify-content-between">
+            <div>
+              <div class="tag mb-2">Interactive, synthetic-but-grounded illustration</div>
+              <h1 class="mb-2">How AI reshapes engineer productivity at Anthropic</h1>
+              <div class="subtle tiny mb-0">
+                Built from the article’s reported shifts: Claude usage <span class="kbdish">28% → 59%</span>, self-reported boost
+                <span class="kbdish">+20% → +50%</span>, “new work” <span class="kbdish">27%</span> of Claude-assisted, papercuts
+                <span class="kbdish">8.6%</span>, autonomy <span class="kbdish">9.8 → 21.2</span> tool-call chains.
+              </div>
+            </div>
+
+            <div class="pill rounded-4 p-3">
+              <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                <div class="tiny">
+                  <div class="fw-semibold">Before ↔ After</div>
+                  <div class="subtle">Slide or press play</div>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <button id="btn-play" class="btn btn-ghost btn-sm" type="button" aria-label="Play animation">
+                    Play
+                  </button>
+                  <button id="btn-scrub" class="btn btn-ghost btn-sm" type="button" aria-label="Reset to before">
+                    Reset
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <div class="tiny subtle" style="min-width: 90px">Before</div>
+                <input id="global-t" class="form-range slider" type="range" min="0" max="1" value="0" step="0.001" />
+                <div class="tiny subtle" style="min-width: 90px; text-align: right">After</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <ul class="nav nav-pills gap-2 mb-3" id="pattern-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="tab-fullstack"
+              data-bs-toggle="pill"
+              data-bs-target="#pane-fullstack"
+              type="button"
+              role="tab"
+              aria-controls="pane-fullstack"
+              aria-selected="true"
+            >
+              1) More done, more full-stack
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="tab-feedback"
+              data-bs-toggle="pill"
+              data-bs-target="#pane-feedback"
+              type="button"
+              role="tab"
+              aria-controls="pane-feedback"
+              aria-selected="false"
+            >
+              2) Faster learning & iteration
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="tab-neglected"
+              data-bs-toggle="pill"
+              data-bs-target="#pane-neglected"
+              type="button"
+              role="tab"
+              aria-controls="pane-neglected"
+              aria-selected="false"
+            >
+              3) Tackling neglected work
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="pattern-tabs-content">
+          <section class="tab-pane fade show active" id="pane-fullstack" role="tabpanel" aria-labelledby="tab-fullstack" tabindex="0">
+            <div class="row g-3">
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Role → Task expansion flow</div>
+                      <div class="subtle tiny">
+                        Metric: “Successful task outcomes per engineer-month” flowing from role to task type.
+                      </div>
+                    </div>
+                    <span class="kbdish">Sankey</span>
+                  </div>
+                  <div class="chart-slot" id="chart-sankey"></div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Capability bloom</div>
+                      <div class="subtle tiny">
+                        Metric: % of engineers reporting “I can capably ship here” across domains.
+                      </div>
+                    </div>
+                    <span class="kbdish">Polar</span>
+                  </div>
+                  <div class="chart-slot" id="chart-bloom"></div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Less time, more output</div>
+                      <div class="subtle tiny">
+                        Metric: self-reported time change vs output change by task category (Figure 2 style).
+                      </div>
+                    </div>
+                    <span class="kbdish">Scatter</span>
+                  </div>
+                  <div class="chart-slot" id="chart-scatter"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="tab-pane fade" id="pane-feedback" role="tabpanel" aria-labelledby="tab-feedback" tabindex="0">
+            <div class="row g-3">
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Feedback loop shrink</div>
+                      <div class="subtle tiny">
+                        Metric: end-to-end iteration cycle time (hours) across plan → implement → check → fix → coordinate.
+                      </div>
+                    </div>
+                    <span class="kbdish">Loop</span>
+                  </div>
+                  <div class="chart-slot" id="chart-loop"></div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Autonomy dashboard</div>
+                      <div class="subtle tiny">
+                        Metric: task complexity, max consecutive tool calls, and human turns (Feb → Aug 2025).
+                      </div>
+                    </div>
+                    <span class="kbdish">Gauges</span>
+                  </div>
+                  <div class="chart-slot" id="chart-autonomy"></div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Time-to-competence distribution</div>
+                      <div class="subtle tiny">
+                        Metric: days to ship a first “unfamiliar-domain” change (synthetic, aligned to interviews).
+                      </div>
+                    </div>
+                    <span class="kbdish">Histogram</span>
+                  </div>
+                  <div class="chart-slot" id="chart-learning"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="tab-pane fade" id="pane-neglected" role="tabpanel" aria-labelledby="tab-neglected" tabindex="0">
+            <div class="row g-3">
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Work iceberg</div>
+                      <div class="subtle tiny">
+                        Metric: share of “quality-of-life” work (docs/tests/tools/papercuts) that rises above the priority line.
+                      </div>
+                    </div>
+                    <span class="kbdish">Xeno</span>
+                  </div>
+                  <div class="chart-slot" id="chart-iceberg"></div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Papercut backlog burn-down</div>
+                      <div class="subtle tiny">
+                        Metric: open papercuts over 12 weeks; “papercut fixes” ≈ <span class="kbdish">8.6%</span> of Claude Code tasks.
+                      </div>
+                    </div>
+                    <span class="kbdish">Timeline</span>
+                  </div>
+                  <div class="chart-slot" id="chart-burndown"></div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-4">
+                <div class="cardish rounded-4 p-3 h-100">
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <div>
+                      <div class="fw-semibold">Work portfolio shift</div>
+                      <div class="subtle tiny">
+                        Metric: output split into “core”, “accelerated core”, and “new otherwise-not-done”.
+                      </div>
+                    </div>
+                    <span class="kbdish">Area</span>
+                  </div>
+                  <div class="chart-slot" id="chart-portfolio"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer class="subtle tiny mt-4 pb-2">
+          Notes: Data is synthetic and calibrated to the article’s reported aggregates; hover charts for exact values.
+          If you prefer a different “before” anchor (e.g. Feb 2025 vs Aug 2025 vs 12 months ago), say so and I’ll re-balance.
+        </footer>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+
+    <script>
+      // @ts-check
+      const d3Sankey = d3.sankey;
+      const { sankeyLinkHorizontal } = d3;
+
+      const $ = (s, el = document) => el.querySelector(s);
+      const clamp01 = (x) => Math.max(0, Math.min(1, x));
+      const lerp = (a, b, t) => a + (b - a) * t;
+      const fmt = d3.format(".1f");
+      const fmt0 = d3.format(".0f");
+      const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+
+      const theme = {
+        ink: "rgba(233,237,255,0.92)",
+        muted: "rgba(233,237,255,0.70)",
+        grid: "rgba(233,237,255,0.12)",
+        stroke: "rgba(233,237,255,0.18)",
+        a: "#9dffcb",
+        b: "#7aa7ff",
+        c: "#ff6fd8",
+        warn: "#ffd166",
+        danger: "#ff5e7d",
+      };
+
+      const tooltip = (() => {
+        const el = document.createElement("div");
+        el.className = "tooltipish";
+        document.body.appendChild(el);
+        const show = (html, x, y) => {
+          el.innerHTML = html;
+          el.style.left = `${x + 12}px`;
+          el.style.top = `${y + 12}px`;
+          el.classList.add("show");
+        };
+        const move = (x, y) => {
+          el.style.left = `${x + 12}px`;
+          el.style.top = `${y + 12}px`;
+        };
+        const hide = () => el.classList.remove("show");
+        return { show, move, hide };
+      })();
+
+      const state = {
+        t: 0,
+        playing: false,
+        raf: /** @type {number|null} */ (null),
+      };
+
+      // ---- Synthetic data (anchored to the article’s reported aggregates) ----
+      const DATA = (() => {
+        // Pattern 1: “More full-stack” — role → task expansion (values are relative volume).
+        const roles = ["Backend", "Frontend", "Security", "Research"];
+        const tasks = ["Debugging", "Code understanding", "New features", "Design/planning", "Front-end", "Databases", "Infra/DevOps", "Data viz", "Docs/tests", "Papercuts"];
+
+        const roleColor = d3.scaleOrdinal(roles, [theme.b, theme.c, theme.warn, theme.a]);
+        const taskColor = d3
+          .scaleOrdinal(tasks, [
+            "#c8b6ff",
+            "#8ecae6",
+            "#80ed99",
+            "#ffd166",
+            "#ff6fd8",
+            "#7aa7ff",
+            "#9dffcb",
+            "#ff9f1c",
+            "#a0c4ff",
+            "#ff5e7d",
+          ])
+          .unknown(theme.muted);
+
+        /** @type {{nodes: {name: string, kind: "role"|"task"}[], linksBefore: {source: string, target: string, value: number}[], linksAfter: {source: string, target: string, value: number}[]}} */
+        const flow = {
+          nodes: [...roles.map((r) => ({ name: r, kind: "role" })), ...tasks.map((t) => ({ name: t, kind: "task" }))],
+          linksBefore: [
+            { source: "Backend", target: "New features", value: 34 },
+            { source: "Backend", target: "Debugging", value: 20 },
+            { source: "Backend", target: "Databases", value: 16 },
+            { source: "Backend", target: "Infra/DevOps", value: 10 },
+            { source: "Backend", target: "Front-end", value: 4 },
+            { source: "Backend", target: "Data viz", value: 3 },
+            { source: "Backend", target: "Docs/tests", value: 6 },
+            { source: "Backend", target: "Papercuts", value: 2 },
+            { source: "Frontend", target: "New features", value: 18 },
+            { source: "Frontend", target: "Front-end", value: 28 },
+            { source: "Frontend", target: "Debugging", value: 14 },
+            { source: "Frontend", target: "Code understanding", value: 9 },
+            { source: "Frontend", target: "Data viz", value: 6 },
+            { source: "Frontend", target: "Docs/tests", value: 5 },
+            { source: "Frontend", target: "Papercuts", value: 3 },
+            { source: "Security", target: "Code understanding", value: 30 },
+            { source: "Security", target: "Debugging", value: 16 },
+            { source: "Security", target: "Infra/DevOps", value: 10 },
+            { source: "Security", target: "New features", value: 8 },
+            { source: "Security", target: "Design/planning", value: 6 },
+            { source: "Security", target: "Docs/tests", value: 4 },
+            { source: "Research", target: "New features", value: 20 },
+            { source: "Research", target: "Data viz", value: 18 },
+            { source: "Research", target: "Debugging", value: 10 },
+            { source: "Research", target: "Code understanding", value: 12 },
+            { source: "Research", target: "Design/planning", value: 6 },
+            { source: "Research", target: "Front-end", value: 4 },
+            { source: "Research", target: "Docs/tests", value: 3 },
+          ],
+          linksAfter: [
+            // Overall “more done”: we increase totals ~50–70% and widen cross-domain links.
+            { source: "Backend", target: "New features", value: 56 },
+            { source: "Backend", target: "Debugging", value: 28 },
+            { source: "Backend", target: "Databases", value: 22 },
+            { source: "Backend", target: "Infra/DevOps", value: 16 },
+            { source: "Backend", target: "Front-end", value: 12 },
+            { source: "Backend", target: "Data viz", value: 8 },
+            { source: "Backend", target: "Docs/tests", value: 12 },
+            { source: "Backend", target: "Papercuts", value: 8 },
+            { source: "Frontend", target: "New features", value: 30 },
+            { source: "Frontend", target: "Front-end", value: 40 },
+            { source: "Frontend", target: "Debugging", value: 22 },
+            { source: "Frontend", target: "Code understanding", value: 14 },
+            { source: "Frontend", target: "Data viz", value: 12 },
+            { source: "Frontend", target: "Databases", value: 8 },
+            { source: "Frontend", target: "Docs/tests", value: 10 },
+            { source: "Frontend", target: "Papercuts", value: 6 },
+            { source: "Security", target: "Code understanding", value: 44 },
+            { source: "Security", target: "Debugging", value: 22 },
+            { source: "Security", target: "Infra/DevOps", value: 16 },
+            { source: "Security", target: "New features", value: 16 },
+            { source: "Security", target: "Design/planning", value: 14 },
+            { source: "Security", target: "Docs/tests", value: 8 },
+            { source: "Security", target: "Papercuts", value: 6 },
+            { source: "Research", target: "New features", value: 38 },
+            { source: "Research", target: "Data viz", value: 30 },
+            { source: "Research", target: "Debugging", value: 16 },
+            { source: "Research", target: "Code understanding", value: 18 },
+            { source: "Research", target: "Design/planning", value: 14 },
+            { source: "Research", target: "Front-end", value: 14 },
+            { source: "Research", target: "Docs/tests", value: 8 },
+            { source: "Research", target: "Papercuts", value: 6 },
+          ],
+        };
+
+        // Capability bloom: % of engineers reporting they can ship in the domain (synthetic, aligned to “more full-stack”).
+        const bloom = [
+          { domain: "Backend", before: 82, after: 88, color: roleColor("Backend") },
+          { domain: "Testing", before: 52, after: 71, color: "#a0c4ff" },
+          { domain: "Docs", before: 46, after: 66, color: "#c8b6ff" },
+          { domain: "Databases", before: 42, after: 58, color: "#7aa7ff" },
+          { domain: "Infra/DevOps", before: 44, after: 61, color: "#9dffcb" },
+          { domain: "Security review", before: 31, after: 46, color: "#ffd166" },
+          { domain: "Front-end", before: 34, after: 56, color: roleColor("Frontend") },
+          { domain: "Data viz", before: 24, after: 45, color: "#ff9f1c" },
+        ];
+
+        // Figure-2-like: time change vs output change by task (in %).
+        const taskImpact = [
+          { task: "Debugging", freq: 0.55, time: -12, output: 46, color: taskColor("Debugging") },
+          { task: "Code understanding", freq: 0.42, time: -8, output: 38, color: taskColor("Code understanding") },
+          { task: "New features", freq: 0.37, time: -6, output: 62, color: taskColor("New features") },
+          { task: "Refactoring", freq: 0.28, time: -10, output: 34, color: "#bdb2ff" },
+          { task: "Front-end dev", freq: 0.17, time: -2, output: 40, color: taskColor("Front-end") },
+          { task: "Data science", freq: 0.14, time: 2, output: 28, color: "#ff9f1c" },
+          { task: "Design/planning", freq: 0.12, time: -1, output: 14, color: taskColor("Design/planning") },
+        ];
+
+        // Pattern 2: feedback loop stage times (hours); anchored to “weeks → hours” anecdote.
+        const loop = {
+          stages: [
+            { name: "Plan", color: theme.warn, beforeHrs: 2.6, afterHrs: 1.1 },
+            { name: "Implement", color: theme.a, beforeHrs: 6.0, afterHrs: 2.2 },
+            { name: "Run/Check", color: theme.b, beforeHrs: 2.1, afterHrs: 0.8 },
+            { name: "Fix/Polish", color: theme.c, beforeHrs: 3.6, afterHrs: 1.3 },
+            { name: "Coordinate", color: theme.danger, beforeHrs: 8.0, afterHrs: 1.2 },
+          ],
+        };
+
+        // Pattern 2: autonomy dashboard metrics from Figure 3 (explicit in article).
+        const autonomy = {
+          metrics: [
+            { key: "Complexity", unit: "/ 5", before: 3.2, after: 3.8, domain: [1, 5], color: theme.warn, direction: "up" },
+            { key: "Max tool-call chain", unit: "", before: 9.8, after: 21.2, domain: [0, 25], color: theme.a, direction: "up" },
+            { key: "Human turns", unit: "", before: 6.2, after: 4.1, domain: [0, 10], color: theme.danger, direction: "down" },
+          ],
+          note: "Feb 2025 → Aug 2025 (200k Claude Code transcripts)",
+        };
+
+        // Pattern 2: time-to-competence distribution (days to ship in unfamiliar domain).
+        const seeded = d3.randomLcg(0.48271);
+        const randLogNorm = (mu, sigma) => {
+          const r = d3.randomLogNormal.source(seeded)(mu, sigma);
+          return () => Math.max(0.25, Math.min(28, r()));
+        };
+        const n = 220;
+        const beforeDays = d3.range(n).map(randLogNorm(Math.log(7.5), 0.55));
+        const afterDays = d3.range(n).map(randLogNorm(Math.log(2.7), 0.60));
+
+        // Pattern 3: iceberg — “neglected” work becoming visible.
+        const iceberg = {
+          categories: [
+            { name: "Roadmap features", color: theme.a, before: 0.52, after: 0.44 },
+            { name: "High-stakes fixes", color: theme.b, before: 0.20, after: 0.18 },
+            { name: "Docs & tests", color: "#c8b6ff", before: 0.10, after: 0.15 },
+            { name: "Tools & dashboards", color: theme.c, before: 0.05, after: 0.10 },
+            { name: "Papercuts", color: theme.danger, before: 0.03, after: 0.07 },
+          ],
+          visibleLine: 0.62, // visual “priority line”
+        };
+
+        // Pattern 3: papercut backlog over 12 weeks.
+        const weeks = d3.range(0, 13).map((i) => ({ week: i }));
+        const papercutsBefore = weeks.map(({ week }) => ({ week, open: Math.round(240 - 2.2 * week - (week > 8 ? 4 : 0)) }));
+        const papercutsAfter = weeks.map(({ week }) => ({ week, open: Math.max(52, Math.round(240 - 15.8 * week - (week > 6 ? 12 : 0))) }));
+
+        // Pattern 3: output portfolio shift over 12 months (synthetic, anchored to usage + productivity + new-work share).
+        // Now: usage ~59% and "new work" ~27% of Claude-assisted => ~16% of total output is "new".
+        // Earlier: usage ~28% and lower confidence => ~6% of total output is "new".
+        const months = d3.range(0, 12).map((i) => i);
+        const portfolio = months.map((m) => {
+          const t = m / 11;
+          const newShare = lerp(0.06, 0.16, t);
+          const accelShare = lerp(0.18, 0.32, t);
+          const coreShare = Math.max(0, 1 - newShare - accelShare);
+          return { m, core: coreShare, accel: accelShare, novel: newShare };
+        });
+
+        return {
+          flow,
+          bloom,
+          taskImpact,
+          loop,
+          autonomy,
+          learning: { beforeDays, afterDays },
+          iceberg,
+          burndown: { weeks, papercutsBefore, papercutsAfter },
+          portfolio,
+          palette: { roleColor, taskColor },
+        };
+      })();
+
+      // ---- Chart base helpers ----
+      const observeSize = (el, on) => {
+        const ro = new ResizeObserver(() => on());
+        ro.observe(el);
+        return () => ro.disconnect();
+      };
+
+      const makeSvg = (el) => d3.select(el).append("svg").attr("role", "img").attr("aria-label", el.dataset?.ariaLabel ?? "chart");
+
+      const pointer = (event, node) => {
+        const [x, y] = d3.pointer(event, node);
+        const rect = node.getBoundingClientRect();
+        return { x: rect.left + x, y: rect.top + y };
+      };
+
+      // ---- Chart 1: Sankey role → task expansion ----
+      const sankeyChart = (() => {
+        const el = $("#chart-sankey");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        const gLinks = g.append("g");
+        const gNodes = g.append("g");
+        const gLabel = g.append("g");
+
+        const pad = { l: 14, r: 14, t: 12, b: 16 };
+        let w = 0;
+        let h = 0;
+        let sankeyLayout = null;
+        let layoutBefore = null;
+        let layoutAfter = null;
+
+        const buildLayout = (links) => {
+          const nodes = DATA.flow.nodes.map((d) => ({ ...d }));
+          const nodeByName = new Map(nodes.map((n, i) => [n.name, i]));
+          const normalizedLinks = links.map((l) => ({
+            source: nodeByName.get(l.source),
+            target: nodeByName.get(l.target),
+            value: l.value,
+          }));
+
+          const s = d3Sankey()
+            .nodeWidth(14)
+            .nodePadding(12)
+            .extent([
+              [pad.l, pad.t],
+              [w - pad.r, h - pad.b],
+            ]);
+
+          const graph = s({
+            nodes,
+            links: normalizedLinks,
+          });
+          return { graph, s };
+        };
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+          sankeyLayout = d3Sankey()
+            .nodeWidth(14)
+            .nodePadding(12)
+            .extent([
+              [pad.l, pad.t],
+              [w - pad.r, h - pad.b],
+            ]);
+
+          layoutBefore = buildLayout(DATA.flow.linksBefore).graph;
+          layoutAfter = buildLayout(DATA.flow.linksAfter).graph;
+
+          const nodes = layoutAfter.nodes; // positions are very similar; use after for stable labels.
+          const nodeSel = gNodes.selectAll("rect").data(nodes, (d) => d.name);
+          nodeSel
+            .join((enter) =>
+              enter
+                .append("rect")
+                .attr("rx", 7)
+                .attr("ry", 7)
+                .attr("fill", (d) => (d.kind === "role" ? DATA.palette.roleColor(d.name) : DATA.palette.taskColor(d.name)))
+                .attr("stroke", "rgba(233,237,255,0.18)")
+            )
+            .attr("x", (d) => d.x0)
+            .attr("y", (d) => d.y0)
+            .attr("width", (d) => Math.max(10, d.x1 - d.x0))
+            .attr("height", (d) => Math.max(10, d.y1 - d.y0))
+            .on("mousemove", (event, d) => {
+              const pos = pointer(event, el);
+              const totalBefore = d3.sum(layoutBefore.links, (l) => (layoutBefore.nodes[l.source.index].name === d.name || layoutBefore.nodes[l.target.index].name === d.name ? l.value : 0));
+              const totalAfter = d3.sum(layoutAfter.links, (l) => (layoutAfter.nodes[l.source.index].name === d.name || layoutAfter.nodes[l.target.index].name === d.name ? l.value : 0));
+              tooltip.show(
+                `<div class="t-title">${d.name}</div>
+                 <div class="t-row">Before volume: <span class="kbdish">${fmt0(totalBefore)}</span></div>
+                 <div class="t-row">After volume: <span class="kbdish">${fmt0(totalAfter)}</span></div>
+                 <div class="t-row">Reads as “breadth + throughput” together.</div>`,
+                pos.x,
+                pos.y
+              );
+            })
+            .on("mouseleave", () => tooltip.hide());
+
+          const labelSel = gLabel.selectAll("text").data(nodes, (d) => d.name);
+          labelSel
+            .join((enter) =>
+              enter
+                .append("text")
+                .attr("fill", theme.ink)
+                .attr("font-size", 12)
+                .attr("font-weight", 650)
+                .attr("opacity", 0.92)
+            )
+            .attr("x", (d) => (d.kind === "role" ? d.x0 + 18 : d.x0 - 10))
+            .attr("y", (d) => (d.y0 + d.y1) / 2)
+            .attr("text-anchor", (d) => (d.kind === "role" ? "start" : "end"))
+            .attr("dominant-baseline", "middle")
+            .text((d) => d.name);
+
+          g.append("text")
+            .attr("x", pad.l)
+            .attr("y", h - 8)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("Hover nodes/links • Slide to morph (Before → After)");
+        };
+
+        const update = (t) => {
+          if (!layoutBefore || !layoutAfter) return;
+          const t0 = clamp01(t);
+
+          const byKey = (l) => `${layoutAfter.nodes[l.source.index].name}→${layoutAfter.nodes[l.target.index].name}`;
+          const beforeMap = new Map(layoutBefore.links.map((l) => [byKey(l), l]));
+          const afterMap = new Map(layoutAfter.links.map((l) => [byKey(l), l]));
+          const keys = [...new Set([...beforeMap.keys(), ...afterMap.keys()])];
+
+          /** @type {{key: string, b: any|null, a: any|null}[]} */
+          const merged = keys.map((key) => ({ key, b: beforeMap.get(key) ?? null, a: afterMap.get(key) ?? null }));
+
+          // Render links with interpolated thickness, but stable geometry from "after" layout for readability.
+          const linkSel = gLinks.selectAll("path").data(merged, (d) => d.key);
+          linkSel
+            .join((enter) =>
+              enter
+                .append("path")
+                .attr("fill", "none")
+                .attr("stroke-opacity", 0.58)
+                .attr("stroke-linecap", "round")
+                .attr("stroke", (d) => {
+                  const a = d.a ?? d.b;
+                  const src = a ? layoutAfter.nodes[a.source.index].name : "";
+                  return DATA.palette.roleColor(src) ?? theme.ink;
+                })
+            )
+            .attr("d", (d) => {
+              const a = d.a ?? d.b;
+              if (!a) return "";
+              return sankeyLinkHorizontal()(a);
+            })
+            .attr("stroke-width", (d) => {
+              const b = d.b?.value ?? 0;
+              const a = d.a?.value ?? 0;
+              return Math.max(0.8, lerp(b, a, t0));
+            })
+            .on("mousemove", (event, d) => {
+              const a = d.a ?? d.b;
+              if (!a) return;
+              const src = layoutAfter.nodes[a.source.index].name;
+              const dst = layoutAfter.nodes[a.target.index].name;
+              const b = d.b?.value ?? 0;
+              const av = d.a?.value ?? 0;
+              const pos = pointer(event, el);
+              tooltip.show(
+                `<div class="t-title">${src} → ${dst}</div>
+                 <div class="t-row">Before: <span class="kbdish">${fmt0(b)}</span></div>
+                 <div class="t-row">After: <span class="kbdish">${fmt0(av)}</span></div>`,
+                pos.x,
+                pos.y
+              );
+            })
+            .on("mouseleave", () => tooltip.hide());
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Chart 2: Capability bloom (polar bars) ----
+      const bloomChart = (() => {
+        const el = $("#chart-bloom");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        const gLegend = svg.append("g");
+
+        let w = 0;
+        let h = 0;
+        let cx = 0;
+        let cy = 0;
+        let r0 = 0;
+        let r1 = 0;
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+
+          cx = w * 0.52;
+          cy = h * 0.52;
+          r0 = Math.min(w, h) * 0.14;
+          r1 = Math.min(w, h) * 0.40;
+
+          g.attr("transform", `translate(${cx},${cy})`);
+
+          const ring = d3.range(3).map((i) => r0 + (i + 1) * ((r1 - r0) / 3));
+          g.selectAll("circle.grid")
+            .data(ring)
+            .join("circle")
+            .attr("class", "grid")
+            .attr("r", (d) => d)
+            .attr("fill", "none")
+            .attr("stroke", theme.grid)
+            .attr("stroke-dasharray", "3,6")
+            .attr("opacity", 0.9);
+
+          const petals = DATA.bloom;
+          const angle = d3.scaleBand().domain(petals.map((d) => d.domain)).range([-(Math.PI * 0.94), Math.PI * 0.94]).padding(0.14);
+          const rad = d3.scaleLinear().domain([0, 100]).range([r0, r1]);
+
+          const arc = d3
+            .arc()
+            .innerRadius(r0)
+            .cornerRadius(10)
+            .padAngle(0.02);
+
+          const petalSel = g.selectAll("path.petal").data(petals, (d) => d.domain);
+          petalSel
+            .join((enter) =>
+              enter
+                .append("path")
+                .attr("class", "petal")
+                .attr("fill", (d) => d.color)
+                .attr("fill-opacity", 0.72)
+                .attr("stroke", "rgba(233,237,255,0.14)")
+                .attr("stroke-width", 1)
+                .on("mousemove", (event, d) => {
+                  const pos = pointer(event, el);
+                  tooltip.show(
+                    `<div class="t-title">${d.domain}</div>
+                     <div class="t-row">Before: <span class="kbdish">${fmt0(d.before)}%</span></div>
+                     <div class="t-row">After: <span class="kbdish">${fmt0(d.after)}%</span></div>`,
+                    pos.x,
+                    pos.y
+                  );
+                })
+                .on("mouseleave", () => tooltip.hide())
+            )
+            .attr("d", (d) =>
+              arc({
+                startAngle: angle(d.domain),
+                endAngle: angle(d.domain) + angle.bandwidth(),
+                outerRadius: rad(d.before),
+              })
+            );
+
+          const labelSel = g.selectAll("text.lbl").data(petals, (d) => d.domain);
+          labelSel
+            .join((enter) =>
+              enter
+                .append("text")
+                .attr("class", "lbl")
+                .attr("fill", theme.ink)
+                .attr("font-size", 11)
+                .attr("font-weight", 650)
+                .attr("opacity", 0.92)
+            )
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("transform", (d) => {
+              const a = angle(d.domain) + angle.bandwidth() / 2;
+              const rr = r1 + 16;
+              const x = Math.cos(a) * rr;
+              const y = Math.sin(a) * rr;
+              return `translate(${x},${y})`;
+            })
+            .text((d) => d.domain);
+
+          g.selectAll("text.center")
+            .data([0])
+            .join("text")
+            .attr("class", "center")
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("fill", theme.muted)
+            .attr("font-size", 12)
+            .text("Org capability footprint");
+
+          gLegend
+            .attr("transform", `translate(${14},${18})`)
+            .selectAll("text")
+            .data([0])
+            .join("text")
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("Petals grow as more engineers feel comfortable shipping outside their “home” domain.");
+        };
+
+        const update = (t) => {
+          const t0 = clamp01(t);
+          const angle = d3.scaleBand().domain(DATA.bloom.map((d) => d.domain)).range([-(Math.PI * 0.94), Math.PI * 0.94]).padding(0.14);
+          const r0Now = r0;
+          const r1Now = r1;
+          const rad = d3.scaleLinear().domain([0, 100]).range([r0Now, r1Now]);
+          const arc = d3
+            .arc()
+            .innerRadius(r0Now)
+            .cornerRadius(10)
+            .padAngle(0.02);
+
+          g.selectAll("path.petal").attr("d", (d) =>
+            arc({
+              startAngle: angle(d.domain),
+              endAngle: angle(d.domain) + angle.bandwidth(),
+              outerRadius: rad(lerp(d.before, d.after, t0)),
+            })
+          );
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Chart 3: Time vs Output scatter (Figure 2 vibe) ----
+      const scatterChart = (() => {
+        const el = $("#chart-scatter");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        const pad = { l: 44, r: 16, t: 18, b: 36 };
+        let w = 0;
+        let h = 0;
+        let x = null;
+        let y = null;
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+
+          x = d3.scaleLinear().domain([-25, 12]).range([pad.l, w - pad.r]);
+          y = d3.scaleLinear().domain([0, 80]).range([h - pad.b, pad.t]);
+          const r = d3.scaleSqrt().domain([0.1, 0.6]).range([6, 18]);
+
+          g.selectAll("*").remove();
+
+          // Grid + axes
+          g.append("g")
+            .attr("transform", `translate(0,${h - pad.b})`)
+            .call(
+              d3
+                .axisBottom(x)
+                .ticks(6)
+                .tickSizeOuter(0)
+                .tickFormat((d) => `${d}%`)
+            )
+            .call((sel) => sel.selectAll("text").attr("fill", theme.muted))
+            .call((sel) => sel.selectAll("path,line").attr("stroke", theme.grid));
+
+          g.append("g")
+            .attr("transform", `translate(${pad.l},0)`)
+            .call(
+              d3
+                .axisLeft(y)
+                .ticks(5)
+                .tickSizeOuter(0)
+                .tickFormat((d) => `${d}%`)
+            )
+            .call((sel) => sel.selectAll("text").attr("fill", theme.muted))
+            .call((sel) => sel.selectAll("path,line").attr("stroke", theme.grid));
+
+          g.append("text")
+            .attr("x", (pad.l + (w - pad.r)) / 2)
+            .attr("y", h - 10)
+            .attr("text-anchor", "middle")
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("Time spent change (Claude-assisted vs not)  →");
+
+          g.append("text")
+            .attr("x", 14)
+            .attr("y", (pad.t + (h - pad.b)) / 2)
+            .attr("text-anchor", "middle")
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .attr("transform", `rotate(-90,14,${(pad.t + (h - pad.b)) / 2})`)
+            .text("↑ Output volume change");
+
+          g.append("line")
+            .attr("x1", x(0))
+            .attr("x2", x(0))
+            .attr("y1", pad.t)
+            .attr("y2", h - pad.b)
+            .attr("stroke", "rgba(233,237,255,0.18)")
+            .attr("stroke-dasharray", "4,6");
+
+          const dots = g.append("g").selectAll("circle").data(DATA.taskImpact, (d) => d.task);
+          dots
+            .join("circle")
+            .attr("cx", x(0))
+            .attr("cy", y(0))
+            .attr("r", (d) => r(d.freq))
+            .attr("fill", (d) => d.color)
+            .attr("fill-opacity", 0.78)
+            .attr("stroke", "rgba(233,237,255,0.18)")
+            .on("mousemove", (event, d) => {
+              const pos = pointer(event, el);
+              tooltip.show(
+                `<div class="t-title">${d.task}</div>
+                 <div class="t-row">Daily use proxy: <span class="kbdish">${fmt0(d.freq * 100)}%</span></div>
+                 <div class="t-row">Time change: <span class="kbdish">${d.time > 0 ? "+" : ""}${fmt0(d.time)}%</span></div>
+                 <div class="t-row">Output change: <span class="kbdish">+${fmt0(d.output)}%</span></div>`,
+                pos.x,
+                pos.y
+              );
+            })
+            .on("mouseleave", () => tooltip.hide());
+        };
+
+        const update = (t) => {
+          const t0 = clamp01(t);
+          const ease = d3.easeCubicInOut(t0);
+          g.selectAll("circle")
+            .attr("cx", (d) => x(lerp(0, d.time, ease)))
+            .attr("cy", (d) => y(lerp(0, d.output, ease)));
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Chart 4: Feedback loop shrink (animated ring) ----
+      const loopChart = (() => {
+        const el = $("#chart-loop");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        const gText = svg.append("g");
+        let w = 0;
+        let h = 0;
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+          g.attr("transform", `translate(${w / 2},${h / 2})`);
+          gText.attr("transform", `translate(${w / 2},${h / 2})`);
+
+          const rr0 = Math.min(w, h) * 0.18;
+          const rr1 = Math.min(w, h) * 0.40;
+
+          g.selectAll("*").remove();
+          gText.selectAll("*").remove();
+
+          const arc = d3.arc().innerRadius(rr0).outerRadius(rr1).cornerRadius(12).padAngle(0.014);
+          const stages = DATA.loop.stages;
+
+          g.append("circle")
+            .attr("r", rr1 + 18)
+            .attr("fill", "none")
+            .attr("stroke", "rgba(233,237,255,0.10)")
+            .attr("stroke-dasharray", "4,10");
+
+          const pathSel = g.selectAll("path.stage").data(stages, (d) => d.name);
+          pathSel
+            .join("path")
+            .attr("class", "stage")
+            .attr("fill", (d) => d.color)
+            .attr("fill-opacity", 0.78)
+            .attr("stroke", "rgba(233,237,255,0.16)")
+            .attr("stroke-width", 1)
+            .on("mousemove", (event, d) => {
+              const pos = pointer(event, el);
+              tooltip.show(
+                `<div class="t-title">${d.name}</div>
+                 <div class="t-row">Before: <span class="kbdish">${fmt(d.beforeHrs)}h</span></div>
+                 <div class="t-row">After: <span class="kbdish">${fmt(d.afterHrs)}h</span></div>`,
+                pos.x,
+                pos.y
+              );
+            })
+            .on("mouseleave", () => tooltip.hide())
+            .attr("d", arc({ startAngle: 0, endAngle: 0 }));
+
+          const labelSel = g.selectAll("text.stage-label").data(stages, (d) => d.name);
+          labelSel
+            .join("text")
+            .attr("class", "stage-label")
+            .attr("fill", "rgba(8,10,16,0.88)")
+            .attr("font-size", 12)
+            .attr("font-weight", 780)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle");
+
+          gText
+            .append("text")
+            .attr("class", "big")
+            .attr("text-anchor", "middle")
+            .attr("y", -8)
+            .attr("fill", theme.ink)
+            .attr("font-size", 28)
+            .attr("font-weight", 820)
+            .text("—");
+
+          gText
+            .append("text")
+            .attr("class", "small")
+            .attr("text-anchor", "middle")
+            .attr("y", 18)
+            .attr("fill", theme.muted)
+            .attr("font-size", 12)
+            .text("End-to-end iteration cycle");
+
+          svg
+            .append("text")
+            .attr("x", 14)
+            .attr("y", 20)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("The loop gets shorter as AI collapses waiting + iteration steps.");
+        };
+
+        const update = (t) => {
+          const t0 = clamp01(t);
+          const ease = d3.easeCubicInOut(t0);
+          const stages = DATA.loop.stages.map((d) => ({
+            ...d,
+            hrs: lerp(d.beforeHrs, d.afterHrs, ease),
+          }));
+          const total = d3.sum(stages, (d) => d.hrs);
+
+          const rr0 = Math.min(w, h) * 0.18;
+          const rr1 = Math.min(w, h) * 0.40;
+          const arc = d3.arc().innerRadius(rr0).outerRadius(rr1).cornerRadius(12).padAngle(0.014);
+          const a0 = -Math.PI / 2;
+          let cur = a0;
+          const spans = stages.map((d) => {
+            const span = (d.hrs / total) * Math.PI * 2;
+            const out = { ...d, startAngle: cur, endAngle: cur + span, midAngle: cur + span / 2 };
+            cur += span;
+            return out;
+          });
+
+          g.selectAll("path.stage").data(spans, (d) => d.name).attr("d", (d) => arc(d));
+          g.selectAll("text.stage-label")
+            .data(spans, (d) => d.name)
+            .attr("x", (d) => Math.cos(d.midAngle) * (rr0 + (rr1 - rr0) * 0.62))
+            .attr("y", (d) => Math.sin(d.midAngle) * (rr0 + (rr1 - rr0) * 0.62))
+            .text((d) => d.name);
+
+          const big = gText.select("text.big");
+          big.text(`${fmt(total)}h`);
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Chart 5: Autonomy dashboard ----
+      const autonomyChart = (() => {
+        const el = $("#chart-autonomy");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        const pad = { l: 18, r: 18, t: 18, b: 18 };
+        let w = 0;
+        let h = 0;
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+          g.selectAll("*").remove();
+
+          g.append("text")
+            .attr("x", pad.l)
+            .attr("y", 18)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text(DATA.autonomy.note);
+
+          const rowH = (h - pad.t - pad.b - 24) / 3;
+          const rows = DATA.autonomy.metrics.map((m, i) => ({ ...m, i, y: pad.t + 30 + i * rowH }));
+          const trackW = w - pad.l - pad.r - 150;
+
+          const rowSel = g.selectAll("g.row").data(rows, (d) => d.key);
+          const rowEnter = rowSel
+            .join((enter) => enter.append("g").attr("class", "row"))
+            .attr("transform", (d) => `translate(${pad.l},${d.y})`);
+
+          rowEnter
+            .append("text")
+            .attr("class", "k")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("fill", theme.ink)
+            .attr("font-size", 13)
+            .attr("font-weight", 750)
+            .attr("dominant-baseline", "hanging")
+            .text((d) => d.key);
+
+          rowEnter
+            .append("text")
+            .attr("class", "u")
+            .attr("x", 0)
+            .attr("y", 18)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .attr("dominant-baseline", "hanging")
+            .text((d) => (d.unit ? d.unit : d.direction === "down" ? "lower is better" : "higher is better"));
+
+          const x = (d) => d3.scaleLinear().domain(d.domain).range([120, 120 + trackW]);
+
+          rowEnter
+            .append("rect")
+            .attr("class", "track")
+            .attr("x", 120)
+            .attr("y", 8)
+            .attr("width", trackW)
+            .attr("height", 18)
+            .attr("rx", 10)
+            .attr("fill", "rgba(0,0,0,0.18)")
+            .attr("stroke", "rgba(233,237,255,0.16)");
+
+          rowEnter
+            .append("rect")
+            .attr("class", "fill")
+            .attr("x", 120)
+            .attr("y", 8)
+            .attr("height", 18)
+            .attr("rx", 10)
+            .attr("fill", (d) => d.color)
+            .attr("fill-opacity", 0.66);
+
+          rowEnter
+            .append("circle")
+            .attr("class", "knob")
+            .attr("cy", 17)
+            .attr("r", 9)
+            .attr("fill", "rgba(6,10,18,0.85)")
+            .attr("stroke", "rgba(233,237,255,0.24)")
+            .attr("stroke-width", 1.2);
+
+          rowEnter
+            .append("text")
+            .attr("class", "val")
+            .attr("x", 120 + trackW + 14)
+            .attr("y", 8)
+            .attr("fill", theme.ink)
+            .attr("font-size", 22)
+            .attr("font-weight", 820)
+            .attr("dominant-baseline", "hanging");
+
+          rowEnter
+            .append("text")
+            .attr("class", "delta")
+            .attr("x", 120 + trackW + 14)
+            .attr("y", 34)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .attr("dominant-baseline", "hanging");
+
+          // Interaction area
+          rowEnter
+            .append("rect")
+            .attr("class", "hit")
+            .attr("x", 110)
+            .attr("y", 0)
+            .attr("width", trackW + 170)
+            .attr("height", 44)
+            .attr("fill", "transparent")
+            .on("mousemove", (event, d) => {
+              const pos = pointer(event, el);
+              const delta = d.after - d.before;
+              tooltip.show(
+                `<div class="t-title">${d.key}</div>
+                 <div class="t-row">Before: <span class="kbdish">${fmt(d.before)}</span></div>
+                 <div class="t-row">After: <span class="kbdish">${fmt(d.after)}</span></div>
+                 <div class="t-row">Change: <span class="kbdish">${delta > 0 ? "+" : ""}${fmt(delta)}</span></div>`,
+                pos.x,
+                pos.y
+              );
+            })
+            .on("mouseleave", () => tooltip.hide());
+
+          // Store scale per row.
+          rows.forEach((r) => (r._x = x(r)));
+        };
+
+        const update = (t) => {
+          const t0 = clamp01(t);
+          const ease = d3.easeCubicInOut(t0);
+          const rows = DATA.autonomy.metrics.map((m) => ({
+            ...m,
+            v: lerp(m.before, m.after, ease),
+          }));
+          const rowH = (h - pad.t - pad.b - 24) / 3;
+          const rowsWithY = rows.map((m, i) => ({ ...m, i, y: pad.t + 30 + i * rowH }));
+          const trackW = w - pad.l - pad.r - 150;
+
+          const xScale = (d) => d3.scaleLinear().domain(d.domain).range([120, 120 + trackW]);
+          const rowSel = g.selectAll("g.row").data(rowsWithY, (d) => d.key);
+
+          rowSel.each(function (d) {
+            const gx = d3.select(this);
+            const x = xScale(d);
+            const fillW = Math.max(0, x(d.v) - 120);
+            gx.select("rect.fill").attr("width", fillW);
+            gx.select("circle.knob").attr("cx", x(d.v));
+            gx.select("text.val").text(`${fmt(d.v)}${d.key === "Complexity" ? "" : ""}`);
+            const delta = d.after - d.before;
+            const up = delta >= 0 ? "↑" : "↓";
+            const better = d.direction === "down" ? (delta < 0 ? "better" : "worse") : delta > 0 ? "better" : "worse";
+            gx.select("text.delta").text(`${up} ${fmt(Math.abs(delta))} (${better})`);
+          });
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Chart 6: Learning distribution (morphing histogram) ----
+      const learningChart = (() => {
+        const el = $("#chart-learning");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        const pad = { l: 44, r: 14, t: 18, b: 34 };
+        let w = 0;
+        let h = 0;
+        let x = null;
+        let y = null;
+        let bins = null;
+
+        const buildBins = (values) => {
+          const histogram = d3
+            .histogram()
+            .domain([0, 28])
+            .thresholds(d3.range(0, 29, 2));
+          return histogram(values);
+        };
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+          g.selectAll("*").remove();
+
+          x = d3.scaleLinear().domain([0, 28]).range([pad.l, w - pad.r]);
+          const beforeBins = buildBins(DATA.learning.beforeDays);
+          const afterBins = buildBins(DATA.learning.afterDays);
+          bins = { beforeBins, afterBins };
+          const maxY = Math.max(d3.max(beforeBins, (d) => d.length) ?? 0, d3.max(afterBins, (d) => d.length) ?? 0);
+          y = d3.scaleLinear().domain([0, maxY * 1.12]).range([h - pad.b, pad.t]);
+
+          g.append("g")
+            .attr("transform", `translate(0,${h - pad.b})`)
+            .call(d3.axisBottom(x).ticks(7).tickSizeOuter(0).tickFormat((d) => `${d}d`))
+            .call((sel) => sel.selectAll("text").attr("fill", theme.muted))
+            .call((sel) => sel.selectAll("path,line").attr("stroke", theme.grid));
+
+          g.append("g")
+            .attr("transform", `translate(${pad.l},0)`)
+            .call(d3.axisLeft(y).ticks(4).tickSizeOuter(0))
+            .call((sel) => sel.selectAll("text").attr("fill", theme.muted))
+            .call((sel) => sel.selectAll("path,line").attr("stroke", theme.grid));
+
+          g.append("text")
+            .attr("x", (pad.l + (w - pad.r)) / 2)
+            .attr("y", h - 10)
+            .attr("text-anchor", "middle")
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("Days to ship a first unfamiliar-domain change  →");
+
+          const barW = (x(2) - x(0)) - 6;
+
+          const layers = [
+            { key: "before", fill: theme.b, alpha: 0.35, label: "Before" },
+            { key: "after", fill: theme.a, alpha: 0.35, label: "After" },
+          ];
+
+          const legend = svg.append("g").attr("transform", `translate(${14},${16})`);
+          legend
+            .selectAll("g.item")
+            .data(layers)
+            .join((enter) => {
+              const gg = enter.append("g").attr("class", "item");
+              gg.append("circle").attr("r", 6).attr("cy", 0);
+              gg.append("text").attr("x", 12).attr("y", 0).attr("dominant-baseline", "middle").attr("font-size", 11);
+              return gg;
+            })
+            .attr("transform", (_, i) => `translate(0,${i * 16})`)
+            .each(function (d) {
+              const sel = d3.select(this);
+              sel.select("circle").attr("fill", d.fill).attr("fill-opacity", 0.7);
+              sel.select("text").attr("fill", theme.muted).text(d.label);
+            });
+
+          const binX = (b) => x(b.x0 ?? 0) + 3;
+          const bar = g
+            .append("g")
+            .selectAll("rect")
+            .data(beforeBins)
+            .join("rect")
+            .attr("x", (d) => binX(d))
+            .attr("y", y(0))
+            .attr("width", barW)
+            .attr("height", 0)
+            .attr("rx", 8)
+            .attr("fill", theme.b)
+            .attr("fill-opacity", 0.65)
+            .attr("stroke", "rgba(233,237,255,0.14)")
+            .on("mousemove", (event, d) => {
+              const i = beforeBins.indexOf(d);
+              const b = beforeBins[i];
+              const a = afterBins[i];
+              const pos = pointer(event, el);
+              tooltip.show(
+                `<div class="t-title">${fmt0(b.x0)}–${fmt0(b.x1)} days</div>
+                 <div class="t-row">Before: <span class="kbdish">${fmt0(b.length)}</span> cases</div>
+                 <div class="t-row">After: <span class="kbdish">${fmt0(a.length)}</span> cases</div>`,
+                pos.x,
+                pos.y
+              );
+            })
+            .on("mouseleave", () => tooltip.hide());
+
+          // Overlay ghost bars for "after".
+          g.append("g")
+            .selectAll("rect.ghost")
+            .data(afterBins)
+            .join("rect")
+            .attr("class", "ghost")
+            .attr("x", (d) => binX(d))
+            .attr("y", y(0))
+            .attr("width", barW)
+            .attr("height", 0)
+            .attr("rx", 8)
+            .attr("fill", theme.a)
+            .attr("fill-opacity", 0.55)
+            .attr("stroke", "rgba(233,237,255,0.12)");
+
+          svg
+            .append("text")
+            .attr("x", 14)
+            .attr("y", h - 12)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("The “after” mass shifts left (faster learning + iteration).");
+        };
+
+        const update = (t) => {
+          if (!bins) return;
+          const t0 = clamp01(t);
+          const ease = d3.easeCubicInOut(t0);
+          const { beforeBins, afterBins } = bins;
+          const toHeight = (count) => y(0) - y(count);
+
+          const interp = beforeBins.map((b, i) => ({
+            x0: b.x0,
+            x1: b.x1,
+            count: lerp(b.length, afterBins[i]?.length ?? 0, ease),
+            before: b.length,
+            after: afterBins[i]?.length ?? 0,
+          }));
+
+          g.selectAll("rect:not(.ghost)")
+            .data(interp)
+            .attr("y", (d) => y(d.count))
+            .attr("height", (d) => toHeight(d.count))
+            .attr("fill-opacity", lerp(0.70, 0.25, ease));
+
+          g.selectAll("rect.ghost")
+            .data(afterBins)
+            .attr("y", (d, i) => y(lerp(beforeBins[i].length, d.length, ease)))
+            .attr("height", (d, i) => toHeight(lerp(beforeBins[i].length, d.length, ease)))
+            .attr("fill-opacity", lerp(0.20, 0.60, ease));
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Chart 7: Work iceberg (xenographic) ----
+      const icebergChart = (() => {
+        const el = $("#chart-iceberg");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        let w = 0;
+        let h = 0;
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+          g.selectAll("*").remove();
+
+          const waterY = h * 0.52;
+          const sky = svg.append("defs");
+          const grad = sky
+            .append("linearGradient")
+            .attr("id", "water-grad")
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "0%")
+            .attr("y2", "100%");
+          grad.append("stop").attr("offset", "0%").attr("stop-color", "rgba(122,167,255,0.10)");
+          grad.append("stop").attr("offset", "100%").attr("stop-color", "rgba(0,0,0,0.25)");
+
+          g.append("rect").attr("x", 0).attr("y", 0).attr("width", w).attr("height", waterY).attr("fill", "rgba(255,255,255,0.02)");
+          g.append("rect").attr("x", 0).attr("y", waterY).attr("width", w).attr("height", h - waterY).attr("fill", "url(#water-grad)");
+
+          g.append("path")
+            .attr("d", `M0,${waterY} C${w * 0.18},${waterY - 8} ${w * 0.32},${waterY + 9} ${w * 0.5},${waterY}
+                     C${w * 0.68},${waterY - 9} ${w * 0.82},${waterY + 8} ${w},${waterY} L${w},${waterY + 10} L0,${waterY + 10} Z`)
+            .attr("fill", "rgba(233,237,255,0.06)")
+            .attr("stroke", "rgba(233,237,255,0.14)");
+
+          g.append("text")
+            .attr("x", 14)
+            .attr("y", 22)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("The “priority line”: work that makes it above water gets done first.");
+
+          const boxW = Math.min(300, w * 0.66);
+          const cx = w * 0.56;
+          const icebergTop = waterY - 170;
+          const icebergBottom = h - 26;
+          const categories = DATA.iceberg.categories;
+
+          const stack = d3.stack().keys(["before", "after"]);
+          // We'll render blocks ourselves, interpolating.
+
+          const container = g.append("g").attr("transform", `translate(${cx - boxW / 2},${icebergTop})`);
+          container.append("rect").attr("x", 0).attr("y", 0).attr("width", boxW).attr("height", icebergBottom - icebergTop).attr("rx", 18).attr("fill", "rgba(0,0,0,0.12)").attr("stroke", "rgba(233,237,255,0.12)");
+
+          const blockPad = 8;
+          const innerW = boxW - blockPad * 2;
+          const innerH = icebergBottom - icebergTop - blockPad * 2;
+          const baseY = blockPad;
+
+          const blocks = container.append("g").attr("transform", `translate(${blockPad},${baseY})`);
+          const labels = container.append("g").attr("transform", `translate(${boxW + 14},${baseY})`);
+
+          const mk = (d) => d.name;
+          const blockSel = blocks.selectAll("rect.block").data(categories, mk);
+          blockSel
+            .join((enter) =>
+              enter
+                .append("rect")
+                .attr("class", "block")
+                .attr("rx", 14)
+                .attr("fill", (d) => d.color)
+                .attr("fill-opacity", 0.78)
+                .attr("stroke", "rgba(233,237,255,0.12)")
+                .on("mousemove", (event, d) => {
+                  const pos = pointer(event, el);
+                  tooltip.show(
+                    `<div class="t-title">${d.name}</div>
+                     <div class="t-row">Before: <span class="kbdish">${fmt0(d.before * 100)}%</span></div>
+                     <div class="t-row">After: <span class="kbdish">${fmt0(d.after * 100)}%</span></div>`,
+                    pos.x,
+                    pos.y
+                  );
+                })
+                .on("mouseleave", () => tooltip.hide())
+            )
+            .attr("x", 0)
+            .attr("width", innerW);
+
+          const labelSel = labels.selectAll("text.l").data(categories, mk);
+          labelSel
+            .join((enter) =>
+              enter
+                .append("text")
+                .attr("class", "l")
+                .attr("fill", theme.ink)
+                .attr("font-size", 12)
+                .attr("font-weight", 750)
+                .attr("dominant-baseline", "middle")
+            )
+            .text((d) => d.name);
+
+          // Store geometry + waterline marker.
+          el._iceberg = { waterY, cx, boxW, icebergTop, icebergBottom, innerH, innerW, blockPad, categories, blocks, labels, container };
+
+          // Waterline marker relative to container
+          const waterInContainer = waterY - icebergTop - blockPad;
+          blocks.append("line")
+            .attr("class", "waterline")
+            .attr("x1", -8)
+            .attr("x2", innerW + 8)
+            .attr("y1", waterInContainer)
+            .attr("y2", waterInContainer)
+            .attr("stroke", "rgba(233,237,255,0.22)")
+            .attr("stroke-dasharray", "6,8");
+          blocks.append("text")
+            .attr("class", "waterline-label")
+            .attr("x", innerW - 8)
+            .attr("y", waterInContainer - 10)
+            .attr("text-anchor", "end")
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("priority line");
+        };
+
+        const update = (t) => {
+          const geo = el._iceberg;
+          if (!geo) return;
+          const t0 = clamp01(t);
+          const ease = d3.easeCubicInOut(t0);
+          const { innerH, innerW, waterY, icebergTop, blockPad, categories, blocks, labels } = geo;
+          const waterInContainer = waterY - icebergTop - blockPad;
+
+          const shares = categories.map((d) => ({ ...d, share: lerp(d.before, d.after, ease) }));
+          // Stack top-to-bottom
+          let y0 = 0;
+          const laid = shares.map((d) => {
+            const h = innerH * d.share;
+            const out = { ...d, y: y0, h };
+            y0 += h + 6;
+            return out;
+          });
+
+          const totalHeight = d3.sum(laid, (d) => d.h) + (laid.length - 1) * 6;
+          const shift = (innerH - totalHeight) / 2;
+
+          const blockSel = blocks.selectAll("rect.block").data(laid, (d) => d.name);
+          blockSel.attr("y", (d) => d.y + shift).attr("height", (d) => Math.max(16, d.h));
+
+          // Make “neglected” categories float upward above waterline more in after.
+          const neglected = new Set(["Docs & tests", "Tools & dashboards", "Papercuts"]);
+          blockSel.attr("transform", (d) => {
+            const center = d.y + shift + d.h / 2;
+            if (!neglected.has(d.name)) return "translate(0,0)";
+            const distBelow = Math.max(0, center - waterInContainer);
+            const lift = lerp(0, Math.min(26, distBelow * 0.18), ease);
+            return `translate(0,${-lift})`;
+          });
+
+          const labelSel = labels.selectAll("text.l").data(laid, (d) => d.name);
+          labelSel.attr("y", (d) => d.y + shift + d.h / 2);
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Chart 8: Papercut backlog burn-down ----
+      const burndownChart = (() => {
+        const el = $("#chart-burndown");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        const pad = { l: 44, r: 18, t: 18, b: 34 };
+        let w = 0;
+        let h = 0;
+        let x = null;
+        let y = null;
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+          g.selectAll("*").remove();
+
+          const maxOpen = 250;
+          x = d3.scaleLinear().domain([0, 12]).range([pad.l, w - pad.r]);
+          y = d3.scaleLinear().domain([0, maxOpen]).range([h - pad.b, pad.t]);
+
+          g.append("g")
+            .attr("transform", `translate(0,${h - pad.b})`)
+            .call(d3.axisBottom(x).ticks(6).tickSizeOuter(0).tickFormat((d) => `wk ${d}`))
+            .call((sel) => sel.selectAll("text").attr("fill", theme.muted))
+            .call((sel) => sel.selectAll("path,line").attr("stroke", theme.grid));
+
+          g.append("g")
+            .attr("transform", `translate(${pad.l},0)`)
+            .call(d3.axisLeft(y).ticks(4).tickSizeOuter(0))
+            .call((sel) => sel.selectAll("text").attr("fill", theme.muted))
+            .call((sel) => sel.selectAll("path,line").attr("stroke", theme.grid));
+
+          g.append("text")
+            .attr("x", (pad.l + (w - pad.r)) / 2)
+            .attr("y", h - 10)
+            .attr("text-anchor", "middle")
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("Weeks since starting a “papercut sweep”  →");
+
+          const line = d3
+            .line()
+            .x((d) => x(d.week))
+            .y((d) => y(d.open))
+            .curve(d3.curveMonotoneX);
+
+          const area = d3
+            .area()
+            .x((d) => x(d.week))
+            .y0(y(0))
+            .y1((d) => y(d.open))
+            .curve(d3.curveMonotoneX);
+
+          const before = DATA.burndown.papercutsBefore;
+          const after = DATA.burndown.papercutsAfter;
+
+          g.append("path").attr("class", "area-before").attr("d", area(before)).attr("fill", theme.b).attr("fill-opacity", 0.18);
+          g.append("path").attr("class", "area-after").attr("d", area(after)).attr("fill", theme.danger).attr("fill-opacity", 0.10);
+
+          g.append("path")
+            .attr("class", "line-before")
+            .attr("d", line(before))
+            .attr("fill", "none")
+            .attr("stroke", theme.b)
+            .attr("stroke-opacity", 0.78)
+            .attr("stroke-width", 3)
+            .attr("stroke-linecap", "round");
+
+          g.append("path")
+            .attr("class", "line-after")
+            .attr("d", line(after))
+            .attr("fill", "none")
+            .attr("stroke", theme.danger)
+            .attr("stroke-opacity", 0.78)
+            .attr("stroke-width", 3)
+            .attr("stroke-linecap", "round");
+
+          const cursor = g.append("g").attr("class", "cursor").attr("opacity", 0);
+          cursor.append("line").attr("y1", pad.t).attr("y2", h - pad.b).attr("stroke", "rgba(233,237,255,0.16)").attr("stroke-dasharray", "4,8");
+          cursor.append("circle").attr("r", 6).attr("fill", theme.danger).attr("stroke", "rgba(233,237,255,0.18)");
+          cursor.append("circle").attr("r", 6).attr("fill", theme.b).attr("stroke", "rgba(233,237,255,0.18)").attr("transform", "translate(0,0)");
+
+          g.append("text")
+            .attr("x", pad.l)
+            .attr("y", 18)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("After AI: “activation energy” drops, papercuts stop getting perpetually deprioritized.");
+
+          // Interaction
+          svg
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", w)
+            .attr("height", h)
+            .attr("fill", "transparent")
+            .on("mousemove", (event) => {
+              const [px] = d3.pointer(event, svg.node());
+              const week = Math.round(clamp01((px - pad.l) / (w - pad.l - pad.r)) * 12);
+              const b = before[week];
+              const a = after[week];
+              cursor.attr("opacity", 1);
+              cursor.select("line").attr("x1", x(week)).attr("x2", x(week));
+              cursor.selectAll("circle").data([0, 1]).attr("cx", x(week)).attr("cy", (d) => (d === 0 ? y(a.open) : y(b.open))).attr("fill", (d) => (d === 0 ? theme.danger : theme.b));
+
+              const pos = pointer(event, el);
+              tooltip.show(
+                `<div class="t-title">Week ${week}</div>
+                 <div class="t-row">Before: <span class="kbdish">${fmt0(b.open)}</span> open</div>
+                 <div class="t-row">After: <span class="kbdish">${fmt0(a.open)}</span> open</div>`,
+                pos.x,
+                pos.y
+              );
+            })
+            .on("mouseleave", () => {
+              g.select("g.cursor").attr("opacity", 0);
+              tooltip.hide();
+            });
+        };
+
+        const update = (t) => {
+          const t0 = clamp01(t);
+          const ease = d3.easeCubicInOut(t0);
+          g.select(".line-before").attr("stroke-opacity", lerp(0.82, 0.18, ease));
+          g.select(".area-before").attr("fill-opacity", lerp(0.20, 0.06, ease));
+          g.select(".line-after").attr("stroke-opacity", lerp(0.12, 0.86, ease));
+          g.select(".area-after").attr("fill-opacity", lerp(0.05, 0.16, ease));
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Chart 9: Work portfolio shift (stacked area) ----
+      const portfolioChart = (() => {
+        const el = $("#chart-portfolio");
+        const svg = makeSvg(el);
+        const g = svg.append("g");
+        const pad = { l: 44, r: 16, t: 18, b: 34 };
+        let w = 0;
+        let h = 0;
+        let x = null;
+        let y = null;
+
+        const render = () => {
+          const rect = el.getBoundingClientRect();
+          w = Math.max(420, rect.width);
+          h = rect.height;
+          svg.attr("viewBox", `0 0 ${w} ${h}`);
+          g.selectAll("*").remove();
+
+          const data = DATA.portfolio.map((d) => ({
+            month: d.m,
+            core: d.core,
+            accel: d.accel,
+            novel: d.novel,
+          }));
+
+          x = d3.scaleLinear().domain([0, 11]).range([pad.l, w - pad.r]);
+          y = d3.scaleLinear().domain([0, 1]).range([h - pad.b, pad.t]);
+
+          g.append("g")
+            .attr("transform", `translate(0,${h - pad.b})`)
+            .call(d3.axisBottom(x).ticks(6).tickSizeOuter(0).tickFormat((d) => `m${d}`))
+            .call((sel) => sel.selectAll("text").attr("fill", theme.muted))
+            .call((sel) => sel.selectAll("path,line").attr("stroke", theme.grid));
+
+          g.append("g")
+            .attr("transform", `translate(${pad.l},0)`)
+            .call(d3.axisLeft(y).ticks(4).tickSizeOuter(0).tickFormat(d3.format(".0%")))
+            .call((sel) => sel.selectAll("text").attr("fill", theme.muted))
+            .call((sel) => sel.selectAll("path,line").attr("stroke", theme.grid));
+
+          g.append("text")
+            .attr("x", (pad.l + (w - pad.r)) / 2)
+            .attr("y", h - 10)
+            .attr("text-anchor", "middle")
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("Months of adoption → (synthetic year-over-year shift)");
+
+          const keys = ["core", "accel", "novel"];
+          const color = d3.scaleOrdinal(keys, [theme.b, theme.a, theme.c]);
+          const stack = d3.stack().keys(keys);
+          const series = stack(data);
+
+          const area = d3
+            .area()
+            .x((d, i) => x(data[i].month))
+            .y0((d) => y(d[0]))
+            .y1((d) => y(d[1]))
+            .curve(d3.curveMonotoneX);
+
+          g.append("g")
+            .selectAll("path.layer")
+            .data(series, (d) => d.key)
+            .join("path")
+            .attr("class", "layer")
+            .attr("fill", (d) => color(d.key))
+            .attr("fill-opacity", 0.38)
+            .attr("stroke", "rgba(233,237,255,0.12)")
+            .attr("stroke-width", 1)
+            .attr("d", area);
+
+          // Legend
+          const legend = svg.append("g").attr("transform", `translate(${14},${16})`);
+          const items = [
+            { key: "core", label: "Core work (would happen anyway)" },
+            { key: "accel", label: "Accelerated core (more throughput)" },
+            { key: "novel", label: "New / otherwise-not-done" },
+          ];
+          legend
+            .selectAll("g.item")
+            .data(items)
+            .join((enter) => {
+              const gg = enter.append("g").attr("class", "item");
+              gg.append("rect").attr("width", 12).attr("height", 12).attr("rx", 4).attr("y", -6);
+              gg.append("text").attr("x", 16).attr("y", 0).attr("dominant-baseline", "middle").attr("font-size", 11);
+              return gg;
+            })
+            .attr("transform", (_, i) => `translate(0,${i * 16})`)
+            .each(function (d) {
+              const sel = d3.select(this);
+              sel.select("rect").attr("fill", color(d.key)).attr("fill-opacity", 0.75);
+              sel.select("text").attr("fill", theme.muted).text(d.label);
+            });
+
+          // Scrub tooltip
+          const overlay = svg.append("rect").attr("x", 0).attr("y", 0).attr("width", w).attr("height", h).attr("fill", "transparent");
+          overlay.on("mousemove", (event) => {
+            const [px] = d3.pointer(event, svg.node());
+            const m = Math.round(clamp01((px - pad.l) / (w - pad.l - pad.r)) * 11);
+            const d = data[m];
+            const pos = pointer(event, el);
+            tooltip.show(
+              `<div class="t-title">Month ${m}</div>
+               <div class="t-row">Core: <span class="kbdish">${fmt0(d.core * 100)}%</span></div>
+               <div class="t-row">Accelerated core: <span class="kbdish">${fmt0(d.accel * 100)}%</span></div>
+               <div class="t-row">New work: <span class="kbdish">${fmt0(d.novel * 100)}%</span></div>`,
+              pos.x,
+              pos.y
+            );
+          });
+          overlay.on("mouseleave", () => tooltip.hide());
+
+          svg
+            .append("text")
+            .attr("x", 14)
+            .attr("y", h - 12)
+            .attr("fill", theme.muted)
+            .attr("font-size", 11)
+            .text("Note: “new work” rises because 27% of Claude-assisted work would not be done otherwise.");
+        };
+
+        const update = (t) => {
+          const t0 = clamp01(t);
+          const ease = d3.easeCubicInOut(t0);
+          // Reveal from left to right using a clipPath.
+          const id = "clip-portfolio";
+          const defs = svg.selectAll("defs").data([0]).join("defs");
+          defs
+            .selectAll(`#${id}`)
+            .data([0])
+            .join("clipPath")
+            .attr("id", id)
+            .selectAll("rect")
+            .data([0])
+            .join("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", w * lerp(0.22, 1, ease))
+            .attr("height", h);
+          g.selectAll("path.layer").attr("clip-path", `url(#${id})`);
+        };
+
+        observeSize(el, () => {
+          render();
+          update(state.t);
+        });
+        render();
+        return { update };
+      })();
+
+      // ---- Global state + animation wiring ----
+      const charts = [sankeyChart, bloomChart, scatterChart, loopChart, autonomyChart, learningChart, icebergChart, burndownChart, portfolioChart];
+
+      const applyT = (t) => {
+        state.t = clamp01(t);
+        $("#global-t").value = String(state.t);
+        for (const c of charts) c.update(state.t);
+      };
+
+      const play = () => {
+        if (state.playing) return;
+        state.playing = true;
+        $("#btn-play").textContent = "Pause";
+        const start = performance.now();
+        const from = state.t;
+        const to = from < 0.98 ? 1 : 0;
+        const dur = prefersReducedMotion ? 0 : 1400;
+
+        const tick = (now) => {
+          const p = dur === 0 ? 1 : clamp01((now - start) / dur);
+          applyT(lerp(from, to, d3.easeCubicInOut(p)));
+          if (p >= 1) {
+            state.playing = false;
+            $("#btn-play").textContent = "Play";
+            state.raf = null;
+            return;
+          }
+          state.raf = requestAnimationFrame(tick);
+        };
+        state.raf = requestAnimationFrame(tick);
+      };
+
+      const pause = () => {
+        state.playing = false;
+        $("#btn-play").textContent = "Play";
+        if (state.raf) cancelAnimationFrame(state.raf);
+        state.raf = null;
+      };
+
+      $("#global-t").addEventListener("input", (e) => {
+        pause();
+        applyT(Number(e.target.value));
+      });
+
+      $("#btn-play").addEventListener("click", () => (state.playing ? pause() : play()));
+      $("#btn-scrub").addEventListener("click", () => {
+        pause();
+        applyT(0);
+      });
+
+      // Initial paint
+      applyT(0);
+    </script>
+  </body>
+</html>

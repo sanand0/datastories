@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Anthropic AI Productivity Transformation — Extended Edition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@sveltejs/transition@2.0.0/dist/transition.umd.min.js"></script>
+<style>
+  body { margin:0; font-family:'Segoe UI',sans-serif; background:#0d1117; color:#e6edf3; overflow-x:hidden; }
+  h1 { text-align:center; padding:50px 20px; background:linear-gradient(135deg,#1f6feb,#a28ae0,#f6b93b); background-size:200% 200%; animation:gradient 15s ease infinite; }
+  @keyframes gradient { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+  .tabs { display:flex; justify-content:center; gap:12px; padding:30px; flex-wrap:wrap; }
+  .tab { padding:14px 32px; background:#21262d; border:none; color:white; cursor:pointer; font-size:1.15em; border-radius:12px; transition:all 0.4s ease; box-shadow:0 4px 12px rgba(0,0,0,0.4); }
+  .tab.active { background:#1f6feb; transform:scale(1.08); box-shadow:0 0 30px rgba(31,111,235,0.7); }
+  .content { padding:40px; max-width:1400px; margin:0 auto; }
+  .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr)); gap:35px; }
+  .card { background:linear-gradient(145deg,#161b22,#0d1117); border-radius:16px; padding:25px; box-shadow:0 12px 40px rgba(0,0,0,0.6); position:relative; overflow:hidden; transition:transform 0.4s; }
+  .card:hover { transform:translateY(-10px); }
+  .card h3 { margin:0 0 20px; text-align:center; font-size:1.4em; background:linear-gradient(90deg,#fff,#ccc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  canvas { background:#0a0e14; border-radius:10px; }
+  .tooltip { position:absolute; background:rgba(0,0,0,0.9); color:#fff; padding:8px 12px; border-radius:6px; font-size:0.9em; pointer-events:none; z-index:100; opacity:0; }
+</style>
+</head>
+<body>
+<h1>How AI is Radically Transforming Engineer Productivity at Anthropic</h1>
+
+<div class="tabs">
+  <button class="tab active" data-tab="1">1. Becoming More Full-Stack</button>
+  <button class="tab" data-tab="2">2. Faster Learning & Iteration</button>
+  <button class="tab" data-tab="3">3. Tackling Neglected Tasks</button>
+</div>
+
+<div class="content">
+  <div id="tab1" class="gallery">
+    <!-- 1. Full-Stack (6 visualizations) -->
+    <div class="card"><h3>1. Radar Constellation: Skill Breadth Explosion</h3><canvas id="chart1a"></canvas></div>
+    <div class="card"><h3>2. Bubble Galaxy: Tasks Beyond Expertise</h3><canvas id="chart1b"></canvas></div>
+    <div class="card"><h3>3. Flowing Sankey River: Specialist → Generalist</h3><canvas id="chart1c"></canvas></div>
+    <div class="card"><h3>4. Morphing Octopus: Multi-Arm Capability Growth</h3><canvas id="chart1d"></canvas></div>
+    <div class="card"><h3>5. Voronoi Skill Map: Domain Expansion</h3><canvas id="chart1e"></canvas></div>
+    <div class="card"><h3>6. Growing Tree of Knowledge</h3><canvas id="chart1f"></canvas></div>
+  </div>
+
+  <div id="tab2" class="gallery" style="display:none">
+    <!-- 2. Faster Learning & Iteration (6) -->
+    <div class="card"><h3>1. Spiral Time Compression</h3><canvas id="chart2a"></canvas></div>
+    <div class="card"><h3>2. Race Against Time (Animated Timeline)</h3><canvas id="chart2b"></canvas></div>
+    <div class="card"><h3>3. Learning Velocity Heatmap</h3><canvas id="chart2c"></canvas></div>
+    <div class="card"><h3>4. Particle Feedback Loop Explosion</h3><canvas id="chart2d"></canvas></div>
+    <div class="card"><h3>5. Pendulum Swing: Iteration Cycle Speed</h3><canvas id="chart2e"></canvas></div>
+    <div class="card"><h3>6. Exponential Learning Curve</h3><canvas id="chart2f"></canvas></div>
+  </div>
+
+  <div id="tab3" class="gallery" style="display:none">
+    <!-- 3. Tackling Neglected Tasks (6) -->
+    <div class="card"><h3>1. Papercut Avalanche Bar</h3><canvas id="chart3a"></canvas></div>
+    <div class="card"><h3>2. Iceberg Reveal Animation</h3><canvas id="chart3b"></canvas></div>
+    <div class="card"><h3>3. 27% Donut Race</h3><canvas id="chart3c"></canvas></div>
+    <div class="card"><h3>4. Neglected Task Fireworks</h3><canvas id="chart3d"></canvas></div>
+    <div class="card"><h3>5. Pyramid of Prioritization</h3><canvas id="chart3e"></canvas></div>
+    <div class="card"><h3>6. Treasure Map: Uncharted Tasks Discovered</h3><canvas id="chart3f"></canvas></div>
+  </div>
+</div>
+
+<script>
+// Tab switching with smooth fade
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.gallery').forEach(g => {
+      gsap.to(g, { opacity: 0, duration: 0.5, onComplete: () => g.style.display = 'none' });
+    });
+    const target = document.getElementById(`tab${tab.dataset.tab}`);
+    target.style.display = 'grid';
+    gsap.fromTo(target, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
+  });
+});
+
+// Helper: Random color generator
+const getRandomColor = () => `hsl(${Math.random()*360}, 80%, 60%)`;
+
+// 1. Full-Stack: 6 visualizations
+
+// 1a Radar Constellation
+const ctx1a = document.getElementById('chart1a').getContext('2d');
+const radar = new Chart(ctx1a, {
+  type: 'radar',
+  data: {
+    labels: ['Frontend', 'Backend', 'DB', 'DevOps', 'Security', 'Data Viz', 'ML Infra', 'Infra'],
+    datasets: [{
+      label: 'Before AI',
+      data: [2, 8, 3, 2, 1, 1, 2, 3],
+      backgroundColor: 'rgba(255,99,132,0.2)',
+      borderColor: '#ff6384',
+    }, {
+      label: 'After AI',
+      data: [8, 9, 8, 7, 6, 9, 8, 7],
+      backgroundColor: 'rgba(54,162,235,0.4)',
+      borderColor: '#36a2eb',
+    }]
+  },
+  options: { animation: { duration: 4000 }, scales: { r: { min: 0, max: 10 } } }
+});
+gsap.from(radar.data.datasets[1].data, { duration: 4, y: 0, stagger: 0.4, ease: "elastic.out(1,0.5)", onUpdate: () => radar.update() });
+
+// 1b Bubble Galaxy
+const ctx1b = document.getElementById('chart1b').getContext('2d');
+new Chart(ctx1b, {
+  type: 'bubble',
+  data: {
+    datasets: [
+      { label: 'Before', data: [{x:2,y:1,r:10}, {x:8,y:3,r:20}], backgroundColor: '#ff6384' },
+      { label: 'After', data: [{x:7,y:8,r:60}, {x:9,y:7,r:50}, {x:6,y:6,r:45}, {x:8,y:8,r:55}], backgroundColor: '#36a2eb' }
+    ]
+  },
+  options: { animation: { duration: 5000 }, scales: { x: { title: { display: true, text: 'Task Difficulty' } }, y: { title: { display: true, text: 'Confidence Level' } } } }
+});
+
+// 1c Flowing Sankey River (simulated)
+const ctx1c = document.getElementById('chart1c').getContext('2d');
+new Chart(ctx1c, {
+  type: 'bar',
+  data: {
+    labels: ['Specialist Work', 'Full-Stack Work'],
+    datasets: [{ label: 'Before', data: [95,5], backgroundColor: '#ff6384' }, { label: 'After', data: [30,70], backgroundColor: '#36a2eb' }]
+  },
+  options: { indexAxis: 'y', animation: { duration: 6000 }, plugins: { legend: { position: 'top' } } }
+});
+
+// 1d Morphing Octopus (Doughnut with radial gradient)
+const ctx1d = document.getElementById('chart1d').getContext('2d');
+new Chart(ctx1d, {
+  type: 'doughnut',
+  data: {
+    labels: ['Frontend', 'Backend', 'DB', 'DevOps', 'Other'],
+    datasets: [{
+      data: [0,0,0,0,0],
+      backgroundColor: ['#ff6384','#36a2eb','#ffce56','#4bc0c0','#9966ff'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    animation: { animateRotate: true, animateScale: true, duration: 7000 },
+    cutout: '40%'
+  }
+});
+gsap.to(ctx1d.chart.data.datasets[0].data, { 0:15, 1:25, 2:20, 3:18, 4:22, duration: 7, ease: "power4.out", onUpdate: () => ctx1d.chart.update() });
+
+// 1e Voronoi Skill Map (Matrix with gradient)
+const ctx1e = document.getElementById('chart1e').getContext('2d');
+new Chart(ctx1e, {
+  type: 'matrix',
+  data: {
+    datasets: [{
+      label: 'Skill Expansion',
+      data: [
+        {x:0,y:0,v:0.2}, {x:1,y:0,v:0.4}, {x:2,y:0,v:0.1}, {x:3,y:0,v:0.05},
+        {x:0,y:1,v:0.8}, {x:1,y:1,v:0.9}, {x:2,y:1,v:0.7}, {x:3,y:1,v:0.6}
+      ],
+      backgroundColor(ctx) {
+        const v = ctx.raw.v;
+        return v > 0.5 ? `rgba(54,162,235,${v})` : `rgba(255,99,132,${v})`;
+      }
+    }]
+  },
+  options: { animation: { duration: 4500 } }
+});
+
+// 1f Growing Tree of Knowledge
+const ctx1f = document.getElementById('chart1f').getContext('2d');
+new Chart(ctx1f, {
+  type: 'radar',
+  data: {
+    labels: ['Root', 'Frontend Branch', 'Backend Branch', 'DB Branch', 'DevOps Branch'],
+    datasets: [{
+      label: 'Knowledge Tree',
+      data: [10, 3, 8, 2, 2],
+      backgroundColor: 'rgba(75,192,192,0.2)',
+      borderColor: '#4bc0c0'
+    }, {
+      label: 'After AI',
+      data: [10, 8, 9, 7, 8],
+      backgroundColor: 'rgba(54,162,235,0.4)',
+      borderColor: '#36a2eb'
+    }]
+  },
+  options: { animation: { duration: 6000 } }
+});
+
+// 2. Faster Learning & Iteration
+
+// 2a Spiral Time Compression (Polar)
+const ctx2a = document.getElementById('chart2a').getContext('2d');
+new Chart(ctx2a, {
+  type: 'polarArea',
+  data: {
+    labels: ['Before AI', 'After AI'],
+    datasets: [{
+      label: 'Time per Iteration',
+      data: [35, 8],
+      backgroundColor: ['#ff6384', '#36a2eb'],
+      borderWidth: 0
+    }]
+  },
+  options: { animation: { animateRotate: true, duration: 8000 } }
+});
+
+// 2b Race Against Time
+const ctx2b = document.getElementById('chart2b').getContext('2d');
+new Chart(ctx2b, {
+  type: 'line',
+  data: {
+    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+    datasets: [
+      { label: 'Before AI', data: [0, 10, 20, 30, 40], borderColor: '#ff6384' },
+      { label: 'After AI', data: [0, 5, 7, 8, 9], borderColor: '#36a2eb' }
+    ]
+  },
+  options: { animation: { duration: 7000 } }
+});
+
+// 2c Learning Velocity Heatmap
+const ctx2c = document.getElementById('chart2c').getContext('2d');
+new Chart(ctx2c, {
+  type: 'matrix',
+  data: {
+    datasets: [{
+      label: 'Velocity',
+      data: [
+        {x:0,y:0,v:0.5}, {x:1,y:0,v:0.6}, {x:2,y:0,v:0.4},
+        {x:0,y:1,v:2.1}, {x:1,y:1,v:3.5}, {x:2,y:1,v:4.2}
+      ],
+      backgroundColor(context) {
+        const v = context.raw.v;
+        return `hsl(${v*60}, 100%, 50%)`;
+      }
+    }]
+  },
+  options: { animation: { duration: 5000 } }
+});
+
+// 2d Particle Feedback Loop Explosion
+const ctx2d = document.getElementById('chart2d').getContext('2d');
+new Chart(ctx2d, {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Feedback Particles',
+      data: Array.from({length: 100}, () => ({x: Math.random()*100, y: Math.random()*100, r: 3})),
+      backgroundColor: '#36a2eb'
+    }]
+  },
+  options: {
+    animation: { duration: 8000, loop: true },
+    plugins: { legend: { display: false } }
+  }
+});
+gsap.to(ctx2d.chart.data.datasets[0].data, { duration: 8, r: 10, stagger: 0.1, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+// 2e Pendulum Swing: Iteration Cycle
+const ctx2e = document.getElementById('chart2e').getContext('2d');
+new Chart(ctx2e, {
+  type: 'line',
+  data: {
+    labels: ['Cycle 1', 'Cycle 2', 'Cycle 3', 'Cycle 4'],
+    datasets: [{ label: 'Before', data: [30, 25, 20, 15], borderColor: '#ff6384' }, { label: 'After', data: [8, 6, 5, 4], borderColor: '#36a2eb' }]
+  },
+  options: { animation: { duration: 6000 } }
+});
+
+// 2f Exponential Learning Curve
+const ctx2f = document.getElementById('chart2f').getContext('2d');
+new Chart(ctx2f, {
+  type: 'line',
+  data: {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    datasets: [
+      { label: 'Before AI', data: [10, 15, 18, 20], borderColor: '#ff6384' },
+      { label: 'After AI', data: [10, 40, 90, 180], borderColor: '#36a2eb' }
+    ]
+  },
+  options: { animation: { duration: 7000 } }
+});
+
+// 3. Neglected Tasks
+
+// 3a Papercut Avalanche
+const ctx3a = document.getElementById('chart3a').getContext('2d');
+new Chart(ctx3a, {
+  type: 'bar',
+  data: {
+    labels: ['Core', 'Nice-to-Have', 'Papercuts'],
+    datasets: [{ label: 'Before', data: [100, 20, 5], backgroundColor: '#ff6384' }, { label: 'After', data: [100, 80, 50], backgroundColor: '#36a2eb' }]
+  },
+  options: { animation: { duration: 5000 } }
+});
+
+// 3b Iceberg Reveal
+const ctx3b = document.getElementById('chart3b').getContext('2d');
+new Chart(ctx3b, {
+  type: 'doughnut',
+  data: {
+    labels: ['Visible', 'Hidden (Neglected)'],
+    datasets: [{
+      data: [73, 27],
+      backgroundColor: ['#ff6384', '#36a2eb'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    animation: { duration: 8000, animateScale: true },
+    cutout: '70%'
+  }
+});
+
+// 3c 27% Donut Race
+const ctx3c = document.getElementById('chart3c').getContext('2d');
+const raceData = { before: 0, after: 27 };
+new Chart(ctx3c, {
+  type: 'doughnut',
+  data: {
+    labels: ['Would Have Done', 'New Work'],
+    datasets: [{
+      data: [100, 0],
+      backgroundColor: ['#ff6384', '#36a2eb']
+    }]
+  },
+  options: { animation: { duration: 6000 }, cutout: '80%' }
+});
+gsap.to(raceData, { after: 27, duration: 6, ease: "power4.out", onUpdate: () => {
+  ctx3c.chart.data.datasets[0].data[1] = raceData.after;
+  ctx3c.chart.update();
+}});
+
+// 3d Neglected Task Fireworks
+const ctx3d = document.getElementById('chart3d').getContext('2d');
+new Chart(ctx3d, {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'New Tasks',
+      data: Array.from({length: 80}, () => ({x: Math.random()*100, y: Math.random()*100, r: 5})),
+      backgroundColor: '#36a2eb'
+    }]
+  },
+  options: {
+    animation: { duration: 10000, loop: true },
+    plugins: { legend: { display: false } }
+  }
+});
+gsap.to(ctx3d.chart.data.datasets[0].data, { duration: 10, r: 12, stagger: 0.1, repeat: -1, yoyo: true, ease: "power2.inOut" });
+
+// 3e Pyramid of Prioritization (Pyramid chart)
+const ctx3e = document.getElementById('chart3e').getContext('2d');
+new Chart(ctx3e, {
+  type: 'bar',
+  data: {
+    labels: ['Top Priority', 'Medium', 'Low (Neglected)'],
+    datasets: [{ label: 'Before', data: [60, 30, 10], backgroundColor: '#ff6384' }, { label: 'After', data: [60, 30, 50], backgroundColor: '#36a2eb' }]
+  },
+  options: { indexAxis: 'y', animation: { duration: 6000 } }
+});
+
+// 3f Treasure Map: Uncharted Tasks
+const ctx3f = document.getElementById('chart3f').getContext('2d');
+new Chart(ctx3f, {
+  type: 'radar',
+  data: {
+    labels: ['Documentation', 'Testing', 'Refactoring', 'Nice-to-Haves', 'Exploration'],
+    datasets: [{
+      label: 'Before AI',
+      data: [2, 3, 1, 1, 0],
+      backgroundColor: 'rgba(255,99,132,0.2)',
+      borderColor: '#ff6384'
+    }, {
+      label: 'After AI',
+      data: [8, 9, 7, 8, 6],
+      backgroundColor: 'rgba(54,162,235,0.4)',
+      borderColor: '#36a2eb'
+    }]
+  },
+  options: { animation: { duration: 7000 } }
+});
+</script>
+</body>
+</html>
+
+<!-- https://x.com/i/grok?conversation=2000836268834611220 -->

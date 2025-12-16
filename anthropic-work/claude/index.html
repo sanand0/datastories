@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Productivity Impact | Anthropic Engineers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-cyan: #00f5d4;
+            --accent-magenta: #f72585;
+            --accent-yellow: #fee440;
+            --accent-blue: #4361ee;
+            --accent-orange: #ff6b35;
+            --text-primary: #ffffff;
+            --text-secondary: #8892a0;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            z-index: 1000;
+        }
+
+        header {
+            padding: 2rem 3rem;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        header h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        header h1 span {
+            color: var(--accent-cyan);
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            padding: 0 3rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            color: var(--accent-cyan);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-cyan);
+        }
+
+        .tab-number {
+            font-size: 0.7rem;
+            opacity: 0.5;
+            margin-right: 0.5rem;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2rem 3rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pattern-header {
+            margin-bottom: 2rem;
+        }
+
+        .pattern-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .pattern-header p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .chart-card:hover::before {
+            opacity: 1;
+        }
+
+        .chart-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-metric {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        /* Productivity Burst Chart */
+        .burst-chart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+        }
+
+        .burst-center {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 10;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        .burst-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--bg-primary);
+        }
+
+        .burst-label {
+            font-size: 0.7rem;
+            color: var(--bg-primary);
+            text-transform: uppercase;
+        }
+
+        .burst-ray {
+            position: absolute;
+            width: 3px;
+            background: linear-gradient(to top, var(--accent-cyan), transparent);
+            transform-origin: bottom center;
+            border-radius: 3px;
+        }
+
+        .burst-metric {
+            position: absolute;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-primary);
+            white-space: nowrap;
+            background: var(--bg-card);
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Radar Chart */
+        .radar-chart {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radar-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .radar-axis {
+            stroke: var(--border-color);
+            stroke-width: 1;
+        }
+
+        .radar-grid {
+            fill: none;
+            stroke: var(--border-color);
+            stroke-width: 0.5;
+            opacity: 0.5;
+        }
+
+        .radar-area-before {
+            fill: var(--accent-magenta);
+            fill-opacity: 0.2;
+            stroke: var(--accent-magenta);
+            stroke-width: 2;
+        }
+
+        .radar-area-after {
+            fill: var(--accent-cyan);
+            fill-opacity: 0.3;
+            stroke: var(--accent-cyan);
+            stroke-width: 2;
+        }
+
+        .radar-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            fill: var(--text-secondary);
+        }
+
+        .radar-legend {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* Task Complexity Wave */
+        .wave-chart {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wave-svg {
+            flex: 1;
+            width: 100%;
+        }
+
+        .wave-path {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+        }
+
+        .wave-before {
+            stroke: var(--accent-magenta);
+        }
+
+        .wave-after {
+            stroke: var(--accent-cyan);
+        }
+
+        .wave-area {
+            opacity: 0.1;
+        }
+
+        .wave-dot {
+            fill: var(--text-primary);
+            stroke: var(--bg-card);
+            stroke-width: 2;
+        }
+
+        .wave-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            fill: var(--text-secondary);
+        }
+
+        /* Timeline Compression */
+        .timeline-chart {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .timeline-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .timeline-label {
+            width: 80px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        .timeline-bar-container {
+            flex: 1;
+            height: 40px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-bar {
+            height: 100%;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--bg-primary);
+            font-weight: 700;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-before {
+            background: linear-gradient(90deg, var(--accent-magenta), #ff85a1);
+        }
+
+        .timeline-after {
+            background: linear-gradient(90deg, var(--accent-cyan), #7bf1a8);
+        }
+
+        .timeline-segments {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            pointer-events: none;
+        }
+
+        .timeline-segment {
+            flex: 1;
+            border-right: 1px dashed var(--border-color);
+        }
+
+        .timeline-scale {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 0.5rem;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Step Chart - Tool Calls */
+        .step-chart {
+            height: 100%;
+            position: relative;
+        }
+
+        .step-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .step-line {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .step-before {
+            stroke: var(--accent-magenta);
+        }
+
+        .step-after {
+            stroke: var(--accent-cyan);
+        }
+
+        .step-area {
+            opacity: 0.15;
+        }
+
+        .step-annotation {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+        }
+
+        /* Trust Flow */
+        .trust-chart {
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trust-stage {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .trust-stage.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .trust-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 2px solid;
+            position: relative;
+        }
+
+        .trust-icon::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 1px dashed;
+            opacity: 0.3;
+            animation: orbit 4s linear infinite;
+        }
+
+        @keyframes orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .trust-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            text-align: center;
+            max-width: 100px;
+        }
+
+        .trust-arrow {
+            position: absolute;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .trust-arrow.visible {
+            opacity: 1;
+        }
+
+        .trust-progress {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .trust-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-color);
+            transition: background 0.3s ease;
+        }
+
+        .trust-dot.active {
+            background: var(--accent-cyan);
+        }
+
+        /* Unlocked Work Donut */
+        .donut-chart {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .donut-svg {
+            width: 220px;
+            height: 220px;
+            transform: rotate(-90deg);
+        }
+
+        .donut-track {
+            fill: none;
+            stroke: var(--bg-secondary);
+            stroke-width: 30;
+        }
+
+        .donut-progress {
+            fill: none;
+            stroke-width: 30;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .donut-center {
+            position: absolute;
+            text-align: center;
+        }
+
+        .donut-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .donut-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .donut-segments {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+        }
+
+        .donut-segment-label {
+            position: absolute;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        /* Papercut Grid */
+        .papercut-chart {
+            height: 100%;
+            padding: 1rem 0;
+        }
+
+        .papercut-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .papercut-cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            background: var(--bg-secondary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .papercut-cell.filled {
+            background: var(--accent-yellow);
+            box-shadow: 0 0 10px var(--accent-yellow);
+        }
+
+        .papercut-cell.other {
+            background: var(--accent-blue);
+        }
+
+        .papercut-cell::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+        }
+
+        .papercut-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .papercut-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .papercut-legend-box {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .papercut-counter {
+            text-align: center;
+            margin-top: 1rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .papercut-counter-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        .papercut-counter-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tedium Liberation */
+        .tedium-chart {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .tedium-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .tedium-task {
+            width: 100px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        .tedium-bar-track {
+            flex: 1;
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tedium-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--bg-primary);
+            font-weight: 700;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tedium-enjoy {
+            background: linear-gradient(90deg, var(--accent-orange), #ff9f1c);
+        }
+
+        .tedium-claude {
+            background: linear-gradient(90deg, var(--accent-cyan), #7bf1a8);
+        }
+
+        .tedium-emoji {
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* Interaction hint */
+        .interaction-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .hint-icon {
+            width: 14px;
+            height: 14px;
+            border: 1px solid var(--text-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header, .tabs, .tab-content {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Animation utility classes */
+        .animate-in {
+            animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+
+    <header>
+        <h1>How <span>AI</span> is Transforming Work at Anthropic</h1>
+        <p>Interactive visualization of engineer productivity patterns before and after AI adoption</p>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab active" data-tab="pattern1">
+            <span class="tab-number">01</span>More Full-Stack
+        </button>
+        <button class="tab" data-tab="pattern2">
+            <span class="tab-number">02</span>Faster Learning
+        </button>
+        <button class="tab" data-tab="pattern3">
+            <span class="tab-number">03</span>Unlocked Work
+        </button>
+    </nav>
+
+    <!-- Pattern 1: Full-Stack -->
+    <section class="tab-content active" id="pattern1">
+        <div class="pattern-header">
+            <h2>Engineers are becoming more "full-stack"</h2>
+            <p>Claude enables engineers to work outside their core expertise—backend engineers building UIs, researchers creating visualizations. Self-reported productivity gains doubled from +20% to +50% year-over-year.</p>
+        </div>
+
+        <div class="chart-grid">
+            <!-- Productivity Burst -->
+            <div class="chart-card">
+                <div class="chart-title">Productivity Explosion</div>
+                <div class="chart-metric">Year-over-year change in self-reported metrics</div>
+                <div class="chart-container">
+                    <div class="burst-chart" id="burstChart">
+                        <div class="burst-center">
+                            <div class="burst-value">2.5×</div>
+                            <div class="burst-label">Growth</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="interaction-hint">
+                    <span class="hint-icon">↻</span> Auto-animating
+                </div>
+            </div>
+
+            <!-- Radar Chart -->
+            <div class="chart-card">
+                <div class="chart-title">Skill Domain Expansion</div>
+                <div class="chart-metric">Comfort level across engineering domains (1-10 scale)</div>
+                <div class="chart-container">
+                    <div class="radar-chart" id="radarChart">
+                        <svg class="radar-svg" viewBox="0 0 300 280"></svg>
+                        <div class="radar-legend">
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background: var(--accent-magenta)"></div>
+                                <span>Before AI</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background: var(--accent-cyan)"></div>
+                                <span>With AI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Complexity -->
+            <div class="chart-card">
+                <div class="chart-title">Task Complexity Evolution</div>
+                <div class="chart-metric">Average complexity score (1=basic, 5=expert) over 6 months</div>
+                <div class="chart-container">
+                    <div class="wave-chart" id="waveChart">
+                        <svg class="wave-svg" viewBox="0 0 400 250"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pattern 2: Faster Learning -->
+    <section class="tab-content" id="pattern2">
+        <div class="pattern-header">
+            <h2>Accelerating learning and iteration speed</h2>
+            <p>Tighter feedback loops transform multi-week processes into hours-long working sessions. Claude now chains 21+ autonomous actions versus 10 six months ago, requiring less human steering.</p>
+        </div>
+
+        <div class="chart-grid">
+            <!-- Timeline Compression -->
+            <div class="chart-card">
+                <div class="chart-title">Feedback Loop Compression</div>
+                <div class="chart-metric">Time to iterate on features: from weeks to hours</div>
+                <div class="chart-container">
+                    <div class="timeline-chart" id="timelineChart">
+                        <div class="timeline-row">
+                            <div class="timeline-label">BEFORE</div>
+                            <div class="timeline-bar-container">
+                                <div class="timeline-bar timeline-before" id="timelineBefore">
+                                    2 weeks
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-row">
+                            <div class="timeline-label">WITH AI</div>
+                            <div class="timeline-bar-container">
+                                <div class="timeline-bar timeline-after" id="timelineAfter">
+                                    2 hours
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-scale">
+                            <span>0</span>
+                            <span>2 days</span>
+                            <span>1 week</span>
+                            <span>2 weeks</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step Chart -->
+            <div class="chart-card">
+                <div class="chart-title">Autonomous Tool Calls</div>
+                <div class="chart-metric">Consecutive actions without human input: 9.8 → 21.2 (+116%)</div>
+                <div class="chart-container">
+                    <div class="step-chart" id="stepChart">
+                        <svg class="step-svg" viewBox="0 0 400 250"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust Flow -->
+            <div class="chart-card">
+                <div class="chart-title">Trust Progression Journey</div>
+                <div class="chart-metric">How engineers learn to delegate more complex tasks</div>
+                <div class="chart-container">
+                    <div class="trust-chart" id="trustChart"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pattern 3: Unlocked Work -->
+    <section class="tab-content" id="pattern3">
+        <div class="pattern-header">
+            <h2>Tackling previously-neglected tasks</h2>
+            <p>27% of Claude-assisted work wouldn't have been done otherwise. Engineers now fix "papercuts," build nice-to-have tools, and take on exploratory work that wasn't cost-effective before.</p>
+        </div>
+
+        <div class="chart-grid">
+            <!-- Donut Chart -->
+            <div class="chart-card">
+                <div class="chart-title">Work Unlocked by AI</div>
+                <div class="chart-metric">27% of Claude-assisted tasks are entirely new work</div>
+                <div class="chart-container">
+                    <div class="donut-chart" id="donutChart">
+                        <svg class="donut-svg">
+                            <circle class="donut-track" cx="110" cy="110" r="85"></circle>
+                            <circle class="donut-progress" cx="110" cy="110" r="85"
+                                    stroke="url(#donutGradient)"
+                                    stroke-dasharray="534"
+                                    stroke-dashoffset="534"
+                                    id="donutProgress"></circle>
+                            <defs>
+                                <linearGradient id="donutGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="var(--accent-cyan)"/>
+                                    <stop offset="100%" stop-color="var(--accent-magenta)"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="donut-center">
+                            <div class="donut-value" id="donutValue">0%</div>
+                            <div class="donut-label">new work</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Papercut Grid -->
+            <div class="chart-card">
+                <div class="chart-title">Papercut Fixes Accumulating</div>
+                <div class="chart-metric">8.6% of tasks = small quality-of-life improvements</div>
+                <div class="chart-container">
+                    <div class="papercut-chart" id="papercutChart">
+                        <div class="papercut-grid" id="papercutGrid"></div>
+                        <div class="papercut-counter">
+                            <div class="papercut-counter-value" id="papercutCount">0</div>
+                            <div class="papercut-counter-label">papercuts fixed this sprint</div>
+                        </div>
+                        <div class="papercut-legend">
+                            <div class="papercut-legend-item">
+                                <div class="papercut-legend-box" style="background: var(--accent-yellow)"></div>
+                                <span>Papercut fixes (8.6%)</span>
+                            </div>
+                            <div class="papercut-legend-item">
+                                <div class="papercut-legend-box" style="background: var(--accent-blue)"></div>
+                                <span>Other tasks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tedium Liberation -->
+            <div class="chart-card">
+                <div class="chart-title">Tedium Liberation Index</div>
+                <div class="chart-metric">44% of Claude-assisted work = tasks engineers wouldn't enjoy</div>
+                <div class="chart-container">
+                    <div class="tedium-chart" id="tediumChart"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Tab Navigation
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+
+                // Trigger animations for the new tab
+                initializeCharts(tab.dataset.tab);
+            });
+        });
+
+        // Initialize charts based on visible tab
+        function initializeCharts(tabId) {
+            switch(tabId) {
+                case 'pattern1':
+                    initBurstChart();
+                    initRadarChart();
+                    initWaveChart();
+                    break;
+                case 'pattern2':
+                    initTimelineChart();
+                    initStepChart();
+                    initTrustChart();
+                    break;
+                case 'pattern3':
+                    initDonutChart();
+                    initPapercutChart();
+                    initTediumChart();
+                    break;
+            }
+        }
+
+        // Pattern 1: Burst Chart
+        function initBurstChart() {
+            const container = document.getElementById('burstChart');
+            // Clear existing rays
+            container.querySelectorAll('.burst-ray, .burst-metric').forEach(el => el.remove());
+
+            const metrics = [
+                { label: '+50% productivity', angle: 30, length: 100 },
+                { label: '59% AI usage', angle: 90, length: 85 },
+                { label: '+67% PRs/day', angle: 150, length: 110 },
+                { label: '2× YoY growth', angle: 210, length: 95 },
+                { label: '3.8 complexity', angle: 270, length: 80 },
+                { label: '+116% autonomy', angle: 330, length: 105 }
+            ];
+
+            metrics.forEach((metric, i) => {
+                const ray = document.createElement('div');
+                ray.className = 'burst-ray';
+                ray.style.height = '0px';
+                ray.style.left = '50%';
+                ray.style.bottom = '50%';
+                ray.style.transform = `rotate(${metric.angle}deg)`;
+                ray.style.opacity = '0';
+                container.appendChild(ray);
+
+                setTimeout(() => {
+                    ray.style.transition = 'height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+                    ray.style.height = `${metric.length}px`;
+                    ray.style.opacity = '1';
+                }, i * 100);
+
+                // Add metric label
+                const labelEl = document.createElement('div');
+                labelEl.className = 'burst-metric';
+                labelEl.textContent = metric.label;
+
+                const radians = (metric.angle - 90) * Math.PI / 180;
+                const labelDistance = metric.length + 50;
+                const x = Math.cos(radians) * labelDistance;
+                const y = Math.sin(radians) * labelDistance;
+
+                labelEl.style.left = `calc(50% + ${x}px)`;
+                labelEl.style.top = `calc(50% + ${y}px)`;
+                labelEl.style.transform = 'translate(-50%, -50%)';
+                labelEl.style.opacity = '0';
+                container.appendChild(labelEl);
+
+                setTimeout(() => {
+                    labelEl.style.transition = 'opacity 0.5s ease';
+                    labelEl.style.opacity = '1';
+                }, i * 100 + 400);
+            });
+        }
+
+        // Pattern 1: Radar Chart
+        function initRadarChart() {
+            const svg = document.querySelector('#radarChart .radar-svg');
+            svg.innerHTML = '';
+
+            const centerX = 150, centerY = 130, radius = 100;
+            const skills = ['Frontend', 'Backend', 'DevOps', 'Security', 'Data Sci', 'Testing'];
+            const beforeData = [3, 8, 4, 3, 5, 4]; // Specialist profile
+            const afterData = [7, 8, 7, 6, 8, 7];  // Full-stack profile
+
+            // Draw grid circles
+            for (let r = 20; r <= 100; r += 20) {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', centerX);
+                circle.setAttribute('cy', centerY);
+                circle.setAttribute('r', r);
+                circle.setAttribute('class', 'radar-grid');
+                svg.appendChild(circle);
+            }
+
+            // Draw axes and labels
+            skills.forEach((skill, i) => {
+                const angle = (i * 60 - 90) * Math.PI / 180;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', centerX);
+                line.setAttribute('y1', centerY);
+                line.setAttribute('x2', x);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'radar-axis');
+                svg.appendChild(line);
+
+                const labelX = centerX + Math.cos(angle) * (radius + 20);
+                const labelY = centerY + Math.sin(angle) * (radius + 20);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', labelX);
+                text.setAttribute('y', labelY);
+                text.setAttribute('class', 'radar-label');
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'middle');
+                text.textContent = skill;
+                svg.appendChild(text);
+            });
+
+            // Create polygon points
+            function createPolygonPoints(data) {
+                return data.map((val, i) => {
+                    const angle = (i * 60 - 90) * Math.PI / 180;
+                    const r = (val / 10) * radius;
+                    return `${centerX + Math.cos(angle) * r},${centerY + Math.sin(angle) * r}`;
+                }).join(' ');
+            }
+
+            // Before area
+            const beforePolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            beforePolygon.setAttribute('class', 'radar-area-before');
+            beforePolygon.setAttribute('points', createPolygonPoints([0,0,0,0,0,0]));
+            svg.appendChild(beforePolygon);
+
+            // After area
+            const afterPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            afterPolygon.setAttribute('class', 'radar-area-after');
+            afterPolygon.setAttribute('points', createPolygonPoints([0,0,0,0,0,0]));
+            svg.appendChild(afterPolygon);
+
+            // Animate
+            setTimeout(() => {
+                beforePolygon.style.transition = 'all 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                beforePolygon.setAttribute('points', createPolygonPoints(beforeData));
+            }, 200);
+
+            setTimeout(() => {
+                afterPolygon.style.transition = 'all 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                afterPolygon.setAttribute('points', createPolygonPoints(afterData));
+            }, 600);
+        }
+
+        // Pattern 1: Wave Chart
+        function initWaveChart() {
+            const svg = document.querySelector('#waveChart .wave-svg');
+            svg.innerHTML = '';
+
+            const months = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
+            const beforeData = [3.2, 3.3, 3.2, 3.4, 3.3, 3.2, 3.2]; // Stable baseline
+            const afterData = [3.2, 3.4, 3.5, 3.6, 3.7, 3.75, 3.8]; // Growth with AI
+
+            const padding = { top: 30, right: 30, bottom: 40, left: 50 };
+            const width = 400 - padding.left - padding.right;
+            const height = 250 - padding.top - padding.bottom;
+
+            // Scales
+            const xScale = (i) => padding.left + (i / (months.length - 1)) * width;
+            const yScale = (v) => padding.top + height - ((v - 2.5) / 2) * height;
+
+            // Grid lines
+            for (let v = 2.5; v <= 4.5; v += 0.5) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', yScale(v));
+                line.setAttribute('x2', padding.left + width);
+                line.setAttribute('y2', yScale(v));
+                line.setAttribute('stroke', '#2a2a3a');
+                line.setAttribute('stroke-dasharray', '3,3');
+                svg.appendChild(line);
+
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', padding.left - 10);
+                label.setAttribute('y', yScale(v));
+                label.setAttribute('class', 'wave-label');
+                label.setAttribute('text-anchor', 'end');
+                label.setAttribute('dominant-baseline', 'middle');
+                label.textContent = v.toFixed(1);
+                svg.appendChild(label);
+            }
+
+            // X-axis labels
+            months.forEach((month, i) => {
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', xScale(i));
+                text.setAttribute('y', height + padding.top + 25);
+                text.setAttribute('class', 'wave-label');
+                text.setAttribute('text-anchor', 'middle');
+                text.textContent = month;
+                svg.appendChild(text);
+            });
+
+            // Create path function
+            function createPath(data) {
+                return data.map((v, i) => `${i === 0 ? 'M' : 'L'} ${xScale(i)} ${yScale(v)}`).join(' ');
+            }
+
+            function createArea(data) {
+                const linePath = data.map((v, i) => `${i === 0 ? 'M' : 'L'} ${xScale(i)} ${yScale(v)}`).join(' ');
+                return `${linePath} L ${xScale(data.length - 1)} ${yScale(2.5)} L ${xScale(0)} ${yScale(2.5)} Z`;
+            }
+
+            // Before area
+            const beforeArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            beforeArea.setAttribute('d', createArea(beforeData));
+            beforeArea.setAttribute('fill', 'var(--accent-magenta)');
+            beforeArea.setAttribute('class', 'wave-area');
+            svg.appendChild(beforeArea);
+
+            // After area
+            const afterArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            afterArea.setAttribute('d', createArea(afterData));
+            afterArea.setAttribute('fill', 'var(--accent-cyan)');
+            afterArea.setAttribute('class', 'wave-area');
+            svg.appendChild(afterArea);
+
+            // Before line
+            const beforePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            beforePath.setAttribute('d', createPath(beforeData));
+            beforePath.setAttribute('class', 'wave-path wave-before');
+            beforePath.style.strokeDasharray = '500';
+            beforePath.style.strokeDashoffset = '500';
+            svg.appendChild(beforePath);
+
+            // After line
+            const afterPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            afterPath.setAttribute('d', createPath(afterData));
+            afterPath.setAttribute('class', 'wave-path wave-after');
+            afterPath.style.strokeDasharray = '500';
+            afterPath.style.strokeDashoffset = '500';
+            svg.appendChild(afterPath);
+
+            // Dots for after line
+            afterData.forEach((v, i) => {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', xScale(i));
+                circle.setAttribute('cy', yScale(v));
+                circle.setAttribute('r', 4);
+                circle.setAttribute('class', 'wave-dot');
+                circle.style.opacity = '0';
+                svg.appendChild(circle);
+
+                setTimeout(() => {
+                    circle.style.transition = 'opacity 0.3s ease';
+                    circle.style.opacity = '1';
+                }, 1000 + i * 100);
+            });
+
+            // Annotations
+            const annotation1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            annotation1.setAttribute('x', xScale(0) + 10);
+            annotation1.setAttribute('y', yScale(beforeData[0]) - 15);
+            annotation1.setAttribute('class', 'wave-label');
+            annotation1.setAttribute('fill', 'var(--accent-magenta)');
+            annotation1.textContent = 'Without AI: 3.2';
+            annotation1.style.opacity = '0';
+            svg.appendChild(annotation1);
+
+            const annotation2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            annotation2.setAttribute('x', xScale(6) - 60);
+            annotation2.setAttribute('y', yScale(afterData[6]) - 15);
+            annotation2.setAttribute('class', 'wave-label');
+            annotation2.setAttribute('fill', 'var(--accent-cyan)');
+            annotation2.textContent = 'With AI: 3.8';
+            annotation2.style.opacity = '0';
+            svg.appendChild(annotation2);
+
+            // Animate
+            setTimeout(() => {
+                beforePath.style.transition = 'stroke-dashoffset 1s ease';
+                beforePath.style.strokeDashoffset = '0';
+                annotation1.style.transition = 'opacity 0.5s ease';
+                annotation1.style.opacity = '1';
+            }, 200);
+
+            setTimeout(() => {
+                afterPath.style.transition = 'stroke-dashoffset 1s ease';
+                afterPath.style.strokeDashoffset = '0';
+                annotation2.style.transition = 'opacity 0.5s ease';
+                annotation2.style.opacity = '1';
+            }, 700);
+        }
+
+        // Pattern 2: Timeline Chart
+        function initTimelineChart() {
+            const before = document.getElementById('timelineBefore');
+            const after = document.getElementById('timelineAfter');
+
+            before.style.width = '0%';
+            after.style.width = '0%';
+
+            setTimeout(() => {
+                before.style.width = '100%';
+            }, 200);
+
+            setTimeout(() => {
+                after.style.width = '7%'; // ~2 hours out of 14 days
+            }, 800);
+        }
+
+        // Pattern 2: Step Chart
+        function initStepChart() {
+            const svg = document.querySelector('#stepChart .step-svg');
+            svg.innerHTML = '';
+
+            // Data: actions per transcript over time
+            const tasks = ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 5', 'Task 6'];
+            const beforeActions = [8, 11, 9, 12, 10, 9];  // Avg ~10
+            const afterActions = [18, 22, 20, 24, 21, 22]; // Avg ~21
+
+            const padding = { top: 40, right: 30, bottom: 40, left: 50 };
+            const width = 400 - padding.left - padding.right;
+            const height = 250 - padding.top - padding.bottom;
+
+            const xScale = (i) => padding.left + (i / (tasks.length - 1)) * width;
+            const yScale = (v) => padding.top + height - (v / 30) * height;
+
+            // Grid
+            for (let v = 0; v <= 30; v += 10) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', yScale(v));
+                line.setAttribute('x2', padding.left + width);
+                line.setAttribute('y2', yScale(v));
+                line.setAttribute('stroke', '#2a2a3a');
+                line.setAttribute('stroke-dasharray', '3,3');
+                svg.appendChild(line);
+
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', padding.left - 10);
+                label.setAttribute('y', yScale(v));
+                label.setAttribute('class', 'step-annotation');
+                label.setAttribute('fill', 'var(--text-secondary)');
+                label.setAttribute('text-anchor', 'end');
+                label.setAttribute('dominant-baseline', 'middle');
+                label.textContent = v;
+                svg.appendChild(label);
+            }
+
+            // Y-axis label
+            const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yLabel.setAttribute('x', 15);
+            yLabel.setAttribute('y', padding.top + height / 2);
+            yLabel.setAttribute('class', 'step-annotation');
+            yLabel.setAttribute('fill', 'var(--text-secondary)');
+            yLabel.setAttribute('text-anchor', 'middle');
+            yLabel.setAttribute('transform', `rotate(-90, 15, ${padding.top + height / 2})`);
+            yLabel.textContent = 'Tool calls per task';
+            svg.appendChild(yLabel);
+
+            // Step path function
+            function createStepPath(data) {
+                let path = `M ${xScale(0)} ${yScale(data[0])}`;
+                for (let i = 1; i < data.length; i++) {
+                    path += ` H ${xScale(i)} V ${yScale(data[i])}`;
+                }
+                return path;
+            }
+
+            function createStepArea(data) {
+                let path = `M ${xScale(0)} ${yScale(0)} V ${yScale(data[0])}`;
+                for (let i = 1; i < data.length; i++) {
+                    path += ` H ${xScale(i)} V ${yScale(data[i])}`;
+                }
+                path += ` H ${xScale(data.length - 1)} V ${yScale(0)} Z`;
+                return path;
+            }
+
+            // Before area
+            const beforeArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            beforeArea.setAttribute('d', createStepArea(beforeActions));
+            beforeArea.setAttribute('fill', 'var(--accent-magenta)');
+            beforeArea.setAttribute('class', 'step-area');
+            svg.appendChild(beforeArea);
+
+            // After area
+            const afterArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            afterArea.setAttribute('fill', 'var(--accent-cyan)');
+            afterArea.setAttribute('class', 'step-area');
+            afterArea.setAttribute('d', createStepArea(beforeActions)); // Start same as before
+            svg.appendChild(afterArea);
+
+            // Before line
+            const beforeLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            beforeLine.setAttribute('d', createStepPath(beforeActions));
+            beforeLine.setAttribute('class', 'step-line step-before');
+            svg.appendChild(beforeLine);
+
+            // After line
+            const afterLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            afterLine.setAttribute('class', 'step-line step-after');
+            afterLine.setAttribute('d', createStepPath(beforeActions));
+            svg.appendChild(afterLine);
+
+            // Avg lines
+            const avgBefore = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            avgBefore.setAttribute('x1', padding.left);
+            avgBefore.setAttribute('y1', yScale(10));
+            avgBefore.setAttribute('x2', padding.left + width);
+            avgBefore.setAttribute('y2', yScale(10));
+            avgBefore.setAttribute('stroke', 'var(--accent-magenta)');
+            avgBefore.setAttribute('stroke-width', '1');
+            avgBefore.setAttribute('stroke-dasharray', '5,5');
+            avgBefore.setAttribute('opacity', '0.7');
+            svg.appendChild(avgBefore);
+
+            const avgAfter = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            avgAfter.setAttribute('x1', padding.left);
+            avgAfter.setAttribute('y1', yScale(21));
+            avgAfter.setAttribute('x2', padding.left + width);
+            avgAfter.setAttribute('y2', yScale(21));
+            avgAfter.setAttribute('stroke', 'var(--accent-cyan)');
+            avgAfter.setAttribute('stroke-width', '1');
+            avgAfter.setAttribute('stroke-dasharray', '5,5');
+            avgAfter.setAttribute('opacity', '0');
+            svg.appendChild(avgAfter);
+
+            // Labels
+            const labelBefore = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            labelBefore.setAttribute('x', padding.left + width + 5);
+            labelBefore.setAttribute('y', yScale(10));
+            labelBefore.setAttribute('class', 'step-annotation');
+            labelBefore.setAttribute('fill', 'var(--accent-magenta)');
+            labelBefore.setAttribute('dominant-baseline', 'middle');
+            labelBefore.textContent = 'Feb avg: 9.8';
+            svg.appendChild(labelBefore);
+
+            const labelAfter = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            labelAfter.setAttribute('x', padding.left + width + 5);
+            labelAfter.setAttribute('y', yScale(21));
+            labelAfter.setAttribute('class', 'step-annotation');
+            labelAfter.setAttribute('fill', 'var(--accent-cyan)');
+            labelAfter.setAttribute('dominant-baseline', 'middle');
+            labelAfter.textContent = 'Aug avg: 21.2';
+            labelAfter.style.opacity = '0';
+            svg.appendChild(labelAfter);
+
+            // Animate to after
+            setTimeout(() => {
+                afterArea.style.transition = 'd 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                afterArea.setAttribute('d', createStepArea(afterActions));
+                afterLine.style.transition = 'd 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                afterLine.setAttribute('d', createStepPath(afterActions));
+                avgAfter.style.transition = 'opacity 0.5s ease';
+                avgAfter.setAttribute('opacity', '0.7');
+                labelAfter.style.transition = 'opacity 0.5s ease';
+                labelAfter.style.opacity = '1';
+            }, 800);
+        }
+
+        // Pattern 2: Trust Flow Chart
+        function initTrustChart() {
+            const container = document.getElementById('trustChart');
+            container.innerHTML = '';
+
+            const stages = [
+                { icon: '🔰', label: 'Basic queries', color: 'var(--accent-yellow)', desc: 'Simple questions' },
+                { icon: '🔧', label: 'Low-stakes code', color: 'var(--accent-orange)', desc: 'Debug scripts' },
+                { icon: '⚙️', label: 'Core expertise', color: 'var(--accent-blue)', desc: 'Familiar domains' },
+                { icon: '🚀', label: 'Full delegation', color: 'var(--accent-cyan)', desc: 'Complex workflows' }
+            ];
+
+            const stageWidth = 70;
+            const containerWidth = container.offsetWidth || 380;
+            const startX = (containerWidth - (stages.length * stageWidth + (stages.length - 1) * 40)) / 2;
+
+            stages.forEach((stage, i) => {
+                // Stage element
+                const stageEl = document.createElement('div');
+                stageEl.className = 'trust-stage';
+                stageEl.style.left = `${startX + i * (stageWidth + 40)}px`;
+                stageEl.style.top = '80px';
+
+                const icon = document.createElement('div');
+                icon.className = 'trust-icon';
+                icon.style.borderColor = stage.color;
+                icon.innerHTML = stage.icon;
+
+                const text = document.createElement('div');
+                text.className = 'trust-text';
+                text.innerHTML = `<strong style="color: ${stage.color}">${stage.label}</strong><br>${stage.desc}`;
+
+                stageEl.appendChild(icon);
+                stageEl.appendChild(text);
+                container.appendChild(stageEl);
+
+                // Arrow
+                if (i < stages.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'trust-arrow';
+                    arrow.style.left = `${startX + i * (stageWidth + 40) + stageWidth + 10}px`;
+                    arrow.style.top = '95px';
+                    arrow.innerHTML = '→';
+                    container.appendChild(arrow);
+                }
+            });
+
+            // Progress dots
+            const progress = document.createElement('div');
+            progress.className = 'trust-progress';
+            stages.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'trust-dot';
+                progress.appendChild(dot);
+            });
+            container.appendChild(progress);
+
+            // Animate stages appearing
+            let currentStage = 0;
+            function showStage() {
+                const stageEls = container.querySelectorAll('.trust-stage');
+                const arrows = container.querySelectorAll('.trust-arrow');
+                const dots = container.querySelectorAll('.trust-dot');
+
+                if (currentStage < stages.length) {
+                    stageEls[currentStage].classList.add('visible');
+                    dots[currentStage].classList.add('active');
+
+                    if (currentStage > 0) {
+                        arrows[currentStage - 1].classList.add('visible');
+                    }
+
+                    currentStage++;
+                    setTimeout(showStage, 600);
+                } else {
+                    // Loop animation
+                    setTimeout(() => {
+                        stageEls.forEach(el => el.classList.remove('visible'));
+                        arrows.forEach(el => el.classList.remove('visible'));
+                        dots.forEach(el => el.classList.remove('active'));
+                        currentStage = 0;
+                        setTimeout(showStage, 500);
+                    }, 3000);
+                }
+            }
+
+            setTimeout(showStage, 300);
+        }
+
+        // Pattern 3: Donut Chart
+        function initDonutChart() {
+            const progress = document.getElementById('donutProgress');
+            const valueEl = document.getElementById('donutValue');
+
+            const circumference = 2 * Math.PI * 85; // ~534
+            const targetPercent = 27;
+            const targetOffset = circumference * (1 - targetPercent / 100);
+
+            progress.style.strokeDashoffset = circumference;
+            valueEl.textContent = '0%';
+
+            setTimeout(() => {
+                progress.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1)';
+                progress.style.strokeDashoffset = targetOffset;
+
+                // Animate counter
+                let current = 0;
+                const increment = targetPercent / 40;
+                const counter = setInterval(() => {
+                    current += increment;
+                    if (current >= targetPercent) {
+                        current = targetPercent;
+                        clearInterval(counter);
+                    }
+                    valueEl.textContent = Math.round(current) + '%';
+                }, 50);
+            }, 300);
+        }
+
+        // Pattern 3: Papercut Grid
+        function initPapercutChart() {
+            const grid = document.getElementById('papercutGrid');
+            const counter = document.getElementById('papercutCount');
+
+            grid.innerHTML = '';
+            counter.textContent = '0';
+
+            // 100 cells, 8-9 will be papercuts (8.6%)
+            const totalCells = 100;
+            const papercutCount = 9;
+
+            // Create cells
+            for (let i = 0; i < totalCells; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'papercut-cell';
+                grid.appendChild(cell);
+            }
+
+            // Randomly select papercut indices
+            const papercutIndices = [];
+            while (papercutIndices.length < papercutCount) {
+                const idx = Math.floor(Math.random() * totalCells);
+                if (!papercutIndices.includes(idx)) {
+                    papercutIndices.push(idx);
+                }
+            }
+
+            // Animate filling
+            const cells = grid.querySelectorAll('.papercut-cell');
+            let filled = 0;
+            let papercutsFilled = 0;
+
+            function fillNext() {
+                if (filled < totalCells) {
+                    const cell = cells[filled];
+                    if (papercutIndices.includes(filled)) {
+                        cell.classList.add('filled');
+                        papercutsFilled++;
+                        counter.textContent = papercutsFilled;
+                    } else {
+                        cell.classList.add('other');
+                    }
+                    filled++;
+                    setTimeout(fillNext, 30);
+                }
+            }
+
+            setTimeout(fillNext, 300);
+        }
+
+        // Pattern 3: Tedium Chart
+        function initTediumChart() {
+            const container = document.getElementById('tediumChart');
+            container.innerHTML = '';
+
+            const tasks = [
+                { name: 'Documentation', enjoy: 25, claude: 75, emoji: '📝' },
+                { name: 'Boilerplate', enjoy: 15, claude: 85, emoji: '🔄' },
+                { name: 'Refactoring', enjoy: 40, claude: 60, emoji: '🧹' },
+                { name: 'Testing', enjoy: 30, claude: 70, emoji: '🧪' },
+                { name: 'Config/DevOps', enjoy: 20, claude: 80, emoji: '⚙️' },
+                { name: 'Bug fixes', enjoy: 35, claude: 65, emoji: '🐛' }
+            ];
+
+            tasks.forEach((task, i) => {
+                const bar = document.createElement('div');
+                bar.className = 'tedium-bar';
+
+                bar.innerHTML = `
+                    <div class="tedium-task">${task.name}</div>
+                    <div class="tedium-bar-track">
+                        <div class="tedium-bar-fill tedium-enjoy" style="width: 0%">
+                            ${task.enjoy}%
+                        </div>
+                    </div>
+                    <div class="tedium-emoji">${task.emoji}</div>
+                `;
+
+                container.appendChild(bar);
+
+                // Animate
+                setTimeout(() => {
+                    const fill = bar.querySelector('.tedium-bar-fill');
+                    fill.style.width = `${task.enjoy}%`;
+
+                    // Add Claude portion
+                    setTimeout(() => {
+                        const claudeFill = document.createElement('div');
+                        claudeFill.className = 'tedium-bar-fill tedium-claude';
+                        claudeFill.style.position = 'absolute';
+                        claudeFill.style.left = `${task.enjoy}%`;
+                        claudeFill.style.width = '0%';
+                        claudeFill.textContent = `+${task.claude}%`;
+                        bar.querySelector('.tedium-bar-track').appendChild(claudeFill);
+
+                        setTimeout(() => {
+                            claudeFill.style.width = `${task.claude}%`;
+                        }, 100);
+                    }, 500);
+                }, 200 + i * 150);
+            });
+
+            // Add legend
+            const legend = document.createElement('div');
+            legend.style.cssText = 'display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; font-size: 0.75rem;';
+            legend.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 12px; height: 12px; background: linear-gradient(90deg, var(--accent-orange), #ff9f1c); border-radius: 3px;"></div>
+                    <span style="color: var(--text-secondary);">Would do anyway</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 12px; height: 12px; background: linear-gradient(90deg, var(--accent-cyan), #7bf1a8); border-radius: 3px;"></div>
+                    <span style="color: var(--text-secondary);">Delegated to Claude</span>
+                </div>
+            `;
+            container.appendChild(legend);
+        }
+
+        // Initialize first tab on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCharts('pattern1');
+        });
+    </script>
+</body>
+</html>
+
+<!-- https://claude.ai/chat/65c3c530-e3fa-41f2-b628-f4acb6e3c492 -->

@@ -1,0 +1,2525 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How AI is transforming work (Anthropic) — Animated productivity patterns</title>
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.09);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.65);
+      --muted2: rgba(255,255,255,.45);
+      --line: rgba(255,255,255,.14);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 14px;
+      --pad: 18px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f6f7fb;
+        --panel: rgba(0,0,0,.05);
+        --panel2: rgba(0,0,0,.08);
+        --text: rgba(0,0,0,.88);
+        --muted: rgba(0,0,0,.62);
+        --muted2: rgba(0,0,0,.46);
+        --line: rgba(0,0,0,.14);
+        --shadow: 0 18px 45px rgba(0,0,0,.12);
+      }
+    }
+
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 700px at 20% 0%, rgba(147,197,253,.18), transparent 55%),
+                  radial-gradient(900px 600px at 90% 20%, rgba(167,139,250,.16), transparent 55%),
+                  radial-gradient(900px 600px at 40% 90%, rgba(34,211,238,.10), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      overflow-x:hidden;
+    }
+
+    .wrap{ max-width: 1200px; margin: 0 auto; padding: 26px 18px 60px; }
+
+    header{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap: 18px;
+      padding: 14px 0 18px;
+    }
+    .title{
+      display:flex; flex-direction:column; gap: 10px;
+    }
+    .title h1{ margin:0; font-size: 26px; letter-spacing: .2px; }
+    .title p{ margin:0; color: var(--muted); max-width: 78ch; line-height: 1.45; }
+
+    .pillrow{ display:flex; flex-wrap:wrap; gap: 10px; align-items:center; justify-content:flex-end; }
+    .pill{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .tabs{
+      display:flex; gap: 10px; flex-wrap:wrap;
+      padding: 10px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+    }
+    .tab{
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight: 600;
+      letter-spacing: .15px;
+      transition: transform .12s ease, background .15s ease, color .15s ease;
+    }
+    .tab:hover{ transform: translateY(-1px); color: var(--text); }
+    .tab[aria-selected="true"]{
+      background: var(--panel2);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    section{ display:none; margin-top: 18px; }
+    section.active{ display:block; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 12;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+    }
+    @media (min-width: 900px){
+      .card{ grid-column: span 4; }
+    }
+
+    .cardHeader{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      padding: var(--pad);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(to bottom, rgba(255,255,255,.06), rgba(255,255,255,0));
+    }
+    .cardHeader h3{ margin: 0 0 6px; font-size: 16px; }
+    .cardHeader p{ margin:0; font-size: 12px; color: var(--muted); line-height: 1.35; }
+
+    .btn{
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight: 650;
+      font-size: 12px;
+      transition: transform .12s ease, background .15s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); background: var(--panel2); }
+    .btn:active{ transform: translateY(0px); }
+
+    .viz{
+      height: 280px;
+      position: relative;
+      padding: 12px 12px 0;
+    }
+    .viz canvas, .viz svg{
+      width: 100%; height: 100%;
+      display:block;
+      border-radius: var(--radius2);
+      background: rgba(0,0,0,.10);
+      border: 1px solid var(--line);
+    }
+
+    .controls{
+      padding: 12px var(--pad) 16px;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .controlsLeft{ display:flex; gap: 10px; align-items:center; }
+
+    .toggleGroup{
+      display:flex;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 999px;
+      overflow:hidden;
+    }
+    .toggleGroup button{
+      border:0;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .toggleGroup button.active{
+      color: var(--text);
+      background: var(--panel2);
+    }
+
+    input[type="range"]{
+      width: 220px;
+      accent-color: #a78bfa;
+    }
+
+    .tiny{ font-size: 12px; color: var(--muted2); }
+
+    .metrics{
+      position:absolute;
+      inset: 0;
+      padding: 16px;
+      background: rgba(10,14,28,.92);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius);
+      display:none;
+    }
+    @media (prefers-color-scheme: light){
+      .metrics{ background: rgba(246,247,251,.94); }
+    }
+    .metrics.show{ display:block; }
+    .metrics h4{ margin: 0 0 8px; font-size: 14px; }
+    .metrics ul{ margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.45; }
+    .metrics li{ margin: 6px 0; }
+    .metrics .closeRow{ display:flex; justify-content:flex-end; margin-top: 10px; }
+
+    .tooltip{
+      position:fixed;
+      z-index: 9999;
+      pointer-events:none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.78);
+      color: rgba(255,255,255,.95);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 15px 40px rgba(0,0,0,.35);
+      font-size: 12px;
+      max-width: 320px;
+      transform: translate(-50%, calc(-100% - 12px));
+      display:none;
+      white-space: pre-line;
+    }
+
+    footer{
+      margin-top: 18px;
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.5;
+      padding: 10px 0 0;
+    }
+    footer strong{ color: var(--muted); }
+
+    .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; padding: 2px 6px; border-radius: 8px; border:1px solid var(--line); background: var(--panel); color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>How AI is transforming work (Anthropic) — 3 patterns × 3 animated charts</h1>
+        <p>
+          Each chart is a <strong>before → after</strong> story you can scrub with a slider (or hit play), using
+          <strong>realistic synthetic data</strong> constrained by the article’s numbers.
+          Tip: hover charts for tooltips; open <span class="kbd">Metrics</span> for what each visualization measures.
+        </p>
+      </div>
+      <div class="pillrow" aria-label="Key anchors from the article">
+        <div class="pill">AI use: 28% → 59% (12 months)</div>
+        <div class="pill">Self‑reported productivity: +20% → +50%</div>
+        <div class="pill">“New work”: 27% of AI‑assisted work</div>
+        <div class="pill">Papercut fixes: 8.6% of tasks</div>
+        <div class="pill">Autonomy: 9.8 → 21.2 tool calls</div>
+        <div class="pill">Less steering: 6.2 → 4.1 human turns</div>
+      </div>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Productivity patterns">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="tab-fullstack" id="tabbtn-fullstack">1) More full‑stack</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-learning" id="tabbtn-learning">2) Faster learning / iteration</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-neglected" id="tabbtn-neglected">3) Neglected work gets done</button>
+    </nav>
+
+    <section id="tab-fullstack" class="active" role="tabpanel" aria-labelledby="tabbtn-fullstack">
+      <div class="grid">
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>Work spreads beyond your “home lane”</h3>
+              <p>Before: concentrated by role. After: more cross‑domain output.</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><svg data-viz="fs-bars" viewBox="0 0 800 420" preserveAspectRatio="none"></svg></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">Before</button>
+                <button data-set="1">After</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metric:</strong> task mix by team across 6 domains (Debug, Understand, New Features, Front‑end, Data, Plan).</li>
+              <li><strong>Signal:</strong> “full‑stack” shows up as <em>more diverse</em> mixes (less single‑color dominance).</li>
+              <li><strong>Anchors:</strong> the “after” mixes are constrained by article examples:
+                Security heavy in <em>Code understanding</em> (~48.9%), Non‑technical heavy in <em>Debugging</em> (~51.5%) and some <em>Data</em> (~12.7%),
+                Pre‑training heavy in <em>New features</em> (~54.6%), Alignment & Safety relatively more <em>Front‑end</em> (~7.5%).</li>
+              <li><strong>Synthetic choices:</strong> “before” is more concentrated into the team’s core domain(s) with less cross‑domain work.</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>Full‑stack is a denser “domain graph”</h3>
+              <p>Nodes are domains. Links = same engineer used multiple domains that week.</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><canvas data-viz="fs-network"></canvas></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">Before</button>
+                <button data-set="1">After</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metric:</strong> co‑occurrence network between domains (Front‑end, Back‑end, Infra/DevOps, Data, Security, Docs/Tests).</li>
+              <li><strong>Signal:</strong> more full‑stack work ⇒ more cross‑domain co‑occurrence ⇒ denser graph.</li>
+              <li><strong>Anchors:</strong> article examples of teams using Claude outside core expertise (e.g. researchers building front‑end visualizations; non‑technical employees troubleshooting Git/network and doing data science).</li>
+              <li><strong>Synthetic choices:</strong> density is driven by a higher mean “domains touched per engineer per month” after AI (see next chart).</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>Distribution shift: “domains touched” per engineer</h3>
+              <p>More people touch 3–5 domains/month (not just 1–2).</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><svg data-viz="fs-hist" viewBox="0 0 800 420" preserveAspectRatio="none"></svg></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">Before</button>
+                <button data-set="1">After</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metric:</strong> per engineer, the count of distinct domains they contributed to in a month.</li>
+              <li><strong>Signal:</strong> a rightward shift implies broader capability coverage (“more full‑stack”).</li>
+              <li><strong>Anchors:</strong> article repeatedly reports breadth expansion + examples like backend engineers shipping UI work with Claude.</li>
+              <li><strong>Synthetic choices:</strong> 132 engineers; before mean ≈ 1.9 domains/month; after mean ≈ 3.4 (with a longer tail).</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-learning" role="tabpanel" aria-labelledby="tabbtn-learning">
+      <div class="grid">
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>Feedback loop spinner</h3>
+              <p>Same loop; shorter cycle time ⇒ more iterations/day.</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><canvas data-viz="lr-loop"></canvas></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">Before</button>
+                <button data-set="1">After</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metric:</strong> “iteration cycle time” (idea → working change → verification).</li>
+              <li><strong>Signal:</strong> after AI, the loop runs faster (more feedback cycles/day).</li>
+              <li><strong>Anchors:</strong> interview quote: a “couple week process” compressing into “a couple hour working session”.</li>
+              <li><strong>Synthetic choices:</strong> before median cycle ≈ 2.5 days; after median ≈ 0.75 days (with visible outliers).</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>Less steering, more autonomy</h3>
+              <p>Feb → Aug: tool-call streaks up; human turns down; complexity up.</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><svg data-viz="lr-lines" viewBox="0 0 800 420" preserveAspectRatio="none"></svg></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">Feb 2025</button>
+                <button data-set="1">Aug 2025</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metrics (from article):</strong> task complexity 3.2 → 3.8, max consecutive tool calls 9.8 → 21.2, human turns 6.2 → 4.1.</li>
+              <li><strong>Signal:</strong> higher autonomy and fewer interruptions typically compress iteration time.</li>
+              <li><strong>Interaction:</strong> scrub to watch all three traces morph together.</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>Time vs Output: the “more volume” story</h3>
+              <p>Most tasks: a little less time, a lot more output.</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><canvas data-viz="lr-scatter"></canvas></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">No AI</button>
+                <button data-set="1">With AI</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metric:</strong> per task category, % change in time spent (x) vs % change in output volume (y).</li>
+              <li><strong>Signal:</strong> points drifting up (more output) and slightly left (less time) indicates tighter feedback loops.</li>
+              <li><strong>Anchors:</strong> matches the article’s Figure 2 narrative: time savings are modest/variable; output increases are broad and larger.</li>
+              <li><strong>Synthetic choices:</strong> includes a cluster of “time increased” tasks (debugging/cleanup) to reflect the reported bimodality.</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-neglected" role="tabpanel" aria-labelledby="tabbtn-neglected">
+      <div class="grid">
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>The “long tail” becomes worth doing</h3>
+              <p>Lower activation energy drops the ROI cutoff ⇒ more tasks get done.</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><svg data-viz="nw-longtail" viewBox="0 0 800 420" preserveAspectRatio="none"></svg></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">Before</button>
+                <button data-set="1">After</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metric:</strong> tasks sorted by estimated ROI; a cutoff line shows what gets prioritized.</li>
+              <li><strong>Signal:</strong> AI lowers the “activation energy” / cost, so the ROI cutoff drops and the long tail becomes doable.</li>
+              <li><strong>Anchors:</strong> article reports <strong>27%</strong> of Claude‑assisted work “wouldn’t have been done otherwise”.</li>
+              <li><strong>Synthetic choices:</strong> the cutoff is calibrated so that newly‑doable tasks are ~27% of AI‑assisted work in the after state.</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>Papercuts add up</h3>
+              <p>Small fixes compound into a smoother day.</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><canvas data-viz="nw-papercuts"></canvas></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">Before</button>
+                <button data-set="1">After</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metric:</strong> cumulative “papercut fixes” over a year (weekly). Dots are weeks.</li>
+              <li><strong>Signal:</strong> a steeper slope indicates more quality‑of‑life work getting done.</li>
+              <li><strong>Anchors:</strong> article reports ~<strong>8.6%</strong> of Claude Code tasks are papercut fixes.</li>
+              <li><strong>Synthetic choices:</strong> after state reallocates a small slice of capacity into papercuts, producing a visibly compounding curve.</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+
+        <div class="card" data-card>
+          <div class="cardHeader">
+            <div>
+              <h3>Waffle mix: faster + new work</h3>
+              <p>Tiles flip as AI assistance rises; some tiles appear that didn’t exist before.</p>
+            </div>
+            <button class="btn" data-metrics-open>Metrics</button>
+          </div>
+          <div class="viz"><canvas data-viz="nw-waffle"></canvas></div>
+          <div class="controls">
+            <div class="controlsLeft">
+              <div class="toggleGroup" data-toggle>
+                <button data-set="0" class="active">12 mo ago</button>
+                <button data-set="1">Now</button>
+              </div>
+              <button class="btn" data-play>▶ Play</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input data-scrub type="range" min="0" max="100" value="0" />
+              <span class="tiny" data-scrub-label>0%</span>
+            </div>
+          </div>
+
+          <div class="metrics" data-metrics>
+            <h4>What this chart measures</h4>
+            <ul>
+              <li><strong>Metric:</strong> 100 tiles represent “work capacity”. Tiles can be human‑only, AI‑assisted, or “new work”.</li>
+              <li><strong>Anchors:</strong> AI use 28% → 59% and “new work” is 27% of AI‑assisted work.</li>
+              <li><strong>Signal:</strong> AI isn’t just re‑coloring tiles; it also unlocks extra tiles (“wouldn’t have been done”).</li>
+              <li><strong>Synthetic choices:</strong> maps self‑reported productivity + output‑volume increase into a small “effective capacity” uplift.</li>
+            </ul>
+            <div class="closeRow"><button class="btn" data-metrics-close>Close</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        <strong>Note on data realism:</strong> The article provides a handful of concrete numbers (usage %, productivity %, autonomy metrics, papercut %, and “new work” %).
+        Everything else here is <em>synthetic</em> but is generated to be <em>consistent with those constraints</em> and the qualitative stories (bimodal time savings, broader skill coverage, tighter loops).
+      </p>
+    </footer>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+
+  <script>
+    // -----------------------------
+    // Utilities
+    // -----------------------------
+    const clamp = (x, a=0, b=1) => Math.max(a, Math.min(b, x));
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const smooth = (t) => t*t*(3-2*t);
+
+    // Deterministic RNG for "realistic synthetic" data.
+    function mulberry32(seed){
+      let t = seed >>> 0;
+      return function(){
+        t += 0x6D2B79F5;
+        let r = Math.imul(t ^ (t >>> 15), 1 | t);
+        r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+        return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function fmtPct(x){ return `${Math.round(x)}%`; }
+    function fmt1(x){ return (Math.round(x*10)/10).toFixed(1); }
+
+    // A tiny color helper (no fixed palette demands, but we keep it stable + accessible).
+    function withAlpha(rgb, a){
+      // rgb like [r,g,b]
+      return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
+    }
+
+    const UI = {
+      bgStroke: getComputedStyle(document.documentElement).getPropertyValue('--line').trim() || 'rgba(255,255,255,.14)',
+      muted: getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || 'rgba(255,255,255,.65)',
+      text: getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || 'rgba(255,255,255,.92)',
+      panel2: getComputedStyle(document.documentElement).getPropertyValue('--panel2').trim() || 'rgba(255,255,255,.09)',
+    };
+
+    // Tooltip
+    const tooltip = document.getElementById('tooltip');
+    function showTip(x, y, text){
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+      tooltip.textContent = text;
+      tooltip.style.display = 'block';
+    }
+    function hideTip(){ tooltip.style.display = 'none'; }
+
+    // High-DPI canvas helper
+    function fitCanvas(canvas){
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(2, Math.floor(rect.width * dpr));
+      const h = Math.max(2, Math.floor(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h){
+        canvas.width = w;
+        canvas.height = h;
+      }
+      return { w, h, dpr };
+    }
+
+    // Tweening helper
+    function tweenTo(obj, key, target, ms=650){
+      const start = performance.now();
+      const from = obj[key];
+      const dur = Math.max(1, ms);
+      obj._tweening = true;
+      function step(now){
+        const t = clamp((now - start) / dur);
+        obj[key] = lerp(from, target, smooth(t));
+        obj.render?.();
+        if (t < 1) requestAnimationFrame(step);
+        else obj._tweening = false;
+      }
+      requestAnimationFrame(step);
+    }
+
+    // -----------------------------
+    // Synthetic data (anchored to article)
+    // -----------------------------
+    const rng = mulberry32(20251203);
+
+    // 132 engineers, per article.
+    const N_ENGINEERS = 132;
+    const domains = [
+      { key:'frontend', label:'Front‑end', rgb:[147,197,253] },
+      { key:'backend', label:'Back‑end', rgb:[167,139,250] },
+      { key:'infra', label:'Infra/DevOps', rgb:[34,211,238] },
+      { key:'data', label:'Data', rgb:[251,191,36] },
+      { key:'security', label:'Security', rgb:[248,113,113] },
+      { key:'docs', label:'Docs/Tests', rgb:[163,230,53] },
+    ];
+
+    // Team mixes (for stacked bars). After constrained by specific figures mentioned.
+    const teams = [
+      { key:'securityTeam', label:'Security', after:{ debug: 18, understand: 49, features: 18, frontend: 4, data: 4, plan: 7 } },
+      { key:'alignSafety', label:'Alignment & Safety', after:{ debug: 22, understand: 20, features: 35, frontend: 8, data: 9, plan: 6 } },
+      { key:'pretraining', label:'Pre‑training', after:{ debug: 16, understand: 14, features: 55, frontend: 4, data: 7, plan: 4 } },
+      { key:'infraTeam', label:'Infrastructure', after:{ debug: 28, understand: 20, features: 30, frontend: 4, data: 6, plan: 12 } },
+      { key:'nontech', label:'Non‑technical', after:{ debug: 52, understand: 18, features: 12, frontend: 2, data: 13, plan: 3 } },
+    ];
+
+    // "Before" mixes: more concentrated into a couple of categories per team (synthetic but plausible).
+    const teamBefore = {
+      securityTeam:   { debug: 22, understand: 62, features: 10, frontend: 1, data: 1, plan: 4 },
+      alignSafety:    { debug: 18, understand: 28, features: 38, frontend: 3, data: 9, plan: 4 },
+      pretraining:    { debug: 14, understand: 16, features: 62, frontend: 1, data: 4, plan: 3 },
+      infraTeam:      { debug: 34, understand: 22, features: 28, frontend: 1, data: 2, plan: 13 },
+      nontech:        { debug: 66, understand: 20, features: 6,  frontend: 1, data: 5, plan: 2 },
+    };
+
+    const taskCats = [
+      { key:'debug', label:'Debug', rgb:[248,113,113] },
+      { key:'understand', label:'Understand', rgb:[147,197,253] },
+      { key:'features', label:'New features', rgb:[167,139,250] },
+      { key:'frontend', label:'Front‑end', rgb:[34,211,238] },
+      { key:'data', label:'Data', rgb:[251,191,36] },
+      { key:'plan', label:'Plan', rgb:[163,230,53] },
+    ];
+
+    // Engineer "domains touched" distribution: synthetic but consistent with narrative.
+    function sampleDomainsTouched(mean){
+      // Poisson-ish with a cap and a long tail.
+      let k = 0;
+      const L = Math.exp(-mean);
+      let p = 1;
+      do { k++; p *= rng(); } while (p > L);
+      k = k - 1;
+      // Tail bump
+      if (rng() < 0.06) k += 2;
+      return clamp(k+1, 1, 6);
+    }
+    const domainsTouchedBefore = Array.from({length:N_ENGINEERS}, () => sampleDomainsTouched(1.0));
+    const domainsTouchedAfter  = Array.from({length:N_ENGINEERS}, () => sampleDomainsTouched(2.1));
+
+    // Learning metrics over time: Feb→Aug (article), plus interpolated months.
+    const months = ['Feb','Mar','Apr','May','Jun','Jul','Aug'];
+    const series = months.map((m, i) => {
+      const t = i/(months.length-1);
+      // anchored endpoints
+      const toolCalls = lerp(9.8, 21.2, smooth(t));
+      const humanTurns = lerp(6.2, 4.1, smooth(t));
+      const complexity = lerp(3.2, 3.8, smooth(t));
+      return { m, t, toolCalls, humanTurns, complexity };
+    });
+
+    // Scatter data (time vs output): synthetic but reflecting bimodal time savings + broad output gains.
+    const taskScatter = [
+      { name:'Debugging', base:{time: 0, out: 0}, ai:{time: +8, out: +55} },
+      { name:'Code understanding', base:{time: 0, out: 0}, ai:{time: -6, out: +62} },
+      { name:'Implement features', base:{time: 0, out: 0}, ai:{time: -4, out: +78} },
+      { name:'Refactoring', base:{time: 0, out: 0}, ai:{time: -3, out: +48} },
+      { name:'Docs / tests', base:{time: 0, out: 0}, ai:{time: -5, out: +58} },
+      { name:'Data viz / DS', base:{time: 0, out: 0}, ai:{time: -2, out: +44} },
+      { name:'Front‑end', base:{time: 0, out: 0}, ai:{time: +2, out: +36} },
+      { name:'Design / planning', base:{time: 0, out: 0}, ai:{time: +1, out: +18} },
+    ].map(d => {
+      // add tiny jitter (stable)
+      const jx = (rng()-.5)*2.4;
+      const jy = (rng()-.5)*3.0;
+      return {
+        name: d.name,
+        base: d.base,
+        ai: { time: d.ai.time + jx, out: d.ai.out + jy }
+      };
+    });
+
+    // Neglected work: long-tail tasks with ROI. AI lowers threshold.
+    const longTailTasks = Array.from({length: 46}, (_, i) => {
+      // ROI descending with noise.
+      const roi = Math.max(2, 100 - i*2.0 + (rng()-.5)*8);
+      // cost to do manually vs with AI.
+      const costBefore = 40 + i*0.9 + (rng()-.5)*6;
+      const costAfter  = costBefore * lerp(0.55, 0.35, clamp(i/45));
+      return { i, roi, costBefore, costAfter };
+    }).sort((a,b) => b.roi - a.roi);
+
+    // Papercuts: weekly count, year-long.
+    const weeks = Array.from({length: 52}, (_, i) => i);
+    const papercutsBefore = weeks.map(i => Math.max(0, Math.round(4 + rng()*3 + (Math.sin(i/6)*0.8))));
+    const papercutsAfter  = weeks.map(i => Math.max(0, Math.round(8 + rng()*6 + (Math.sin(i/7)*1.3))));
+
+    // Waffle: capacity tiles; map article anchors.
+    const waffle = {
+      beforeUse: 28, // % work using Claude 12 months ago
+      afterUse: 59,  // % work using Claude now
+      // new work share: 27% of AI-assisted work
+      newShareOfAI: 27,
+    };
+
+    // -----------------------------
+    // Chart base
+    // -----------------------------
+    class CardController{
+      constructor(cardEl, chart){
+        this.card = cardEl;
+        this.chart = chart;
+        this.progress = 0; // 0..1
+        this.playing = false;
+        this.dir = 1;
+
+        this.toggle = cardEl.querySelector('[data-toggle]');
+        this.buttons = [...this.toggle.querySelectorAll('button')];
+        this.scrub = cardEl.querySelector('[data-scrub]');
+        this.scrubLabel = cardEl.querySelector('[data-scrub-label]');
+        this.playBtn = cardEl.querySelector('[data-play]');
+
+        this.metrics = cardEl.querySelector('[data-metrics]');
+        const openBtn = cardEl.querySelector('[data-metrics-open]');
+        const closeBtn = cardEl.querySelector('[data-metrics-close]');
+
+        openBtn?.addEventListener('click', () => this.metrics.classList.add('show'));
+        closeBtn?.addEventListener('click', () => this.metrics.classList.remove('show'));
+
+        this.buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            this.buttons.forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            const target = Number(btn.dataset.set);
+            this.setProgress(target, true);
+          });
+        });
+
+        this.scrub.addEventListener('input', () => {
+          this.stop();
+          const v = Number(this.scrub.value)/100;
+          this.setProgress(v, false);
+        });
+
+        this.playBtn.addEventListener('click', () => {
+          this.playing ? this.stop() : this.play();
+        });
+
+        // initial
+        this.setProgress(0, false);
+      }
+
+      setProgress(p, animate){
+        p = clamp(p);
+        if (animate){
+          tweenTo(this, 'progress', p, 650);
+        } else {
+          this.progress = p;
+          this.render();
+        }
+        // sync UI
+        this.scrub.value = String(Math.round(this.progress*100));
+        this.scrubLabel.textContent = fmtPct(this.progress*100);
+        // toggle highlight if close to ends
+        if (this.progress < 0.02){
+          this.buttons.forEach(b=>b.classList.remove('active'));
+          this.buttons.find(b=>Number(b.dataset.set)===0)?.classList.add('active');
+        } else if (this.progress > 0.98){
+          this.buttons.forEach(b=>b.classList.remove('active'));
+          this.buttons.find(b=>Number(b.dataset.set)===1)?.classList.add('active');
+        }
+      }
+
+      render(){
+        this.chart.setProgress(this.progress);
+        this.chart.render();
+      }
+
+      play(){
+        this.playing = true;
+        this.playBtn.textContent = '⏸ Pause';
+      }
+
+      stop(){
+        this.playing = false;
+        this.playBtn.textContent = '▶ Play';
+      }
+
+      tick(dt){
+        if (!this.playing) return;
+        // Ping-pong
+        const speed = 0.22; // per second
+        this.progress += this.dir * speed * dt;
+        if (this.progress >= 1){ this.progress = 1; this.dir = -1; }
+        if (this.progress <= 0){ this.progress = 0; this.dir = 1; }
+        this.scrub.value = String(Math.round(this.progress*100));
+        this.scrubLabel.textContent = fmtPct(this.progress*100);
+        this.render();
+      }
+    }
+
+    // -----------------------------
+    // Chart 1: Full-stack stacked bars (SVG)
+    // -----------------------------
+    class StackedBarsSVG{
+      constructor(svg){
+        this.svg = svg;
+        this.p = 0;
+        this._rects = [];
+        this._labels = [];
+        this._hit = [];
+
+        this.svg.addEventListener('mousemove', (e) => this.onMove(e));
+        this.svg.addEventListener('mouseleave', () => hideTip());
+
+        this.build();
+      }
+
+      setProgress(p){ this.p = clamp(p); }
+
+      build(){
+        const svg = this.svg;
+        svg.innerHTML = '';
+        const W = 800, H = 420;
+        const padL = 140, padR = 28, padT = 26, padB = 40;
+        const rowH = 58;
+        const barH = 22;
+
+        const title = document.createElementNS('http://www.w3.org/2000/svg','text');
+        title.setAttribute('x', padL);
+        title.setAttribute('y', 18);
+        title.setAttribute('fill', UI.muted);
+        title.setAttribute('font-size', '12');
+        title.textContent = 'Hover a segment →';
+        svg.appendChild(title);
+
+        // gridline background
+        for (let i=0;i<=4;i++){
+          const x = lerp(padL, W-padR, i/4);
+          const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+          line.setAttribute('x1', x);
+          line.setAttribute('x2', x);
+          line.setAttribute('y1', padT);
+          line.setAttribute('y2', H-padB);
+          line.setAttribute('stroke', UI.bgStroke);
+          line.setAttribute('stroke-width', '1');
+          line.setAttribute('opacity', '0.55');
+          svg.appendChild(line);
+
+          const tick = document.createElementNS('http://www.w3.org/2000/svg','text');
+          tick.setAttribute('x', x);
+          tick.setAttribute('y', H-16);
+          tick.setAttribute('fill', UI.muted2);
+          tick.setAttribute('font-size', '11');
+          tick.setAttribute('text-anchor', i===0?'start':(i===4?'end':'middle'));
+          tick.textContent = `${i*25}%`;
+          svg.appendChild(tick);
+        }
+
+        teams.forEach((t, row) => {
+          const y = padT + row*rowH + 18;
+
+          const name = document.createElementNS('http://www.w3.org/2000/svg','text');
+          name.setAttribute('x', 18);
+          name.setAttribute('y', y+3);
+          name.setAttribute('fill', UI.text);
+          name.setAttribute('font-size', '13');
+          name.setAttribute('font-weight', '700');
+          name.textContent = t.label;
+          svg.appendChild(name);
+
+          const barY = y + 12;
+          const barX = padL;
+          const barW = W - padL - padR;
+
+          // Outline
+          const outline = document.createElementNS('http://www.w3.org/2000/svg','rect');
+          outline.setAttribute('x', barX);
+          outline.setAttribute('y', barY);
+          outline.setAttribute('width', barW);
+          outline.setAttribute('height', barH);
+          outline.setAttribute('rx', 10);
+          outline.setAttribute('fill', 'rgba(0,0,0,0)');
+          outline.setAttribute('stroke', UI.bgStroke);
+          outline.setAttribute('opacity', '0.75');
+          svg.appendChild(outline);
+
+          // segments
+          let acc = 0;
+          taskCats.forEach(cat => {
+            const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+            r.setAttribute('x', barX);
+            r.setAttribute('y', barY);
+            r.setAttribute('height', barH);
+            r.setAttribute('rx', 10);
+            r.setAttribute('fill', withAlpha(cat.rgb, 0.78));
+            r.setAttribute('stroke', 'rgba(255,255,255,.10)');
+            r.setAttribute('stroke-width', '1');
+            r.style.cursor = 'help';
+            svg.appendChild(r);
+            this._rects.push({ el:r, team:t.key, cat:cat.key, row, baseAcc: acc, barX, barY, barW, barH });
+
+            // Hit target (invisible, for easier hover)
+            const hit = document.createElementNS('http://www.w3.org/2000/svg','rect');
+            hit.setAttribute('x', barX);
+            hit.setAttribute('y', barY);
+            hit.setAttribute('height', barH);
+            hit.setAttribute('fill', 'rgba(0,0,0,0)');
+            hit.style.cursor = 'help';
+            svg.appendChild(hit);
+            this._hit.push({ el: hit, ref: this._rects[this._rects.length-1] });
+
+            acc += 1; // placeholder; real acc in render
+          });
+
+          // Legend-ish micro-labels
+          const mini = document.createElementNS('http://www.w3.org/2000/svg','text');
+          mini.setAttribute('x', padL);
+          mini.setAttribute('y', y+48);
+          mini.setAttribute('fill', UI.muted2);
+          mini.setAttribute('font-size', '11');
+          mini.textContent = 'Debug · Understand · New · FE · Data · Plan';
+          svg.appendChild(mini);
+        });
+
+        this.render();
+      }
+
+      getMix(teamKey){
+        const t = teams.find(x=>x.key===teamKey);
+        const b = teamBefore[teamKey];
+        const a = t.after;
+        const p = this.p;
+        const mix = {};
+        taskCats.forEach(cat => {
+          mix[cat.key] = lerp(b[cat.key], a[cat.key], smooth(p));
+        });
+        // normalize to 100
+        const sum = taskCats.reduce((s,cat)=>s+mix[cat.key],0);
+        taskCats.forEach(cat => mix[cat.key] = mix[cat.key] * 100 / sum);
+        return mix;
+      }
+
+      render(){
+        const p = this.p;
+        // Update segment geometry.
+        const perTeamMix = new Map();
+        teams.forEach(t => perTeamMix.set(t.key, this.getMix(t.key)));
+
+        // For each team row, accumulate widths.
+        const byTeamAcc = new Map();
+        teams.forEach(t => byTeamAcc.set(t.key, 0));
+
+        // Update each rect in order (cats order is stable).
+        this._rects.forEach(r => {
+          const mix = perTeamMix.get(r.team);
+          const w = (mix[r.cat]/100) * r.barW;
+          const acc = byTeamAcc.get(r.team);
+          r.el.setAttribute('x', r.barX + acc);
+          r.el.setAttribute('width', Math.max(0.5, w));
+          // Rounded ends only at extremes (faked by rx)
+          r.el.setAttribute('rx', 10);
+          byTeamAcc.set(r.team, acc + w);
+        });
+
+        // Update hit rects
+        const byTeamAcc2 = new Map();
+        teams.forEach(t => byTeamAcc2.set(t.key, 0));
+        this._hit.forEach(h => {
+          const r = h.ref;
+          const mix = perTeamMix.get(r.team);
+          const w = (mix[r.cat]/100) * r.barW;
+          const acc = byTeamAcc2.get(r.team);
+          h.el.setAttribute('x', r.barX + acc);
+          h.el.setAttribute('width', Math.max(2, w));
+          byTeamAcc2.set(r.team, acc + w);
+        });
+      }
+
+      onMove(evt){
+        // Map event to a hit rect
+        const pt = this.svg.createSVGPoint();
+        pt.x = evt.clientX; pt.y = evt.clientY;
+        const svgP = pt.matrixTransform(this.svg.getScreenCTM().inverse());
+
+        // brute scan (small)
+        for (const h of this._hit){
+          const x = +h.el.getAttribute('x');
+          const y = +h.el.getAttribute('y');
+          const w = +h.el.getAttribute('width');
+          const hh = +h.el.getAttribute('height');
+          if (svgP.x >= x && svgP.x <= x+w && svgP.y >= y && svgP.y <= y+hh){
+            const team = teams.find(t=>t.key===h.ref.team);
+            const cat = taskCats.find(c=>c.key===h.ref.cat);
+            const mix = this.getMix(h.ref.team);
+            const msg = `${team.label}\n${cat.label}: ${fmtPct(mix[h.ref.cat])}\n(Drag slider to morph)`;
+            showTip(evt.clientX, evt.clientY, msg);
+            return;
+          }
+        }
+        hideTip();
+      }
+    }
+
+    // -----------------------------
+    // Chart 2: Full-stack domain network (Canvas)
+    // -----------------------------
+    class DomainNetworkCanvas{
+      constructor(canvas){
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.p = 0;
+        this.nodes = domains.map((d, i) => ({
+          ...d,
+          x: 0.5 + 0.2*Math.cos(i),
+          y: 0.5 + 0.2*Math.sin(i),
+          vx: 0,
+          vy: 0,
+        }));
+        this.edges = this.buildEdges();
+        this.hover = null;
+
+        canvas.addEventListener('mousemove', (e)=>this.onMove(e));
+        canvas.addEventListener('mouseleave', ()=>{ this.hover=null; hideTip(); });
+
+        this.resize();
+      }
+
+      setProgress(p){ this.p = clamp(p); }
+
+      buildEdges(){
+        // Base co-occur weights (before) and after.
+        // Start sparse; end dense.
+        const E = [];
+        for (let i=0;i<domains.length;i++){
+          for (let j=i+1;j<domains.length;j++){
+            const base = 0.08 + rng()*0.18;
+            const bump = 0.20 + rng()*0.38;
+            // Make a few especially strong after links (classic full-stack bridges)
+            const key = `${domains[i].key}-${domains[j].key}`;
+            const bridge = (key.includes('frontend') && key.includes('backend')) ||
+                           (key.includes('infra') && key.includes('backend')) ||
+                           (key.includes('docs') && key.includes('backend'));
+            const after = base + bump + (bridge ? 0.22 : 0);
+            E.push({ i, j, w0: base, w1: after });
+          }
+        }
+        return E;
+      }
+
+      resize(){
+        this.size = fitCanvas(this.canvas);
+        this.render();
+      }
+
+      tick(dt){
+        // gentle force layout that depends on progress
+        const p = this.p;
+        const cx = 0.5, cy = 0.5;
+        const kCenter = 0.08;
+        const kRepel = 0.016;
+        const kSpring = lerp(0.03, 0.055, p);
+
+        // Repel
+        for (let a=0;a<this.nodes.length;a++){
+          for (let b=a+1;b<this.nodes.length;b++){
+            const A=this.nodes[a], B=this.nodes[b];
+            const dx=A.x-B.x, dy=A.y-B.y;
+            const d2=dx*dx+dy*dy+1e-4;
+            const f=kRepel/d2;
+            A.vx += dx*f; A.vy += dy*f;
+            B.vx -= dx*f; B.vy -= dy*f;
+          }
+        }
+
+        // Springs (weighted by interpolation)
+        for (const e of this.edges){
+          const A=this.nodes[e.i], B=this.nodes[e.j];
+          const w=lerp(e.w0,e.w1,smooth(p));
+          const dx=B.x-A.x, dy=B.y-A.y;
+          const dist=Math.sqrt(dx*dx+dy*dy)+1e-5;
+          const desired = lerp(0.28, 0.18, w); // stronger edge pulls closer
+          const f = (dist - desired) * kSpring * w;
+          const fx = (dx/dist)*f;
+          const fy = (dy/dist)*f;
+          A.vx += fx; A.vy += fy;
+          B.vx -= fx; B.vy -= fy;
+        }
+
+        // Center pull + integrate
+        for (const n of this.nodes){
+          n.vx += (cx-n.x)*kCenter;
+          n.vy += (cy-n.y)*kCenter;
+          n.vx *= 0.86;
+          n.vy *= 0.86;
+          n.x += n.vx*dt;
+          n.y += n.vy*dt;
+          // bounds
+          n.x = clamp(n.x, 0.12, 0.88);
+          n.y = clamp(n.y, 0.12, 0.88);
+        }
+      }
+
+      render(){
+        const {w,h} = this.size || fitCanvas(this.canvas);
+        const ctx = this.ctx;
+        ctx.clearRect(0,0,w,h);
+
+        // Background grid
+        ctx.save();
+        ctx.globalAlpha = 0.35;
+        ctx.strokeStyle = UI.bgStroke;
+        ctx.lineWidth = 1;
+        const step = Math.round(Math.min(w,h)/8);
+        for (let x=step; x<w; x+=step){
+          ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke();
+        }
+        for (let y=step; y<h; y+=step){
+          ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+        }
+        ctx.restore();
+
+        // Title
+        ctx.save();
+        ctx.fillStyle = UI.muted;
+        ctx.font = `${Math.round(Math.min(w,h)/28)}px ui-sans-serif, system-ui`;
+        ctx.fillText('Domains co‑occur more often → graph densifies', 16, 26);
+        ctx.restore();
+
+        // Edges
+        for (const e of this.edges){
+          const A=this.nodes[e.i], B=this.nodes[e.j];
+          const wgt = lerp(e.w0, e.w1, smooth(this.p));
+          const ax=A.x*w, ay=A.y*h;
+          const bx=B.x*w, by=B.y*h;
+          ctx.save();
+          ctx.globalAlpha = 0.10 + 0.35*wgt;
+          ctx.strokeStyle = 'rgba(255,255,255,.55)';
+          ctx.lineWidth = 1 + 3.2*wgt;
+          ctx.beginPath();
+          ctx.moveTo(ax,ay);
+          ctx.lineTo(bx,by);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Nodes
+        for (const n of this.nodes){
+          const x=n.x*w, y=n.y*h;
+          const r = 10 + 10*(this.p);
+          const hover = this.hover && this.hover.key===n.key;
+
+          ctx.save();
+          ctx.shadowColor = 'rgba(0,0,0,.35)';
+          ctx.shadowBlur = hover ? 18 : 10;
+          ctx.fillStyle = withAlpha(n.rgb, hover ? 0.95 : 0.82);
+          ctx.beginPath();
+          ctx.arc(x,y,r,0,Math.PI*2);
+          ctx.fill();
+          ctx.restore();
+
+          ctx.save();
+          ctx.fillStyle = UI.text;
+          ctx.font = `700 ${Math.round(Math.min(w,h)/26)}px ui-sans-serif, system-ui`;
+          ctx.textAlign = 'center';
+          ctx.fillText(n.label, x, y - r - 10);
+          ctx.restore();
+        }
+      }
+
+      onMove(evt){
+        const rect = this.canvas.getBoundingClientRect();
+        const mx = evt.clientX - rect.left;
+        const my = evt.clientY - rect.top;
+        const {w,h,dpr} = this.size;
+        const x = mx*dpr, y=my*dpr;
+
+        let best=null;
+        for (const n of this.nodes){
+          const nx=n.x*w, ny=n.y*h;
+          const r=14 + 10*(this.p);
+          const dx=x-nx, dy=y-ny;
+          if (dx*dx+dy*dy <= r*r){
+            best = n;
+            break;
+          }
+        }
+        this.hover = best;
+        if (best){
+          // Summarize density: average link weight from this node.
+          const wts = this.edges
+            .filter(e=> e.i===domains.findIndex(d=>d.key===best.key) || e.j===domains.findIndex(d=>d.key===best.key))
+            .map(e=> lerp(e.w0, e.w1, smooth(this.p)));
+          const avg = wts.reduce((s,x)=>s+x,0)/wts.length;
+          showTip(evt.clientX, evt.clientY,
+            `${best.label}\nCross‑domain coupling: ${fmtPct(avg*100)}\n(denser → more full‑stack)`);
+        } else hideTip();
+        this.render();
+      }
+    }
+
+    // -----------------------------
+    // Chart 3: Domains touched histogram (SVG)
+    // -----------------------------
+    class HistogramSVG{
+      constructor(svg){
+        this.svg = svg;
+        this.p = 0;
+        this.bins = [1,2,3,4,5,6];
+        this.rects = [];
+        this.build();
+        svg.addEventListener('mousemove', (e)=>this.onMove(e));
+        svg.addEventListener('mouseleave', ()=>hideTip());
+      }
+      setProgress(p){ this.p = clamp(p); }
+
+      counts(arr){
+        const c = new Map(this.bins.map(b=>[b,0]));
+        for (const v of arr) c.set(v, (c.get(v)||0)+1);
+        return this.bins.map(b=>c.get(b)||0);
+      }
+
+      build(){
+        this.svg.innerHTML='';
+        const svg=this.svg;
+        const W=800,H=420;
+        const pad={l:58,r:22,t:26,b:42};
+
+        // axis lines
+        const ax = document.createElementNS('http://www.w3.org/2000/svg','line');
+        ax.setAttribute('x1', pad.l);
+        ax.setAttribute('x2', W-pad.r);
+        ax.setAttribute('y1', H-pad.b);
+        ax.setAttribute('y2', H-pad.b);
+        ax.setAttribute('stroke', UI.bgStroke);
+        ax.setAttribute('stroke-width','1.2');
+        svg.appendChild(ax);
+
+        const ay = document.createElementNS('http://www.w3.org/2000/svg','line');
+        ay.setAttribute('x1', pad.l);
+        ay.setAttribute('x2', pad.l);
+        ay.setAttribute('y1', pad.t);
+        ay.setAttribute('y2', H-pad.b);
+        ay.setAttribute('stroke', UI.bgStroke);
+        ay.setAttribute('stroke-width','1.2');
+        svg.appendChild(ay);
+
+        // labels
+        const tl = document.createElementNS('http://www.w3.org/2000/svg','text');
+        tl.setAttribute('x', pad.l);
+        tl.setAttribute('y', 18);
+        tl.setAttribute('fill', UI.muted);
+        tl.setAttribute('font-size','12');
+        tl.textContent='Domains touched per month (132 engineers)';
+        svg.appendChild(tl);
+
+        // bars
+        const barAreaW = W - pad.l - pad.r;
+        const barW = barAreaW / this.bins.length;
+
+        for (let i=0;i<this.bins.length;i++){
+          const x = pad.l + i*barW + 10;
+          const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+          r.setAttribute('x', x);
+          r.setAttribute('y', H-pad.b);
+          r.setAttribute('width', barW-20);
+          r.setAttribute('height', 0);
+          r.setAttribute('rx', 12);
+          r.setAttribute('fill', withAlpha([167,139,250], 0.78));
+          r.setAttribute('stroke', 'rgba(255,255,255,.12)');
+          r.style.cursor='help';
+          svg.appendChild(r);
+          this.rects.push({ el:r, bin:this.bins[i], x, w:barW-20, pad, W, H });
+
+          const xt = document.createElementNS('http://www.w3.org/2000/svg','text');
+          xt.setAttribute('x', x + (barW-20)/2);
+          xt.setAttribute('y', H-16);
+          xt.setAttribute('fill', UI.muted2);
+          xt.setAttribute('font-size','11');
+          xt.setAttribute('text-anchor','middle');
+          xt.textContent = String(this.bins[i]);
+          svg.appendChild(xt);
+        }
+
+        const xlab = document.createElementNS('http://www.w3.org/2000/svg','text');
+        xlab.setAttribute('x', pad.l + barAreaW/2);
+        xlab.setAttribute('y', H-4);
+        xlab.setAttribute('fill', UI.muted2);
+        xlab.setAttribute('font-size','11');
+        xlab.setAttribute('text-anchor','middle');
+        xlab.textContent='# distinct domains in a month';
+        svg.appendChild(xlab);
+
+        this.render();
+      }
+
+      render(){
+        const beforeC = this.counts(domainsTouchedBefore);
+        const afterC  = this.counts(domainsTouchedAfter);
+        const p = smooth(this.p);
+        const counts = beforeC.map((c,i)=>lerp(c, afterC[i], p));
+        const maxC = Math.max(...counts);
+
+        this.rects.forEach((r,i)=>{
+          const H = r.H;
+          const pad = r.pad;
+          const plotH = H - pad.t - pad.b;
+          const h = (counts[i]/maxC) * (plotH*0.92);
+          r.el.setAttribute('y', H-pad.b - h);
+          r.el.setAttribute('height', h);
+          // slight color shift with p
+          r.el.setAttribute('fill', withAlpha([167,139,250], 0.55 + 0.35*p));
+        });
+      }
+
+      onMove(evt){
+        const pt = this.svg.createSVGPoint();
+        pt.x = evt.clientX; pt.y = evt.clientY;
+        const p = pt.matrixTransform(this.svg.getScreenCTM().inverse());
+        for (const r of this.rects){
+          const x = +r.el.getAttribute('x');
+          const y = +r.el.getAttribute('y');
+          const w = +r.el.getAttribute('width');
+          const h = +r.el.getAttribute('height');
+          if (p.x>=x && p.x<=x+w && p.y>=y && p.y<=y+h){
+            const beforeC = this.counts(domainsTouchedBefore)[this.bins.indexOf(r.bin)];
+            const afterC = this.counts(domainsTouchedAfter)[this.bins.indexOf(r.bin)];
+            const curr = Math.round(lerp(beforeC, afterC, smooth(this.p)));
+            showTip(evt.clientX, evt.clientY,
+              `${r.bin} domains/month\nBefore: ${beforeC} engineers\nAfter: ${afterC} engineers\nNow (scrubbed): ${curr}`);
+            return;
+          }
+        }
+        hideTip();
+      }
+    }
+
+    // -----------------------------
+    // Learning chart 1: Feedback loop spinner (Canvas)
+    // -----------------------------
+    class FeedbackLoopCanvas{
+      constructor(canvas){
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.p = 0;
+        this.phase = 0;
+        this.hover = null;
+        this.resize();
+        canvas.addEventListener('mousemove', (e)=>this.onMove(e));
+        canvas.addEventListener('mouseleave', ()=>{ this.hover=null; hideTip(); });
+      }
+      setProgress(p){ this.p = clamp(p); }
+      resize(){ this.size = fitCanvas(this.canvas); this.render(); }
+
+      tick(dt){
+        const p = smooth(this.p);
+        // speed up the loop after
+        const cyclesPerSec = lerp(0.18, 0.62, p);
+        this.phase = (this.phase + cyclesPerSec * dt) % 1;
+      }
+
+      render(){
+        const {w,h} = this.size || fitCanvas(this.canvas);
+        const ctx = this.ctx;
+        ctx.clearRect(0,0,w,h);
+
+        // Title
+        ctx.save();
+        ctx.fillStyle = UI.muted;
+        ctx.font = `600 ${Math.round(Math.min(w,h)/26)}px ui-sans-serif, system-ui`;
+        ctx.fillText('Same loop, tighter feedback (faster cycles)', 16, 26);
+        ctx.restore();
+
+        const cx = w*0.5, cy = h*0.55;
+        const R = Math.min(w,h)*0.28;
+        const nodes = [
+          {label:'Prompt', a: -Math.PI*0.2, rgb:[167,139,250]},
+          {label:'Code', a: Math.PI*0.55, rgb:[147,197,253]},
+          {label:'Run', a: Math.PI*1.15, rgb:[34,211,238]},
+          {label:'Review', a: Math.PI*1.85, rgb:[251,191,36]},
+        ];
+
+        // ring
+        ctx.save();
+        ctx.strokeStyle = UI.bgStroke;
+        ctx.lineWidth = 3;
+        ctx.globalAlpha = 0.65;
+        ctx.beginPath();
+        ctx.arc(cx,cy,R,0,Math.PI*2);
+        ctx.stroke();
+        ctx.restore();
+
+        // arrows (animated)
+        const p = smooth(this.p);
+        ctx.save();
+        ctx.globalAlpha = 0.25 + 0.25*p;
+        ctx.strokeStyle = 'rgba(255,255,255,.6)';
+        ctx.lineWidth = 2;
+        for (let i=0;i<18;i++){
+          const t = (i/18 + this.phase) % 1;
+          const ang = t * Math.PI*2;
+          const x1 = cx + Math.cos(ang)*R;
+          const y1 = cy + Math.sin(ang)*R;
+          const x2 = cx + Math.cos(ang+0.12)*R;
+          const y2 = cy + Math.sin(ang+0.12)*R;
+          ctx.beginPath();
+          ctx.moveTo(x1,y1);
+          ctx.lineTo(x2,y2);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // nodes
+        for (const n of nodes){
+          const x = cx + Math.cos(n.a)*R;
+          const y = cy + Math.sin(n.a)*R;
+          const hover = this.hover && this.hover.label===n.label;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0,0,0,.35)';
+          ctx.shadowBlur = hover ? 18 : 10;
+          ctx.fillStyle = withAlpha(n.rgb, hover ? 0.95 : 0.82);
+          ctx.beginPath();
+          ctx.arc(x,y, 16, 0, Math.PI*2);
+          ctx.fill();
+          ctx.restore();
+
+          ctx.save();
+          ctx.fillStyle = UI.text;
+          ctx.font = `700 ${Math.round(Math.min(w,h)/24)}px ui-sans-serif, system-ui`;
+          ctx.textAlign = 'center';
+          ctx.fillText(n.label, x, y - 22);
+          ctx.restore();
+        }
+
+        // center readout
+        const medianDays = lerp(2.5, 0.75, p);
+        const cyclesPerDay = lerp(0.8, 3.2, p);
+        ctx.save();
+        ctx.fillStyle = UI.text;
+        ctx.font = `800 ${Math.round(Math.min(w,h)/14)}px ui-sans-serif, system-ui`;
+        ctx.textAlign = 'center';
+        ctx.fillText(`${fmt1(medianDays)} days`, cx, cy+8);
+        ctx.fillStyle = UI.muted;
+        ctx.font = `650 ${Math.round(Math.min(w,h)/28)}px ui-sans-serif, system-ui`;
+        ctx.fillText('median cycle time', cx, cy+34);
+        ctx.fillStyle = UI.muted2;
+        ctx.font = `650 ${Math.round(Math.min(w,h)/30)}px ui-sans-serif, system-ui`;
+        ctx.fillText(`${fmt1(cyclesPerDay)} feedback cycles/day`, cx, cy+58);
+        ctx.restore();
+      }
+
+      onMove(evt){
+        const rect = this.canvas.getBoundingClientRect();
+        const {w,h,dpr} = this.size;
+        const mx = (evt.clientX - rect.left)*dpr;
+        const my = (evt.clientY - rect.top)*dpr;
+
+        const cx = w*0.5, cy = h*0.55;
+        const R = Math.min(w,h)*0.28;
+        const nodes = [
+          {label:'Prompt', a: -Math.PI*0.2},
+          {label:'Code', a: Math.PI*0.55},
+          {label:'Run', a: Math.PI*1.15},
+          {label:'Review', a: Math.PI*1.85},
+        ];
+        let best = null;
+        for (const n of nodes){
+          const x = cx + Math.cos(n.a)*R;
+          const y = cy + Math.sin(n.a)*R;
+          const dx = mx-x, dy=my-y;
+          if (dx*dx+dy*dy < 18*18){ best = n; break; }
+        }
+        this.hover = best;
+        if (best){
+          const p = smooth(this.p);
+          const medianDays = lerp(2.5, 0.75, p);
+          const msg = `${best.label}\nContribution to loop speed: ${fmtPct((20 + 70*p))}\nCurrent median cycle: ${fmt1(medianDays)} days`;
+          showTip(evt.clientX, evt.clientY, msg);
+        } else hideTip();
+      }
+    }
+
+    // -----------------------------
+    // Learning chart 2: Autonomy lines (SVG)
+    // -----------------------------
+    class AutonomyLinesSVG{
+      constructor(svg){
+        this.svg = svg;
+        this.p = 0;
+        this.build();
+        svg.addEventListener('mousemove', (e)=>this.onMove(e));
+        svg.addEventListener('mouseleave', ()=>hideTip());
+      }
+      setProgress(p){ this.p = clamp(p); }
+
+      build(){
+        this.svg.innerHTML='';
+        const svg=this.svg;
+        const W=800,H=420;
+        this.meta = {W,H,pad:{l:52,r:24,t:26,b:42}};
+
+        const {pad} = this.meta;
+        // Background
+        for (let i=0;i<=4;i++){
+          const y = lerp(pad.t, H-pad.b, i/4);
+          const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+          line.setAttribute('x1', pad.l);
+          line.setAttribute('x2', W-pad.r);
+          line.setAttribute('y1', y);
+          line.setAttribute('y2', y);
+          line.setAttribute('stroke', UI.bgStroke);
+          line.setAttribute('opacity', '0.55');
+          svg.appendChild(line);
+        }
+
+        // axis
+        const ax = document.createElementNS('http://www.w3.org/2000/svg','line');
+        ax.setAttribute('x1', pad.l); ax.setAttribute('x2', W-pad.r);
+        ax.setAttribute('y1', H-pad.b); ax.setAttribute('y2', H-pad.b);
+        ax.setAttribute('stroke', UI.bgStroke);
+        ax.setAttribute('stroke-width', '1.2');
+        svg.appendChild(ax);
+
+        const title = document.createElementNS('http://www.w3.org/2000/svg','text');
+        title.setAttribute('x', pad.l);
+        title.setAttribute('y', 18);
+        title.setAttribute('fill', UI.muted);
+        title.setAttribute('font-size','12');
+        title.textContent = 'Feb → Aug 2025 (article endpoints; interpolated months for animation)';
+        svg.appendChild(title);
+
+        // month labels
+        const x0=pad.l, x1=W-pad.r;
+        months.forEach((m,i)=>{
+          const x = lerp(x0,x1,i/(months.length-1));
+          const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+          t.setAttribute('x', x);
+          t.setAttribute('y', H-16);
+          t.setAttribute('fill', UI.muted2);
+          t.setAttribute('font-size','11');
+          t.setAttribute('text-anchor', i===0?'start':(i===months.length-1?'end':'middle'));
+          t.textContent = m;
+          svg.appendChild(t);
+        });
+
+        // Paths
+        this.paths = {
+          tool: this.makePath(withAlpha([167,139,250],0.95)),
+          human: this.makePath(withAlpha([248,113,113],0.90)),
+          comp: this.makePath(withAlpha([34,211,238],0.90)),
+        };
+
+        // Legend
+        this.legend = this.makeLegend([
+          {label:'Max consecutive tool calls', color: this.paths.tool.getAttribute('stroke')},
+          {label:'Human turns', color: this.paths.human.getAttribute('stroke')},
+          {label:'Task complexity', color: this.paths.comp.getAttribute('stroke')},
+        ], pad.l, pad.t+8);
+
+        // Hover marker
+        this.marker = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        this.marker.setAttribute('r', '6');
+        this.marker.setAttribute('fill', 'rgba(255,255,255,.9)');
+        this.marker.setAttribute('opacity', '0');
+        svg.appendChild(this.marker);
+
+        this.render();
+      }
+
+      makePath(stroke){
+        const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('fill','none');
+        p.setAttribute('stroke', stroke);
+        p.setAttribute('stroke-width','3.2');
+        p.setAttribute('stroke-linecap','round');
+        p.setAttribute('stroke-linejoin','round');
+        this.svg.appendChild(p);
+        return p;
+      }
+
+      makeLegend(items, x, y){
+        const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+        let dy=0;
+        items.forEach(it=>{
+          const sw = document.createElementNS('http://www.w3.org/2000/svg','rect');
+          sw.setAttribute('x', x);
+          sw.setAttribute('y', y+dy);
+          sw.setAttribute('width', 12);
+          sw.setAttribute('height', 12);
+          sw.setAttribute('rx', 3);
+          sw.setAttribute('fill', it.color);
+          g.appendChild(sw);
+
+          const tx = document.createElementNS('http://www.w3.org/2000/svg','text');
+          tx.setAttribute('x', x+18);
+          tx.setAttribute('y', y+dy+10);
+          tx.setAttribute('fill', UI.muted);
+          tx.setAttribute('font-size', '12');
+          tx.textContent = it.label;
+          g.appendChild(tx);
+          dy += 18;
+        });
+        this.svg.appendChild(g);
+        return g;
+      }
+
+      render(){
+        const p = smooth(this.p);
+        const {W,H,pad} = this.meta;
+        const x0=pad.l, x1=W-pad.r;
+        const y0=pad.t, y1=H-pad.b;
+
+        // For a clean shared y-axis, normalize each series into its own vertical band.
+        // (This is deliberate: the key is the *direction* and relative change, not comparing units.)
+        const band = (i) => ({
+          top: y0 + i*(y1-y0)/3,
+          bot: y0 + (i+1)*(y1-y0)/3,
+        });
+
+        const buildD = (vals, iBand, invert=false) => {
+          const b = band(iBand);
+          const vMin = Math.min(...vals);
+          const vMax = Math.max(...vals);
+          const pts = vals.map((v, i) => {
+            const t = i/(vals.length-1);
+            const x = lerp(x0,x1,t);
+            const u = (v - vMin) / (vMax - vMin + 1e-9);
+            const y = invert ? lerp(b.top, b.bot, u) : lerp(b.bot, b.top, u);
+            return {x,y,v};
+          });
+          // Smooth-ish path with simple quadratic segments
+          let d = `M ${pts[0].x} ${pts[0].y}`;
+          for (let i=1;i<pts.length;i++){
+            const prev=pts[i-1], cur=pts[i];
+            const mx=(prev.x+cur.x)/2;
+            d += ` Q ${mx} ${prev.y} ${cur.x} ${cur.y}`;
+          }
+          return {d, pts};
+        };
+
+        // Interpolate between Feb and Aug by truncating how far along the series we draw.
+        const k = Math.round(lerp(1, series.length, p));
+        const slice = series.slice(0, k);
+
+        const toolVals = slice.map(s=>s.toolCalls);
+        const humanVals = slice.map(s=>s.humanTurns);
+        const compVals = slice.map(s=>s.complexity);
+
+        const tool = buildD(toolVals, 0, false);
+        const human = buildD(humanVals, 1, true);  // invert so "down" still visually reads as improvement
+        const comp = buildD(compVals, 2, false);
+
+        this.paths.tool.setAttribute('d', tool.d);
+        this.paths.human.setAttribute('d', human.d);
+        this.paths.comp.setAttribute('d', comp.d);
+
+        // Store for hover
+        this._hoverData = { tool, human, comp, slice };
+      }
+
+      onMove(evt){
+        const pt = this.svg.createSVGPoint();
+        pt.x = evt.clientX; pt.y = evt.clientY;
+        const p = pt.matrixTransform(this.svg.getScreenCTM().inverse());
+        const {W,pad} = this.meta;
+        const x0=pad.l, x1=W-pad.r;
+        const t = clamp((p.x-x0)/(x1-x0));
+        const idx = Math.round(t*(series.length-1));
+        const s = series[idx];
+        if (!s){ hideTip(); this.marker.setAttribute('opacity','0'); return; }
+
+        // marker: pick comp band y
+        const sliceLen = Math.max(1, Math.round(lerp(1, series.length, smooth(this.p))));
+        if (idx >= sliceLen){ hideTip(); this.marker.setAttribute('opacity','0'); return; }
+
+        // Find corresponding point on comp path
+        const hd = this._hoverData;
+        const compPts = hd.comp.pts;
+        const pIdx = Math.min(compPts.length-1, idx);
+        const mp = compPts[pIdx];
+        this.marker.setAttribute('cx', mp.x);
+        this.marker.setAttribute('cy', mp.y);
+        this.marker.setAttribute('opacity','1');
+
+        showTip(evt.clientX, evt.clientY,
+          `${s.m} 2025\nMax tool-call streak: ${fmt1(s.toolCalls)}\nHuman turns: ${fmt1(s.humanTurns)}\nTask complexity: ${fmt1(s.complexity)}`);
+      }
+    }
+
+    // -----------------------------
+    // Learning chart 3: Time vs output scatter (Canvas)
+    // -----------------------------
+    class TimeOutputScatter{
+      constructor(canvas){
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.p = 0;
+        this.hover = null;
+        this.resize();
+        canvas.addEventListener('mousemove', (e)=>this.onMove(e));
+        canvas.addEventListener('mouseleave', ()=>{ this.hover=null; hideTip(); });
+      }
+      setProgress(p){ this.p = clamp(p); }
+      resize(){ this.size = fitCanvas(this.canvas); this.render(); }
+
+      render(){
+        const {w,h} = this.size || fitCanvas(this.canvas);
+        const ctx=this.ctx;
+        ctx.clearRect(0,0,w,h);
+
+        const pad = {l:52,r:22,t:26,b:42};
+        const x0=pad.l, x1=w-pad.r;
+        const y0=pad.t, y1=h-pad.b;
+
+        // axes
+        ctx.save();
+        ctx.strokeStyle = UI.bgStroke;
+        ctx.globalAlpha = 0.7;
+        ctx.lineWidth=1.2;
+        ctx.beginPath();
+        ctx.moveTo(x0,y1); ctx.lineTo(x1,y1);
+        ctx.moveTo(x0,y0); ctx.lineTo(x0,y1);
+        ctx.stroke();
+
+        // midlines (0)
+        const xZero = lerp(x0,x1, 0.5);
+        const yZero = lerp(y1,y0, 0.25); // keep more room upward
+        ctx.globalAlpha = 0.5;
+        ctx.setLineDash([6,6]);
+        ctx.beginPath();
+        ctx.moveTo(xZero,y0); ctx.lineTo(xZero,y1);
+        ctx.moveTo(x0,yZero); ctx.lineTo(x1,yZero);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        // Title
+        ctx.save();
+        ctx.fillStyle = UI.muted;
+        ctx.font = `600 ${Math.round(Math.min(w,h)/26)}px ui-sans-serif, system-ui`;
+        ctx.fillText('Time change (x) vs Output change (y)', 16, 26);
+        ctx.restore();
+
+        // labels
+        ctx.save();
+        ctx.fillStyle = UI.muted2;
+        ctx.font = `600 ${Math.round(Math.min(w,h)/30)}px ui-sans-serif, system-ui`;
+        ctx.textAlign='center';
+        ctx.fillText('Less time', lerp(x0,x1,0.25), h-14);
+        ctx.fillText('More time', lerp(x0,x1,0.75), h-14);
+        ctx.save();
+        ctx.translate(16, (y0+y1)/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillText('More output', 0, 0);
+        ctx.restore();
+        ctx.restore();
+
+        // scaling range
+        const xMin=-15, xMax=+15;
+        const yMin=-10, yMax=+90;
+
+        const p = smooth(this.p);
+        const pts = taskScatter.map(d => {
+          const time = lerp(d.base.time, d.ai.time, p);
+          const out = lerp(d.base.out, d.ai.out, p);
+          const x = lerp(x0,x1, (time - xMin)/(xMax-xMin));
+          const y = lerp(y1,y0, (out - yMin)/(yMax-yMin));
+          return { name:d.name, time, out, x, y };
+        });
+        this._pts = pts;
+
+        // quadrant labels
+        ctx.save();
+        ctx.fillStyle = 'rgba(255,255,255,.06)';
+        ctx.fillRect(x0, y0, (x1-x0)/2, (y1-y0));
+        ctx.restore();
+
+        // points
+        for (const pt of pts){
+          const hover = this.hover && this.hover.name===pt.name;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0,0,0,.35)';
+          ctx.shadowBlur = hover ? 18 : 10;
+          ctx.fillStyle = hover ? 'rgba(255,255,255,.95)' : withAlpha([147,197,253], 0.82);
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, hover ? 9 : 7, 0, Math.PI*2);
+          ctx.fill();
+          ctx.restore();
+
+          ctx.save();
+          ctx.fillStyle = UI.text;
+          ctx.globalAlpha = hover ? 0.95 : 0.75;
+          ctx.font = `700 ${Math.round(Math.min(w,h)/34)}px ui-sans-serif, system-ui`;
+          ctx.textAlign='left';
+          ctx.fillText(pt.name, pt.x+10, pt.y-10);
+          ctx.restore();
+        }
+
+        // Story annotation
+        ctx.save();
+        ctx.fillStyle = UI.muted;
+        ctx.font = `650 ${Math.round(Math.min(w,h)/30)}px ui-sans-serif, system-ui`;
+        const msg = (p<0.5)
+          ? 'Baseline: no systematic shift.'
+          : 'With AI: output climbs (often) even when time doesn’t fall much.';
+        ctx.fillText(msg, 16, h-16);
+        ctx.restore();
+      }
+
+      onMove(evt){
+        const rect = this.canvas.getBoundingClientRect();
+        const {w,h,dpr} = this.size;
+        const x = (evt.clientX - rect.left)*dpr;
+        const y = (evt.clientY - rect.top)*dpr;
+        let best=null;
+        for (const pt of this._pts || []){
+          const dx=x-pt.x, dy=y-pt.y;
+          if (dx*dx+dy*dy < 10*10){ best = pt; break; }
+        }
+        this.hover = best;
+        if (best){
+          showTip(evt.clientX, evt.clientY,
+            `${best.name}\nTime: ${best.time>=0?'+':''}${fmt1(best.time)}%\nOutput: +${fmt1(best.out)}%`);
+        } else hideTip();
+        this.render();
+      }
+    }
+
+    // -----------------------------
+    // Neglected chart 1: Long tail threshold (SVG)
+    // -----------------------------
+    class LongTailSVG{
+      constructor(svg){
+        this.svg=svg;
+        this.p=0;
+        this.build();
+        svg.addEventListener('mousemove', (e)=>this.onMove(e));
+        svg.addEventListener('mouseleave', ()=>hideTip());
+      }
+      setProgress(p){ this.p=clamp(p); }
+
+      build(){
+        this.svg.innerHTML='';
+        const svg=this.svg;
+        const W=800,H=420;
+        this.meta={W,H,pad:{l:52,r:24,t:26,b:42}};
+        const {pad}=this.meta;
+
+        const title=document.createElementNS('http://www.w3.org/2000/svg','text');
+        title.setAttribute('x', pad.l);
+        title.setAttribute('y', 18);
+        title.setAttribute('fill', UI.muted);
+        title.setAttribute('font-size','12');
+        title.textContent='Sorted tasks (left = highest ROI). Cutoff drops after AI → more tasks cross.';
+        svg.appendChild(title);
+
+        // baseline line
+        const ax=document.createElementNS('http://www.w3.org/2000/svg','line');
+        ax.setAttribute('x1', pad.l);
+        ax.setAttribute('x2', W-pad.r);
+        ax.setAttribute('y1', H-pad.b);
+        ax.setAttribute('y2', H-pad.b);
+        ax.setAttribute('stroke', UI.bgStroke);
+        ax.setAttribute('stroke-width','1.2');
+        svg.appendChild(ax);
+
+        // bars
+        const n=longTailTasks.length;
+        const areaW=W-pad.l-pad.r;
+        const barW=areaW/n;
+        this.bars=[];
+        for (let i=0;i<n;i++){
+          const x=pad.l+i*barW;
+          const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+          r.setAttribute('x', x+1);
+          r.setAttribute('width', Math.max(1, barW-2));
+          r.setAttribute('rx', 4);
+          r.setAttribute('fill', withAlpha([147,197,253], 0.78));
+          r.style.cursor='help';
+          svg.appendChild(r);
+          this.bars.push({ el:r, idx:i, x:x+1, w:Math.max(1,barW-2) });
+        }
+
+        // cutoff line
+        this.cut = document.createElementNS('http://www.w3.org/2000/svg','line');
+        this.cut.setAttribute('x1', pad.l);
+        this.cut.setAttribute('x2', W-pad.r);
+        this.cut.setAttribute('stroke', 'rgba(255,255,255,.75)');
+        this.cut.setAttribute('stroke-width', '2');
+        this.cut.setAttribute('stroke-dasharray', '8 6');
+        svg.appendChild(this.cut);
+
+        this.cutLabel = document.createElementNS('http://www.w3.org/2000/svg','text');
+        this.cutLabel.setAttribute('x', W-pad.r);
+        this.cutLabel.setAttribute('text-anchor', 'end');
+        this.cutLabel.setAttribute('fill', UI.text);
+        this.cutLabel.setAttribute('font-size','12');
+        this.cutLabel.setAttribute('font-weight','700');
+        svg.appendChild(this.cutLabel);
+
+        this.render();
+      }
+
+      render(){
+        const p=smooth(this.p);
+        const {W,H,pad}=this.meta;
+        const y0=pad.t, y1=H-pad.b;
+        const plotH=y1-y0;
+
+        // Compute each task's ROI score vs cost. "Do" if ROI > cutoff.
+        // Cutoff is a cost/benefit ratio threshold. AI lowers effective cost.
+        const ratioBefore = 1.05; // stricter cutoff
+        const ratioAfter  = 0.78; // more permissive
+        const ratio = lerp(ratioBefore, ratioAfter, p);
+
+        // Determine ROI-per-cost per task at current p
+        const scores = longTailTasks.map(t => {
+          const cost = lerp(t.costBefore, t.costAfter, p);
+          return t.roi / cost;
+        });
+        const sMin=Math.min(...scores), sMax=Math.max(...scores);
+
+        // For visuals, bar height is normalized score; color shows done vs not.
+        const cutoffScore = ratio * (sMin + 0.65*(sMax-sMin));
+
+        let done=0, newly=0;
+        for (let i=0;i<longTailTasks.length;i++){
+          const score = scores[i];
+          const h = (score - sMin)/(sMax - sMin + 1e-9) * (plotH*0.86);
+          const y = y1 - h;
+          const bar=this.bars[i];
+          bar.el.setAttribute('y', y);
+          bar.el.setAttribute('height', h);
+
+          const doNow = score >= cutoffScore;
+          // compute before/after status for "newly done"
+          const scoreB = longTailTasks[i].roi / longTailTasks[i].costBefore;
+          const scoreA = longTailTasks[i].roi / longTailTasks[i].costAfter;
+          const cutoffB = ratioBefore * (sMin + 0.65*(sMax-sMin));
+          const cutoffA = ratioAfter  * (sMin + 0.65*(sMax-sMin));
+          const beforeDo = scoreB >= cutoffB;
+          const afterDo  = scoreA >= cutoffA;
+
+          if (doNow) done++;
+          if (!beforeDo && afterDo) newly++;
+
+          const base = doNow ? [163,230,53] : [147,197,253];
+          bar.el.setAttribute('fill', withAlpha(base, doNow ? 0.85 : (0.25 + 0.55*(1-p))));
+        }
+
+        // Place cutoff line
+        const yCut = y1 - 0.65*(plotH*0.86);
+        this.cut.setAttribute('y1', yCut);
+        this.cut.setAttribute('y2', yCut);
+        this.cutLabel.setAttribute('y', yCut - 10);
+
+        // approximate mapping to 27% of AI-assisted work
+        // We'll display the headline as a reminder rather than force exact tile math here.
+        const headline = (p<0.5)
+          ? `ROI cutoff (strict) — long tail mostly ignored`
+          : `ROI cutoff (lower) — long tail becomes doable`;
+        this.cutLabel.textContent = headline;
+
+        // Store hover mapping
+        this._scores = scores;
+        this._cutoff = cutoffScore;
+      }
+
+      onMove(evt){
+        const pt = this.svg.createSVGPoint();
+        pt.x = evt.clientX; pt.y = evt.clientY;
+        const p = pt.matrixTransform(this.svg.getScreenCTM().inverse());
+        for (const b of this.bars){
+          const x = +b.el.getAttribute('x');
+          const y = +b.el.getAttribute('y');
+          const w = +b.el.getAttribute('width');
+          const h = +b.el.getAttribute('height');
+          if (p.x>=x && p.x<=x+w && p.y>=y && p.y<=y+h){
+            const t = longTailTasks[b.idx];
+            const score = this._scores[b.idx];
+            const doNow = score >= this._cutoff;
+            showTip(evt.clientX, evt.clientY,
+              `Task #${b.idx+1} (ranked by ROI)\nROI: ${fmt1(t.roi)}\nCost (before): ${fmt1(t.costBefore)}\nCost (after): ${fmt1(t.costAfter)}\nCurrently: ${doNow?'✅ done':'⏳ skipped'}`);
+            return;
+          }
+        }
+        hideTip();
+      }
+    }
+
+    // -----------------------------
+    // Neglected chart 2: Papercut cumulative (Canvas)
+    // -----------------------------
+    class PapercutCumulative{
+      constructor(canvas){
+        this.canvas=canvas;
+        this.ctx=canvas.getContext('2d');
+        this.p=0;
+        this.hover=null;
+        this.resize();
+        canvas.addEventListener('mousemove', (e)=>this.onMove(e));
+        canvas.addEventListener('mouseleave', ()=>{ this.hover=null; hideTip(); });
+      }
+      setProgress(p){ this.p=clamp(p); }
+      resize(){ this.size=fitCanvas(this.canvas); this.render(); }
+
+      render(){
+        const {w,h} = this.size || fitCanvas(this.canvas);
+        const ctx=this.ctx;
+        ctx.clearRect(0,0,w,h);
+        const pad={l:52,r:22,t:26,b:42};
+        const x0=pad.l, x1=w-pad.r;
+        const y0=pad.t, y1=h-pad.b;
+
+        // Title
+        ctx.save();
+        ctx.fillStyle = UI.muted;
+        ctx.font = `600 ${Math.round(Math.min(w,h)/26)}px ui-sans-serif, system-ui`;
+        ctx.fillText('Cumulative papercut fixes (weekly)', 16, 26);
+        ctx.restore();
+
+        // axes
+        ctx.save();
+        ctx.strokeStyle=UI.bgStroke;
+        ctx.globalAlpha=0.7;
+        ctx.lineWidth=1.2;
+        ctx.beginPath();
+        ctx.moveTo(x0,y1); ctx.lineTo(x1,y1);
+        ctx.moveTo(x0,y0); ctx.lineTo(x0,y1);
+        ctx.stroke();
+        ctx.restore();
+
+        // compute cumulative curves
+        const cum = (arr) => {
+          const out=[];
+          let s=0;
+          for (let i=0;i<arr.length;i++){ s += arr[i]; out.push(s); }
+          return out;
+        };
+        const cB = cum(papercutsBefore);
+        const cA = cum(papercutsAfter);
+
+        const p = smooth(this.p);
+        const c = cB.map((v,i)=>lerp(v,cA[i],p));
+        const maxY = Math.max(...cA, ...cB);
+
+        const toXY = (i, v) => ({
+          x: lerp(x0,x1, i/(weeks.length-1)),
+          y: lerp(y1,y0, v/maxY)
+        });
+
+        // faint before/after references
+        function drawLine(vals, alpha, rgb){
+          ctx.save();
+          ctx.globalAlpha=alpha;
+          ctx.strokeStyle=withAlpha(rgb, 0.9);
+          ctx.lineWidth=2.2;
+          ctx.beginPath();
+          vals.forEach((v,i)=>{
+            const pt=toXY(i,v);
+            if (i===0) ctx.moveTo(pt.x,pt.y);
+            else ctx.lineTo(pt.x,pt.y);
+          });
+          ctx.stroke();
+          ctx.restore();
+        }
+        drawLine(cB, 0.18, [147,197,253]);
+        drawLine(cA, 0.18, [163,230,53]);
+
+        // main interpolated line
+        ctx.save();
+        ctx.strokeStyle = withAlpha([251,191,36], 0.92);
+        ctx.lineWidth = 3.2;
+        ctx.beginPath();
+        c.forEach((v,i)=>{
+          const pt=toXY(i,v);
+          if (i===0) ctx.moveTo(pt.x,pt.y);
+          else ctx.lineTo(pt.x,pt.y);
+        });
+        ctx.stroke();
+        ctx.restore();
+
+        // dots
+        ctx.save();
+        for (let i=0;i<c.length;i++){
+          const pt=toXY(i,c[i]);
+          const hover = this.hover===i;
+          ctx.fillStyle = hover ? 'rgba(255,255,255,.95)' : withAlpha([251,191,36], 0.85);
+          ctx.beginPath();
+          ctx.arc(pt.x,pt.y, hover?5.8:4.2, 0, Math.PI*2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        // labels
+        ctx.save();
+        ctx.fillStyle=UI.muted2;
+        ctx.font = `600 ${Math.round(Math.min(w,h)/30)}px ui-sans-serif, system-ui`;
+        ctx.textAlign='center';
+        ctx.fillText('Week →', (x0+x1)/2, h-14);
+        ctx.save();
+        ctx.translate(16,(y0+y1)/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillText('Total fixes', 0, 0);
+        ctx.restore();
+        ctx.restore();
+
+        // summary
+        const last = c[c.length-1];
+        ctx.save();
+        ctx.fillStyle = UI.text;
+        ctx.font = `800 ${Math.round(Math.min(w,h)/18)}px ui-sans-serif, system-ui`;
+        ctx.fillText(`${Math.round(last)} fixes`, 16, h-18);
+        ctx.fillStyle = UI.muted;
+        ctx.font = `650 ${Math.round(Math.min(w,h)/30)}px ui-sans-serif, system-ui`;
+        ctx.fillText('(year cumulative, scrubbed)', 140, h-18);
+        ctx.restore();
+
+        this._toXY = toXY;
+        this._c = c;
+      }
+
+      onMove(evt){
+        const rect = this.canvas.getBoundingClientRect();
+        const {dpr} = this.size;
+        const mx=(evt.clientX-rect.left)*dpr;
+        const my=(evt.clientY-rect.top)*dpr;
+
+        let best=null;
+        for (let i=0;i<this._c.length;i++){
+          const pt=this._toXY(i,this._c[i]);
+          const dx=mx-pt.x, dy=my-pt.y;
+          if (dx*dx+dy*dy < 8*8){ best=i; break; }
+        }
+        this.hover=best;
+        if (best!=null){
+          showTip(evt.clientX, evt.clientY,
+            `Week ${best+1}\nCumulative fixes: ${Math.round(this._c[best])}`);
+        } else hideTip();
+        this.render();
+      }
+    }
+
+    // -----------------------------
+    // Neglected chart 3: Waffle mix (Canvas)
+    // -----------------------------
+    class WaffleCanvas{
+      constructor(canvas){
+        this.canvas=canvas;
+        this.ctx=canvas.getContext('2d');
+        this.p=0;
+        this.phase=0;
+        this.hover=null;
+        this.tiles = this.buildTiles();
+        this.resize();
+        canvas.addEventListener('mousemove', (e)=>this.onMove(e));
+        canvas.addEventListener('mouseleave', ()=>{ this.hover=null; hideTip(); });
+      }
+      setProgress(p){ this.p=clamp(p); }
+      resize(){ this.size=fitCanvas(this.canvas); this.render(); }
+
+      buildTiles(){
+        // 10x10 waffle.
+        const tiles=[];
+        for (let i=0;i<100;i++){
+          tiles.push({
+            i,
+            // stable random flip offset
+            o: rng(),
+          });
+        }
+        return tiles;
+      }
+
+      tick(dt){
+        // subtle flip shimmer when after
+        const p = smooth(this.p);
+        this.phase += dt * lerp(0.2, 1.0, p);
+      }
+
+      render(){
+        const {w,h} = this.size || fitCanvas(this.canvas);
+        const ctx=this.ctx;
+        ctx.clearRect(0,0,w,h);
+
+        // Title
+        ctx.save();
+        ctx.fillStyle = UI.muted;
+        ctx.font = `600 ${Math.round(Math.min(w,h)/26)}px ui-sans-serif, system-ui`;
+        ctx.fillText('Work capacity mix (100 tiles)', 16, 26);
+        ctx.restore();
+
+        const p = smooth(this.p);
+
+        // Map anchors to tile counts
+        const use = lerp(waffle.beforeUse, waffle.afterUse, p);
+        const aiTiles = Math.round(use);
+        const newTiles = Math.round(aiTiles * (waffle.newShareOfAI/100) * lerp(0.55, 1.0, p));
+        // remaining AI-assisted but not new
+        const accelTiles = Math.max(0, aiTiles - newTiles);
+        const humanTiles = 100 - aiTiles;
+
+        // Additional "effective capacity" uplift from productivity (+20% → +50%).
+        const prod = lerp(20, 50, p);
+        const uplift = Math.round(lerp(3, 10, (prod-20)/(50-20))); // tiny visible uplift marker
+
+        // Define categories per tile index order.
+        // We'll assign:
+        //  - New work tiles first (rare, special)
+        //  - Then accelerated AI-assisted
+        //  - Then human-only
+        const types = new Array(100).fill('human');
+        for (let i=0;i<newTiles;i++) types[i] = 'new';
+        for (let i=newTiles;i<newTiles+accelTiles;i++) types[i] = 'ai';
+
+        // layout
+        const grid=10;
+        const pad=18;
+        const size = Math.min((w-2*pad)/grid, (h-62)/grid);
+        const ox = (w - size*grid)/2;
+        const oy = 44;
+
+        // draw legend
+        const legend = [
+          {k:'human', label:`Human-only (${humanTiles})`, rgb:[147,197,253]},
+          {k:'ai', label:`AI-assisted (${accelTiles})`, rgb:[167,139,250]},
+          {k:'new', label:`New work (${newTiles})`, rgb:[163,230,53]},
+        ];
+        ctx.save();
+        ctx.font = `650 ${Math.round(Math.min(w,h)/34)}px ui-sans-serif, system-ui`;
+        ctx.fillStyle = UI.muted;
+        let lx = 18, ly = h - 18;
+        legend.forEach((it, idx) => {
+          ctx.fillStyle = withAlpha(it.rgb, 0.9);
+          ctx.fillRect(lx, ly-10, 10, 10);
+          ctx.fillStyle = UI.muted;
+          ctx.fillText(it.label, lx+14, ly);
+          lx += ctx.measureText(it.label).width + 34;
+        });
+        ctx.restore();
+
+        // draw tiles
+        this._tileRects=[];
+        for (let i=0;i<100;i++){
+          const t = this.tiles[i];
+          // stable shuffled mapping: rotate index by a pseudo-random offset
+          const j = (i*13 + 17) % 100;
+          const type = types[j];
+          const col = i % grid;
+          const row = Math.floor(i / grid);
+          const x = ox + col*size;
+          const y = oy + row*size;
+
+          // flip animation
+          const flip = 0.5 + 0.5*Math.sin((this.phase + t.o*2.5) * Math.PI*2);
+          const wobble = (type==='new') ? lerp(0.10, 0.22, p) : lerp(0.04, 0.12, p);
+          const s = 1 - wobble*(1-flip);
+
+          const rgb = (type==='human') ? [147,197,253] : (type==='ai') ? [167,139,250] : [163,230,53];
+          const a = (type==='human') ? 0.30 + 0.25*(1-p) : (type==='ai') ? 0.55 + 0.25*p : 0.70 + 0.25*p;
+
+          ctx.save();
+          ctx.translate(x+size/2, y+size/2);
+          ctx.scale(s, 1);
+          ctx.translate(-size/2, -size/2);
+          ctx.fillStyle = withAlpha(rgb, a);
+          ctx.strokeStyle = 'rgba(255,255,255,.14)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          const r = Math.max(2, size*0.18);
+          roundRect(ctx, 0.8, 0.8, size-1.6, size-1.6, r);
+          ctx.fill();
+          ctx.stroke();
+
+          // uplift marker: stamp a small ⚡ on a few AI tiles when after
+          if (type!=='human' && p>0.55 && i < uplift){
+            ctx.fillStyle = 'rgba(255,255,255,.88)';
+            ctx.font = `800 ${Math.round(size*0.62)}px ui-sans-serif`;
+            ctx.textAlign='center';
+            ctx.textBaseline='middle';
+            ctx.fillText('⚡', (size-1.6)/2, (size-1.6)/2+1);
+          }
+          ctx.restore();
+
+          this._tileRects.push({i, x, y, size, type});
+        }
+
+        // headline numbers
+        ctx.save();
+        ctx.fillStyle = UI.text;
+        ctx.font = `800 ${Math.round(Math.min(w,h)/18)}px ui-sans-serif, system-ui`;
+        ctx.fillText(`AI used in ${fmtPct(use)} of work`, 16, 54);
+        ctx.fillStyle = UI.muted;
+        ctx.font = `650 ${Math.round(Math.min(w,h)/30)}px ui-sans-serif, system-ui`;
+        ctx.fillText(`New work ≈ ${fmtPct(waffle.newShareOfAI)} of AI-assisted`, 16, 76);
+        ctx.restore();
+      }
+
+      onMove(evt){
+        const rect = this.canvas.getBoundingClientRect();
+        const {dpr} = this.size;
+        const mx=(evt.clientX-rect.left)*dpr;
+        const my=(evt.clientY-rect.top)*dpr;
+        let hit=null;
+        for (const t of this._tileRects || []){
+          if (mx>=t.x && mx<=t.x+t.size && my>=t.y && my<=t.y+t.size){ hit=t; break; }
+        }
+        this.hover=hit;
+        if (hit){
+          const label = hit.type==='human'?'Human-only':hit.type==='ai'?'AI-assisted (accelerated)':'New work (wouldn\'t have been done)';
+          showTip(evt.clientX, evt.clientY, label);
+        } else hideTip();
+      }
+    }
+
+    function roundRect(ctx, x, y, w, h, r){
+      const rr = Math.min(r, w/2, h/2);
+      ctx.moveTo(x+rr, y);
+      ctx.arcTo(x+w, y, x+w, y+h, rr);
+      ctx.arcTo(x+w, y+h, x, y+h, rr);
+      ctx.arcTo(x, y+h, x, y, rr);
+      ctx.arcTo(x, y, x+w, y, rr);
+      ctx.closePath();
+    }
+
+    // -----------------------------
+    // Wiring: Tabs, charts, animation loop
+    // -----------------------------
+    const tabs = [
+      { btn: document.getElementById('tabbtn-fullstack'), panel: document.getElementById('tab-fullstack') },
+      { btn: document.getElementById('tabbtn-learning'), panel: document.getElementById('tab-learning') },
+      { btn: document.getElementById('tabbtn-neglected'), panel: document.getElementById('tab-neglected') },
+    ];
+
+    function selectTab(idx){
+      tabs.forEach((t,i)=>{
+        const active = i===idx;
+        t.btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        t.panel.classList.toggle('active', active);
+      });
+      // Force resize/render for visible canvases
+      onResize();
+    }
+
+    tabs.forEach((t,i)=> t.btn.addEventListener('click', ()=>selectTab(i)));
+
+    // Create charts
+    const controllers = [];
+
+    function init(){
+      // Full-stack charts
+      const fsBars = new StackedBarsSVG(document.querySelector('[data-viz="fs-bars"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[0], fsBars));
+
+      const fsNet = new DomainNetworkCanvas(document.querySelector('[data-viz="fs-network"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[1], fsNet));
+
+      const fsHist = new HistogramSVG(document.querySelector('[data-viz="fs-hist"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[2], fsHist));
+
+      // Learning charts
+      const lrLoop = new FeedbackLoopCanvas(document.querySelector('[data-viz="lr-loop"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[3], lrLoop));
+
+      const lrLines = new AutonomyLinesSVG(document.querySelector('[data-viz="lr-lines"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[4], lrLines));
+
+      const lrScatter = new TimeOutputScatter(document.querySelector('[data-viz="lr-scatter"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[5], lrScatter));
+
+      // Neglected charts
+      const nwLong = new LongTailSVG(document.querySelector('[data-viz="nw-longtail"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[6], nwLong));
+
+      const nwP = new PapercutCumulative(document.querySelector('[data-viz="nw-papercuts"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[7], nwP));
+
+      const nwW = new WaffleCanvas(document.querySelector('[data-viz="nw-waffle"]'));
+      controllers.push(new CardController(document.querySelectorAll('[data-card]')[8], nwW));
+
+      window.addEventListener('resize', onResize);
+      onResize();
+
+      // Global animation loop
+      let last = performance.now();
+      function frame(now){
+        const dt = Math.min(0.05, (now-last)/1000);
+        last = now;
+
+        // Tick only visible tab charts to save cycles
+        const activePanel = document.querySelector('section.active');
+        const activeCards = new Set([...activePanel.querySelectorAll('[data-card]')]);
+
+        controllers.forEach(ctrl => {
+          if (!activeCards.has(ctrl.card)) return;
+          ctrl.tick(dt);
+          ctrl.chart.tick?.(dt);
+          // Only continuous animations need redraw each frame
+          if (ctrl.chart instanceof DomainNetworkCanvas ||
+              ctrl.chart instanceof FeedbackLoopCanvas ||
+              ctrl.chart instanceof WaffleCanvas){
+            ctrl.chart.render();
+          }
+        });
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function onResize(){
+      // Resize all canvases
+      document.querySelectorAll('canvas[data-viz]').forEach(c => {
+        // Re-fit only if visible (gets correct size)
+        const card = c.closest('[data-card]');
+        if (!card) return;
+        const panel = card.closest('section');
+        if (!panel?.classList.contains('active')) return;
+
+        const ctrl = controllers.find(x => x.chart.canvas === c);
+        ctrl?.chart.resize?.();
+      });
+      // Re-render svgs
+      controllers.forEach(ctrl => {
+        const panel = ctrl.card.closest('section');
+        if (!panel?.classList.contains('active')) return;
+        ctrl.chart.render?.();
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
+
+<!-- https://chatgpt.com/c/69410f63-60b0-8322-9180-9a4fc9dd2782 -->

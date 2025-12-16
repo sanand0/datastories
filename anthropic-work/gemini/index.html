@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthropic Engineer Productivity Patterns</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f1115; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .chart-container { perspective: 1000px; }
+        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glow-text { text-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
+
+        /* Custom Animation Classes */
+        .orbit-path { stroke-dasharray: 10; animation: dash 20s linear infinite; }
+        @keyframes dash { to { stroke-dashoffset: 1000; } }
+
+        .particle { offset-path: path('M100,100 m-75,0 a75,75 0 1,0 150,0 a75,75 0 1,0 -150,0'); }
+        .fast-spin { animation: spin 2s linear infinite; }
+        .slow-spin { animation: spin 10s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .bar-transition { transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        // --- Icon Components (Inline to prevent CDN versioning issues) ---
+
+        const IconWrapper = ({ children, size = 24, className = "" }) => (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={size}
+                height={size}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={className}
+            >
+                {children}
+            </svg>
+        );
+
+        const Zap = (props) => (
+            <IconWrapper {...props}>
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </IconWrapper>
+        );
+
+        const Archive = (props) => (
+            <IconWrapper {...props}>
+                <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                <rect x="1" y="3" width="22" height="5"></rect>
+                <line x1="10" y1="12" x2="14" y2="12"></line>
+            </IconWrapper>
+        );
+
+        const Cpu = (props) => (
+            <IconWrapper {...props}>
+                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+                <line x1="20" y1="9" x2="23" y2="9"></line>
+                <line x1="20" y1="14" x2="23" y2="14"></line>
+                <line x1="1" y1="9" x2="4" y2="9"></line>
+                <line x1="1" y1="14" x2="4" y2="14"></line>
+            </IconWrapper>
+        );
+
+        const BarChart3 = (props) => (
+            <IconWrapper {...props}>
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+            </IconWrapper>
+        );
+
+        const Maximize2 = (props) => (
+            <IconWrapper {...props}>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <polyline points="9 21 3 21 3 15"></polyline>
+                <line x1="21" y1="3" x2="14" y2="10"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+            </IconWrapper>
+        );
+
+        // --- Shared Components ---
+
+        const Toggle = ({ active, onToggle, label }) => (
+            <div className="flex items-center gap-3 mb-6 bg-black/20 p-2 rounded-full w-fit mx-auto border border-white/10">
+                <span className={`text-sm font-medium px-3 ${!active ? 'text-gray-400' : 'text-gray-600'}`}>Manual Workflow</span>
+                <button
+                    onClick={onToggle}
+                    className={`relative w-14 h-7 rounded-full transition-colors duration-500 focus:outline-none ${active ? 'bg-purple-600' : 'bg-gray-600'}`}
+                >
+                    <div className={`absolute top-1 left-1 bg-white w-5 h-5 rounded-full shadow-md transform transition-transform duration-500 ${active ? 'translate-x-7' : 'translate-x-0'}`} />
+                </button>
+                <span className={`text-sm font-medium px-3 flex items-center gap-1 ${active ? 'text-purple-400 glow-text' : 'text-gray-600'}`}>
+                    <Cpu size={14} /> AI Assisted
+                </span>
+            </div>
+        );
+
+        const Card = ({ title, metric, description, children, icon: Icon }) => (
+            <div className="glass-panel rounded-xl p-6 flex flex-col h-full hover:border-purple-500/30 transition-colors duration-300">
+                <div className="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 className="text-lg font-semibold text-gray-100 flex items-center gap-2">
+                            {Icon && <Icon size={18} className="text-purple-400" />}
+                            {title}
+                        </h3>
+                        <p className="text-xs text-gray-400 mt-1">{description}</p>
+                    </div>
+                </div>
+                <div className="flex-grow relative min-h-[240px] flex items-center justify-center">
+                    {children}
+                </div>
+                <div className="mt-4 pt-4 border-t border-white/5">
+                    <p className="text-sm font-mono text-purple-300">{metric}</p>
+                </div>
+            </div>
+        );
+
+        // --- Visualizations for Pattern 1: Full Stack Expansion ---
+
+        const SkillRadar = ({ isAI }) => {
+            // Using a pentagon radar chart
+            // Points: Backend, Frontend, DevOps, Design, Data
+            const manualPoints = "100,30 145,70 120,130 80,130 55,70"; // Spiky, skewed to backend
+            const aiPoints = "100,10 190,75 160,180 40,180 10,75";    // Full, expansive
+
+            return (
+                <div className="w-full h-full flex items-center justify-center">
+                    <svg viewBox="0 0 200 200" className="w-48 h-48 overflow-visible">
+                        {/* Background Grid */}
+                        <polygon points="100,10 190,75 160,180 40,180 10,75" fill="none" stroke="#334155" strokeWidth="1" />
+                        <polygon points="100,55 145,87 130,140 70,140 55,87" fill="none" stroke="#334155" strokeWidth="1" />
+
+                        {/* Labels */}
+                        <text x="100" y="-5" textAnchor="middle" fill="#94a3b8" fontSize="8">Backend</text>
+                        <text x="200" y="75" textAnchor="middle" fill="#94a3b8" fontSize="8">Frontend</text>
+                        <text x="160" y="195" textAnchor="middle" fill="#94a3b8" fontSize="8">DevOps</text>
+                        <text x="40" y="195" textAnchor="middle" fill="#94a3b8" fontSize="8">Data</text>
+                        <text x="0" y="75" textAnchor="middle" fill="#94a3b8" fontSize="8">Security</text>
+
+                        {/* Data Polygon */}
+                        <polygon
+                            points={isAI ? aiPoints : manualPoints}
+                            fill={isAI ? "rgba(168, 85, 247, 0.4)" : "rgba(59, 130, 246, 0.4)"}
+                            stroke={isAI ? "#a855f7" : "#3b82f6"}
+                            strokeWidth="2"
+                            className="transition-all duration-1000 ease-elastic"
+                        />
+                    </svg>
+                </div>
+            );
+        };
+
+        const StackSilo = ({ isAI }) => {
+            // Visualizing silos vs blended gradients
+            return (
+                <div className="w-full h-full flex flex-col gap-2 justify-center px-4">
+                    {['Backend Eng', 'Security Eng', 'Researcher'].map((role, i) => (
+                        <div key={role} className="relative h-10 w-full bg-gray-800 rounded-md overflow-hidden">
+                            <div className="absolute inset-0 flex items-center px-3 z-10">
+                                <span className="text-xs font-bold text-white shadow-black drop-shadow-md">{role}</span>
+                            </div>
+                            {/* The Bar */}
+                            <div
+                                className={`h-full transition-all duration-1000 ease-in-out`}
+                                style={{
+                                    width: '100%',
+                                    background: isAI
+                                        ? `linear-gradient(90deg, ${i===0?'#3b82f6':'#10b981'}, #a855f7, #f43f5e)` // Blended rainbow
+                                        : i===0 ? '#3b82f6' : i===1 ? '#10b981' : '#f43f5e' // Solid color
+                                }}
+                            />
+                             {/* The "Capability" Dots */}
+                             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                                <div className={`w-2 h-2 rounded-full bg-white/50 transition-all duration-700 ${isAI ? 'opacity-100' : 'opacity-0'}`}></div>
+                                <div className={`w-2 h-2 rounded-full bg-white/50 transition-all duration-1000 ${isAI ? 'opacity-100' : 'opacity-0'}`}></div>
+                                <div className={`w-2 h-2 rounded-full bg-white/50 transition-all duration-1000 delay-100 ${isAI ? 'opacity-100' : 'opacity-0'}`}></div>
+                             </div>
+                        </div>
+                    ))}
+                </div>
+            )
+        }
+
+        const ContextNetwork = ({ isAI }) => {
+            // A central node connecting to others. Before: few connections. After: many.
+            const nodes = [
+                {id: 0, x: 100, y: 100, r: 15, main: true},
+                {id: 1, x: 100, y: 40},
+                {id: 2, x: 160, y: 70},
+                {id: 3, x: 160, y: 130},
+                {id: 4, x: 100, y: 160},
+                {id: 5, x: 40, y: 130},
+                {id: 6, x: 40, y: 70},
+            ];
+
+            return (
+                <div className="w-full h-full flex items-center justify-center">
+                    <svg viewBox="0 0 200 200" className="w-48 h-48">
+                        {nodes.map((node, i) => {
+                            if (node.main) return null;
+                            const isActive = isAI || i === 0 || i === 3; // Manual only connects to top and bottom
+                            return (
+                                <g key={i}>
+                                    <line
+                                        x1="100" y1="100" x2={node.x} y2={node.y}
+                                        stroke={isActive ? (isAI ? "#a855f7" : "#3b82f6") : "#334155"}
+                                        strokeWidth={isActive ? 2 : 1}
+                                        strokeDasharray={isActive ? "0" : "4 2"}
+                                        className="transition-all duration-1000"
+                                    />
+                                    <circle
+                                        cx={node.x} cy={node.y} r={isAI ? 8 : 4}
+                                        fill={isActive ? (isAI ? "#c084fc" : "#60a5fa") : "#1e293b"}
+                                        className="transition-all duration-1000"
+                                    />
+                                </g>
+                            )
+                        })}
+                        {/* Main Node */}
+                        <circle cx="100" cy="100" r="12" fill="white" className="shadow-lg" />
+                    </svg>
+                </div>
+            )
+        }
+
+
+        // --- Visualizations for Pattern 2: Acceleration ---
+
+        const OrbitLoop = ({ isAI }) => {
+            // A particle orbiting. Before: Large slow orbit. After: Tight fast orbit.
+            return (
+                <div className="w-full h-full flex items-center justify-center relative">
+                    <svg viewBox="0 0 200 200" className="w-48 h-48">
+                        {/* The Path */}
+                        <circle
+                            cx="100" cy="100"
+                            r={isAI ? "30" : "80"}
+                            fill="none"
+                            stroke={isAI ? "#a855f7" : "#3b82f6"}
+                            strokeWidth="1"
+                            strokeDasharray="4 4"
+                            className="transition-all duration-1000 ease-in-out"
+                        />
+                        {/* The Core */}
+                        <circle cx="100" cy="100" r="10" fill="white" />
+                    </svg>
+                    {/* The Particle (HTML for easier animation control) */}
+                    <div
+                        className={`absolute w-4 h-4 rounded-full shadow-lg transition-all duration-1000`}
+                        style={{
+                            backgroundColor: isAI ? '#d8b4fe' : '#93c5fd',
+                            animation: `spin ${isAI ? '0.8s' : '4s'} linear infinite`,
+                            transformOrigin: isAI ? '0 30px' : '0 80px', // Matches radius
+                            top: '50%',
+                            left: '50%',
+                            marginTop: isAI ? '-30px' : '-80px',
+                            marginLeft: '-8px' // center the div
+                        }}
+                    />
+                </div>
+            );
+        };
+
+        const TimeBlocks = ({ isAI }) => {
+            // Gantt style. Before: Huge blocks. After: Tiny slivers.
+            const phases = [
+                { name: 'Research', color: 'bg-blue-500', wMan: '30%', wAI: '10%' },
+                { name: 'Drafting', color: 'bg-indigo-500', wMan: '40%', wAI: '10%' },
+                { name: 'Debugging', color: 'bg-red-500', wMan: '20%', wAI: '15%' }, // Debugging ratio increases slightly relative to total, but total is smaller
+                { name: 'Deploy', color: 'bg-green-500', wMan: '10%', wAI: '5%' }
+            ];
+
+            return (
+                <div className="w-full h-full flex flex-col justify-center px-2">
+                    <div className="flex w-full h-16 rounded-lg overflow-hidden border border-white/10 bg-black/40 relative">
+                         {/* Animated Widths */}
+                        {phases.map((p, i) => (
+                            <div
+                                key={i}
+                                className={`h-full ${p.color} flex items-center justify-center overflow-hidden transition-all duration-1000 relative`}
+                                style={{ width: isAI ? p.wAI : p.wMan }}
+                            >
+                                <span className="text-[10px] font-bold text-white/90 truncate px-1">{p.name}</span>
+                            </div>
+                        ))}
+                        {/* Empty Space representing time saved */}
+                        <div className={`h-full bg-transparent flex items-center pl-2 transition-all duration-1000`} style={{ width: isAI ? '60%' : '0%' }}>
+                            {isAI && <span className="text-green-400 text-xs font-mono animate-pulse">TIME REINVESTED</span>}
+                        </div>
+                    </div>
+                    {/* Time Scale */}
+                    <div className="flex justify-between text-xs text-gray-500 mt-2 font-mono">
+                        <span>Day 0</span>
+                        <span>{isAI ? 'Hour 4' : 'Day 14'}</span>
+                    </div>
+                </div>
+            )
+        }
+
+        const PrototypeVelocity = ({ isAI }) => {
+            // A graph showing attempts per week.
+            // Bars.
+            return (
+                <div className="w-full h-full flex items-end justify-between px-4 pb-4 gap-2">
+                    {[1, 2, 3, 4, 5].map((day) => {
+                        const hMan = 20 + Math.random() * 20; // Low height
+                        const hAI = 80 + Math.random() * 20;  // High height
+                        return (
+                            <div key={day} className="flex flex-col items-center gap-2 w-full">
+                                <div className="w-full relative h-32 flex items-end justify-center bg-white/5 rounded-t-sm">
+                                    <div
+                                        className={`w-full mx-1 rounded-t-md transition-all duration-1000 ${isAI ? 'bg-purple-500' : 'bg-gray-600'}`}
+                                        style={{ height: `${isAI ? hAI : hMan}%` }}
+                                    />
+                                </div>
+                                <span className="text-xs text-gray-500">v{day}</span>
+                            </div>
+                        )
+                    })}
+                </div>
+            )
+        }
+
+        // --- Visualizations for Pattern 3: Neglected Tasks ---
+
+        const Iceberg = ({ isAI }) => {
+            // Triangle partially submerged.
+            // Manual: Only top visible. AI: Water lowers or we see below.
+            // Let's do "Lighting up the dark".
+            return (
+                <div className="w-full h-full relative overflow-hidden flex items-center justify-center">
+                    <svg viewBox="0 0 200 200" className="w-full h-full">
+                        {/* Water Line */}
+                        <line x1="0" y1="60" x2="200" y2="60" stroke="#60a5fa" strokeWidth="2" strokeDasharray="4 2" />
+
+                        {/* The Iceberg */}
+                        <path d="M100,20 L140,180 L60,180 Z" fill="#1e293b" />
+
+                        {/* The Visible Tip (Core Work) */}
+                        <path d="M100,20 L110,60 L90,60 Z" fill="#f8fafc" />
+
+                        {/* The Submerged (Neglected) - Lit up by AI */}
+                        <g className={`transition-opacity duration-1000 ${isAI ? 'opacity-100' : 'opacity-20'}`}>
+                            {/* "Papercuts" */}
+                            <circle cx="100" cy="80" r="3" fill="#a855f7" />
+                            <circle cx="90" cy="100" r="4" fill="#a855f7" />
+                            <circle cx="110" cy="120" r="2" fill="#a855f7" />
+                            <circle cx="80" cy="150" r="5" fill="#a855f7" />
+                            <circle cx="120" cy="160" r="3" fill="#a855f7" />
+                            <text x="150" y="100" fill="#a855f7" fontSize="10" className={isAI ? 'block' : 'hidden'}>Internal Tools</text>
+                            <text x="40" y="140" fill="#a855f7" fontSize="10" className={isAI ? 'block' : 'hidden'}>Refactors</text>
+                        </g>
+                    </svg>
+                </div>
+            )
+        }
+
+        const TaskMosaic = ({ isAI }) => {
+            // Grid of squares. Manual: Mostly gray (backlog), few green (done).
+            // AI: Many small green squares filling up.
+            const cells = Array.from({ length: 64 }); // 8x8 grid
+
+            return (
+                <div className="w-full h-full p-4">
+                    <div className="grid grid-cols-8 gap-1 w-full h-full">
+                        {cells.map((_, i) => {
+                            // Manual: Only first 10 done.
+                            // AI: 40 done.
+                            const isDone = isAI ? i < 45 : i < 12;
+                            const isCore = i < 10;
+                            // Core tasks always green. Neglected tasks turn purple with AI.
+                            const color = isCore
+                                ? 'bg-emerald-500'
+                                : isDone ? 'bg-purple-500' : 'bg-gray-800';
+
+                            return (
+                                <div
+                                    key={i}
+                                    className={`rounded-sm transition-colors duration-700 ease-in-out ${color}`}
+                                    style={{ transitionDelay: `${i * 10}ms` }}
+                                />
+                            )
+                        })}
+                    </div>
+                </div>
+            )
+        }
+
+        const LongTailChart = ({ isAI }) => {
+            // Bar chart sorted by priority.
+            // Manual: steep drop off (do high prio, ignore low).
+            // AI: Fat tail (doing the low prio stuff).
+            return (
+                <div className="w-full h-full flex items-end gap-1 px-4 pb-2">
+                    {Array.from({length: 15}).map((_, i) => {
+                        // High priority (left) always high. Low priority (right) depends on AI.
+                        const baseHeight = 100 / (i + 1);
+                        const aiHeight = Math.max(baseHeight, 20 + Math.random() * 10);
+                        const height = isAI ? aiHeight : (i < 5 ? baseHeight : 2);
+
+                        return (
+                            <div
+                                key={i}
+                                className={`w-full rounded-t transition-all duration-1000 ${i < 5 ? 'bg-emerald-500' : 'bg-purple-500'}`}
+                                style={{ height: `${height}%`, opacity: isAI || i < 5 ? 1 : 0.2 }}
+                            />
+                        )
+                    })}
+                </div>
+            )
+        }
+
+        // --- Main App ---
+
+        const ProductivityDashboard = () => {
+            const [activeTab, setActiveTab] = useState(0);
+            const [isAI, setIsAI] = useState(false);
+
+            // Auto-toggle animation for demo purposes (optional, but keeps it lively)
+            useEffect(() => {
+                const timer = setTimeout(() => setIsAI(true), 1000);
+                return () => clearTimeout(timer);
+            }, []);
+
+            const patterns = [
+                {
+                    id: 'fullstack',
+                    title: 'Capability Expansion',
+                    icon: Maximize2,
+                    headline: 'Becoming "Full-Stack"',
+                    description: 'Engineers are successfully tackling tasks beyond their core expertise, shifting from narrow specialists to broad generalists.',
+                    quote: '"I can very capably work on front-end, transactional databases, or API code, where previously I would\'ve been scared."',
+                    charts: [
+                        {
+                            title: 'Skill Surface Area',
+                            desc: 'Expansion of capability across domains',
+                            metric: isAI ? '+140% Coverage' : 'Baseline',
+                            viz: <SkillRadar isAI={isAI} />
+                        },
+                        {
+                            title: 'Team Composition',
+                            desc: 'Breakdown of functional silos',
+                            metric: isAI ? 'Cross-Functional' : 'Siloed',
+                            viz: <StackSilo isAI={isAI} />
+                        },
+                        {
+                            title: 'Knowledge Graph',
+                            desc: 'Connections between disparate codebases',
+                            metric: isAI ? 'High Connectivity' : 'Isolated',
+                            viz: <ContextNetwork isAI={isAI} />
+                        }
+                    ]
+                },
+                {
+                    id: 'speed',
+                    title: 'Iteration Speed',
+                    icon: Zap,
+                    headline: 'Tighter Feedback Loops',
+                    description: 'The time from "idea" to "working prototype" has collapsed, allowing for more cycles and faster learning.',
+                    quote: '"A couple week process of building and iterating could become a couple hour working session."',
+                    charts: [
+                        {
+                            title: 'The Iteration Loop',
+                            desc: 'Time per complete dev cycle',
+                            metric: isAI ? '4 Hours / Cycle' : '2 Weeks / Cycle',
+                            viz: <OrbitLoop isAI={isAI} />
+                        },
+                        {
+                            title: 'Time to MVP',
+                            desc: 'Reduction in coding & debugging time',
+                            metric: isAI ? '-65% Lead Time' : 'Baseline',
+                            viz: <TimeBlocks isAI={isAI} />
+                        },
+                        {
+                            title: 'Experiment Velocity',
+                            desc: 'Number of prototypes shipped per week',
+                            metric: isAI ? '12.5 v/week' : '2.1 v/week',
+                            viz: <PrototypeVelocity isAI={isAI} />
+                        }
+                    ]
+                },
+                {
+                    id: 'neglected',
+                    title: 'Neglected Tasks',
+                    icon: Archive,
+                    headline: 'The "Papercut" Revolution',
+                    description: 'Work that was previously "too expensive" to do manually (tooling, docs, minor refactors) is now viable.',
+                    quote: '"27% of Claude-assisted work consists of tasks that wouldn\'t have been done otherwise."',
+                    charts: [
+                        {
+                            title: 'The Backlog Iceberg',
+                            desc: 'Visibility into sub-surface tasks',
+                            metric: isAI ? 'Deep Reach' : 'Surface Only',
+                            viz: <Iceberg isAI={isAI} />
+                        },
+                        {
+                            title: 'Completion Volume',
+                            desc: 'Addressing the "long tail" of tasks',
+                            metric: isAI ? 'High Volume' : 'Low Volume',
+                            viz: <LongTailChart isAI={isAI} />
+                        },
+                        {
+                            title: 'Codebase Health',
+                            desc: 'Resolution of "wontfix" technical debt',
+                            metric: isAI ? 'Self-Healing' : 'Static',
+                            viz: <TaskMosaic isAI={isAI} />
+                        }
+                    ]
+                }
+            ];
+
+            const activePattern = patterns[activeTab];
+
+            return (
+                <div className="min-h-screen bg-[#0f1115] text-slate-200 p-4 md:p-8">
+                    <div className="max-w-6xl mx-auto">
+
+                        {/* Header */}
+                        <header className="mb-10 text-center">
+                            <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-gray-500 mb-4">
+                                How AI Transforms Work
+                            </h1>
+                            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                                Based on internal research at Anthropic. Visualizing the shift in engineer productivity patterns.
+                            </p>
+                        </header>
+
+                        {/* Navigation Tabs */}
+                        <div className="grid grid-cols-3 gap-2 md:gap-4 mb-8">
+                            {patterns.map((pattern, idx) => {
+                                const Icon = pattern.icon;
+                                const isActive = activeTab === idx;
+                                return (
+                                    <button
+                                        key={pattern.id}
+                                        onClick={() => { setActiveTab(idx); setIsAI(false); setTimeout(() => setIsAI(true), 200); }}
+                                        className={`flex flex-col md:flex-row items-center justify-center gap-2 p-4 rounded-xl transition-all duration-300 border ${
+                                            isActive
+                                            ? 'bg-purple-900/20 border-purple-500/50 text-purple-200'
+                                            : 'bg-white/5 border-transparent text-gray-400 hover:bg-white/10'
+                                        }`}
+                                    >
+                                        <Icon size={20} />
+                                        <span className="font-medium text-sm md:text-base">{pattern.title}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Content Area */}
+                        <div className="animate-fade-in">
+
+                            {/* Pattern Context */}
+                            <div className="text-center mb-10">
+                                <h2 className="text-2xl font-bold text-white mb-2">{activePattern.headline}</h2>
+                                <p className="text-gray-400 mb-6">{activePattern.description}</p>
+                                <blockquote className="bg-white/5 border-l-4 border-purple-500 italic p-4 max-w-3xl mx-auto rounded-r-lg text-gray-300">
+                                    {activePattern.quote}
+                                </blockquote>
+                            </div>
+
+                            {/* Control Switch */}
+                            <Toggle active={isAI} onToggle={() => setIsAI(!isAI)} />
+
+                            {/* Charts Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {activePattern.charts.map((chart, i) => (
+                                    <div key={i} className="h-80 md:h-96 w-full">
+                                        <Card
+                                            title={chart.title}
+                                            description={chart.desc}
+                                            metric={chart.metric}
+                                            icon={BarChart3}
+                                        >
+                                            {chart.viz}
+                                        </Card>
+                                    </div>
+                                ))}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* Footer */}
+                    <footer className="mt-20 text-center text-gray-600 text-sm pb-8">
+                        <p>Data extrapolated from "How AI is transforming work at Anthropic" (Dec 2025).</p>
+                        <p className="mt-2">Interactive Xenographics generated for demonstration.</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ProductivityDashboard />);
+    </script>
+</body>
+</html>
+
+<!-- https://gemini.google.com/u/2/app/ba0fa4559cce60a1 -->

@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Productivity Patterns at Anthropic</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .tabs {
+            display: flex;
+            background: #2c3e50;
+            color: white;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .tab-button.active {
+            background: #3498db;
+        }
+        .tab-button:hover {
+            background: #34495e;
+        }
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            margin: 20px 0;
+            height: 400px;
+            background: #fafafa;
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .chart-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .pattern-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab(0)">Full-Stack Capabilities</button>
+            <button class="tab-button" onclick="showTab(1)">Accelerated Learning</button>
+            <button class="tab-button" onclick="showTab(2)">Tackling Neglected Tasks</button>
+        </div>
+        
+        <div id="tab-0" class="tab-content active">
+            <h1 class="pattern-title">Engineers Becoming More "Full-Stack"</h1>
+            <p>Engineers can now succeed at tasks beyond their normal expertise, expanding their capabilities across domains.</p>
+
+            <div class="chart-container">
+                <div class="chart-title">Productivity Boost by Task Category (Before vs After AI)</div>
+                <svg id="chart-0-0" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Time Spent on Cross-Domain Tasks (Hours per Week)</div>
+                <svg id="chart-0-1" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Skill Distribution in Engineer Workload</div>
+                <svg id="chart-0-2" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Radial Skill Expansion Clock</div>
+                <svg id="chart-0-3" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Treemap of Task Capabilities Before/After</div>
+                <svg id="chart-0-4" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Force-Directed Skill Network</div>
+                <svg id="chart-0-5" width="100%" height="100%"></svg>
+            </div>
+        </div>
+        
+        <div id="tab-1" class="tab-content">
+            <h1 class="pattern-title">Accelerating Learning and Iteration Speed</h1>
+            <p>Tighter feedback loops enable faster prototyping and more iterations in less time.</p>
+
+            <div class="chart-container">
+                <div class="chart-title">Time from Idea to Working Prototype (Days)</div>
+                <svg id="chart-1-0" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Iterations per Day by Project Type</div>
+                <svg id="chart-1-1" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Feedback Loop Efficiency Over Time</div>
+                <svg id="chart-1-2" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Radar Chart: Learning Capabilities Before/After</div>
+                <svg id="chart-1-3" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Waterfall Chart: Time Savings Breakdown</div>
+                <svg id="chart-1-4" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Sankey Diagram: Iteration Flow Enhancement</div>
+                <svg id="chart-1-5" width="100%" height="100%"></svg>
+            </div>
+        </div>
+        
+        <div id="tab-2" class="tab-content">
+            <h1 class="pattern-title">Tackling Previously-Neglected Tasks</h1>
+            <p>Engineers now address "papercuts" and small improvements that were previously deprioritized.</p>
+
+            <div class="chart-container">
+                <div class="chart-title">Time Allocation: Neglected vs Core Tasks</div>
+                <svg id="chart-2-0" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Papercut Fixes Completed Over Time</div>
+                <svg id="chart-2-1" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Impact of Addressing Neglected Tasks</div>
+                <svg id="chart-2-2" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Heat Map: Task Priority Matrix</div>
+                <svg id="chart-2-3" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Spider Chart: Neglected Task Impact Areas</div>
+                <svg id="chart-2-4" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Chord Diagram: Task Relationship Network</div>
+                <svg id="chart-2-5" width="100%" height="100%"></svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let activeTab = 0;
+
+        function showTab(index) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            document.querySelectorAll('.tab-button')[index].classList.add('active');
+            document.querySelectorAll('.tab-content')[index].classList.add('active');
+
+            activeTab = index;
+            if (index === 0) {
+                drawFullStackCharts();
+                drawRadialSkillChart();
+                drawTreemapChart();
+                drawForceDirectedChart();
+            }
+            else if (index === 1) {
+                drawLearningCharts();
+                drawRadarChart();
+                drawWaterfallChart();
+                drawSankeyChart();
+            }
+            else if (index === 2) {
+                drawNeglectedCharts();
+                drawHeatMapChart();
+                drawSpiderChart();
+                drawChordChart();
+            }
+        }
+
+        // Full-Stack Charts Data
+        const fullStackData = {
+            productivity: [
+                {category: "Front-end", before: 20, after: 45},
+                {category: "Back-end", before: 35, after: 50},
+                {category: "Databases", before: 15, after: 40},
+                {category: "APIs", before: 25, after: 55},
+                {category: "DevOps", before: 10, after: 35}
+            ],
+            timeSpent: [
+                {period: "Before AI", frontend: 5, backend: 15, databases: 3, apis: 8, devops: 2},
+                {period: "After AI", frontend: 12, backend: 18, databases: 10, apis: 15, devops: 8}
+            ],
+            skills: [
+                {skill: "Core Expertise", before: 70, after: 40},
+                {skill: "Adjacent Skills", before: 20, after: 35},
+                {skill: "New Domains", before: 10, after: 25}
+            ]
+        };
+
+        // Learning Charts Data
+        const learningData = {
+            prototypeTime: [
+                {project: "Simple Feature", before: 7, after: 2},
+                {project: "Complex System", before: 21, after: 5},
+                {project: "UI Component", before: 5, after: 1},
+                {project: "API Integration", before: 14, after: 3}
+            ],
+            iterations: [
+                {type: "Bug Fixes", before: 3, after: 8},
+                {type: "Feature Dev", before: 2, after: 6},
+                {type: "Refactoring", before: 1, after: 4},
+                {type: "Prototyping", before: 1, after: 5}
+            ],
+            feedback: [
+                {month: "Jan", efficiency: 60},
+                {month: "Feb", efficiency: 65},
+                {month: "Mar", efficiency: 72},
+                {month: "Apr", efficiency: 78},
+                {month: "May", efficiency: 85},
+                {month: "Jun", efficiency: 90}
+            ]
+        };
+
+        // Neglected Tasks Data
+        const neglectedData = {
+            timeAllocation: [
+                {period: "Before AI", core: 80, neglected: 20},
+                {period: "After AI", core: 65, neglected: 35}
+            ],
+            papercuts: [
+                {month: "Jan", fixes: 15},
+                {month: "Feb", fixes: 22},
+                {month: "Mar", fixes: 28},
+                {month: "Apr", fixes: 35},
+                {month: "May", fixes: 42},
+                {month: "Jun", fixes: 48}
+            ],
+            impact: [
+                {area: "Code Quality", before: 60, after: 85},
+                {area: "Team Velocity", before: 55, after: 78},
+                {area: "User Experience", before: 70, after: 90},
+                {area: "Maintainability", before: 50, after: 75}
+            ],
+            heatMap: [
+                {task: "Bug Fixes", priority: "High", time: 20},
+                {task: "Refactoring", priority: "Medium", time: 15},
+                {task: "Documentation", priority: "Low", time: 10},
+                {task: "Testing", priority: "High", time: 25},
+                {task: "UI Polish", priority: "Medium", time: 12}
+            ],
+            spider: [
+                {axis: "Efficiency", before: 60, after: 85},
+                {axis: "Quality", before: 55, after: 80},
+                {axis: "Speed", before: 70, after: 90},
+                {axis: "Collaboration", before: 50, after: 75},
+                {axis: "Satisfaction", before: 65, after: 88}
+            ],
+            chord: [
+                [0, 10, 5, 15],
+                [10, 0, 8, 12],
+                [5, 8, 0, 7],
+                [15, 12, 7, 0]
+            ]
+        };
+
+        function drawFullStackCharts() {
+            drawProductivityChart();
+            drawTimeSpentChart();
+            drawSkillsChart();
+        }
+
+        function drawLearningCharts() {
+            drawPrototypeTimeChart();
+            drawIterationsChart();
+            drawFeedbackChart();
+        }
+
+        function drawNeglectedCharts() {
+            drawTimeAllocationChart();
+            drawPapercutsChart();
+            drawImpactChart();
+        }
+
+        function drawProductivityChart() {
+            const svg = d3.select("#chart-0-0");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            x.domain(fullStackData.productivity.map(d => d.category));
+            y.domain([0, d3.max(fullStackData.productivity, d => Math.max(d.before, d.after))]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y));
+            
+            // Before bars
+            g.selectAll(".before-bar")
+                .data(fullStackData.productivity)
+                .enter().append("rect")
+                .attr("class", "before-bar")
+                .attr("x", d => x(d.category))
+                .attr("width", x.bandwidth() / 2)
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#e74c3c")
+                .transition()
+                .duration(1000)
+                .attr("y", d => y(d.before))
+                .attr("height", d => height - y(d.before));
+            
+            // After bars
+            g.selectAll(".after-bar")
+                .data(fullStackData.productivity)
+                .enter().append("rect")
+                .attr("class", "after-bar")
+                .attr("x", d => x(d.category) + x.bandwidth() / 2)
+                .attr("width", x.bandwidth() / 2)
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#27ae60")
+                .transition()
+                .delay(500)
+                .duration(1000)
+                .attr("y", d => y(d.after))
+                .attr("height", d => height - y(d.after));
+            
+            // Legend
+            const legend = g.append("g").attr("transform", `translate(${width - 150}, 20)`);
+            legend.append("rect").attr("width", 18).attr("height", 18).attr("fill", "#e74c3c");
+            legend.append("text").attr("x", 24).attr("y", 9).attr("dy", "0.35em").text("Before AI");
+            legend.append("rect").attr("x", 0).attr("y", 25).attr("width", 18).attr("height", 18).attr("fill", "#27ae60");
+            legend.append("text").attr("x", 24).attr("y", 34).attr("dy", "0.35em").text("After AI");
+        }
+
+        function drawTimeSpentChart() {
+            const svg = d3.select("#chart-0-1");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            const keys = ["frontend", "backend", "databases", "apis", "devops"];
+            const color = d3.scaleOrdinal().domain(keys).range(["#3498db", "#e74c3c", "#f39c12", "#9b59b6", "#1abc9c"]);
+            
+            x.domain(fullStackData.timeSpent.map(d => d.period));
+            y.domain([0, d3.max(fullStackData.timeSpent, d => d3.sum(keys, k => d[k]))]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y));
+            
+            const stackedData = d3.stack().keys(keys)(fullStackData.timeSpent);
+            
+            g.selectAll("g.layer")
+                .data(stackedData)
+                .enter().append("g")
+                .attr("class", "layer")
+                .attr("fill", (d, i) => color(keys[i]))
+                .selectAll("rect")
+                .data(d => d)
+                .enter().append("rect")
+                .attr("x", d => x(d.data.period))
+                .attr("width", x.bandwidth())
+                .attr("y", height)
+                .attr("height", 0)
+                .transition()
+                .duration(1500)
+                .attr("y", d => y(d[1]))
+                .attr("height", d => y(d[0]) - y(d[1]));
+        }
+
+        function drawSkillsChart() {
+            const svg = d3.select("#chart-0-2");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            x.domain(fullStackData.skills.map(d => d.skill));
+            y.domain([0, 100]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y).tickFormat(d => d + "%"));
+            
+            // Before lines
+            const beforeLine = d3.line()
+                .x(d => x(d.skill) + x.bandwidth() / 2)
+                .y(d => y(d.before))
+                .curve(d3.curveMonotoneX);
+            
+            g.append("path")
+                .datum(fullStackData.skills)
+                .attr("fill", "none")
+                .attr("stroke", "#e74c3c")
+                .attr("stroke-width", 3)
+                .attr("d", beforeLine)
+                .attr("stroke-dasharray", function() { return this.getTotalLength(); })
+                .attr("stroke-dashoffset", function() { return this.getTotalLength(); })
+                .transition()
+                .duration(2000)
+                .attr("stroke-dashoffset", 0);
+            
+            // After lines
+            const afterLine = d3.line()
+                .x(d => x(d.skill) + x.bandwidth() / 2)
+                .y(d => y(d.after))
+                .curve(d3.curveMonotoneX);
+            
+            g.append("path")
+                .datum(fullStackData.skills)
+                .attr("fill", "none")
+                .attr("stroke", "#27ae60")
+                .attr("stroke-width", 3)
+                .attr("d", afterLine)
+                .attr("stroke-dasharray", function() { return this.getTotalLength(); })
+                .attr("stroke-dashoffset", function() { return this.getTotalLength(); })
+                .transition()
+                .delay(1000)
+                .duration(2000)
+                .attr("stroke-dashoffset", 0);
+            
+            // Legend
+            const legend = g.append("g").attr("transform", `translate(${width - 150}, 20)`);
+            legend.append("line").attr("x1", 0).attr("y1", 9).attr("x2", 18).attr("y2", 9).attr("stroke", "#e74c3c").attr("stroke-width", 3);
+            legend.append("text").attr("x", 24).attr("y", 9).attr("dy", "0.35em").text("Before AI");
+            legend.append("line").attr("x1", 0).attr("y1", 34).attr("x2", 18).attr("y2", 34).attr("stroke", "#27ae60").attr("stroke-width", 3);
+            legend.append("text").attr("x", 24).attr("y", 34).attr("dy", "0.35em").text("After AI");
+        }
+
+        function drawPrototypeTimeChart() {
+            const svg = d3.select("#chart-1-0");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            x.domain(learningData.prototypeTime.map(d => d.project));
+            y.domain([0, d3.max(learningData.prototypeTime, d => Math.max(d.before, d.after))]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y).tickFormat(d => d + " days"));
+            
+            // Before bars
+            g.selectAll(".before-bar")
+                .data(learningData.prototypeTime)
+                .enter().append("rect")
+                .attr("class", "before-bar")
+                .attr("x", d => x(d.project))
+                .attr("width", x.bandwidth() / 2)
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#e74c3c")
+                .transition()
+                .duration(1000)
+                .attr("y", d => y(d.before))
+                .attr("height", d => height - y(d.before));
+            
+            // After bars
+            g.selectAll(".after-bar")
+                .data(learningData.prototypeTime)
+                .enter().append("rect")
+                .attr("class", "after-bar")
+                .attr("x", d => x(d.project) + x.bandwidth() / 2)
+                .attr("width", x.bandwidth() / 2)
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#27ae60")
+                .transition()
+                .delay(500)
+                .duration(1000)
+                .attr("y", d => y(d.after))
+                .attr("height", d => height - y(d.after));
+            
+            // Legend
+            const legend = g.append("g").attr("transform", `translate(${width - 150}, 20)`);
+            legend.append("rect").attr("width", 18).attr("height", 18).attr("fill", "#e74c3c");
+            legend.append("text").attr("x", 24).attr("y", 9).attr("dy", "0.35em").text("Before AI");
+            legend.append("rect").attr("x", 0).attr("y", 25).attr("width", 18).attr("height", 18).attr("fill", "#27ae60");
+            legend.append("text").attr("x", 24).attr("y", 34).attr("dy", "0.35em").text("After AI");
+        }
+
+        function drawIterationsChart() {
+            const svg = d3.select("#chart-1-1");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            x.domain(learningData.iterations.map(d => d.type));
+            y.domain([0, d3.max(learningData.iterations, d => Math.max(d.before, d.after))]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y).tickFormat(d => d + "/day"));
+            
+            // Before bars
+            g.selectAll(".before-bar")
+                .data(learningData.iterations)
+                .enter().append("rect")
+                .attr("class", "before-bar")
+                .attr("x", d => x(d.type))
+                .attr("width", x.bandwidth() / 2)
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#e74c3c")
+                .transition()
+                .duration(1000)
+                .attr("y", d => y(d.before))
+                .attr("height", d => height - y(d.before));
+            
+            // After bars
+            g.selectAll(".after-bar")
+                .data(learningData.iterations)
+                .enter().append("rect")
+                .attr("class", "after-bar")
+                .attr("x", d => x(d.type) + x.bandwidth() / 2)
+                .attr("width", x.bandwidth() / 2)
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#27ae60")
+                .transition()
+                .delay(500)
+                .duration(1000)
+                .attr("y", d => y(d.after))
+                .attr("height", d => height - y(d.after));
+            
+            // Legend
+            const legend = g.append("g").attr("transform", `translate(${width - 150}, 20)`);
+            legend.append("rect").attr("width", 18).attr("height", 18).attr("fill", "#e74c3c");
+            legend.append("text").attr("x", 24).attr("y", 9).attr("dy", "0.35em").text("Before AI");
+            legend.append("rect").attr("x", 0).attr("y", 25).attr("width", 18).attr("height", 18).attr("fill", "#27ae60");
+            legend.append("text").attr("x", 24).attr("y", 34).attr("dy", "0.35em").text("After AI");
+        }
+
+        function drawFeedbackChart() {
+            const svg = d3.select("#chart-1-2");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            x.domain(learningData.feedback.map(d => d.month));
+            y.domain([0, 100]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y).tickFormat(d => d + "%"));
+            
+            const area = d3.area()
+                .x(d => x(d.month) + x.bandwidth() / 2)
+                .y0(height)
+                .y1(d => y(d.efficiency))
+                .curve(d3.curveMonotoneX);
+            
+            g.append("path")
+                .datum(learningData.feedback)
+                .attr("fill", "url(#gradient)")
+                .attr("d", area)
+                .attr("opacity", 0)
+                .transition()
+                .duration(2000)
+                .attr("opacity", 1);
+            
+            const line = d3.line()
+                .x(d => x(d.month) + x.bandwidth() / 2)
+                .y(d => y(d.efficiency))
+                .curve(d3.curveMonotoneX);
+            
+            g.append("path")
+                .datum(learningData.feedback)
+                .attr("fill", "none")
+                .attr("stroke", "#3498db")
+                .attr("stroke-width", 3)
+                .attr("d", line)
+                .attr("stroke-dasharray", function() { return this.getTotalLength(); })
+                .attr("stroke-dashoffset", function() { return this.getTotalLength(); })
+                .transition()
+                .delay(500)
+                .duration(2000)
+                .attr("stroke-dashoffset", 0);
+            
+            // Gradient
+            const defs = svg.append("defs");
+            const gradient = defs.append("linearGradient")
+                .attr("id", "gradient")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "0%").attr("y2", "100%");
+            
+            gradient.append("stop")
+                .attr("offset", "0%")
+                .attr("stop-color", "#3498db")
+                .attr("stop-opacity", 0.8);
+            
+            gradient.append("stop")
+                .attr("offset", "100%")
+                .attr("stop-color", "#3498db")
+                .attr("stop-opacity", 0.2);
+        }
+
+        function drawTimeAllocationChart() {
+            const svg = d3.select("#chart-2-0");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            const keys = ["core", "neglected"];
+            const color = d3.scaleOrdinal().domain(keys).range(["#3498db", "#f39c12"]);
+            
+            x.domain(neglectedData.timeAllocation.map(d => d.period));
+            y.domain([0, 100]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y).tickFormat(d => d + "%"));
+            
+            const stackedData = d3.stack().keys(keys)(neglectedData.timeAllocation);
+            
+            g.selectAll("g.layer")
+                .data(stackedData)
+                .enter().append("g")
+                .attr("class", "layer")
+                .attr("fill", (d, i) => color(keys[i]))
+                .selectAll("rect")
+                .data(d => d)
+                .enter().append("rect")
+                .attr("x", d => x(d.data.period))
+                .attr("width", x.bandwidth())
+                .attr("y", height)
+                .attr("height", 0)
+                .transition()
+                .duration(1500)
+                .attr("y", d => y(d[1]))
+                .attr("height", d => y(d[0]) - y(d[1]));
+            
+            // Legend
+            const legend = g.append("g").attr("transform", `translate(${width - 150}, 20)`);
+            legend.append("rect").attr("width", 18).attr("height", 18).attr("fill", "#3498db");
+            legend.append("text").attr("x", 24).attr("y", 9).attr("dy", "0.35em").text("Core Tasks");
+            legend.append("rect").attr("x", 0).attr("y", 25).attr("width", 18).attr("height", 18).attr("fill", "#f39c12");
+            legend.append("text").attr("x", 24).attr("y", 34).attr("dy", "0.35em").text("Neglected Tasks");
+        }
+
+        function drawPapercutsChart() {
+            const svg = d3.select("#chart-2-1");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            x.domain(neglectedData.papercuts.map(d => d.month));
+            y.domain([0, d3.max(neglectedData.papercuts, d => d.fixes)]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y));
+            
+            g.selectAll(".bar")
+                .data(neglectedData.papercuts)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", d => x(d.month))
+                .attr("width", x.bandwidth())
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#9b59b6")
+                .transition()
+                .duration(1000)
+                .delay((d, i) => i * 100)
+                .attr("y", d => y(d.fixes))
+                .attr("height", d => height - y(d.fixes));
+        }
+
+        function drawImpactChart() {
+            const svg = d3.select("#chart-2-2");
+            svg.selectAll("*").remove();
+            
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+            
+            x.domain(neglectedData.impact.map(d => d.area));
+            y.domain([0, 100]);
+            
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+            
+            g.append("g").call(d3.axisLeft(y).tickFormat(d => d + "%"));
+            
+            // Before bars
+            g.selectAll(".before-bar")
+                .data(neglectedData.impact)
+                .enter().append("rect")
+                .attr("class", "before-bar")
+                .attr("x", d => x(d.area))
+                .attr("width", x.bandwidth() / 2)
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#e74c3c")
+                .transition()
+                .duration(1000)
+                .attr("y", d => y(d.before))
+                .attr("height", d => height - y(d.before));
+            
+            // After bars
+            g.selectAll(".after-bar")
+                .data(neglectedData.impact)
+                .enter().append("rect")
+                .attr("class", "after-bar")
+                .attr("x", d => x(d.area) + x.bandwidth() / 2)
+                .attr("width", x.bandwidth() / 2)
+                .attr("y", height)
+                .attr("height", 0)
+                .attr("fill", "#27ae60")
+                .transition()
+                .delay(500)
+                .duration(1000)
+                .attr("y", d => y(d.after))
+                .attr("height", d => height - y(d.after));
+            
+            // Legend
+            const legend = g.append("g").attr("transform", `translate(${width - 150}, 20)`);
+            legend.append("rect").attr("width", 18).attr("height", 18).attr("fill", "#e74c3c");
+            legend.append("text").attr("x", 24).attr("y", 9).attr("dy", "0.35em").text("Before AI");
+            legend.append("rect").attr("x", 0).attr("y", 25).attr("width", 18).attr("height", 18).attr("fill", "#27ae60");
+            legend.append("text").attr("x", 24).attr("y", 34).attr("dy", "0.35em").text("After AI");
+        }
+
+        // New Xenographic Charts
+
+        function drawRadialSkillChart() {
+            const svg = d3.select("#chart-0-3");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            const radius = Math.min(width, height) / 2;
+
+            const g = svg.append("g").attr("transform", `translate(${width/2 + margin.left}, ${height/2 + margin.top})`);
+
+            const data = [
+                {name: "Front-end", before: 20, after: 45},
+                {name: "Back-end", before: 35, after: 50},
+                {name: "Databases", before: 15, after: 40},
+                {name: "APIs", before: 25, after: 55},
+                {name: "DevOps", before: 10, after: 35}
+            ];
+
+            const angle = d3.scaleBand().domain(data.map(d => d.name)).range([0, 2 * Math.PI]);
+            const radiusScale = d3.scaleLinear().domain([0, 60]).range([0, radius]);
+
+            // Before arcs
+            const arcBefore = d3.arc()
+                .innerRadius(0)
+                .outerRadius(d => radiusScale(d.before))
+                .startAngle((d, i) => angle(d.name))
+                .endAngle((d, i) => angle(d.name) + angle.bandwidth());
+
+            g.selectAll(".before-arc")
+                .data(data)
+                .enter().append("path")
+                .attr("class", "before-arc")
+                .attr("d", arcBefore)
+                .attr("fill", "#e74c3c")
+                .attr("opacity", 0)
+                .transition()
+                .duration(1500)
+                .attr("opacity", 0.7);
+
+            // After arcs
+            const arcAfter = d3.arc()
+                .innerRadius(0)
+                .outerRadius(d => radiusScale(d.after))
+                .startAngle((d, i) => angle(d.name))
+                .endAngle((d, i) => angle(d.name) + angle.bandwidth());
+
+            g.selectAll(".after-arc")
+                .data(data)
+                .enter().append("path")
+                .attr("class", "after-arc")
+                .attr("d", arcAfter)
+                .attr("fill", "#27ae60")
+                .attr("opacity", 0)
+                .transition()
+                .delay(500)
+                .duration(1500)
+                .attr("opacity", 0.7);
+
+            // Labels
+            g.selectAll(".label")
+                .data(data)
+                .enter().append("text")
+                .attr("class", "label")
+                .attr("x", d => (radiusScale(d.after) + 10) * Math.cos(angle(d.name) + angle.bandwidth() / 2))
+                .attr("y", d => (radiusScale(d.after) + 10) * Math.sin(angle(d.name) + angle.bandwidth() / 2))
+                .attr("text-anchor", "middle")
+                .text(d => d.name)
+                .style("font-size", "12px")
+                .attr("opacity", 0)
+                .transition()
+                .delay(1000)
+                .duration(1000)
+                .attr("opacity", 1);
+        }
+
+        function drawTreemapChart() {
+            const svg = d3.select("#chart-0-4");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const data = {
+                name: "Skills",
+                children: [
+                    {name: "Before", children: [
+                        {name: "Core", value: 70},
+                        {name: "Adjacent", value: 20},
+                        {name: "New", value: 10}
+                    ]},
+                    {name: "After", children: [
+                        {name: "Core", value: 40},
+                        {name: "Adjacent", value: 35},
+                        {name: "New", value: 25}
+                    ]}
+                ]
+            };
+
+            const treemap = d3.treemap().size([width, height]).padding(1);
+            const root = d3.hierarchy(data).sum(d => d.value);
+            treemap(root);
+
+            const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+            g.selectAll("rect")
+                .data(root.leaves())
+                .enter().append("rect")
+                .attr("x", d => d.x0)
+                .attr("y", d => d.y0)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0)
+                .attr("fill", d => color(d.parent.data.name))
+                .attr("opacity", 0)
+                .transition()
+                .duration(2000)
+                .attr("opacity", 0.8);
+
+            g.selectAll("text")
+                .data(root.leaves())
+                .enter().append("text")
+                .attr("x", d => d.x0 + 5)
+                .attr("y", d => d.y0 + 15)
+                .text(d => `${d.data.name}: ${d.data.value}%`)
+                .style("font-size", "10px")
+                .attr("fill", "white")
+                .attr("opacity", 0)
+                .transition()
+                .delay(1000)
+                .duration(1000)
+                .attr("opacity", 1);
+        }
+
+        function drawForceDirectedChart() {
+            const svg = d3.select("#chart-0-5");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const nodes = [
+                {id: "Core Skills", group: 1},
+                {id: "Front-end", group: 2},
+                {id: "Back-end", group: 2},
+                {id: "Databases", group: 2},
+                {id: "APIs", group: 2},
+                {id: "DevOps", group: 2}
+            ];
+
+            const links = [
+                {source: "Core Skills", target: "Front-end"},
+                {source: "Core Skills", target: "Back-end"},
+                {source: "Core Skills", target: "Databases"},
+                {source: "Core Skills", target: "APIs"},
+                {source: "Core Skills", target: "DevOps"}
+            ];
+
+            const simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+                .force("charge", d3.forceManyBody().strength(-300))
+                .force("center", d3.forceCenter(width / 2, height / 2));
+
+            const link = g.append("g")
+                .selectAll("line")
+                .data(links)
+                .enter().append("line")
+                .attr("stroke", "#999")
+                .attr("stroke-opacity", 0.6)
+                .attr("stroke-width", 2);
+
+            const node = g.append("g")
+                .selectAll("circle")
+                .data(nodes)
+                .enter().append("circle")
+                .attr("r", 10)
+                .attr("fill", d => d.group === 1 ? "#3498db" : "#e74c3c")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            const text = g.append("g")
+                .selectAll("text")
+                .data(nodes)
+                .enter().append("text")
+                .text(d => d.id)
+                .style("font-size", "12px")
+                .attr("text-anchor", "middle")
+                .attr("dy", -15);
+
+            simulation.on("tick", () => {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                node
+                    .attr("cx", d => d.x)
+                    .attr("cy", d => d.y);
+
+                text
+                    .attr("x", d => d.x)
+                    .attr("y", d => d.y);
+            });
+
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+        }
+
+        function drawRadarChart() {
+            const svg = d3.select("#chart-1-3");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            const radius = Math.min(width, height) / 2;
+
+            const g = svg.append("g").attr("transform", `translate(${width/2 + margin.left}, ${height/2 + margin.top})`);
+
+            const data = [
+                {axis: "Prototyping", before: 3, after: 8},
+                {axis: "Iteration", before: 2, after: 6},
+                {axis: "Feedback", before: 4, after: 9},
+                {axis: "Learning", before: 3, after: 7},
+                {axis: "Testing", before: 2, after: 5}
+            ];
+
+            const angleSlice = Math.PI * 2 / data.length;
+            const rScale = d3.scaleLinear().range([0, radius]).domain([0, 10]);
+
+            // Grid
+            const levels = 5;
+            for (let level = 0; level < levels; level++) {
+                const levelFactor = radius * ((level + 1) / levels);
+                g.selectAll(`.level-${level}`)
+                    .data(data)
+                    .enter().append("line")
+                    .attr("x1", (d, i) => levelFactor * Math.cos(angleSlice * i - Math.PI / 2))
+                    .attr("y1", (d, i) => levelFactor * Math.sin(angleSlice * i - Math.PI / 2))
+                    .attr("x2", (d, i) => levelFactor * Math.cos(angleSlice * (i + 1) - Math.PI / 2))
+                    .attr("y2", (d, i) => levelFactor * Math.sin(angleSlice * (i + 1) - Math.PI / 2))
+                    .attr("stroke", "#CDCDCD")
+                    .attr("stroke-width", 1);
+            }
+
+            // Before area
+            const radarLineBefore = d3.lineRadial()
+                .angle((d, i) => i * angleSlice)
+                .radius(d => rScale(d.before))
+                .curve(d3.curveLinearClosed);
+
+            g.append("path")
+                .datum(data)
+                .attr("d", radarLineBefore)
+                .attr("fill", "#e74c3c")
+                .attr("fill-opacity", 0.3)
+                .attr("stroke", "#e74c3c")
+                .attr("stroke-width", 2)
+                .attr("opacity", 0)
+                .transition()
+                .duration(1500)
+                .attr("opacity", 1);
+
+            // After area
+            const radarLineAfter = d3.lineRadial()
+                .angle((d, i) => i * angleSlice)
+                .radius(d => rScale(d.after))
+                .curve(d3.curveLinearClosed);
+
+            g.append("path")
+                .datum(data)
+                .attr("d", radarLineAfter)
+                .attr("fill", "#27ae60")
+                .attr("fill-opacity", 0.3)
+                .attr("stroke", "#27ae60")
+                .attr("stroke-width", 2)
+                .attr("opacity", 0)
+                .transition()
+                .delay(500)
+                .duration(1500)
+                .attr("opacity", 1);
+        }
+
+        function drawWaterfallChart() {
+            const svg = d3.select("#chart-1-4");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const data = [
+                {name: "Initial Time", value: 21, type: "start"},
+                {name: "AI Assistance", value: -10, type: "decrease"},
+                {name: "Faster Feedback", value: -5, type: "decrease"},
+                {name: "Parallel Work", value: -3, type: "decrease"},
+                {name: "Final Time", value: 3, type: "end"}
+            ];
+
+            const x = d3.scaleBand().range([0, width]).padding(0.1);
+            const y = d3.scaleLinear().range([height, 0]);
+
+            x.domain(data.map(d => d.name));
+            y.domain([0, d3.max(data, d => d.value)]);
+
+            let cumulative = 0;
+            data.forEach(d => {
+                d.start = cumulative;
+                cumulative += d.value;
+                d.end = cumulative;
+            });
+
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+
+            g.append("g").call(d3.axisLeft(y));
+
+            g.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("x", d => x(d.name))
+                .attr("width", x.bandwidth())
+                .attr("y", d => d.type === "decrease" ? y(d.start) : y(d.end))
+                .attr("height", d => Math.abs(y(d.start) - y(d.end)))
+                .attr("fill", d => d.type === "decrease" ? "#27ae60" : d.type === "start" ? "#3498db" : "#e74c3c")
+                .attr("opacity", 0)
+                .transition()
+                .duration(1000)
+                .delay((d, i) => i * 200)
+                .attr("opacity", 1);
+        }
+
+        function drawSankeyChart() {
+            // Simple Sankey implementation
+            const svg = d3.select("#chart-1-5");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const nodes = [
+                {name: "Idea", x: 50, y: height/2},
+                {name: "Prototyping", x: 200, y: height/4},
+                {name: "Testing", x: 200, y: 3*height/4},
+                {name: "Feedback", x: 350, y: height/2},
+                {name: "Iteration", x: 500, y: height/2}
+            ];
+
+            const links = [
+                {source: 0, target: 1, value: 10},
+                {source: 0, target: 2, value: 5},
+                {source: 1, target: 3, value: 8},
+                {source: 2, target: 3, value: 4},
+                {source: 3, target: 4, value: 12}
+            ];
+
+            const link = g.append("g")
+                .selectAll("path")
+                .data(links)
+                .enter().append("path")
+                .attr("d", d => {
+                    const source = nodes[d.source];
+                    const target = nodes[d.target];
+                    return `M${source.x},${source.y} Q${(source.x + target.x)/2},${source.y} ${(source.x + target.x)/2},${target.y} Q${(source.x + target.x)/2},${target.y} ${target.x},${target.y}`;
+                })
+                .attr("stroke", "#3498db")
+                .attr("stroke-width", d => Math.sqrt(d.value) * 2)
+                .attr("fill", "none")
+                .attr("opacity", 0)
+                .transition()
+                .duration(2000)
+                .attr("opacity", 0.7);
+
+            const node = g.append("g")
+                .selectAll("circle")
+                .data(nodes)
+                .enter().append("circle")
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y)
+                .attr("r", 10)
+                .attr("fill", "#e74c3c")
+                .attr("opacity", 0)
+                .transition()
+                .delay(1000)
+                .duration(1000)
+                .attr("opacity", 1);
+
+            const text = g.append("g")
+                .selectAll("text")
+                .data(nodes)
+                .enter().append("text")
+                .attr("x", d => d.x)
+                .attr("y", d => d.y - 15)
+                .attr("text-anchor", "middle")
+                .text(d => d.name)
+                .style("font-size", "12px")
+                .attr("opacity", 0)
+                .transition()
+                .delay(1500)
+                .duration(1000)
+                .attr("opacity", 1);
+        }
+
+        function drawHeatMapChart() {
+            const svg = d3.select("#chart-2-3");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const data = neglectedData.heatMap;
+
+            const x = d3.scaleBand().range([0, width]).domain(["High", "Medium", "Low"]);
+            const y = d3.scaleBand().range([height, 0]).domain(data.map(d => d.task));
+            const color = d3.scaleSequential(d3.interpolateBlues).domain([0, 30]);
+
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+
+            g.append("g").call(d3.axisLeft(y));
+
+            g.selectAll(".cell")
+                .data(data)
+                .enter().append("rect")
+                .attr("x", d => x(d.priority))
+                .attr("y", d => y(d.task))
+                .attr("width", x.bandwidth())
+                .attr("height", y.bandwidth())
+                .attr("fill", d => color(d.time))
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 1)
+                .attr("opacity", 0)
+                .transition()
+                .duration(1000)
+                .delay((d, i) => i * 100)
+                .attr("opacity", 1)
+                .on("end", function(d) {
+                    d3.select(this).append("title").text(`${d.task} - ${d.priority} Priority: ${d.time} hours`);
+                });
+        }
+
+        function drawSpiderChart() {
+            // Similar to radar
+            const svg = d3.select("#chart-2-4");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            const radius = Math.min(width, height) / 2;
+
+            const g = svg.append("g").attr("transform", `translate(${width/2 + margin.left}, ${height/2 + margin.top})`);
+
+            const data = neglectedData.spider;
+
+            const angleSlice = Math.PI * 2 / data.length;
+            const rScale = d3.scaleLinear().range([0, radius]).domain([0, 100]);
+
+            // Grid
+            const levels = 5;
+            for (let level = 0; level < levels; level++) {
+                const levelFactor = radius * ((level + 1) / levels);
+                g.selectAll(`.level-${level}`)
+                    .data(data)
+                    .enter().append("line")
+                    .attr("x1", (d, i) => levelFactor * Math.cos(angleSlice * i - Math.PI / 2))
+                    .attr("y1", (d, i) => levelFactor * Math.sin(angleSlice * i - Math.PI / 2))
+                    .attr("x2", (d, i) => levelFactor * Math.cos(angleSlice * (i + 1) - Math.PI / 2))
+                    .attr("y2", (d, i) => levelFactor * Math.sin(angleSlice * (i + 1) - Math.PI / 2))
+                    .attr("stroke", "#CDCDCD")
+                    .attr("stroke-width", 1);
+            }
+
+            // Before area
+            const radarLineBefore = d3.lineRadial()
+                .angle((d, i) => i * angleSlice)
+                .radius(d => rScale(d.before))
+                .curve(d3.curveLinearClosed);
+
+            g.append("path")
+                .datum(data)
+                .attr("d", radarLineBefore)
+                .attr("fill", "#e74c3c")
+                .attr("fill-opacity", 0.3)
+                .attr("stroke", "#e74c3c")
+                .attr("stroke-width", 2)
+                .attr("opacity", 0)
+                .transition()
+                .duration(1500)
+                .attr("opacity", 1);
+
+            // After area
+            const radarLineAfter = d3.lineRadial()
+                .angle((d, i) => i * angleSlice)
+                .radius(d => rScale(d.after))
+                .curve(d3.curveLinearClosed);
+
+            g.append("path")
+                .datum(data)
+                .attr("d", radarLineAfter)
+                .attr("fill", "#27ae60")
+                .attr("fill-opacity", 0.3)
+                .attr("stroke", "#27ae60")
+                .attr("stroke-width", 2)
+                .attr("opacity", 0)
+                .transition()
+                .delay(500)
+                .duration(1500)
+                .attr("opacity", 1);
+
+            // Labels
+            g.selectAll(".axis-label")
+                .data(data)
+                .enter().append("text")
+                .attr("class", "axis-label")
+                .attr("x", (d, i) => (radius + 20) * Math.cos(angleSlice * i - Math.PI / 2))
+                .attr("y", (d, i) => (radius + 20) * Math.sin(angleSlice * i - Math.PI / 2))
+                .attr("text-anchor", "middle")
+                .text(d => d.axis)
+                .style("font-size", "12px");
+        }
+
+        function drawChordChart() {
+            const svg = d3.select("#chart-2-5");
+            svg.selectAll("*").remove();
+
+            const margin = {top: 20, right: 30, bottom: 40, left: 60};
+            const width = svg.node().parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.node().parentElement.clientHeight - margin.top - margin.bottom;
+            const outerRadius = Math.min(width, height) / 2 - 10;
+            const innerRadius = outerRadius - 30;
+
+            const g = svg.append("g").attr("transform", `translate(${width/2 + margin.left}, ${height/2 + margin.top})`);
+
+            const matrix = neglectedData.chord;
+
+            const chord = d3.chord()
+                .padAngle(0.05)
+                .sortSubgroups(d3.descending);
+
+            const chords = chord(matrix);
+
+            const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+            // Groups
+            g.datum(chords)
+                .append("g")
+                .selectAll("g")
+                .data(d => d.groups)
+                .enter().append("g")
+                .append("path")
+                .style("fill", (d, i) => color(i))
+                .style("stroke", (d, i) => d3.rgb(color(i)).darker())
+                .attr("d", d3.arc().innerRadius(innerRadius).outerRadius(outerRadius))
+                .attr("opacity", 0)
+                .transition()
+                .duration(1500)
+                .attr("opacity", 1);
+
+            // Ribbons
+            g.datum(chords)
+                .append("g")
+                .selectAll("path")
+                .data(d => d)
+                .enter().append("path")
+                .attr("d", d3.ribbon().radius(innerRadius))
+                .style("fill", (d, i) => color(d.source.index))
+                .style("stroke", (d, i) => d3.rgb(color(d.source.index)).darker())
+                .attr("opacity", 0)
+                .transition()
+                .delay(500)
+                .duration(1500)
+                .attr("opacity", 0.7);
+
+            // Labels
+            const groupLabels = ["Core Tasks", "Neglected Tasks", "Quality Improvements", "Efficiency Gains"];
+            g.datum(chords)
+                .append("g")
+                .selectAll("g")
+                .data(d => d.groups)
+                .enter().append("g")
+                .append("text")
+                .each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
+                .attr("dy", ".35em")
+                .attr("transform", d => `
+                    rotate(${(d.angle * 180 / Math.PI - 90)})
+                    translate(${outerRadius + 10})
+                    ${d.angle > Math.PI ? "rotate(180)" : ""}
+                `)
+                .style("text-anchor", d => d.angle > Math.PI ? "end" : null)
+                .text((d, i) => groupLabels[i])
+                .style("font-size", "12px")
+                .attr("opacity", 0)
+                .transition()
+                .delay(1000)
+                .duration(1000)
+                .attr("opacity", 1);
+        }
+
+        // Initialize
+        window.addEventListener('load', function() {
+            drawFullStackCharts();
+        });
+
+        window.addEventListener('resize', function() {
+            if (activeTab === 0) {
+                drawFullStackCharts();
+                drawRadialSkillChart();
+                drawTreemapChart();
+                drawForceDirectedChart();
+            }
+            else if (activeTab === 1) {
+                drawLearningCharts();
+                drawRadarChart();
+                drawWaterfallChart();
+                drawSankeyChart();
+            }
+            else if (activeTab === 2) {
+                drawNeglectedCharts();
+                drawHeatMapChart();
+                drawSpiderChart();
+                drawChordChart();
+            }
+        });
+    </script>
+</body>
+</html>
