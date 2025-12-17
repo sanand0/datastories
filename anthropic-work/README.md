@@ -77,16 +77,16 @@ Cost-wise, Claude Code cost $1.91 and the rest might be comparable or lower.
 
 Some of the ideas, especially by Gemini 3 Pro and Claude, are **quote creative**!
 
-[![](image-1.webp)](gemini2/v2.html)
-[![](image-2.webp)](gemini2/v2.html)
-[![](image-3.webp)](gemini2/v2.html)
-[![](image-4.webp)](gemini/v2.html)
-[![](image-5.webp)](claude/v2.html)
-[![](image-6.webp)](claude/v2.html)
-[![](image-7.webp)](claude/v2.html)
-[![](image-8.webp)](chatgpt/v2.html)
-[![](image-9.webp)](chatgpt/v2.html)
-[![](image-a.webp)](claude-code/v2.html)
+[![Throughput Flow: Visualizing commits as particles. From a trickle to a steady stream](image-1.webp)](gemini2/v2.html)<br>
+[![Knowledge Neural Net. Visualizing an engineer's mental model. Isolated clusters connect into a dense mesh.](image-2.webp)](gemini2/v2.html)<br>
+[![Repo Coverage Heatmap. Grid representing codebase files. Dark spots (untouched legacy code) light up.](image-3.webp)](gemini2/v2.html)<br>
+[![Dark Matter Radar. Detecting invisible/ignored tasks](image-4.webp)](gemini/v2.html)<br>
+[![Feedback Pulse. Frequency of iteration heartbeats](image-5.webp)](claude/v2.html)<br>
+[![Iteration Spiral. More cycles completed in same time period](image-6.webp)](claude/v2.html)<br>
+[![Expertise Growth Rings. Cumulative skill layers added with AI assistance](image-7.webp)](claude/v2.html)<br>
+[![Prompt→Ship Token Flow (pipeline kinetics). Tokens represent iterations. After = faster tokens + fewer backtracks. Pipeline kinetics: tokens represent iterations; after = faster + fewer backtracks](image-8.webp)](chatgpt/v2.html)<br>
+[![Workbench Blocks (polyomino task stacking). Metaphor: the same day fits more “weird-shaped” tasks when AI trims edge friction. Xenographic: polyomino tasks stack into domain bins (more variety fits after AI)](image-9.webp)](chatgpt/v2.html)<br>
+[![Quality-of-Life Impact Grid. Colored cards based on lower - higher impact](image-a.webp)](claude-code/v2.html)<br>
 
 My expertise as a data visualization expert has two parts:
 
