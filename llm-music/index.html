@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can AI Hear What We Feel? An Investigation into Machine Music Perception</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-darker: #060813;
+            --bg-panel: #12141d;
+            --accent-warm: #ff6b35;
+            --accent-hot: #f7931e;
+            --accent-cool: #00d9ff;
+            --accent-purple: #9d4edd;
+            --text-primary: #f4f1de;
+            --text-secondary: #b8b5a0;
+            --text-muted: #6b6858;
+            --border-color: #1a1f3a;
+            --success: #06ffa5;
+            --danger: #ff006e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Spectral', 'Georgia', serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: var(--bg-darker);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+            z-index: -1;
+        }
+
+        /* Geometric pattern overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 107, 53, 0.03) 2px, rgba(255, 107, 53, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 217, 255, 0.03) 2px, rgba(0, 217, 255, 0.03) 4px);
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .header {
+            background: linear-gradient(180deg, rgba(18, 20, 29, 0.95) 0%, rgba(10, 14, 39, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--border-color);
+            padding: 100px 20px 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg,
+                var(--accent-warm) 0%,
+                var(--accent-hot) 25%,
+                var(--accent-cool) 50%,
+                var(--accent-purple) 75%,
+                var(--accent-warm) 100%);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            line-height: 1.1;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(135deg, var(--accent-warm) 0%, var(--accent-cool) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header .subtitle {
+            font-size: 1.4em;
+            color: var(--text-secondary);
+            font-style: italic;
+            max-width: 700px;
+            margin: 0 auto 15px auto;
+            animation: fadeInDown 1s ease-out 0.2s both;
+        }
+
+        .byline {
+            margin-top: 25px;
+            font-size: 0.95em;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease-out 0.4s both;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 30px;
+        }
+
+        .wide-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 30px;
+        }
+
+        .section {
+            margin: 80px 0;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5em;
+            margin: 60px 0 30px 0;
+            font-weight: 700;
+            color: var(--accent-warm);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-warm), var(--accent-cool));
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8em;
+            margin: 40px 0 20px 0;
+            font-weight: 600;
+            color: var(--accent-cool);
+        }
+
+        p {
+            margin: 25px 0;
+            font-size: 1.15em;
+            color: var(--text-primary);
+        }
+
+        .pullquote {
+            font-size: 1.6em;
+            font-style: italic;
+            margin: 50px 0;
+            padding: 40px;
+            border-left: 4px solid var(--accent-warm);
+            background: rgba(255, 107, 53, 0.05);
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pullquote::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 8em;
+            color: var(--accent-warm);
+            opacity: 0.1;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(255, 107, 53, 0.3) 60%);
+            padding: 2px 0;
+            color: var(--accent-hot);
+            font-weight: 600;
+        }
+
+        .stats-hero {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 50px 30px;
+            margin: -40px 0 60px 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 20px,
+                rgba(255, 107, 53, 0.05) 20px,
+                rgba(255, 107, 53, 0.05) 40px
+            );
+            pointer-events: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(18, 20, 29, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .stat-box:nth-child(1) { animation-delay: 0.1s; }
+        .stat-box:nth-child(2) { animation-delay: 0.2s; }
+        .stat-box:nth-child(3) { animation-delay: 0.3s; }
+
+        .stat-box:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-warm);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .stat-box .number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3.5em;
+            font-weight: 700;
+            color: var(--danger);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
+        }
+
+        .stat-box .label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1em;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .stat-box .sublabel {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .stats-conclusion {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-conclusion .emphasis {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        .audio-player {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .audio-player:hover {
+            border-color: var(--accent-warm);
+            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.2);
+        }
+
+        .audio-player .song-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent-cool);
+        }
+
+        .audio-player audio {
+            width: 100%;
+            margin-bottom: 15px;
+            filter: saturate(0) brightness(0.8) contrast(1.2);
+        }
+
+        .chart-container {
+            margin: 50px 0;
+            background: var(--bg-panel);
+            padding: 40px 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .chart-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 25px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .emotion-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .emotion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-warm);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .emotion-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-warm);
+            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.2);
+        }
+
+        .emotion-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .emotion-card .emotion-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.15em;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .emotion-card .correlation {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin: 12px 0;
+        }
+
+        .emotion-card .bias {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            border-color: var(--accent-cool);
+            transform: translateY(-4px);
+        }
+
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: var(--accent-warm);
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .process-step .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .process-step .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent-cool);
+        }
+
+        .process-step .desc {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        .code-block {
+            background: rgba(6, 8, 19, 0.8);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-warm);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .interactive-section {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(157, 78, 221, 0.05) 100%);
+            border-top: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            padding: 80px 20px;
+            margin: 80px 0;
+        }
+
+        .song-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            margin: 40px 0;
+        }
+
+        .song-button {
+            padding: 18px;
+            background: var(--bg-panel);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            text-align: center;
+            color: var(--text-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .song-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .song-button:hover::before {
+            left: 100%;
+        }
+
+        .song-button:hover {
+            border-color: var(--accent-warm);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            color: var(--accent-warm);
+        }
+
+        .song-button.active {
+            background: linear-gradient(135deg, var(--accent-warm) 0%, var(--accent-hot) 100%);
+            color: var(--bg-darker);
+            border-color: var(--accent-warm);
+            font-weight: 600;
+        }
+
+        #radarChart {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .methodology {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            padding: 50px;
+            margin: 80px 0;
+            border-radius: 16px;
+        }
+
+        .methodology h3 {
+            margin-top: 0;
+        }
+
+        ul {
+            margin: 25px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 15px 0;
+            font-size: 1.05em;
+            color: var(--text-primary);
+        }
+
+        li strong {
+            color: var(--accent-warm);
+        }
+
+        a {
+            color: var(--accent-cool);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-warm);
+            border-bottom-color: var(--accent-warm);
+        }
+
+        .footer {
+            margin: 100px 0 60px 0;
+            padding: 60px 0 0 0;
+            border-top: 2px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .footer p {
+            font-size: 0.95em;
+            margin: 15px 0;
+        }
+
+        .footer-meta {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .emotion-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+
+            .song-selector {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        .correlation-positive {
+            color: var(--success);
+        }
+
+        .correlation-negative {
+            color: var(--danger);
+        }
+
+        .correlation-neutral {
+            color: var(--accent-hot);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Can AI Hear What We Feel?</h1>
+        <div class="subtitle">An Investigation into Machine Music Perception</div>
+        <div class="byline">A Data-Driven Exploration of Artificial Intelligence and Human Emotion</div>
+    </div>
+
+    <div class="container">
+        <div class="stats-hero">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="number">0.047</div>
+                    <div class="label">AI-Human Correlation</div>
+                    <div class="sublabel">(practically zero)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">45.6%</div>
+                    <div class="label">Predictions off by</div>
+                    <div class="sublabel">more than 20 points</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">0/9</div>
+                    <div class="label">Emotions where AI</div>
+                    <div class="sublabel">beats baseline</div>
+                </div>
+            </div>
+            <p class="stats-conclusion">
+                The AI that can write code, explain physics, and pass the bar exam<br>
+                <span class="emphasis">completely fails at understanding music emotion.</span>
+            </p>
+        </div>
+
+        <div class="section">
+            <p>
+                Consider, for a moment, what happens when you hear a song. Not just any song, but one that stops you mid-step,
+                that floods you with a feeling you can't quite name. Maybe it's nostalgia—a bittersweet ache for something
+                you can't remember losing. Maybe it's joy, pure and unfiltered, making you want to move. Or maybe it's something
+                darker: tension, sadness, a knot in your chest that music somehow knows how to tie.
+            </p>
+
+            <p>
+                This is what music does. It reaches past our defenses, past language, past logic, and touches something
+                fundamental in us. We don't question this. We accept it as one of those mysterious gifts of being human.
+            </p>
+
+            <p>
+                But what if a machine—an artificial intelligence—could do the same thing? Not <em>feel</em> the music,
+                of course, but <em>understand</em> it. Predict what emotions a song would evoke in a listener.
+                Not by analyzing lyrics or reading metadata, but by listening to the raw audio itself, the way you and I do.
+            </p>
+
+            <p>
+                This is not a hypothetical question anymore. It's an experiment we can run. And the results—well,
+                they tell us something profound about both artificial intelligence and ourselves.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>The Experiment</h2>
+
+            <p>
+                The setup was elegantly simple. Take 40 musical excerpts—songs that had already been rated by real humans
+                using a carefully designed emotional framework called <a href="https://musemap.org/resources/gem" target="_blank">GEMS-9</a>
+                (Geneva Emotional Music Scales). Each listener indicated whether they felt each of nine specific emotions
+                while listening: amazement, solemnity, tenderness, nostalgia, calmness, power, joyful activation, tension, and sadness.
+            </p>
+
+            <p>
+                These weren't casual impressions. This was data from the <a href="https://www.kaggle.com/datasets/yash9439/emotify-emotion-classificaiton-in-songs" target="_blank">Emotify dataset</a>,
+                where anywhere from 11 to 53 people rated each song, creating a statistical portrait of human emotional response to music.
+                The <a href="https://data.mendeley.com/datasets/6zhghmr77" target="_blank">complete dataset</a> represents hundreds of hours
+                of careful annotation using a <a href="https://www.sciencedirect.com/science/article/pii/S030645731500042X" target="_blank">validated
+                research methodology</a>.
+            </p>
+
+            <p>
+                Then came the AI's turn. <a href="https://ai.google.dev/gemini-api/docs/models/gemini" target="_blank">Google's Gemini</a>—one
+                of the most advanced multimodal AI systems available—was given the exact same audio files. No lyrics. No artist names.
+                No context. Just the sound waves.
+            </p>
+        </div>
+    </div>
+
+    <div class="interactive-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 15px; color: var(--accent-cool);">Listen For Yourself</h2>
+            <p style="text-align: center; margin-bottom: 40px; color: var(--text-secondary);">
+                Select a song below and see how AI's perception compares to human ratings
+            </p>
+
+            <div id="songSelector" class="song-selector"></div>
+
+            <div class="audio-player" id="audioPlayer" style="display: none;">
+                <div class="song-title" id="currentSongTitle"></div>
+                <audio id="audioElement" controls></audio>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Emotional Profile: AI vs. Humans</div>
+                <svg id="radarChart" width="600" height="600"></svg>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--accent-cool);"></div>
+                        <span>Human Ratings</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--accent-warm);"></div>
+                        <span>AI Prediction</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>The Verdict</h2>
+
+            <p>
+                Here's what you need to know, upfront: <span class="highlight">Gemini failed. Spectacularly.</span>
+            </p>
+
+            <div class="stat-box" style="max-width: 500px; margin: 40px auto;">
+                <div class="number">0.047</div>
+                <div class="label">Correlation between AI predictions and human ratings (where 1.0 would be perfect)</div>
+            </div>
+
+            <p>
+                That number—0.047—is statistically indistinguishable from zero. It means that across 360 song-emotion
+                pairs, the AI's predictions had essentially no relationship to what humans actually felt.
+            </p>
+
+            <p>
+                But that's not even the most damning part. When you compare Gemini to the most brain-dead baseline
+                imaginable—just predicting the average rating for each emotion every single time—Gemini performed
+                <em>worse</em>. Between 1.23 and 2.05 times worse, depending on the emotion.
+            </p>
+
+            <div class="pullquote">
+                The AI wasn't just noisy. It wasn't adding any predictive value over a constant guess.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>How Bad Is Bad?</h2>
+
+            <p>
+                Let's put this in perspective. The AI's mean absolute error was 0.227—which, remember, is on a scale
+                from 0 to 1, where the number represents the proportion of listeners who endorsed that emotion.
+            </p>
+
+            <p>
+                In plain English: on average, the AI was off by <span class="highlight">22.7 percentage points</span>.
+                If 60% of humans felt joy listening to a song, the AI might predict 37%. Or 83%. It was essentially
+                throwing darts.
+            </p>
+
+            <p>
+                And nearly half the time—45.6% of predictions—the error exceeded 20 percentage points.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>The Pattern in the Chaos</h2>
+
+            <p>
+                Now, here's where it gets interesting. Because when you drill into the data, you discover that
+                Gemini's failures weren't random. They were <em>systematic</em>. The AI had clear biases,
+                clear blind spots, clear patterns of misunderstanding.
+            </p>
+
+            <h3>Emotion by Emotion</h3>
+
+            <p>
+                Some emotions confused the AI more than others. Here's the breakdown of how well Gemini
+                correlated with human ratings for each emotion:
+            </p>
+        </div>
+    </div>
+
+    <div class="wide-container">
+        <div class="chart-container">
+            <div class="chart-title">AI Performance by Emotion</div>
+            <svg id="emotionPerformanceChart" width="1100" height="500"></svg>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <div id="emotionGrid" class="emotion-grid"></div>
+
+            <p>
+                Notice something? The "best" performance—nostalgia at r=0.264—is still abysmal by any practical standard.
+                And solemnity actually has a <em>negative</em> correlation: <span class="highlight">the AI tends to rate
+                songs as solemn when humans don't, and vice versa</span>.
+            </p>
+
+            <h3>The Bias Problem</h3>
+
+            <p>
+                But correlation is only part of the story. The AI also showed consistent directional biases—systematically
+                over-predicting some emotions and under-predicting others:
+            </p>
+
+            <ul>
+                <li><strong>Massive over-prediction:</strong> Tenderness (+18.8 points), Joyful Activation (+18.1 points), Power (+13.5 points)</li>
+                <li><strong>Significant under-prediction:</strong> Tension (-16.4 points)</li>
+            </ul>
+
+            <p>
+                What does this mean in practice? The AI has a kind of Pollyanna syndrome. It hears music as happier,
+                more tender, more powerful than humans do. And it dramatically underestimates tension—particularly
+                when a song is genuinely tense.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>The Worst Offenders</h2>
+
+            <p>
+                Not all songs were equally misunderstood. Some were catastrophically misjudged.
+            </p>
+
+            <p>
+                Take Song 40. When you calculate the within-song correlation—whether the AI at least got the
+                <em>relative</em> ranking of emotions right for this particular piece—you get -0.878.
+                That's not just wrong. That's <span class="highlight">inverted</span>. The emotions the AI
+                thought were strongest were actually the weakest, and vice versa.
+            </p>
+
+            <p>
+                The AI predicted this song would evoke primarily joyful activation. Humans felt nostalgia.
+            </p>
+        </div>
+    </div>
+
+    <div class="wide-container">
+        <div class="chart-container">
+            <div class="chart-title">Best and Worst Predictions</div>
+            <svg id="bestWorstChart" width="1100" height="400"></svg>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>The Prior Problem</h2>
+
+            <p>
+                Here's perhaps the most revealing pattern: when you look at which emotion the AI selected as
+                "top" for each song, you see a stunning lack of diversity.
+            </p>
+
+            <p>
+                Out of 40 songs:
+            </p>
+            <ul>
+                <li>Joyful Activation: 21 songs (53%)</li>
+                <li>Calmness: 12 songs (30%)</li>
+                <li>Everything else: 7 songs (17%)</li>
+            </ul>
+
+            <p>
+                Meanwhile, human ratings were distributed much more evenly across nostalgia, tension, solemnity,
+                and other emotions.
+            </p>
+
+            <div class="pullquote">
+                The AI appears to be operating with a strong prior belief that most music is either
+                'joyful activation' or 'calmness'—a belief that has little to do with the actual audio.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The Entanglement Effect</h2>
+
+            <p>
+                There's another problem, more subtle but equally damning. When you analyze how the AI's emotion
+                predictions relate to <em>each other</em>, you discover something strange: they're far more
+                correlated than human ratings are.
+            </p>
+
+            <p>
+                For humans, different emotions can coexist independently. A song can be both nostalgic and joyful,
+                both powerful and calm. The average absolute correlation between different emotions in human
+                ratings is around 0.37.
+            </p>
+
+            <p>
+                For the AI? 0.58.
+            </p>
+
+            <p>
+                What this means is that the AI is producing low-dimensional, template-like responses. Some specific
+                examples:
+            </p>
+
+            <ul>
+                <li>Power and Joyful Activation: r = 0.96 (nearly identical)</li>
+                <li>Tenderness and Nostalgia: r = 0.91</li>
+                <li>Calmness and Joyful Activation: r = -0.90 (perfect opposites)</li>
+            </ul>
+
+            <p>
+                The AI isn't really hearing nine separate emotional dimensions. It's hearing maybe two or three,
+                and generating the others mechanically based on internal correlations that have little to do with
+                the music itself.
+            </p>
+        </div>
+    </div>
+
+    <div class="wide-container">
+        <div class="chart-container">
+            <div class="chart-title">Emotion Correlations: AI vs. Humans</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 30px;">
+                <div>
+                    <h4 style="text-align: center; margin-bottom: 20px; color: var(--accent-cool);">Human Ratings</h4>
+                    <svg id="humanCorrelationMatrix" width="500" height="500"></svg>
+                </div>
+                <div>
+                    <h4 style="text-align: center; margin-bottom: 20px; color: var(--accent-warm);">AI Predictions</h4>
+                    <svg id="aiCorrelationMatrix" width="500" height="500"></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>Is It Even Listening?</h2>
+
+            <p>
+                This raises an uncomfortable question: <span class="highlight">is the AI actually processing
+                the audio, or is it just generating plausible-looking emotion distributions based on its training?</span>
+            </p>
+
+            <p>
+                The evidence suggests the latter. The strong priors, the low-dimensional structure, the
+                consistent biases regardless of musical content—these are all signs of a system that's
+                learned to produce human-like emotional distributions in the abstract, but hasn't learned
+                to <em>listen</em>.
+            </p>
+
+            <p>
+                To test this properly, you'd need ablation studies: send the AI silence, or white noise,
+                or the same audio under different filenames. If the outputs barely change, you'd know for
+                certain that the "listening" is mostly theater.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>What This Means</h2>
+
+            <p>
+                For companies dreaming of automating music emotion tagging—of replacing human listeners with
+                AI systems that can instantly categorize the emotional content of millions of songs—this
+                experiment is a wake-up call.
+            </p>
+
+            <p>
+                <strong>The technology isn't there.</strong> Not even close.
+            </p>
+
+            <p>
+                At best, an AI like Gemini could serve as a rough <em>assistant</em>: suggesting a short list
+                of possible emotions for a human to confirm. The data shows that when you look at the AI's
+                top-3 predictions, there's about a 70% overlap with human top-3 emotions. That's not nothing—it's
+                enough to potentially speed up human labeling work.
+            </p>
+
+            <p>
+                But autonomous tagging? Replacing human judgment? The numbers say no. The AI is literally
+                worse than predicting the average every time.
+            </p>
+
+            <div class="stat-box" style="max-width: 500px; margin: 40px auto;">
+                <div class="number">0%</div>
+                <div class="label">Emotions where AI performance exceeds simple baseline</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The Deeper Question</h2>
+
+            <p>
+                But there's something more interesting here than just a failed automation attempt. This
+                experiment tells us something about the nature of music perception itself.
+            </p>
+
+            <p>
+                Music emotion isn't just pattern recognition. It's not just mapping acoustic features
+                (tempo, key, timbre) to emotional labels. If it were, an AI trained on vast amounts of
+                data would excel at this task.
+            </p>
+
+            <p>
+                Instead, what we're seeing is that emotional response to music is deeply contextual,
+                deeply personal, deeply tied to human experience in ways that current AI can't capture.
+            </p>
+
+            <p>
+                The AI can't under-predict tension by accident. It can't systematically mishear solemnity
+                by chance. These are failures of <em>understanding</em>—of having a model of what these
+                emotions actually mean in the context of human musical experience.
+            </p>
+
+            <div class="pullquote">
+                We thought we were testing whether AI could label music. We discovered we were testing
+                whether AI understands what it means to be moved.
+            </div>
+        </div>
+
+        <div class="methodology section">
+            <h3>The Process</h3>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="icon">🎵</div>
+                    <div class="title">Audio Input</div>
+                    <div class="desc">40 musical excerpts in .opus format</div>
+                </div>
+                <div class="process-step">
+                    <div class="icon">🤖</div>
+                    <div class="title">AI Analysis</div>
+                    <div class="desc">Google Gemini 3 Pro processes raw audio</div>
+                </div>
+                <div class="process-step">
+                    <div class="icon">📊</div>
+                    <div class="title">Emotion Prediction</div>
+                    <div class="desc">9 GEMS emotions with mean & std</div>
+                </div>
+                <div class="process-step">
+                    <div class="icon">👥</div>
+                    <div class="title">Human Comparison</div>
+                    <div class="desc">Validated against Emotify dataset</div>
+                </div>
+            </div>
+
+            <h3>The Prompt</h3>
+            <p style="margin-bottom: 20px;">
+                The AI was given this specific instruction for each audio file (<a href="https://github.com/sanand0/datastories/blob/main/llm-music/music.py" target="_blank">see full code</a>):
+            </p>
+            <div class="code-block">You are analyzing a music audio clip.
+This audio has been listened to and rated by N people.
+Each person indicated whether they strongly felt each of the following emotions:
+
+- amazement (wonder, awe, happiness)
+- solemnity (transcendence, inspiration, thrills)
+- tenderness (sensuality, affect, feeling of love)
+- nostalgia (dreamy, melancholic, sentimental)
+- calmness (relaxation, serenity, meditative)
+- power (strong, heroic, triumphant, energetic)
+- joyful_activation (bouncy, animated, like dancing)
+- tension (nervous, impatient, irritated)
+- sadness (depressed, sorrowful)
+
+Based only on the audio content, estimate:
+1. The average rating (mean, between 0 and 1)
+2. The standard deviation of the ratings</div>
+
+            <h3>The Data</h3>
+            <ul>
+                <li>40 songs from the <a href="https://www.kaggle.com/datasets/yash9439/emotify-emotion-classificaiton-in-songs" target="_blank">Emotify dataset</a></li>
+                <li>11-53 human raters per song (average: ~24)</li>
+                <li>9 <a href="https://musemap.org/resources/gem" target="_blank">GEMS</a> emotions per song = 360 emotion-song pairs</li>
+                <li>Processed through <a href="https://ai.google.dev/gemini-api/docs/models/gemini" target="_blank">Google Gemini 3 Pro Preview</a> via OpenRouter API</li>
+            </ul>
+
+            <h3>Key Findings</h3>
+            <ul>
+                <li><strong>Overall correlation:</strong> 0.047 (essentially zero)</li>
+                <li><strong>Mean Absolute Error:</strong> 0.227 (22.7 percentage points)</li>
+                <li><strong>Worse than baseline:</strong> 1.23× to 2.05× worse than predicting average</li>
+                <li><strong>Systematic biases:</strong> Over-predicts joy/tenderness/power; under-predicts tension</li>
+                <li><strong>Low dimensionality:</strong> AI emotions 57% more correlated than human ratings</li>
+            </ul>
+
+            <h3>Resources</h3>
+            <ul>
+                <li><a href="https://github.com/sanand0/datastories/tree/main/llm-music" target="_blank">View source code and data</a></li>
+                <li><a href="https://www.sciencedirect.com/science/article/pii/S030645731500042X" target="_blank">Original GEMS research paper</a></li>
+                <li><a href="https://data.mendeley.com/datasets/6zhghmr77" target="_blank">Emotify+ dataset on Mendeley</a></li>
+                <li><a href="https://d3js.org/" target="_blank">D3.js visualization library</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>What Comes Next</h2>
+
+            <p>
+                This is not the end of the story. It's the beginning of a question.
+            </p>
+
+            <p>
+                Could a better prompt help? Almost certainly. The current prompt provides definitions, but it
+                doesn't anchor them with examples. It doesn't calibrate what a "0.6" means versus a "0.3" in
+                practical terms. Few-shot learning—showing the AI a handful of correctly labeled examples—might
+                dramatically improve performance.
+            </p>
+
+            <p>
+                Could better post-processing help? Yes. Even with weak raw predictions, statistical calibration
+                could correct for systematic biases. If you know the AI always over-predicts joyful activation
+                by 18 points on average, you can subtract 18 points.
+            </p>
+
+            <p>
+                Could a different model help? Maybe. This was one AI system, at one point in time. The field is
+                evolving rapidly.
+            </p>
+
+            <p>
+                But here's what won't change: <span class="highlight">music emotion is hard</span>. It's hard
+                because it's not purely in the signal. It's in the interaction between the signal and a lifetime
+                of human experience, culture, memory, and meaning.
+            </p>
+
+            <p>
+                The AI can learn correlations. It can learn patterns. But can it learn what it feels like
+                to hear a song that reminds you of someone you loved? Can it learn the particular ache of
+                a minor chord progression? Can it learn why one person hears power where another hears sadness?
+            </p>
+
+            <p>
+                These are not rhetorical questions. They're empirical ones. And right now, the data suggests
+                the answer is no.
+            </p>
+
+            <p>
+                Not yet.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p class="footer-title">About This Analysis</p>
+            <p>
+                This interactive story explores the intersection of artificial intelligence
+                and human emotion through music. The analysis compares Google Gemini's predictions
+                against human ratings from the Emotify dataset across 40 songs and 9 emotions.
+            </p>
+            <p>
+                <strong>Data Sources:</strong> <a href="https://www.kaggle.com/datasets/yash9439/emotify-emotion-classificaiton-in-songs" target="_blank">Emotify dataset</a>
+                (<a href="https://musemap.org/resources/gem" target="_blank">GEMS-9</a> framework),
+                <a href="https://ai.google.dev/gemini-api/docs/models/gemini" target="_blank">Google Gemini 3 Pro Preview</a><br>
+                <strong>Tools:</strong> <a href="https://www.python.org/" target="_blank">Python</a>,
+                <a href="https://pandas.pydata.org/" target="_blank">pandas</a>,
+                <a href="https://d3js.org/" target="_blank">D3.js</a><br>
+                <strong>Songs Analyzed:</strong> 40 musical excerpts • <strong>Human Raters:</strong> 11-53 per song • <strong>Emotions:</strong> 9 GEMS categories
+            </p>
+            <p class="footer-meta">
+                <a href="https://github.com/sanand0/datastories/tree/main/llm-music" target="_blank">View source code and data on GitHub</a><br>
+                Visualization created December 2024 • The .opus audio files are embedded for demonstration purposes
+            </p>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Can AI Hear What We Feel?](llm-music/). Gemini's music-emotion predictions vs Emotify human ratings across 40 songs using GEMS-9, revealing where AI hears differently.
+  [![](llm-music/screenshot.webp)](llm-music/)
 - [Communicating Insights Visually](anthropic-work/). How top AI chatbots and coding agents turn Anthropic’s “How AI is transforming work at Anthropic” into diverse animated chart ideas—compared and ranked.
   [![](anthropic-work/screenshot.webp)](anthropic-work/)
 - [The Ruler-Straight Disappearing Act](weight-2025-12/). A 24 kg drop charted from a Google Fit export—86.4 to 62.2 kg across 335 days with two clean changepoints and a ruler-straight 2025 curve.
