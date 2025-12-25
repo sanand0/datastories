@@ -9,15 +9,18 @@ An interactive data story exploring how humans label emotions in music, featurin
 This folder contains everything needed to run the visualization:
 
 ### Core Files
+
 - `index.html` - Main story page with dark vinyl/concert aesthetic
 - `script.js` - Interactive visualizations using Chart.js
 
 ### Data Files
+
 - `data/story.json` (266KB) - Processed dataset with tracks, examples, metrics
 - `data/config.json` (941B) - Color schemes and labels
 - `data/data.csv.gz` (51KB) - Raw rating data (compressed from 394KB)
 
 ### Audio Examples (10 tracks)
+
 - `data/audio/*.opus` - Embedded one-minute clips demonstrating:
   - Unanimous consensus (joy, power)
   - Near-consensus (calmness, tension, tenderness)
@@ -26,6 +29,7 @@ This folder contains everything needed to run the visualization:
   - All 9 GEMS emotions represented
 
 ### Model Metrics
+
 - `artifacts/metrics.csv` (66KB) - Model performance data
 
 **Total Size**: 1.4MB (16 files)
@@ -33,6 +37,7 @@ This folder contains everything needed to run the visualization:
 ## Features
 
 ### Design
+
 - Dark theme inspired by vinyl records and concert halls
 - Unique typography: Playfair Display, Crimson Text, Space Mono
 - Animated waveforms and rotating vinyl grooves
@@ -40,13 +45,17 @@ This folder contains everything needed to run the visualization:
 - Neon cyan/magenta accents on dark background
 
 ### Intuitive Explanations
+
 Technical features explained with real-world analogies:
+
 - **Spectral Contrast**: City skyline (building heights)
 - **MFCCs**: Sonic color/fingerprint
 - **Onset/Attack**: How suddenly sound hits you
 
 ### Interactive Visualizations
+
 7 Chart.js visualizations revealing:
+
 1. Emotion selection distributions
 2. Emotion bias across the dataset
 3. Consensus vs ambiguity scatter plot

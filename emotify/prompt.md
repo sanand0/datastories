@@ -140,7 +140,7 @@ Make sure the correction does not appear like edits, an addendum, or a patch. It
 
 Question: is the RandomForest “as good as a human” at aligning with other raters? Two complementary checks help:
 
-1) **Within the human consensus range (statistical)**
+1. **Within the human consensus range (statistical)**
    For each track/emotion in the **stratified test set**, compute a 95% **Wilson** confidence interval for the human proportion (based on all rater labels), then check whether the RF prediction falls inside.
 
    - **RF within 95% human CI (macro): 0.817**
@@ -155,7 +155,7 @@ Question: is the RandomForest “as good as a human” at aligning with other ra
 
    Interpretation: exact intervals are more forgiving; bootstrap/Jeffreys are tighter and reduce coverage. RF still lands inside most human ranges, but the definition of “range” matters.
 
-2) **RF vs. a single human at matching the crowd (expected MAE)**
+2. **RF vs. a single human at matching the crowd (expected MAE)**
    Treat a single rater’s label as a “prediction” of the crowd proportion. For each track/emotion, the expected absolute error of a single human is:
    **E|Y − p| = 2·p·(1 − p)**, where `p` is the crowd proportion.
 
@@ -165,8 +165,8 @@ Question: is the RandomForest “as good as a human” at aligning with other ra
 
    Interpretation: the RandomForest aligns **substantially better** with the crowd mean than a single random human does.
 
-3) **Strict “range of human labels” (unanimity test)**
-   If all raters for a track/emotion are unanimous (all 0 or all 1), the human label range collapses to a point. In those cases, RF predictions rarely hit *exactly* 0 or 1:
+3. **Strict “range of human labels” (unanimity test)**
+   If all raters for a track/emotion are unanimous (all 0 or all 1), the human label range collapses to a point. In those cases, RF predictions rarely hit _exactly_ 0 or 1:
 
    - **Unanimous cases (fraction of track/emotion pairs): 0.144**
    - **RF outside the strict unanimous range: 1.00**
