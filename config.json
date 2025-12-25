@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "emotify",
+      "title": "The Ambiguous Song",
+      "description": "How humans label emotions in music—400 tracks across 4 genres rated by multiple annotators, revealing which emotions spark the most disagreement.",
+      "link": "emotify/index.html",
+      "screenshot": "emotify/screenshot.webp"
+    },
+    {
       "id": "llm-music",
       "title": "Can AI Hear What We Feel?",
       "description": "Gemini's music-emotion predictions vs Emotify human ratings across 40 songs using GEMS-9, revealing where AI hears differently.",

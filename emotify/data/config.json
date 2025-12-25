@@ -1,0 +1,43 @@
+{
+  "title": "Emotify: A detective story about feelings in music",
+  "emotions": [
+    "amazement",
+    "solemnity",
+    "tenderness",
+    "nostalgia",
+    "calmness",
+    "power",
+    "joy",
+    "tension",
+    "sadness"
+  ],
+  "emotion_labels": {
+    "amazement": "Amazement",
+    "solemnity": "Solemnity",
+    "tenderness": "Tenderness",
+    "nostalgia": "Nostalgia",
+    "calmness": "Calmness",
+    "power": "Power",
+    "joy": "Joy",
+    "tension": "Tension",
+    "sadness": "Sadness"
+  },
+  "emotion_colors": {
+    "amazement": "#7f5af0",
+    "solemnity": "#1b263b",
+    "tenderness": "#ff5db1",
+    "nostalgia": "#e09f3e",
+    "calmness": "#2ec4b6",
+    "power": "#e63946",
+    "joy": "#06d6a0",
+    "tension": "#118ab2",
+    "sadness": "#4d4c7d"
+  },
+  "genres": ["classical", "rock", "pop", "electronic"],
+  "genre_colors": {
+    "classical": "#6b705c",
+    "rock": "#0b0f19",
+    "pop": "#d62828",
+    "electronic": "#3a86ff"
+  }
+}

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ambiguous Song</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vinyl-black: #0a0a0a;
+            --groove-dark: #1a1a1a;
+            --label-cream: #f4e8d0;
+            --amber-glow: #ffb347;
+            --gold-accent: #d4af37;
+            --neon-cyan: #00ffff;
+            --neon-magenta: #ff00ff;
+            --warm-gray: #4a4a4a;
+            --deep-purple: #2d1b4e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes grooveRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes waveform {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            line-height: 1.7;
+            color: var(--label-cream);
+            background: var(--vinyl-black);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, var(--deep-purple) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, var(--vinyl-black) 0%, var(--groove-dark) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Vinyl groove pattern */
+        .vinyl-grooves {
+            position: fixed;
+            top: 50%;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: repeating-radial-gradient(
+                circle,
+                transparent 0px,
+                transparent 2px,
+                rgba(212, 175, 55, 0.03) 2px,
+                rgba(212, 175, 55, 0.03) 4px
+            );
+            opacity: 0.3;
+            animation: grooveRotate 120s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 30px;
+            position: relative;
+        }
+
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3em, 8vw, 6em);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 0.3em;
+            background: linear-gradient(135deg, var(--amber-glow) 0%, var(--gold-accent) 50%, var(--label-cream) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1em;
+            color: var(--gold-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2em;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .lead-in {
+            font-size: 1.5em;
+            line-height: 1.6;
+            color: var(--label-cream);
+            margin-bottom: 2em;
+            font-style: italic;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            margin: 2.5em 0 0.8em;
+            color: var(--amber-glow);
+            position: relative;
+            padding-left: 30px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-magenta));
+        }
+
+        h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2em;
+            color: var(--gold-accent);
+            margin: 2em 0 1em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        p {
+            font-size: 1.25em;
+            margin-bottom: 1.3em;
+            color: rgba(244, 232, 208, 0.9);
+        }
+
+        .pullquote {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            font-style: italic;
+            line-height: 1.4;
+            margin: 3em 0;
+            padding: 2em;
+            border-left: 6px solid var(--neon-cyan);
+            background: rgba(0, 255, 255, 0.05);
+            color: var(--label-cream);
+            position: relative;
+        }
+
+        .pullquote::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 5em;
+            color: var(--neon-cyan);
+            opacity: 0.3;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Audio Player */
+        .audio-player {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(45, 27, 78, 0.6));
+            border: 2px solid var(--gold-accent);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 3em 0;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .audio-player:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+            border-color: var(--amber-glow);
+        }
+
+        .audio-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 179, 71, 0.1) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .audio-player:hover::before {
+            opacity: 1;
+        }
+
+        .audio-player h4 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--amber-glow);
+            margin-bottom: 15px;
+        }
+
+        audio {
+            width: 100%;
+            margin: 15px 0;
+            filter: sepia(0.8) hue-rotate(15deg) saturate(1.5);
+        }
+
+        .audio-stats {
+            margin-top: 15px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9em;
+            color: var(--gold-accent);
+            line-height: 1.6;
+        }
+
+        .audio-stats strong {
+            color: var(--neon-cyan);
+        }
+
+        /* Chart Container */
+        .chart {
+            margin: 4em 0;
+            background: rgba(26, 26, 26, 0.6);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .chart::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-magenta), transparent);
+        }
+
+        .chart-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--amber-glow);
+        }
+
+        .chart-subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85em;
+            color: var(--warm-gray);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Statistics */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 3em 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.4), rgba(26, 26, 26, 0.6));
+            border-radius: 15px;
+            border: 1px solid var(--gold-accent);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: scale(1.05);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .statistic {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9em;
+            color: var(--gold-accent);
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .inline-stat {
+            color: var(--neon-cyan);
+            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95em;
+        }
+
+        /* Links */
+        a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            border-bottom: 1px solid var(--neon-cyan);
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--amber-glow);
+            border-bottom-color: var(--amber-glow);
+        }
+
+        .source-link {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85em;
+            color: var(--warm-gray);
+            display: block;
+            margin: 2em 0;
+        }
+
+        /* Caveat Box */
+        .caveat {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 179, 71, 0.1));
+            border-left: 6px solid var(--amber-glow);
+            padding: 25px 30px;
+            margin: 3em 0;
+            border-radius: 10px;
+            font-size: 1.05em;
+        }
+
+        .caveat strong {
+            font-family: 'Space Mono', monospace;
+            color: var(--amber-glow);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* Lists */
+        ul {
+            margin: 1.5em 0 1.5em 2em;
+            color: rgba(244, 232, 208, 0.9);
+        }
+
+        ul li {
+            margin-bottom: 0.8em;
+            font-size: 1.15em;
+        }
+
+        ul li strong {
+            color: var(--amber-glow);
+        }
+
+        /* Feature Explainer */
+        .feature-explainer {
+            background: rgba(45, 27, 78, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 2em 0;
+            border-left: 4px solid var(--neon-magenta);
+        }
+
+        .feature-explainer .feature-name {
+            font-family: 'Space Mono', monospace;
+            color: var(--neon-magenta);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-explainer .feature-description {
+            color: var(--label-cream);
+            font-size: 1.1em;
+        }
+
+        .feature-explainer .feature-example {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255, 0, 255, 0.3);
+            font-style: italic;
+            color: rgba(244, 232, 208, 0.7);
+        }
+
+        /* Footer */
+        .footnote {
+            margin-top: 5em;
+            padding-top: 3em;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.95em;
+            color: var(--warm-gray);
+        }
+
+        .footnote strong {
+            color: var(--gold-accent);
+        }
+
+        /* Waveform decoration */
+        .waveform {
+            display: flex;
+            gap: 3px;
+            height: 40px;
+            align-items: flex-end;
+            margin: 2em 0;
+        }
+
+        .waveform .bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-magenta));
+            border-radius: 2px;
+            animation: waveform 1s ease-in-out infinite;
+        }
+
+        .waveform .bar:nth-child(1) { animation-delay: 0s; }
+        .waveform .bar:nth-child(2) { animation-delay: 0.1s; }
+        .waveform .bar:nth-child(3) { animation-delay: 0.2s; }
+        .waveform .bar:nth-child(4) { animation-delay: 0.3s; }
+        .waveform .bar:nth-child(5) { animation-delay: 0.4s; }
+        .waveform .bar:nth-child(6) { animation-delay: 0.3s; }
+        .waveform .bar:nth-child(7) { animation-delay: 0.2s; }
+        .waveform .bar:nth-child(8) { animation-delay: 0.1s; }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 3em;
+            }
+
+            h2 {
+                font-size: 2em;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="vinyl-grooves"></div>
+
+    <div class="container">
+        <div class="hero">
+            <h1>The Ambiguous Song</h1>
+            <p class="subtitle">When People Can't Agree on How Music Makes Them Feel</p>
+        </div>
+
+        <p class="lead-in">Fourteen people listen to the same sixty seconds of music. Five completely different emotional reactions emerge. Not noise. Not error. Just the messy, beautiful reality of how we experience sound.</p>
+
+        <div class="waveform">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <div class="audio-player fade-in">
+            <h4>Track 158 (Rock)</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/rock-158.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Joy:</strong> 43% | <strong>Tension:</strong> 43% | <strong>Nostalgia, Amazement, Calmness:</strong> 29% each
+            </div>
+        </div>
+
+        <p>What did you feel? If you said joy, you're in the 43%. If you said tension, also 43%. And if somehow you felt nostalgia, amazement, <em>or</em> calmness—each of those pulled exactly 29% of listeners.</p>
+
+        <p>This isn't measurement error. It's <span class="inline-stat">the puzzle at the heart of music emotion research</span>: how do you predict something humans themselves can't agree on?</p>
+
+        <h2>People Feel Multiple Things Simultaneously</h2>
+
+        <p>When researchers asked people to label emotions in 400 one-minute music clips, they didn't force a single choice. Listeners could select as many emotions as they felt from nine categories: amazement, solemnity, tenderness, nostalgia, calmness, power, joy, tension, and sadness.</p>
+
+        <p class="source-link">These nine emotions come from the <a href="https://doi.org/10.1037/0022-3514.94.3.494" target="_blank">Geneva Emotional Music Scale (GEMS)</a>, designed specifically for music by Zentner, Grandjean, and Scherer in 2008.</p>
+
+        <p>The average person selected <span class="inline-stat">1.94 emotions per track</span>. Almost exactly two. Music doesn't fit into emotional boxes—it occupies multiple states at once.</p>
+
+        <div class="audio-player fade-in">
+            <h4>Track 156 (Rock) — Joy, Unanimous</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/rock-156.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Joy:</strong> 100% | But also: <strong>Power</strong> (43%), <strong>Amazement</strong> (21%)
+            </div>
+        </div>
+
+        <p>Even when everyone agrees on joy, they still select an average of 1.79 other emotions. The joy is universal, but <em>joy alone</em> doesn't capture what people hear.</p>
+
+        <div class="chart fade-in">
+            <div class="chart-title">How Many Emotions Do People Select?</div>
+            <div class="chart-subtitle">Distribution across 400 tracks, ~8,400 ratings</div>
+            <canvas id="selectionsDistribution"></canvas>
+        </div>
+
+        <h2>The Crowd Has Favorite Words</h2>
+
+        <p>If you count all 16,182 emotion selections across nine categories, they don't distribute evenly. Not even close.</p>
+
+        <div class="chart fade-in">
+            <div class="chart-title">The Emotion Bias</div>
+            <div class="chart-subtitle">Not all feelings are created equal</div>
+            <canvas id="emotionBiasChart"></canvas>
+        </div>
+
+        <p><strong>Calmness</strong> captures nearly 16% of all selections. <strong>Amazement</strong>? Just 7%. This isn't about the music—it's about which emotions people reach for when labeling what they feel.</p>
+
+        <p>You can't predict how people will label Track 158 without first knowing that people say "calmness" twice as often as "amazement," regardless of what's playing.</p>
+
+        <p class="source-link">All raw rating data: <a href="https://github.com/sanand0/datastories/blob/main/emotify/data/data.csv.gz" target="_blank">data.csv.gz</a></p>
+
+        <h2>The Shape of Disagreement</h2>
+
+        <p>Some tracks create consensus. Others splinter the crowd. Two metrics reveal the pattern:</p>
+
+        <ul>
+            <li><strong>max_p</strong>: What proportion of raters selected the top emotion? (1.0 = everyone agreed; 0.29 = barely a plurality)</li>
+            <li><strong>entropy</strong>: How evenly spread are selections? (Higher = more ambiguous)</li>
+        </ul>
+
+        <div class="chart fade-in">
+            <div class="chart-title">The Consensus Spectrum</div>
+            <div class="chart-subtitle">Each dot is one track. Low entropy + high consensus = agreement. High entropy + low consensus = ambiguity.</div>
+            <canvas id="consensusScatter"></canvas>
+        </div>
+
+        <p>Tracks in the top-left are easy: nearly everyone picks the same dominant emotion. Joyful anthems. Solemn classics. Unambiguous power ballads.</p>
+
+        <p>Tracks in the bottom-right are puzzles. High entropy. Low consensus. Five raters, five answers:</p>
+
+        <div class="audio-player fade-in">
+            <h4>Track 265 (Electronic) — High Disagreement</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/electronic-265.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Joy:</strong> 45% | <strong>Tension:</strong> 36% | <strong>Amazement:</strong> 36% | <strong>Calmness:</strong> 27% | <strong>Power:</strong> 27%
+            </div>
+        </div>
+
+        <p class="pullquote">The ambiguous tracks aren't errors. They're the ones that resist a single label.</p>
+
+        <h2>Genres Are Lenses, Not Features</h2>
+
+        <p>Classical trends toward calmness (34%) and solemnity (26%). Electronic leans into tension (37%). Pop and rock converge on nostalgia (33% and 30%).</p>
+
+        <div class="chart fade-in">
+            <div class="chart-title">How Genre Shapes Emotional Perception</div>
+            <div class="chart-subtitle">Average emotion rates by genre (100 tracks each)</div>
+            <canvas id="genreHeatmap"></canvas>
+        </div>
+
+        <p>But every genre evokes every emotion. The differences are shifts in probability, not binary switches. A classical piece can be joyful (28% are). A rock track can be calm (26% are).</p>
+
+        <p>Here's what matters: <strong>we deliberately excluded genre from the prediction model</strong>. The algorithm saw only audio features—spectral shape, rhythm, timbre. No labels. No metadata. The question: <em>can you predict human emotion labels from sound alone?</em></p>
+
+        <p class="source-link">Genre analysis: <a href="https://github.com/sanand0/datastories/blob/main/emotify/scripts/build_story_data.py" target="_blank">build_story_data.py</a></p>
+
+        <h2>What Audio Features Actually Predict Emotion?</h2>
+
+        <p>The best model—a Random Forest regressor—learned from 82 audio features. Not genre. Not metadata. Just acoustic fingerprints. But what <em>are</em> these features, really?</p>
+
+        <div class="feature-explainer fade-in">
+            <div class="feature-name">Spectral Contrast</div>
+            <div class="feature-description">
+                Imagine looking at the skyline of a city. Some buildings are tall, some are short—that difference in height is contrast. In sound, spectral contrast measures the difference in energy between the loudest and quietest parts across different frequency ranges.
+            </div>
+            <div class="feature-example">
+                A smooth jazz saxophone has low contrast (gentle, even energy). A rock guitar with distortion has high contrast (sharp peaks and valleys). Low contrast often signals calmness; high contrast suggests power or tension.
+            </div>
+        </div>
+
+        <div class="feature-explainer fade-in">
+            <div class="feature-name">MFCCs (Mel-Frequency Cepstral Coefficients)</div>
+            <div class="feature-description">
+                Think of this as the "color" of a sound. A flute and a violin playing the same note sound different because of their timbre—their unique sonic fingerprint. MFCCs capture that fingerprint in numbers.
+            </div>
+            <div class="feature-example">
+                Warm, wooden tones (like an acoustic guitar) have different MFCC patterns than cold, metallic synths. These timbral textures correlate strongly with reflective emotions like nostalgia and tenderness.
+            </div>
+        </div>
+
+        <div class="feature-explainer fade-in">
+            <div class="feature-name">Onset Strength & Attack Rate</div>
+            <div class="feature-description">
+                How suddenly does the sound hit you? A drum strike has a sharp, immediate attack. A bowed string swells gradually. Attack measures the speed and intensity of these "punches."
+            </div>
+            <div class="feature-example">
+                High attack rate = lots of percussive hits, sharp transients. This drives joy, power, and tension. Low attack = smooth, flowing sounds that correlate with calmness and sadness.
+            </div>
+        </div>
+
+        <div class="chart fade-in">
+            <div class="chart-title">Top 15 Predictive Features (Overall)</div>
+            <div class="chart-subtitle">Permutation importance from Random Forest model</div>
+            <canvas id="featureImportanceChart"></canvas>
+        </div>
+
+        <p>The most important feature? <strong>spectral_contrast_1_p25</strong>—the 25th percentile of contrast in a specific mid-frequency band. When you scramble this one feature, predictions degrade more than for any other variable.</p>
+
+        <p>Different emotions rely on different acoustic signatures:</p>
+
+        <div class="chart fade-in">
+            <div class="chart-title">Top Features by Emotion</div>
+            <div class="chart-subtitle">What acoustic properties predict each emotion best?</div>
+            <canvas id="emotionFeaturesChart"></canvas>
+        </div>
+
+        <p><strong>Joy, power, tension</strong> (high arousal) lean on onset strength and attack rate. Sharp. Percussive. Energetic.</p>
+
+        <p><strong>Calmness, tenderness, sadness</strong> (low arousal) depend on spectral contrast and MFCCs. Smooth timbral textures. Less aggressive dynamics.</p>
+
+        <p><strong>Amazement</strong> pulls from MFCC variance and chroma variance: timbral variability and harmonic color shifts. In other words, surprise.</p>
+
+        <p class="source-link">Feature extraction: <a href="https://github.com/sanand0/datastories/blob/main/emotify/scripts/extract_features.py" target="_blank">extract_features.py</a> | Importance analysis: <a href="https://github.com/sanand0/datastories/blob/main/emotify/scripts/feature_importance.py" target="_blank">feature_importance.py</a></p>
+
+        <h2>Can You Actually Predict Emotions?</h2>
+
+        <p>Short answer: <strong>sort of</strong>.</p>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="statistic">0.52</div>
+                <div class="stat-label">Pearson Correlation<br>(predictions vs actual)</div>
+            </div>
+            <div class="stat-box">
+                <div class="statistic">0.65</div>
+                <div class="stat-label">Top-3 Emotion Overlap<br>(did we get the ranking right?)</div>
+            </div>
+        </div>
+
+        <p>When you train on 80% of the data and test on 20% (balanced by genre), that 0.52 correlation means the model captures <em>something real</em>. Far better than guessing. But nowhere near perfect.</p>
+
+        <p>Now the twist: <strong>what happens when you test on a genre the model has never seen?</strong></p>
+
+        <div class="chart fade-in">
+            <div class="chart-title">Performance Degrades Across Genres</div>
+            <div class="chart-subtitle">Stratified (in-genre) vs LOGO (cross-genre) evaluation</div>
+            <canvas id="modelComparisonChart"></canvas>
+        </div>
+
+        <p>In "Leave-One-Genre-Out" evaluation—train on three genres, test on the fourth—correlation drops to <span class="inline-stat">0.39</span>. Still signal. Still better than random. But noticeably weaker.</p>
+
+        <p>Implication: <strong>emotion "signatures" are partially genre-dependent</strong>. A joyful rock song sounds acoustically different from a joyful classical piece, even though humans label both as "joyful." The model learned patterns that don't fully transfer.</p>
+
+        <p class="pullquote">Audio can't read minds. But it can read fingerprints—and those fingerprints are written in different dialects across genres.</p>
+
+        <h3>But How Does It Compare to a Human Rater?</h3>
+
+        <p>Here's the question that matters: is the RandomForest "as good as a human" at aligning with the crowd?</p>
+
+        <p>Think about it this way. When you listened to Track 158 earlier, your emotional response was one data point. But you're trying to match what <em>other people</em> felt on average. How well would you do at that task?</p>
+
+        <p>Turns out, <strong>not as well as the algorithm</strong>.</p>
+
+        <p>For each track and emotion, we can calculate the expected error if we use a single random human's label to predict the crowd's average. The math is simple: when the crowd splits 50-50, a single human will be maximally wrong half the time. When the crowd is unanimous, a single human will nail it.</p>
+
+        <p>The RandomForest achieves an average error of <span class="inline-stat">0.116</span> (mean absolute error across all emotions). A single random human? <span class="inline-stat">0.267</span>. The model aligns <strong>2.3× better</strong> with the crowd than a single person does.</p>
+
+        <p>But there's another way to frame this: <strong>does the model stay within the range of human responses?</strong></p>
+
+        <p>For each track-emotion pair in the test set, we can construct a statistical confidence interval around the human proportion—a range that says "this is where we expect the true crowd consensus to be." Using a 95% Wilson interval (which accounts for uncertainty when sample sizes are small), we can check: does the RandomForest prediction fall inside this human-plausible zone?</p>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="statistic">82%</div>
+                <div class="stat-label">RF predictions within<br>95% human consensus range</div>
+            </div>
+            <div class="stat-box">
+                <div class="statistic">2.3×</div>
+                <div class="stat-label">Better alignment than<br>a single human rater</div>
+            </div>
+        </div>
+
+        <p>About <strong>82% of RandomForest predictions</strong> land inside the 95% confidence interval of human consensus. The model isn't just learning audio patterns—it's learning to <em>think like the crowd</em>.</p>
+
+        <p>But not perfectly. The hardest emotions to nail? <strong>Joy</strong> (70% within range) and <strong>calmness</strong> (74%). These are the emotions where human variability is highest, where the "right" answer is most contested. The easiest? <strong>Amazement</strong> (89%), <strong>solemnity</strong> (86%), and <strong>power</strong> (86%)—emotions with clearer acoustic signatures and stronger human agreement.</p>
+
+        <p>There's one edge case worth noting: tracks where <em>every single human agrees</em>. About 14% of track-emotion pairs show perfect unanimity—all raters select the same label, or all reject it. In these cases, the human "range" collapses to a point: either 0% or 100%.</p>
+
+        <p>The RandomForest almost never hits these extremes. Even when humans are unanimous, the model hedges slightly, predicting 0.92 instead of 1.0, or 0.08 instead of 0.0. This is expected behavior for a regressor trained on noisy labels—it learns to be cautious. But it also means that in strict unanimity cases, the model is technically "outside" the human range 100% of the time.</p>
+
+        <p>Is that a failure? Not really. It's <strong>humility encoded in the weights</strong>. The model knows that perfect certainty is rare in subjective judgments, and it refuses to be more confident than the data warrants.</p>
+
+        <p class="source-link">Model training: <a href="https://github.com/sanand0/datastories/blob/main/emotify/scripts/train_models.py" target="_blank">train_models.py</a> | Metrics: <a href="https://github.com/sanand0/datastories/blob/main/emotify/artifacts/metrics.csv" target="_blank">metrics.csv</a></p>
+
+        <h2>The Full Emotional Range</h2>
+
+        <p>Let's hear more examples across the spectrum:</p>
+
+        <div class="audio-player fade-in">
+            <h4>Track 248 (Electronic) — Power, Unanimous</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/electronic-248.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Power:</strong> 100% | Also: Tension (64%), Joy (50%), Amazement (36%)
+            </div>
+        </div>
+
+        <div class="audio-player fade-in">
+            <h4>Track 354 (Pop) — Calmness, Near-Consensus</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/pop-354.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Calmness:</strong> 92% | Also: Tenderness (67%), Nostalgia (50%)
+            </div>
+        </div>
+
+        <div class="audio-player fade-in">
+            <h4>Track 370 (Pop) — Bittersweet: Nostalgia + Sadness</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/pop-370.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Nostalgia:</strong> 89% | <strong>Sadness:</strong> 72% | <strong>Tenderness:</strong> 61%
+            </div>
+        </div>
+
+        <div class="audio-player fade-in">
+            <h4>Track 27 (Classical) — Solemnity</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/classical-27.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Solemnity:</strong> 75% | Also: Calmness (42%), Amazement (33%)
+            </div>
+        </div>
+
+        <div class="audio-player fade-in">
+            <h4>Track 39 (Classical) — Amazement</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/classical-39.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Amazement:</strong> 63% | Also: Power (38%), Solemnity (38%), Tension (25%)
+            </div>
+        </div>
+
+        <div class="audio-player fade-in">
+            <h4>Track 161 (Rock) — Tension</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/rock-161.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Tension:</strong> 93% | Also: Power (21%)
+            </div>
+        </div>
+
+        <div class="audio-player fade-in">
+            <h4>Track 376 (Pop) — Tenderness</h4>
+            <audio controls preload="metadata">
+                <source src="data/audio/pop-376.opus" type="audio/ogg">
+            </audio>
+            <div class="audio-stats">
+                <strong>Tenderness:</strong> 75% | Also: Nostalgia (42%), Calmness (42%)
+            </div>
+        </div>
+
+        <p class="source-link">All embedded audio: <a href="https://github.com/sanand0/datastories/tree/main/emotify/data/audio" target="_blank">data/audio/</a></p>
+
+        <h2>What This Means (And What It Doesn't)</h2>
+
+        <p><strong>First:</strong> Emotion in music is multi-dimensional. Forcing people to pick one label discards information. The "right" answer isn't singular—it's a distribution.</p>
+
+        <p><strong>Second:</strong> People have systematic biases in how they label emotions. Calmness gets overused; amazement gets underused. Any model that ignores this baseline will misinterpret the data.</p>
+
+        <p><strong>Third:</strong> Audio features—especially spectral contrast (energy peaks vs valleys), MFCCs (sonic color/timbre), and onset characteristics (attack speed)—can predict a meaningful fraction of human emotion judgments. Not all. But enough to be useful.</p>
+
+        <p><strong>Fourth:</strong> Predictions degrade when you cross genre boundaries. The acoustic fingerprint of joy in rock doesn't perfectly match joy in classical. Context matters.</p>
+
+        <div class="caveat fade-in">
+            <strong>Honest Caveats</strong><br><br>
+            This analysis has limits. The dataset is small (400 tracks). The raters are not demographically diverse. The emotion categories themselves are culturally loaded—"solemnity" means different things to different people. The models here are correlational, not causal; we can't claim spectral contrast <em>causes</em> calmness, only that they co-occur. And multi-label judgments are inherently subjective; there's no ground truth, only crowd consensus.
+        </div>
+
+        <p>But here's what makes this puzzle worth solving: <strong>disagreement isn't failure</strong>. When fourteen people listen to Track 158 and split five ways, that's not measurement error. That's the real phenomenon.</p>
+
+        <p>Music is ambiguous. Emotion is multi-faceted. Prediction is hard because the thing we're predicting is genuinely, irreducibly complex.</p>
+
+        <p class="pullquote">The question isn't whether we can predict emotions perfectly. It's whether we can predict them honestly—with all the noise, bias, and beautiful disagreement intact.</p>
+
+        <div class="footnote">
+            <p><strong>Data & Code:</strong> All raw data, feature extraction pipelines, model training scripts, and evaluation metrics are available in the <a href="https://github.com/sanand0/datastories/tree/main/emotify" target="_blank">GitHub repository</a>. Technical summary: <a href="https://github.com/sanand0/datastories/blob/main/emotify/SUMMARY.md" target="_blank">SUMMARY.md</a>.</p>
+
+            <p><strong>Audio Source:</strong> 400 one-minute clips from four genres (classical, rock, pop, electronic), rated by multiple human annotators using the Geneva Emotional Music Scale (GEMS).</p>
+
+            <p><strong>Methods:</strong> Features extracted with librosa. Models trained with scikit-learn and XGBoost. Permutation importance via scikit-learn. Evaluation: stratified 80/20 split and leave-one-genre-out cross-validation.</p>
+
+            <p><strong>Visualizations:</strong> Built with Chart.js.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

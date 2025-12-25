@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [The Ambiguous Song](emotify/). How humans label emotions in music—400 tracks across 4 genres rated by multiple annotators, revealing which emotions spark the most disagreement.
+  [![](emotify/screenshot.webp)](emotify/)
 - [Can AI Hear What We Feel?](llm-music/). Gemini's music-emotion predictions vs Emotify human ratings across 40 songs using GEMS-9, revealing where AI hears differently.
   [![](llm-music/screenshot.webp)](llm-music/)
 - [Communicating Insights Visually](anthropic-work/). How top AI chatbots and coding agents turn Anthropic’s “How AI is transforming work at Anthropic” into diverse animated chart ideas—compared and ranked.
