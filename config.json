@@ -1,6 +1,13 @@
 {
   "stories": [
     {
+      "id": "exim",
+      "title": "The Jamnagar Chokepoint: Inside India's $273B Trade Paradox",
+      "description": "How a single port, two commodities, and a hidden export surge reveal the fragile architecture of India's $273 billion trade deficit.",
+      "link": "exim/index.html",
+      "screenshot": "exim/screenshot.webp"
+    },
+    {
       "id": "emotify",
       "title": "The Ambiguous Song",
       "description": "How humans label emotions in music—400 tracks across 4 genres rated by multiple annotators, revealing which emotions spark the most disagreement.",

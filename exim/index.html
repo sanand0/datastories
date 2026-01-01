@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Jamnagar Chokepoint: Inside India's $273B Trade Paradox</title>
+    <style>
+        /* The Verge-inspired design system */
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=Fira+Code:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0A0A0A;
+            --bg-secondary: #151515;
+            --bg-tertiary: #1F1F1F;
+            --text-primary: #FAFAFA;
+            --text-secondary: #B4B4B4;
+            --accent-purple: #B366FF;
+            --accent-cyan: #66D9FF;
+            --accent-pink: #FF6BB3;
+            --accent-yellow: #FFD666;
+            --accent-green: #66FF99;
+            --accent-red: #FF6666;
+            --gradient-primary: linear-gradient(135deg, #B366FF 0%, #FF6BB3 100%);
+            --gradient-secondary: linear-gradient(135deg, #66D9FF 0%, #B366FF 100%);
+            --gradient-tertiary: linear-gradient(135deg, #FFD666 0%, #FF6BB3 100%);
+        }
+
+        body {
+            font-family: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+            background: radial-gradient(ellipse at center, rgba(179, 102, 255, 0.15) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            font-weight: 400;
+            animation: fadeInUp 1.2s ease-out 0.4s both;
+        }
+
+        .hero-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-family: 'Fira Code', monospace;
+            animation: fadeInUp 1.4s ease-out 0.6s both;
+        }
+
+        /* Story Container */
+        .story {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .chapter {
+            margin-bottom: 8rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .chapter.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chapter-number {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .lead {
+            font-size: 1.375rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .callout {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .callout-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+            margin-bottom: 0.75rem;
+        }
+
+        .stat {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-tertiary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-left: 1rem;
+        }
+
+        /* Visualization Container */
+        .viz-container {
+            margin: 4rem 0;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(179, 102, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .viz-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gradient-primary);
+        }
+
+        .viz-title {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .viz-canvas {
+            width: 100%;
+            min-height: 400px;
+            position: relative;
+        }
+
+        /* Full-width visualization */
+        .viz-fullwidth {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .viz-fullwidth .viz-container {
+            padding: 3rem;
+        }
+
+        /* Number Grid */
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .number-card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(179, 102, 255, 0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .number-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-purple);
+        }
+
+        .number-card .stat {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .number-card .stat-label {
+            margin-left: 0;
+            display: block;
+            font-size: 0.75rem;
+        }
+
+        /* Interactive elements */
+        .tooltip {
+            position: absolute;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-purple);
+            padding: 1rem;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+            font-size: 0.875rem;
+            max-width: 250px;
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 2rem;
+            color: var(--accent-purple);
+        }
+
+        /* Footer */
+        footer {
+            max-width: 900px;
+            margin: 8rem auto 4rem;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .methodology {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+
+        .methodology h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 1rem;
+            }
+
+            .story {
+                padding: 2rem 1rem;
+            }
+
+            .viz-fullwidth {
+                padding: 0 1rem;
+            }
+
+            .number-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Chart styles */
+        .bar {
+            transition: opacity 0.3s ease, fill 0.3s ease;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .axis text {
+            fill: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        .axis path,
+        .axis line {
+            stroke: var(--bg-tertiary);
+        }
+
+        .chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">India Trade Data 2003–2024</div>
+            <h1 class="hero-title">The Jamnagar Chokepoint</h1>
+            <p class="hero-subtitle">How a single port, two commodities, and a hidden export surge reveal the fragile architecture of India's $273 billion trade deficit</p>
+            <div class="hero-meta">Data: Foreign Trade Data Dissemination Portal · Analysis: 18M+ trade records</div>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Main Story -->
+    <article class="story">
+        <!-- Chapter 1: The Hook -->
+        <section class="chapter">
+            <div class="chapter-number">Chapter I</div>
+            <h2>The Port That Holds India Hostage</h2>
+
+            <p class="lead">On any given day, nearly half of India's petroleum exports flow through a single point on the Gujarat coast. Not through a government terminal. Not through a diversified network of ports. Through one company's private facility.</p>
+
+            <p>The Jamnagar port, operated by Reliance Industries, handles 48.2% of India's petroleum product exports—$34.5 billion worth of refined fuel in 2024 alone. To put that in perspective: if Jamnagar were a country, it would be India's 8th largest export destination, bigger than Germany or Japan.</p>
+
+            <p>This is not what a resilient supply chain looks like.</p>
+
+            <div class="callout">
+                <div class="callout-title">Wait, really?</div>
+                <p style="margin: 0;">Among 62 ports handling over $1 billion in exports, six are more than 90% dependent on a single commodity. Jamnagar isn't alone—but it's the most extreme example of a pattern that runs through India's entire export infrastructure.</p>
+            </div>
+
+            <div class="number-grid">
+                <div class="number-card">
+                    <span class="stat">48.2%</span>
+                    <span class="stat-label">Petroleum exports through Jamnagar</span>
+                </div>
+                <div class="number-card">
+                    <span class="stat">$71.5B</span>
+                    <span class="stat-label">Total petroleum exports (2024)</span>
+                </div>
+                <div class="number-card">
+                    <span class="stat">89.9%</span>
+                    <span class="stat-label">Gems through DPCC Mumbai</span>
+                </div>
+                <div class="number-card">
+                    <span class="stat">81.2%</span>
+                    <span class="stat-label">Aircraft through GMR Hyderabad</span>
+                </div>
+            </div>
+
+            <p>The concentration goes deeper. Special Economic Zones (SEZs) handle 49-58% of all petroleum product exports, despite accounting for only 11-16% of total exports. India's refinery story—often celebrated as a value-add success—is physically routed through an infrastructure funnel so narrow that a single disruption could cripple the country's second-largest export category.</p>
+        </section>
+
+        <!-- Visualization: Port Concentration -->
+        <div class="viz-fullwidth">
+            <div class="viz-container">
+                <div class="viz-title">Top 10 Ports by Export Concentration (2024)</div>
+                <div class="viz-canvas" id="viz-port-concentration"></div>
+            </div>
+        </div>
+
+        <!-- Chapter 2: The Deficit Illusion -->
+        <section class="chapter">
+            <div class="chapter-number">Chapter II</div>
+            <h2>The Two Commodities That Explain Everything</h2>
+
+            <p class="lead">India's trade deficit in 2024 was $273.7 billion. That number makes headlines. It triggers policy debates. It shapes narratives about India's economic vulnerability.</p>
+
+            <p>But here's what the headlines miss: 76.3% of that deficit comes from just two categories—energy imports and gold.</p>
+
+            <p>Think about that for a moment. In a country that trades 204 distinct commodity categories with nearly 200 countries through 62 major ports, three-quarters of the entire trade imbalance can be traced to crude oil, petroleum products, coal, and gold bars.</p>
+
+            <p>The top five deficit commodities—crude oil, gold, coal, electronics components, and computer hardware—sum to 104% of the total deficit. Yes, 104%. That's not a typo. It means that every other sector combined actually runs a surplus. The deficit isn't broad-based weakness; it's hyper-concentrated dependence.</p>
+
+            <div class="callout">
+                <div class="callout-title">The Math That Changes Everything</div>
+                <p style="margin: 0;">If you exclude crude, petroleum products, coal, and gold, India's 2024 trade deficit shrinks from $273.7B to $64.9B—a 76% reduction. The narrative changes from "chronic trade weakness" to "energy and discretionary luxury dependence."</p>
+            </div>
+        </section>
+
+        <!-- Visualization: Deficit Concentration -->
+        <div class="viz-fullwidth">
+            <div class="viz-container">
+                <div class="viz-title">How Energy + Gold Explain 76% of the Trade Deficit</div>
+                <div class="viz-canvas" id="viz-deficit-sankey"></div>
+            </div>
+        </div>
+
+        <!-- Chapter 3: The Hidden Export Miracle -->
+        <section class="chapter">
+            <div class="chapter-number">Chapter III</div>
+            <h2>The Export Surge No One Noticed</h2>
+
+            <p class="lead">According to the official numbers, India's exports grew by just $11.4 billion from 2023 to 2024. Modest. Unremarkable. Nothing to write home about.</p>
+
+            <p>Except that's not what actually happened.</p>
+
+            <p>Petroleum product exports collapsed by $14.3 billion—a 16.6% drop as global refining margins compressed and energy prices normalized. That decline masked something remarkable: <em>non-petroleum exports surged by $25.7 billion</em>, a 7.4% increase representing broad-based gains across pharmaceuticals, electronics, machinery, and agriculture.</p>
+
+            <p>The headline figure of $11.4 billion total growth exists only because telecom equipment (+$6.4B), aircraft (+$5.5B), and pharmaceuticals (+$2.0B) more than offset petroleum's decline. Remove the energy noise, and you see a different story: Indian manufacturing is gaining global share.</p>
+
+            <div class="number-grid">
+                <div class="number-card">
+                    <span class="stat">+$25.7B</span>
+                    <span class="stat-label">Non-petroleum export growth</span>
+                </div>
+                <div class="number-card">
+                    <span class="stat">7.4%</span>
+                    <span class="stat-label">Year-over-year increase</span>
+                </div>
+                <div class="number-card">
+                    <span class="stat">-$14.3B</span>
+                    <span class="stat-label">Petroleum export decline</span>
+                </div>
+                <div class="number-card">
+                    <span class="stat">+$11.4B</span>
+                    <span class="stat-label">Net export growth (headline)</span>
+                </div>
+            </div>
+
+            <p>But there's a fragility here too. The top two export gainers—telecom instruments and aircraft—contributed $11.9B, exceeding total export growth. The top three destination markets—USA, UAE, Singapore—contributed $13.8B. Declines elsewhere offset the rest. Overall growth exists only because a few spikes counterbalanced broad declines. Any slowdown in those commodities or markets could reverse national growth overnight.</p>
+        </section>
+
+        <!-- Visualization: Export Growth Masked by Petroleum -->
+        <div class="viz-fullwidth">
+            <div class="viz-container">
+                <div class="viz-title">Export Growth Story: Petroleum vs. Everything Else (2023-2024)</div>
+                <div class="viz-canvas" id="viz-export-growth"></div>
+            </div>
+        </div>
+
+        <!-- Chapter 4: The Russia Pivot -->
+        <section class="chapter">
+            <div class="chapter-number">Chapter IV</div>
+            <h2>The Geopolitical Shift Hiding in the Data</h2>
+
+            <p class="lead">In 2023, India's top computer hardware export destination was the UAE, taking 17% of shipments. A year later, it was Russia, with 38%.</p>
+
+            <p>That's not market drift. That's a structural realignment.</p>
+
+            <p>Computer hardware exports to Russia more than doubled from 2023 to 2024, while UAE's share collapsed from first place to fourth. This happened quietly, buried in commodity subcategories, invisible to aggregate trade statistics.</p>
+
+            <p>The shift isn't isolated. Petroleum products saw their top port share collapse from 57.5% to 33.7%, partly due to naming splits but also suggesting routing changes. Paint and varnish exports doubled in value with minimal volume growth—a price or mix story, not demand expansion. These are signals, not noise.</p>
+
+            <div class="callout">
+                <div class="callout-title">What's Actually Happening</div>
+                <p style="margin: 0;">Sudden switches in top destinations or ports are rare—they typically signal structural change: geopolitical realignments, policy shocks, or supply chain reconfigurations. In this case, the Russia pivot aligns with post-2022 sanctions dynamics and India's emerging role as a tech re-export corridor.</p>
+            </div>
+
+            <p>Meanwhile, gold imports—which alone explain 37% of the 2024 import increase—come from a narrow corridor: Switzerland and UAE supply 59%. That's not diversification. That's a compliance and liquidity chokepoint in disguise.</p>
+        </section>
+
+        <!-- Visualization: Top Export Shifts -->
+        <div class="viz-fullwidth">
+            <div class="viz-container">
+                <div class="viz-title">Top Export Growth Contributors (2023-2024)</div>
+                <div class="viz-canvas" id="viz-export-shifts"></div>
+            </div>
+        </div>
+
+        <!-- Chapter 5: What It Means -->
+        <section class="chapter">
+            <div class="chapter-number">Chapter V</div>
+            <h2>The Paradox at the Core</h2>
+
+            <p class="lead">India has diversified its port network dramatically—export port concentration fell 6.36x from 2012 to 2024. But at the commodity level, concentration remains extreme. The system diversified while individual products stayed vulnerable.</p>
+
+            <p>This creates a paradox: macro statistics suggest resilience (more ports, more partners, more products), but micro vulnerabilities persist (Jamnagar's petroleum monopoly, China's 91.6% grip on iron ore demand, 50.5% of computer hardware imports from a single supplier).</p>
+
+            <p>The hidden export surge proves India's non-energy manufacturing is competitive. But that momentum is fragile—concentrated in a few commodities and markets. The deficit concentration reveals that energy and gold dependence, not broad trade weakness, drive the imbalance. But switching suppliers or product mix at that scale takes years, not quarters.</p>
+
+            <div class="callout">
+                <div class="callout-title">The Path Forward</div>
+                <p style="margin: 0;">Policy levers exist but require precision: diversify crude sources (currently 68.8% from top three suppliers), reduce single-port exposure in key commodities, target export promotion where India already dominates specific markets, and prioritize air cargo capacity as the silent backbone of high-value exports (handling 15.5% of export value despite small physical volumes).</p>
+            </div>
+
+            <p>The Jamnagar chokepoint isn't an accident. It's the logical endpoint of a system that optimized for efficiency over resilience, scale over redundancy, concentration over distribution. The data doesn't just describe trade flows—it maps vulnerabilities.</p>
+
+            <p>And in a world where supply chains are increasingly weaponized, vulnerabilities have consequences.</p>
+        </section>
+
+        <!-- Final Visualization: Concentration Overview -->
+        <div class="viz-fullwidth">
+            <div class="viz-container">
+                <div class="viz-title">Import vs Export Concentration (2024)</div>
+                <div class="viz-canvas" id="viz-concentration-comparison"></div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer>
+        <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem;">About This Analysis</h3>
+        <p>This data story analyzes 18,053,536 trade records from India's Foreign Trade Data Dissemination Portal (FTDDP), spanning 2003-2025. Each record represents a trade entry for a single commodity, country, port, year, month, and type (import or export).</p>
+
+        <div class="methodology">
+            <h4>Methodology & Sources</h4>
+            <p><strong>Data Source:</strong> Foreign Trade Data Dissemination Portal (FTDDP) via <a href="https://github.com/Vonter/india-export-import" style="color: var(--accent-cyan);">india-export-import dataset</a></p>
+            <p><strong>Coverage:</strong> Export data (2003-2025), Import data (2021-2025 only)</p>
+            <p><strong>Metrics:</strong> Trade balance, concentration indices (HHI), Grubel-Lloyd index, port specialization, unit-value analysis, year-over-year deltas</p>
+            <p><strong>Limitations:</strong> Import coverage starts only in 2021; 2025 data is partial; commodity labels are coarse (204 categories); port naming inconsistencies exist</p>
+        </div>
+
+        <p style="margin-top: 2rem; font-size: 0.75rem;">Generated with data from FTDDP. Visualization design inspired by The Verge and The New York Times Interactive.</p>
+    </footer>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- D3.js for visualizations -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
