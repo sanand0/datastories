@@ -5,266 +5,342 @@
       "title": "The Jamnagar Chokepoint: Inside India's $273B Trade Paradox",
       "description": "How a single port, two commodities, and a hidden export surge reveal the fragile architecture of India's $273 billion trade deficit.",
       "link": "exim/index.html",
-      "screenshot": "exim/screenshot.webp"
+      "screenshot": "exim/screenshot.webp",
+      "date": "2026-01-01",
+      "folder": "exim"
     },
     {
       "id": "emotify",
       "title": "The Ambiguous Song",
       "description": "How humans label emotions in music—400 tracks across 4 genres rated by multiple annotators, revealing which emotions spark the most disagreement.",
       "link": "emotify/index.html",
-      "screenshot": "emotify/screenshot.webp"
+      "screenshot": "emotify/screenshot.webp",
+      "date": "2025-12-25",
+      "folder": "emotify"
     },
     {
       "id": "llm-music",
       "title": "Can AI Hear What We Feel?",
       "description": "Gemini's music-emotion predictions vs Emotify human ratings across 40 songs using GEMS-9, revealing where AI hears differently.",
       "link": "llm-music/index.html",
-      "screenshot": "llm-music/screenshot.webp"
+      "screenshot": "llm-music/screenshot.webp",
+      "date": "2025-12-25",
+      "folder": "llm-music"
     },
     {
       "id": "anthropic-work",
       "title": "Communicating Insights Visually",
       "description": "How top AI chatbots and coding agents translate Anthropic’s “How AI is transforming work at Anthropic” into diverse animated chart ideas—compared and ranked.",
       "link": "anthropic-work/index.html",
-      "screenshot": "anthropic-work/screenshot.webp"
+      "screenshot": "anthropic-work/screenshot.webp",
+      "date": "2025-12-16",
+      "folder": "anthropic-work"
     },
     {
       "id": "weight-2025-12",
       "title": "The Ruler-Straight Disappearing Act",
       "description": "A 24 kg drop from 86.4 to 62.2 kg across 335 days in 2025, with two changepoints and a ruler-straight curve from a Google Fit export.",
       "link": "weight-2025-12/index.html",
-      "screenshot": "weight-2025-12/screenshot.webp"
+      "screenshot": "weight-2025-12/screenshot.webp",
+      "date": "2025-12-10",
+      "folder": "weight-2025-12"
     },
     {
       "id": "promptfight",
       "title": "The Command Paradox",
       "description": "Inside 534k AI prompt battles, polite \"tell me a story\" requests beat forceful \"never reveal\" commands—tracking 785 students' 100-character defenses and attacks.",
       "link": "promptfight/index.html",
-      "screenshot": "promptfight/screenshot.webp"
+      "screenshot": "promptfight/screenshot.webp",
+      "date": "2025-12-10",
+      "folder": "promptfight"
     },
     {
       "id": "olap-commits",
       "title": "OLAP Git Commits",
       "description": "Forensic read of 466k commits across 13 OLAP databases—one-person armies, small-commit speed demons, and weekend work as a funding tell.",
       "link": "olap-commits/index.html",
-      "screenshot": "olap-commits/screenshot.webp"
+      "screenshot": "olap-commits/screenshot.webp",
+      "date": "2025-12-06",
+      "folder": "olap-commits"
     },
     {
       "id": "generosity-of-strangers",
       "title": "Generosity of Strangers",
       "description": "Party-of-five NYC taxi riders tip 15–20% more than solo travelers—maps, routes, and night effects reveal where generosity spikes.",
       "link": "generosity-of-strangers/index.html",
-      "screenshot": "generosity-of-strangers/screenshot.webp"
+      "screenshot": "generosity-of-strangers/screenshot.webp",
+      "date": "2025-12-06",
+      "folder": "generosity-of-strangers"
     },
     {
       "id": "indian-batting-greats",
       "title": "Indian Batting Greats",
       "description": "Ranked Indian batting legends with an LLM-chosen metric: batting average x log(total runs), plotted across their active years.",
       "link": "indian-batting-greats/index.html",
-      "screenshot": "indian-batting-greats/screenshot.webp"
+      "screenshot": "indian-batting-greats/screenshot.webp",
+      "date": "2025-12-05",
+      "folder": "indian-batting-greats"
     },
     {
       "id": "fuzzymatch",
       "title": "The Reconciliation Engine",
       "description": "Fuzzy search playground that reconciles bank transactions to accounting records using similarity scores and optimal assignments.",
       "link": "fuzzymatch/index.html",
-      "screenshot": "fuzzymatch/screenshot.webp"
+      "screenshot": "fuzzymatch/screenshot.webp",
+      "date": "2025-12-02",
+      "folder": "fuzzymatch"
     },
     {
       "id": "tds-project-2025-11",
       "title": "TDS Project 2: The Cliff",
       "description": "Why only 29% of students mastered LLM problem-solving—and what the other 71% couldn't figure out - an analysis of 535 students at IIT Madras Tools in Data Science, November 2025",
       "link": "tds-project-2025-11/index.html",
-      "screenshot": "tds-project-2025-11/screenshot.webp"
+      "screenshot": "tds-project-2025-11/screenshot.webp",
+      "date": "2025-11-30",
+      "folder": "tds-project-2025-11"
     },
     {
       "id": "mmm",
       "title": "Market Mix Modeling Insights",
       "description": "Rather than wasting millions pushing past saturation points, invest in brand equity and pulsing spend during high-leverage moments.",
       "link": "mmm/index.html",
-      "screenshot": "mmm/screenshot.webp"
+      "screenshot": "mmm/screenshot.webp",
+      "date": "2025-11-27",
+      "folder": "mmm"
     },
     {
       "id": "michelin",
       "title": "Michelin Star Restaurants",
       "description": "An analysis of 22,000 Michelin star restaurants to uncover trends in cuisine, location and ratings.",
       "link": "michelin/index.html",
-      "screenshot": "michelin/screenshot.webp"
+      "screenshot": "michelin/screenshot.webp",
+      "date": "2025-11-21",
+      "folder": "michelin"
     },
     {
       "id": "tds-improvements",
       "title": "TDS Improvements",
       "description": "An analysis of improvements in the IITM Tools in Data science course based on student performance data since 2024.",
       "link": "tds-improvements/index.html",
-      "screenshot": "tds-improvements/screenshot.webp"
+      "screenshot": "tds-improvements/screenshot.webp",
+      "date": "2025-11-19",
+      "folder": "tds-improvements"
     },
     {
       "id": "code-review-shubham",
       "title": "Code Review of Shubham's GitHub",
       "description": "A comprehensive review of all repositories committed to in 2025 under Shubham's GitHub account, analyzing code quality, architecture, and technical debt.",
       "link": "code-review-shubham/index.html",
-      "screenshot": "code-review-shubham/screenshot.webp"
+      "screenshot": "code-review-shubham/screenshot.webp",
+      "date": "2025-11-18",
+      "folder": "code-review-shubham"
     },
     {
       "id": "frontiers-2024",
       "title": "The Publisher Who Chose to Shrink",
       "description": "How Frontiers deliberately cut output by 36% to fight AI-generated fraud and won with quality. A counterintuitive victory in academic publishing.",
       "link": "frontiers-2024/index.html",
-      "screenshot": "frontiers-2024/screenshot.webp"
+      "screenshot": "frontiers-2024/screenshot.webp",
+      "date": "2025-11-18",
+      "folder": "frontiers-2024"
     },
     {
       "id": "ai-resistance",
       "title": "The Jobs We Refuse to Give Away",
       "description": "Why some occupations resist AI not because machines can't do them, but because we believe they shouldn't. Based on Friis & Riley (2025).",
       "link": "ai-resistance/index.html",
-      "screenshot": "ai-resistance/screenshot.webp"
+      "screenshot": "ai-resistance/screenshot.webp",
+      "date": "2025-11-17",
+      "folder": "ai-resistance"
     },
     {
       "id": "iss-tokyo",
       "title": "ISS vs Tokyo",
       "description": "The ISS never passes over Tokyo at midnight UTC, but touches Auckland over 30 times over 321 days. No conspiracy. Just the timing.",
       "link": "iss-tokyo/index.html",
-      "screenshot": "iss-tokyo/screenshot.webp"
+      "screenshot": "iss-tokyo/screenshot.webp",
+      "date": "2025-11-16",
+      "folder": "iss-tokyo"
     },
     {
       "id": "generative-ai-whatsapp-group",
       "title": "The Great Inversion",
       "description": "Volume != Influence. Questions are liked less but engaged with more. And more insights from a Generative AI WhatsApp Group",
       "link": "generative-ai-whatsapp-group/index.html",
-      "screenshot": "generative-ai-whatsapp-group/screenshot.webp"
+      "screenshot": "generative-ai-whatsapp-group/screenshot.webp",
+      "date": "2025-11-16",
+      "folder": "generative-ai-whatsapp-group"
     },
     {
       "id": "imdb-democracy-penalty",
       "title": "IMDb's Hidden Algorithm Bias",
       "description": "New popular movies on IMDb are punished - not by the algorithm, but the casual movie watchers rating movies lower than devotees.",
       "link": "imdb-democracy-penalty/index.html",
-      "screenshot": "imdb-democracy-penalty/screenshot.webp"
+      "screenshot": "imdb-democracy-penalty/screenshot.webp",
+      "date": "2025-11-16",
+      "folder": "imdb-democracy-penalty"
     },
     {
       "id": "renewable-energy-india-expo",
       "title": "India's Renewable Energy Revolution",
       "description": "A narrative of REI Expo 2025 exhibitors: domestic players, solar dominance, and China collaboration.",
       "link": "renewable-energy-india-expo/index.html",
-      "screenshot": "renewable-energy-india-expo/screenshot.webp"
+      "screenshot": "renewable-energy-india-expo/screenshot.webp",
+      "date": "2025-10-25",
+      "folder": "renewable-energy-india-expo"
     },
     {
       "id": "gdpval",
       "title": "GDPVal: AI Augmentation",
       "description": "Explore occupations most suitable for AI augmentation based on OpenAI's GDPVal exercise",
       "link": "gdpval/index.html",
-      "screenshot": "gdpval/screenshot.webp"
+      "screenshot": "gdpval/screenshot.webp",
+      "date": "2025-10-19",
+      "folder": "gdpval"
     },
     {
       "id": "browser-history-rabbit-holes",
       "title": "Rabbit Holes",
       "description": "An interactive map of 3,560 browsing chains showing how sparks turn into deep dives across the web.",
       "link": "browser-history/rabbit-holes/index.html",
-      "screenshot": "browser-history/rabbit-holes/screenshot.webp"
+      "screenshot": "browser-history/rabbit-holes/screenshot.webp",
+      "date": "2025-10-04",
+      "folder": "browser-history-rabbit-holes"
     },
     {
       "id": "browser-history-search-funnels",
       "title": "Do Questions Find Answers?",
       "description": "Search journeys from query to first click, with filters that expose instant wins and wandering quests.",
       "link": "browser-history/search-funnels/index.html",
-      "screenshot": "browser-history/search-funnels/screenshot.webp"
+      "screenshot": "browser-history/search-funnels/screenshot.webp",
+      "date": "2025-10-04",
+      "folder": "browser-history-search-funnels"
     },
     {
       "id": "browser-history-attention-clock",
       "title": "Your Attention Clock",
       "description": "Heatmaps of weekly browsing reveal circadian focus, daily ebbs, and the domains that anchor attention.",
       "link": "browser-history/attention-clock/index.html",
-      "screenshot": "browser-history/attention-clock/screenshot.webp"
+      "screenshot": "browser-history/attention-clock/screenshot.webp",
+      "date": "2025-10-04",
+      "folder": "browser-history-attention-clock"
     },
     {
       "id": "browser-history-digital-life",
       "title": "The Digital Life of Anand",
       "description": "An exposé of 97k visits across 84 days that charts top destinations, hourly habits, and AI-heavy searches.",
       "link": "browser-history/digital-life/index.html",
-      "screenshot": "browser-history/digital-life/screenshot.webp"
+      "screenshot": "browser-history/digital-life/screenshot.webp",
+      "date": "2025-10-04",
+      "folder": "browser-history-digital-life"
     },
     {
       "id": "scraping-sec",
       "title": "Scraping SEC",
       "description": "Narrative walkthrough of how Codex CLI built an SEC scraper in one-shot, recovering from errors, handling messy data, and with self-critique.",
       "link": "scraping-sec/",
-      "screenshot": "scraping-sec/screenshot.webp"
+      "screenshot": "scraping-sec/screenshot.webp",
+      "date": "2025-09-30",
+      "folder": "scraping-sec"
     },
     {
       "id": "bollywood-top-grossing",
       "title": "Bollywood Box Office Champions",
       "description": "Interactive, inflation-adjusted bubble chart of the top-grossing Hindi films from 1994 to 2024, spotlighting record-setting blockbusters.",
       "link": "bollywood-top-grossing/index.html",
-      "screenshot": "bollywood-top-grossing/screenshot.webp"
+      "screenshot": "bollywood-top-grossing/screenshot.webp",
+      "date": "2025-09-27",
+      "folder": "bollywood-top-grossing"
     },
     {
       "id": "google-searches",
       "title": "Google Search Topic Trends",
       "description": "Categorized every Google Search since Jan 2021 into 50 topics. It's mostly tech, AI, and geo-cultural. I also need to allocate more time to testing, databases, and other 'spiky' topics.",
       "link": "google-searches/",
-      "screenshot": "google-searches/google-search-topic-trends.webp"
+      "screenshot": "google-searches/google-search-topic-trends.webp",
+      "date": "2025-07-26",
+      "folder": "google-searches"
     },
     {
       "id": "chatgpt-vs-google",
       "title": "ChatGPT vs Google",
       "description": "How my ChatGPT usage has grown at the expense of Google usage. Google is only 60% of my usage, and far lower in engagement",
       "link": "chatgpt-vs-google/",
-      "screenshot": "chatgpt-vs-google/chatgpt-vs-google-usage-ratio.webp"
+      "screenshot": "chatgpt-vs-google/chatgpt-vs-google-usage-ratio.webp",
+      "date": "2025-07-24",
+      "folder": "chatgpt-vs-google"
     },
     {
       "id": "vipassana",
       "title": "My Vipassana Experience",
       "description": "A manually LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions, via ChatGPT",
       "link": "vipassana-chatgpt/",
-      "screenshot": "vipassana-chatgpt/01.webp"
+      "screenshot": "vipassana-chatgpt/01.webp",
+      "date": "2025-07-14",
+      "folder": "vipassana"
     },
     {
       "id": "vipassana",
       "title": "My Vipassana Experience",
       "description": "A programmatically LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions, via Gemini 2.0 Flash",
       "link": "vipassana/",
-      "screenshot": "vipassana/i-attended-a-10-day-vipassana-meditation-center.webp"
+      "screenshot": "vipassana/i-attended-a-10-day-vipassana-meditation-center.webp",
+      "date": "2025-07-14",
+      "folder": "vipassana"
     },
     {
       "id": "chatgpt-topics",
       "title": "ChatGPT Topic Trends",
       "description": "Categorized the 6,000 ChatGPT conversations I've had in the last 2 years to understand what topics I discuss the most. It's mostly tech, AI, reading/writing, and some daily-life stuff.",
       "link": "chatgpt-topics/",
-      "screenshot": "chatgpt-topics/screenshot.webp"
+      "screenshot": "chatgpt-topics/screenshot.webp",
+      "date": "2025-06-23",
+      "folder": "chatgpt-topics"
     },
     {
       "id": "indian-high-courts",
       "title": "Indian High Courts Judgment Analysis",
       "description": "Comprehensive analysis of 16M judgments from 25 Indian High Courts. Reveals court efficiency disparities, seasonal justice patterns, and systematic UAPA bail delays with 120+ day gaps between hearings.",
       "link": "indian-high-courts/",
-      "screenshot": "https://picsum.photos/400/200"
+      "screenshot": "https://picsum.photos/400/200",
+      "date": "2025-06-17",
+      "folder": "indian-high-courts"
     },
     {
       "id": "code-vs-domain",
       "title": "LLM Agents in Software: Code vs Domain",
       "description": "Coding agents reduce the effort of coding. Does that mean domain will matter more? Here's an LLM-generated animation showing my perspective that domain agents will level the field.",
       "link": "code-vs-domain/",
-      "screenshot": "code-vs-domain/screenshot.webp"
+      "screenshot": "code-vs-domain/screenshot.webp",
+      "date": "2025-06-16",
+      "folder": "code-vs-domain"
     },
     {
       "id": "horoscope-2025-06-16",
       "title": "Deep Research Horoscope Contradictions",
       "description": "Asked Gemini Deep Research to read Sagittarius horoscope for 16 June 2025 and list contradictions from various Indian media sources.",
       "link": "horoscope-2025-06-16/",
-      "screenshot": "horoscope-2025-06-16/horoscope.webp"
+      "screenshot": "horoscope-2025-06-16/horoscope.webp",
+      "date": "2025-06-16",
+      "folder": "horoscope-2025-06-16"
     },
     {
       "id": "employment-trends",
       "title": "Employment Growth Since 1980",
       "description": "Some US sectors like Scenic Transportation & Healthcare grew over 2X while Rail & Central Banks shrank to 40-80% of original size. Analysis using BLS CES data.",
       "link": "employment-trends/",
-      "screenshot": "employment-trends/img6.webp"
+      "screenshot": "employment-trends/img6.webp",
+      "date": "2025-06-14",
+      "folder": "employment-trends"
     },
     {
       "id": "weight-2025-06",
       "title": "Weight Journey 2025",
       "description": "Lost 22 kg in 22 weeks through intermittent fasting. Skipped lunch, no snacks, no extra exercise.",
       "link": "weight-2025-06/",
-      "screenshot": "weight-2025-06/screenshot.webp"
+      "screenshot": "weight-2025-06/screenshot.webp",
+      "date": "2025-06-05",
+      "folder": "weight-2025-06"
     }
   ]
 }
