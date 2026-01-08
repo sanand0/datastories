@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "package-usage",
+      "title": "The Invisible Infrastructure",
+      "description": "How tens of thousands of packages depend on code almost no one has heard of.",
+      "link": "package-usage/index.html",
+      "screenshot": "package-usage/screenshot.webp",
+      "date": "2026-01-08",
+      "folder": "package-usage"
+    },
+    {
       "id": "exim",
       "title": "The Jamnagar Chokepoint: Inside India's $273B Trade Paradox",
       "description": "How a single port, two commodities, and a hidden export surge reveal the fragile architecture of India's $273 billion trade deficit.",

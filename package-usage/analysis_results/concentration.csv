@@ -1,0 +1,13 @@
+platform,metric,top_pct,share
+pypi,dependents_count,0.01,0.5390428587025498
+pypi,dependents_count,0.05,0.764705838514964
+pypi,dependents_count,0.1,0.8444169366008378
+pypi,dependent_repos_count,0.01,0.5364233885661615
+pypi,dependent_repos_count,0.05,0.7618017298664551
+pypi,dependent_repos_count,0.1,0.842774672568648
+npm,dependents_count,0.01,0.42055866666070735
+npm,dependents_count,0.05,0.6875647683963331
+npm,dependents_count,0.1,0.7804185998862725
+npm,dependent_repos_count,0.01,0.43208609056287645
+npm,dependent_repos_count,0.05,0.6723681103791229
+npm,dependent_repos_count,0.1,0.7598330577167505

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Invisible Infrastructure: A Journey Into Package Dependencies</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #333;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .wide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        h1 {
+            font-size: 42px;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #000;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 32px;
+            line-height: 1.3;
+            font-weight: 700;
+            margin: 60px 0 20px;
+            color: #000;
+            letter-spacing: -0.3px;
+        }
+
+        h3 {
+            font-size: 22px;
+            line-height: 1.4;
+            font-weight: 700;
+            margin: 40px 0 15px;
+            color: #333;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            line-height: 1.5;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .byline {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: #f0f0f0;
+            border-left: 4px solid #e05915;
+            padding: 20px 24px;
+            margin: 40px 0;
+            font-style: italic;
+        }
+
+        .stat-callout {
+            font-size: 72px;
+            font-weight: 700;
+            color: #e05915;
+            text-align: center;
+            margin: 60px 0 20px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+            text-align: center;
+            color: #666;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .package-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 24px;
+            margin: 20px 0;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .package-name {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: #e05915;
+            margin-bottom: 12px;
+        }
+
+        .package-stats {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .package-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .viz-container {
+            margin: 60px 0;
+            background: white;
+            padding: 40px;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .viz-title {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .axis text {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 11px;
+            fill: #666;
+        }
+
+        .axis line,
+        .axis path {
+            stroke: #ddd;
+        }
+
+        .grid line {
+            stroke: #f0f0f0;
+            stroke-opacity: 0.7;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 300px;
+            line-height: 1.5;
+        }
+
+        .tooltip-name {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #ff9966;
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        .slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered animations */
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        .delay-5 { animation-delay: 1s; }
+
+        .footnote {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px;
+            color: #999;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #e0e0e0;
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-weight: bold;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 0.9em;
+            color: #e05915;
+        }
+
+        a {
+            color: #e05915;
+            text-decoration: none;
+            border-bottom: 1px solid #e05915;
+        }
+
+        a:hover {
+            border-bottom: 2px solid #e05915;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="fade-in">The Invisible Infrastructure</h1>
+        <div class="subtitle fade-in delay-1">How tens of thousands of packages depend on code almost no one has heard of</div>
+        <div class="byline fade-in delay-2">A data investigation</div>
+
+        <p class="slide-up delay-3">In the fall of 2023, a package called <code>random-job-selector</code> sat quietly in the npm registry. It had no stars on GitHub. No forks. No apparent community. If you searched for it on Twitter or Stack Overflow, you'd find nothing. By every visible metric, it was nobody's favorite package.</p>
+
+        <p class="slide-up delay-3">But here's what made <code>random-job-selector</code> extraordinary: 102,405 other packages depended on it.</p>
+
+        <p class="slide-up delay-4">To put that in perspective, that's more dependents than <code>lodash</code> has repositories using it directly. More than most developers will ever accumulate in a lifetime of open source work. And yet, only six repositories—six!—actually used <code>random-job-selector</code> in their code.</p>
+
+        <p class="slide-up delay-4">This is a story about the gap between visibility and importance. About the packages that hold up the modern software ecosystem while remaining almost completely unknown. About what happens when you look not at what developers love, but at what packages secretly depend on.</p>
+
+        <h2>The Hidden Gap</h2>
+
+        <p>Software has always had layers. Operating systems sit beneath applications. Libraries sit beneath frameworks. But we rarely see these layers quantified. We assume that popular packages—the ones with stars, forks, and active communities—are the ones doing the heavy lifting.</p>
+
+        <p>The data tells a different story.</p>
+
+        <p>Consider two metrics: <em>dependents_count</em> (how many other packages depend on you) and <em>dependent_repos_count</em> (how many actual projects use you directly). For most packages, these numbers track together. More dependents usually means more repositories. The correlation is strong—around 0.89 for Python packages, 0.69 for npm.</p>
+
+        <p>But not always.</p>
+
+        <div class="highlight-box slide-up delay-5">
+            Some packages are depended upon by thousands of other packages, yet barely used by actual developers. They exist in a strange liminal space: critical to the ecosystem, invisible to its inhabitants.
+        </div>
+
+        <p>We measured this gap using a simple formula: the log of dependents minus the log of direct repository usage. A score of 2.0 means a package is depended on by roughly 100 times more packages than repositories using it. A score of 4.0 means 10,000 times more.</p>
+
+        <p><code>random-job-selector</code> scored 4.17.</p>
+
+        <h2>The 1% Problem</h2>
+
+        <div class="stat-callout slide-up">54%</div>
+        <div class="stat-label slide-up delay-1">of all PyPI package dependencies are held by just 1% of packages</div>
+
+        <p>The concentration of power in software ecosystems is staggering. In Python's PyPI, the top 1% of packages—just 100 packages out of our sample of 10,000—account for 54% of all dependencies. In npm, it's 42%.</p>
+
+        <p>This isn't quite a "winner-take-all" dynamic. It's more like "winner-take-most." And the winners aren't always who you'd expect.</p>
+    </div>
+
+    <div class="wide-container">
+        <div class="viz-container slide-up">
+            <div class="viz-title">How Concentrated Are Package Dependencies?</div>
+            <div id="concentration-chart"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <p>When we mapped all 10,000 packages in each ecosystem on a logarithmic scale—dependents on one axis, direct usage on the other—a clear pattern emerged. Most packages cluster around a diagonal line: roughly equal dependencies and usage. But above that line, in the upper-left quadrant, sit the outliers.</p>
+    </div>
+
+    <div class="wide-container">
+        <div class="viz-container slide-up">
+            <div class="viz-title">Package Dependencies vs. Direct Usage: PyPI</div>
+            <div id="pypi-scatter"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <p>Each dot is a package. The diagonal line represents packages where dependencies and usage are balanced. The further a package sits above that line, the more it's depended upon relative to its direct usage—the more "hidden" it is.</p>
+
+        <p>Look at the extreme outliers. In PyPI, you'll find the Alibaba Cloud utilities: <code>alibabacloud-rpc-util</code>, <code>alibabacloud-endpoint-util</code>, <code>alibabacloud-tea-util</code>. Hundreds of dependents. Single-digit direct usage. These aren't packages for developers; they're infrastructure for other infrastructure, vendor ecosystems that exist almost entirely in the dependency graph.</p>
+
+        <p>In npm, the pattern is even more striking—and more mysterious.</p>
+    </div>
+
+    <div class="wide-container">
+        <div class="viz-container slide-up">
+            <div class="viz-title">Package Dependencies vs. Direct Usage: npm</div>
+            <div id="npm-scatter"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <p>The top of the npm chart is dominated by packages with bizarre names: <code>lordlist</code>, <code>pinarrray</code>, <code>pick-redvelvet-member</code>, <code>afifaljafari112tea</code>. Tens of thousands of dependents. Zero stars. Zero forks. These packages don't look like infrastructure. They look like noise, or perhaps something more deliberate—automated package generation, vendor ecosystems, or dependency graph manipulation.</p>
+
+        <p>But set aside these extreme cases. Even among recognizable packages, the pattern holds.</p>
+
+        <h2>The Aging Pillars</h2>
+
+        <p>In 2014, a Python developer released <code>docopt</code>, a command-line interface parser. It was elegant, well-documented, and quickly became popular. Then the developer stopped updating it. Eleven and a half years have passed since its last release.</p>
+
+        <p>Today, 1,965 packages still depend on <code>docopt</code>.</p>
+
+        <div class="package-card slide-up">
+            <div class="package-name">toml</div>
+            <div class="package-stats">5,158 dependents • 3,133 direct repositories • Last updated 5.2 years ago</div>
+            <div class="package-description">A Python library for parsing TOML configuration files. Before Python 3.11 included <code>tomllib</code> in the standard library, this was <em>the</em> TOML parser. It still anchors thousands of packages that haven't migrated.</div>
+        </div>
+
+        <div class="package-card slide-up delay-1">
+            <div class="package-name">colorama</div>
+            <div class="package-stats">9,527 dependents • 5,406 direct repositories • Last updated 3.2 years ago</div>
+            <div class="package-description">Makes ANSI color codes work on Windows terminals. A simple problem, solved once, depended upon by nearly 10,000 packages. Why update what works?</div>
+        </div>
+
+        <div class="package-card slide-up delay-2">
+            <div class="package-name">babel-core</div>
+            <div class="package-stats">168,519 dependents • 78,017 direct repositories • Last updated 7.7 years ago</div>
+            <div class="package-description">The heart of the Babel JavaScript compiler. Babel has moved on to version 7, but over 168,000 packages still depend on this version 6 release from 2018. The old infrastructure doesn't disappear; it just becomes invisible.</div>
+        </div>
+
+        <p>These are the aging pillars: packages that solved fundamental problems years ago and have been quietly holding up the ecosystem ever since. They don't need frequent updates because they do one thing well. But they represent a risk—what happens when a critical dependency hasn't seen active maintenance in half a decade?</p>
+
+        <p>The correlation between staleness and dependency count is weakly negative: more-depended-upon packages are <em>slightly</em> fresher. But the effect is small. Plenty of critical packages are aging silently.</p>
+
+        <h2>The Reverse Gap</h2>
+
+        <p>Not all packages want to be infrastructure. Some are built for developers, not for other packages. These show up in the data too—but in reverse.</p>
+
+        <p>Take <code>prelude-ls</code> in npm: 406,379 repositories use it directly, but only 1,417 packages depend on it. Or <code>superagent</code>, a popular HTTP client: 65,452 repositories, but only 10,850 package dependents. These are the tools developers reach for when building applications, but other package authors don't build upon.</p>
+
+        <p>In PyPI, <code>openapi-codec</code> has 398 repository users but only 64 package dependents—a reverse gap of -0.79. These packages feel big because developers encounter them frequently, but they're not part of the hidden infrastructure. They're endpoints, not foundations.</p>
+
+        <h2>The Infrastructure Effect</h2>
+
+        <p>Not all domains hide equally. When we segment packages by their purpose—web frameworks, machine learning libraries, infrastructure utilities, developer tools—a clear pattern emerges.</p>
+
+        <p>Infrastructure packages have the highest median gap in both ecosystems. In PyPI, infrastructure packages have a median gap of 0.33, compared to 0.22 for most other categories. In npm, the difference is even more stark: infrastructure packages have a median gap of 0.74, while security packages actually have a gap of zero—they're used directly as often as they're depended upon.</p>
+
+        <p>This makes intuitive sense. Infrastructure packages—networking libraries, parsing utilities, middleware components—are the kind of code that other packages build upon but that developers rarely import directly. When was the last time you wrote <code>import alibabacloud-endpoint-util</code>? Never, probably. But if you use any Alibaba Cloud SDK, you're depending on it transitively.</p>
+
+        <p>Web and machine learning packages, by contrast, are more balanced. Developers use them directly, and other packages build on them. Developer tools and testing frameworks lean toward direct usage—these are the packages developers consciously choose and install.</p>
+
+        <h2>The Split Personality Package</h2>
+
+        <p>There are 176 packages that exist in both PyPI and npm with the exact same name. Most of them play similar roles across ecosystems. But not <code>node</code>.</p>
+
+        <div class="package-card slide-up">
+            <div class="package-name">node (PyPI)</div>
+            <div class="package-stats">538 dependents • 17 direct repositories • Gap: 1.48</div>
+            <div class="package-description">In Python, <code>node</code> is a tree/graph node data structure library. It's deeply embedded in other packages but rarely used directly by developers. A classic hidden infrastructure package.</div>
+        </div>
+
+        <div class="package-card slide-up delay-1">
+            <div class="package-name">node (npm)</div>
+            <div class="package-stats">2,193 dependents • 845 direct repositories • Gap: 0.41</div>
+            <div class="package-description">In JavaScript, <code>node</code> is a package for managing Node.js versions and binaries. Developers use it directly, and packages depend on it in roughly equal measure. It's visible infrastructure.</div>
+        </div>
+
+        <p>Same name. Completely different roles in the dependency graph. The gap between them is 1.06—the largest gap difference among cross-ecosystem packages. It's a reminder that context matters. A package name tells you almost nothing about whether it will be visible or invisible in its ecosystem.</p>
+
+        <h2>What It Means</h2>
+
+        <p>The software ecosystem runs on packages most developers have never heard of. The top 1% holds up more than half the weight. Infrastructure packages—the ones doing networking, parsing, utilities—have the highest gaps between dependency and visibility. And much of this critical infrastructure is maintained by tiny teams, often by a single person, sometimes not actively maintained at all.</p>
+
+        <p>This isn't necessarily a crisis. Code that works doesn't always need updates. <code>colorama</code> and <code>toml</code> do their jobs well enough that three to five years without a release isn't alarming—it might even be a sign of stability.</p>
+
+        <p>But it's worth knowing where the weight is borne. When we talk about open source sustainability, we often focus on the packages with the most stars, the most contributors, the most visible activity. The data suggests we should be looking elsewhere: at the packages depended upon by thousands but known to almost no one. At the vendor ecosystems that power entire clouds. At the aging pillars that haven't needed an update in years—until suddenly they do.</p>
+
+        <div class="highlight-box">
+            The invisible infrastructure is invisible for a reason: it works so well we forget it exists. Until it doesn't.
+        </div>
+
+        <h2>Heroes in the Shadows</h2>
+
+        <p>Here are some of the packages holding up the ecosystem while remaining largely unknown to the developers who benefit from them:</p>
+
+        <div class="package-card slide-up">
+            <div class="package-name">odoo</div>
+            <div class="package-stats">18,189 dependents • 241 direct repositories • Gap score: 1.88</div>
+            <div class="package-description">An open-source ERP system that's spawned an entire ecosystem of plugins and extensions. The massive dependency count comes from Odoo modules depending on the core—an internal ecosystem that barely registers in public repositories.</div>
+        </div>
+
+        <div class="package-card slide-up delay-1">
+            <div class="package-name">unique-names-generator</div>
+            <div class="package-stats">76,656 dependents • 105 direct repositories • Last updated 3.9 years ago</div>
+            <div class="package-description">Generates random names like "brave-dolphin" or "happy-cloud." Why do 76,000 packages need this? Testing, mock data, temporary identifiers. It's the kind of utility that's too simple to rewrite but just useful enough to depend upon.</div>
+        </div>
+
+        <div class="package-card slide-up delay-2">
+            <div class="package-name">@aws-sdk/middleware-content-length</div>
+            <div class="package-stats">760 dependents • 4 direct repositories • Gap score: 2.18</div>
+            <div class="package-description">A tiny piece of AWS SDK plumbing. Most developers using AWS never think about HTTP content-length headers. But 760 packages in the SDK depend on this middleware to work correctly. Pure infrastructure.</div>
+        </div>
+
+        <h2>A Note on Method</h2>
+
+        <p>This analysis examined the top 10,000 packages by dependency count in both PyPI and npm, using data from Libraries.io. The "gap" metric is calculated as log₁₀(dependents + 1) - log₁₀(direct_repositories + 1), which captures the ratio between dependency usage and direct usage on a logarithmic scale.</p>
+
+        <p>Some caveats: This only covers packages in the top 10,000—the long tail is excluded. Direct repository counts undercount private repositories and monorepos. The extreme outliers (especially in npm) may represent vendor ecosystems, auto-generated packages, or data anomalies rather than traditional infrastructure.</p>
+
+        <p>Robustness checks confirm the pattern is real: the correlation between dependencies and usage holds across random subsamples, domain segments, and alternative metrics. The signal isn't noise. But the most extreme gaps come from packages with very low direct usage, which makes them fragile measures.</p>
+
+        <p>Still, the broader pattern is clear and defensible: there's a significant population of packages that are critical to the dependency graph but invisible to most developers.</p>
+
+        <h2>The Next Time You Import</h2>
+
+        <p>The next time you type <code>import colorama</code> or <code>npm install lodash</code>, take a moment to appreciate what you're really doing. You're not just pulling in a single package. You're tapping into a vast, mostly invisible network of dependencies—some maintained by large teams, some by single developers, some not actively maintained at all.</p>
+
+        <p>And somewhere in that network, packages like <code>random-job-selector</code> are quietly doing their work, depended upon by thousands of other packages you've never heard of, forming the invisible infrastructure that makes modern software possible.</p>
+
+        <p>They're not famous. They don't have tens of thousands of stars. You'll never see them trending on GitHub.</p>
+
+        <p>But they're there. Holding things up. Waiting to be discovered.</p>
+
+        <div class="footnote">
+            <strong><a href="https://github.com/sanand0/datastories/tree/main/package-usage">Data & Methods:</a></strong> Analysis based on Libraries.io data for the top 10,000 most-depended-upon packages in PyPI and npm. Gap metric calculated as log₁₀(dependents_count + 1) - log₁₀(dependent_repos_count + 1). Staleness measured as years since last release. Domain classifications based on keyword analysis. Code and data available for review.
+            <br><br>
+            <strong>Limitations:</strong> Sample limited to top 10,000 packages per ecosystem. Direct repository counts may undercount private repos and monorepos. Extreme outliers may reflect vendor ecosystems or data artifacts. No causal claims are made—this is a descriptive analysis of patterns in the dependency graph.
+        </div>
+    </div>
+
+    <script>
+        // PyPI Scatter Plot
+        d3.csv('analysis_results/pypi_metrics.csv').then(data => {
+            data = data.filter(d =>
+                d.dependents_count > 0 &&
+                d.dependent_repos_count > 0 &&
+                !isNaN(+d.dependents_count) &&
+                !isNaN(+d.dependent_repos_count)
+            ).map(d => ({
+                name: d.name,
+                dependents: +d.dependents_count,
+                repos: +d.dependent_repos_count,
+                gap: +d.gap,
+                stars: +d.stars || 0
+            }));
+
+            createScatterPlot(data, '#pypi-scatter', 'PyPI');
+        });
+
+        // npm Scatter Plot
+        d3.csv('analysis_results/npm_metrics.csv').then(data => {
+            data = data.filter(d =>
+                d.dependents_count > 0 &&
+                d.dependent_repos_count > 0 &&
+                !isNaN(+d.dependents_count) &&
+                !isNaN(+d.dependent_repos_count)
+            ).map(d => ({
+                name: d.name,
+                dependents: +d.dependents_count,
+                repos: +d.dependent_repos_count,
+                gap: +d.gap,
+                stars: +d.stars || 0
+            }));
+
+            createScatterPlot(data, '#npm-scatter', 'npm');
+        });
+
+        function createScatterPlot(data, selector, ecosystem) {
+            const margin = {top: 20, right: 100, bottom: 60, left: 80};
+            const width = 1000 - margin.left - margin.right;
+            const height = 600 - margin.top - margin.bottom;
+
+            const svg = d3.select(selector)
+                .append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Scales
+            const xScale = d3.scaleLog()
+                .domain([1, d3.max(data, d => d.repos)])
+                .range([0, width]);
+
+            const yScale = d3.scaleLog()
+                .domain([1, d3.max(data, d => d.dependents)])
+                .range([height, 0]);
+
+            // Grid
+            svg.append('g')
+                .attr('class', 'grid')
+                .attr('opacity', 0.3)
+                .call(d3.axisLeft(yScale)
+                    .tickSize(-width)
+                    .tickFormat(''));
+
+            svg.append('g')
+                .attr('class', 'grid')
+                .attr('transform', `translate(0,${height})`)
+                .attr('opacity', 0.3)
+                .call(d3.axisBottom(xScale)
+                    .tickSize(-height)
+                    .tickFormat(''));
+
+            // Diagonal reference line
+            const maxVal = Math.min(d3.max(data, d => d.repos), d3.max(data, d => d.dependents));
+            svg.append('line')
+                .attr('x1', xScale(1))
+                .attr('y1', yScale(1))
+                .attr('x2', xScale(maxVal))
+                .attr('y2', yScale(maxVal))
+                .attr('stroke', '#ccc')
+                .attr('stroke-width', 2)
+                .attr('stroke-dasharray', '5,5');
+
+            // Tooltip
+            const tooltip = d3.select('body').append('div')
+                .attr('class', 'tooltip');
+
+            // Highlight top outliers
+            const topOutliers = data.sort((a, b) => b.gap - a.gap).slice(0, 20);
+            const outlierNames = new Set(topOutliers.map(d => d.name));
+
+            // Top packages to label (select most interesting ones based on gap and recognizability)
+            const packagesToLabel = ecosystem === 'PyPI'
+                ? ['odoo', 'alibabacloud-tea-util', 'colorama', 'toml', 'node']
+                : ['unique-names-generator', 'babel-core', 'lodash', 'prelude-ls'];
+
+            const labelSet = new Set(packagesToLabel);
+
+            // Points
+            svg.selectAll('circle')
+                .data(data)
+                .enter()
+                .append('circle')
+                .attr('cx', d => xScale(d.repos))
+                .attr('cy', d => yScale(d.dependents))
+                .attr('r', d => outlierNames.has(d.name) ? 6 : 3)
+                .attr('fill', d => {
+                    if (outlierNames.has(d.name)) return '#e05915';
+                    if (d.gap > 1.5) return '#ff9966';
+                    if (d.gap < -1) return '#6699cc';
+                    return '#999';
+                })
+                .attr('opacity', d => outlierNames.has(d.name) ? 0.9 : 0.4)
+                .attr('stroke', d => outlierNames.has(d.name) ? '#fff' : 'none')
+                .attr('stroke-width', 2)
+                .on('mouseover', (event, d) => {
+                    tooltip.style('opacity', 1)
+                        .html(`
+                            <div class="tooltip-name">${d.name}</div>
+                            <div>${d.dependents.toLocaleString()} dependents</div>
+                            <div>${d.repos.toLocaleString()} direct repos</div>
+                            <div>Gap: ${d.gap.toFixed(2)}</div>
+                            ${d.stars > 0 ? `<div>${d.stars.toLocaleString()} stars</div>` : ''}
+                        `)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 10) + 'px');
+                })
+                .on('mouseout', () => {
+                    tooltip.style('opacity', 0);
+                });
+
+            // Add labels for notable packages
+            const labeledPackages = data.filter(d => labelSet.has(d.name));
+
+            svg.selectAll('.package-label')
+                .data(labeledPackages)
+                .enter()
+                .append('text')
+                .attr('class', 'package-label')
+                .attr('x', d => xScale(d.repos) + 10)
+                .attr('y', d => yScale(d.dependents) - 10)
+                .style('font-family', 'Monaco, Courier New, monospace')
+                .style('font-size', '11px')
+                .style('font-weight', '700')
+                .style('fill', '#e05915')
+                .style('pointer-events', 'none')
+                .style('opacity', 0)
+                .text(d => d.name)
+                .transition()
+                .delay(1500)
+                .duration(600)
+                .style('opacity', 0.9);
+
+            // Add subtle connector lines from labels to points
+            svg.selectAll('.package-label-line')
+                .data(labeledPackages)
+                .enter()
+                .append('line')
+                .attr('class', 'package-label-line')
+                .attr('x1', d => xScale(d.repos))
+                .attr('y1', d => yScale(d.dependents))
+                .attr('x2', d => xScale(d.repos) + 8)
+                .attr('y2', d => yScale(d.dependents) - 8)
+                .attr('stroke', '#e05915')
+                .attr('stroke-width', 1)
+                .attr('stroke-opacity', 0)
+                .transition()
+                .delay(1500)
+                .duration(600)
+                .attr('stroke-opacity', 0.3);
+
+            // Axes
+            svg.append('g')
+                .attr('class', 'axis')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(xScale)
+                    .ticks(5, ',.0f')
+                    .tickFormat(d => d.toLocaleString()));
+
+            svg.append('g')
+                .attr('class', 'axis')
+                .call(d3.axisLeft(yScale)
+                    .ticks(5, ',.0f')
+                    .tickFormat(d => d.toLocaleString()));
+
+            // Labels
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', height + 50)
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica Neue, Arial, sans-serif')
+                .style('font-size', '13px')
+                .style('fill', '#666')
+                .text('Direct Repository Usage →');
+
+            svg.append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('x', -height / 2)
+                .attr('y', -60)
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica Neue, Arial, sans-serif')
+                .style('font-size', '13px')
+                .style('fill', '#666')
+                .text('← Package Dependencies');
+
+            // Legend
+            const legend = svg.append('g')
+                .attr('transform', `translate(${width + 20}, 20)`);
+
+            const legendData = [
+                { color: '#e05915', label: 'Top 20 outliers', size: 6 },
+                { color: '#ff9966', label: 'High gap (>1.5)', size: 3 },
+                { color: '#999', label: 'Typical', size: 3 },
+                { color: '#6699cc', label: 'Reverse gap (<-1)', size: 3 }
+            ];
+
+            legendData.forEach((item, i) => {
+                legend.append('circle')
+                    .attr('cx', 0)
+                    .attr('cy', i * 25)
+                    .attr('r', item.size)
+                    .attr('fill', item.color)
+                    .attr('opacity', 0.8);
+
+                legend.append('text')
+                    .attr('x', 15)
+                    .attr('y', i * 25 + 4)
+                    .style('font-family', 'Helvetica Neue, Arial, sans-serif')
+                    .style('font-size', '11px')
+                    .style('fill', '#666')
+                    .text(item.label);
+            });
+        }
+
+        // Concentration Chart
+        function createConcentrationChart() {
+            const data = [
+                { ecosystem: 'PyPI', top1: 53.9, top5: 76.5, top10: 84.4 },
+                { ecosystem: 'npm', top1: 42.1, top5: 68.8, top10: 78.0 }
+            ];
+
+            const margin = {top: 20, right: 150, bottom: 60, left: 80};
+            const width = 700 - margin.left - margin.right;
+            const height = 400 - margin.top - margin.bottom;
+
+            const svg = d3.select('#concentration-chart')
+                .append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleBand()
+                .domain(data.map(d => d.ecosystem))
+                .range([0, width])
+                .padding(0.3);
+
+            const y = d3.scaleLinear()
+                .domain([0, 100])
+                .range([height, 0]);
+
+            // Bars
+            const categories = ['top1', 'top5', 'top10'];
+            const colors = ['#e05915', '#ff9966', '#ffcc99'];
+            const labels = ['Top 1%', 'Top 5%', 'Top 10%'];
+
+            data.forEach(d => {
+                const barWidth = x.bandwidth() / 3;
+                categories.forEach((cat, i) => {
+                    svg.append('rect')
+                        .attr('x', x(d.ecosystem) + i * barWidth)
+                        .attr('y', height)
+                        .attr('width', barWidth - 2)
+                        .attr('height', 0)
+                        .attr('fill', colors[i])
+                        .transition()
+                        .delay(500 + i * 200)
+                        .duration(800)
+                        .attr('y', y(d[cat]))
+                        .attr('height', height - y(d[cat]));
+
+                    svg.append('text')
+                        .attr('x', x(d.ecosystem) + i * barWidth + barWidth / 2)
+                        .attr('y', y(d[cat]) - 8)
+                        .attr('text-anchor', 'middle')
+                        .style('font-family', 'Helvetica Neue, Arial, sans-serif')
+                        .style('font-size', '12px')
+                        .style('font-weight', '700')
+                        .style('fill', colors[i])
+                        .style('opacity', 0)
+                        .text(d[cat].toFixed(1) + '%')
+                        .transition()
+                        .delay(500 + i * 200 + 800)
+                        .duration(400)
+                        .style('opacity', 1);
+                });
+            });
+
+            // Axes
+            svg.append('g')
+                .attr('class', 'axis')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+
+            svg.append('g')
+                .attr('class', 'axis')
+                .call(d3.axisLeft(y).ticks(5).tickFormat(d => d + '%'));
+
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', height + 50)
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica Neue, Arial, sans-serif')
+                .style('font-size', '13px')
+                .style('fill', '#666')
+                .text('Ecosystem');
+
+            svg.append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('x', -height / 2)
+                .attr('y', -60)
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica Neue, Arial, sans-serif')
+                .style('font-size', '13px')
+                .style('fill', '#666')
+                .text('← Share of Total Dependencies');
+
+            // Legend
+            const legend = svg.append('g')
+                .attr('transform', `translate(${width + 20}, 20)`);
+
+            labels.forEach((label, i) => {
+                legend.append('rect')
+                    .attr('x', 0)
+                    .attr('y', i * 25)
+                    .attr('width', 16)
+                    .attr('height', 16)
+                    .attr('fill', colors[i]);
+
+                legend.append('text')
+                    .attr('x', 24)
+                    .attr('y', i * 25 + 12)
+                    .style('font-family', 'Helvetica Neue, Arial, sans-serif')
+                    .style('font-size', '12px')
+                    .style('fill', '#666')
+                    .text(label);
+            });
+        }
+
+        createConcentrationChart();
+
+        // Intersection Observer for scroll-triggered animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.slide-up').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
