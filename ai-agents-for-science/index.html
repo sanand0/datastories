@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Can AI Replace Human Paper Reviewers? | What We Learned</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy-light: #1a2d4a;
+      --blue-accent: #2563eb;
+      --blue-bright: #3b82f6;
+      --gold: #f59e0b;
+      --gold-light: #fbbf24;
+      --red: #dc2626;
+      --red-light: #ef4444;
+      --green: #059669;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background: var(--navy);
+      color: var(--gray-700);
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .presentation {
+      width: 100vw;
+      height: calc(100vh - 2.25rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--white);
+      padding: 48px 64px;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* Title Slide */
+    .slide.title-slide {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: var(--white);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .title-slide .logo-bar {
+      position: absolute;
+      top: 48px;
+      left: 64px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gray-300);
+    }
+
+    .title-slide .logo-bar::before {
+      content: '';
+      width: 40px;
+      height: 3px;
+      background: var(--gold);
+    }
+
+    .title-slide h1 {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: 52px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      max-width: 900px;
+    }
+
+    .title-slide .subtitle {
+      font-size: 22px;
+      color: var(--gray-300);
+      margin-bottom: 48px;
+      font-weight: 400;
+      max-width: 700px;
+    }
+
+    .title-slide .meta {
+      position: absolute;
+      bottom: 48px;
+      font-size: 14px;
+      color: var(--gray-500);
+    }
+
+    .title-slide .data-badge {
+      display: inline-flex;
+      gap: 32px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 16px 32px;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+
+    .title-slide .data-badge .stat {
+      text-align: center;
+    }
+
+    .title-slide .data-badge .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .title-slide .data-badge .stat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-300);
+    }
+
+    /* Content Slides */
+    .slide-header {
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .slide-number {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gray-500);
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .slide-title .highlight {
+      color: var(--blue-accent);
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      gap: 40px;
+      overflow: hidden;
+    }
+
+    /* Insight Cards */
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      flex: 1;
+    }
+
+    .insight-card {
+      background: var(--gray-100);
+      border-radius: 12px;
+      padding: 24px;
+      border-left: 4px solid var(--blue-accent);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .insight-card.warning {
+      border-left-color: var(--red);
+    }
+
+    .insight-card.success {
+      border-left-color: var(--green);
+    }
+
+    .insight-card.gold {
+      border-left-color: var(--gold);
+    }
+
+    .insight-number {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue-accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .insight-card.warning .insight-number {
+      color: var(--red);
+    }
+
+    .insight-card.success .insight-number {
+      color: var(--green);
+    }
+
+    .insight-card.gold .insight-number {
+      color: var(--gold);
+    }
+
+    .insight-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .insight-text {
+      font-size: 14px;
+      color: var(--gray-700);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .insight-metric {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--gray-300);
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .metric-label {
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+
+    /* Data Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .data-table th {
+      background: var(--navy);
+      color: var(--white);
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 12px;
+    }
+
+    .data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .data-table tr:nth-child(even) {
+      background: var(--gray-100);
+    }
+
+    .data-table .highlight-cell {
+      font-weight: 700;
+      color: var(--blue-accent);
+    }
+
+    .data-table .warning-cell {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .data-table .success-cell {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* Charts */
+    .chart-container {
+      background: var(--gray-100);
+      border-radius: 12px;
+      padding: 24px;
+      flex: 1;
+    }
+
+    .chart-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bar-label {
+      width: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 32px;
+      background: var(--gray-200);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      transition: width 0.8s ease;
+    }
+
+    .bar-fill.navy {
+      background: var(--navy);
+    }
+
+    .bar-fill.blue {
+      background: var(--blue-accent);
+    }
+
+    .bar-fill.gold {
+      background: var(--gold);
+    }
+
+    .bar-fill.red {
+      background: var(--red);
+    }
+
+    .bar-fill.green {
+      background: var(--green);
+    }
+
+    .bar-value {
+      width: 60px;
+      text-align: right;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* Distribution Chart */
+    .dist-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 160px;
+      padding-top: 20px;
+    }
+
+    .dist-bar-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dist-bars {
+      display: flex;
+      gap: 2px;
+      align-items: flex-end;
+      height: 120px;
+    }
+
+    .dist-bar {
+      width: 18px;
+      border-radius: 2px 2px 0 0;
+      transition: height 0.6s ease;
+    }
+
+    .dist-bar.airev1 {
+      background: var(--red);
+    }
+
+    .dist-bar.airev2 {
+      background: var(--green);
+    }
+
+    .dist-bar.airev3 {
+      background: var(--blue-accent);
+    }
+
+    .dist-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+    }
+
+    /* Key Takeaway Box */
+    .takeaway-box {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: 12px;
+      padding: 28px;
+      color: var(--white);
+    }
+
+    .takeaway-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .takeaway-text {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    /* Two Column Layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      flex: 1;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Evidence Box */
+    .evidence-box {
+      background: var(--gray-100);
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .evidence-box.highlight {
+      border: 2px solid var(--blue-accent);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .evidence-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-500);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .evidence-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .evidence-value.large {
+      font-size: 48px;
+    }
+
+    .evidence-value .unit {
+      font-size: 18px;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    .evidence-context {
+      font-size: 13px;
+      color: var(--gray-700);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* Action List */
+    .action-list {
+      list-style: none;
+    }
+
+    .action-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .action-item:last-child {
+      border-bottom: none;
+    }
+
+    .action-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--blue-accent);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .action-content h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .action-content p {
+      font-size: 13px;
+      color: var(--gray-700);
+      line-height: 1.5;
+    }
+
+    /* Comparison Diagram */
+    .comparison-diagram {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .comparison-box {
+      text-align: center;
+      padding: 24px;
+      border-radius: 12px;
+      min-width: 180px;
+    }
+
+    .comparison-box.bad {
+      background: rgba(220, 38, 38, 0.1);
+      border: 2px solid var(--red);
+    }
+
+    .comparison-box.good {
+      background: rgba(5, 150, 105, 0.1);
+      border: 2px solid var(--green);
+    }
+
+    .comparison-box h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .comparison-box.bad h4 {
+      color: var(--red);
+    }
+
+    .comparison-box.good h4 {
+      color: var(--green);
+    }
+
+    .comparison-box p {
+      font-size: 13px;
+      color: var(--gray-700);
+    }
+
+    .comparison-arrow {
+      font-size: 32px;
+      color: var(--gray-300);
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--navy);
+      padding: 12px 24px;
+      border-radius: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+    }
+
+    .nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: var(--navy-light);
+      color: var(--white);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--blue-accent);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .nav-progress {
+      display: flex;
+      gap: 6px;
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--navy-light);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-dot.active {
+      background: var(--gold);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .nav-counter {
+      color: var(--gray-300);
+      font-size: 13px;
+      margin: 0 8px;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    /* Helpers */
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .flex-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gap-16 {
+      gap: 16px;
+    }
+
+    .gap-24 {
+      gap: 24px;
+    }
+
+    .gap-32 {
+      gap: 32px;
+    }
+
+    .mt-auto {
+      margin-top: auto;
+    }
+
+    .mb-16 {
+      margin-bottom: 16px;
+    }
+
+    .mb-24 {
+      margin-bottom: 24px;
+    }
+
+    /* Quote styling */
+    .quote-block {
+      background: var(--gray-100);
+      border-left: 4px solid var(--gold);
+      padding: 20px 24px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .quote-text {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: 16px;
+      font-style: italic;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    .quote-source {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--gray-500);
+      font-style: normal;
+    }
+
+    /* Callout */
+    .callout {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .callout-icon {
+      color: var(--gold);
+      font-size: 20px;
+    }
+
+    .callout-text {
+      font-size: 14px;
+      color: var(--gray-700);
+      line-height: 1.5;
+    }
+
+    /* Three column */
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--gray-700);
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    .legend-dot.airev1 {
+      background: var(--red);
+    }
+
+    .legend-dot.airev2 {
+      background: var(--green);
+    }
+
+    .legend-dot.airev3 {
+      background: var(--blue-accent);
+    }
+
+    /* Explainer box */
+    .explainer {
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray-700);
+    }
+
+    .explainer-title {
+      font-weight: 600;
+      color: var(--blue-accent);
+      margin-bottom: 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Process diagram */
+    .process-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 24px;
+      flex-wrap: wrap;
+    }
+
+    .process-step {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: center;
+      min-width: 140px;
+    }
+
+    .process-step.highlight {
+      border-color: var(--blue-accent);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .process-step-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .process-step-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .process-step-detail {
+      font-size: 11px;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+
+    .process-arrow {
+      font-size: 24px;
+      color: var(--gray-300);
+    }
+
+    /* Analogy box */
+    .analogy-box {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .analogy-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .analogy-text {
+      font-size: 15px;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    /* Score comparison visual */
+    .score-visual {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: var(--white);
+      border-radius: 8px;
+      margin: 8px 0;
+    }
+
+    .score-label {
+      width: 70px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .score-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .score-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .score-dot.filled {
+      background: var(--navy);
+    }
+
+    .score-dot.empty {
+      background: var(--gray-200);
+      color: var(--gray-400);
+    }
+
+    .score-dot.red {
+      background: var(--red);
+    }
+
+    .score-dot.green {
+      background: var(--green);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="presentation">
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide active" data-slide="1">
+      <div class="logo-bar">Research Analysis</div>
+      <h1>Can AI Replace Human Paper Reviewers?</h1>
+      <p class="subtitle">A real-world experiment tested 3 AI systems on 315 scientific papers. Here's what we learned—and why it matters.</p>
+      <div class="data-badge">
+        <div class="stat">
+          <div class="stat-value">315</div>
+          <div class="stat-label">Papers Reviewed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">830</div>
+          <div class="stat-label">Total Reviews</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">3</div>
+          <div class="stat-label">AI Reviewers</div>
+        </div>
+      </div>
+      <div class="meta">Agents4Science 2025 Conference • Analysis January 2026</div>
+    </div>
+
+    <!-- Slide 2: Context -->
+    <div class="slide" data-slide="2">
+      <div class="slide-header">
+        <div class="slide-number">Background</div>
+        <h2 class="slide-title">First, let's understand <span class="highlight">what happened here</span></h2>
+      </div>
+      <div class="slide-content two-col">
+        <div class="col gap-24">
+          <div class="explainer">
+            <div class="explainer-title">What is peer review?</div>
+            When scientists write a research paper, other experts read it and decide if it's good enough to publish. This is called <strong>peer review</strong>. Reviewers score papers and write feedback about strengths and weaknesses. It's how science maintains quality—but it's slow and expensive.
+          </div>
+          <div class="explainer">
+            <div class="explainer-title">What was this experiment?</div>
+            A conference called <strong>"Agents4Science"</strong> (hosted by Stanford) tested whether AI could help with peer review. They ran <strong>three different AI systems</strong> on every paper submitted, alongside some human reviewers. We analyzed the results.
+          </div>
+          <div class="callout">
+            <span class="callout-icon">💡</span>
+            <div class="callout-text"><strong>Why this matters:</strong> If AI can review papers reliably, it could speed up science dramatically. But if AI reviewers have hidden problems, we could be making bad decisions about which research gets published.</div>
+          </div>
+        </div>
+        <div class="col gap-24">
+          <div class="chart-container">
+            <div class="chart-title">How the Experiment Worked</div>
+            <div class="process-flow" style="flex-direction: column; gap: 12px;">
+              <div class="process-step" style="width: 100%;">
+                <div class="process-step-icon">📄</div>
+                <div class="process-step-label">315 research papers submitted</div>
+              </div>
+              <div class="process-arrow">↓</div>
+              <div class="process-step highlight" style="width: 100%;">
+                <div class="process-step-icon">🤖</div>
+                <div class="process-step-label">3 AI systems review EVERY paper</div>
+                <div class="process-step-detail">AIRev1, AIRev2, AIRev3 (different AI "personalities")</div>
+              </div>
+              <div class="process-arrow">↓</div>
+              <div class="process-step" style="width: 100%;">
+                <div class="process-step-icon">👤</div>
+                <div class="process-step-label">Human experts review ~25% of papers</div>
+                <div class="process-step-detail">79 papers got human reviews too</div>
+              </div>
+              <div class="process-arrow">↓</div>
+              <div class="process-step" style="width: 100%;">
+                <div class="process-step-icon">📊</div>
+                <div class="process-step-label">We analyzed 830 total reviews</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: The Big Problem -->
+    <div class="slide" data-slide="3">
+      <div class="slide-header">
+        <div class="slide-number">The Headline Finding</div>
+        <h2 class="slide-title">The three AI reviewers <span class="highlight">wildly disagree</span> with each other</h2>
+      </div>
+      <div class="slide-content two-col">
+        <div class="col gap-24">
+          <div class="analogy-box">
+            <div class="analogy-label">🎯 Think of it like this</div>
+            <div class="analogy-text">Imagine hiring three movie critics to rate the same film. One gives it 2 stars, another gives it 6 stars, and the third gives it 4 stars. <strong>Same movie, completely different conclusions.</strong> That's what's happening with these AI reviewers—on almost half of all papers.</div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">Real Example: Paper #277</div>
+            <div class="score-visual">
+              <div class="score-label" style="color: var(--red);">AIRev1:</div>
+              <div class="score-dots">
+                <div class="score-dot red">1</div>
+                <div class="score-dot empty">2</div>
+                <div class="score-dot empty">3</div>
+                <div class="score-dot empty">4</div>
+                <div class="score-dot empty">5</div>
+                <div class="score-dot empty">6</div>
+              </div>
+              <span style="font-size: 12px; color: var(--red);">"Fundamentally flawed"</span>
+            </div>
+            <div class="score-visual">
+              <div class="score-label" style="color: var(--green);">AIRev2:</div>
+              <div class="score-dots">
+                <div class="score-dot green">1</div>
+                <div class="score-dot green">2</div>
+                <div class="score-dot green">3</div>
+                <div class="score-dot green">4</div>
+                <div class="score-dot green">5</div>
+                <div class="score-dot green">6</div>
+              </div>
+              <span style="font-size: 12px; color: var(--green);">"Outstanding quality"</span>
+            </div>
+            <div class="score-visual">
+              <div class="score-label" style="color: var(--blue-accent);">AIRev3:</div>
+              <div class="score-dots">
+                <div class="score-dot filled">1</div>
+                <div class="score-dot filled">2</div>
+                <div class="score-dot filled">3</div>
+                <div class="score-dot filled">4</div>
+                <div class="score-dot empty">5</div>
+                <div class="score-dot empty">6</div>
+              </div>
+              <span style="font-size: 12px; color: var(--blue-accent);">"Has merit"</span>
+            </div>
+            <div class="evidence-context" style="margin-top: 12px; font-style: italic;">This is the same paper. A 5-point gap between lowest and highest score.</div>
+          </div>
+        </div>
+        <div class="col gap-24">
+          <div class="three-col">
+            <div class="evidence-box">
+              <div class="evidence-label">Average Disagreement</div>
+              <div class="evidence-value">2.4<span class="unit">pts</span></div>
+              <div class="evidence-context">On a 6-point scale</div>
+            </div>
+            <div class="evidence-box" style="border: 2px solid var(--red);">
+              <div class="evidence-label">Papers w/ Big Gaps</div>
+              <div class="evidence-value">49%</div>
+              <div class="evidence-context">3+ point spread</div>
+            </div>
+            <div class="evidence-box">
+              <div class="evidence-label">Maximum Gap Seen</div>
+              <div class="evidence-value">5<span class="unit">pts</span></div>
+              <div class="evidence-context">Worst disagreement</div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">Each AI has a "Personality"</div>
+            <div class="bar-chart">
+              <div class="bar-row">
+                <div class="bar-label">AIRev1<br><small style="color: var(--gray-500);">"The Skeptic"</small></div>
+                <div class="bar-track">
+                  <div class="bar-fill red" style="width: 38%;">Avg: 2.3</div>
+                </div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-label">AIRev2<br><small style="color: var(--gray-500);">"The Fan"</small></div>
+                <div class="bar-track">
+                  <div class="bar-fill green" style="width: 71%;">Avg: 4.2</div>
+                </div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-label">AIRev3<br><small style="color: var(--gray-500);">"The Moderate"</small></div>
+                <div class="bar-track">
+                  <div class="bar-fill blue" style="width: 50%;">Avg: 3.0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="takeaway-box mt-auto">
+            <div class="takeaway-label">Why This Matters</div>
+            <div class="takeaway-text">If we let AI decide which papers get published, we're not getting "AI judgment"—we're getting one particular AI's quirks. Different AI systems = completely different outcomes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: The Averaging Problem -->
+    <div class="slide" data-slide="4">
+      <div class="slide-header">
+        <div class="slide-number">Problem #1</div>
+        <h2 class="slide-title">"Averaging" the three AIs <span class="highlight">doesn't actually help</span></h2>
+      </div>
+      <div class="slide-content two-col">
+        <div class="col gap-24">
+          <div class="analogy-box">
+            <div class="analogy-label">🎯 The intuition (and why it's wrong)</div>
+            <div class="analogy-text">You might think: "Just average the three scores! That'll balance out their biases." But here's the problem: <strong>the generous AI (AIRev2) uses much bigger numbers</strong>. When you average, its voice drowns out the others. It's like having three judges, but one shouts and two whisper.</div>
+          </div>
+          <div class="evidence-box highlight">
+            <div class="evidence-label">How Much Does AIRev2 Dominate?</div>
+            <div class="evidence-value large">90%</div>
+            <div class="evidence-context">When we checked which papers ranked highest by "average of three AIs," the ranking was 90% identical to just using AIRev2 alone. The other two AIs barely matter.</div>
+          </div>
+          <div class="explainer">
+            <div class="explainer-title">Why does this happen?</div>
+            <ul style="margin-top: 8px; padding-left: 20px;">
+              <li style="margin-bottom: 8px;">AIRev2 gives scores from 1-6 (uses full range)</li>
+              <li style="margin-bottom: 8px;">AIRev1 never goes above 4 (compressed range)</li>
+              <li>When you average, the bigger numbers win</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col gap-24">
+          <div class="chart-container">
+            <div class="chart-title">The Range Problem Visualized</div>
+            <div style="padding: 20px 0;">
+              <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                <span style="width: 80px; font-size: 13px; font-weight: 600;">AIRev2</span>
+                <div style="flex: 1; height: 24px; background: linear-gradient(to right, var(--green) 0%, var(--green) 100%); border-radius: 4px; position: relative;">
+                  <span style="position: absolute; left: 8px; color: white; font-size: 12px; line-height: 24px;">1</span>
+                  <span style="position: absolute; right: 8px; color: white; font-size: 12px; line-height: 24px;">6</span>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                <span style="width: 80px; font-size: 13px; font-weight: 600;">AIRev1</span>
+                <div style="flex: 1; height: 24px; background: var(--gray-200); border-radius: 4px; position: relative;">
+                  <div style="position: absolute; left: 0; width: 67%; height: 100%; background: var(--red); border-radius: 4px;">
+                    <span style="position: absolute; left: 8px; color: white; font-size: 12px; line-height: 24px;">1</span>
+                    <span style="position: absolute; right: 8px; color: white; font-size: 12px; line-height: 24px;">4</span>
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center;">
+                <span style="width: 80px; font-size: 13px; font-weight: 600;">AIRev3</span>
+                <div style="flex: 1; height: 24px; background: var(--gray-200); border-radius: 4px; position: relative;">
+                  <div style="position: absolute; left: 0; width: 83%; height: 100%; background: var(--blue-accent); border-radius: 4px;">
+                    <span style="position: absolute; left: 8px; color: white; font-size: 12px; line-height: 24px;">1</span>
+                    <span style="position: absolute; right: 8px; color: white; font-size: 12px; line-height: 24px;">5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="evidence-context">AIRev1 can never "pull up" a paper—its max score (4) is below AIRev2's average (4.2)!</div>
+          </div>
+          <div class="comparison-diagram" style="flex-direction: column; gap: 12px;">
+            <div class="comparison-box bad" style="width: 100%;">
+              <h4>❌ What People Do</h4>
+              <p>Average raw scores: (2 + 6 + 3) ÷ 3 = 3.7</p>
+            </div>
+            <div style="font-size: 24px; color: var(--gray-300);">↓</div>
+            <div class="comparison-box good" style="width: 100%;">
+              <h4>✓ What They Should Do</h4>
+              <p>First normalize each AI to the same scale, THEN average</p>
+            </div>
+          </div>
+          <div class="takeaway-box mt-auto">
+            <div class="takeaway-label">The Bottom Line</div>
+            <div class="takeaway-text">If you use "average of 3 AI reviewers" without fixing the scale problem, you're really just using one AI. The "committee" is an illusion.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Fake Confidence -->
+    <div class="slide" data-slide="5">
+      <div class="slide-header">
+        <div class="slide-number">Problem #2</div>
+        <h2 class="slide-title">Every AI claims to be <span class="highlight">100% confident</span>—even when they're wrong</h2>
+      </div>
+      <div class="slide-content two-col">
+        <div class="col gap-24">
+          <div class="analogy-box">
+            <div class="analogy-label">🎯 The problem in plain English</div>
+            <div class="analogy-text">Reviewers are asked "How confident are you in your assessment?" on a 1-5 scale. <strong>Every single AI review said "5 out of 5—totally confident."</strong> All 751 of them. Even when two AIs looked at the same paper and reached opposite conclusions, both claimed maximum confidence.</div>
+          </div>
+          <div class="three-col">
+            <div class="evidence-box" style="border: 2px solid var(--red);">
+              <div class="evidence-label">AI Confidence</div>
+              <div class="evidence-value">100%</div>
+              <div class="evidence-context">Always 5/5</div>
+            </div>
+            <div class="evidence-box">
+              <div class="evidence-label">Human Confidence</div>
+              <div class="evidence-value">3.5<span class="unit">/5</span></div>
+              <div class="evidence-context">Varies appropriately</div>
+            </div>
+            <div class="evidence-box">
+              <div class="evidence-label">Actual Agreement</div>
+              <div class="evidence-value">51%</div>
+              <div class="evidence-context">Only half the time</div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">The Paradox: Both "Certain," Both Different</div>
+            <table class="data-table" style="font-size: 13px;">
+              <thead>
+                <tr>
+                  <th>Paper</th>
+                  <th>AIRev1 Score</th>
+                  <th>AIRev2 Score</th>
+                  <th>Gap</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#277</td>
+                  <td class="warning-cell">1 (confident)</td>
+                  <td class="success-cell">6 (confident)</td>
+                  <td>5 pts</td>
+                </tr>
+                <tr>
+                  <td>#148</td>
+                  <td class="warning-cell">2 (confident)</td>
+                  <td class="success-cell">6 (confident)</td>
+                  <td>4 pts</td>
+                </tr>
+                <tr>
+                  <td>#32</td>
+                  <td class="warning-cell">2 (confident)</td>
+                  <td class="success-cell">6 (confident)</td>
+                  <td>4 pts</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col gap-24">
+          <div class="explainer">
+            <div class="explainer-title">Why does this matter?</div>
+            When a reviewer says "I'm confident," that should mean something. It helps editors know which reviews to trust. But if confidence is always maxed out, it provides <strong>zero useful information</strong>. It's like a weather app that always says "100% chance of sun"—even on rainy days.
+          </div>
+          <div class="evidence-box" style="background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: var(--white);">
+            <div class="evidence-label" style="color: var(--gold);">The Fix</div>
+            <div style="font-size: 15px; line-height: 1.6; margin-top: 8px;">
+              Don't ask AI how confident it is. Instead, <strong>measure confidence from behavior</strong>:
+              <ul style="margin-top: 12px; padding-left: 20px;">
+                <li style="margin-bottom: 8px;">High disagreement between AIs = low confidence</li>
+                <li style="margin-bottom: 8px;">Failed fact-checks = low confidence</li>
+                <li>Missing evidence citations = low confidence</li>
+              </ul>
+            </div>
+          </div>
+          <div class="takeaway-box mt-auto">
+            <div class="takeaway-label">Key Insight</div>
+            <div class="takeaway-text">AI "confidence" numbers are meaningless. We need to compute uncertainty from actual behavior, not self-reported feelings.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: AI vs Human -->
+    <div class="slide" data-slide="6">
+      <div class="slide-header">
+        <div class="slide-number">Problem #3</div>
+        <h2 class="slide-title">AI and human reviewers <span class="highlight">see different things</span></h2>
+      </div>
+      <div class="slide-content two-col">
+        <div class="col gap-24">
+          <div class="analogy-box">
+            <div class="analogy-label">🎯 What we found</div>
+            <div class="analogy-text">On papers that got both AI and human reviews, we compared their scores. The AIs were almost always <strong>more generous</strong> than humans—by about 1 full point on average. And in some cases, AI said "excellent!" while the human said "this is broken."</div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">Real Example: Paper #195</div>
+            <div class="score-visual" style="background: rgba(5, 150, 105, 0.1);">
+              <div class="score-label" style="color: var(--green);">AI Average:</div>
+              <div class="score-dots">
+                <div class="score-dot green">1</div>
+                <div class="score-dot green">2</div>
+                <div class="score-dot green">3</div>
+                <div class="score-dot green">4</div>
+                <div class="score-dot green">5</div>
+                <div class="score-dot green">6</div>
+              </div>
+              <span style="font-size: 12px; color: var(--green); font-weight: 600;">6.0</span>
+            </div>
+            <div class="score-visual" style="background: rgba(220, 38, 38, 0.1);">
+              <div class="score-label" style="color: var(--red);">Human:</div>
+              <div class="score-dots">
+                <div class="score-dot red">1</div>
+                <div class="score-dot red">2</div>
+                <div class="score-dot empty">3</div>
+                <div class="score-dot empty">4</div>
+                <div class="score-dot empty">5</div>
+                <div class="score-dot empty">6</div>
+              </div>
+              <span style="font-size: 12px; color: var(--red); font-weight: 600;">2.0</span>
+            </div>
+            <div class="evidence-context" style="margin-top: 12px;">Human reviewer caught that the paper's benchmark was flawed. AI missed it entirely.</div>
+          </div>
+          <div class="evidence-box">
+            <div class="evidence-label">How Often AI Was More Generous</div>
+            <div class="evidence-value">48<span class="unit">%</span></div>
+            <div class="evidence-context">of papers where both reviewed—AI gave higher score nearly half the time</div>
+          </div>
+        </div>
+        <div class="col gap-24">
+          <div class="explainer">
+            <div class="explainer-title">What humans catch that AI misses</div>
+            <ul style="margin-top: 8px; padding-left: 20px; line-height: 1.8;">
+              <li><strong>Benchmark validity</strong> — Is the test actually measuring what it claims?</li>
+              <li><strong>Data leakage</strong> — Did they accidentally cheat by peeking at test data?</li>
+              <li><strong>Experimental design flaws</strong> — Are the comparisons fair?</li>
+              <li><strong>Reproducibility red flags</strong> — Could anyone actually repeat this?</li>
+            </ul>
+          </div>
+          <div class="callout" style="background: rgba(220, 38, 38, 0.08); border-color: var(--red);">
+            <span class="callout-icon" style="color: var(--red);">⚠️</span>
+            <div class="callout-text"><strong>Important caveat:</strong> We can't say humans are always "right" and AI is "wrong." We don't have ground truth. But they're clearly evaluating different things—and human concerns often catch issues AI glosses over.</div>
+          </div>
+          <div class="takeaway-box mt-auto">
+            <div class="takeaway-label">Key Insight</div>
+            <div class="takeaway-text">Don't ask "do AI and humans agree?" Ask "what do humans catch that AI misses?"—then use that to calibrate AI systems.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: What AI Gets Right -->
+    <div class="slide" data-slide="7">
+      <div class="slide-header">
+        <div class="slide-number">The Good News</div>
+        <h2 class="slide-title">AI reviewers <span class="highlight">can catch obvious problems</span></h2>
+      </div>
+      <div class="slide-content two-col">
+        <div class="col gap-24">
+          <div class="analogy-box">
+            <div class="analogy-label">🎯 What AI is good at</div>
+            <div class="analogy-text">AI reviewers successfully flagged papers with <strong>impossible claims</strong>—like citing AI models that don't exist yet, or referencing datasets from the future. These are "fact check" problems that don't require deep expertise, just attention to detail.</div>
+          </div>
+          <div class="evidence-box highlight">
+            <div class="evidence-label">Real Example: Paper #309</div>
+            <div class="evidence-value" style="font-size: 24px;">Cited "GPT-5-2025-08-07"</div>
+            <div class="evidence-context" style="margin-top: 12px;">This model doesn't exist. AIRev2 caught it and gave the paper a 1/6. The AI review explicitly called out the fictional citation.</div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">Things AI Can Check Automatically</div>
+            <ul class="action-list">
+              <li class="action-item">
+                <div class="action-icon" style="background: var(--green);">✓</div>
+                <div class="action-content">
+                  <h4>Model/Tool Existence</h4>
+                  <p>Does the AI model they claim to use actually exist?</p>
+                </div>
+              </li>
+              <li class="action-item">
+                <div class="action-icon" style="background: var(--green);">✓</div>
+                <div class="action-content">
+                  <h4>Date Consistency</h4>
+                  <p>Do timeline claims make sense? No future data?</p>
+                </div>
+              </li>
+              <li class="action-item">
+                <div class="action-icon" style="background: var(--green);">✓</div>
+                <div class="action-content">
+                  <h4>Citation Verification</h4>
+                  <p>Do the referenced papers actually exist?</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col gap-24">
+          <div class="explainer">
+            <div class="explainer-title">Why this matters</div>
+            These checks are <strong>cheap and fast</strong>. They can run automatically before any expensive human review. If a paper fails basic fact-checks, why waste human time on it?
+          </div>
+          <div class="quote-block">
+            <div class="quote-text">"Scientists have been caught embedding hidden instructions in papers to manipulate AI reviewers. AI-checkable facts are the defense layer we need."</div>
+            <div class="quote-source">— The Guardian, July 2025</div>
+          </div>
+          <div class="comparison-diagram" style="flex-direction: column; gap: 12px;">
+            <div class="comparison-box good" style="width: 100%;">
+              <h4>✓ Good Use of AI</h4>
+              <p>"Check all papers for impossible claims before human review"</p>
+            </div>
+            <div class="comparison-box bad" style="width: 100%;">
+              <h4>❌ Bad Use of AI</h4>
+              <p>"Let AI decide if the science is good"</p>
+            </div>
+          </div>
+          <div class="takeaway-box mt-auto">
+            <div class="takeaway-label">Key Insight</div>
+            <div class="takeaway-text">AI is good at fact-checking, not taste-making. Use it as a first-pass filter for impossible claims, not as a judge of scientific merit.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: The Smart Way -->
+    <div class="slide" data-slide="8">
+      <div class="slide-header">
+        <div class="slide-number">The Solution</div>
+        <h2 class="slide-title">Use AI disagreement as a <span class="highlight">signal, not noise</span></h2>
+      </div>
+      <div class="slide-content two-col">
+        <div class="col gap-24">
+          <div class="analogy-box">
+            <div class="analogy-label">🎯 The key insight</div>
+            <div class="analogy-text">When the "generous AI" loves a paper but the "skeptical AI" hates it, that's not random noise—it's <strong>useful information</strong>. It means the paper's fate depends on standards (rigor vs. novelty), not just quality. These are exactly the papers humans should look at.</div>
+          </div>
+          <div class="three-col">
+            <div class="evidence-box">
+              <div class="evidence-label">"Hype vs Rigor" Collision</div>
+              <div class="evidence-value">25%</div>
+              <div class="evidence-context">AIRev2 high, AIRev1 low</div>
+            </div>
+            <div class="evidence-box" style="border: 2px solid var(--green);">
+              <div class="evidence-label">Best for Human Review</div>
+              <div class="evidence-value">62</div>
+              <div class="evidence-context">papers flagged</div>
+            </div>
+            <div class="evidence-box">
+              <div class="evidence-label">Time Saved</div>
+              <div class="evidence-value">75%</div>
+              <div class="evidence-context">fewer papers to review</div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-title">Smart Triage System</div>
+            <table class="data-table" style="font-size: 13px;">
+              <thead>
+                <tr>
+                  <th>Pattern</th>
+                  <th>Papers</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>All AIs agree: Low scores</td>
+                  <td>~35%</td>
+                  <td class="warning-cell">Fast reject candidate</td>
+                </tr>
+                <tr style="background: rgba(245, 158, 11, 0.15);">
+                  <td style="font-weight: 600;">AIRev2 high + AIRev1 low</td>
+                  <td style="font-weight: 600;">25%</td>
+                  <td style="color: var(--gold); font-weight: 700;">→ Human review</td>
+                </tr>
+                <tr>
+                  <td>All AIs agree: High scores</td>
+                  <td>~5%</td>
+                  <td class="success-cell">Fast accept candidate</td>
+                </tr>
+                <tr>
+                  <td>Mixed (other patterns)</td>
+                  <td>~35%</td>
+                  <td>Standard process</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col gap-24">
+          <div class="explainer">
+            <div class="explainer-title">Why this works</div>
+            Instead of treating AI disagreement as a problem to average away, treat it as a <strong>routing signal</strong>. The papers where AIs clash are exactly where human judgment adds the most value. Papers where AIs agree need less human attention.
+          </div>
+          <div class="evidence-box" style="background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: var(--white);">
+            <div class="evidence-label" style="color: var(--gold);">The Result</div>
+            <div style="font-size: 16px; line-height: 1.6; margin-top: 8px;">
+              <ul style="padding-left: 20px;">
+                <li style="margin-bottom: 12px;"><strong>Humans focus on hard cases</strong> where their expertise matters most</li>
+                <li style="margin-bottom: 12px;"><strong>Easy cases get fast decisions</strong> without wasting human time</li>
+                <li><strong>AI disagreement becomes a feature</strong>, not a bug</li>
+              </ul>
+            </div>
+          </div>
+          <div class="takeaway-box mt-auto">
+            <div class="takeaway-label">Key Insight</div>
+            <div class="takeaway-text">Don't average away disagreement. Route papers where (AIRev2 ≥ 5 AND AIRev1 ≤ 2) to humans. That's your highest-value 25%.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: What We Can't Prove -->
+    <div class="slide" data-slide="9">
+      <div class="slide-header">
+        <div class="slide-number">Important Caveats</div>
+        <h2 class="slide-title">What this data <span class="highlight">can and cannot tell us</span></h2>
+      </div>
+      <div class="slide-content two-col">
+        <div class="col gap-24">
+          <div class="insight-card warning">
+            <div class="insight-number">Cannot Prove</div>
+            <div class="insight-title">That humans are "right" and AI is "wrong"</div>
+            <div class="insight-text">We don't have ground truth about which papers were actually good. We only know AI and humans <em>differ</em>—not who's correct. Some AI catches might be wrong; some human catches might be wrong too.</div>
+          </div>
+          <div class="insight-card warning">
+            <div class="insight-number">Cannot Prove</div>
+            <div class="insight-title">That papers can "game" AI with certain words</div>
+            <div class="insight-text">We found reviews with "outstanding" correlate with high scores. But that's backwards: reviewers say "outstanding" <em>because</em> they scored high. We'd need to analyze paper text, not review text, to prove gaming.</div>
+          </div>
+          <div class="insight-card warning">
+            <div class="insight-number">Cannot Prove</div>
+            <div class="insight-title">That "simulated experiment" accusations are true</div>
+            <div class="insight-text">Some AI reviewers claimed papers had fake data. The accusations exist in the reviews, but we can't verify without actually trying to reproduce the experiments.</div>
+          </div>
+        </div>
+        <div class="col gap-24">
+          <div class="insight-card success">
+            <div class="insight-number">Can Prove</div>
+            <div class="insight-title">AI reviewers disagree dramatically</div>
+            <div class="insight-text">49% of papers had 3+ point gaps between AIs. This is a mathematical fact from the data, not interpretation.</div>
+          </div>
+          <div class="insight-card success">
+            <div class="insight-number">Can Prove</div>
+            <div class="insight-title">Averaging favors one AI disproportionately</div>
+            <div class="insight-text">90% correlation between "average of 3" and "AIRev2 alone." The ensemble math is broken—verifiable fact.</div>
+          </div>
+          <div class="insight-card success">
+            <div class="insight-number">Can Prove</div>
+            <div class="insight-title">AI confidence is uninformative</div>
+            <div class="insight-text">100% of AI reviews = 5/5 confidence. Zero variance = zero information. This is mathematically certain.</div>
+          </div>
+          <div class="takeaway-box mt-auto">
+            <div class="takeaway-label">Bottom Line</div>
+            <div class="takeaway-text">These findings are hypotheses worth testing, not proven facts. But the process problems (averaging, confidence, routing) are mathematically demonstrable.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Recommendations -->
+    <div class="slide" data-slide="10">
+      <div class="slide-header">
+        <div class="slide-number">Recommendations</div>
+        <h2 class="slide-title">Four changes to make <span class="highlight">AI-assisted review actually work</span></h2>
+      </div>
+      <div class="slide-content">
+        <div class="insight-grid" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="insight-card" style="border-left-color: var(--navy);">
+            <div class="insight-number" style="color: var(--navy);">Change 1</div>
+            <div class="insight-title">Fix the Averaging Math</div>
+            <div class="insight-text">Before combining scores, convert each AI's scores to the same scale (like percentiles). This ensures each reviewer's voice counts equally, instead of letting the generous AI dominate.</div>
+            <div class="insight-metric">
+              <span class="metric-value" style="font-size: 18px;">Normalize → Then Average</span>
+            </div>
+          </div>
+          <div class="insight-card" style="border-left-color: var(--blue-accent);">
+            <div class="insight-number">Change 2</div>
+            <div class="insight-title">Measure Confidence From Behavior</div>
+            <div class="insight-text">Don't ask AI "how confident are you?" Instead, compute uncertainty from: disagreement between AIs, failed fact-checks, missing evidence. Actual behavior beats self-reporting.</div>
+            <div class="insight-metric">
+              <span class="metric-value" style="font-size: 18px;">Observe, Don't Ask</span>
+            </div>
+          </div>
+          <div class="insight-card success">
+            <div class="insight-number">Change 3</div>
+            <div class="insight-title">Run Automated Fact-Checks First</div>
+            <div class="insight-text">Before any subjective review, verify: Do cited models exist? Are dates consistent? Do references check out? These are cheap, fast, and catch real problems. Gate bad papers early.</div>
+            <div class="insight-metric">
+              <span class="metric-value" style="font-size: 18px;">Filter Before Review</span>
+            </div>
+          </div>
+          <div class="insight-card gold">
+            <div class="insight-number">Change 4</div>
+            <div class="insight-title">Route by AI Disagreement Pattern</div>
+            <div class="insight-text">When the generous AI says "great!" and skeptical AI says "reject!"—that's your signal to involve humans. Send the 25% collision cases to experts; fast-track the consensus cases.</div>
+            <div class="insight-metric">
+              <span class="metric-value" style="font-size: 18px;">Disagreement = Routing Signal</span>
+            </div>
+          </div>
+        </div>
+        <div class="takeaway-box" style="max-width: 30rem;">
+          <div class="takeaway-label">The Test That Would Settle This</div>
+          <div class="takeaway-text">Take 50 papers. Apply these four fixes. Measure: Does variance go down? Do humans change their minds when given better AI summaries? Which obvious problems get caught earlier? That would turn these recommendations into proven methods.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 11: Closing -->
+    <div class="slide title-slide" data-slide="11">
+      <div class="logo-bar">Summary</div>
+      <h1 style="font-size: 42px;">AI can help with peer review.<br><span style="color: var(--gold);">But today's approach has fixable flaws.</span></h1>
+      <p class="subtitle" style="max-width: 800px;">The math is broken (averaging doesn't work), the signals are broken (confidence means nothing), but the opportunity is real (disagreement patterns are valuable).</p>
+      <div class="data-badge" style="margin-top: 32px;">
+        <div class="stat">
+          <div class="stat-value">90%</div>
+          <div class="stat-label">Ensemble = 1 Voice</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Fake Confidence</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">25%</div>
+          <div class="stat-label">Ideal for Human Triage</div>
+        </div>
+      </div>
+      <div class="meta" style="max-width: 600px; text-align: center;">AI reviewers produce plausible-looking assessments at scale. Fix the ensemble math and use disagreement as a routing signal—and they become genuinely useful.</div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
+    <div class="nav-progress" id="navProgress"></div>
+    <span class="nav-counter" id="navCounter">1 / 11</span>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+  </nav>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 11;
+
+    function initNav() {
+      const progress = document.getElementById('navProgress');
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'nav-dot' + (i === 1 ? ' active' : '');
+        dot.onclick = () => goToSlide(i);
+        progress.appendChild(dot);
+      }
+    }
+
+    function updateNav() {
+      document.getElementById('navCounter').textContent = `${currentSlide} / ${totalSlides}`;
+      document.getElementById('prevBtn').disabled = currentSlide === 1;
+      document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+      const dots = document.querySelectorAll('.nav-dot');
+      dots.forEach((dot, i) => {
+        dot.className = 'nav-dot' + (i + 1 === currentSlide ? ' active' : '');
+      });
+    }
+
+    function showSlide(n) {
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach(slide => slide.classList.remove('active'));
+      document.querySelector(`[data-slide="${n}"]`).classList.add('active');
+      updateNav();
+    }
+
+    function changeSlide(delta) {
+      const newSlide = currentSlide + delta;
+      if (newSlide >= 1 && newSlide <= totalSlides) {
+        currentSlide = newSlide;
+        showSlide(currentSlide);
+      }
+    }
+
+    function goToSlide(n) {
+      currentSlide = n;
+      showSlide(currentSlide);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        changeSlide(-1);
+      } else if (e.key === 'Home') {
+        goToSlide(1);
+      } else if (e.key === 'End') {
+        goToSlide(totalSlides);
+      }
+    });
+
+    initNav();
+    showSlide(1);
+  </script>
+</body>
+
+</html>

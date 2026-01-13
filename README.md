@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Can AI Replace Human Paper Reviewers?](ai-agents-for-science/). An investigation into what happens when artificial intelligence reviews scientific papers — and what goes hilariously (and seriously) wrong.
+  [![](ai-agents-for-science/screenshot.webp)](ai-agents-for-science/)
 - [The Invisible Infrastructure](package-usage/). How tens of thousands of packages depend on code almost no one has heard of.
   [![](package-usage/screenshot.webp)](package-usage/)
 - [The Jamnagar Chokepoint: Inside India's $273B Trade Paradox](exim/). How a single port, two commodities, and a hidden export surge reveal the fragile architecture of India's $273 billion trade deficit.

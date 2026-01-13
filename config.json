@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "ai-agents-for-science",
+      "title": "Can AI Replace Human Paper Reviewers?",
+      "description": "An investigation into what happens when artificial intelligence reviews scientific papers — and what goes hilariously (and seriously) wrong.",
+      "link": "ai-agents-for-science/index.html",
+      "screenshot": "ai-agents-for-science/screenshot.webp",
+      "date": "2026-01-13",
+      "folder": "ai-agents-for-science"
+    },
+    {
       "id": "package-usage",
       "title": "The Invisible Infrastructure",
       "description": "How tens of thousands of packages depend on code almost no one has heard of.",
