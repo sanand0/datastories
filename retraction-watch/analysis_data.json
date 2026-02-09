@@ -1,0 +1,3930 @@
+{
+  "generated_at": "2026-02-09T07:05:22Z",
+  "meta": {
+    "rows": 68658,
+    "min_retraction_date": "1756-06-24",
+    "max_retraction_date": "2026-02-01",
+    "min_original_date": "1753-01-01",
+    "max_original_date": "2026-01-13",
+    "avg_lag_days": 941.3,
+    "med_lag_days": 489.0,
+    "p90_lag_days": 2375.300000000003
+  },
+  "yearly": [
+    {
+      "year": 1756,
+      "n": 1
+    },
+    {
+      "year": 1927,
+      "n": 1
+    },
+    {
+      "year": 1940,
+      "n": 1
+    },
+    {
+      "year": 1942,
+      "n": 1
+    },
+    {
+      "year": 1960,
+      "n": 1
+    },
+    {
+      "year": 1966,
+      "n": 1
+    },
+    {
+      "year": 1967,
+      "n": 2
+    },
+    {
+      "year": 1968,
+      "n": 1
+    },
+    {
+      "year": 1970,
+      "n": 7
+    },
+    {
+      "year": 1971,
+      "n": 1
+    },
+    {
+      "year": 1975,
+      "n": 2
+    },
+    {
+      "year": 1977,
+      "n": 31
+    },
+    {
+      "year": 1979,
+      "n": 5
+    },
+    {
+      "year": 1980,
+      "n": 14
+    },
+    {
+      "year": 1981,
+      "n": 4
+    },
+    {
+      "year": 1982,
+      "n": 5
+    },
+    {
+      "year": 1983,
+      "n": 13
+    },
+    {
+      "year": 1984,
+      "n": 8
+    },
+    {
+      "year": 1985,
+      "n": 15
+    },
+    {
+      "year": 1986,
+      "n": 29
+    },
+    {
+      "year": 1987,
+      "n": 14
+    },
+    {
+      "year": 1988,
+      "n": 7
+    },
+    {
+      "year": 1989,
+      "n": 16
+    },
+    {
+      "year": 1990,
+      "n": 20
+    },
+    {
+      "year": 1991,
+      "n": 24
+    },
+    {
+      "year": 1992,
+      "n": 27
+    },
+    {
+      "year": 1993,
+      "n": 31
+    },
+    {
+      "year": 1994,
+      "n": 24
+    },
+    {
+      "year": 1995,
+      "n": 26
+    },
+    {
+      "year": 1996,
+      "n": 27
+    },
+    {
+      "year": 1997,
+      "n": 47
+    },
+    {
+      "year": 1998,
+      "n": 72
+    },
+    {
+      "year": 1999,
+      "n": 54
+    },
+    {
+      "year": 2000,
+      "n": 43
+    },
+    {
+      "year": 2001,
+      "n": 39
+    },
+    {
+      "year": 2002,
+      "n": 127
+    },
+    {
+      "year": 2003,
+      "n": 101
+    },
+    {
+      "year": 2004,
+      "n": 145
+    },
+    {
+      "year": 2005,
+      "n": 149
+    },
+    {
+      "year": 2006,
+      "n": 226
+    },
+    {
+      "year": 2007,
+      "n": 341
+    },
+    {
+      "year": 2008,
+      "n": 466
+    },
+    {
+      "year": 2009,
+      "n": 1206
+    },
+    {
+      "year": 2010,
+      "n": 5044
+    },
+    {
+      "year": 2011,
+      "n": 4966
+    },
+    {
+      "year": 2012,
+      "n": 1235
+    },
+    {
+      "year": 2013,
+      "n": 1510
+    },
+    {
+      "year": 2014,
+      "n": 1190
+    },
+    {
+      "year": 2015,
+      "n": 1751
+    },
+    {
+      "year": 2016,
+      "n": 1924
+    },
+    {
+      "year": 2017,
+      "n": 1892
+    },
+    {
+      "year": 2018,
+      "n": 2813
+    },
+    {
+      "year": 2019,
+      "n": 3228
+    },
+    {
+      "year": 2020,
+      "n": 3639
+    },
+    {
+      "year": 2021,
+      "n": 5120
+    },
+    {
+      "year": 2022,
+      "n": 6426
+    },
+    {
+      "year": 2023,
+      "n": 13457
+    },
+    {
+      "year": 2024,
+      "n": 6325
+    },
+    {
+      "year": 2025,
+      "n": 4705
+    },
+    {
+      "year": 2026,
+      "n": 58
+    }
+  ],
+  "yearly_ex_major": [
+    {
+      "year": 1756,
+      "n": 1
+    },
+    {
+      "year": 1927,
+      "n": 1
+    },
+    {
+      "year": 1940,
+      "n": 1
+    },
+    {
+      "year": 1942,
+      "n": 1
+    },
+    {
+      "year": 1960,
+      "n": 1
+    },
+    {
+      "year": 1966,
+      "n": 1
+    },
+    {
+      "year": 1967,
+      "n": 2
+    },
+    {
+      "year": 1968,
+      "n": 1
+    },
+    {
+      "year": 1970,
+      "n": 7
+    },
+    {
+      "year": 1971,
+      "n": 1
+    },
+    {
+      "year": 1975,
+      "n": 2
+    },
+    {
+      "year": 1977,
+      "n": 31
+    },
+    {
+      "year": 1979,
+      "n": 5
+    },
+    {
+      "year": 1980,
+      "n": 14
+    },
+    {
+      "year": 1981,
+      "n": 4
+    },
+    {
+      "year": 1982,
+      "n": 5
+    },
+    {
+      "year": 1983,
+      "n": 13
+    },
+    {
+      "year": 1984,
+      "n": 8
+    },
+    {
+      "year": 1985,
+      "n": 15
+    },
+    {
+      "year": 1986,
+      "n": 29
+    },
+    {
+      "year": 1987,
+      "n": 14
+    },
+    {
+      "year": 1988,
+      "n": 7
+    },
+    {
+      "year": 1989,
+      "n": 16
+    },
+    {
+      "year": 1990,
+      "n": 20
+    },
+    {
+      "year": 1991,
+      "n": 24
+    },
+    {
+      "year": 1992,
+      "n": 27
+    },
+    {
+      "year": 1993,
+      "n": 31
+    },
+    {
+      "year": 1994,
+      "n": 24
+    },
+    {
+      "year": 1995,
+      "n": 26
+    },
+    {
+      "year": 1996,
+      "n": 27
+    },
+    {
+      "year": 1997,
+      "n": 47
+    },
+    {
+      "year": 1998,
+      "n": 72
+    },
+    {
+      "year": 1999,
+      "n": 54
+    },
+    {
+      "year": 2000,
+      "n": 43
+    },
+    {
+      "year": 2001,
+      "n": 39
+    },
+    {
+      "year": 2002,
+      "n": 123
+    },
+    {
+      "year": 2003,
+      "n": 97
+    },
+    {
+      "year": 2004,
+      "n": 134
+    },
+    {
+      "year": 2005,
+      "n": 135
+    },
+    {
+      "year": 2006,
+      "n": 215
+    },
+    {
+      "year": 2007,
+      "n": 256
+    },
+    {
+      "year": 2008,
+      "n": 370
+    },
+    {
+      "year": 2009,
+      "n": 577
+    },
+    {
+      "year": 2010,
+      "n": 632
+    },
+    {
+      "year": 2011,
+      "n": 874
+    },
+    {
+      "year": 2012,
+      "n": 1057
+    },
+    {
+      "year": 2013,
+      "n": 1211
+    },
+    {
+      "year": 2014,
+      "n": 1132
+    },
+    {
+      "year": 2015,
+      "n": 1697
+    },
+    {
+      "year": 2016,
+      "n": 1860
+    },
+    {
+      "year": 2017,
+      "n": 1819
+    },
+    {
+      "year": 2018,
+      "n": 2718
+    },
+    {
+      "year": 2019,
+      "n": 3132
+    },
+    {
+      "year": 2020,
+      "n": 3556
+    },
+    {
+      "year": 2021,
+      "n": 5030
+    },
+    {
+      "year": 2022,
+      "n": 6053
+    },
+    {
+      "year": 2023,
+      "n": 3780
+    },
+    {
+      "year": 2024,
+      "n": 5204
+    },
+    {
+      "year": 2025,
+      "n": 4705
+    },
+    {
+      "year": 2026,
+      "n": 58
+    }
+  ],
+  "concentration": [
+    {
+      "year": 1756,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1927,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1940,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1942,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1960,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1966,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1967,
+      "top1_share_pct": 50.0,
+      "top3_share_pct": 100.0,
+      "hhi": 0.5
+    },
+    {
+      "year": 1968,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1970,
+      "top1_share_pct": 85.71,
+      "top3_share_pct": 100.0,
+      "hhi": 0.7551
+    },
+    {
+      "year": 1971,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1975,
+      "top1_share_pct": 50.0,
+      "top3_share_pct": 100.0,
+      "hhi": 0.5
+    },
+    {
+      "year": 1977,
+      "top1_share_pct": 67.74,
+      "top3_share_pct": 83.87,
+      "hhi": 0.4797
+    },
+    {
+      "year": 1979,
+      "top1_share_pct": 100.0,
+      "top3_share_pct": 100.0,
+      "hhi": 1.0
+    },
+    {
+      "year": 1980,
+      "top1_share_pct": 28.57,
+      "top3_share_pct": 57.14,
+      "hhi": 0.1633
+    },
+    {
+      "year": 1981,
+      "top1_share_pct": 25.0,
+      "top3_share_pct": 75.0,
+      "hhi": 0.25
+    },
+    {
+      "year": 1982,
+      "top1_share_pct": 20.0,
+      "top3_share_pct": 60.0,
+      "hhi": 0.2
+    },
+    {
+      "year": 1983,
+      "top1_share_pct": 38.46,
+      "top3_share_pct": 69.23,
+      "hhi": 0.2189
+    },
+    {
+      "year": 1984,
+      "top1_share_pct": 25.0,
+      "top3_share_pct": 50.0,
+      "hhi": 0.1563
+    },
+    {
+      "year": 1985,
+      "top1_share_pct": 20.0,
+      "top3_share_pct": 53.33,
+      "hhi": 0.1467
+    },
+    {
+      "year": 1986,
+      "top1_share_pct": 37.93,
+      "top3_share_pct": 75.86,
+      "hhi": 0.2342
+    },
+    {
+      "year": 1987,
+      "top1_share_pct": 21.43,
+      "top3_share_pct": 50.0,
+      "hhi": 0.1327
+    },
+    {
+      "year": 1988,
+      "top1_share_pct": 28.57,
+      "top3_share_pct": 71.43,
+      "hhi": 0.2245
+    },
+    {
+      "year": 1989,
+      "top1_share_pct": 25.0,
+      "top3_share_pct": 50.0,
+      "hhi": 0.1328
+    },
+    {
+      "year": 1990,
+      "top1_share_pct": 25.0,
+      "top3_share_pct": 55.0,
+      "hhi": 0.13
+    },
+    {
+      "year": 1991,
+      "top1_share_pct": 16.67,
+      "top3_share_pct": 41.67,
+      "hhi": 0.0937
+    },
+    {
+      "year": 1992,
+      "top1_share_pct": 18.52,
+      "top3_share_pct": 37.04,
+      "hhi": 0.0809
+    },
+    {
+      "year": 1993,
+      "top1_share_pct": 22.58,
+      "top3_share_pct": 48.39,
+      "hhi": 0.1197
+    },
+    {
+      "year": 1994,
+      "top1_share_pct": 29.17,
+      "top3_share_pct": 50.0,
+      "hhi": 0.1354
+    },
+    {
+      "year": 1995,
+      "top1_share_pct": 26.92,
+      "top3_share_pct": 57.69,
+      "hhi": 0.1598
+    },
+    {
+      "year": 1996,
+      "top1_share_pct": 29.63,
+      "top3_share_pct": 59.26,
+      "hhi": 0.1523
+    },
+    {
+      "year": 1997,
+      "top1_share_pct": 14.89,
+      "top3_share_pct": 38.3,
+      "hhi": 0.0738
+    },
+    {
+      "year": 1998,
+      "top1_share_pct": 12.5,
+      "top3_share_pct": 34.72,
+      "hhi": 0.0756
+    },
+    {
+      "year": 1999,
+      "top1_share_pct": 14.81,
+      "top3_share_pct": 37.04,
+      "hhi": 0.0748
+    },
+    {
+      "year": 2000,
+      "top1_share_pct": 25.58,
+      "top3_share_pct": 44.19,
+      "hhi": 0.1076
+    },
+    {
+      "year": 2001,
+      "top1_share_pct": 30.77,
+      "top3_share_pct": 43.59,
+      "hhi": 0.1229
+    },
+    {
+      "year": 2002,
+      "top1_share_pct": 55.91,
+      "top3_share_pct": 70.08,
+      "hhi": 0.3292
+    },
+    {
+      "year": 2003,
+      "top1_share_pct": 23.76,
+      "top3_share_pct": 40.59,
+      "hhi": 0.0879
+    },
+    {
+      "year": 2004,
+      "top1_share_pct": 28.97,
+      "top3_share_pct": 46.21,
+      "hhi": 0.1094
+    },
+    {
+      "year": 2005,
+      "top1_share_pct": 20.81,
+      "top3_share_pct": 40.94,
+      "hhi": 0.076
+    },
+    {
+      "year": 2006,
+      "top1_share_pct": 14.16,
+      "top3_share_pct": 31.42,
+      "hhi": 0.0508
+    },
+    {
+      "year": 2007,
+      "top1_share_pct": 24.63,
+      "top3_share_pct": 53.67,
+      "hhi": 0.1144
+    },
+    {
+      "year": 2008,
+      "top1_share_pct": 23.18,
+      "top3_share_pct": 53.86,
+      "hhi": 0.1119
+    },
+    {
+      "year": 2009,
+      "top1_share_pct": 51.99,
+      "top3_share_pct": 67.41,
+      "hhi": 0.2885
+    },
+    {
+      "year": 2010,
+      "top1_share_pct": 87.45,
+      "top3_share_pct": 92.15,
+      "hhi": 0.7662
+    },
+    {
+      "year": 2011,
+      "top1_share_pct": 82.36,
+      "top3_share_pct": 89.07,
+      "hhi": 0.6813
+    },
+    {
+      "year": 2012,
+      "top1_share_pct": 14.9,
+      "top3_share_pct": 42.67,
+      "hhi": 0.0797
+    },
+    {
+      "year": 2013,
+      "top1_share_pct": 19.07,
+      "top3_share_pct": 48.87,
+      "hhi": 0.0982
+    },
+    {
+      "year": 2014,
+      "top1_share_pct": 17.65,
+      "top3_share_pct": 35.97,
+      "hhi": 0.0643
+    },
+    {
+      "year": 2015,
+      "top1_share_pct": 19.36,
+      "top3_share_pct": 44.83,
+      "hhi": 0.0773
+    },
+    {
+      "year": 2016,
+      "top1_share_pct": 16.06,
+      "top3_share_pct": 35.97,
+      "hhi": 0.056
+    },
+    {
+      "year": 2017,
+      "top1_share_pct": 14.22,
+      "top3_share_pct": 35.15,
+      "hhi": 0.0502
+    },
+    {
+      "year": 2018,
+      "top1_share_pct": 15.39,
+      "top3_share_pct": 34.73,
+      "hhi": 0.0539
+    },
+    {
+      "year": 2019,
+      "top1_share_pct": 10.47,
+      "top3_share_pct": 22.49,
+      "hhi": 0.0256
+    },
+    {
+      "year": 2020,
+      "top1_share_pct": 16.05,
+      "top3_share_pct": 30.04,
+      "hhi": 0.0484
+    },
+    {
+      "year": 2021,
+      "top1_share_pct": 20.84,
+      "top3_share_pct": 43.77,
+      "hhi": 0.0834
+    },
+    {
+      "year": 2022,
+      "top1_share_pct": 14.92,
+      "top3_share_pct": 40.2,
+      "hhi": 0.0781
+    },
+    {
+      "year": 2023,
+      "top1_share_pct": 71.9,
+      "top3_share_pct": 79.32,
+      "hhi": 0.5226
+    },
+    {
+      "year": 2024,
+      "top1_share_pct": 17.64,
+      "top3_share_pct": 43.72,
+      "hhi": 0.0961
+    },
+    {
+      "year": 2025,
+      "top1_share_pct": 22.15,
+      "top3_share_pct": 45.5,
+      "hhi": 0.1031
+    },
+    {
+      "year": 2026,
+      "top1_share_pct": 53.45,
+      "top3_share_pct": 91.38,
+      "hhi": 0.3817
+    }
+  ],
+  "reason_families": [
+    {
+      "year": 1756,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 100.0
+    },
+    {
+      "year": 1927,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 100.0
+    },
+    {
+      "year": 1940,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 100.0
+    },
+    {
+      "year": 1942,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 100.0
+    },
+    {
+      "year": 1960,
+      "family": "Data/Image integrity",
+      "n": 1,
+      "pct": 100.0
+    },
+    {
+      "year": 1966,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 100.0
+    },
+    {
+      "year": 1967,
+      "family": "Data/Image integrity",
+      "n": 1,
+      "pct": 50.0
+    },
+    {
+      "year": 1967,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 50.0
+    },
+    {
+      "year": 1968,
+      "family": "Data/Image integrity",
+      "n": 1,
+      "pct": 100.0
+    },
+    {
+      "year": 1970,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 14.29
+    },
+    {
+      "year": 1970,
+      "family": "Plagiarism/Attribution",
+      "n": 6,
+      "pct": 85.71
+    },
+    {
+      "year": 1971,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 100.0
+    },
+    {
+      "year": 1975,
+      "family": "Data/Image integrity",
+      "n": 1,
+      "pct": 50.0
+    },
+    {
+      "year": 1975,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 50.0
+    },
+    {
+      "year": 1977,
+      "family": "Data/Image integrity",
+      "n": 4,
+      "pct": 12.9
+    },
+    {
+      "year": 1977,
+      "family": "Ethics/legal/other",
+      "n": 6,
+      "pct": 19.35
+    },
+    {
+      "year": 1977,
+      "family": "Opaque/administrative",
+      "n": 1,
+      "pct": 3.23
+    },
+    {
+      "year": 1977,
+      "family": "Plagiarism/Attribution",
+      "n": 20,
+      "pct": 64.52
+    },
+    {
+      "year": 1979,
+      "family": "Plagiarism/Attribution",
+      "n": 5,
+      "pct": 100.0
+    },
+    {
+      "year": 1980,
+      "family": "Data/Image integrity",
+      "n": 7,
+      "pct": 50.0
+    },
+    {
+      "year": 1980,
+      "family": "Ethics/legal/other",
+      "n": 5,
+      "pct": 35.71
+    },
+    {
+      "year": 1980,
+      "family": "Plagiarism/Attribution",
+      "n": 2,
+      "pct": 14.29
+    },
+    {
+      "year": 1981,
+      "family": "Data/Image integrity",
+      "n": 3,
+      "pct": 75.0
+    },
+    {
+      "year": 1981,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 25.0
+    },
+    {
+      "year": 1982,
+      "family": "Data/Image integrity",
+      "n": 3,
+      "pct": 60.0
+    },
+    {
+      "year": 1982,
+      "family": "Ethics/legal/other",
+      "n": 1,
+      "pct": 20.0
+    },
+    {
+      "year": 1982,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 20.0
+    },
+    {
+      "year": 1983,
+      "family": "Data/Image integrity",
+      "n": 13,
+      "pct": 100.0
+    },
+    {
+      "year": 1984,
+      "family": "Data/Image integrity",
+      "n": 6,
+      "pct": 75.0
+    },
+    {
+      "year": 1984,
+      "family": "Ethics/legal/other",
+      "n": 2,
+      "pct": 25.0
+    },
+    {
+      "year": 1985,
+      "family": "Data/Image integrity",
+      "n": 6,
+      "pct": 40.0
+    },
+    {
+      "year": 1985,
+      "family": "Ethics/legal/other",
+      "n": 5,
+      "pct": 33.33
+    },
+    {
+      "year": 1985,
+      "family": "Opaque/administrative",
+      "n": 3,
+      "pct": 20.0
+    },
+    {
+      "year": 1985,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 6.67
+    },
+    {
+      "year": 1986,
+      "family": "Data/Image integrity",
+      "n": 12,
+      "pct": 41.38
+    },
+    {
+      "year": 1986,
+      "family": "Ethics/legal/other",
+      "n": 2,
+      "pct": 6.9
+    },
+    {
+      "year": 1986,
+      "family": "Opaque/administrative",
+      "n": 1,
+      "pct": 3.45
+    },
+    {
+      "year": 1986,
+      "family": "Plagiarism/Attribution",
+      "n": 14,
+      "pct": 48.28
+    },
+    {
+      "year": 1987,
+      "family": "Data/Image integrity",
+      "n": 14,
+      "pct": 100.0
+    },
+    {
+      "year": 1988,
+      "family": "Data/Image integrity",
+      "n": 2,
+      "pct": 28.57
+    },
+    {
+      "year": 1988,
+      "family": "Ethics/legal/other",
+      "n": 4,
+      "pct": 57.14
+    },
+    {
+      "year": 1988,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 14.29
+    },
+    {
+      "year": 1989,
+      "family": "Data/Image integrity",
+      "n": 8,
+      "pct": 50.0
+    },
+    {
+      "year": 1989,
+      "family": "Ethics/legal/other",
+      "n": 5,
+      "pct": 31.25
+    },
+    {
+      "year": 1989,
+      "family": "Opaque/administrative",
+      "n": 2,
+      "pct": 12.5
+    },
+    {
+      "year": 1989,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 6.25
+    },
+    {
+      "year": 1990,
+      "family": "Data/Image integrity",
+      "n": 13,
+      "pct": 65.0
+    },
+    {
+      "year": 1990,
+      "family": "Ethics/legal/other",
+      "n": 4,
+      "pct": 20.0
+    },
+    {
+      "year": 1990,
+      "family": "Opaque/administrative",
+      "n": 1,
+      "pct": 5.0
+    },
+    {
+      "year": 1990,
+      "family": "Plagiarism/Attribution",
+      "n": 2,
+      "pct": 10.0
+    },
+    {
+      "year": 1991,
+      "family": "Data/Image integrity",
+      "n": 13,
+      "pct": 54.17
+    },
+    {
+      "year": 1991,
+      "family": "Ethics/legal/other",
+      "n": 7,
+      "pct": 29.17
+    },
+    {
+      "year": 1991,
+      "family": "Opaque/administrative",
+      "n": 3,
+      "pct": 12.5
+    },
+    {
+      "year": 1991,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 4.17
+    },
+    {
+      "year": 1992,
+      "family": "Data/Image integrity",
+      "n": 9,
+      "pct": 33.33
+    },
+    {
+      "year": 1992,
+      "family": "Ethics/legal/other",
+      "n": 13,
+      "pct": 48.15
+    },
+    {
+      "year": 1992,
+      "family": "Opaque/administrative",
+      "n": 4,
+      "pct": 14.81
+    },
+    {
+      "year": 1992,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 3.7
+    },
+    {
+      "year": 1993,
+      "family": "Data/Image integrity",
+      "n": 10,
+      "pct": 32.26
+    },
+    {
+      "year": 1993,
+      "family": "Ethics/legal/other",
+      "n": 15,
+      "pct": 48.39
+    },
+    {
+      "year": 1993,
+      "family": "Plagiarism/Attribution",
+      "n": 6,
+      "pct": 19.35
+    },
+    {
+      "year": 1994,
+      "family": "Data/Image integrity",
+      "n": 15,
+      "pct": 62.5
+    },
+    {
+      "year": 1994,
+      "family": "Ethics/legal/other",
+      "n": 4,
+      "pct": 16.67
+    },
+    {
+      "year": 1994,
+      "family": "Opaque/administrative",
+      "n": 2,
+      "pct": 8.33
+    },
+    {
+      "year": 1994,
+      "family": "Plagiarism/Attribution",
+      "n": 3,
+      "pct": 12.5
+    },
+    {
+      "year": 1995,
+      "family": "Data/Image integrity",
+      "n": 9,
+      "pct": 34.62
+    },
+    {
+      "year": 1995,
+      "family": "Ethics/legal/other",
+      "n": 14,
+      "pct": 53.85
+    },
+    {
+      "year": 1995,
+      "family": "Plagiarism/Attribution",
+      "n": 3,
+      "pct": 11.54
+    },
+    {
+      "year": 1996,
+      "family": "Data/Image integrity",
+      "n": 9,
+      "pct": 33.33
+    },
+    {
+      "year": 1996,
+      "family": "Ethics/legal/other",
+      "n": 8,
+      "pct": 29.63
+    },
+    {
+      "year": 1996,
+      "family": "Opaque/administrative",
+      "n": 4,
+      "pct": 14.81
+    },
+    {
+      "year": 1996,
+      "family": "Plagiarism/Attribution",
+      "n": 6,
+      "pct": 22.22
+    },
+    {
+      "year": 1997,
+      "family": "Data/Image integrity",
+      "n": 29,
+      "pct": 61.7
+    },
+    {
+      "year": 1997,
+      "family": "Ethics/legal/other",
+      "n": 6,
+      "pct": 12.77
+    },
+    {
+      "year": 1997,
+      "family": "Opaque/administrative",
+      "n": 4,
+      "pct": 8.51
+    },
+    {
+      "year": 1997,
+      "family": "Plagiarism/Attribution",
+      "n": 8,
+      "pct": 17.02
+    },
+    {
+      "year": 1998,
+      "family": "Data/Image integrity",
+      "n": 22,
+      "pct": 30.56
+    },
+    {
+      "year": 1998,
+      "family": "Ethics/legal/other",
+      "n": 20,
+      "pct": 27.78
+    },
+    {
+      "year": 1998,
+      "family": "Opaque/administrative",
+      "n": 4,
+      "pct": 5.56
+    },
+    {
+      "year": 1998,
+      "family": "Plagiarism/Attribution",
+      "n": 26,
+      "pct": 36.11
+    },
+    {
+      "year": 1999,
+      "family": "Data/Image integrity",
+      "n": 25,
+      "pct": 46.3
+    },
+    {
+      "year": 1999,
+      "family": "Ethics/legal/other",
+      "n": 18,
+      "pct": 33.33
+    },
+    {
+      "year": 1999,
+      "family": "Opaque/administrative",
+      "n": 3,
+      "pct": 5.56
+    },
+    {
+      "year": 1999,
+      "family": "Plagiarism/Attribution",
+      "n": 8,
+      "pct": 14.81
+    },
+    {
+      "year": 2000,
+      "family": "Data/Image integrity",
+      "n": 17,
+      "pct": 39.53
+    },
+    {
+      "year": 2000,
+      "family": "Ethics/legal/other",
+      "n": 7,
+      "pct": 16.28
+    },
+    {
+      "year": 2000,
+      "family": "Opaque/administrative",
+      "n": 3,
+      "pct": 6.98
+    },
+    {
+      "year": 2000,
+      "family": "Plagiarism/Attribution",
+      "n": 16,
+      "pct": 37.21
+    },
+    {
+      "year": 2001,
+      "family": "Data/Image integrity",
+      "n": 20,
+      "pct": 51.28
+    },
+    {
+      "year": 2001,
+      "family": "Ethics/legal/other",
+      "n": 8,
+      "pct": 20.51
+    },
+    {
+      "year": 2001,
+      "family": "Opaque/administrative",
+      "n": 3,
+      "pct": 7.69
+    },
+    {
+      "year": 2001,
+      "family": "Plagiarism/Attribution",
+      "n": 8,
+      "pct": 20.51
+    },
+    {
+      "year": 2002,
+      "family": "Data/Image integrity",
+      "n": 39,
+      "pct": 30.71
+    },
+    {
+      "year": 2002,
+      "family": "Ethics/legal/other",
+      "n": 18,
+      "pct": 14.17
+    },
+    {
+      "year": 2002,
+      "family": "Opaque/administrative",
+      "n": 52,
+      "pct": 40.94
+    },
+    {
+      "year": 2002,
+      "family": "Plagiarism/Attribution",
+      "n": 18,
+      "pct": 14.17
+    },
+    {
+      "year": 2003,
+      "family": "Data/Image integrity",
+      "n": 45,
+      "pct": 44.55
+    },
+    {
+      "year": 2003,
+      "family": "Ethics/legal/other",
+      "n": 18,
+      "pct": 17.82
+    },
+    {
+      "year": 2003,
+      "family": "Opaque/administrative",
+      "n": 9,
+      "pct": 8.91
+    },
+    {
+      "year": 2003,
+      "family": "Plagiarism/Attribution",
+      "n": 29,
+      "pct": 28.71
+    },
+    {
+      "year": 2004,
+      "family": "Data/Image integrity",
+      "n": 51,
+      "pct": 35.17
+    },
+    {
+      "year": 2004,
+      "family": "Ethics/legal/other",
+      "n": 22,
+      "pct": 15.17
+    },
+    {
+      "year": 2004,
+      "family": "Opaque/administrative",
+      "n": 20,
+      "pct": 13.79
+    },
+    {
+      "year": 2004,
+      "family": "Plagiarism/Attribution",
+      "n": 52,
+      "pct": 35.86
+    },
+    {
+      "year": 2005,
+      "family": "Data/Image integrity",
+      "n": 54,
+      "pct": 36.24
+    },
+    {
+      "year": 2005,
+      "family": "Ethics/legal/other",
+      "n": 33,
+      "pct": 22.15
+    },
+    {
+      "year": 2005,
+      "family": "Opaque/administrative",
+      "n": 14,
+      "pct": 9.4
+    },
+    {
+      "year": 2005,
+      "family": "Plagiarism/Attribution",
+      "n": 48,
+      "pct": 32.21
+    },
+    {
+      "year": 2006,
+      "family": "Data/Image integrity",
+      "n": 95,
+      "pct": 42.04
+    },
+    {
+      "year": 2006,
+      "family": "Ethics/legal/other",
+      "n": 46,
+      "pct": 20.35
+    },
+    {
+      "year": 2006,
+      "family": "Opaque/administrative",
+      "n": 22,
+      "pct": 9.73
+    },
+    {
+      "year": 2006,
+      "family": "Plagiarism/Attribution",
+      "n": 63,
+      "pct": 27.88
+    },
+    {
+      "year": 2007,
+      "family": "Data/Image integrity",
+      "n": 102,
+      "pct": 29.91
+    },
+    {
+      "year": 2007,
+      "family": "Ethics/legal/other",
+      "n": 39,
+      "pct": 11.44
+    },
+    {
+      "year": 2007,
+      "family": "Opaque/administrative",
+      "n": 96,
+      "pct": 28.15
+    },
+    {
+      "year": 2007,
+      "family": "Plagiarism/Attribution",
+      "n": 104,
+      "pct": 30.5
+    },
+    {
+      "year": 2008,
+      "family": "Data/Image integrity",
+      "n": 139,
+      "pct": 29.83
+    },
+    {
+      "year": 2008,
+      "family": "Ethics/legal/other",
+      "n": 44,
+      "pct": 9.44
+    },
+    {
+      "year": 2008,
+      "family": "Opaque/administrative",
+      "n": 120,
+      "pct": 25.75
+    },
+    {
+      "year": 2008,
+      "family": "Plagiarism/Attribution",
+      "n": 163,
+      "pct": 34.98
+    },
+    {
+      "year": 2009,
+      "family": "Data/Image integrity",
+      "n": 216,
+      "pct": 17.91
+    },
+    {
+      "year": 2009,
+      "family": "Ethics/legal/other",
+      "n": 79,
+      "pct": 6.55
+    },
+    {
+      "year": 2009,
+      "family": "Opaque/administrative",
+      "n": 669,
+      "pct": 55.47
+    },
+    {
+      "year": 2009,
+      "family": "Plagiarism/Attribution",
+      "n": 242,
+      "pct": 20.07
+    },
+    {
+      "year": 2010,
+      "family": "Data/Image integrity",
+      "n": 258,
+      "pct": 5.11
+    },
+    {
+      "year": 2010,
+      "family": "Ethics/legal/other",
+      "n": 218,
+      "pct": 4.32
+    },
+    {
+      "year": 2010,
+      "family": "Industrialized misconduct",
+      "n": 3,
+      "pct": 0.06
+    },
+    {
+      "year": 2010,
+      "family": "Opaque/administrative",
+      "n": 4347,
+      "pct": 86.18
+    },
+    {
+      "year": 2010,
+      "family": "Plagiarism/Attribution",
+      "n": 218,
+      "pct": 4.32
+    },
+    {
+      "year": 2011,
+      "family": "Data/Image integrity",
+      "n": 245,
+      "pct": 4.93
+    },
+    {
+      "year": 2011,
+      "family": "Ethics/legal/other",
+      "n": 236,
+      "pct": 4.75
+    },
+    {
+      "year": 2011,
+      "family": "Industrialized misconduct",
+      "n": 6,
+      "pct": 0.12
+    },
+    {
+      "year": 2011,
+      "family": "Opaque/administrative",
+      "n": 4134,
+      "pct": 83.25
+    },
+    {
+      "year": 2011,
+      "family": "Plagiarism/Attribution",
+      "n": 345,
+      "pct": 6.95
+    },
+    {
+      "year": 2012,
+      "family": "Data/Image integrity",
+      "n": 429,
+      "pct": 34.74
+    },
+    {
+      "year": 2012,
+      "family": "Ethics/legal/other",
+      "n": 128,
+      "pct": 10.36
+    },
+    {
+      "year": 2012,
+      "family": "Industrialized misconduct",
+      "n": 44,
+      "pct": 3.56
+    },
+    {
+      "year": 2012,
+      "family": "Opaque/administrative",
+      "n": 276,
+      "pct": 22.35
+    },
+    {
+      "year": 2012,
+      "family": "Plagiarism/Attribution",
+      "n": 358,
+      "pct": 28.99
+    },
+    {
+      "year": 2013,
+      "family": "Data/Image integrity",
+      "n": 516,
+      "pct": 34.17
+    },
+    {
+      "year": 2013,
+      "family": "Ethics/legal/other",
+      "n": 139,
+      "pct": 9.21
+    },
+    {
+      "year": 2013,
+      "family": "Industrialized misconduct",
+      "n": 19,
+      "pct": 1.26
+    },
+    {
+      "year": 2013,
+      "family": "Opaque/administrative",
+      "n": 405,
+      "pct": 26.82
+    },
+    {
+      "year": 2013,
+      "family": "Plagiarism/Attribution",
+      "n": 431,
+      "pct": 28.54
+    },
+    {
+      "year": 2014,
+      "family": "Data/Image integrity",
+      "n": 404,
+      "pct": 33.95
+    },
+    {
+      "year": 2014,
+      "family": "Ethics/legal/other",
+      "n": 164,
+      "pct": 13.78
+    },
+    {
+      "year": 2014,
+      "family": "Industrialized misconduct",
+      "n": 73,
+      "pct": 6.13
+    },
+    {
+      "year": 2014,
+      "family": "Opaque/administrative",
+      "n": 178,
+      "pct": 14.96
+    },
+    {
+      "year": 2014,
+      "family": "Plagiarism/Attribution",
+      "n": 371,
+      "pct": 31.18
+    },
+    {
+      "year": 2015,
+      "family": "Data/Image integrity",
+      "n": 585,
+      "pct": 33.41
+    },
+    {
+      "year": 2015,
+      "family": "Ethics/legal/other",
+      "n": 231,
+      "pct": 13.19
+    },
+    {
+      "year": 2015,
+      "family": "Industrialized misconduct",
+      "n": 188,
+      "pct": 10.74
+    },
+    {
+      "year": 2015,
+      "family": "Opaque/administrative",
+      "n": 212,
+      "pct": 12.11
+    },
+    {
+      "year": 2015,
+      "family": "Plagiarism/Attribution",
+      "n": 535,
+      "pct": 30.55
+    },
+    {
+      "year": 2016,
+      "family": "Data/Image integrity",
+      "n": 739,
+      "pct": 38.41
+    },
+    {
+      "year": 2016,
+      "family": "Ethics/legal/other",
+      "n": 259,
+      "pct": 13.46
+    },
+    {
+      "year": 2016,
+      "family": "Industrialized misconduct",
+      "n": 209,
+      "pct": 10.86
+    },
+    {
+      "year": 2016,
+      "family": "Opaque/administrative",
+      "n": 221,
+      "pct": 11.49
+    },
+    {
+      "year": 2016,
+      "family": "Plagiarism/Attribution",
+      "n": 496,
+      "pct": 25.78
+    },
+    {
+      "year": 2017,
+      "family": "Data/Image integrity",
+      "n": 604,
+      "pct": 31.92
+    },
+    {
+      "year": 2017,
+      "family": "Ethics/legal/other",
+      "n": 243,
+      "pct": 12.84
+    },
+    {
+      "year": 2017,
+      "family": "Industrialized misconduct",
+      "n": 173,
+      "pct": 9.14
+    },
+    {
+      "year": 2017,
+      "family": "Opaque/administrative",
+      "n": 203,
+      "pct": 10.73
+    },
+    {
+      "year": 2017,
+      "family": "Plagiarism/Attribution",
+      "n": 669,
+      "pct": 35.36
+    },
+    {
+      "year": 2018,
+      "family": "Data/Image integrity",
+      "n": 773,
+      "pct": 27.48
+    },
+    {
+      "year": 2018,
+      "family": "Ethics/legal/other",
+      "n": 394,
+      "pct": 14.01
+    },
+    {
+      "year": 2018,
+      "family": "Industrialized misconduct",
+      "n": 117,
+      "pct": 4.16
+    },
+    {
+      "year": 2018,
+      "family": "Opaque/administrative",
+      "n": 757,
+      "pct": 26.91
+    },
+    {
+      "year": 2018,
+      "family": "Plagiarism/Attribution",
+      "n": 772,
+      "pct": 27.44
+    },
+    {
+      "year": 2019,
+      "family": "Data/Image integrity",
+      "n": 863,
+      "pct": 26.73
+    },
+    {
+      "year": 2019,
+      "family": "Ethics/legal/other",
+      "n": 401,
+      "pct": 12.42
+    },
+    {
+      "year": 2019,
+      "family": "Industrialized misconduct",
+      "n": 94,
+      "pct": 2.91
+    },
+    {
+      "year": 2019,
+      "family": "Opaque/administrative",
+      "n": 302,
+      "pct": 9.36
+    },
+    {
+      "year": 2019,
+      "family": "Plagiarism/Attribution",
+      "n": 1568,
+      "pct": 48.57
+    },
+    {
+      "year": 2020,
+      "family": "Data/Image integrity",
+      "n": 1378,
+      "pct": 37.87
+    },
+    {
+      "year": 2020,
+      "family": "Ethics/legal/other",
+      "n": 504,
+      "pct": 13.85
+    },
+    {
+      "year": 2020,
+      "family": "Industrialized misconduct",
+      "n": 379,
+      "pct": 10.41
+    },
+    {
+      "year": 2020,
+      "family": "Opaque/administrative",
+      "n": 366,
+      "pct": 10.06
+    },
+    {
+      "year": 2020,
+      "family": "Plagiarism/Attribution",
+      "n": 1012,
+      "pct": 27.81
+    },
+    {
+      "year": 2021,
+      "family": "Data/Image integrity",
+      "n": 1422,
+      "pct": 27.77
+    },
+    {
+      "year": 2021,
+      "family": "Ethics/legal/other",
+      "n": 464,
+      "pct": 9.06
+    },
+    {
+      "year": 2021,
+      "family": "Industrialized misconduct",
+      "n": 2200,
+      "pct": 42.97
+    },
+    {
+      "year": 2021,
+      "family": "Opaque/administrative",
+      "n": 317,
+      "pct": 6.19
+    },
+    {
+      "year": 2021,
+      "family": "Plagiarism/Attribution",
+      "n": 717,
+      "pct": 14.0
+    },
+    {
+      "year": 2022,
+      "family": "Data/Image integrity",
+      "n": 2021,
+      "pct": 31.45
+    },
+    {
+      "year": 2022,
+      "family": "Ethics/legal/other",
+      "n": 443,
+      "pct": 6.89
+    },
+    {
+      "year": 2022,
+      "family": "Industrialized misconduct",
+      "n": 3295,
+      "pct": 51.28
+    },
+    {
+      "year": 2022,
+      "family": "Opaque/administrative",
+      "n": 234,
+      "pct": 3.64
+    },
+    {
+      "year": 2022,
+      "family": "Plagiarism/Attribution",
+      "n": 433,
+      "pct": 6.74
+    },
+    {
+      "year": 2023,
+      "family": "Data/Image integrity",
+      "n": 1647,
+      "pct": 12.24
+    },
+    {
+      "year": 2023,
+      "family": "Ethics/legal/other",
+      "n": 349,
+      "pct": 2.59
+    },
+    {
+      "year": 2023,
+      "family": "Industrialized misconduct",
+      "n": 10953,
+      "pct": 81.39
+    },
+    {
+      "year": 2023,
+      "family": "Opaque/administrative",
+      "n": 81,
+      "pct": 0.6
+    },
+    {
+      "year": 2023,
+      "family": "Plagiarism/Attribution",
+      "n": 427,
+      "pct": 3.17
+    },
+    {
+      "year": 2024,
+      "family": "Data/Image integrity",
+      "n": 1815,
+      "pct": 28.7
+    },
+    {
+      "year": 2024,
+      "family": "Ethics/legal/other",
+      "n": 398,
+      "pct": 6.29
+    },
+    {
+      "year": 2024,
+      "family": "Industrialized misconduct",
+      "n": 3815,
+      "pct": 60.32
+    },
+    {
+      "year": 2024,
+      "family": "Opaque/administrative",
+      "n": 70,
+      "pct": 1.11
+    },
+    {
+      "year": 2024,
+      "family": "Plagiarism/Attribution",
+      "n": 227,
+      "pct": 3.59
+    },
+    {
+      "year": 2025,
+      "family": "Data/Image integrity",
+      "n": 1433,
+      "pct": 30.46
+    },
+    {
+      "year": 2025,
+      "family": "Ethics/legal/other",
+      "n": 137,
+      "pct": 2.91
+    },
+    {
+      "year": 2025,
+      "family": "Industrialized misconduct",
+      "n": 2336,
+      "pct": 49.65
+    },
+    {
+      "year": 2025,
+      "family": "Opaque/administrative",
+      "n": 40,
+      "pct": 0.85
+    },
+    {
+      "year": 2025,
+      "family": "Plagiarism/Attribution",
+      "n": 759,
+      "pct": 16.13
+    },
+    {
+      "year": 2026,
+      "family": "Data/Image integrity",
+      "n": 10,
+      "pct": 17.24
+    },
+    {
+      "year": 2026,
+      "family": "Ethics/legal/other",
+      "n": 9,
+      "pct": 15.52
+    },
+    {
+      "year": 2026,
+      "family": "Industrialized misconduct",
+      "n": 38,
+      "pct": 65.52
+    },
+    {
+      "year": 2026,
+      "family": "Plagiarism/Attribution",
+      "n": 1,
+      "pct": 1.72
+    }
+  ],
+  "lag_by_family": [
+    {
+      "family": "Opaque/administrative",
+      "n": 13183,
+      "avg_lag_days": 198.1,
+      "p25_days": 25.0,
+      "p50_days": 41.0,
+      "p75_days": 66.0
+    },
+    {
+      "family": "Plagiarism/Attribution",
+      "n": 10199,
+      "avg_lag_days": 906.4,
+      "p25_days": 153.0,
+      "p50_days": 490.0,
+      "p75_days": 1327.0
+    },
+    {
+      "family": "Ethics/legal/other",
+      "n": 5178,
+      "avg_lag_days": 1174.4,
+      "p25_days": 176.25,
+      "p50_days": 518.0,
+      "p75_days": 1567.0
+    },
+    {
+      "family": "Industrialized misconduct",
+      "n": 23942,
+      "avg_lag_days": 687.5,
+      "p25_days": 365.25,
+      "p50_days": 535.0,
+      "p75_days": 792.0
+    },
+    {
+      "family": "Data/Image integrity",
+      "n": 16156,
+      "avg_lag_days": 1871.2,
+      "p25_days": 481.0,
+      "p50_days": 1217.0,
+      "p75_days": 2554.25
+    }
+  ],
+  "country_totals": [
+    {
+      "country": "China",
+      "total_n": 36443,
+      "pre_n": 2352,
+      "post_n": 16102,
+      "growth_ratio": 6.85,
+      "delta": 13750
+    },
+    {
+      "country": "United States",
+      "total_n": 7205,
+      "pre_n": 1499,
+      "post_n": 1357,
+      "growth_ratio": 0.91,
+      "delta": -142
+    },
+    {
+      "country": "India",
+      "total_n": 5875,
+      "pre_n": 608,
+      "post_n": 2744,
+      "growth_ratio": 4.51,
+      "delta": 2136
+    },
+    {
+      "country": "Russia",
+      "total_n": 3125,
+      "pre_n": 2044,
+      "post_n": 522,
+      "growth_ratio": 0.26,
+      "delta": -1522
+    },
+    {
+      "country": "Saudi Arabia",
+      "total_n": 2200,
+      "pre_n": 111,
+      "post_n": 1599,
+      "growth_ratio": 14.41,
+      "delta": 1488
+    },
+    {
+      "country": "United Kingdom",
+      "total_n": 2038,
+      "pre_n": 434,
+      "post_n": 436,
+      "growth_ratio": 1.0,
+      "delta": 2
+    },
+    {
+      "country": "Iran",
+      "total_n": 2028,
+      "pre_n": 391,
+      "post_n": 750,
+      "growth_ratio": 1.92,
+      "delta": 359
+    },
+    {
+      "country": "Japan",
+      "total_n": 1841,
+      "pre_n": 377,
+      "post_n": 289,
+      "growth_ratio": 0.77,
+      "delta": -88
+    },
+    {
+      "country": "Germany",
+      "total_n": 1496,
+      "pre_n": 246,
+      "post_n": 281,
+      "growth_ratio": 1.14,
+      "delta": 35
+    },
+    {
+      "country": "South Korea",
+      "total_n": 1454,
+      "pre_n": 197,
+      "post_n": 542,
+      "growth_ratio": 2.75,
+      "delta": 345
+    },
+    {
+      "country": "Pakistan",
+      "total_n": 1378,
+      "pre_n": 120,
+      "post_n": 913,
+      "growth_ratio": 7.61,
+      "delta": 793
+    },
+    {
+      "country": "Italy",
+      "total_n": 1184,
+      "pre_n": 277,
+      "post_n": 293,
+      "growth_ratio": 1.06,
+      "delta": 16
+    },
+    {
+      "country": "France",
+      "total_n": 1081,
+      "pre_n": 217,
+      "post_n": 369,
+      "growth_ratio": 1.7,
+      "delta": 152
+    },
+    {
+      "country": "Egypt",
+      "total_n": 1076,
+      "pre_n": 90,
+      "post_n": 642,
+      "growth_ratio": 7.13,
+      "delta": 552
+    },
+    {
+      "country": "Unknown",
+      "total_n": 946,
+      "pre_n": 278,
+      "post_n": 49,
+      "growth_ratio": 0.18,
+      "delta": -229
+    },
+    {
+      "country": "Canada",
+      "total_n": 927,
+      "pre_n": 172,
+      "post_n": 185,
+      "growth_ratio": 1.08,
+      "delta": 13
+    },
+    {
+      "country": "Malaysia",
+      "total_n": 916,
+      "pre_n": 258,
+      "post_n": 363,
+      "growth_ratio": 1.41,
+      "delta": 105
+    },
+    {
+      "country": "Australia",
+      "total_n": 905,
+      "pre_n": 127,
+      "post_n": 264,
+      "growth_ratio": 2.08,
+      "delta": 137
+    },
+    {
+      "country": "Iraq",
+      "total_n": 862,
+      "pre_n": 30,
+      "post_n": 749,
+      "growth_ratio": 24.97,
+      "delta": 719
+    },
+    {
+      "country": "Turkey",
+      "total_n": 759,
+      "pre_n": 86,
+      "post_n": 350,
+      "growth_ratio": 4.07,
+      "delta": 264
+    },
+    {
+      "country": "Spain",
+      "total_n": 739,
+      "pre_n": 160,
+      "post_n": 201,
+      "growth_ratio": 1.26,
+      "delta": 41
+    },
+    {
+      "country": "Taiwan",
+      "total_n": 717,
+      "pre_n": 57,
+      "post_n": 237,
+      "growth_ratio": 4.16,
+      "delta": 180
+    },
+    {
+      "country": "Ethiopia",
+      "total_n": 504,
+      "pre_n": 14,
+      "post_n": 452,
+      "growth_ratio": 32.29,
+      "delta": 438
+    },
+    {
+      "country": "Netherlands",
+      "total_n": 486,
+      "pre_n": 103,
+      "post_n": 54,
+      "growth_ratio": 0.52,
+      "delta": -49
+    },
+    {
+      "country": "Brazil",
+      "total_n": 479,
+      "pre_n": 100,
+      "post_n": 133,
+      "growth_ratio": 1.33,
+      "delta": 33
+    },
+    {
+      "country": "Switzerland",
+      "total_n": 333,
+      "pre_n": 77,
+      "post_n": 55,
+      "growth_ratio": 0.71,
+      "delta": -22
+    },
+    {
+      "country": "Poland",
+      "total_n": 320,
+      "pre_n": 43,
+      "post_n": 129,
+      "growth_ratio": 3.0,
+      "delta": 86
+    },
+    {
+      "country": "Sweden",
+      "total_n": 317,
+      "pre_n": 77,
+      "post_n": 60,
+      "growth_ratio": 0.78,
+      "delta": -17
+    },
+    {
+      "country": "Thailand",
+      "total_n": 301,
+      "pre_n": 32,
+      "post_n": 161,
+      "growth_ratio": 5.03,
+      "delta": 129
+    },
+    {
+      "country": "Bangladesh",
+      "total_n": 283,
+      "pre_n": 34,
+      "post_n": 206,
+      "growth_ratio": 6.06,
+      "delta": 172
+    },
+    {
+      "country": "Vietnam",
+      "total_n": 266,
+      "pre_n": 20,
+      "post_n": 189,
+      "growth_ratio": 9.45,
+      "delta": 169
+    },
+    {
+      "country": "South Africa",
+      "total_n": 257,
+      "pre_n": 35,
+      "post_n": 117,
+      "growth_ratio": 3.34,
+      "delta": 82
+    },
+    {
+      "country": "Uzbekistan",
+      "total_n": 243,
+      "pre_n": 10,
+      "post_n": 217,
+      "growth_ratio": 21.7,
+      "delta": 207
+    },
+    {
+      "country": "Greece",
+      "total_n": 242,
+      "pre_n": 65,
+      "post_n": 39,
+      "growth_ratio": 0.6,
+      "delta": -26
+    },
+    {
+      "country": "Indonesia",
+      "total_n": 238,
+      "pre_n": 76,
+      "post_n": 95,
+      "growth_ratio": 1.25,
+      "delta": 19
+    },
+    {
+      "country": "Singapore",
+      "total_n": 237,
+      "pre_n": 37,
+      "post_n": 49,
+      "growth_ratio": 1.32,
+      "delta": 12
+    },
+    {
+      "country": "Belgium",
+      "total_n": 207,
+      "pre_n": 35,
+      "post_n": 41,
+      "growth_ratio": 1.17,
+      "delta": 6
+    },
+    {
+      "country": "Romania",
+      "total_n": 203,
+      "pre_n": 44,
+      "post_n": 36,
+      "growth_ratio": 0.82,
+      "delta": -8
+    },
+    {
+      "country": "Kazakhstan",
+      "total_n": 194,
+      "pre_n": 40,
+      "post_n": 94,
+      "growth_ratio": 2.35,
+      "delta": 54
+    },
+    {
+      "country": "Denmark",
+      "total_n": 194,
+      "pre_n": 46,
+      "post_n": 39,
+      "growth_ratio": 0.85,
+      "delta": -7
+    },
+    {
+      "country": "Nigeria",
+      "total_n": 190,
+      "pre_n": 20,
+      "post_n": 111,
+      "growth_ratio": 5.55,
+      "delta": 91
+    },
+    {
+      "country": "Jordan",
+      "total_n": 187,
+      "pre_n": 12,
+      "post_n": 129,
+      "growth_ratio": 10.75,
+      "delta": 117
+    },
+    {
+      "country": "United Arab Emirates",
+      "total_n": 177,
+      "pre_n": 13,
+      "post_n": 111,
+      "growth_ratio": 8.54,
+      "delta": 98
+    },
+    {
+      "country": "Norway",
+      "total_n": 171,
+      "pre_n": 31,
+      "post_n": 59,
+      "growth_ratio": 1.9,
+      "delta": 28
+    },
+    {
+      "country": "Czech Republic",
+      "total_n": 169,
+      "pre_n": 20,
+      "post_n": 53,
+      "growth_ratio": 2.65,
+      "delta": 33
+    },
+    {
+      "country": "Israel",
+      "total_n": 160,
+      "pre_n": 46,
+      "post_n": 21,
+      "growth_ratio": 0.46,
+      "delta": -25
+    },
+    {
+      "country": "Serbia",
+      "total_n": 159,
+      "pre_n": 48,
+      "post_n": 24,
+      "growth_ratio": 0.5,
+      "delta": -24
+    },
+    {
+      "country": "Portugal",
+      "total_n": 158,
+      "pre_n": 32,
+      "post_n": 31,
+      "growth_ratio": 0.97,
+      "delta": -1
+    },
+    {
+      "country": "Tunisia",
+      "total_n": 155,
+      "pre_n": 33,
+      "post_n": 67,
+      "growth_ratio": 2.03,
+      "delta": 34
+    },
+    {
+      "country": "Ireland",
+      "total_n": 150,
+      "pre_n": 23,
+      "post_n": 37,
+      "growth_ratio": 1.61,
+      "delta": 14
+    }
+  ],
+  "publisher_signatures": [
+    {
+      "publisher": "Hindawi",
+      "n": 11524,
+      "med_lag": 480.0,
+      "industrial_share_pct": 96.3,
+      "data_image_share_pct": 93.5,
+      "opaque_notice_share_pct": 0.1
+    },
+    {
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "n": 10095,
+      "med_lag": 41.0,
+      "industrial_share_pct": 0.9,
+      "data_image_share_pct": 0.8,
+      "opaque_notice_share_pct": 97.1
+    },
+    {
+      "publisher": "Elsevier",
+      "n": 7022,
+      "med_lag": 580.0,
+      "industrial_share_pct": 13.6,
+      "data_image_share_pct": 40.6,
+      "opaque_notice_share_pct": 26.6
+    },
+    {
+      "publisher": "Springer",
+      "n": 5213,
+      "med_lag": 525.0,
+      "industrial_share_pct": 48.9,
+      "data_image_share_pct": 44.1,
+      "opaque_notice_share_pct": 7.1
+    },
+    {
+      "publisher": "Wiley",
+      "n": 4030,
+      "med_lag": 957.5,
+      "industrial_share_pct": 28.3,
+      "data_image_share_pct": 50.2,
+      "opaque_notice_share_pct": 11.3
+    },
+    {
+      "publisher": "Springer - Nature Publishing Group",
+      "n": 2587,
+      "med_lag": 669.0,
+      "industrial_share_pct": 50.1,
+      "data_image_share_pct": 70.8,
+      "opaque_notice_share_pct": 5.9
+    },
+    {
+      "publisher": "Taylor and Francis",
+      "n": 1956,
+      "med_lag": 743.0,
+      "industrial_share_pct": 18.8,
+      "data_image_share_pct": 44.5,
+      "opaque_notice_share_pct": 6.3
+    },
+    {
+      "publisher": "SAGE Publications",
+      "n": 1706,
+      "med_lag": 727.0,
+      "industrial_share_pct": 60.7,
+      "data_image_share_pct": 36.0,
+      "opaque_notice_share_pct": 3.6
+    },
+    {
+      "publisher": "IOS Press (bought by Sage November 2023)",
+      "n": 1673,
+      "med_lag": 651.0,
+      "industrial_share_pct": 91.6,
+      "data_image_share_pct": 67.0,
+      "opaque_notice_share_pct": 9.6
+    },
+    {
+      "publisher": "PLoS",
+      "n": 1372,
+      "med_lag": 1682.5,
+      "industrial_share_pct": 24.1,
+      "data_image_share_pct": 68.1,
+      "opaque_notice_share_pct": 1.7
+    },
+    {
+      "publisher": "IOP Publishing",
+      "n": 1283,
+      "med_lag": 469.0,
+      "industrial_share_pct": 76.9,
+      "data_image_share_pct": 10.8,
+      "opaque_notice_share_pct": 2.6
+    },
+    {
+      "publisher": "Oxford University Press",
+      "n": 997,
+      "med_lag": 1431.0,
+      "industrial_share_pct": 0.3,
+      "data_image_share_pct": 64.9,
+      "opaque_notice_share_pct": 6.9
+    },
+    {
+      "publisher": "Spandidos",
+      "n": 948,
+      "med_lag": 2067.0,
+      "industrial_share_pct": 38.0,
+      "data_image_share_pct": 94.4,
+      "opaque_notice_share_pct": 0.2
+    },
+    {
+      "publisher": "EDP Sciences",
+      "n": 728,
+      "med_lag": 469.0,
+      "industrial_share_pct": 1.8,
+      "data_image_share_pct": 0.8,
+      "opaque_notice_share_pct": 1.0
+    },
+    {
+      "publisher": "Springer - Biomed Central (BMC)",
+      "n": 691,
+      "med_lag": 998.0,
+      "industrial_share_pct": 9.1,
+      "data_image_share_pct": 75.0,
+      "opaque_notice_share_pct": 0.9
+    },
+    {
+      "publisher": "Taylor and Francis - Dove Press",
+      "n": 624,
+      "med_lag": 977.0,
+      "industrial_share_pct": 19.2,
+      "data_image_share_pct": 88.0,
+      "opaque_notice_share_pct": 0.5
+    },
+    {
+      "publisher": "Frontiers",
+      "n": 591,
+      "med_lag": 687.0,
+      "industrial_share_pct": 42.1,
+      "data_image_share_pct": 71.4,
+      "opaque_notice_share_pct": 0.5
+    },
+    {
+      "publisher": "Royal Society of Chemistry (RSC)",
+      "n": 533,
+      "med_lag": 871.0,
+      "industrial_share_pct": 14.8,
+      "data_image_share_pct": 79.9,
+      "opaque_notice_share_pct": 1.5
+    },
+    {
+      "publisher": "Elsevier - Cell Press",
+      "n": 481,
+      "med_lag": 681.0,
+      "industrial_share_pct": 11.9,
+      "data_image_share_pct": 81.5,
+      "opaque_notice_share_pct": 3.3
+    },
+    {
+      "publisher": "MDPI",
+      "n": 461,
+      "med_lag": 595.0,
+      "industrial_share_pct": 4.8,
+      "data_image_share_pct": 54.9,
+      "opaque_notice_share_pct": 1.7
+    },
+    {
+      "publisher": "American Society for Biochemistry and Molecular Biology (ASBMB)",
+      "n": 452,
+      "med_lag": 2589.0,
+      "industrial_share_pct": 0.0,
+      "data_image_share_pct": 80.5,
+      "opaque_notice_share_pct": 19.0
+    },
+    {
+      "publisher": "University of El Qued",
+      "n": 433,
+      "med_lag": 269.0,
+      "industrial_share_pct": 0.0,
+      "data_image_share_pct": 0.0,
+      "opaque_notice_share_pct": 100.0
+    },
+    {
+      "publisher": "American Chemical Society (ACS)",
+      "n": 401,
+      "med_lag": 586.0,
+      "industrial_share_pct": 0.5,
+      "data_image_share_pct": 67.6,
+      "opaque_notice_share_pct": 5.5
+    },
+    {
+      "publisher": "AIP Publishing",
+      "n": 399,
+      "med_lag": 672.0,
+      "industrial_share_pct": 76.4,
+      "data_image_share_pct": 85.7,
+      "opaque_notice_share_pct": 76.4
+    },
+    {
+      "publisher": "Association for Computing Machinery (ACM)",
+      "n": 355,
+      "med_lag": 189.0,
+      "industrial_share_pct": 98.6,
+      "data_image_share_pct": 0.6,
+      "opaque_notice_share_pct": 0.6
+    },
+    {
+      "publisher": "Verduci Editore",
+      "n": 336,
+      "med_lag": 457.0,
+      "industrial_share_pct": 50.9,
+      "data_image_share_pct": 72.0,
+      "opaque_notice_share_pct": 22.3
+    },
+    {
+      "publisher": "Portland Press",
+      "n": 328,
+      "med_lag": 1182.5,
+      "industrial_share_pct": 31.7,
+      "data_image_share_pct": 83.5,
+      "opaque_notice_share_pct": 5.8
+    },
+    {
+      "publisher": "Wolters Kluwer - Lippincott Williams & Wilkins",
+      "n": 325,
+      "med_lag": 1001.0,
+      "industrial_share_pct": 1.5,
+      "data_image_share_pct": 48.6,
+      "opaque_notice_share_pct": 7.7
+    },
+    {
+      "publisher": "Wolters Kluwer",
+      "n": 316,
+      "med_lag": 465.0,
+      "industrial_share_pct": 0.0,
+      "data_image_share_pct": 34.2,
+      "opaque_notice_share_pct": 12.7
+    }
+  ],
+  "top_events": [
+    {
+      "year": 2011,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2011 International Conference on E-Business and E-Government (ICEE)",
+      "n": 1280,
+      "avg_reason_count": 3.9
+    },
+    {
+      "year": 2011,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2011 5th International Conference on Bioinformatics and Biomedical Engineering",
+      "n": 1084,
+      "avg_reason_count": 2.77
+    },
+    {
+      "year": 2025,
+      "publisher": "IOS Press (bought by Sage November 2023)",
+      "journal": "Journal of Intelligent & Fuzzy Systems",
+      "n": 1041,
+      "avg_reason_count": 9.32
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Journal of Healthcare Engineering",
+      "n": 1013,
+      "avg_reason_count": 8.93
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Computational Intelligence and Neuroscience",
+      "n": 1002,
+      "avg_reason_count": 8.31
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Computational and Mathematical Methods in Medicine",
+      "n": 1000,
+      "avg_reason_count": 7.98
+    },
+    {
+      "year": 2021,
+      "publisher": "Springer",
+      "journal": "Arabian Journal of Geosciences",
+      "n": 756,
+      "avg_reason_count": 5.39
+    },
+    {
+      "year": 2022,
+      "publisher": "IOP Publishing",
+      "journal": "Journal of Physics: Conference Series",
+      "n": 749,
+      "avg_reason_count": 4.62
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Wireless Communications and Mobile Computing",
+      "n": 742,
+      "avg_reason_count": 8.59
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Security and Communication Networks",
+      "n": 742,
+      "avg_reason_count": 7.65
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Evidence-Based Complementary and Alternative Medicine",
+      "n": 721,
+      "avg_reason_count": 8.02
+    },
+    {
+      "year": 2025,
+      "publisher": "EDP Sciences",
+      "journal": "E3S Web of Conferences",
+      "n": 506,
+      "avg_reason_count": 4.0
+    },
+    {
+      "year": 2024,
+      "publisher": "IOS Press (bought by Sage November 2023)",
+      "journal": "Journal of Intelligent & Fuzzy Systems",
+      "n": 467,
+      "avg_reason_count": 4.15
+    },
+    {
+      "year": 2010,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2010 International Conference on Computer Application and System Modeling (ICCASM 2010)",
+      "n": 441,
+      "avg_reason_count": 2.54
+    },
+    {
+      "year": 2018,
+      "publisher": "University of El Qued",
+      "journal": "Journal of Fundamental and Applied Sciences",
+      "n": 433,
+      "avg_reason_count": 4.15
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Journal of Environmental and Public Health",
+      "n": 433,
+      "avg_reason_count": 8.75
+    },
+    {
+      "year": 2010,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2010 IEEE International Conference on Advanced Management Science (ICAMS 2010)",
+      "n": 428,
+      "avg_reason_count": 3.01
+    },
+    {
+      "year": 2011,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2011 2nd Intl Conf on Artificial Intelligence, Management Science and Electronic Commerce",
+      "n": 402,
+      "avg_reason_count": 3.33
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Mobile Information Systems",
+      "n": 378,
+      "avg_reason_count": 9.47
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "BioMed Research International",
+      "n": 371,
+      "avg_reason_count": 7.48
+    },
+    {
+      "year": 2010,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2010 2nd International Conference on Computer Engineering and Technology",
+      "n": 359,
+      "avg_reason_count": 2.57
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Mathematical Problems in Engineering",
+      "n": 352,
+      "avg_reason_count": 9.52
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Journal of Sensors",
+      "n": 352,
+      "avg_reason_count": 9.57
+    },
+    {
+      "year": 2022,
+      "publisher": "Association for Computing Machinery (ACM)",
+      "journal": "ICIMTECH 21: The Sixth International Conference on Information Management and Technology",
+      "n": 323,
+      "avg_reason_count": 3.0
+    },
+    {
+      "year": 2021,
+      "publisher": "SAGE Publications",
+      "journal": "The International Journal of Electrical Engineering & Education",
+      "n": 318,
+      "avg_reason_count": 3.65
+    },
+    {
+      "year": 2022,
+      "publisher": "Oxford University Press",
+      "journal": "Journal of Crohn's and Colitis",
+      "n": 311,
+      "avg_reason_count": 5.0
+    },
+    {
+      "year": 2022,
+      "publisher": "Springer - Nature Publishing Group",
+      "journal": "Journal of Ambient Intelligence and Humanized Computing",
+      "n": 305,
+      "avg_reason_count": 4.88
+    },
+    {
+      "year": 2025,
+      "publisher": "AIP Publishing",
+      "journal": "AIP Conference Proceedings",
+      "n": 300,
+      "avg_reason_count": 6.97
+    },
+    {
+      "year": 2024,
+      "publisher": "Springer - Nature Publishing Group",
+      "journal": "Soft Computing",
+      "n": 294,
+      "avg_reason_count": 8.32
+    },
+    {
+      "year": 2010,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2010 The 2nd Conference on Environmental Science and Information Application Technology",
+      "n": 290,
+      "avg_reason_count": 2.58
+    },
+    {
+      "year": 2009,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2009 International Conference on Management and Service Science",
+      "n": 274,
+      "avg_reason_count": 3.97
+    },
+    {
+      "year": 2013,
+      "publisher": "IEEE: Institute of Electrical and Electronics Engineers",
+      "journal": "2013 International Conference on Quality, Reliability, Risk, Maintenance, and Safety Engineering",
+      "n": 270,
+      "avg_reason_count": 2.01
+    },
+    {
+      "year": 2024,
+      "publisher": "Wiley",
+      "journal": "BioMed Research International",
+      "n": 269,
+      "avg_reason_count": 9.77
+    },
+    {
+      "year": 2022,
+      "publisher": "PLoS",
+      "journal": "PLoS One",
+      "n": 266,
+      "avg_reason_count": 4.04
+    },
+    {
+      "year": 2023,
+      "publisher": "Hindawi",
+      "journal": "Applied Bionics and Biomechanics",
+      "n": 260,
+      "avg_reason_count": 9.02
+    }
+  ],
+  "reason_pairs": [
+    {
+      "source": "Investigation by Journal/Publisher",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 17037
+    },
+    {
+      "source": "Investigation by Journal/Publisher",
+      "target": "Investigation by Third Party",
+      "n": 15172
+    },
+    {
+      "source": "Concerns/Issues about Referencing/Attributions",
+      "target": "Investigation by Journal/Publisher",
+      "n": 13119
+    },
+    {
+      "source": "Investigation by Third Party",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 12957
+    },
+    {
+      "source": "Concerns/Issues about Referencing/Attributions",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 11803
+    },
+    {
+      "source": "Concerns/Issues about Data",
+      "target": "Investigation by Journal/Publisher",
+      "n": 11059
+    },
+    {
+      "source": "Concerns/Issues about Peer Review",
+      "target": "Investigation by Journal/Publisher",
+      "n": 11046
+    },
+    {
+      "source": "Investigation by Third Party",
+      "target": "Paper Mill",
+      "n": 10569
+    },
+    {
+      "source": "Concerns/Issues about Data",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 10396
+    },
+    {
+      "source": "Investigation by Journal/Publisher",
+      "target": "Paper Mill",
+      "n": 10366
+    },
+    {
+      "source": "Concerns/Issues about Data",
+      "target": "Investigation by Third Party",
+      "n": 10131
+    },
+    {
+      "source": "Concerns/Issues about Referencing/Attributions",
+      "target": "Investigation by Third Party",
+      "n": 10114
+    },
+    {
+      "source": "Concerns/Issues about Peer Review",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 10052
+    },
+    {
+      "source": "Concerns/Issues about Peer Review",
+      "target": "Concerns/Issues about Referencing/Attributions",
+      "n": 9855
+    },
+    {
+      "source": "Compromised Peer Review",
+      "target": "Investigation by Journal/Publisher",
+      "n": 9673
+    },
+    {
+      "source": "Paper Mill",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 9492
+    },
+    {
+      "source": "Concerns/Issues about Data",
+      "target": "Concerns/Issues about Referencing/Attributions",
+      "n": 8946
+    },
+    {
+      "source": "Computer-Aided Content or Computer-Generated Content",
+      "target": "Investigation by Journal/Publisher",
+      "n": 8890
+    },
+    {
+      "source": "Concerns/Issues about Data",
+      "target": "Concerns/Issues about Peer Review",
+      "n": 8694
+    },
+    {
+      "source": "Concerns/Issues about Data",
+      "target": "Concerns/Issues about Results and/or Conclusions",
+      "n": 8659
+    },
+    {
+      "source": "Concerns/Issues about Peer Review",
+      "target": "Investigation by Third Party",
+      "n": 8452
+    },
+    {
+      "source": "Computer-Aided Content or Computer-Generated Content",
+      "target": "Concerns/Issues about Referencing/Attributions",
+      "n": 8239
+    },
+    {
+      "source": "Computer-Aided Content or Computer-Generated Content",
+      "target": "Investigation by Third Party",
+      "n": 8233
+    },
+    {
+      "source": "Concerns/Issues about Results and/or Conclusions",
+      "target": "Investigation by Journal/Publisher",
+      "n": 8092
+    },
+    {
+      "source": "Computer-Aided Content or Computer-Generated Content",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 7932
+    },
+    {
+      "source": "Concerns/Issues about Results and/or Conclusions",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 7885
+    },
+    {
+      "source": "Concerns/Issues about Referencing/Attributions",
+      "target": "Concerns/Issues about Results and/or Conclusions",
+      "n": 7400
+    },
+    {
+      "source": "Concerns/Issues about Peer Review",
+      "target": "Concerns/Issues about Results and/or Conclusions",
+      "n": 7153
+    },
+    {
+      "source": "Concerns/Issues about Results and/or Conclusions",
+      "target": "Investigation by Third Party",
+      "n": 7105
+    },
+    {
+      "source": "Computer-Aided Content or Computer-Generated Content",
+      "target": "Concerns/Issues about Results and/or Conclusions",
+      "n": 6822
+    },
+    {
+      "source": "Concerns/Issues about Referencing/Attributions",
+      "target": "Paper Mill",
+      "n": 6722
+    },
+    {
+      "source": "Computer-Aided Content or Computer-Generated Content",
+      "target": "Concerns/Issues about Data",
+      "n": 6709
+    },
+    {
+      "source": "Computer-Aided Content or Computer-Generated Content",
+      "target": "Concerns/Issues about Peer Review",
+      "n": 6698
+    },
+    {
+      "source": "Computer-Aided Content or Computer-Generated Content",
+      "target": "Paper Mill",
+      "n": 6515
+    },
+    {
+      "source": "Concerns/Issues about Data",
+      "target": "Paper Mill",
+      "n": 6387
+    },
+    {
+      "source": "Concerns/Issues about Results and/or Conclusions",
+      "target": "Paper Mill",
+      "n": 5634
+    },
+    {
+      "source": "Compromised Peer Review",
+      "target": "Unreliable Results and/or Conclusions",
+      "n": 5575
+    },
+    {
+      "source": "Concerns/Issues about Peer Review",
+      "target": "Paper Mill",
+      "n": 5464
+    },
+    {
+      "source": "Compromised Peer Review",
+      "target": "Investigation by Third Party",
+      "n": 4285
+    },
+    {
+      "source": "Breach of Policy by Author",
+      "target": "Notice - Limited or No Information",
+      "n": 4249
+    }
+  ],
+  "coverage": [
+    {
+      "year": 1756,
+      "n": 1,
+      "url_coverage_pct": 100.0,
+      "notes_coverage_pct": 100.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 0.0
+    },
+    {
+      "year": 1927,
+      "n": 1,
+      "url_coverage_pct": 100.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 0.0,
+      "original_doi_pct": 0.0
+    },
+    {
+      "year": 1940,
+      "n": 1,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 100.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1942,
+      "n": 1,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 100.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1960,
+      "n": 1,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 0.0,
+      "original_doi_pct": 0.0
+    },
+    {
+      "year": 1966,
+      "n": 1,
+      "url_coverage_pct": 100.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1967,
+      "n": 2,
+      "url_coverage_pct": 50.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1968,
+      "n": 1,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1970,
+      "n": 7,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1971,
+      "n": 1,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 0.0,
+      "original_doi_pct": 0.0
+    },
+    {
+      "year": 1975,
+      "n": 2,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1977,
+      "n": 31,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 9.7,
+      "retract_doi_pct": 80.6,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1979,
+      "n": 5,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 0.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1980,
+      "n": 14,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 7.1,
+      "retract_doi_pct": 50.0,
+      "original_doi_pct": 92.9
+    },
+    {
+      "year": 1981,
+      "n": 4,
+      "url_coverage_pct": 25.0,
+      "notes_coverage_pct": 50.0,
+      "retract_doi_pct": 75.0,
+      "original_doi_pct": 75.0
+    },
+    {
+      "year": 1982,
+      "n": 5,
+      "url_coverage_pct": 60.0,
+      "notes_coverage_pct": 20.0,
+      "retract_doi_pct": 80.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1983,
+      "n": 13,
+      "url_coverage_pct": 53.8,
+      "notes_coverage_pct": 46.2,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    },
+    {
+      "year": 1984,
+      "n": 8,
+      "url_coverage_pct": 12.5,
+      "notes_coverage_pct": 12.5,
+      "retract_doi_pct": 37.5,
+      "original_doi_pct": 62.5
+    },
+    {
+      "year": 1985,
+      "n": 15,
+      "url_coverage_pct": 13.3,
+      "notes_coverage_pct": 6.7,
+      "retract_doi_pct": 66.7,
+      "original_doi_pct": 86.7
+    },
+    {
+      "year": 1986,
+      "n": 29,
+      "url_coverage_pct": 27.6,
+      "notes_coverage_pct": 24.1,
+      "retract_doi_pct": 75.9,
+      "original_doi_pct": 89.7
+    },
+    {
+      "year": 1987,
+      "n": 14,
+      "url_coverage_pct": 64.3,
+      "notes_coverage_pct": 71.4,
+      "retract_doi_pct": 78.6,
+      "original_doi_pct": 78.6
+    },
+    {
+      "year": 1988,
+      "n": 7,
+      "url_coverage_pct": 28.6,
+      "notes_coverage_pct": 28.6,
+      "retract_doi_pct": 57.1,
+      "original_doi_pct": 57.1
+    },
+    {
+      "year": 1989,
+      "n": 16,
+      "url_coverage_pct": 12.5,
+      "notes_coverage_pct": 25.0,
+      "retract_doi_pct": 81.3,
+      "original_doi_pct": 93.8
+    },
+    {
+      "year": 1990,
+      "n": 20,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 15.0,
+      "retract_doi_pct": 80.0,
+      "original_doi_pct": 90.0
+    },
+    {
+      "year": 1991,
+      "n": 24,
+      "url_coverage_pct": 4.2,
+      "notes_coverage_pct": 29.2,
+      "retract_doi_pct": 70.8,
+      "original_doi_pct": 79.2
+    },
+    {
+      "year": 1992,
+      "n": 27,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 37.0,
+      "retract_doi_pct": 77.8,
+      "original_doi_pct": 77.8
+    },
+    {
+      "year": 1993,
+      "n": 31,
+      "url_coverage_pct": 12.9,
+      "notes_coverage_pct": 12.9,
+      "retract_doi_pct": 77.4,
+      "original_doi_pct": 74.2
+    },
+    {
+      "year": 1994,
+      "n": 24,
+      "url_coverage_pct": 4.2,
+      "notes_coverage_pct": 33.3,
+      "retract_doi_pct": 54.2,
+      "original_doi_pct": 66.7
+    },
+    {
+      "year": 1995,
+      "n": 26,
+      "url_coverage_pct": 3.8,
+      "notes_coverage_pct": 15.4,
+      "retract_doi_pct": 73.1,
+      "original_doi_pct": 65.4
+    },
+    {
+      "year": 1996,
+      "n": 27,
+      "url_coverage_pct": 3.7,
+      "notes_coverage_pct": 14.8,
+      "retract_doi_pct": 85.2,
+      "original_doi_pct": 85.2
+    },
+    {
+      "year": 1997,
+      "n": 47,
+      "url_coverage_pct": 4.3,
+      "notes_coverage_pct": 38.3,
+      "retract_doi_pct": 70.2,
+      "original_doi_pct": 76.6
+    },
+    {
+      "year": 1998,
+      "n": 72,
+      "url_coverage_pct": 9.7,
+      "notes_coverage_pct": 11.1,
+      "retract_doi_pct": 63.9,
+      "original_doi_pct": 69.4
+    },
+    {
+      "year": 1999,
+      "n": 54,
+      "url_coverage_pct": 5.6,
+      "notes_coverage_pct": 20.4,
+      "retract_doi_pct": 66.7,
+      "original_doi_pct": 68.5
+    },
+    {
+      "year": 2000,
+      "n": 43,
+      "url_coverage_pct": 2.3,
+      "notes_coverage_pct": 32.6,
+      "retract_doi_pct": 88.4,
+      "original_doi_pct": 86.0
+    },
+    {
+      "year": 2001,
+      "n": 39,
+      "url_coverage_pct": 0.0,
+      "notes_coverage_pct": 43.6,
+      "retract_doi_pct": 82.1,
+      "original_doi_pct": 92.3
+    },
+    {
+      "year": 2002,
+      "n": 127,
+      "url_coverage_pct": 6.3,
+      "notes_coverage_pct": 57.5,
+      "retract_doi_pct": 89.8,
+      "original_doi_pct": 92.1
+    },
+    {
+      "year": 2003,
+      "n": 101,
+      "url_coverage_pct": 14.9,
+      "notes_coverage_pct": 36.6,
+      "retract_doi_pct": 85.1,
+      "original_doi_pct": 93.1
+    },
+    {
+      "year": 2004,
+      "n": 145,
+      "url_coverage_pct": 17.2,
+      "notes_coverage_pct": 32.4,
+      "retract_doi_pct": 86.9,
+      "original_doi_pct": 91.0
+    },
+    {
+      "year": 2005,
+      "n": 149,
+      "url_coverage_pct": 18.1,
+      "notes_coverage_pct": 26.8,
+      "retract_doi_pct": 87.2,
+      "original_doi_pct": 89.9
+    },
+    {
+      "year": 2006,
+      "n": 226,
+      "url_coverage_pct": 16.4,
+      "notes_coverage_pct": 25.7,
+      "retract_doi_pct": 88.1,
+      "original_doi_pct": 87.2
+    },
+    {
+      "year": 2007,
+      "n": 341,
+      "url_coverage_pct": 29.6,
+      "notes_coverage_pct": 33.1,
+      "retract_doi_pct": 89.1,
+      "original_doi_pct": 92.1
+    },
+    {
+      "year": 2008,
+      "n": 466,
+      "url_coverage_pct": 27.5,
+      "notes_coverage_pct": 31.3,
+      "retract_doi_pct": 87.3,
+      "original_doi_pct": 89.7
+    },
+    {
+      "year": 2009,
+      "n": 1206,
+      "url_coverage_pct": 62.2,
+      "notes_coverage_pct": 62.4,
+      "retract_doi_pct": 94.2,
+      "original_doi_pct": 94.4
+    },
+    {
+      "year": 2010,
+      "n": 5044,
+      "url_coverage_pct": 90.0,
+      "notes_coverage_pct": 13.4,
+      "retract_doi_pct": 99.3,
+      "original_doi_pct": 57.4
+    },
+    {
+      "year": 2011,
+      "n": 4966,
+      "url_coverage_pct": 90.7,
+      "notes_coverage_pct": 41.3,
+      "retract_doi_pct": 99.1,
+      "original_doi_pct": 95.4
+    },
+    {
+      "year": 2012,
+      "n": 1235,
+      "url_coverage_pct": 60.5,
+      "notes_coverage_pct": 22.7,
+      "retract_doi_pct": 90.9,
+      "original_doi_pct": 94.7
+    },
+    {
+      "year": 2013,
+      "n": 1510,
+      "url_coverage_pct": 64.6,
+      "notes_coverage_pct": 16.6,
+      "retract_doi_pct": 93.0,
+      "original_doi_pct": 94.2
+    },
+    {
+      "year": 2014,
+      "n": 1190,
+      "url_coverage_pct": 50.8,
+      "notes_coverage_pct": 20.8,
+      "retract_doi_pct": 94.6,
+      "original_doi_pct": 95.8
+    },
+    {
+      "year": 2015,
+      "n": 1751,
+      "url_coverage_pct": 53.9,
+      "notes_coverage_pct": 20.7,
+      "retract_doi_pct": 94.2,
+      "original_doi_pct": 95.5
+    },
+    {
+      "year": 2016,
+      "n": 1924,
+      "url_coverage_pct": 44.1,
+      "notes_coverage_pct": 19.1,
+      "retract_doi_pct": 92.0,
+      "original_doi_pct": 91.7
+    },
+    {
+      "year": 2017,
+      "n": 1892,
+      "url_coverage_pct": 34.9,
+      "notes_coverage_pct": 22.4,
+      "retract_doi_pct": 80.2,
+      "original_doi_pct": 84.0
+    },
+    {
+      "year": 2018,
+      "n": 2813,
+      "url_coverage_pct": 39.9,
+      "notes_coverage_pct": 14.1,
+      "retract_doi_pct": 65.4,
+      "original_doi_pct": 82.0
+    },
+    {
+      "year": 2019,
+      "n": 3228,
+      "url_coverage_pct": 14.8,
+      "notes_coverage_pct": 12.7,
+      "retract_doi_pct": 61.1,
+      "original_doi_pct": 64.3
+    },
+    {
+      "year": 2020,
+      "n": 3639,
+      "url_coverage_pct": 28.7,
+      "notes_coverage_pct": 25.0,
+      "retract_doi_pct": 84.4,
+      "original_doi_pct": 86.9
+    },
+    {
+      "year": 2021,
+      "n": 5120,
+      "url_coverage_pct": 45.0,
+      "notes_coverage_pct": 29.0,
+      "retract_doi_pct": 94.2,
+      "original_doi_pct": 95.1
+    },
+    {
+      "year": 2022,
+      "n": 6426,
+      "url_coverage_pct": 48.1,
+      "notes_coverage_pct": 21.2,
+      "retract_doi_pct": 98.3,
+      "original_doi_pct": 99.4
+    },
+    {
+      "year": 2023,
+      "n": 13457,
+      "url_coverage_pct": 78.4,
+      "notes_coverage_pct": 38.1,
+      "retract_doi_pct": 99.8,
+      "original_doi_pct": 99.8
+    },
+    {
+      "year": 2024,
+      "n": 6325,
+      "url_coverage_pct": 52.6,
+      "notes_coverage_pct": 31.1,
+      "retract_doi_pct": 99.8,
+      "original_doi_pct": 99.7
+    },
+    {
+      "year": 2025,
+      "n": 4705,
+      "url_coverage_pct": 44.8,
+      "notes_coverage_pct": 28.2,
+      "retract_doi_pct": 99.8,
+      "original_doi_pct": 99.9
+    },
+    {
+      "year": 2026,
+      "n": 58,
+      "url_coverage_pct": 70.7,
+      "notes_coverage_pct": 69.0,
+      "retract_doi_pct": 100.0,
+      "original_doi_pct": 100.0
+    }
+  ],
+  "publisher_yoy": [
+    {
+      "publisher": "Hindawi",
+      "pre_n": 134,
+      "post_n": 10791,
+      "delta": 10657,
+      "growth_ratio": 80.53
+    },
+    {
+      "publisher": "IOS Press (bought by Sage November 2023)",
+      "pre_n": 13,
+      "post_n": 1532,
+      "delta": 1519,
+      "growth_ratio": 117.85
+    },
+    {
+      "publisher": "Springer - Nature Publishing Group",
+      "pre_n": 250,
+      "post_n": 1390,
+      "delta": 1140,
+      "growth_ratio": 5.56
+    },
+    {
+      "publisher": "Wiley",
+      "pre_n": 508,
+      "post_n": 1299,
+      "delta": 791,
+      "growth_ratio": 2.56
+    },
+    {
+      "publisher": "EDP Sciences",
+      "pre_n": 6,
+      "post_n": 693,
+      "delta": 687,
+      "growth_ratio": 115.5
+    },
+    {
+      "publisher": "Elsevier",
+      "pre_n": 1311,
+      "post_n": 1868,
+      "delta": 557,
+      "growth_ratio": 1.42
+    },
+    {
+      "publisher": "Spandidos",
+      "pre_n": 63,
+      "post_n": 581,
+      "delta": 518,
+      "growth_ratio": 9.22
+    },
+    {
+      "publisher": "Springer",
+      "pre_n": 687,
+      "post_n": 1098,
+      "delta": 411,
+      "growth_ratio": 1.6
+    },
+    {
+      "publisher": "Frontiers",
+      "pre_n": 36,
+      "post_n": 412,
+      "delta": 376,
+      "growth_ratio": 11.44
+    },
+    {
+      "publisher": "SAGE Publications",
+      "pre_n": 251,
+      "post_n": 546,
+      "delta": 295,
+      "growth_ratio": 2.18
+    },
+    {
+      "publisher": "AIP Publishing",
+      "pre_n": 22,
+      "post_n": 313,
+      "delta": 291,
+      "growth_ratio": 14.23
+    },
+    {
+      "publisher": "Taylor and Francis",
+      "pre_n": 336,
+      "post_n": 623,
+      "delta": 287,
+      "growth_ratio": 1.85
+    },
+    {
+      "publisher": "PLoS",
+      "pre_n": 297,
+      "post_n": 566,
+      "delta": 269,
+      "growth_ratio": 1.91
+    },
+    {
+      "publisher": "Elsevier - Cell Press",
+      "pre_n": 22,
+      "post_n": 285,
+      "delta": 263,
+      "growth_ratio": 12.95
+    },
+    {
+      "publisher": "MDPI",
+      "pre_n": 74,
+      "post_n": 270,
+      "delta": 196,
+      "growth_ratio": 3.65
+    },
+    {
+      "publisher": "Springer - Biomed Central (BMC)",
+      "pre_n": 127,
+      "post_n": 309,
+      "delta": 182,
+      "growth_ratio": 2.43
+    },
+    {
+      "publisher": "Taylor and Francis - Dove Press",
+      "pre_n": 112,
+      "post_n": 188,
+      "delta": 76,
+      "growth_ratio": 1.68
+    },
+    {
+      "publisher": "IOP Publishing",
+      "pre_n": 94,
+      "post_n": 144,
+      "delta": 50,
+      "growth_ratio": 1.53
+    },
+    {
+      "publisher": "Wolters Kluwer - Lippincott Williams & Wilkins",
+      "pre_n": 53,
+      "post_n": 79,
+      "delta": 26,
+      "growth_ratio": 1.49
+    },
+    {
+      "publisher": "Portland Press",
+      "pre_n": 88,
+      "post_n": 112,
+      "delta": 24,
+      "growth_ratio": 1.27
+    },
+    {
+      "publisher": "Royal Society of Chemistry (RSC)",
+      "pre_n": 121,
+      "post_n": 140,
+      "delta": 19,
+      "growth_ratio": 1.16
+    },
+    {
+      "publisher": "American Chemical Society (ACS)",
+      "pre_n": 92,
+      "post_n": 76,
+      "delta": -16,
+      "growth_ratio": 0.83
+    },
+    {
+      "publisher": "Individual entrepreneur Marina Vladimirovna Sokolova (Yekaterinburg) (Индивидуальный предприниматель Соколова Марина Владимировна (Екатеринбург))",
+      "pre_n": 52,
+      "post_n": 0,
+      "delta": -52,
+      "growth_ratio": 0.0
+    },
+    {
+      "publisher": "Science and Education (IP Gulyaev G.Yu.) (Penza) (Наука и Просвещение (ИП Гуляев Г.Ю.) (Пенза))",
+      "pre_n": 53,
+      "post_n": 0,
+      "delta": -53,
+      "growth_ratio": 0.0
+    },
+    {
+      "publisher": "American Heart Association",
+      "pre_n": 61,
+      "post_n": 8,
+      "delta": -53,
+      "growth_ratio": 0.13
+    },
+    {
+      "publisher": "American Association for Cancer Research",
+      "pre_n": 102,
+      "post_n": 30,
+      "delta": -72,
+      "growth_ratio": 0.29
+    },
+    {
+      "publisher": "Oxford University Press",
+      "pre_n": 195,
+      "post_n": 119,
+      "delta": -76,
+      "growth_ratio": 0.61
+    },
+    {
+      "publisher": "Wolters Kluwer",
+      "pre_n": 83,
+      "post_n": 2,
+      "delta": -81,
+      "growth_ratio": 0.02
+    },
+    {
+      "publisher": "Academy of Natural Science Publishing House LLC (Moscow) (ООО Издательский дом Академия естествознания (Москва))",
+      "pre_n": 95,
+      "post_n": 0,
+      "delta": -95,
+      "growth_ratio": 0.0
+    },
+    {
+      "publisher": "Verduci Editore",
+      "pre_n": 174,
+      "post_n": 42,
+      "delta": -132,
+      "growth_ratio": 0.24
+    }
+  ]
+}

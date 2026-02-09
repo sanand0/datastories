@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retraction Watch: Hidden Structures in Scientific Retractions</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --ink: #1f2a37;
+      --muted: #516273;
+      --accent: #0f766e;
+      --accent-2: #0b4f9e;
+      --danger: #a91b0d;
+      --gold: #b58b00;
+      --line: #d5dee7;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 85% 12%, rgba(11, 79, 158, 0.09) 0, rgba(11, 79, 158, 0) 33%),
+        radial-gradient(circle at 15% 90%, rgba(15, 118, 110, 0.1) 0, rgba(15, 118, 110, 0) 30%),
+        var(--bg);
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+    }
+
+    .slide {
+      min-height: 100vh;
+      padding: 2.2rem 2.4rem 1.6rem;
+      scroll-snap-align: start;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 0.9rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .kicker {
+      letter-spacing: 0.11em;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    h1, h2 {
+      margin: 0;
+      line-height: 1.08;
+      font-family: "IBM Plex Sans Condensed", "Avenir Next Condensed", sans-serif;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      max-width: 980px;
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 2.7vw, 2.5rem);
+    }
+
+    p.sub {
+      margin: 0;
+      max-width: 1100px;
+      color: var(--muted);
+      font-size: clamp(0.95rem, 1.35vw, 1.15rem);
+      line-height: 1.4;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+      align-items: stretch;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 24px rgba(19, 42, 67, 0.05);
+      padding: 0.95rem;
+    }
+
+    .metric {
+      display: grid;
+      gap: 0.26rem;
+      align-content: start;
+      min-height: 120px;
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .metric .value {
+      font-size: clamp(1.45rem, 2.3vw, 2.25rem);
+      font-weight: 700;
+      line-height: 1.05;
+    }
+
+    .metric .hint {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    .plot {
+      width: 100%;
+      min-height: 390px;
+    }
+
+    .plot-sm {
+      min-height: 320px;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      padding-left: 0.75rem;
+      color: #1f2b38;
+      line-height: 1.35;
+      font-size: 0.95rem;
+    }
+
+    .danger {
+      border-left-color: var(--danger);
+    }
+
+    .gold {
+      border-left-color: var(--gold);
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      margin-right: 0.35rem;
+      margin-bottom: 0.35rem;
+      background: #fafcfe;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1rem;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    select,
+    input[type="range"] {
+      accent-color: var(--accent);
+    }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      padding: 0.42rem 0.2rem;
+      vertical-align: top;
+    }
+
+    .mini-table th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sources a {
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+
+    .sources li {
+      margin-bottom: 0.26rem;
+      line-height: 1.3;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      font-size: 0.8rem;
+      color: #6a7989;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 1080px) {
+      .grid-4,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .slide {
+        min-height: unset;
+        padding: 1.2rem 1rem;
+        scroll-snap-align: none;
+      }
+
+      .plot,
+      .plot-sm {
+        min-height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="slide">
+    <div class="kicker">Investigative Data Story</div>
+    <h1>Retractions Are Happening in Big Waves, Not One by One</h1>
+    <p class="sub">We analyzed 68,658 Retraction Watch records to find the biggest patterns, surprising signals, and practical actions. For a large publisher like Elsevier, this is an early-warning dashboard for where trust, reputation, and legal risk can spike. Source data: <a href="https://gitlab.com/crossref/retraction-watch-data/-/blob/main/retraction_watch.csv" target="_blank" rel="noopener">retraction_watch.csv (Crossref + Retraction Watch)</a>.</p>
+    <div class="grid-4" id="top-metrics"></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">What This Data Can and Cannot Prove</div>
+    <h2>This Data Is Detailed, But It Has One Big Gap</h2>
+    <p class="sub">Each row is one retraction with reasons, journal, country, and dates. That lets us study patterns. But we do <strong>not</strong> have total papers published, so we cannot calculate true retraction rates. For a publisher, this means you should use this to spot risk hotspots, then validate with your own submission and acceptance volumes.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="plot plot-sm" id="coverage-chart"></div>
+      </div>
+      <div class="card">
+        <div class="callout danger"><strong>Data detective checks:</strong> countries/reasons are semicolon multi-label fields; author names contain homonyms; reason taxonomies evolved over time; mass events can dominate yearly trends.</div>
+        <p class="callout" style="margin-top:.7rem"><strong>Conservative interpretation:</strong> use this dataset to identify process failures, detection shifts, and concentrations of risk, not to claim misconduct “rates” by country, field, or publisher without publication-volume denominators.</p>
+        <div style="margin-top:.7rem">
+          <span class="pill">Granularity: retraction notice</span>
+          <span class="pill">Time range: 1756 to 2026</span>
+          <span class="pill">Multi-label dimensions</span>
+          <span class="pill">Near-complete DOI fields post-2022</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Break In Pattern</div>
+    <h2>The Big Spike Is Largely Two Massive Cleanup Events</h2>
+    <p class="sub">Try the toggle: removing Hindawi and IEEE shrinks the biggest spikes a lot. So this is not just a steady collapse everywhere; it is big cleanup waves plus a rising background trend. For Elsevier-like portfolios, the implication is clear: one or two portfolio events can dominate annual risk reporting.</p>
+    <div class="card">
+      <div class="controls">
+        <label><input type="checkbox" id="exclude-major" /> Exclude Hindawi + IEEE from timeline</label>
+      </div>
+      <div class="plot" id="timeline-chart"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">System Concentration</div>
+    <h2>A Few Publishers Can Drive Most Retractions in a Year</h2>
+    <p class="sub">When retractions are concentrated in a small group, the system becomes fragile: one publisher shock can affect the whole research ecosystem. For a large publisher, this means concentration should be tracked like a risk KPI, not treated as random noise.</p>
+    <div class="grid-2">
+      <div class="card"><div class="plot" id="concentration-chart"></div></div>
+      <div class="card"><div class="plot" id="reason-family-chart"></div></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Mechanism Shift</div>
+    <h2>Retraction Reasons Became More Specific Over Time</h2>
+    <p class="sub">Recent notices use more reason tags and more flags like paper mills, fake peer review, and AI-generated content. This likely reflects both real behavior changes and better detection. For publishers, this means screening tools and editor training need regular upgrades, not one-time fixes.</p>
+    <div class="grid-2">
+      <div class="card"><div class="plot plot-sm" id="lag-family-chart"></div></div>
+      <div class="card">
+        <div class="plot plot-sm" id="reason-network-chart"></div>
+        <p class="footer-note">Network shows top reason co-occurrence pairs; heavy links reveal repeated investigative templates.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Geospatial & Cohort</div>
+    <h2>The Country Pattern Changed Quickly and Unevenly</h2>
+    <p class="sub">The map shows total counts, not rates. The bubble chart compares 2018–2020 vs 2023–2025. Big jumps point to places where targeted action may help most. For publishers, this supports region-specific integrity support instead of the same policy everywhere.</p>
+    <div class="grid-2">
+      <div class="card"><div class="plot" id="country-map"></div></div>
+      <div class="card"><div class="plot" id="country-shift"></div></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Heroes & Villains</div>
+    <h2>Publishers Show Different Risk Styles</h2>
+    <p class="sub">Each bubble is a publisher: x = time to retract, y = share of industrial misconduct signals, size = number of retractions. Far right means slower detection. Higher up means stronger manipulation signals. For a publisher like Elsevier, this shows which journal groups need faster escalation and tighter pre-publication checks.</p>
+    <div class="card">
+      <div class="controls">
+        <label>Minimum retractions in view: <input id="min-pub-slider" type="range" min="300" max="5000" step="100" value="300" /></label>
+        <span id="min-pub-value">300</span>
+      </div>
+      <div class="plot" id="publisher-scatter"></div>
+      <p class="footer-note"><strong>Opaque notice share %</strong> = the percent of a publisher's retraction records that use low-detail labels (for example: "Notice - Limited or No Information," "Date Unknown," or "Removed"). Higher values mean less transparent explanations.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Unexpected Signals</div>
+    <h2>A Few Journal-Year Events Explain a Lot of the Risk</h2>
+    <p class="sub">Some years have very large journal-specific events. Use this view to pick focused audits instead of broad one-size-fits-all rules. For big publishers, this helps allocate audit budget to the few journals that drive most downside risk.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="controls"><label for="event-year">Year</label><select id="event-year"></select></div>
+        <div class="plot plot-sm" id="event-chart"></div>
+      </div>
+      <div class="card">
+        <table class="mini-table" id="event-table"></table>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Leverage Points</div>
+    <h2>Small Process Changes That Could Make a Big Difference</h2>
+    <p class="sub">These are simple moves a publisher can start now. They are practical, high-impact, and designed to reduce retractions before they happen.</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3>1) Catch bad papers earlier</h3>
+        <p class="sub">Before accepting a paper, run automatic checks for fake reviewers, copy-paste submissions, and strange citation patterns.</p>
+        <p class="callout">Why this matters: many problem papers look similar, so one shared check can block many bad submissions.</p>
+      </div>
+      <div class="card">
+        <h3>2) Pause when warning signs spike</h3>
+        <p class="sub">If one journal suddenly gets a wave of suspicious papers, pause new intake briefly and run an outside audit.</p>
+        <p class="callout gold">Simple trigger: sharp jump in peer-review red flags and complex misconduct reasons.</p>
+      </div>
+      <div class="card">
+        <h3>3) Make retraction notices clear</h3>
+        <p class="sub">Use a standard reason list and always state who investigated. Clear notices reduce confusion and stop bad papers from being cited again.</p>
+        <p class="callout">Result: better accountability, better learning, and less repeat damage.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Validation & Limits</div>
+    <h2>How We Tested This, and What We Should Not Overstate</h2>
+    <div class="grid-2">
+      <div class="card">
+        <p class="callout"><strong>Robustness checks run:</strong> major-event exclusion (Hindawi+IEEE), alternative reason-family buckets, pre/post cohort deltas, concentration metrics (Top-1, Top-3, HHI), and lag quantiles instead of means.</p>
+        <p class="callout danger"><strong>Fallacy controls:</strong> no causal claims from correlation, avoid base-rate fallacy (missing denominator), watch Simpson effects when countries are multi-label, and separate behavior changes from detection changes.</p>
+        <p class="footer-note">Recommendation: pair this dataset with Crossref/Dimensions volume data to compute true retraction rates and confidence intervals by field/journal.</p>
+      </div>
+      <div class="card sources">
+        <ul>
+          <li><a href="https://www.nature.com/articles/d41586-023-03974-8" target="_blank" rel="noopener">Nature (Dec 12, 2023): &gt;10,000 retractions in 2023, record high</a></li>
+          <li><a href="https://gitlab.com/crossref/retraction-watch-data/-/blob/main/retraction_watch.csv" target="_blank" rel="noopener">Crossref/Retraction Watch: retraction_watch.csv source file</a></li>
+          <li><a href="https://retractionwatch.com/2023/12/19/hindawi-reveals-process-for-retracting-more-than-8000-paper-mill-articles/" target="_blank" rel="noopener">Retraction Watch (Dec 19, 2023): Hindawi process for 8,000+ retractions</a></li>
+          <li><a href="https://retractionwatch.com/category/by-journal/ieee/" target="_blank" rel="noopener">Retraction Watch IEEE archive: thousands of conference abstract removals</a></li>
+          <li><a href="https://retractionwatch.com/2022/12/06/publisher-retracts-400-papers-at-once-for-violations-of-peer-review-process-policies/" target="_blank" rel="noopener">Retraction Watch (Dec 6, 2022): IEEE mass conference retractions</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3479492/" target="_blank" rel="noopener">PNAS (2012): misconduct drove majority of PubMed retractions studied</a></li>
+          <li><a href="https://doi.org/10.24318/cope.2019.1.4" target="_blank" rel="noopener">COPE retraction guideline DOI (2019)</a></li>
+        </ul>
+        <p class="footer-note">Context links are used to corroborate macro patterns; this deck’s quantitative claims come from the local `retraction_watch.csv` analysis.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    async function init() {
+      const res = await fetch('./analysis_data.json');
+      const data = await res.json();
+
+      const numFmt = new Intl.NumberFormat('en-US');
+      const pctFmt = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 });
+
+      const yearly = data.yearly.filter((d) => d.year >= 2000 && d.year <= 2026);
+      const yearlyExMajor = data.yearly_ex_major.filter((d) => d.year >= 2000 && d.year <= 2026);
+      const concentration = data.concentration.filter((d) => d.year >= 2008 && d.year <= 2026);
+      const coverage = data.coverage.filter((d) => d.year >= 2008 && d.year <= 2025);
+      const reasonFamilies = data.reason_families.filter((d) => d.year >= 2010 && d.year <= 2025);
+      const countryTotals = data.country_totals.filter((d) => d.country !== 'Unknown');
+      const publisherSignatures = data.publisher_signatures;
+      const topEvents = data.top_events;
+
+      const year2023 = yearly.find((d) => d.year === 2023)?.n ?? null;
+      const top1_2023 = concentration.find((d) => d.year === 2023)?.top1_share_pct ?? null;
+      const industrial2023 = reasonFamilies
+        .find((d) => d.year === 2023 && d.family === 'Industrialized misconduct')?.pct ?? null;
+
+      const metricCards = [
+        {
+          label: 'Records Analyzed',
+          value: numFmt.format(data.meta.rows),
+          hint: `Retraction dates from ${data.meta.min_retraction_date} to ${data.meta.max_retraction_date}.`
+        },
+        {
+          label: 'Typical Time to Retraction',
+          value: `${Math.round(data.meta.med_lag_days)} days`,
+          hint: `Median lag; top decile exceeds ${Math.round(data.meta.p90_lag_days)} days.`
+        },
+        {
+          label: '2023 Retraction Wave',
+          value: year2023 ? numFmt.format(year2023) : 'n/a',
+          hint: top1_2023 ? `Top publisher share reached ${pctFmt.format(top1_2023)}%.` : 'Largest single-year spike in dataset.'
+        },
+        {
+          label: 'Industrialized Signals (2023)',
+          value: industrial2023 ? `${pctFmt.format(industrial2023)}%` : 'n/a',
+          hint: 'Share of records tagged with paper-mill/peer-review manipulation markers.'
+        }
+      ];
+
+      document.getElementById('top-metrics').innerHTML = metricCards.map((m) => `
+        <div class="card metric">
+          <div class="label">${m.label}</div>
+          <div class="value">${m.value}</div>
+          <div class="hint">${m.hint}</div>
+        </div>
+      `).join('');
+
+      Plotly.newPlot('coverage-chart', [
+        {
+          x: coverage.map((d) => d.year),
+          y: coverage.map((d) => d.url_coverage_pct),
+          mode: 'lines+markers',
+          name: 'URL coverage',
+          line: { color: '#0f766e', width: 2 }
+        },
+        {
+          x: coverage.map((d) => d.year),
+          y: coverage.map((d) => d.notes_coverage_pct),
+          mode: 'lines+markers',
+          name: 'Notes coverage',
+          line: { color: '#0b4f9e', width: 2 }
+        },
+        {
+          x: coverage.map((d) => d.year),
+          y: coverage.map((d) => d.retract_doi_pct),
+          mode: 'lines',
+          name: 'Retraction DOI present',
+          line: { color: '#9a8c00', width: 1.7, dash: 'dot' }
+        }
+      ], {
+        margin: { l: 42, r: 10, t: 30, b: 35 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: '#fbfcfd',
+        yaxis: { title: 'Percent', gridcolor: '#e6edf4' },
+        xaxis: { dtick: 2 },
+        legend: { orientation: 'h', y: 1.14 }
+      }, { responsive: true, displayModeBar: false });
+
+      const timelineDiv = document.getElementById('timeline-chart');
+      function renderTimeline(excludeMajor) {
+        const source = excludeMajor ? yearlyExMajor : yearly;
+        Plotly.react(timelineDiv, [
+          {
+            x: source.map((d) => d.year),
+            y: source.map((d) => d.n),
+            type: 'bar',
+            marker: { color: excludeMajor ? '#0f766e' : '#0b4f9e' },
+            hovertemplate: 'Year %{x}<br>Retractions %{y:,}<extra></extra>'
+          }
+        ], {
+          margin: { l: 55, r: 10, t: 25, b: 42 },
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: '#fbfcfd',
+          yaxis: { title: 'Retractions', gridcolor: '#e5edf5' },
+          xaxis: { title: 'Retraction year', dtick: 2 }
+        }, { responsive: true, displayModeBar: false });
+      }
+      renderTimeline(false);
+      document.getElementById('exclude-major').addEventListener('change', (e) => renderTimeline(e.target.checked));
+
+      Plotly.newPlot('concentration-chart', [
+        {
+          x: concentration.map((d) => d.year),
+          y: concentration.map((d) => d.top1_share_pct),
+          mode: 'lines+markers',
+          name: 'Top-1 publisher share',
+          line: { color: '#a91b0d', width: 2 }
+        },
+        {
+          x: concentration.map((d) => d.year),
+          y: concentration.map((d) => d.top3_share_pct),
+          mode: 'lines+markers',
+          name: 'Top-3 publisher share',
+          line: { color: '#0b4f9e', width: 2 }
+        }
+      ], {
+        margin: { l: 50, r: 10, t: 30, b: 35 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: '#fbfcfd',
+        yaxis: { title: 'Share of annual retractions (%)', gridcolor: '#e5edf5' },
+        xaxis: { dtick: 2 },
+        legend: { orientation: 'h', y: 1.14 }
+      }, { responsive: true, displayModeBar: false });
+
+      const familyNames = [...new Set(reasonFamilies.map((d) => d.family))];
+      const colors = {
+        'Industrialized misconduct': '#a91b0d',
+        'Data/Image integrity': '#0f766e',
+        'Plagiarism/Attribution': '#0b4f9e',
+        'Opaque/administrative': '#b58b00',
+        'Ethics/legal/other': '#5a6b7b'
+      };
+
+      Plotly.newPlot('reason-family-chart', familyNames.map((f) => ({
+        x: reasonFamilies.filter((d) => d.family === f).map((d) => d.year),
+        y: reasonFamilies.filter((d) => d.family === f).map((d) => d.pct),
+        stackgroup: 'one',
+        mode: 'lines',
+        name: f,
+        line: { width: 0.8, color: colors[f] || '#555' }
+      })), {
+        margin: { l: 55, r: 10, t: 30, b: 36 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: '#fbfcfd',
+        yaxis: { title: 'Share of annual records (%)', ticksuffix: '%', gridcolor: '#e5edf5' },
+        xaxis: { dtick: 2 }
+      }, { responsive: true, displayModeBar: false });
+
+      const lag = data.lag_by_family;
+      Plotly.newPlot('lag-family-chart', [
+        {
+          type: 'bar',
+          x: lag.map((d) => d.family),
+          y: lag.map((d) => d.p50_days),
+          name: 'Median lag',
+          marker: { color: lag.map((d) => colors[d.family] || '#555') },
+          text: lag.map((d) => `${Math.round(d.p50_days)} d`),
+          textposition: 'outside'
+        },
+        {
+          type: 'scatter',
+          mode: 'markers+text',
+          x: lag.map((d) => d.family),
+          y: lag.map((d) => d.p75_days),
+          text: lag.map((d) => `p75 ${Math.round(d.p75_days)} d`),
+          textposition: 'top center',
+          marker: { size: 8, color: '#334155' },
+          name: 'Upper-quartile lag'
+        }
+      ], {
+        margin: { l: 40, r: 10, t: 30, b: 110 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: '#fbfcfd',
+        yaxis: { title: 'Days from publication to retraction', gridcolor: '#e5edf5' },
+        xaxis: { tickangle: -23 }
+      }, { responsive: true, displayModeBar: false });
+
+      const pairs = data.reason_pairs.slice(0, 16);
+      const nodes = [...new Set(pairs.flatMap((d) => [d.source, d.target]))];
+      const idx = Object.fromEntries(nodes.map((n, i) => [n, i]));
+      Plotly.newPlot('reason-network-chart', [{
+        type: 'sankey',
+        arrangement: 'snap',
+        node: {
+          pad: 12,
+          thickness: 13,
+          label: nodes,
+          color: nodes.map(() => 'rgba(11,79,158,0.75)')
+        },
+        link: {
+          source: pairs.map((d) => idx[d.source]),
+          target: pairs.map((d) => idx[d.target]),
+          value: pairs.map((d) => d.n),
+          color: pairs.map(() => 'rgba(15,118,110,0.22)')
+        }
+      }], {
+        margin: { l: 6, r: 6, t: 14, b: 8 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: '#fbfcfd'
+      }, { responsive: true, displayModeBar: false });
+
+      Plotly.newPlot('country-map', [{
+        type: 'choropleth',
+        locationmode: 'country names',
+        locations: countryTotals.map((d) => d.country),
+        z: countryTotals.map((d) => d.total_n),
+        colorscale: [
+          [0, '#e2edf8'],
+          [0.25, '#9ec2e6'],
+          [0.55, '#4f90cf'],
+          [1, '#0b4f9e']
+        ],
+        marker: { line: { color: '#ffffff', width: 0.2 } },
+        colorbar: { title: 'Retractions' }
+      }], {
+        margin: { l: 0, r: 0, t: 8, b: 0 },
+        geo: {
+          projection: { type: 'natural earth' },
+          showframe: false,
+          bgcolor: 'rgba(0,0,0,0)'
+        },
+        paper_bgcolor: 'rgba(0,0,0,0)'
+      }, { responsive: true, displayModeBar: false });
+
+      const shift = countryTotals
+        .filter((d) => d.pre_n >= 30 || d.post_n >= 120)
+        .sort((a, b) => b.delta - a.delta)
+        .slice(0, 28);
+
+        Plotly.newPlot('country-shift', [{
+        type: 'scatter',
+        mode: 'markers+text',
+        x: shift.map((d) => d.pre_n),
+        y: shift.map((d) => d.post_n),
+        text: shift.map((d) => d.country),
+        textposition: 'top center',
+        marker: {
+          size: shift.map((d) => Math.max(9, Math.sqrt(d.total_n) / 1.2)),
+          color: shift.map((d) => d.growth_ratio ?? 0),
+          colorscale: 'Tealgrn',
+          line: { color: '#10324d', width: 0.7 },
+          showscale: true,
+          colorbar: { title: 'Growth ratio' }
+        },
+        hovertemplate: '%{text}<br>2018-20: %{x:,}<br>2023-25: %{y:,}<extra></extra>'
+        }], {
+          margin: { l: 45, r: 10, t: 25, b: 42 },
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: '#fbfcfd',
+          xaxis: { title: 'Retractions (2018-2020, log scale)', type: 'log', gridcolor: '#e5edf5' },
+          yaxis: { title: 'Retractions (2023-2025, log scale)', type: 'log', gridcolor: '#e5edf5' }
+        }, { responsive: true, displayModeBar: false });
+
+      const slider = document.getElementById('min-pub-slider');
+      const sliderValue = document.getElementById('min-pub-value');
+      function drawPublisherScatter(minN) {
+        const rows = publisherSignatures.filter((d) => d.n >= minN);
+        Plotly.react('publisher-scatter', [{
+          type: 'scatter',
+          mode: 'markers+text',
+          x: rows.map((d) => d.med_lag),
+          y: rows.map((d) => d.industrial_share_pct),
+          text: rows.map((d) => d.publisher.length > 28 ? `${d.publisher.slice(0, 27)}…` : d.publisher),
+          textposition: 'top center',
+          marker: {
+            size: rows.map((d) => Math.max(11, Math.sqrt(d.n))),
+            color: rows.map((d) => d.opaque_notice_share_pct),
+            colorscale: 'YlOrRd',
+            line: { color: '#233546', width: 0.6 },
+            colorbar: { title: 'Opaque notice share %' }
+          },
+          customdata: rows.map((d) => [d.publisher, d.n, d.data_image_share_pct]),
+          hovertemplate: '<b>%{customdata[0]}</b><br>Retractions: %{customdata[1]:,}<br>Median lag: %{x}d<br>Industrialized signals: %{y}%<br>Data/Image signals: %{customdata[2]}%<extra></extra>'
+        }], {
+          margin: { l: 56, r: 20, t: 20, b: 44 },
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: '#fbfcfd',
+          xaxis: { title: 'Median lag (days)', gridcolor: '#e5edf5' },
+          yaxis: { title: 'Industrialized misconduct share (%)', gridcolor: '#e5edf5' },
+          shapes: [
+            { type: 'line', x0: 700, x1: 700, y0: 0, y1: 100, line: { color: '#7a8a99', dash: 'dot', width: 1 } },
+            { type: 'line', x0: 0, x1: 3000, y0: 50, y1: 50, line: { color: '#7a8a99', dash: 'dot', width: 1 } }
+          ]
+        }, { responsive: true, displayModeBar: false });
+      }
+      drawPublisherScatter(Number(slider.value));
+      slider.addEventListener('input', () => {
+        sliderValue.textContent = slider.value;
+        drawPublisherScatter(Number(slider.value));
+      });
+
+      const eventYearSelect = document.getElementById('event-year');
+      const eventYears = [...new Set(topEvents.map((d) => d.year))].sort((a, b) => b - a);
+      eventYearSelect.innerHTML = eventYears.map((y) => `<option value="${y}">${y}</option>`).join('');
+      eventYearSelect.value = String(eventYears[0]);
+
+      function drawEvents(year) {
+        const rows = topEvents
+          .filter((d) => d.year === year)
+          .sort((a, b) => b.n - a.n)
+          .slice(0, 10);
+
+        Plotly.react('event-chart', [{
+          type: 'bar',
+          orientation: 'h',
+          x: [...rows].reverse().map((d) => d.n),
+          y: [...rows].reverse().map((d) => d.journal.length > 58 ? `${d.journal.slice(0, 56)}…` : d.journal),
+          marker: { color: '#0b4f9e' },
+          hovertemplate: '%{y}<br>Retractions %{x:,}<extra></extra>'
+        }], {
+          margin: { l: 210, r: 10, t: 15, b: 30 },
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: '#fbfcfd',
+          xaxis: { title: 'Retractions in selected year', gridcolor: '#e5edf5' }
+        }, { responsive: true, displayModeBar: false });
+
+        const table = document.getElementById('event-table');
+        table.innerHTML = `
+          <thead>
+            <tr><th>Journal</th><th>Publisher</th><th>N</th><th>Avg reason tags</th></tr>
+          </thead>
+          <tbody>
+            ${rows.map((d) => `<tr><td>${d.journal}</td><td>${d.publisher}</td><td>${numFmt.format(d.n)}</td><td>${d.avg_reason_count}</td></tr>`).join('')}
+          </tbody>
+        `;
+      }
+      drawEvents(Number(eventYearSelect.value));
+      eventYearSelect.addEventListener('change', (e) => drawEvents(Number(e.target.value)));
+    }
+
+    init();
+  </script>
+</body>
+</html>

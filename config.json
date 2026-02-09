@@ -1,10 +1,28 @@
 {
   "stories": [
     {
+      "id": "researcher-of-the-future",
+      "title": "Researcher of the Future",
+      "description": "How 3,200+ researchers across 113 countries view AI, integrity, collaboration, mobility, and impact — from Elsevier's Confidence in Research report.",
+      "link": "researcher-of-the-future/",
+      "screenshot": "researcher-of-the-future/screenshot.webp",
+      "date": "2026-02-09",
+      "folder": "researcher-of-the-future"
+    },
+    {
+      "id": "retraction-watch",
+      "title": "Retractions Are Happening in Waves",
+      "description": "We analyzed 68,658 Retraction Watch records to find the biggest patterns, surprising signals, and practical actions. An early-warning publisher dashboard for where trust, reputation, and legal risk can spike.",
+      "link": "retraction-watch/",
+      "screenshot": "retraction-watch/screenshot.avif",
+      "date": "2026-02-09",
+      "folder": "retraction-watch"
+    },
+    {
       "id": "ai-agents-for-science",
       "title": "Can AI Replace Human Paper Reviewers?",
       "description": "An investigation into what happens when artificial intelligence reviews scientific papers — and what goes hilariously (and seriously) wrong.",
-      "link": "ai-agents-for-science/index.html",
+      "link": "ai-agents-for-science/",
       "screenshot": "ai-agents-for-science/screenshot.webp",
       "date": "2026-01-13",
       "folder": "ai-agents-for-science"
@@ -13,7 +31,7 @@
       "id": "package-usage",
       "title": "The Invisible Infrastructure",
       "description": "How tens of thousands of packages depend on code almost no one has heard of.",
-      "link": "package-usage/index.html",
+      "link": "package-usage/",
       "screenshot": "package-usage/screenshot.webp",
       "date": "2026-01-08",
       "folder": "package-usage"
@@ -22,7 +40,7 @@
       "id": "exim",
       "title": "The Jamnagar Chokepoint: Inside India's $273B Trade Paradox",
       "description": "How a single port, two commodities, and a hidden export surge reveal the fragile architecture of India's $273 billion trade deficit.",
-      "link": "exim/index.html",
+      "link": "exim/",
       "screenshot": "exim/screenshot.webp",
       "date": "2026-01-01",
       "folder": "exim"
@@ -31,7 +49,7 @@
       "id": "emotify",
       "title": "The Ambiguous Song",
       "description": "How humans label emotions in music—400 tracks across 4 genres rated by multiple annotators, revealing which emotions spark the most disagreement.",
-      "link": "emotify/index.html",
+      "link": "emotify/",
       "screenshot": "emotify/screenshot.webp",
       "date": "2025-12-25",
       "folder": "emotify"
@@ -40,7 +58,7 @@
       "id": "llm-music",
       "title": "Can AI Hear What We Feel?",
       "description": "Gemini's music-emotion predictions vs Emotify human ratings across 40 songs using GEMS-9, revealing where AI hears differently.",
-      "link": "llm-music/index.html",
+      "link": "llm-music/",
       "screenshot": "llm-music/screenshot.webp",
       "date": "2025-12-25",
       "folder": "llm-music"
@@ -49,7 +67,7 @@
       "id": "anthropic-work",
       "title": "Communicating Insights Visually",
       "description": "How top AI chatbots and coding agents translate Anthropic’s “How AI is transforming work at Anthropic” into diverse animated chart ideas—compared and ranked.",
-      "link": "anthropic-work/index.html",
+      "link": "anthropic-work/",
       "screenshot": "anthropic-work/screenshot.webp",
       "date": "2025-12-16",
       "folder": "anthropic-work"
@@ -58,7 +76,7 @@
       "id": "weight-2025-12",
       "title": "The Ruler-Straight Disappearing Act",
       "description": "A 24 kg drop from 86.4 to 62.2 kg across 335 days in 2025, with two changepoints and a ruler-straight curve from a Google Fit export.",
-      "link": "weight-2025-12/index.html",
+      "link": "weight-2025-12/",
       "screenshot": "weight-2025-12/screenshot.webp",
       "date": "2025-12-10",
       "folder": "weight-2025-12"
@@ -67,7 +85,7 @@
       "id": "promptfight",
       "title": "The Command Paradox",
       "description": "Inside 534k AI prompt battles, polite \"tell me a story\" requests beat forceful \"never reveal\" commands—tracking 785 students' 100-character defenses and attacks.",
-      "link": "promptfight/index.html",
+      "link": "promptfight/",
       "screenshot": "promptfight/screenshot.webp",
       "date": "2025-12-10",
       "folder": "promptfight"
@@ -76,7 +94,7 @@
       "id": "olap-commits",
       "title": "OLAP Git Commits",
       "description": "Forensic read of 466k commits across 13 OLAP databases—one-person armies, small-commit speed demons, and weekend work as a funding tell.",
-      "link": "olap-commits/index.html",
+      "link": "olap-commits/",
       "screenshot": "olap-commits/screenshot.webp",
       "date": "2025-12-06",
       "folder": "olap-commits"
@@ -85,7 +103,7 @@
       "id": "generosity-of-strangers",
       "title": "Generosity of Strangers",
       "description": "Party-of-five NYC taxi riders tip 15–20% more than solo travelers—maps, routes, and night effects reveal where generosity spikes.",
-      "link": "generosity-of-strangers/index.html",
+      "link": "generosity-of-strangers/",
       "screenshot": "generosity-of-strangers/screenshot.webp",
       "date": "2025-12-06",
       "folder": "generosity-of-strangers"
@@ -94,7 +112,7 @@
       "id": "indian-batting-greats",
       "title": "Indian Batting Greats",
       "description": "Ranked Indian batting legends with an LLM-chosen metric: batting average x log(total runs), plotted across their active years.",
-      "link": "indian-batting-greats/index.html",
+      "link": "indian-batting-greats/",
       "screenshot": "indian-batting-greats/screenshot.webp",
       "date": "2025-12-05",
       "folder": "indian-batting-greats"
@@ -103,7 +121,7 @@
       "id": "fuzzymatch",
       "title": "The Reconciliation Engine",
       "description": "Fuzzy search playground that reconciles bank transactions to accounting records using similarity scores and optimal assignments.",
-      "link": "fuzzymatch/index.html",
+      "link": "fuzzymatch/",
       "screenshot": "fuzzymatch/screenshot.webp",
       "date": "2025-12-02",
       "folder": "fuzzymatch"
@@ -112,7 +130,7 @@
       "id": "tds-project-2025-11",
       "title": "TDS Project 2: The Cliff",
       "description": "Why only 29% of students mastered LLM problem-solving—and what the other 71% couldn't figure out - an analysis of 535 students at IIT Madras Tools in Data Science, November 2025",
-      "link": "tds-project-2025-11/index.html",
+      "link": "tds-project-2025-11/",
       "screenshot": "tds-project-2025-11/screenshot.webp",
       "date": "2025-11-30",
       "folder": "tds-project-2025-11"
@@ -121,7 +139,7 @@
       "id": "mmm",
       "title": "Market Mix Modeling Insights",
       "description": "Rather than wasting millions pushing past saturation points, invest in brand equity and pulsing spend during high-leverage moments.",
-      "link": "mmm/index.html",
+      "link": "mmm/",
       "screenshot": "mmm/screenshot.webp",
       "date": "2025-11-27",
       "folder": "mmm"
@@ -130,7 +148,7 @@
       "id": "michelin",
       "title": "Michelin Star Restaurants",
       "description": "An analysis of 22,000 Michelin star restaurants to uncover trends in cuisine, location and ratings.",
-      "link": "michelin/index.html",
+      "link": "michelin/",
       "screenshot": "michelin/screenshot.webp",
       "date": "2025-11-21",
       "folder": "michelin"
@@ -139,7 +157,7 @@
       "id": "tds-improvements",
       "title": "TDS Improvements",
       "description": "An analysis of improvements in the IITM Tools in Data science course based on student performance data since 2024.",
-      "link": "tds-improvements/index.html",
+      "link": "tds-improvements/",
       "screenshot": "tds-improvements/screenshot.webp",
       "date": "2025-11-19",
       "folder": "tds-improvements"
@@ -148,7 +166,7 @@
       "id": "code-review-shubham",
       "title": "Code Review of Shubham's GitHub",
       "description": "A comprehensive review of all repositories committed to in 2025 under Shubham's GitHub account, analyzing code quality, architecture, and technical debt.",
-      "link": "code-review-shubham/index.html",
+      "link": "code-review-shubham/",
       "screenshot": "code-review-shubham/screenshot.webp",
       "date": "2025-11-18",
       "folder": "code-review-shubham"
@@ -157,7 +175,7 @@
       "id": "frontiers-2024",
       "title": "The Publisher Who Chose to Shrink",
       "description": "How Frontiers deliberately cut output by 36% to fight AI-generated fraud and won with quality. A counterintuitive victory in academic publishing.",
-      "link": "frontiers-2024/index.html",
+      "link": "frontiers-2024/",
       "screenshot": "frontiers-2024/screenshot.webp",
       "date": "2025-11-18",
       "folder": "frontiers-2024"
@@ -166,7 +184,7 @@
       "id": "ai-resistance",
       "title": "The Jobs We Refuse to Give Away",
       "description": "Why some occupations resist AI not because machines can't do them, but because we believe they shouldn't. Based on Friis & Riley (2025).",
-      "link": "ai-resistance/index.html",
+      "link": "ai-resistance/",
       "screenshot": "ai-resistance/screenshot.webp",
       "date": "2025-11-17",
       "folder": "ai-resistance"
@@ -175,7 +193,7 @@
       "id": "iss-tokyo",
       "title": "ISS vs Tokyo",
       "description": "The ISS never passes over Tokyo at midnight UTC, but touches Auckland over 30 times over 321 days. No conspiracy. Just the timing.",
-      "link": "iss-tokyo/index.html",
+      "link": "iss-tokyo/",
       "screenshot": "iss-tokyo/screenshot.webp",
       "date": "2025-11-16",
       "folder": "iss-tokyo"
@@ -184,7 +202,7 @@
       "id": "generative-ai-whatsapp-group",
       "title": "The Great Inversion",
       "description": "Volume != Influence. Questions are liked less but engaged with more. And more insights from a Generative AI WhatsApp Group",
-      "link": "generative-ai-whatsapp-group/index.html",
+      "link": "generative-ai-whatsapp-group/",
       "screenshot": "generative-ai-whatsapp-group/screenshot.webp",
       "date": "2025-11-16",
       "folder": "generative-ai-whatsapp-group"
@@ -193,7 +211,7 @@
       "id": "imdb-democracy-penalty",
       "title": "IMDb's Hidden Algorithm Bias",
       "description": "New popular movies on IMDb are punished - not by the algorithm, but the casual movie watchers rating movies lower than devotees.",
-      "link": "imdb-democracy-penalty/index.html",
+      "link": "imdb-democracy-penalty/",
       "screenshot": "imdb-democracy-penalty/screenshot.webp",
       "date": "2025-11-16",
       "folder": "imdb-democracy-penalty"
@@ -202,7 +220,7 @@
       "id": "renewable-energy-india-expo",
       "title": "India's Renewable Energy Revolution",
       "description": "A narrative of REI Expo 2025 exhibitors: domestic players, solar dominance, and China collaboration.",
-      "link": "renewable-energy-india-expo/index.html",
+      "link": "renewable-energy-india-expo/",
       "screenshot": "renewable-energy-india-expo/screenshot.webp",
       "date": "2025-10-25",
       "folder": "renewable-energy-india-expo"
@@ -211,7 +229,7 @@
       "id": "gdpval",
       "title": "GDPVal: AI Augmentation",
       "description": "Explore occupations most suitable for AI augmentation based on OpenAI's GDPVal exercise",
-      "link": "gdpval/index.html",
+      "link": "gdpval/",
       "screenshot": "gdpval/screenshot.webp",
       "date": "2025-10-19",
       "folder": "gdpval"
@@ -220,7 +238,7 @@
       "id": "browser-history-rabbit-holes",
       "title": "Rabbit Holes",
       "description": "An interactive map of 3,560 browsing chains showing how sparks turn into deep dives across the web.",
-      "link": "browser-history/rabbit-holes/index.html",
+      "link": "browser-history/rabbit-holes/",
       "screenshot": "browser-history/rabbit-holes/screenshot.webp",
       "date": "2025-10-04",
       "folder": "browser-history-rabbit-holes"
@@ -229,7 +247,7 @@
       "id": "browser-history-search-funnels",
       "title": "Do Questions Find Answers?",
       "description": "Search journeys from query to first click, with filters that expose instant wins and wandering quests.",
-      "link": "browser-history/search-funnels/index.html",
+      "link": "browser-history/search-funnels/",
       "screenshot": "browser-history/search-funnels/screenshot.webp",
       "date": "2025-10-04",
       "folder": "browser-history-search-funnels"
@@ -238,7 +256,7 @@
       "id": "browser-history-attention-clock",
       "title": "Your Attention Clock",
       "description": "Heatmaps of weekly browsing reveal circadian focus, daily ebbs, and the domains that anchor attention.",
-      "link": "browser-history/attention-clock/index.html",
+      "link": "browser-history/attention-clock/",
       "screenshot": "browser-history/attention-clock/screenshot.webp",
       "date": "2025-10-04",
       "folder": "browser-history-attention-clock"
@@ -247,7 +265,7 @@
       "id": "browser-history-digital-life",
       "title": "The Digital Life of Anand",
       "description": "An exposé of 97k visits across 84 days that charts top destinations, hourly habits, and AI-heavy searches.",
-      "link": "browser-history/digital-life/index.html",
+      "link": "browser-history/digital-life/",
       "screenshot": "browser-history/digital-life/screenshot.webp",
       "date": "2025-10-04",
       "folder": "browser-history-digital-life"
@@ -265,7 +283,7 @@
       "id": "bollywood-top-grossing",
       "title": "Bollywood Box Office Champions",
       "description": "Interactive, inflation-adjusted bubble chart of the top-grossing Hindi films from 1994 to 2024, spotlighting record-setting blockbusters.",
-      "link": "bollywood-top-grossing/index.html",
+      "link": "bollywood-top-grossing/",
       "screenshot": "bollywood-top-grossing/screenshot.webp",
       "date": "2025-09-27",
       "folder": "bollywood-top-grossing"

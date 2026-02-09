@@ -39,11 +39,13 @@ In rare cases where human reviewers stepped in, they caught problems the AIs mis
 ## How to Use This
 
 **View the Interactive Presentation:**
+
 1. Open `index.html` in your web browser
 2. Use arrow keys or on-screen controls to navigate slides
 3. Explore the findings with charts, quotes, and visual storytelling
 
 **Explore the Data:**
+
 - `reviews.json` — Raw review data from OpenReview
 - `scrape.py` — Python script to fetch the data
 - `prompts.md` — Full analysis prompts and detailed findings

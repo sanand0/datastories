@@ -11,6 +11,7 @@ Ever wonder what's really holding up the software ecosystem? Spoiler: it's not t
 This data story reveals the invisible infrastructure of open source—packages that thousands of other packages depend on, but that almost no one has heard of. We're talking about packages like `random-job-selector` (102,405 dependents, 6 repositories using it) and `colorama` (9,527 dependents, untouched for 3.2 years). The unsung heroes. The quiet workers. The aging pillars.
 
 We analyzed the top 10,000 packages in both PyPI and npm to find out:
+
 - Which packages are secretly holding up half the ecosystem (hint: the top 1% carries 54% of PyPI's weight)
 - Why infrastructure packages are the most invisible
 - Which critical packages haven't been updated in years
@@ -86,6 +87,7 @@ package-usage/
 These scripts were used to generate the data and analyses. They're included for reproducibility and understanding.
 
 **[`fetch_libraries.py`](fetch_libraries.py)** — Data collection from Libraries.io API
+
 - Fetches top 10,000 packages by dependent count for PyPI and npm
 - Uses rate-limiting (60 requests/minute) and retry logic with exponential backoff
 - Caches results to `.cache/libraries-io/` to avoid re-fetching
@@ -93,6 +95,7 @@ These scripts were used to generate the data and analyses. They're included for 
 - Uses `uv run --script` for zero-install execution with inline dependencies
 
 **[`run_analyses.py`](run_analyses.py)** — Complete analysis pipeline
+
 - Loads cached Libraries.io data and computes derived metrics:
   - **Gap metric**: `log₁₀(dependents) - log₁₀(repos)` to identify hidden infrastructure
   - **Staleness**: Years since last release
@@ -104,6 +107,7 @@ These scripts were used to generate the data and analyses. They're included for 
 - Creates scatter plots and distributions (PNG files, not included in final repo)
 
 **To run these scripts:**
+
 ```bash
 # Install uv if you don't have it
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -118,9 +122,11 @@ uv run run_analyses.py
 ### Data Files Explained
 
 **Required by index.html:**
+
 - **[`pypi_metrics.csv`](analysis_results/pypi_metrics.csv)** / **[`npm_metrics.csv`](analysis_results/npm_metrics.csv)**: Complete dataset with all derived metrics (gap, staleness, domains, etc.) for 10,000 packages per ecosystem
 
 **Documentation/Reference:**
+
 - **[`concentration.csv`](analysis_results/concentration.csv)**: Shows how much the top 1%, 5%, 10% of packages control total dependencies
 - **[`pypi_stale_critical.csv`](analysis_results/pypi_stale_critical.csv)** / **[`npm_stale_critical.csv`](analysis_results/npm_stale_critical.csv)**: Packages with high dependents but years of staleness
 - **[`cross_ecosystem_name_collisions.csv`](analysis_results/cross_ecosystem_name_collisions.csv)**: The 176 packages that exist in both PyPI and npm with identical names
@@ -130,23 +136,27 @@ uv run run_analyses.py
 **[`index.html`](index.html)** — A self-contained interactive story (39KB, no external dependencies except D3.js CDN)
 
 **Design Aesthetic**
+
 - NYT Upshot-inspired typography (Georgia serif for body, Helvetica for UI)
 - Muted color palette (#e05915 primary orange, neutral grays)
 - Generous white space and readable 680px line length
 - CSS-only animations with staggered reveals for progressive disclosure
 
 **Interactive Charts** (D3.js v7)
+
 1. **Concentration Bar Chart**: Animated bars showing top 1%, 5%, 10% share of dependencies
 2. **PyPI Scatter Plot**: 10,000 packages plotted log-log (dependents vs direct repos) with labeled outliers
 3. **npm Scatter Plot**: Same design, highlighting different ecosystem patterns
 
 **Interactive Features**
+
 - Hover tooltips with detailed package stats (dependents, repos, gap, stars)
 - Direct labels for notable packages (no hover required)
 - Scroll-triggered fade-ins and slide-ups
 - Responsive design (works on mobile, but charts shine on desktop)
 
 **Data Flow**
+
 ```javascript
 // Load metrics CSVs
 d3.csv('analysis_results/pypi_metrics.csv')
@@ -180,6 +190,7 @@ This story is part of the [Data Stories](https://github.com/sanand0/datastories/
 - **Hosting**: GitHub Pages
 
 To view locally:
+
 ```bash
 # Simple HTTP server (Python 3)
 python -m http.server 8000
@@ -212,4 +223,4 @@ Open an issue in the [main Data Stories repo](https://github.com/sanand0/datasto
 
 ---
 
-*"The invisible infrastructure is invisible for a reason: it works so well we forget it exists. Until it doesn't."*
+_"The invisible infrastructure is invisible for a reason: it works so well we forget it exists. Until it doesn't."_

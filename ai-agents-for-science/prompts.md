@@ -337,20 +337,22 @@ AI reviews are longer but formulaic. They never ask clarifying questions, never 
 ### What Makes Papers Score High vs. Low
 
 **Words that predict HIGH scores:**
-| Keyword | Avg Score When Present |
-|---------|----------------------|
-| "outstanding" | 5.86 |
-| "significant contribution" | 4.96 |
-| "well-executed" | 4.87 |
-| "state-of-the-art" | 4.43 |
+
+| Keyword                    | Avg Score When Present |
+| -------------------------- | ---------------------- |
+| "outstanding"              | 5.86                   |
+| "significant contribution" | 4.96                   |
+| "well-executed"            | 4.87                   |
+| "state-of-the-art"         | 4.43                   |
 
 **Words that predict LOW scores:**
-| Keyword | Avg Score When Present |
-|---------|----------------------|
-| "not reproducible" | 1.63 |
-| "flawed" | 1.88 |
-| "questionable" | 2.15 |
-| "inconsistent" | 2.20 |
+
+| Keyword            | Avg Score When Present |
+| ------------------ | ---------------------- |
+| "not reproducible" | 1.63                   |
+| "flawed"           | 1.88                   |
+| "questionable"     | 2.15                   |
+| "inconsistent"     | 2.20                   |
 
 **Absence of negative keywords is the strongest signal**: Papers without any negative keywords averaged 4.74 (vs. 2.98 when present).
 

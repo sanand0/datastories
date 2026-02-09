@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Researcher of the Future | Elsevier Confidence in Research</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    :root {
+      --navy: #1a1f36;
+      --navy-light: #2d3356;
+      --slate: #384364;
+      --orange: #e8553d;
+      --orange-light: #f07c5c;
+      --orange-dark: #c4402e;
+      --warm-bg: #faf8f5;
+      --warm-card: #ffffff;
+      --text-primary: #1a1f36;
+      --text-secondary: #5a6178;
+      --text-muted: #8b91a8;
+      --border: #e8e6e1;
+      --green: #2d9d78;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --gold: #d97706;
+      --red: #dc2626;
+      --teal: #0d9488;
+      --pink: #ec4899;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--navy);
+      color: var(--text-primary);
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .presentation {
+      width: 100vw;
+      height: calc(100vh - 2.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--warm-bg);
+      padding: 40px 56px;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .slide.active { display: flex; opacity: 1; }
+
+    /* Title Slide */
+    .slide.title-slide {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, var(--slate) 100%);
+      color: #fff;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 64px;
+    }
+
+    .title-slide .eyebrow {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--orange);
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    .title-slide h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      max-width: 800px;
+    }
+
+    .title-slide h1 em {
+      color: var(--orange);
+      font-style: italic;
+    }
+
+    .title-slide .subtitle {
+      font-size: 20px;
+      color: #b4b9d0;
+      margin-bottom: 48px;
+      font-weight: 300;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .title-slide .data-badges {
+      display: flex;
+      gap: 40px;
+      background: rgba(255,255,255,0.06);
+      padding: 24px 48px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .data-badges .badge { text-align: center; }
+
+    .data-badges .badge-value {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--orange);
+      display: block;
+    }
+
+    .data-badges .badge-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #8b91a8;
+      margin-top: 4px;
+    }
+
+    .title-slide .source {
+      position: absolute;
+      bottom: 32px;
+      font-size: 12px;
+      color: #5a6178;
+    }
+
+    /* Content Slides */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--orange);
+      flex-shrink: 0;
+    }
+
+    .slide-header-left { flex: 1; }
+
+    .slide-number {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--orange);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .slide-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.25;
+    }
+
+    .slide-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      line-height: 1.5;
+      max-width: 720px;
+    }
+
+    .slide-header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .key-stat {
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .key-stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--orange);
+    }
+
+    .key-stat-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #b4b9d0;
+      margin-top: 2px;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      gap: 28px;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .chart-panel {
+      flex: 1;
+      background: var(--warm-card);
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chart-panel-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+
+    .chart-area {
+      flex: 1;
+      position: relative;
+      min-height: 0;
+    }
+
+    .chart-area svg { width: 100%; height: 100%; }
+
+    /* Insight strips */
+    .insight-strip {
+      display: flex;
+      gap: 16px;
+      flex-shrink: 0;
+      margin-top: 16px;
+    }
+
+    .insight-chip {
+      background: var(--warm-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .insight-chip .chip-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .insight-chip .chip-text {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .insight-chip .chip-text strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    /* Callout boxes */
+    .callout {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 260px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .callout-quote {
+      font-size: 13px;
+      font-style: italic;
+      line-height: 1.6;
+      color: #d0d4e6;
+      flex: 1;
+    }
+
+    .callout-source {
+      font-size: 11px;
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    /* Side panel for insights */
+    .side-insights {
+      width: 240px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .side-insight-card {
+      background: var(--warm-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      border-left: 3px solid var(--orange);
+    }
+
+    .side-insight-card .si-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .side-insight-card .si-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+
+    /* Navigation */
+    nav {
+      height: 2.5rem;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 24px;
+    }
+
+    nav button {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #b4b9d0;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    nav button:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+    nav .dots { display: flex; gap: 6px; margin: 0 16px; }
+
+    nav .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    nav .dot.active { background: var(--orange); transform: scale(1.3); }
+
+    nav .slide-label {
+      color: #8b91a8;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-left: 16px;
+    }
+
+    /* D3 tooltip */
+    .d3-tooltip {
+      position: fixed;
+      background: var(--navy);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 1000;
+      max-width: 260px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .d3-tooltip strong { color: var(--orange-light); }
+
+    /* Legend */
+    .chart-legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .legend-item:hover { opacity: 0.7; }
+
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    /* Animations */
+    @keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .animate-bar {
+      animation: barGrow 0.6s ease-out forwards;
+      transform-origin: left;
+    }
+
+    /* Mobility cards */
+    .mobility-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      flex: 1;
+    }
+
+    .mobility-card {
+      background: var(--warm-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    .mobility-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .mobility-card .mc-country {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mobility-card .mc-flag { font-size: 22px; }
+
+    .mobility-card .mc-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .mc-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mc-bar-year {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      width: 32px;
+    }
+
+    .mc-bar-track {
+      flex: 1;
+      height: 20px;
+      background: #f0eeeb;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .mc-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .mc-change {
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .mc-change.positive { color: var(--green); }
+    .mc-change.negative { color: var(--red); }
+    .mc-change.neutral { color: var(--text-muted); }
+
+    .mc-destinations {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      margin-top: auto;
+    }
+
+    .mc-destinations .mc-dest-title {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .mc-destinations .mc-dest-list {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Stacked bar chart styles */
+    .stacked-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .stacked-label {
+      width: 200px;
+      font-size: 11px;
+      color: var(--text-primary);
+      text-align: right;
+      flex-shrink: 0;
+      line-height: 1.3;
+    }
+
+    .stacked-bar-container {
+      flex: 1;
+      display: flex;
+      height: 26px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .stacked-segment {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: #fff;
+      transition: opacity 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .stacked-segment:hover { opacity: 0.85; }
+
+    .stacked-total {
+      width: 40px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Diverging bar chart */
+    .diverging-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 8px;
+    }
+
+    .diverging-label-left {
+      width: 130px;
+      font-size: 11px;
+      color: var(--text-primary);
+      text-align: right;
+      flex-shrink: 0;
+      padding-right: 12px;
+      line-height: 1.3;
+    }
+
+    .diverging-bar-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      position: relative;
+      height: 30px;
+    }
+
+    .diverging-label-right {
+      width: 130px;
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      padding-left: 12px;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d3-tooltip" id="tooltip"></div>
+
+  <div class="presentation">
+    <!-- SLIDE 0: Title -->
+    <div class="slide title-slide active" data-label="Introduction">
+      <div class="eyebrow">Elsevier &mdash; Confidence in Research Report</div>
+      <h1>Researcher of<br>the <em>Future</em></h1>
+      <div class="subtitle">
+        How 3,200+ researchers across 113 countries view AI, integrity, collaboration, mobility, and impact &mdash; and what it means for the future of science
+      </div>
+      <div class="data-badges">
+        <div class="badge">
+          <span class="badge-value">3,234</span>
+          <span class="badge-label">Respondents</span>
+        </div>
+        <div class="badge">
+          <span class="badge-value">113</span>
+          <span class="badge-label">Countries</span>
+        </div>
+        <div class="badge">
+          <span class="badge-value">5</span>
+          <span class="badge-label">Regions</span>
+        </div>
+        <div class="badge">
+          <span class="badge-value">2025</span>
+          <span class="badge-label">Survey Year</span>
+        </div>
+      </div>
+      <div class="source">Source: <a href="https://assets.ctfassets.net/o78em1y1w4i4/137SmnpRSP2mSuhDxtFdls/72a1777e8a72f3c60748956037f76433/Researcher-Of-The-Future.pdf" target="_blank" style="color: #8b91a8; text-decoration: underline;">Elsevier "Researcher of the Future"</a> &mdash; A Confidence in Research report, Aug&ndash;Sep 2025</div>
+    </div>
+
+    <!-- SLIDE 1: AI Adoption -->
+    <div class="slide" data-label="AI Adoption">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-number">Chapter 1 &bull; Figure 1</div>
+          <div class="slide-title">AI Adoption Has Surged Among Researchers</div>
+          <div class="slide-subtitle">84% of researchers have used AI tools &mdash; 58% for work. Adoption is highest in Asia Pacific and South America, with significant regional variation.</div>
+        </div>
+        <div class="slide-header-right">
+          <div class="key-stat">
+            <div class="key-stat-value">58%</div>
+            <div class="key-stat-label">Used AI for work</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="chart-panel" style="flex: 0.8;">
+          <div class="chart-panel-title">Global AI Usage Breakdown</div>
+          <div class="chart-area" id="chart-donut"></div>
+        </div>
+        <div class="chart-panel" style="flex: 1.2;">
+          <div class="chart-panel-title">AI Adoption for Work by Region</div>
+          <div class="chart-legend" id="legend-adoption"></div>
+          <div class="chart-area" id="chart-adoption-bars"></div>
+        </div>
+        <div class="side-insights">
+          <div class="side-insight-card">
+            <div class="si-value">37%</div>
+            <div class="si-label">Used AI for work in early 2024 &mdash; jumped to 58% by 2025</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--green);">
+            <div class="si-value">69%</div>
+            <div class="si-label">In China used AI for work &mdash; the highest adoption globally</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--blue);">
+            <div class="si-value">71%</div>
+            <div class="si-label">Of AI users globally use ChatGPT as their primary tool</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--purple);">
+            <div class="si-value">83%</div>
+            <div class="si-label">Of early-career researchers (&lt;7 yrs) have used ChatGPT</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: AI Perceptions -->
+    <div class="slide" data-label="AI Perceptions">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-number">Chapter 1 &bull; Figure 2</div>
+          <div class="slide-title">How Researchers Perceive AI: Promise Meets Skepticism</div>
+          <div class="slide-subtitle">While most see AI as time-saving and empowering, concerns about ethics and trustworthiness remain significant. Hover over bars to explore the data.</div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="chart-panel" style="flex: 1;">
+          <div class="chart-panel-title">Current Perceptions of AI Tools &mdash; % responding positively vs negatively</div>
+          <div class="chart-area" id="chart-perceptions"></div>
+        </div>
+        <div class="callout">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); font-weight: 700;">Key Tension</div>
+          <div class="callout-quote">"Although a useful tool, AI requires validation because it often generates false or misleading information."</div>
+          <div class="callout-source">Researcher (hospital), USA</div>
+          <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; margin-top: auto;">
+            <div style="font-size: 10px; color: #8b91a8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Regional note</div>
+            <div style="font-size: 12px; color: #d0d4e6; line-height: 1.5;">Asia Pacific is consistently more positive (70% say AI saves time vs 39% in Europe). The pattern is inverted for ethics &mdash; 31% in Asia Pacific see AI as ethical.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: AI Applications -->
+    <div class="slide" data-label="AI Applications">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-number">Chapter 1 &bull; Figure 3</div>
+          <div class="slide-title">AI Applications: What Researchers Use Today & Want Tomorrow</div>
+          <div class="slide-subtitle">Literature search dominates current use. Creative research tasks like hypothesis generation show the largest gap between aspiration and adoption.</div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="chart-panel">
+          <div class="chart-panel-title">Current & Future AI Use Across Research Activities</div>
+          <div class="chart-legend" id="legend-applications"></div>
+          <div class="chart-area" id="chart-applications"></div>
+        </div>
+        <div class="side-insights">
+          <div class="side-insight-card">
+            <div class="si-value" style="font-size: 22px; line-height: 1.2;">79%</div>
+            <div class="si-label">Combined current & future use for finding &amp; summarizing research &mdash; the #1 AI application</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--teal);">
+            <div class="si-value" style="font-size: 22px; line-height: 1.2;">70%</div>
+            <div class="si-label">For literature reviews &mdash; where AI automates the most time-consuming academic task</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--gold);">
+            <div class="si-value" style="font-size: 22px; line-height: 1.2;">54%</div>
+            <div class="si-label">Would not use AI to design experiments &mdash; the strongest area of resistance</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--purple);">
+            <div class="si-value" style="font-size: 22px; line-height: 1.2;">61%</div>
+            <div class="si-label">Believe AI will be the creative force driving new knowledge in 2-3 years</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Challenges -->
+    <div class="slide" data-label="Researcher Challenges">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-number">Chapter 2 &bull; Figure 6</div>
+          <div class="slide-title">Under Pressure: Time, Funding, and the Publish-or-Perish Reality</div>
+          <div class="slide-subtitle">Only 45% have sufficient research time. 68% report mounting publication pressure. Funding optimism varies dramatically by region.</div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="chart-panel">
+          <div class="chart-panel-title">Challenges Facing Researchers &mdash; % agree, by region (hover for details)</div>
+          <div class="chart-legend" id="legend-challenges"></div>
+          <div class="chart-area" id="chart-challenges"></div>
+        </div>
+        <div class="side-insights">
+          <div class="side-insight-card" style="border-left-color: var(--red);">
+            <div class="si-value">68%</div>
+            <div class="si-label">Say publish pressure is greater than 2-3 years ago (79% in Asia Pacific)</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--gold);">
+            <div class="si-value">45%</div>
+            <div class="si-label">Agree they have sufficient time for research (only 40% in Europe)</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--green);">
+            <div class="si-value">33%</div>
+            <div class="si-label">Expect funding to increase &mdash; lowest in USA (9%) and UK (15%)</div>
+          </div>
+          <div class="side-insight-card" style="border-left-color: var(--purple);">
+            <div class="si-value">42%</div>
+            <div class="si-label">Of early-career researchers expect funding growth vs only 26% of 20+ year veterans</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Confidence Drivers -->
+    <div class="slide" data-label="Confidence Drivers">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-number">Chapter 2 &bull; Figure 8</div>
+          <div class="slide-title">What Drives Confidence in Research?</div>
+          <div class="slide-subtitle">Methodology and peer review matter most. AI adds new pressure on transparency and integrity. Click bars to see details.</div>
+        </div>
+        <div class="slide-header-right">
+          <div class="key-stat">
+            <div class="key-stat-value">78%</div>
+            <div class="key-stat-label">Value methodology</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="chart-panel">
+          <div class="chart-panel-title">Top 10 Factors Rated Important for Confidence in Citing or Sharing Research &mdash; % very/extremely important</div>
+          <div class="chart-area" id="chart-confidence"></div>
+        </div>
+        <div class="callout">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); font-weight: 700;">The AI Integrity Question</div>
+          <div class="callout-quote">"The guidelines are really vague. Also, the diversity of tools using AI is so huge that you have no idea of which is a valuable one."</div>
+          <div class="callout-source">Senior Researcher, Switzerland</div>
+          <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; margin-top: auto;">
+            <div style="font-size: 12px; color: #d0d4e6; line-height: 1.5;">
+              <strong style="color: var(--orange-light);">55%</strong> say AI tools should be trained on up-to-date scholarly literature<br>
+              <strong style="color: var(--orange-light);">59%</strong> want AI to automatically cite references<br>
+              <strong style="color: var(--orange-light);">52%</strong> want confidentiality of input data maintained
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Mobility -->
+    <div class="slide" data-label="Global Mobility">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-number">Chapter 3 &bull; Figure 11</div>
+          <div class="slide-title">Global Researcher Mobility: A Dynamic Talent Map</div>
+          <div class="slide-subtitle">29% of researchers globally would consider moving abroad. Interest is surging in the USA (+16pp) while declining in China (-22pp) and Japan (-15pp).</div>
+        </div>
+      </div>
+      <div class="slide-body" style="flex-direction: column; gap: 16px;">
+        <div class="mobility-grid" id="mobility-grid"></div>
+        <div class="insight-strip">
+          <div class="insight-chip">
+            <div class="chip-icon" style="background: #e8f5e9;">&#127758;</div>
+            <div class="chip-text"><strong>Canada</strong> is the #1 destination globally (27%), followed by Germany (26%) and USA (26%)</div>
+          </div>
+          <div class="insight-chip">
+            <div class="chip-icon" style="background: #fff3e0;">&#128188;</div>
+            <div class="chip-text">Top motivations: <strong>work-life balance</strong> (51%), more research funding (49%), research freedom (49%)</div>
+          </div>
+          <div class="insight-chip">
+            <div class="chip-icon" style="background: #fce4ec;">&#9888;&#65039;</div>
+            <div class="chip-text">Middle East &amp; Africa most open to relocating (<strong>51%</strong>), Asia Pacific least (<strong>21%</strong>)</div>
+          </div>
+          <div class="insight-chip">
+            <div class="chip-icon" style="background: #e3f2fd;">&#128218;</div>
+            <div class="chip-text"><strong>30%</strong> report more international applicants than a year ago &mdash; global talent competition intensifies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav>
+    <button id="prevBtn">&#9664;</button>
+    <div class="dots" id="dots"></div>
+    <button id="nextBtn">&#9654;</button>
+    <span class="slide-label" id="slideLabel"></span>
+  </nav>
+
+  <script>
+    // ── Navigation ──
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    const dotsContainer = document.getElementById('dots');
+    const slideLabel = document.getElementById('slideLabel');
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goTo(i);
+      dotsContainer.appendChild(dot);
+    });
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      dotsContainer.children[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dotsContainer.children[current].classList.add('active');
+      slideLabel.textContent = slides[current].dataset.label || '';
+      if (slides[current].dataset.rendered !== 'true') {
+        renderSlide(current);
+        slides[current].dataset.rendered = 'true';
+      }
+    }
+
+    document.getElementById('prevBtn').onclick = () => goTo(current - 1);
+    document.getElementById('nextBtn').onclick = () => goTo(current + 1);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') goTo(current + 1);
+      if (e.key === 'ArrowLeft') goTo(current - 1);
+    });
+
+    slideLabel.textContent = slides[0].dataset.label || '';
+
+    const tooltip = document.getElementById('tooltip');
+    function showTip(e, html) {
+      tooltip.innerHTML = html;
+      tooltip.style.opacity = 1;
+      tooltip.style.left = (e.clientX + 12) + 'px';
+      tooltip.style.top = (e.clientY - 10) + 'px';
+    }
+    function hideTip() { tooltip.style.opacity = 0; }
+
+    // ── Color palettes ──
+    const regionColors = {
+      'Total': '#1a1f36',
+      'North America': '#3b82f6',
+      'South America': '#f59e0b',
+      'Europe': '#10b981',
+      'Asia Pacific': '#e8553d',
+      'Middle East & Africa': '#8b5cf6'
+    };
+
+    // ── Render functions ──
+    function renderSlide(n) {
+      switch(n) {
+        case 1: renderDonut(); renderAdoptionBars(); break;
+        case 2: renderPerceptions(); break;
+        case 3: renderApplications(); break;
+        case 4: renderChallenges(); break;
+        case 5: renderConfidence(); break;
+        case 6: renderMobility(); break;
+      }
+    }
+
+    // ── SLIDE 1: Donut ──
+    function renderDonut() {
+      const container = document.getElementById('chart-donut');
+      const w = container.clientWidth, h = container.clientHeight;
+      const r = Math.min(w, h) / 2 - 20;
+      const svg = d3.select('#chart-donut').append('svg').attr('viewBox', `0 0 ${w} ${h}`);
+      const g = svg.append('g').attr('transform', `translate(${w/2},${h/2})`);
+
+      const data = [
+        { label: 'Used AI for work', value: 58, color: '#e8553d' },
+        { label: 'Used AI for non-work', value: 26, color: '#f5a623' },
+        { label: 'Have not used AI', value: 16, color: '#d1d5db' }
+      ];
+
+      const arc = d3.arc().innerRadius(r * 0.55).outerRadius(r);
+      const pie = d3.pie().value(d => d.value).sort(null).padAngle(0.02);
+
+      g.selectAll('path')
+        .data(pie(data))
+        .join('path')
+        .attr('d', arc)
+        .attr('fill', d => d.data.color)
+        .attr('cursor', 'pointer')
+        .on('mousemove', (e, d) => showTip(e, `<strong>${d.data.label}</strong><br>${d.data.value}% of respondents`))
+        .on('mouseleave', hideTip)
+        .transition().duration(800)
+        .attrTween('d', function(d) {
+          const i = d3.interpolate({ startAngle: d.startAngle, endAngle: d.startAngle }, d);
+          return t => arc(i(t));
+        });
+
+      // Center text
+      g.append('text').attr('text-anchor', 'middle').attr('dy', '-0.1em')
+        .style('font-size', `${r * 0.35}px`).style('font-weight', '800').style('fill', '#1a1f36')
+        .text('84%');
+      g.append('text').attr('text-anchor', 'middle').attr('dy', '1.2em')
+        .style('font-size', `${r * 0.12}px`).style('fill', '#5a6178')
+        .text('have used AI');
+
+      // Legend below
+      const legend = g.selectAll('.donut-legend')
+        .data(data).join('g')
+        .attr('class', 'donut-legend')
+        .attr('transform', (d, i) => `translate(${-w/2 + 20}, ${r + 24 + i * 18})`);
+
+      legend.append('rect').attr('width', 10).attr('height', 10).attr('rx', 2).attr('fill', d => d.color);
+      legend.append('text').attr('x', 16).attr('y', 9).style('font-size', '11px').style('fill', '#5a6178').text(d => `${d.label} (${d.value}%)`);
+    }
+
+    // ── SLIDE 1: Adoption Bars ──
+    function renderAdoptionBars() {
+      const regions = [
+        { region: 'Asia Pacific', value: 64, flag: '&#127759;' },
+        { region: 'South America', value: 63, flag: '&#127757;' },
+        { region: 'Europe', value: 53, flag: '&#127758;' },
+        { region: 'North America', value: 52, flag: '&#127758;' },
+        { region: 'Middle East & Africa', value: 45, flag: '&#127757;' },
+      ];
+
+      const container = document.getElementById('chart-adoption-bars');
+      const w = container.clientWidth, h = container.clientHeight;
+      const svg = d3.select('#chart-adoption-bars').append('svg').attr('viewBox', `0 0 ${w} ${h}`);
+
+      const margin = { top: 10, right: 60, bottom: 30, left: 150 };
+      const iw = w - margin.left - margin.right;
+      const ih = h - margin.top - margin.bottom;
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const y = d3.scaleBand().domain(regions.map(d => d.region)).range([0, ih]).padding(0.35);
+      const x = d3.scaleLinear().domain([0, 80]).range([0, iw]);
+
+      // Background bars
+      g.selectAll('.bg-bar').data(regions).join('rect')
+        .attr('class', 'bg-bar')
+        .attr('x', 0).attr('y', d => y(d.region))
+        .attr('width', iw).attr('height', y.bandwidth())
+        .attr('fill', '#f0eeeb').attr('rx', 4);
+
+      // Value bars
+      g.selectAll('.val-bar').data(regions).join('rect')
+        .attr('class', 'val-bar')
+        .attr('x', 0).attr('y', d => y(d.region))
+        .attr('width', 0).attr('height', y.bandwidth())
+        .attr('fill', d => d.value >= 60 ? '#e8553d' : d.value >= 52 ? '#f5a623' : '#d1d5db')
+        .attr('rx', 4)
+        .on('mousemove', (e, d) => showTip(e, `<strong>${d.region}</strong><br>${d.value}% used AI for work`))
+        .on('mouseleave', hideTip)
+        .transition().duration(800).delay((d, i) => i * 100)
+        .attr('width', d => x(d.value));
+
+      // Value labels
+      g.selectAll('.val-label').data(regions).join('text')
+        .attr('class', 'val-label')
+        .attr('x', d => x(d.value) + 8).attr('y', d => y(d.region) + y.bandwidth() / 2)
+        .attr('dy', '0.35em').style('font-size', '13px').style('font-weight', '700').style('fill', '#1a1f36')
+        .text(d => d.value + '%')
+        .style('opacity', 0).transition().duration(400).delay((d, i) => 600 + i * 100).style('opacity', 1);
+
+      // Y labels
+      g.selectAll('.y-label').data(regions).join('text')
+        .attr('class', 'y-label')
+        .attr('x', -12).attr('y', d => y(d.region) + y.bandwidth() / 2)
+        .attr('dy', '0.35em').attr('text-anchor', 'end')
+        .style('font-size', '12px').style('fill', '#1a1f36').style('font-weight', '500')
+        .text(d => d.region);
+
+      // Global average line
+      g.append('line')
+        .attr('x1', x(58)).attr('x2', x(58)).attr('y1', -5).attr('y2', ih + 5)
+        .attr('stroke', '#1a1f36').attr('stroke-width', 2).attr('stroke-dasharray', '4,3');
+      g.append('text')
+        .attr('x', x(58)).attr('y', -10).attr('text-anchor', 'middle')
+        .style('font-size', '10px').style('fill', '#1a1f36').style('font-weight', '700')
+        .text('Global avg: 58%');
+    }
+
+    // ── SLIDE 2: Perceptions ──
+    function renderPerceptions() {
+      const data = [
+        { pos: 'Save me time', posV: 58, neg: 'Take up my time', negV: 20 },
+        { pos: 'Give me more choice', posV: 48, neg: 'Give me less choice', negV: 20 },
+        { pos: 'Empower me', posV: 44, neg: 'Devalue me', negV: 26 },
+        { pos: 'Provide useful answers', posV: 39, neg: 'Provide unhelpful answers', negV: 28 },
+        { pos: 'Increase my autonomy', posV: 36, neg: 'Reduce my autonomy', negV: 28 },
+        { pos: 'Ethically developed', posV: 23, neg: 'Unethically developed', negV: 38 },
+        { pos: 'Trustworthy', posV: 22, neg: 'Unreliable', negV: 39 },
+      ];
+
+      const container = document.getElementById('chart-perceptions');
+      const w = container.clientWidth, h = container.clientHeight;
+      const svg = d3.select('#chart-perceptions').append('svg').attr('viewBox', `0 0 ${w} ${h}`);
+
+      const margin = { top: 30, right: 140, bottom: 20, left: 160 };
+      const iw = w - margin.left - margin.right;
+      const ih = h - margin.top - margin.bottom;
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+      const midX = iw / 2;
+
+      const y = d3.scaleBand().domain(data.map(d => d.pos)).range([0, ih]).padding(0.25);
+      const maxVal = 60;
+      const x = d3.scaleLinear().domain([0, maxVal]).range([0, midX - 10]);
+
+      // Center line
+      g.append('line')
+        .attr('x1', midX).attr('x2', midX).attr('y1', -10).attr('y2', ih)
+        .attr('stroke', '#d1d5db').attr('stroke-width', 1);
+
+      // Headers
+      g.append('text').attr('x', midX - 10).attr('y', -15).attr('text-anchor', 'end')
+        .style('font-size', '11px').style('fill', '#10b981').style('font-weight', '700')
+        .text('% PERCEIVE POSITIVELY');
+      g.append('text').attr('x', midX + 10).attr('y', -15).attr('text-anchor', 'start')
+        .style('font-size', '11px').style('fill', '#ef4444').style('font-weight', '700')
+        .text('% PERCEIVE NEGATIVELY');
+
+      data.forEach((d, i) => {
+        const yPos = y(d.pos);
+        const bh = y.bandwidth();
+
+        // Positive bar (left of center, growing left)
+        g.append('rect')
+          .attr('x', midX - x(d.posV)).attr('y', yPos)
+          .attr('width', 0).attr('height', bh)
+          .attr('fill', '#10b981').attr('rx', 3)
+          .attr('cursor', 'pointer')
+          .on('mousemove', e => showTip(e, `<strong>${d.pos}</strong><br>${d.posV}% perceive positively`))
+          .on('mouseleave', hideTip)
+          .transition().duration(600).delay(i * 60)
+          .attr('width', x(d.posV));
+
+        // Positive value
+        g.append('text')
+          .attr('x', midX - x(d.posV) - 6).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .attr('text-anchor', 'end')
+          .style('font-size', '12px').style('font-weight', '700').style('fill', '#10b981')
+          .text(d.posV + '%')
+          .style('opacity', 0).transition().delay(400 + i * 60).style('opacity', 1);
+
+        // Negative bar (right of center)
+        g.append('rect')
+          .attr('x', midX).attr('y', yPos)
+          .attr('width', 0).attr('height', bh)
+          .attr('fill', '#ef4444').attr('rx', 3)
+          .attr('cursor', 'pointer')
+          .on('mousemove', e => showTip(e, `<strong>${d.neg}</strong><br>${d.negV}% perceive negatively`))
+          .on('mouseleave', hideTip)
+          .transition().duration(600).delay(i * 60)
+          .attr('width', x(d.negV));
+
+        // Negative value
+        g.append('text')
+          .attr('x', midX + x(d.negV) + 6).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .attr('text-anchor', 'start')
+          .style('font-size', '12px').style('font-weight', '700').style('fill', '#ef4444')
+          .text(d.negV + '%')
+          .style('opacity', 0).transition().delay(400 + i * 60).style('opacity', 1);
+
+        // Left label
+        g.append('text')
+          .attr('x', -12).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .attr('text-anchor', 'end')
+          .style('font-size', '12px').style('fill', '#1a1f36').style('font-weight', '500')
+          .text(d.pos);
+
+        // Right label
+        g.append('text')
+          .attr('x', iw + 12).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .attr('text-anchor', 'start')
+          .style('font-size', '11px').style('fill', '#8b91a8')
+          .text(d.neg);
+      });
+    }
+
+    // ── SLIDE 3: Applications ──
+    function renderApplications() {
+      const data = [
+        { label: 'Find & summarize latest research', freqNow: 23, occNow: 38, futureWant: 17, futureNot: 21, total: 79 },
+        { label: 'Perform literature reviews', freqNow: 17, occNow: 34, futureWant: 19, futureNot: 30, total: 70 },
+        { label: 'Write or draft grant proposals', freqNow: 12, occNow: 29, futureWant: 19, futureNot: 40, total: 60 },
+        { label: 'Analyze research data', freqNow: 11, occNow: 27, futureWant: 22, futureNot: 40, total: 60 },
+        { label: 'Write or draft research papers', freqNow: 10, occNow: 28, futureWant: 13, futureNot: 48, total: 52 },
+        { label: 'Manage research projects', freqNow: 12, occNow: 25, futureWant: 25, futureNot: 38, total: 62 },
+        { label: 'Identify grant opportunities', freqNow: 8, occNow: 24, futureWant: 32, futureNot: 36, total: 64 },
+        { label: 'Generate new hypotheses', freqNow: 6, occNow: 26, futureWant: 17, futureNot: 51, total: 49 },
+        { label: 'Design experiments or studies', freqNow: 7, occNow: 23, futureWant: 17, futureNot: 54, total: 46 },
+      ];
+
+      const colors = {
+        freqNow: '#c4402e',
+        occNow: '#e8553d',
+        futureWant: '#2d9d78',
+        futureNot: '#d1d5db'
+      };
+
+      const labels = {
+        freqNow: 'Use frequently',
+        occNow: 'Use occasionally',
+        futureWant: 'Would like to use',
+        futureNot: 'Would not use'
+      };
+
+      // Legend
+      const legendEl = document.getElementById('legend-applications');
+      Object.entries(labels).forEach(([key, label]) => {
+        const item = document.createElement('div');
+        item.className = 'legend-item';
+        item.innerHTML = `<div class="legend-swatch" style="background:${colors[key]}"></div>${label}`;
+        legendEl.appendChild(item);
+      });
+
+      const container = document.getElementById('chart-applications');
+      const w = container.clientWidth, h = container.clientHeight;
+      const svg = d3.select('#chart-applications').append('svg').attr('viewBox', `0 0 ${w} ${h}`);
+
+      const margin = { top: 5, right: 50, bottom: 10, left: 210 };
+      const iw = w - margin.left - margin.right;
+      const ih = h - margin.top - margin.bottom;
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const y = d3.scaleBand().domain(data.map(d => d.label)).range([0, ih]).padding(0.2);
+      const x = d3.scaleLinear().domain([0, 100]).range([0, iw]);
+
+      data.forEach((d, i) => {
+        const yPos = y(d.label);
+        const bh = y.bandwidth();
+        let xOffset = 0;
+
+        ['freqNow', 'occNow', 'futureWant', 'futureNot'].forEach(key => {
+          const val = d[key];
+          if (val > 0) {
+            g.append('rect')
+              .attr('x', x(xOffset)).attr('y', yPos)
+              .attr('width', 0).attr('height', bh)
+              .attr('fill', colors[key])
+              .attr('cursor', 'pointer')
+              .on('mousemove', e => showTip(e, `<strong>${d.label}</strong><br>${labels[key]}: ${val}%`))
+              .on('mouseleave', hideTip)
+              .transition().duration(600).delay(i * 50)
+              .attr('width', x(val));
+
+            // Value label inside if wide enough
+            if (val >= 12) {
+              g.append('text')
+                .attr('x', x(xOffset + val / 2)).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+                .attr('text-anchor', 'middle')
+                .style('font-size', '10px').style('font-weight', '600').style('fill', key === 'futureNot' ? '#5a6178' : '#fff')
+                .text(val + '%')
+                .style('opacity', 0).transition().delay(500 + i * 50).style('opacity', 1);
+            }
+          }
+          xOffset += val;
+        });
+
+        // Row label
+        g.append('text')
+          .attr('x', -10).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .attr('text-anchor', 'end')
+          .style('font-size', '11px').style('fill', '#1a1f36')
+          .text(d.label);
+
+        // Total label
+        g.append('text')
+          .attr('x', iw + 8).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .style('font-size', '12px').style('font-weight', '700').style('fill', '#1a1f36')
+          .text(d.total + '%')
+          .style('opacity', 0).transition().delay(500 + i * 50).style('opacity', 1);
+      });
+
+      // "Current & future use" label
+      g.append('text')
+        .attr('x', iw + 8).attr('y', -5)
+        .style('font-size', '9px').style('fill', '#8b91a8').style('font-weight', '600')
+        .text('TOTAL');
+    }
+
+    // ── SLIDE 4: Challenges ──
+    function renderChallenges() {
+      const statements = [
+        { label: 'Pressure to publish is greater\nthan 2-3 years ago', short: 'Publish pressure' },
+        { label: 'I have sufficient protected time\nto conduct my research', short: 'Sufficient time' },
+        { label: 'I expect funding to increase\nin the next 2-3 years', short: 'Funding optimism' },
+      ];
+
+      const regionData = [
+        { region: 'Total', values: [68, 45, 33] },
+        { region: 'North America', values: [45, 50, 11] },
+        { region: 'South America', values: [75, 49, 42] },
+        { region: 'Europe', values: [63, 40, 25] },
+        { region: 'Asia Pacific', values: [79, 49, 44] },
+        { region: 'Middle East & Africa', values: [75, 50, 50] },
+      ];
+
+      // Legend
+      const legendEl = document.getElementById('legend-challenges');
+      regionData.forEach(d => {
+        const item = document.createElement('div');
+        item.className = 'legend-item';
+        item.innerHTML = `<div class="legend-swatch" style="background:${regionColors[d.region]}"></div>${d.region}`;
+        legendEl.appendChild(item);
+      });
+
+      const container = document.getElementById('chart-challenges');
+      const w = container.clientWidth, h = container.clientHeight;
+      const svg = d3.select('#chart-challenges').append('svg').attr('viewBox', `0 0 ${w} ${h}`);
+
+      const margin = { top: 20, right: 40, bottom: 40, left: 240 };
+      const iw = w - margin.left - margin.right;
+      const ih = h - margin.top - margin.bottom;
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const y = d3.scaleBand().domain(statements.map(d => d.short)).range([0, ih]).padding(0.5);
+      const x = d3.scaleLinear().domain([0, 90]).range([0, iw]);
+
+      // Grid lines
+      [0, 20, 40, 60, 80].forEach(v => {
+        g.append('line')
+          .attr('x1', x(v)).attr('x2', x(v)).attr('y1', -5).attr('y2', ih + 5)
+          .attr('stroke', '#e8e6e1').attr('stroke-width', 1);
+        g.append('text')
+          .attr('x', x(v)).attr('y', ih + 20).attr('text-anchor', 'middle')
+          .style('font-size', '10px').style('fill', '#8b91a8').text(v + '%');
+      });
+
+      // Horizontal bands
+      statements.forEach((s, si) => {
+        g.append('rect')
+          .attr('x', 0).attr('y', y(s.short) - y.bandwidth() * 0.8)
+          .attr('width', iw).attr('height', y.bandwidth() * 2.6)
+          .attr('fill', si % 2 === 0 ? '#f5f3f0' : 'transparent').attr('rx', 4);
+
+        // Label
+        g.append('text')
+          .attr('x', -16).attr('y', y(s.short)).attr('dy', '0.35em')
+          .attr('text-anchor', 'end')
+          .style('font-size', '12px').style('fill', '#1a1f36').style('font-weight', '500')
+          .text(s.short);
+
+        // Dots for each region
+        regionData.forEach((rd, ri) => {
+          const val = rd.values[si];
+          const isTotal = rd.region === 'Total';
+
+          if (isTotal) {
+            // Total as vertical line marker
+            g.append('line')
+              .attr('x1', x(val)).attr('x2', x(val))
+              .attr('y1', y(s.short) - 14).attr('y2', y(s.short) + 14)
+              .attr('stroke', regionColors[rd.region]).attr('stroke-width', 3);
+            g.append('text')
+              .attr('x', x(val)).attr('y', y(s.short) - 18)
+              .attr('text-anchor', 'middle')
+              .style('font-size', '10px').style('font-weight', '700').style('fill', '#1a1f36')
+              .text(val + '%');
+          } else {
+            // Offset overlapping dots slightly
+            const jitter = (ri % 2 === 0 ? -1 : 1) * 2;
+            g.append('circle')
+              .attr('cx', x(val)).attr('cy', y(s.short) + jitter)
+              .attr('r', 8)
+              .attr('fill', regionColors[rd.region])
+              .attr('stroke', '#fff').attr('stroke-width', 2)
+              .attr('cursor', 'pointer')
+              .on('mousemove', e => showTip(e, `<strong>${rd.region}</strong><br>${s.short}: ${val}%`))
+              .on('mouseleave', hideTip)
+              .style('opacity', 0)
+              .transition().delay(ri * 80).duration(400).style('opacity', 1);
+          }
+        });
+      });
+    }
+
+    // ── SLIDE 5: Confidence ──
+    function renderConfidence() {
+      const data = [
+        { label: 'Design of the research methodology', value: 78 },
+        { label: 'Published in a peer-reviewed journal', value: 76 },
+        { label: 'Available in a permanent archive', value: 56 },
+        { label: 'Data accessible in a public repository', value: 54 },
+        { label: 'Published in a prestigious journal', value: 53 },
+        { label: 'Ethical approval & conflict disclosure', value: 48 },
+        { label: 'Post-publication peer endorsement', value: 48 },
+        { label: 'Lead researcher\'s reputation', value: 44 },
+        { label: 'Highly cited by other researchers', value: 44 },
+        { label: 'Declaration of conflicts of interest', value: 43 },
+      ];
+
+      const container = document.getElementById('chart-confidence');
+      const w = container.clientWidth, h = container.clientHeight;
+      const svg = d3.select('#chart-confidence').append('svg').attr('viewBox', `0 0 ${w} ${h}`);
+
+      const margin = { top: 5, right: 50, bottom: 10, left: 250 };
+      const iw = w - margin.left - margin.right;
+      const ih = h - margin.top - margin.bottom;
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const y = d3.scaleBand().domain(data.map(d => d.label)).range([0, ih]).padding(0.22);
+      const x = d3.scaleLinear().domain([0, 85]).range([0, iw]);
+
+      data.forEach((d, i) => {
+        const yPos = y(d.label);
+        const bh = y.bandwidth();
+        const isTop2 = i < 2;
+
+        // Background
+        g.append('rect')
+          .attr('x', 0).attr('y', yPos).attr('width', iw).attr('height', bh)
+          .attr('fill', '#f0eeeb').attr('rx', 4);
+
+        // Value bar
+        g.append('rect')
+          .attr('x', 0).attr('y', yPos)
+          .attr('width', 0).attr('height', bh)
+          .attr('fill', isTop2 ? '#e8553d' : d.value >= 50 ? '#f5a623' : '#b4b9d0')
+          .attr('rx', 4)
+          .attr('cursor', 'pointer')
+          .on('mousemove', e => showTip(e, `<strong>${d.label}</strong><br>${d.value}% rated very or extremely important`))
+          .on('mouseleave', hideTip)
+          .transition().duration(600).delay(i * 50)
+          .attr('width', x(d.value));
+
+        // Value
+        g.append('text')
+          .attr('x', x(d.value) + 8).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .style('font-size', '13px').style('font-weight', '700')
+          .style('fill', isTop2 ? '#c4402e' : '#1a1f36')
+          .text(d.value + '%')
+          .style('opacity', 0).transition().delay(400 + i * 50).style('opacity', 1);
+
+        // Label
+        g.append('text')
+          .attr('x', -10).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .attr('text-anchor', 'end')
+          .style('font-size', '11px').style('fill', '#1a1f36')
+          .style('font-weight', isTop2 ? '600' : '400')
+          .text(d.label);
+
+        // Rank badge
+        g.append('circle')
+          .attr('cx', -240).attr('cy', yPos + bh / 2).attr('r', 10)
+          .attr('fill', isTop2 ? '#e8553d' : '#e8e6e1');
+        g.append('text')
+          .attr('x', -240).attr('y', yPos + bh / 2).attr('dy', '0.35em')
+          .attr('text-anchor', 'middle')
+          .style('font-size', '10px').style('font-weight', '700')
+          .style('fill', isTop2 ? '#fff' : '#5a6178')
+          .text(i + 1);
+      });
+    }
+
+    // ── SLIDE 6: Mobility ──
+    function renderMobility() {
+      const countries = [
+        { name: 'Total', flag: '&#127760;', v2022: 34, v2025: 29, change: -5, dest: ['Canada', 'Germany', 'USA'] },
+        { name: 'USA', flag: '&#127482;&#127480;', v2022: 24, v2025: 40, change: +16, dest: ['Canada', 'UK', 'Germany'] },
+        { name: 'UK', flag: '&#127468;&#127463;', v2022: 33, v2025: 24, change: -9, dest: ['Australia', 'Netherlands', 'Italy'] },
+        { name: 'Germany', flag: '&#127465;&#127466;', v2022: 17, v2025: 24, change: +7, dest: ['Denmark', 'UK', 'Switzerland'] },
+        { name: 'China', flag: '&#127464;&#127475;', v2022: 35, v2025: 13, change: -22, dest: ['USA', 'UK', 'Canada'] },
+        { name: 'Japan', flag: '&#127471;&#127477;', v2022: 24, v2025: 9, change: -15, dest: ['USA', 'UK', 'Netherlands'] },
+        { name: 'India', flag: '&#127470;&#127475;', v2022: 54, v2025: 52, change: -2, dest: ['USA', 'Germany', 'UK'] },
+        { name: 'South America', flag: '&#127463;&#127479;', v2022: null, v2025: 43, change: null, dest: ['Australia', 'Netherlands', 'Italy'] },
+      ];
+
+      const grid = document.getElementById('mobility-grid');
+      const maxVal = 60;
+
+      countries.forEach(c => {
+        const changeText = c.change !== null ?
+          (c.change > 0 ? `+${c.change}pp` : `${c.change}pp`) :
+          'N/A';
+        const changeClass = c.change > 0 ? 'positive' : c.change < 0 ? 'negative' : 'neutral';
+
+        const card = document.createElement('div');
+        card.className = 'mobility-card';
+        card.innerHTML = `
+          <div class="mc-country"><span class="mc-flag">${c.flag}</span>${c.name}</div>
+          <div class="mc-bars">
+            ${c.v2022 !== null ? `
+            <div class="mc-bar-row">
+              <span class="mc-bar-year">2022</span>
+              <div class="mc-bar-track">
+                <div class="mc-bar-fill" style="width: ${c.v2022 / maxVal * 100}%; background: #b4b9d0;">${c.v2022}%</div>
+              </div>
+            </div>` : ''}
+            <div class="mc-bar-row">
+              <span class="mc-bar-year">2025</span>
+              <div class="mc-bar-track">
+                <div class="mc-bar-fill" style="width: ${c.v2025 / maxVal * 100}%; background: ${c.change > 0 ? '#2d9d78' : c.change < 0 ? '#e8553d' : '#3b82f6'};">${c.v2025}%</div>
+              </div>
+            </div>
+          </div>
+          <div class="mc-change ${changeClass}">${changeText}</div>
+          <div class="mc-destinations">
+            <div class="mc-dest-title">Top destinations 2025</div>
+            <div class="mc-dest-list">${c.dest.map((d, i) => `${i + 1}. ${d}`).join('<br>')}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // ── Initial render for slide 0 ──
+    slides[0].dataset.rendered = 'true';
+  </script>
+</body>
+
+</html>
