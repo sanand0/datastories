@@ -1,0 +1,386 @@
+{
+  "cpi": {
+    "high_volatility_states": {
+      "Uttar Pradesh": 2.3186767174272305,
+      "Rajasthan": 2.2488901964474213,
+      "Delhi": 2.233685815229343,
+      "Ladakh": 2.1865132651671475,
+      "Sikkim": 2.166955758725585,
+      "Maharashtra": 2.124776243927344,
+      "Kerala": 2.1242364910034865,
+      "Haryana": 2.0879068702733248,
+      "Odisha": 2.074390431452203,
+      "Puducherry": 2.0736948637945396
+    },
+    "rural_urban_gap": {
+      "Punjab": -0.12506849315068497,
+      "Lakshadweep": -0.14273972602739726,
+      "Manipur": -0.1782191780821918,
+      "Karnataka": -0.18164383561643832,
+      "Jammu & Kashmir": -0.22397260273972605,
+      "Maharashtra": -0.2502739726027397,
+      "Puducherry": -0.2545205479452055,
+      "Andaman & Nicobar": -0.2601369863013699,
+      "West Bengal": -0.26410958904109594,
+      "Bihar": -0.2778082191780821
+    },
+    "inflation_spikes": [
+      {
+        "State": "Delhi",
+        "Date": "2023-03-01 00:00:00",
+        "Inflation_Combined": 13.64,
+        "Inflation_Zscore": 4.107162039751391
+      },
+      {
+        "State": "Rajasthan",
+        "Date": "2022-11-01 00:00:00",
+        "Inflation_Combined": 12.41,
+        "Inflation_Zscore": 2.988627857877763
+      },
+      {
+        "State": "Maharashtra",
+        "Date": "2024-01-01 00:00:00",
+        "Inflation_Combined": 11.65,
+        "Inflation_Zscore": 2.9548961537145386
+      },
+      {
+        "State": "Assam",
+        "Date": "2022-11-01 00:00:00",
+        "Inflation_Combined": 10.99,
+        "Inflation_Zscore": 2.6825012959411003
+      }
+    ],
+    "contrarian_states": {
+      "Uttar Pradesh": 8,
+      "Rajasthan": 2,
+      "Assam": 1,
+      "Dadra & Nagar Haveli": 1,
+      "Tamil Nadu": 1,
+      "Maharashtra": 1,
+      "Kerala": 1,
+      "Delhi": 1,
+      "Sikkim": 1,
+      "Arunachal Pradesh": 0
+    },
+    "high_inflation_months": {
+      "6": 5.880972222222222,
+      "11": 5.386342592592593,
+      "3": 5.29337962962963,
+      "4": 5.28425925925926,
+      "12": 5.282037037037037,
+      "5": 5.221018518518519,
+      "7": 5.129351851851852,
+      "8": 5.047037037037037,
+      "1": 4.706706349206349,
+      "10": 4.462175925925926,
+      "2": 4.4457407407407405,
+      "9": 4.394444444444445
+    },
+    "sudden_changes": [
+      {
+        "State": "Maharashtra",
+        "Date": "2024-01-01 00:00:00",
+        "Inflation_Combined": 11.65,
+        "MoM_Change": 7.17
+      },
+      {
+        "State": "Ladakh",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 9.18,
+        "MoM_Change": 6.88
+      },
+      {
+        "State": "Delhi",
+        "Date": "2023-03-01 00:00:00",
+        "Inflation_Combined": 13.64,
+        "MoM_Change": 6.4
+      },
+      {
+        "State": "Tamil Nadu",
+        "Date": "2024-06-01 00:00:00",
+        "Inflation_Combined": 9.17,
+        "MoM_Change": 6.02
+      },
+      {
+        "State": "Goa",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 7.34,
+        "MoM_Change": 5.52
+      },
+      {
+        "State": "Sikkim",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 7.27,
+        "MoM_Change": 5.289999999999999
+      },
+      {
+        "State": "Madhya Pradesh",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 8.6,
+        "MoM_Change": 5.25
+      },
+      {
+        "State": "Jammu & Kashmir",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 7.69,
+        "MoM_Change": 5.25
+      },
+      {
+        "State": "Manipur",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 7.93,
+        "MoM_Change": 4.9799999999999995
+      },
+      {
+        "State": "Mizoram",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 7.44,
+        "MoM_Change": 4.95
+      },
+      {
+        "State": "Uttar Pradesh",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 9.43,
+        "MoM_Change": 4.9399999999999995
+      },
+      {
+        "State": "Haryana",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 9.51,
+        "MoM_Change": 4.85
+      },
+      {
+        "State": "Tamil Nadu",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 7.86,
+        "MoM_Change": 4.83
+      },
+      {
+        "State": "Rajasthan",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 9.39,
+        "MoM_Change": 4.82
+      },
+      {
+        "State": "Delhi",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 7.32,
+        "MoM_Change": 4.82
+      },
+      {
+        "State": "Chandigarh",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 9.14,
+        "MoM_Change": 4.790000000000001
+      },
+      {
+        "State": "Kerala",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 9.15,
+        "MoM_Change": 4.78
+      },
+      {
+        "State": "Rajasthan",
+        "Date": "2022-11-01 00:00:00",
+        "Inflation_Combined": 12.41,
+        "MoM_Change": 4.7700000000000005
+      },
+      {
+        "State": "Jharkhand",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 7.35,
+        "MoM_Change": 4.76
+      },
+      {
+        "State": "Puducherry",
+        "Date": "2022-03-01 00:00:00",
+        "Inflation_Combined": 9.29,
+        "MoM_Change": 4.749999999999999
+      }
+    ],
+    "covid_impact": {
+      "Dadra & Nagar Haveli": 5.465,
+      "Kerala": 5.3469999999999995,
+      "Andaman & Nicobar": 5.314,
+      "Andhra Pradesh": 5.282,
+      "Haryana": 5.184,
+      "Chandigarh": 5.183,
+      "Jharkhand": 5.18,
+      "Meghalaya": 5.177,
+      "Tripura": 5.1530000000000005,
+      "Arunachal Pradesh": 5.136
+    },
+    "recent_inflation_leaders": {
+      "Kerala": 4.722799999999999,
+      "Uttar Pradesh": 4.652,
+      "Chandigarh": 4.436,
+      "Haryana": 4.3228,
+      "Puducherry": 4.2632,
+      "Rajasthan": 4.2232,
+      "Assam": 4.2219999999999995,
+      "Maharashtra": 4.2092,
+      "Ladakh": 4.1276,
+      "Andaman & Nicobar": 3.9972
+    },
+    "rural_urban_ttest": {
+      "t_statistic": -12.379926403627312,
+      "p_value": 2.970266684707928e-34,
+      "significant": "True"
+    }
+  },
+  "employment": {
+    "highest_unemployment": {
+      "Kerala": 11.6976,
+      "Haryana": 10.4576,
+      "Rajasthan": 10.342,
+      "Assam": 9.5372,
+      "West Bengal": 9.0032,
+      "Bihar": 8.937999999999999,
+      "Uttar Pradesh": 8.7704,
+      "Jharkhand": 8.682,
+      "Delhi": 8.5964,
+      "Uttarakhand": 8.1544
+    },
+    "urban_rural_unemployment_gap": {
+      "Kerala": 3.0276,
+      "Rajasthan": 2.826,
+      "Haryana": 2.4219999999999997,
+      "Bihar": 2.3772,
+      "Odisha": 2.0987999999999998,
+      "Gujarat": 2.0688,
+      "Uttar Pradesh": 2.0676,
+      "Tamil Nadu": 2.046,
+      "Assam": 2.0303999999999998,
+      "Uttarakhand": 1.9663999999999995
+    },
+    "covid_employment_shock": {
+      "Andhra Pradesh": NaN,
+      "Assam": NaN,
+      "Bihar": NaN,
+      "Chhattisgarh": NaN,
+      "Delhi": NaN,
+      "Gujarat": NaN,
+      "Haryana": NaN,
+      "Jharkhand": NaN,
+      "Karnataka": NaN,
+      "Kerala": NaN
+    },
+    "lfpr_leaders": {
+      "Haryana": 52.5208,
+      "Rajasthan": 52.4164,
+      "Chhattisgarh": 52.2868,
+      "Kerala": 51.221199999999996,
+      "Delhi": 50.7388,
+      "West Bengal": 48.83520000000001,
+      "Bihar": 48.523999999999994,
+      "Jharkhand": 48.30479999999999,
+      "Tamil Nadu": 47.736000000000004,
+      "Telangana": 46.603199999999994
+    },
+    "wpr_leaders": {
+      "Haryana": 48.85,
+      "Rajasthan": 48.32640000000001,
+      "Chhattisgarh": 47.5392,
+      "Tamil Nadu": 47.1852,
+      "Gujarat": 45.51,
+      "Maharashtra": 45.373999999999995,
+      "Madhya Pradesh": 45.0516,
+      "Andhra Pradesh": 44.844800000000006,
+      "Jharkhand": 44.5168,
+      "Kerala": 40.6208
+    },
+    "improving_states": {
+      "Assam": -1.9044230769230754,
+      "Haryana": -1.8667948717948732,
+      "Kerala": -1.7097435897435886,
+      "Jharkhand": -1.6836538461538453,
+      "Delhi": -1.6014743589743592
+    },
+    "worsening_states": {
+      "Punjab": -0.4308333333333332,
+      "Madhya Pradesh": -0.6104487179487181,
+      "Chhattisgarh": -0.6530769230769229,
+      "Andhra Pradesh": -0.9328205128205118,
+      "Tamil Nadu": -0.9969871794871787
+    },
+    "unemployment_volatility": {
+      "Kerala": 2.081035959964811,
+      "Haryana": 1.856563312503329,
+      "Assam": 1.7904783345985131,
+      "Jharkhand": 1.7445367102280573,
+      "Rajasthan": 1.7107162242756693,
+      "Delhi": 1.7078736292048466,
+      "Uttar Pradesh": 1.697003437435135,
+      "Bihar": 1.6887495373796557,
+      "West Bengal": 1.6754097011378042,
+      "Telangana": 1.5291909625681157
+    }
+  },
+  "gdp": {
+    "fastest_growing_sectors": {
+      "Manufacturing": 10.2632,
+      "Public Administration": 10.196,
+      "Mining": 9.87,
+      "Electricity": 9.7408,
+      "Agriculture": 8.854800000000001,
+      "Other Services": 7.1164,
+      "Trade & Hotels": 6.45,
+      "Transport & Communication": 4.972799999999999,
+      "Financial Services": 4.6768,
+      "Real Estate": 2.9104,
+      "Construction": 1.7068
+    },
+    "most_volatile_sectors": {
+      "Manufacturing": 3.6276676621028368,
+      "Mining": 3.4778549423459277,
+      "Public Administration": 3.471284584511427,
+      "Electricity": 3.336880928851573,
+      "Agriculture": 3.202089317929779,
+      "Other Services": 2.8315276795397915,
+      "Trade & Hotels": 2.68619929764466,
+      "Financial Services": 2.549721749524838,
+      "Transport & Communication": 2.119729778375851,
+      "Construction": 1.9113972201856244,
+      "Real Estate": 1.9112964186645671
+    },
+    "covid_sectoral_impact": {
+      "Transport & Communication": -41.78201378544885,
+      "Trade & Hotels": -40.6797251685725,
+      "Construction": -39.74090342842539,
+      "Manufacturing": -22.211566326095795,
+      "Mining": -20.537002197865437,
+      "Real Estate": 0.2252720107960567,
+      "Agriculture": 0.4047129468903436,
+      "Electricity": 2.51250617537817,
+      "Other Services": 4.31934328220281,
+      "Financial Services": 4.780815081031734,
+      "Public Administration": 7.106284616151639
+    },
+    "sectoral_recovery": {
+      "Agriculture": NaN,
+      "Construction": NaN,
+      "Electricity": NaN,
+      "Financial Services": NaN,
+      "Manufacturing": NaN,
+      "Mining": NaN,
+      "Other Services": NaN,
+      "Public Administration": NaN,
+      "Real Estate": NaN,
+      "Trade & Hotels": NaN,
+      "Transport & Communication": NaN
+    },
+    "sector_shares": {
+      "Mining": 16.641550641117483,
+      "Manufacturing": 16.321075355430565,
+      "Electricity": 11.042459998694577,
+      "Financial Services": 9.26186614661078,
+      "Trade & Hotels": 9.161288180582373,
+      "Construction": 9.049307255342546,
+      "Real Estate": 8.50138644826302,
+      "Agriculture": 7.942491711186723,
+      "Public Administration": 5.003916970021296,
+      "Other Services": 3.7225177947626467,
+      "Transport & Communication": 3.3521394979879986
+    },
+    "crisis_quarters": {
+      
