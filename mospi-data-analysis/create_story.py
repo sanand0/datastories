@@ -57,7 +57,7 @@ def create_inflation_timeline(cpi_df):
         font=dict(size=13)
     )
 
-    return fig.to_html(full_html=False, include_plotlyjs='cdn')
+    return fig.to_html(full_html=False, include_plotlyjs=False)
 
 def create_state_anomaly_map(cpi_df):
     """Create map showing inflation anomalies by state"""
@@ -149,18 +149,22 @@ def create_employment_crisis_viz(employment_df):
 
 def create_sectoral_recovery_viz(gdp_df):
     """Show sectoral recovery from COVID-19"""
-    # Calculate percentage change from pre-COVID
-    pre_covid = gdp_df[(gdp_df['Year'] >= 2019) & (gdp_df['Year'] < 2020)].groupby('Sector')['GVA_Crores'].mean()
+    # Calculate percentage change from pre-COVID (Q1 2020 baseline)
+    pre_covid = gdp_df[(gdp_df['Year'] == 2020) & (gdp_df['Quarter_Num'] == 1)].groupby('Sector')['GVA_Crores'].mean()
     covid_low = gdp_df[(gdp_df['Year'] == 2020) & (gdp_df['Quarter_Num'] == 2)].groupby('Sector')['GVA_Crores'].mean()
     current = gdp_df[gdp_df['Year'] >= 2025].groupby('Sector')['GVA_Crores'].mean()
 
     # Get common sectors
     common_sectors = list(set(pre_covid.index) & set(covid_low.index) & set(current.index))
 
+    if not common_sectors:
+        # Fallback: use all sectors from covid_low
+        common_sectors = list(covid_low.index)
+
     recovery_data = pd.DataFrame({
         'Sector': common_sectors,
-        'COVID_Impact': [((covid_low[s] - pre_covid[s]) / pre_covid[s] * 100) for s in common_sectors],
-        'Recovery_2025': [((current[s] - pre_covid[s]) / pre_covid[s] * 100) for s in common_sectors]
+        'COVID_Impact': [((covid_low[s] - pre_covid.get(s, covid_low[s])) / pre_covid.get(s, covid_low[s]) * 100) if s in pre_covid.index else 0 for s in common_sectors],
+        'Recovery_2025': [((current.get(s, covid_low[s]) - pre_covid.get(s, covid_low[s])) / pre_covid.get(s, covid_low[s]) * 100) if s in pre_covid.index else 0 for s in common_sectors]
     })
 
     recovery_data = recovery_data.sort_values('COVID_Impact')
@@ -184,7 +188,7 @@ def create_sectoral_recovery_viz(gdp_df):
     fig.update_layout(
         title="The V-Shaped Recovery That Wasn't: Sectoral Impact and Recovery",
         xaxis_title="Sector",
-        yaxis_title="% Change from 2019 Baseline",
+        yaxis_title="% Change from Q1 2020 Baseline",
         barmode='group',
         height=500,
         template='plotly_white'
@@ -393,6 +397,10 @@ def generate_html_story(cpi_df, employment_df, gdp_df):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Hidden Patterns in India's Economic Data</title>
+
+    <!-- Plotly.js CDN - Load before any charts -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
 
@@ -429,6 +437,9 @@ def generate_html_story(cpi_df, employment_df, gdp_df):
             max-width: 800px;
             margin: 0 auto;
             line-height: 1.6;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            font-weight: 400;
         }}
 
         .eli15-section {{
