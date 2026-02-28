@@ -8,6 +8,26 @@ function formatDate(dateString) {
   });
 }
 
+function isVideoAsset(path) {
+  if (!path) return false;
+  return /\.(webm|mp4|ogg)$/i.test(path);
+}
+
+function renderStoryMedia(story) {
+  if (isVideoAsset(story.screenshot)) {
+    return `<video src="${story.screenshot}"
+                 class="card-img-top"
+                 style="height: 200px; object-fit: cover;"
+                 autoplay muted loop playsinline preload="metadata"
+                 aria-label="${story.title}"></video>`;
+  }
+
+  return `<img src="${story.screenshot}"
+               class="card-img-top"
+               alt="${story.title}"
+               style="height: 200px; object-fit: cover;">`;
+}
+
 async function loadStories() {
   const response = await fetch("config.json");
   const config = await response.json();
@@ -17,10 +37,7 @@ async function loadStories() {
       (story) => /* html */ `
         <div class="col-md-6 col-lg-4">
           <a href="${story.link}" class="card h-100 shadow-sm text-decoration-none story-card">
-            <img src="${story.screenshot}"
-                 class="card-img-top"
-                 alt="${story.title}"
-                 style="height: 200px; object-fit: cover;">
+            ${renderStoryMedia(story)}
             <div class="card-body d-flex flex-column">
               <div class="d-flex justify-content-between align-items-start mb-2">
                 <h5 class="card-title mb-0 flex-grow-1">${story.title}</h5>

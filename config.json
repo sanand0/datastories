@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "sql-migration",
+      "title": "SQL Migration Narrative Demo",
+      "description": "An interactive walkthrough of migrating 100 SQL Server scripts to MySQL with LLM-assisted conversion, verification, and business-impact simulation.",
+      "link": "sql-migration/",
+      "screenshot": "sql-migration/screenshot.webm",
+      "date": "2026-02-27",
+      "folder": "sql-migration"
+    },
+    {
       "id": "researcher-of-the-future",
       "title": "Researcher of the Future",
       "description": "How 3,200+ researchers across 113 countries view AI, integrity, collaboration, mobility, and impact — from Elsevier's Confidence in Research report.",

@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MSSQL to MySQL Migration Story: LLM Conversion Demo</title>
+  <meta name="description" content="Interactive narrative demo for LLM-assisted SQL Server to MySQL migration." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='18' fill='%23d55f2d'/%3E%3Cpath d='M16 64c9-18 25-26 44-30 10-2 15-6 20-14 2 10-2 20-10 28-9 9-22 15-39 16z' fill='%23f6e7c9'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="ambient-grain" aria-hidden="true"></div>
+  <header class="hero reveal">
+    <p class="eyebrow">Narrative Demo</p>
+    <h1>When 100 SQL scripts become a business bottleneck</h1>
+    <p class="hero-lede">
+      A retail platform wants to move from SQL Server to MySQL without breaking revenue logic, ETL pipelines,
+      or analyst trust. The challenge is not translation. The challenge is proof.
+    </p>
+    <div class="hero-metrics">
+      <article>
+        <h2 id="metric-script-count">100</h2>
+        <p>Scripts in scope</p>
+      </article>
+      <article>
+        <h2 id="metric-runtime-share">53%</h2>
+        <p>Runtime concentrated in top 10 scripts</p>
+      </article>
+      <article>
+        <h2 id="metric-manual-rate">22%</h2>
+        <p>Scripts flagged for manual review</p>
+      </article>
+      <article>
+        <h2 id="metric-first-pass">78%</h2>
+        <p>Converted in a single pass</p>
+      </article>
+    </div>
+  </header>
+
+  <main>
+    <section id="workload-map" class="panel reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Act 1: Workload Reality</p>
+        <h2>The scripts move like sand until you ask the right question</h2>
+        <p>
+          Each particle is one MSSQL script. Watch the same workload re-organize by purpose, table family, risk,
+          and execution pressure.
+        </p>
+      </div>
+
+      <div class="map-layout">
+        <div class="map-shell">
+          <div class="mode-controls" role="group" aria-label="Grouping controls">
+            <button type="button" class="mode-btn active" data-mode="category">Purpose</button>
+            <button type="button" class="mode-btn" data-mode="table">Table Family</button>
+            <button type="button" class="mode-btn" data-mode="risk">Migration Risk</button>
+            <button type="button" class="mode-btn" data-mode="workload">Frequency x Complexity</button>
+          </div>
+          <div class="map-canvas-wrap">
+            <canvas id="sand-canvas" width="960" height="540" aria-label="Animated workload map"></canvas>
+            <div id="map-cluster-labels" class="map-cluster-labels" aria-hidden="true"></div>
+            <aside id="node-tooltip" class="node-tooltip" hidden></aside>
+          </div>
+        </div>
+
+        <aside class="map-context">
+          <article class="context-card">
+            <h3>What this view says</h3>
+            <p id="mode-caption"></p>
+            <p class="mode-insight" id="mode-insight"></p>
+          </article>
+          <article class="context-card stat-list" id="query-bars-card">
+            <h3 id="query-bars-title">Queries by purpose</h3>
+            <div id="query-bars-list"></div>
+          </article>
+          <article class="context-card">
+            <h3>Hotspot signal</h3>
+            <p id="hotspot-signal"></p>
+          </article>
+        </aside>
+      </div>
+
+      <div class="map-bottom">
+        <article class="context-card">
+          <h3>Input Dataset</h3>
+          <p id="dataset-input"></p>
+        </article>
+        <article class="context-card">
+          <h3>Non-obvious challenges</h3>
+          <ul id="challenge-signals" class="challenge-signals"></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="problem" class="panel reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Act 2: Why This Matters</p>
+        <h2>Performance debt becomes migration risk</h2>
+      </div>
+      <div class="problem-grid">
+        <article>
+          <h3>What goes wrong in manual-only migration</h3>
+          <p>
+            Teams hand-translate syntax quickly, then spend weeks chasing hidden semantics: lock hints,
+            transaction behavior, null handling in joins, and collation differences. Costs rise in the review
+            cycle, not the first draft.
+          </p>
+        </article>
+        <article>
+          <h3>Why business leaders care</h3>
+          <p>
+            In this dataset, a small set of scripts carries most runtime load. If those scripts regress,
+            checkout latency, ETL freshness, and finance reporting all absorb the hit.
+          </p>
+        </article>
+        <article>
+          <h3>The migration thesis</h3>
+          <p>
+            LLMs are strongest when paired with routing rules and verification loops: accelerate the easy 80%,
+            isolate the dangerous 20%, and produce an audit trail everyone can inspect.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="pipeline" class="panel reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Act 3: The Six-Step LLM Pipeline</p>
+        <h2>Click a step to inspect the mechanism</h2>
+      </div>
+
+      <div id="process-cards" class="process-cards" role="tablist" aria-label="Migration process steps"></div>
+
+      <div class="process-detail" id="process-detail">
+        <div class="process-copy">
+          <h3 id="step-title"></h3>
+          <p id="step-kicker" class="step-kicker"></p>
+          <p id="step-description"></p>
+          <p id="step-proof" class="step-proof"></p>
+        </div>
+        <div class="process-svg" id="step-svg" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section id="examples" class="panel reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Act 4: Script-Level Proof</p>
+        <h2>Three real conversions, with the hidden decisions exposed</h2>
+      </div>
+
+      <div id="example-tabs" class="example-tabs" role="tablist" aria-label="Sample conversion scripts"></div>
+      <div id="example-content"></div>
+    </section>
+
+    <section id="simulator" class="panel reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Act 5: Business Simulator</p>
+        <h2>Dial your migration scenario</h2>
+        <p>
+          Move the controls to simulate volume, workload intensity, model quality, and verification depth.
+          This is a planning model, not a quote.
+        </p>
+      </div>
+
+      <div class="sim-grid">
+        <form class="sim-controls" id="sim-controls" autocomplete="off">
+          <label for="sim-volume">
+            Scripts to migrate: <output id="sim-volume-value">300</output>
+          </label>
+          <input id="sim-volume" type="range" min="50" max="1500" value="300" step="10" />
+
+          <label for="sim-load">
+            Query volume multiplier: <output id="sim-load-value">2.0x</output>
+          </label>
+          <input id="sim-load" type="range" min="50" max="600" value="200" step="10" />
+
+          <label for="sim-quality">
+            LLM quality factor: <output id="sim-quality-value">82%</output>
+          </label>
+          <input id="sim-quality" type="range" min="55" max="99" value="82" step="1" />
+
+          <label for="sim-verify">
+            Verification rigor: <output id="sim-verify-value">80%</output>
+          </label>
+          <input id="sim-verify" type="range" min="40" max="100" value="80" step="1" />
+        </form>
+
+        <div class="sim-results" id="sim-results">
+          <article>
+            <h3>Manual Budget</h3>
+            <p class="metric" id="sim-manual-cost">$0</p>
+            <p class="caption" id="sim-manual-time">0 weeks</p>
+          </article>
+          <article>
+            <h3>LLM-Assisted Budget</h3>
+            <p class="metric" id="sim-llm-cost">$0</p>
+            <p class="caption" id="sim-llm-time">0 weeks</p>
+          </article>
+          <article>
+            <h3>Operational Risk Delta</h3>
+            <p class="metric" id="sim-incident-reduction">0 fewer incidents/mo</p>
+            <p class="caption" id="sim-defect-rate">0%</p>
+          </article>
+          <article>
+            <h3>Estimated Business Lift</h3>
+            <p class="metric" id="sim-value">$0</p>
+            <p class="caption" id="sim-roi">ROI 0x</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="caveats" class="panel reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Act 6: Caveats and Controls</p>
+        <h2>Where automation can fail, and how we contain it</h2>
+      </div>
+      <div class="caveat-grid">
+        <article>
+          <h3>Semantic drift risk</h3>
+          <p>
+            Equivalent syntax can still produce different results under null, collation, timezone,
+            or transaction isolation differences.
+          </p>
+        </article>
+        <article>
+          <h3>Performance inversion risk</h3>
+          <p>
+            A query that runs in SQL Server can degrade in MySQL if join strategy, indexes, or grouping plans
+            are not re-validated.
+          </p>
+        </article>
+        <article>
+          <h3>Verification scope risk</h3>
+          <p>
+            Unit checks are not enough for ETL and financial scripts. You need row-level invariants,
+            reconciliation totals, and synthetic edge cases.
+          </p>
+        </article>
+        <article>
+          <h3>Governance requirement</h3>
+          <p>
+            Every conversion should ship with traceability: prompt lineage, diff artifacts, test evidence,
+            and explicit manual-review decisions.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer reveal">
+    <p>
+      Dataset generated <span id="generated-at">2026-02-27</span>. Synthetic telemetry; realistic migration dynamics.
+    </p>
+  </footer>
+
+  <dialog id="script-modal" class="script-modal">
+    <form method="dialog" class="script-modal-form">
+      <button type="submit" class="modal-close" aria-label="Close script details">Close</button>
+    </form>
+    <div class="modal-head">
+      <p class="eyebrow">Act 1 Detail</p>
+      <h3 id="modal-title">SQL Script</h3>
+      <p id="modal-subtitle"></p>
+    </div>
+    <div id="modal-meta" class="modal-meta"></div>
+    <div class="modal-grid">
+      <section class="code-panel">
+        <h4>Original MSSQL</h4>
+        <div id="modal-source-code"></div>
+      </section>
+      <section class="code-panel">
+        <h4>Converted MySQL</h4>
+        <div id="modal-target-code"></div>
+      </section>
+    </div>
+    <section class="modal-diff">
+      <h4>Line-by-Line Diff</h4>
+      <div id="modal-diff-view"></div>
+    </section>
+  </dialog>
+
+  <script src="./demo-data.js"></script>
+  <script src="./script-sql-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
