@@ -6,6 +6,7 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Codex Session Gap Analysis](codex-session-analysis/). Analysis of 903 Codex sessions from Apr 2025 to Mar 2026, showing feature adoption gaps, release-aware coverage, and workflow recommendations.
 - [SQL Migration Narrative Demo](sql-migration/). An interactive walkthrough of migrating 100 SQL Server scripts to MySQL with LLM-assisted conversion, verification, and business-impact simulation.
 - [Can AI Replace Human Paper Reviewers?](ai-agents-for-science/). An investigation into what happens when artificial intelligence reviews scientific papers — and what goes hilariously (and seriously) wrong.
   [![](ai-agents-for-science/screenshot.webp)](ai-agents-for-science/)

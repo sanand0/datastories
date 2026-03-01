@@ -1,0 +1,24 @@
+feature,release_date,detection,sessions_used_total,sessions_eligible_after_release,sessions_used_after_release,adoption_after_release,first_seen_session,last_seen_session
+request_user_input_in_default_mode,2026-02-26,tool:request_user_input,0,25,0,0.0,,
+spawn_agents_on_csv,2026-02-25,tool:spawn_agents_on_csv,0,28,0,0.0,,
+sub_agent_workflows,2026-02-25,tools:spawn_agent/wait/send_input/close_agent,9,28,3,0.1071,2026-02-18T15:04:37.420000+00:00,2026-03-01T02:58:58.288000+00:00
+parallel_tool_orchestration,2026-02-04,tool:parallel,0,95,0,0.0,,
+manual_parallel_shell_patterns,2026-02-04,shell contains '&' or 'xargs -P' or ' parallel ',340,95,65,0.6842,2025-08-09T13:06:44.577000+00:00,2026-03-01T04:28:16.193000+00:00
+web_search_events,2026-01-28,web_search/open_page/find events,19,103,19,0.1845,2026-01-28T23:22:15.345000+00:00,2026-03-01T02:58:58.288000+00:00
+memory_commands_slash,2026-02-12,user text contains /m_update or /m_drop,0,74,0,0.0,,
+statusline_slash_command,2026-02-11,user text contains /statusline,0,75,0,0.0,,
+debug_config_slash_command,2026-02-05,user text contains /debug-config,0,95,0,0.0,,
+clear_copy_slash_commands,2026-02-25,user text contains /clear or /copy,0,28,0,0.0,,
+theme_slash_command,2026-02-25,user text contains /theme,0,28,0,0.0,,
+permissions_slash_command,2026-02-17,user text contains /permissions,0,65,0,0.0,,
+experimental_slash_command,2026-02-26,user text contains /experimental,0,25,0,0.0,,
+agent_slash_command,2026-02-25,user text contains /agent,0,28,0,0.0,,
+resume_slash_command,2025-09-15,user text contains /resume,0,687,0,0.0,,
+voice_transcription_config,2026-02-25,user text or command contains features.voice_transcription,0,28,0,0.0,,
+js_repl_experimental_usage,2026-02-26,tool name includes js_repl or text contains js_repl,0,25,0,0.0,,
+escalated_sandbox_permission_requests,2026-02-25,shell tool args include sandbox_permissions=require_escalated,5,28,0,0.0,2025-12-28T01:47:20.324000+00:00,2026-02-10T05:40:52.419000+00:00
+gpt_5_3_codex_model_usage,2026-02-05,turn_context model is gpt-5.3-codex,72,95,72,0.7579,2026-02-07T00:23:44.023000+00:00,2026-03-01T04:28:16.193000+00:00
+skills_workflows,2025-12-19,messages mention $skill- or SKILL.md,468,232,232,1.0,2025-10-18T03:18:11.954000+00:00,2026-03-01T04:28:16.193000+00:00
+plan_mode_or_update_plan,2026-02-02,update_plan tool or plan mode context,302,100,13,0.13,2025-08-09T13:17:24.866000+00:00,2026-02-25T03:42:41.785000+00:00
+codex_resume_usage,2025-09-15,shell/user text contains 'codex resume',0,687,0,0.0,,
+model_switching_commands,2025-09-15,shell/user text contains '--model' or '/model',13,687,9,0.0131,2025-09-05T15:59:56.299000+00:00,2026-02-24T21:01:15.788000+00:00

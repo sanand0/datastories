@@ -1,0 +1,2278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codex Session Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tablesort@5.3.0/dist/tablesort.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tablesort@5.3.0/dist/sorts/tablesort.number.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tablesort@5.3.0/dist/sorts/tablesort.date.min.js"></script>
+    <style>
+      :root {
+        --paper: #f7f3ea;
+        --paper-2: #fefcf7;
+        --ink: #132238;
+        --muted: #4b5b72;
+        --line: #d8d3c8;
+        --teal: #0b8f8c;
+        --orange: #f48c06;
+        --red: #d94841;
+        --gold: #ffbe0b;
+        --card: rgba(255, 255, 255, 0.78);
+        --shadow: 0 18px 48px rgba(10, 28, 48, 0.13);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background:
+          radial-gradient(circle at 12% 8%, #ffd6a533 0, transparent 46%),
+          radial-gradient(circle at 86% 18%, #8ecae633 0, transparent 42%),
+          radial-gradient(circle at 50% 92%, #ffb70324 0, transparent 42%),
+          var(--paper);
+        color: var(--ink);
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+        overflow-x: hidden;
+      }
+
+      main {
+        width: min(1160px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding-bottom: 5rem;
+        min-width: 0;
+      }
+
+      a {
+        color: #0b57d0;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 96vh;
+        padding: 6rem 0 3rem;
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .eyebrow {
+        letter-spacing: 0.12em;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: var(--teal);
+        font-weight: 700;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: "Fraunces", Georgia, serif;
+        line-height: 1.1;
+      }
+
+      h1 {
+        margin-top: 0.75rem;
+        font-size: clamp(2rem, 5.2vw, 4rem);
+        max-width: 18ch;
+      }
+
+      .lede {
+        margin-top: 1.15rem;
+        color: var(--muted);
+        font-size: clamp(1rem, 1.4vw, 1.2rem);
+        max-width: 52ch;
+      }
+
+      .stat-strip {
+        margin-top: 1.4rem;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(130px, 1fr));
+        gap: 0.85rem;
+      }
+
+      .stat-pill {
+        border: 1px solid var(--line);
+        background: var(--card);
+        border-radius: 14px;
+        padding: 0.85rem 0.95rem;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(4px);
+      }
+
+      .stat-pill strong {
+        display: block;
+        font-size: 1.34rem;
+      }
+
+      .hero-viz {
+        position: relative;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: linear-gradient(160deg, #fffdf8, #f5f0e6);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .hero-viz svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        overflow: hidden;
+      }
+
+      .hero-note {
+        padding: 0.9rem 1.1rem 1rem;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.93rem;
+      }
+
+      .section {
+        margin-top: 4.5rem;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: var(--card);
+        backdrop-filter: blur(4px);
+        box-shadow: var(--shadow);
+        padding: 1.4rem 1.2rem 1.3rem;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .section h2 {
+        font-size: clamp(1.55rem, 3.2vw, 2.5rem);
+      }
+
+      .section p {
+        color: var(--muted);
+        max-width: 72ch;
+      }
+
+      .chart-wrap {
+        margin-top: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--paper-2);
+        padding: 0.9rem;
+        position: relative;
+      }
+
+      .chart-wrap svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        overflow: hidden;
+      }
+
+      .insight-grid {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.85rem;
+      }
+
+      .insight {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 0.9rem;
+        background: #fffdf9;
+      }
+
+      .insight h3 {
+        font-size: 1.05rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .insight p {
+        margin: 0;
+        font-size: 0.93rem;
+      }
+
+      .process-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .steps {
+        margin: 0;
+        padding-left: 1rem;
+      }
+
+      .steps li {
+        margin-bottom: 0.75rem;
+        color: var(--muted);
+      }
+
+      .takeaways {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.85rem;
+      }
+
+      .takeaway {
+        border: 1px solid var(--line);
+        border-left: 6px solid var(--teal);
+        border-radius: 14px;
+        padding: 0.9rem;
+        background: #fffefa;
+      }
+
+      .takeaway h3 {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .takeaway p {
+        margin: 0;
+        font-size: 0.92rem;
+      }
+
+      .playbook {
+        margin-top: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fffefb;
+        padding: 1rem;
+      }
+
+      .playbook ol {
+        margin: 0.4rem 0 0 1.1rem;
+        color: var(--muted);
+      }
+
+      .playbook code {
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 0.88rem;
+        background: #ecf4ff;
+        border: 1px solid #cadcf5;
+        border-radius: 7px;
+        padding: 0.12rem 0.34rem;
+      }
+
+      .simulator {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 1rem;
+      }
+
+      .sim-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 0.95rem;
+        background: #fffefc;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--orange);
+      }
+
+      .sim-big {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        color: var(--orange);
+      }
+
+      .sources {
+        margin-top: 1rem;
+        border: 1px dashed #bfc8d6;
+        border-radius: 14px;
+        padding: 0.9rem;
+        background: #f8fbff;
+      }
+
+      .sources ul {
+        margin: 0.35rem 0 0;
+        padding-left: 1rem;
+        color: var(--muted);
+      }
+
+      .sources li {
+        min-width: 0;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .caption {
+        margin-top: 0.5rem;
+        font-size: 0.87rem;
+        color: var(--muted);
+      }
+
+      .chart-tooltip {
+        position: fixed;
+        z-index: 9999;
+        width: min(360px, calc(100vw - 1rem));
+        pointer-events: none;
+        background: rgba(19, 34, 56, 0.95);
+        color: #f7fbff;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 12px;
+        padding: 0.62rem 0.72rem;
+        box-shadow: 0 12px 26px rgba(13, 28, 47, 0.36);
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.14s ease, transform 0.14s ease;
+      }
+
+      .chart-tooltip.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .chart-tooltip .tt-title {
+        font-size: 0.86rem;
+        font-weight: 700;
+        margin-bottom: 0.34rem;
+        line-height: 1.25;
+      }
+
+      .chart-tooltip .tt-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.35rem;
+        align-items: start;
+        font-size: 0.78rem;
+        line-height: 1.3;
+      }
+
+      .chart-tooltip .tt-dot {
+        width: 0.56rem;
+        height: 0.56rem;
+        border-radius: 50%;
+        margin-top: 0.18rem;
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      .file-preview-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 10020;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        background: rgba(6, 14, 24, 0.62);
+        backdrop-filter: blur(5px);
+      }
+
+      .file-preview-backdrop.open {
+        display: flex;
+      }
+
+      .file-preview-modal {
+        width: min(1180px, 100%);
+        max-height: min(90vh, 940px);
+        background: #fbf8f1;
+        border: 1px solid #cfcbc1;
+        border-radius: 14px;
+        box-shadow: 0 22px 54px rgba(8, 18, 33, 0.38);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .file-preview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 0.8rem;
+        padding: 0.8rem 0.95rem;
+        border-bottom: 1px solid #ddd8cb;
+        background: linear-gradient(180deg, #fffef9, #f4efe3);
+      }
+
+      .file-preview-title-wrap {
+        min-width: 0;
+      }
+
+      .file-preview-title {
+        display: block;
+        font-size: 0.98rem;
+        color: #132238;
+        overflow-wrap: anywhere;
+      }
+
+      .file-preview-meta {
+        display: block;
+        margin-top: 0.25rem;
+        color: #506178;
+        font-size: 0.8rem;
+        overflow-wrap: anywhere;
+      }
+
+      .file-preview-close {
+        border: 1px solid #bdc7d5;
+        background: #f5f9ff;
+        color: #1b2f4a;
+        border-radius: 9px;
+        padding: 0.4rem 0.75rem;
+        font: inherit;
+        font-size: 0.84rem;
+        cursor: pointer;
+      }
+
+      .file-preview-close:hover {
+        background: #e8f1fe;
+      }
+
+      .file-preview-body {
+        overflow: auto;
+        padding: 0.85rem;
+        background: #f9f6ee;
+      }
+
+      .file-preview-loading,
+      .file-preview-empty,
+      .file-preview-error {
+        border: 1px dashed #b8c5d5;
+        border-radius: 12px;
+        background: #f7fbff;
+        color: #324863;
+        padding: 0.95rem;
+      }
+
+      .file-preview-error a {
+        color: #0b57d0;
+      }
+
+      .file-preview-pre {
+        margin: 0;
+        white-space: pre;
+        overflow: auto;
+        background: #0d1117;
+        color: #e6edf5;
+        border: 1px solid #2f3d4f;
+        border-radius: 10px;
+        padding: 0;
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .file-preview-pre code.hljs {
+        display: block;
+        margin: 0;
+        padding: 0.9rem;
+        background: transparent;
+        color: inherit;
+      }
+
+      .csv-meta {
+        color: #4b5b72;
+        font-size: 0.82rem;
+        margin-bottom: 0.55rem;
+      }
+
+      .csv-table-wrap {
+        border: 1px solid #d8d3c8;
+        border-radius: 10px;
+        overflow: auto;
+        background: #fffdf8;
+      }
+
+      .csv-table {
+        width: max-content;
+        min-width: 100%;
+        border-collapse: collapse;
+        font-size: 0.83rem;
+        line-height: 1.35;
+      }
+
+      .csv-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: #f3eee1;
+        border-bottom: 1px solid #d8d3c8;
+        padding: 0.5rem 0.52rem;
+        text-align: left;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 0.8rem;
+        color: #1f3048;
+        user-select: none;
+      }
+
+      .csv-table thead th:hover {
+        background: #e6eefc;
+      }
+
+      .csv-table thead th.sort-up::after,
+      .csv-table thead th[aria-sort="ascending"]::after {
+        content: " \u2191";
+      }
+
+      .csv-table thead th.sort-down::after,
+      .csv-table thead th[aria-sort="descending"]::after {
+        content: " \u2193";
+      }
+
+      .csv-table td {
+        border-top: 1px solid #ece6da;
+        padding: 0.38rem 0.52rem;
+        color: #243850;
+        white-space: nowrap;
+        max-width: 420px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .csv-table tbody tr:nth-child(even) td {
+        background: #fff9ec;
+      }
+
+      @media (max-width: 980px) {
+        main {
+          width: min(1160px, calc(100% - 1rem));
+        }
+
+        .stat-strip {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 0.55rem;
+        }
+
+        .stat-pill {
+          padding: 0.7rem 0.6rem;
+        }
+
+        .stat-pill strong {
+          font-size: 1.12rem;
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
+          padding-top: 2.6rem;
+          gap: 1rem;
+        }
+
+        .section {
+          margin-top: 2rem;
+          padding: 1rem 0.9rem;
+        }
+
+        .process-grid,
+        .simulator,
+        .takeaways,
+        .insight-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .file-preview-backdrop {
+          padding: 0.45rem;
+        }
+
+        .file-preview-modal {
+          max-height: 95vh;
+        }
+
+        .file-preview-header {
+          padding: 0.7rem 0.75rem;
+        }
+
+        .file-preview-body {
+          padding: 0.7rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero reveal is-visible">
+        <div>
+          <div class="eyebrow">Codex Session Analysis</div>
+          <h1>The Hidden Gap In 903 Sessions</h1>
+          <p class="lede">
+            On one side, you adopt new Codex models almost immediately. On the other side, the workflow features that
+            cut the most friction stay unused. This story explains what happened, why it matters, and exactly how to
+            close that gap.
+          </p>
+          <div class="stat-strip">
+            <div class="stat-pill">
+              <strong data-counter="903">903</strong>
+              Sessions audited
+            </div>
+            <div class="stat-pill">
+              <strong data-counter="847">847</strong>
+              Missed-feature moments
+            </div>
+            <div class="stat-pill">
+              <strong data-counter="318">318</strong>
+              Days covered
+            </div>
+          </div>
+        </div>
+        <div class="hero-viz">
+          <svg viewBox="0 0 620 420" aria-label="A forked path showing model adoption versus workflow adoption">
+            <defs>
+              <linearGradient id="modelPath" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0b8f8c" />
+                <stop offset="100%" stop-color="#23b3ad" />
+              </linearGradient>
+              <linearGradient id="workflowPath" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#f48c06" />
+                <stop offset="100%" stop-color="#d94841" />
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="620" height="420" fill="#fffdf6" />
+            <path
+              id="path-model"
+              d="M24 210 C170 210 200 120 310 120 C410 120 466 92 596 90"
+              stroke="url(#modelPath)"
+              stroke-width="8"
+              fill="none"
+              stroke-linecap="round"
+            />
+            <path
+              id="path-workflow"
+              d="M24 210 C170 210 200 300 310 300 C410 300 466 300 596 300"
+              stroke="url(#workflowPath)"
+              stroke-width="8"
+              fill="none"
+              stroke-linecap="round"
+            />
+            <circle r="7" fill="#0b8f8c">
+              <animateMotion dur="4.8s" repeatCount="indefinite" path="M24 210 C170 210 200 120 310 120 C410 120 466 92 596 90" />
+            </circle>
+            <circle r="7" fill="#f48c06">
+              <animateMotion dur="4.8s" repeatCount="indefinite" path="M24 210 C170 210 200 300 310 300 C410 300 466 300 596 300" />
+            </circle>
+            <text x="37" y="192" fill="#132238" font-size="16" font-weight="700">Same starting point</text>
+            <text x="590" y="78" fill="#0b8f8c" font-size="16" font-weight="700" text-anchor="end">Model adoption: 75.8%</text>
+            <text x="590" y="323" fill="#d94841" font-size="16" font-weight="700" text-anchor="end">Workflow adoption: often 0%</text>
+            <line x1="306" y1="90" x2="306" y2="325" stroke="#d8d3c8" stroke-dasharray="5 6" />
+          </svg>
+          <div class="hero-note">
+            The fork appears in February 2026: fast pickup of <code>gpt-5.3-codex</code>, almost no pickup of new
+            orchestration and coordination features.
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>How The Audit Worked</h2>
+        <p>
+          We treated each session as evidence, not anecdote. Every tool call, command, timestamp, and prompt was
+          parsed, then matched against release windows so we only count a “missed feature” after it was actually
+          available.
+        </p>
+        <div class="process-grid">
+          <div class="chart-wrap">
+            <svg id="processSvg" viewBox="0 0 760 340" aria-label="Animated process pipeline">
+              <rect x="0" y="0" width="760" height="340" fill="#fffdf6" />
+              <rect id="process-step-1" x="30" y="110" width="160" height="110" rx="14" fill="#f2f8ff" stroke="#bfd3ee" />
+              <rect id="process-step-2" x="220" y="110" width="160" height="110" rx="14" fill="#f9f6ec" stroke="#d9d2bc" />
+              <rect id="process-step-3" x="410" y="110" width="160" height="110" rx="14" fill="#eef9f4" stroke="#bddfcf" />
+              <rect id="process-step-4" x="600" y="110" width="130" height="110" rx="14" fill="#fff2ea" stroke="#f3c8b6" />
+
+              <text x="50" y="145" font-size="15" fill="#132238" font-weight="700">1. Read Logs</text>
+              <text x="50" y="170" font-size="13" fill="#4b5b72">903 JSON/JSONL files</text>
+              <text x="50" y="191" font-size="13" fill="#4b5b72">from sessions/</text>
+
+              <text x="240" y="145" font-size="15" fill="#132238" font-weight="700">2. Extract Signals</text>
+              <text x="240" y="170" font-size="13" fill="#4b5b72">tools, commands,</text>
+              <text x="240" y="191" font-size="13" fill="#4b5b72">durations, prompts</text>
+
+              <text x="490" y="145" font-size="15" fill="#132238" font-weight="700" text-anchor="middle">3. Align Dates</text>
+              <text x="490" y="170" font-size="13" fill="#4b5b72" text-anchor="middle">release-aware checks</text>
+              <text x="490" y="191" font-size="13" fill="#4b5b72" text-anchor="middle">post-release only</text>
+
+              <text x="665" y="145" font-size="15" fill="#132238" font-weight="700" text-anchor="middle">4. Score Gaps</text>
+              <text x="665" y="170" font-size="13" fill="#4b5b72" text-anchor="middle">847 opportunities</text>
+              <text x="665" y="191" font-size="13" fill="#4b5b72" text-anchor="middle">ranked by impact</text>
+
+              <path
+                id="pipelinePath"
+                d="M190 165 L220 165 L380 165 L410 165 L570 165 L600 165"
+                fill="none"
+                stroke="#9bb3cc"
+                stroke-width="3"
+                stroke-dasharray="8 8"
+              />
+              <circle id="pipelineDot" cx="190" cy="165" r="8" fill="#0b8f8c" />
+            </svg>
+            <div class="caption">
+              Analyzer: <a href="./analyze_codex_sessions.py">analyze_codex_sessions.py</a>, Output:
+              <a href="./session_analysis.json">session_analysis.json</a>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li>
+                Parsed every available session file (legacy rollout JSON + newer JSONL records) from your historical
+                Codex logs.
+              </li>
+              <li>Detected concrete events: command patterns, tool calls, approval friction, long-running tasks.</li>
+              <li>
+                Linked feature usage to release dates from
+                <a href="https://developers.openai.com/codex/changelog/rss.xml">official Codex changelog RSS</a>.
+              </li>
+              <li>
+                Generated an opportunity catalog in
+                <a href="./opportunities.csv">opportunities.csv</a>.
+              </li>
+            </ol>
+            <p>
+              This matters because it prevents false alarms. A feature is only counted as “unused” in sessions that
+              happened after that feature shipped.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>The Core Tension: Speed In One Layer, Stall In Another</h2>
+        <p>
+          You clearly change behavior when the upside is obvious. But the upside is currently concentrated in model
+          choice, while collaboration and orchestration features stay mostly dormant.
+        </p>
+        <div class="chart-wrap">
+          <svg id="adoptionGapSvg" viewBox="0 0 960 450" aria-label="Adoption gap chart"></svg>
+        </div>
+        <div class="insight-grid">
+          <article class="insight">
+            <h3>Fast where it is visible</h3>
+            <p>
+              <strong>75.8%</strong> of eligible sessions used <code>gpt-5.3-codex</code> after the February 5, 2026
+              rollout window.
+            </p>
+          </article>
+          <article class="insight">
+            <h3>Ready, but not redirected</h3>
+            <p>
+              You already use manual parallel shell patterns in <strong>68.4%</strong> of eligible sessions, but
+              <code>parallel</code> tool usage is still <strong>0%</strong>.
+            </p>
+          </article>
+          <article class="insight">
+            <h3>Coordination features are the gap</h3>
+            <p>
+              <code>spawn_agents_on_csv</code> and <code>request_user_input</code> both remain at
+              <strong>0%</strong> in post-release windows.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>When New Features Arrived, What Actually Changed?</h2>
+        <p>
+          This timeline is the important forensic view. Dots near the top indicate high post-release adoption. Dots on
+          the floor show “available but untouched.”
+        </p>
+        <div class="chart-wrap">
+          <svg id="timelineSvg" viewBox="0 0 980 420" aria-label="Release-aware timeline chart"></svg>
+        </div>
+        <p class="caption">
+          Release-aware data from <a href="./recent_feature_coverage.csv">recent_feature_coverage.csv</a>
+        </p>
+        <div class="takeaways">
+          <article class="takeaway">
+            <h3>Non-obvious takeaway 1</h3>
+            <p>
+              This is not a “you avoid change” story. You changed quickly for models. The stall is specifically around
+              interaction patterns (coordination, approvals, and thread controls).
+            </p>
+          </article>
+          <article class="takeaway">
+            <h3>Non-obvious takeaway 2</h3>
+            <p>
+              The top three opportunity types account for <strong>726 of 847</strong> missed moments (85.7%). You do
+              not need ten fixes. You need three defaults.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Where The Friction Actually Lives</h2>
+        <p>
+          Opportunity counts reveal where time leaks most often. The tallest bars are where behavior changes will pay
+          back fastest.
+        </p>
+        <div class="chart-wrap">
+          <svg id="opportunitySvg" viewBox="0 0 980 460" aria-label="Opportunity distribution chart"></svg>
+        </div>
+        <div class="takeaways">
+          <article class="takeaway">
+            <h3>Parallel reads are the biggest tax</h3>
+            <p>
+              <strong>457 sessions</strong> showed sequential, independent reads that could have been run with
+              <code>parallel</code>.
+            </p>
+          </article>
+          <article class="takeaway">
+            <h3>Approval friction is measurable</h3>
+            <p>
+              <strong>138 sessions</strong> had repeated permission friction where <code>request_user_input</code>
+              could have unblocked faster.
+            </p>
+          </article>
+        </div>
+        <div class="playbook">
+          <h3>Concrete examples from your sessions</h3>
+          <ol>
+            <li>
+              <strong>Parallel opportunity (March 1, 2026):</strong>
+              sequential independent reads were executed one after another:
+              <code>ls -la | cat .../code/SKILL.md | cat .../llm/SKILL.md</code>
+              This is exactly the pattern where <code>parallel</code> would cut waiting time.
+            </li>
+            <li>
+              <strong>Approval-friction opportunity (February 25, 2026):</strong>
+              one thread recorded <code>7 permission-related errors</code> before completion.
+              A concise <code>request_user_input</code> choice flow would likely have resolved this earlier.
+            </li>
+            <li>
+              <strong>Batch fan-out opportunity (February 28, 2026):</strong>
+              a batch-like task reached <code>103 tool calls</code> without <code>spawn_agents_on_csv</code>,
+              indicating heavy manual orchestration.
+            </li>
+          </ol>
+          <p class="caption">
+            These excerpts are taken from structured evidence in
+            <a href="./opportunities.csv">opportunities.csv</a>.
+          </p>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Impact Simulator: What If You Close Just Part Of The Gap?</h2>
+        <p>
+          This simulator uses one explicit assumption: each resolved missed-feature moment saves about two minutes of
+          execution or coordination time. Adjust the slider to see rough upside across the analyzed period.
+        </p>
+        <div class="simulator">
+          <div class="sim-card">
+            <label for="adoptionSlider"><strong>Gap closed (%)</strong></label>
+            <input id="adoptionSlider" type="range" min="10" max="100" step="5" value="30" />
+            <p class="caption" id="sliderLabel">Closing 30% of missed moments</p>
+            <p class="caption">
+              Assumption is intentionally conservative and transparent. Change it in code if your own benchmark differs.
+            </p>
+          </div>
+          <div class="sim-card">
+            <div>Estimated time saved over this dataset window</div>
+            <div class="sim-big" id="hoursSaved">8.5h</div>
+            <div class="caption" id="monthlySaved">~0.8 hours per month equivalent</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>The Practical Playbook</h2>
+        <p>
+          You do not need a new workflow religion. You need a small default prompt layer that matches how you already
+          work.
+        </p>
+        <div class="playbook">
+          <ol>
+            <li>
+              Run multiple independent reads in parallel.
+            </li>
+            <li>
+              For 20+ tool calls, maintain <code>update_plan</code> throughout.
+            </li>
+            <li>
+              For long-running commands/tests, delegate via sub-agents and report checkpoints.
+            </li>
+            <li>If blocked by permissions, ask me concise choices.</li>
+            <li>If sandbox/config gets in the way, use <code>/permissions</code> and <code>/debug-config</code> early.</li>
+          </ol>
+        </div>
+        <div class="sources">
+          <strong>Explore the underlying files</strong>
+          <ul>
+            <li><a href="./CODEX_SESSION_GAP_ANALYSIS.md">CODEX_SESSION_GAP_ANALYSIS.md</a></li>
+            <li><a href="./CODEX_FEATURE_CATALOG.md">CODEX_FEATURE_CATALOG.md</a></li>
+            <li><a href="./session_analysis.json">session_analysis.json</a></li>
+            <li><a href="./recent_feature_coverage.csv">recent_feature_coverage.csv</a></li>
+            <li><a href="./opportunities.csv">opportunities.csv</a></li>
+            <li><a href="./analyze_codex_sessions.py">analyze_codex_sessions.py</a></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const adoptionData = [
+        {
+          label: "gpt-5.3-codex model usage",
+          shortLabel: "gpt-5.3 model",
+          value: 75.8,
+          group: "high",
+          note: "72/95 sessions after release window",
+          release: "2026-02-05",
+          used: 72,
+          eligible: 95,
+          action: "Model adoption is already strong here.",
+        },
+        {
+          label: "manual shell parallel patterns",
+          shortLabel: "manual shell parallel",
+          value: 68.4,
+          group: "high",
+          note: "65/95 sessions after Feb 4, 2026",
+          release: "2026-02-04",
+          used: 65,
+          eligible: 95,
+          action: "Redirect this habit into tool-level `parallel` orchestration.",
+        },
+        {
+          label: "web search events",
+          shortLabel: "web search",
+          value: 18.5,
+          group: "mid",
+          note: "19/103 sessions after Jan 28, 2026",
+          release: "2026-01-28",
+          used: 19,
+          eligible: 103,
+          action: "Use when prompts require current facts.",
+        },
+        {
+          label: "sub-agent workflows",
+          shortLabel: "sub-agent workflows",
+          value: 10.7,
+          group: "mid",
+          note: "3/28 sessions after Feb 25, 2026",
+          release: "2026-02-25",
+          used: 3,
+          eligible: 28,
+          action: "Best for long-running commands and checkpoint reporting.",
+        },
+        {
+          label: "parallel tool orchestration",
+          shortLabel: "parallel tool",
+          value: 0,
+          group: "low",
+          note: "0/95 sessions",
+          release: "2026-02-04",
+          used: 0,
+          eligible: 95,
+          action: "Highest leverage fix for repeated independent reads.",
+        },
+        {
+          label: "spawn_agents_on_csv",
+          shortLabel: "spawn_agents_on_csv",
+          value: 0,
+          group: "low",
+          note: "0/28 sessions",
+          release: "2026-02-25",
+          used: 0,
+          eligible: 28,
+          action: "Use for row-wise fan-out instead of manual loops.",
+        },
+        {
+          label: "request_user_input (Default mode)",
+          shortLabel: "request_user_input",
+          value: 0,
+          group: "low",
+          note: "0/25 sessions",
+          release: "2026-02-26",
+          used: 0,
+          eligible: 25,
+          action: "Use for concise user choices when blocked by permissions.",
+        },
+      ];
+
+      const timelineData = [
+        {
+          date: "2026-01-28",
+          label: "Web search default",
+          shortLabel: "Web search",
+          value: 18.5,
+          used: 19,
+          eligible: 103,
+          takeaway: "Adopted, but still low relative to time-sensitive prompts.",
+        },
+        {
+          date: "2026-02-04",
+          label: "parallel tool",
+          shortLabel: "parallel",
+          value: 0,
+          used: 0,
+          eligible: 95,
+          takeaway: "Biggest gap despite heavy manual shell parallelism.",
+        },
+        {
+          date: "2026-02-05",
+          label: "gpt-5.3-codex usage",
+          shortLabel: "gpt-5.3",
+          value: 75.8,
+          used: 72,
+          eligible: 95,
+          takeaway: "Rapid model migration shows high change readiness.",
+        },
+        {
+          date: "2026-02-11",
+          label: "/statusline",
+          shortLabel: "/statusline",
+          value: 0,
+          used: 0,
+          eligible: 75,
+          takeaway: "No visible usage after release window.",
+        },
+        {
+          date: "2026-02-12",
+          label: "/m_update + /m_drop",
+          shortLabel: "/m_update + /m_drop",
+          value: 0,
+          used: 0,
+          eligible: 74,
+          takeaway: "Memory controls stayed unused in long threads.",
+        },
+        {
+          date: "2026-02-25",
+          label: "spawn_agents_on_csv",
+          shortLabel: "spawn_agents_on_csv",
+          value: 0,
+          used: 0,
+          eligible: 28,
+          takeaway: "No batch fan-out adoption after release.",
+        },
+        {
+          date: "2026-02-26",
+          label: "request_user_input in Default mode",
+          shortLabel: "request_user_input",
+          value: 0,
+          used: 0,
+          eligible: 25,
+          takeaway: "No uptake for approval-choice workflow.",
+        },
+      ];
+
+      const opportunityData = [
+        {
+          label: "Parallel tool calls",
+          shortLabel: "Parallel calls",
+          value: 457,
+          action: "Run independent reads/checks with `parallel` tool orchestration.",
+        },
+        {
+          label: "request_user_input",
+          shortLabel: "request_user_input",
+          value: 138,
+          action: "When blocked by permissions, ask concise user choices early.",
+        },
+        {
+          label: "planning mode / update_plan",
+          shortLabel: "Plan/update_plan",
+          value: 131,
+          action: "For 20+ tool calls, keep `update_plan` alive through the run.",
+        },
+        {
+          label: "spawn_agents_on_csv / sub-agents",
+          shortLabel: "spawn_agents/sub-agents",
+          value: 39,
+          action: "Delegate batch work and long-running tasks to sub-agents.",
+        },
+        {
+          label: "image input/view_image",
+          shortLabel: "image/view_image",
+          value: 32,
+          action: "Use visual checks for UI/image-heavy tasks before finalizing.",
+        },
+        {
+          label: "sub-agents / awaiter",
+          shortLabel: "sub-agents/awaiter",
+          value: 32,
+          action: "Run tests/long jobs in sub-agents and report checkpoints.",
+        },
+        { label: "apply_patch", value: 17, action: "Prefer structured patching over ad-hoc file edits." },
+        { label: "web search tool", value: 1, action: "Use web lookup for unstable external facts." },
+      ];
+
+      const processStepData = [
+        { id: "process-step-1", title: "Step 1: Read Logs", detail: "903 session files parsed from rollout JSON + JSONL." },
+        { id: "process-step-2", title: "Step 2: Extract Signals", detail: "Commands, tools, durations, prompts, and friction events extracted." },
+        { id: "process-step-3", title: "Step 3: Align Dates", detail: "Feature checks counted only after each feature's release date." },
+        { id: "process-step-4", title: "Step 4: Score Gaps", detail: "847 opportunity moments classified by feature and impact." },
+      ];
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const totalOpportunities = 847;
+      const chartState = {
+        adoption: null,
+        timeline: null,
+        opportunity: null,
+      };
+
+      const chartTooltip = (() => {
+        const el = document.createElement("div");
+        el.className = "chart-tooltip";
+        document.body.appendChild(el);
+        return el;
+      })();
+      const filePreview = (() => {
+        const backdrop = document.createElement("div");
+        backdrop.className = "file-preview-backdrop";
+        backdrop.innerHTML = `
+          <div class="file-preview-modal" role="dialog" aria-modal="true" aria-labelledby="filePreviewTitle">
+            <div class="file-preview-header">
+              <div class="file-preview-title-wrap">
+                <strong id="filePreviewTitle" class="file-preview-title">File Preview</strong>
+                <span id="filePreviewMeta" class="file-preview-meta"></span>
+              </div>
+              <button type="button" class="file-preview-close" aria-label="Close file preview">Close</button>
+            </div>
+            <div class="file-preview-body">
+              <div class="file-preview-loading">Loading preview...</div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(backdrop);
+        return {
+          backdrop,
+          modal: backdrop.querySelector(".file-preview-modal"),
+          body: backdrop.querySelector(".file-preview-body"),
+          title: backdrop.querySelector("#filePreviewTitle"),
+          meta: backdrop.querySelector("#filePreviewMeta"),
+          closeButton: backdrop.querySelector(".file-preview-close"),
+          opener: null,
+        };
+      })();
+
+      function animateCounters() {
+        document.querySelectorAll("[data-counter]").forEach((el) => {
+          const target = Number(el.getAttribute("data-counter"));
+          if (reducedMotion) {
+            el.textContent = target;
+            return;
+          }
+          let current = 0;
+          const duration = 950;
+          const start = performance.now();
+          function step(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            current = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+            el.textContent = current.toLocaleString();
+            if (progress < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+      }
+
+      function makeSvgNode(name, attrs = {}) {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+        Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, String(v)));
+        return el;
+      }
+
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function svgPoint(evt, svg) {
+        const rect = svg.getBoundingClientRect();
+        const vb = svg.viewBox.baseVal;
+        const scaleX = vb.width / rect.width;
+        const scaleY = vb.height / rect.height;
+        return {
+          x: (evt.clientX - rect.left) * scaleX,
+          y: (evt.clientY - rect.top) * scaleY,
+        };
+      }
+
+      function showTooltip(evt, title, rows, color = "#0b8f8c") {
+        const lines = rows
+          .map(
+            (row) =>
+              `<div class="tt-row"><span class="tt-dot" style="background:${color}"></span><span>${escapeHtml(row)}</span></div>`
+          )
+          .join("");
+        chartTooltip.innerHTML = `<div class="tt-title">${escapeHtml(title)}</div>${lines}`;
+        chartTooltip.classList.add("visible");
+
+        const margin = 10;
+        let x = evt.clientX + 16;
+        let y = evt.clientY + 16;
+        const rect = chartTooltip.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth - margin) {
+          x = window.innerWidth - rect.width - margin;
+        }
+        if (y + rect.height > window.innerHeight - margin) {
+          y = evt.clientY - rect.height - 14;
+        }
+        chartTooltip.style.left = `${Math.max(margin, x)}px`;
+        chartTooltip.style.top = `${Math.max(margin, y)}px`;
+      }
+
+      function hideTooltip() {
+        chartTooltip.classList.remove("visible");
+      }
+
+      const previewLanguageByType = {
+        md: "markdown",
+        json: "json",
+        py: "python",
+      };
+
+      function getPreviewType(pathname) {
+        const lower = pathname.toLowerCase();
+        if (lower.endsWith(".md")) return "md";
+        if (lower.endsWith(".json")) return "json";
+        if (lower.endsWith(".csv")) return "csv";
+        if (lower.endsWith(".py")) return "py";
+        return null;
+      }
+
+      function previewFriendlyName(url) {
+        const parts = url.pathname.split("/").filter(Boolean);
+        return decodeURIComponent(parts[parts.length - 1] || url.pathname || url.href);
+      }
+
+      function formatJson(text) {
+        try {
+          return JSON.stringify(JSON.parse(text), null, 2);
+        } catch {
+          return text;
+        }
+      }
+
+      function highlightFileContent(type, text) {
+        const source = type === "json" ? formatJson(text) : text;
+        const language = previewLanguageByType[type] || "plaintext";
+        const hl = window.hljs;
+        if (hl && typeof hl.highlight === "function") {
+          try {
+            return hl.highlight(source, { language, ignoreIllegals: true }).value;
+          } catch (error) {
+            console.warn(`highlight.js failed for ${language}:`, error);
+            try {
+              return hl.highlightAuto(source).value;
+            } catch {
+              return escapeHtml(source);
+            }
+          }
+        }
+        return escapeHtml(source);
+      }
+
+      function parseCsvRecords(text) {
+        if (window.Papa && typeof window.Papa.parse === "function") {
+          const parsed = window.Papa.parse(text, {
+            header: true,
+            skipEmptyLines: true,
+            transformHeader: (header) => header.trim(),
+          });
+          const headers = (parsed.meta?.fields || []).map((h) => h || "");
+          if (headers.length) {
+            const rows = parsed.data.map((record) =>
+              headers.map((header) => String(record?.[header] ?? ""))
+            );
+            return { headers, rows };
+          }
+        }
+
+        const lines = text.split(/\r?\n/).filter((line) => line.trim().length > 0);
+        if (!lines.length) return { headers: [], rows: [] };
+        const headers = lines[0].split(",").map((cell) => cell.trim());
+        const rows = lines
+          .slice(1)
+          .map((line) => line.split(",").map((cell) => cell.trim()));
+        return { headers, rows };
+      }
+
+      function detectColumnSortMethod(rows, columnIndex) {
+        const sample = rows
+          .map((row) => String(row[columnIndex] ?? "").trim())
+          .filter((value) => value.length > 0)
+          .slice(0, 30);
+        if (!sample.length) return "string";
+
+        const numberLike = /^[-+]?\$?\d[\d,]*(?:\.\d+)?%?$/;
+        if (sample.every((value) => numberLike.test(value))) return "number";
+        if (sample.every((value) => !Number.isNaN(Date.parse(value)))) return "date";
+        return "string";
+      }
+
+      function attachFallbackTableSort(table) {
+        const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
+        let currentColumn = -1;
+        let direction = 1;
+        const headCells = [...table.querySelectorAll("thead th")];
+        const body = table.querySelector("tbody");
+        if (!body) return;
+
+        headCells.forEach((th, columnIndex) => {
+          th.addEventListener("click", () => {
+            direction = currentColumn === columnIndex ? -direction : 1;
+            currentColumn = columnIndex;
+            const rows = [...body.querySelectorAll("tr")];
+            rows.sort((a, b) => {
+              const av = a.children[columnIndex]?.textContent || "";
+              const bv = b.children[columnIndex]?.textContent || "";
+              return direction * collator.compare(av, bv);
+            });
+            rows.forEach((row) => body.appendChild(row));
+            headCells.forEach((cell) => cell.classList.remove("sort-up", "sort-down"));
+            th.classList.add(direction === 1 ? "sort-up" : "sort-down");
+          });
+        });
+      }
+
+      function renderCsvTable(text) {
+        const { headers, rows } = parseCsvRecords(text);
+        if (!headers.length) {
+          const empty = document.createElement("div");
+          empty.className = "file-preview-empty";
+          empty.textContent = "CSV file is empty.";
+          return empty;
+        }
+
+        const root = document.createElement("div");
+        const meta = document.createElement("div");
+        meta.className = "csv-meta";
+        meta.textContent = `${rows.length.toLocaleString()} rows \u00d7 ${headers.length.toLocaleString()} columns`;
+        root.appendChild(meta);
+
+        const wrap = document.createElement("div");
+        wrap.className = "csv-table-wrap";
+        const table = document.createElement("table");
+        table.className = "csv-table";
+
+        const thead = document.createElement("thead");
+        const headRow = document.createElement("tr");
+        headers.forEach((header, columnIndex) => {
+          const th = document.createElement("th");
+          th.textContent = header || `Column ${columnIndex + 1}`;
+          const sortMethod = detectColumnSortMethod(rows, columnIndex);
+          if (sortMethod !== "string") th.dataset.sortMethod = sortMethod;
+          headRow.appendChild(th);
+        });
+        thead.appendChild(headRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        rows.forEach((cells) => {
+          const tr = document.createElement("tr");
+          headers.forEach((_, colIndex) => {
+            const td = document.createElement("td");
+            td.textContent = cells[colIndex] ?? "";
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+
+        wrap.appendChild(table);
+        root.appendChild(wrap);
+
+        if (window.Tablesort) {
+          new window.Tablesort(table);
+        } else {
+          attachFallbackTableSort(table);
+        }
+
+        return root;
+      }
+
+      function renderTextPreview(type, text) {
+        const pre = document.createElement("pre");
+        pre.className = "file-preview-pre";
+        const code = document.createElement("code");
+        const language = previewLanguageByType[type] || "plaintext";
+        code.className = `hljs language-${language}`;
+        code.innerHTML = highlightFileContent(type, text);
+        pre.appendChild(code);
+        return pre;
+      }
+
+      async function fetchPreviewText(url) {
+        try {
+          const response = await fetch(url.href, { cache: "no-store" });
+          if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+          return await response.text();
+        } catch (fetchError) {
+          return await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", url.href, true);
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) resolve(xhr.responseText);
+              else reject(fetchError);
+            };
+            xhr.onerror = () => reject(fetchError);
+            xhr.send();
+          });
+        }
+      }
+
+      function closeFilePreview() {
+        filePreview.backdrop.classList.remove("open");
+        document.body.classList.remove("modal-open");
+        if (filePreview.opener && typeof filePreview.opener.focus === "function") {
+          filePreview.opener.focus();
+        }
+        filePreview.opener = null;
+      }
+
+      async function openFilePreview(anchor, url, type) {
+        filePreview.opener = anchor;
+        filePreview.title.textContent = previewFriendlyName(url);
+        filePreview.meta.textContent = `${type.toUpperCase()} preview`;
+        filePreview.body.innerHTML = '<div class="file-preview-loading">Loading preview...</div>';
+        filePreview.backdrop.classList.add("open");
+        document.body.classList.add("modal-open");
+        filePreview.closeButton.focus();
+
+        try {
+          const content = await fetchPreviewText(url);
+          filePreview.body.textContent = "";
+          if (type === "csv") {
+            filePreview.body.appendChild(renderCsvTable(content));
+          } else {
+            filePreview.body.appendChild(renderTextPreview(type, content));
+          }
+        } catch (error) {
+          filePreview.body.innerHTML = "";
+          const errorBox = document.createElement("div");
+          errorBox.className = "file-preview-error";
+          const msg = document.createElement("p");
+          msg.textContent = `Could not load ${previewFriendlyName(url)} in popup preview.`;
+          const fallback = document.createElement("a");
+          fallback.href = url.href;
+          fallback.textContent = "Open file directly";
+          fallback.target = "_blank";
+          fallback.rel = "noopener noreferrer";
+          errorBox.appendChild(msg);
+          errorBox.appendChild(fallback);
+          filePreview.body.appendChild(errorBox);
+          console.warn("File preview failed:", error);
+        }
+      }
+
+      function setupFilePreview() {
+        filePreview.backdrop.addEventListener("click", (evt) => {
+          if (evt.target === filePreview.backdrop) closeFilePreview();
+        });
+        filePreview.closeButton.addEventListener("click", closeFilePreview);
+        filePreview.modal.addEventListener("click", (evt) => evt.stopPropagation());
+        document.addEventListener("keydown", (evt) => {
+          if (evt.key === "Escape" && filePreview.backdrop.classList.contains("open")) {
+            closeFilePreview();
+          }
+        });
+        document.addEventListener("click", (evt) => {
+          if (evt.defaultPrevented) return;
+          const anchor = evt.target.closest("a[href]");
+          if (!anchor) return;
+          if (anchor.target === "_blank" || anchor.hasAttribute("download")) return;
+          if (evt.metaKey || evt.ctrlKey || evt.shiftKey || evt.altKey || evt.button !== 0) return;
+          let url = null;
+          try {
+            url = new URL(anchor.getAttribute("href"), window.location.href);
+          } catch {
+            return;
+          }
+          const type = getPreviewType(url.pathname);
+          if (!type) return;
+          const sameOrigin = url.origin === window.location.origin;
+          const isFile = window.location.protocol === "file:" && url.protocol === "file:";
+          if (!sameOrigin && !isFile) return;
+          evt.preventDefault();
+          openFilePreview(anchor, url, type);
+        });
+      }
+
+      function renderAdoptionChart() {
+        const svg = document.getElementById("adoptionGapSvg");
+        svg.innerHTML = "";
+        const mobile = svg.clientWidth < 640;
+        const width = mobile ? 760 : 960;
+        const height = mobile ? 560 : 450;
+        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+        const left = mobile ? 248 : 290;
+        const top = 44;
+        const barH = mobile ? 42 : 34;
+        const rowGap = mobile ? 20 : 18;
+        const maxBar = mobile ? 470 : 600;
+
+        const title = makeSvgNode("text", {
+          x: 16,
+          y: 24,
+          "font-size": 16,
+          "font-weight": 700,
+          fill: "#132238",
+        });
+        title.textContent = "Post-release adoption rate by feature";
+        svg.appendChild(title);
+
+        const rows = [];
+        adoptionData.forEach((d, i) => {
+          const y = top + i * (barH + rowGap);
+          const label = makeSvgNode("text", {
+            x: 12,
+            y: y + (mobile ? 24 : 22),
+            "font-size": mobile ? 16 : 14,
+            fill: "#132238",
+            "font-weight": 600,
+          });
+          label.textContent = mobile ? (d.shortLabel || d.label) : d.label;
+          svg.appendChild(label);
+
+          const note = makeSvgNode("text", {
+            x: 12,
+            y: y + (mobile ? 46 : 39),
+            "font-size": mobile ? 13 : 12,
+            fill: "#5b6a80",
+          });
+          note.textContent = d.note;
+          svg.appendChild(note);
+
+          const rail = makeSvgNode("rect", {
+            x: left,
+            y: y,
+            width: maxBar,
+            height: barH,
+            rx: 8,
+            fill: "#e9e4d8",
+          });
+          svg.appendChild(rail);
+
+          const color = d.group === "high" ? "#0b8f8c" : d.group === "mid" ? "#ffbe0b" : "#d94841";
+          const targetWidth = (maxBar * d.value) / 100;
+          const fill = makeSvgNode("rect", {
+            x: left,
+            y: y,
+            width: targetWidth,
+            height: barH,
+            rx: 8,
+            fill: color,
+            "data-target-width": targetWidth,
+          });
+          fill.classList.add("bar-fill");
+          svg.appendChild(fill);
+
+          const value = makeSvgNode("text", {
+            x: left + maxBar + 12,
+            y: y + (mobile ? 25 : 22),
+            "font-size": mobile ? 16 : 14,
+            "font-weight": 700,
+            fill: "#132238",
+          });
+          value.textContent = `${d.value.toFixed(1)}%`;
+          svg.appendChild(value);
+
+          rows.push({
+            y0: y,
+            y1: y + barH,
+            rail,
+            fill,
+            data: d,
+          });
+        });
+
+        chartState.adoption = { svg, rows, top, bottom: top + adoptionData.length * (barH + rowGap) - rowGap };
+
+        svg.onmousemove = (evt) => {
+          if (!chartState.adoption) return;
+          const p = svgPoint(evt, svg);
+          const row = chartState.adoption.rows.find((r) => p.y >= r.y0 && p.y <= r.y1);
+          chartState.adoption.rows.forEach((r) => {
+            r.rail.setAttribute("stroke", "none");
+            r.rail.setAttribute("fill", "#e9e4d8");
+            r.fill.setAttribute("opacity", "1");
+          });
+          if (!row) {
+            hideTooltip();
+            return;
+          }
+          row.rail.setAttribute("stroke", "#93a9bf");
+          row.rail.setAttribute("stroke-width", "1.5");
+          row.rail.setAttribute("fill", "#e2dbcb");
+          row.fill.setAttribute("opacity", "0.92");
+          const color = row.data.group === "high" ? "#0b8f8c" : row.data.group === "mid" ? "#ffbe0b" : "#d94841";
+          showTooltip(
+            evt,
+            row.data.label,
+            [
+              `Release: ${row.data.release}`,
+              `Adoption: ${row.data.value.toFixed(1)}% (${row.data.used}/${row.data.eligible})`,
+              row.data.action,
+            ],
+            color
+          );
+        };
+
+        svg.onmouseleave = () => {
+          hideTooltip();
+          chartState.adoption?.rows.forEach((r) => {
+            r.rail.setAttribute("stroke", "none");
+            r.rail.setAttribute("fill", "#e9e4d8");
+            r.fill.setAttribute("opacity", "1");
+          });
+        };
+      }
+
+      function animateBarFills(root) {
+        if (reducedMotion) return;
+        root.querySelectorAll(".bar-fill").forEach((bar) => {
+          const target = Number(bar.getAttribute("data-target-width") || 0);
+          const start = performance.now();
+          const duration = 900;
+          bar.setAttribute("width", "0");
+          function step(now) {
+            const p = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            bar.setAttribute("width", String(target * eased));
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+      }
+
+      function renderTimelineChart() {
+        const svg = document.getElementById("timelineSvg");
+        svg.innerHTML = "";
+        const mobile = svg.clientWidth < 640;
+        const width = mobile ? 760 : 980;
+        const height = mobile ? 520 : 420;
+        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+        const margin = mobile ? { top: 42, right: 20, bottom: 190, left: 56 } : { top: 40, right: 24, bottom: 120, left: 60 };
+        const innerW = width - margin.left - margin.right;
+        const innerH = height - margin.top - margin.bottom;
+
+        const parseDate = (v) => new Date(`${v}T00:00:00Z`).getTime();
+        const minDate = Math.min(...timelineData.map((d) => parseDate(d.date)));
+        const maxDate = Math.max(...timelineData.map((d) => parseDate(d.date)));
+        const x = (date) => margin.left + ((parseDate(date) - minDate) / (maxDate - minDate || 1)) * innerW;
+        const y = (value) => margin.top + (1 - value / 100) * innerH;
+
+        svg.appendChild(
+          makeSvgNode("rect", { x: 0, y: 0, width, height, fill: "#fffdf6", rx: 12 })
+        );
+
+        for (let tick = 0; tick <= 100; tick += 20) {
+          const yy = y(tick);
+          svg.appendChild(
+            makeSvgNode("line", {
+              x1: margin.left,
+              y1: yy,
+              x2: width - margin.right,
+              y2: yy,
+              stroke: "#e0dbcf",
+              "stroke-dasharray": tick === 0 ? "none" : "4 5",
+            })
+          );
+          const tickLabel = makeSvgNode("text", {
+            x: 18,
+            y: yy + 4,
+            "font-size": mobile ? 13 : 12,
+            fill: "#5b6a80",
+          });
+          tickLabel.textContent = `${tick}%`;
+          svg.appendChild(tickLabel);
+        }
+
+        const points = timelineData.map((d) => `${x(d.date)},${y(d.value)}`).join(" ");
+        const path = makeSvgNode("polyline", {
+          points,
+          fill: "none",
+          stroke: "#0b8f8c",
+          "stroke-width": 3,
+          "stroke-linejoin": "round",
+          "stroke-linecap": "round",
+          id: "timelineLine",
+        });
+        svg.appendChild(path);
+
+        const hoverRegion = makeSvgNode("rect", {
+          x: margin.left,
+          y: margin.top,
+          width: 0,
+          height: innerH,
+          fill: "rgba(11,143,140,0.15)",
+          stroke: "rgba(11,143,140,0.5)",
+          "stroke-width": 1,
+          opacity: 0,
+        });
+        svg.appendChild(hoverRegion);
+
+        const hoverDot = makeSvgNode("circle", {
+          cx: margin.left,
+          cy: margin.top + innerH,
+          r: 9,
+          fill: "#0b8f8c",
+          stroke: "#ffffff",
+          "stroke-width": 3,
+          opacity: 0,
+        });
+        svg.appendChild(hoverDot);
+
+        const spacedPoints = timelineData.map((d) => ({
+          ...d,
+          cx: x(d.date),
+          cy: y(d.value),
+        }));
+        let lastX = Number.NEGATIVE_INFINITY;
+        let lane = 0;
+        const laneThreshold = mobile ? 118 : 108;
+        spacedPoints.forEach((p) => {
+          if (p.cx - lastX < laneThreshold) {
+            lane = 1 - lane;
+          } else {
+            lane = 0;
+          }
+          p.lane = lane;
+          lastX = p.cx;
+        });
+
+        spacedPoints.forEach((d, i) => {
+          const cx = d.cx;
+          const cy = d.cy;
+          const color = d.value >= 50 ? "#0b8f8c" : d.value > 0 ? "#ffbe0b" : "#d94841";
+          const node = makeSvgNode("circle", {
+            cx,
+            cy: reducedMotion ? cy : y(0),
+            r: 8,
+            fill: color,
+            stroke: "#ffffff",
+            "stroke-width": 2,
+            class: "timeline-node timeline-data-node",
+            "data-target-y": cy,
+            "data-delay": i * 120,
+          });
+          svg.appendChild(node);
+          d._nodeRef = node;
+
+          const laneOffset = d.lane * (mobile ? 34 : 28);
+          const connector = makeSvgNode("line", {
+            x1: cx,
+            y1: height - 82 - laneOffset,
+            x2: cx,
+            y2: height - 66 - laneOffset,
+            stroke: "#b7c1d0",
+            "stroke-width": 1,
+          });
+          svg.appendChild(connector);
+
+          const label = makeSvgNode("text", {
+            x: cx,
+            y: height - 58 - laneOffset,
+            "font-size": mobile ? 13 : 12,
+            fill: "#132238",
+            "text-anchor": "middle",
+            "font-weight": 600,
+          });
+          label.textContent = mobile ? (d.shortLabel || d.label) : d.label;
+          svg.appendChild(label);
+
+          const date = makeSvgNode("text", {
+            x: cx,
+            y: height - 38 - laneOffset,
+            "font-size": mobile ? 12 : 11,
+            fill: "#6e7a8e",
+            "text-anchor": "middle",
+          });
+          date.textContent = d.date;
+          svg.appendChild(date);
+
+          const value = makeSvgNode("text", {
+            x: cx,
+            y: cy - 14,
+            "font-size": mobile ? 13 : 12,
+            fill: "#132238",
+            "text-anchor": "middle",
+            "font-weight": 700,
+          });
+          value.textContent = `${d.value.toFixed(1)}%`;
+          value.setAttribute("class", "timeline-value");
+          value.setAttribute("data-target-y", cy - 14);
+          svg.appendChild(value);
+        });
+
+        const hoverCapture = makeSvgNode("rect", {
+          x: margin.left,
+          y: margin.top,
+          width: innerW,
+          height: height - margin.top,
+          fill: "transparent",
+          style: "cursor: crosshair",
+        });
+        svg.appendChild(hoverCapture);
+
+        chartState.timeline = {
+          svg,
+          points: spacedPoints,
+          margin,
+          innerW,
+          innerH,
+          minDate,
+          maxDate,
+          hoverRegion,
+          hoverDot,
+        };
+
+        hoverCapture.onmousemove = (evt) => {
+          const state = chartState.timeline;
+          if (!state) return;
+          const p = svgPoint(evt, svg);
+          const clampedX = Math.min(state.margin.left + state.innerW, Math.max(state.margin.left, p.x));
+          let idx = -1;
+          for (let i = 0; i < state.points.length; i += 1) {
+            if (state.points[i].cx <= clampedX) idx = i;
+          }
+          if (idx < 0) idx = 0;
+          const feature = state.points[idx];
+          const regionStart = feature.cx;
+          const regionEnd = Math.max(regionStart + 2, clampedX);
+          state.hoverRegion.setAttribute("x", String(regionStart));
+          state.hoverRegion.setAttribute("width", String(Math.max(2, regionEnd - regionStart)));
+          state.hoverRegion.setAttribute("opacity", "1");
+          state.hoverDot.setAttribute("cx", String(feature.cx));
+          state.hoverDot.setAttribute("cy", String(feature.cy));
+          state.hoverDot.setAttribute("opacity", "1");
+
+          state.points.forEach((point) => {
+            const color = point.value >= 50 ? "#0b8f8c" : point.value > 0 ? "#ffbe0b" : "#d94841";
+            if (point._nodeRef) {
+              point._nodeRef.setAttribute("fill", color);
+              point._nodeRef.setAttribute("r", point === feature ? "10" : "8");
+            }
+          });
+
+          const hoveredDate = new Date(
+            state.minDate + ((clampedX - state.margin.left) / state.innerW) * (state.maxDate - state.minDate)
+          );
+          const hoverDateText = hoveredDate.toISOString().slice(0, 10);
+          showTooltip(
+            evt,
+            feature.label,
+            [
+              `Release date: ${feature.date}`,
+              `Adoption: ${feature.value.toFixed(1)}% (${feature.used}/${feature.eligible})`,
+              `Cursor date: ${hoverDateText}`,
+              feature.takeaway,
+            ],
+            feature.value >= 50 ? "#0b8f8c" : feature.value > 0 ? "#ffbe0b" : "#d94841"
+          );
+        };
+
+        hoverCapture.onmouseleave = () => {
+          const state = chartState.timeline;
+          if (!state) return;
+          state.hoverRegion.setAttribute("opacity", "0");
+          state.hoverDot.setAttribute("opacity", "0");
+          state.points.forEach((point) => {
+            if (point._nodeRef) point._nodeRef.setAttribute("r", "8");
+          });
+          hideTooltip();
+        };
+      }
+
+      function animateTimeline(root) {
+        if (reducedMotion) return;
+        const line = root.querySelector("#timelineLine");
+        if (line) {
+          const length = line.getTotalLength();
+          line.style.strokeDasharray = `${length}`;
+          line.style.strokeDashoffset = `${length}`;
+          line.animate([{ strokeDashoffset: `${length}` }, { strokeDashoffset: "0" }], {
+            duration: 1500,
+            easing: "ease",
+            fill: "forwards",
+          });
+        }
+        root.querySelectorAll(".timeline-node").forEach((node) => {
+          const targetY = Number(node.getAttribute("data-target-y"));
+          const delay = Number(node.getAttribute("data-delay"));
+          node.animate([{ cy: node.getAttribute("cy"), r: 6 }, { cy: `${targetY}`, r: 8 }], {
+            duration: 620,
+            delay,
+            easing: "cubic-bezier(.2,.8,.2,1)",
+            fill: "forwards",
+          });
+        });
+        root.querySelectorAll(".timeline-value").forEach((label, i) => {
+          const targetY = Number(label.getAttribute("data-target-y"));
+          label.animate([{ y: `${targetY + 14}`, opacity: 0 }, { y: `${targetY}`, opacity: 1 }], {
+            duration: 500,
+            delay: i * 120 + 260,
+            fill: "forwards",
+          });
+        });
+      }
+
+      function renderOpportunityChart() {
+        const svg = document.getElementById("opportunitySvg");
+        svg.innerHTML = "";
+        const mobile = svg.clientWidth < 640;
+        const width = mobile ? 760 : 980;
+        const height = mobile ? 620 : 460;
+        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+        const margin = mobile ? { top: 30, right: 14, bottom: 300, left: 62 } : { top: 30, right: 14, bottom: 160, left: 62 };
+        const innerW = width - margin.left - margin.right;
+        const innerH = height - margin.top - margin.bottom;
+        const max = Math.max(...opportunityData.map((d) => d.value));
+        const barWidth = innerW / opportunityData.length - 14;
+        const bars = [];
+
+        svg.appendChild(makeSvgNode("rect", { x: 0, y: 0, width, height, fill: "#fffdf6" }));
+        svg.appendChild(
+          makeSvgNode("line", {
+            x1: margin.left,
+            y1: margin.top + innerH,
+            x2: width - margin.right,
+            y2: margin.top + innerH,
+            stroke: "#cfc7b6",
+            "stroke-width": 2,
+          })
+        );
+
+        [100, 200, 300, 400].forEach((tick) => {
+          const yy = margin.top + innerH - (tick / max) * innerH;
+          svg.appendChild(
+            makeSvgNode("line", {
+              x1: margin.left,
+              y1: yy,
+              x2: width - margin.right,
+              y2: yy,
+              stroke: "#e1dccf",
+              "stroke-dasharray": "4 6",
+            })
+          );
+          const tl = makeSvgNode("text", { x: 20, y: yy + 4, "font-size": 12, fill: "#5b6a80" });
+          tl.textContent = `${tick}`;
+          svg.appendChild(tl);
+        });
+
+        opportunityData.forEach((d, i) => {
+          const x = margin.left + i * (barWidth + 14) + 7;
+          const h = (d.value / max) * innerH;
+          const y = margin.top + innerH - h;
+          const color = i < 3 ? "#f48c06" : i < 6 ? "#ffbe0b" : "#0b8f8c";
+          const bar = makeSvgNode("rect", {
+            x,
+            y: y,
+            width: barWidth,
+            height: h,
+            rx: 7,
+            fill: color,
+            class: "opp-bar",
+            "data-target-y": y,
+            "data-target-h": h,
+            "data-delay": i * 110,
+          });
+          svg.appendChild(bar);
+
+          const value = makeSvgNode("text", {
+            x: x + barWidth / 2,
+            y: y - 10,
+            "text-anchor": "middle",
+            "font-size": mobile ? 14 : 13,
+            "font-weight": 700,
+            fill: "#132238",
+          });
+          value.textContent = String(d.value);
+          value.setAttribute("class", "opp-value");
+          value.setAttribute("data-target-y", y - 10);
+          svg.appendChild(value);
+
+          const label = makeSvgNode("text", {
+            x: x + barWidth / 2,
+            y: mobile ? height - 180 : height - 96,
+            "text-anchor": "middle",
+            "font-size": mobile ? 12 : 11,
+            fill: "#30435f",
+          });
+          label.textContent = mobile ? (d.shortLabel || d.label) : d.label;
+          label.setAttribute("transform", `rotate(-32 ${x + barWidth / 2} ${mobile ? height - 180 : height - 96})`);
+          svg.appendChild(label);
+
+          bars.push({
+            x0: x,
+            x1: x + barWidth,
+            center: x + barWidth / 2,
+            bar,
+            data: d,
+          });
+        });
+
+        const hoverCapture = makeSvgNode("rect", {
+          x: margin.left,
+          y: margin.top,
+          width: innerW,
+          height: innerH,
+          fill: "transparent",
+          style: "cursor: crosshair",
+        });
+        svg.appendChild(hoverCapture);
+
+        chartState.opportunity = { svg, bars };
+
+        hoverCapture.onmousemove = (evt) => {
+          const state = chartState.opportunity;
+          if (!state) return;
+          const p = svgPoint(evt, svg);
+          let selected = state.bars[0];
+          let bestDist = Math.abs(p.x - selected.center);
+          state.bars.forEach((candidate) => {
+            const dist = Math.abs(p.x - candidate.center);
+            if (dist < bestDist) {
+              bestDist = dist;
+              selected = candidate;
+            }
+          });
+
+          state.bars.forEach((item) => {
+            item.bar.setAttribute("stroke", "none");
+            item.bar.setAttribute("opacity", item === selected ? "1" : "0.84");
+          });
+          selected.bar.setAttribute("stroke", "#355070");
+          selected.bar.setAttribute("stroke-width", "1.6");
+
+          const share = ((selected.data.value / totalOpportunities) * 100).toFixed(1);
+          showTooltip(
+            evt,
+            selected.data.label,
+            [
+              `Sessions flagged: ${selected.data.value}`,
+              `Share of all opportunities: ${share}%`,
+              selected.data.action || "High-leverage follow-up area.",
+            ],
+            "#f48c06"
+          );
+        };
+
+        hoverCapture.onmouseleave = () => {
+          chartState.opportunity?.bars.forEach((item) => {
+            item.bar.setAttribute("stroke", "none");
+            item.bar.setAttribute("opacity", "1");
+          });
+          hideTooltip();
+        };
+      }
+
+      function animateOpportunity(root) {
+        if (reducedMotion) return;
+        root.querySelectorAll(".opp-bar").forEach((bar) => {
+          const targetY = Number(bar.getAttribute("data-target-y"));
+          const targetH = Number(bar.getAttribute("data-target-h"));
+          const delay = Number(bar.getAttribute("data-delay"));
+          const baselineY = targetY + targetH;
+          bar.setAttribute("y", String(baselineY));
+          bar.setAttribute("height", "0");
+          const duration = 820;
+          const startAt = performance.now() + delay;
+          function step(now) {
+            if (now < startAt) {
+              requestAnimationFrame(step);
+              return;
+            }
+            const p = Math.min((now - startAt) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            const h = targetH * eased;
+            bar.setAttribute("height", String(h));
+            bar.setAttribute("y", String(baselineY - h));
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+        root.querySelectorAll(".opp-value").forEach((v, i) => {
+          const y = Number(v.getAttribute("data-target-y"));
+          v.setAttribute("opacity", "0");
+          v.setAttribute("y", String(y + 16));
+          const duration = 520;
+          const delay = i * 110 + 220;
+          const start = performance.now() + delay;
+          function step(now) {
+            if (now < start) {
+              requestAnimationFrame(step);
+              return;
+            }
+            const p = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 2);
+            v.setAttribute("y", String(y + (1 - eased) * 16));
+            v.setAttribute("opacity", String(eased));
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+      }
+
+      function runPipelineDot() {
+        if (reducedMotion) return;
+        const dot = document.getElementById("pipelineDot");
+        const path = document.getElementById("pipelinePath");
+        if (!dot || !path) return;
+        const len = path.getTotalLength();
+        let t = 0;
+        function tick() {
+          t = (t + 1.7) % len;
+          const p = path.getPointAtLength(t);
+          dot.setAttribute("cx", p.x.toFixed(2));
+          dot.setAttribute("cy", p.y.toFixed(2));
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      function setupProcessTooltips() {
+        const svg = document.getElementById("processSvg");
+        if (!svg) return;
+        processStepData.forEach((step) => {
+          const rect = document.getElementById(step.id);
+          if (!rect) return;
+          rect.style.cursor = "help";
+          rect.onmousemove = (evt) => {
+            rect.setAttribute("stroke-width", "2.2");
+            rect.setAttribute("stroke", "#5f7692");
+            showTooltip(evt, step.title, [step.detail], "#7aa3d8");
+          };
+          rect.onmouseleave = () => {
+            rect.setAttribute("stroke-width", "1");
+            const defaultStroke = step.id === "process-step-1"
+              ? "#bfd3ee"
+              : step.id === "process-step-2"
+                ? "#d9d2bc"
+                : step.id === "process-step-3"
+                  ? "#bddfcf"
+                  : "#f3c8b6";
+            rect.setAttribute("stroke", defaultStroke);
+            hideTooltip();
+          };
+        });
+      }
+
+      function setupHeroTooltip() {
+        const svg = document.querySelector(".hero-viz svg");
+        if (!svg) return;
+        svg.onmousemove = (evt) => {
+          const p = svgPoint(evt, svg);
+          if (p.y <= 190) {
+            showTooltip(
+              evt,
+              "Model adoption branch",
+              ["Post-release adoption: 75.8% for gpt-5.3-codex.", "Behavior change here is fast and decisive."],
+              "#0b8f8c"
+            );
+          } else {
+            showTooltip(
+              evt,
+              "Workflow adoption branch",
+              ["Many new workflow features remain near 0% adoption.", "Largest gains come from orchestration + coordination habits."],
+              "#d94841"
+            );
+          }
+        };
+        svg.onmouseleave = () => hideTooltip();
+      }
+
+      function setupReveal() {
+        const sections = document.querySelectorAll(".reveal");
+        const animated = new WeakSet();
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              if (animated.has(entry.target)) return;
+              animated.add(entry.target);
+              entry.target.classList.add("is-visible");
+              if (entry.target.querySelector("#adoptionGapSvg")) animateBarFills(entry.target);
+              if (entry.target.querySelector("#timelineSvg")) animateTimeline(entry.target);
+              if (entry.target.querySelector("#opportunitySvg")) animateOpportunity(entry.target);
+            });
+          },
+          { threshold: 0.18 }
+        );
+        sections.forEach((el) => observer.observe(el));
+      }
+
+      function setupSimulator() {
+        const slider = document.getElementById("adoptionSlider");
+        const label = document.getElementById("sliderLabel");
+        const hoursEl = document.getElementById("hoursSaved");
+        const monthEl = document.getElementById("monthlySaved");
+        if (!slider || !label || !hoursEl || !monthEl) return;
+
+        const missedMoments = 847;
+        const minsPerMoment = 2;
+        const daysCovered = 318;
+
+        function render() {
+          const pct = Number(slider.value) / 100;
+          const savedMinutes = missedMoments * pct * minsPerMoment;
+          const savedHours = savedMinutes / 60;
+          const monthlyHours = savedHours / (daysCovered / 30.44);
+          label.textContent = `Closing ${slider.value}% of missed moments`;
+          hoursEl.textContent = `${savedHours.toFixed(1)}h`;
+          monthEl.textContent = `~${monthlyHours.toFixed(1)} hours per month equivalent`;
+        }
+
+        slider.addEventListener("input", render);
+        render();
+      }
+
+      function renderCharts() {
+        renderAdoptionChart();
+        renderTimelineChart();
+        renderOpportunityChart();
+      }
+
+      renderCharts();
+      animateCounters();
+      runPipelineDot();
+      setupProcessTooltips();
+      setupHeroTooltip();
+      setupReveal();
+      setupSimulator();
+      setupFilePreview();
+
+      let resizeTimer = null;
+      window.addEventListener("resize", () => {
+        if (resizeTimer) window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(() => {
+          hideTooltip();
+          renderCharts();
+        }, 120);
+      });
+    </script>
+  </body>
+</html>

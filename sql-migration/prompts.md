@@ -37,7 +37,7 @@ Move Act 3 below Act 5
 ### Fix errors
 
 Fix this console error:
-sql.js:693  Uncaught ReferenceError: module is not defined
+sql.js:693 Uncaught ReferenceError: module is not defined
 (anonymous) @ sql.js:693
 
 Though syntax highlighting exists in the DOM, they ALL seem to be .line-code. Some problem there.

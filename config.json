@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "codex-session-analysis",
+      "title": "Codex Session Gap Analysis",
+      "description": "Analysis of 903 Codex sessions from Apr 2025 to Mar 2026, showing feature adoption gaps, release-aware coverage, and workflow recommendations.",
+      "link": "codex-session-analysis/",
+      "screenshot": "codex-session-analysis/screenshot.webp",
+      "date": "2026-03-01",
+      "folder": "codex-session-analysis"
+    },
+    {
       "id": "sql-migration",
       "title": "SQL Migration Narrative Demo",
       "description": "An interactive walkthrough of migrating 100 SQL Server scripts to MySQL with LLM-assisted conversion, verification, and business-impact simulation.",

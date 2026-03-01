@@ -25,6 +25,7 @@ function renderStoryMedia(story) {
   return `<img src="${story.screenshot}"
                class="card-img-top"
                alt="${story.title}"
+               loading="lazy" decoding="async"
                style="height: 200px; object-fit: cover;">`;
 }
 
