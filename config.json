@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "decktation",
+      "title": "Strategic Assessment: Client Reporting Transformation",
+      "description": "An AI-generated executive strategy deck synthesized from a stakeholder interview recording, showing how raw audio can be transformed into boardroom-ready insights.",
+      "link": "decktation/",
+      "screenshot": "decktation/screenshot.webm",
+      "date": "2026-03-05",
+      "folder": "decktation"
+    },
+    {
       "id": "codex-session-analysis",
       "title": "Codex Session Gap Analysis",
       "description": "Analysis of 903 Codex sessions from Apr 2025 to Mar 2026, showing feature adoption gaps, release-aware coverage, and workflow recommendations.",

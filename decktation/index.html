@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Assessment: Client Reporting Transformation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --mck-blue: #051c2c;
+            --mck-accent: #005f9e;
+            --mck-light-blue: #f0f4f8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: var(--mck-blue);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            height: 100%;
+            width: 100%;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+        }
+
+        .action-title {
+            border-bottom: 2px solid var(--mck-accent);
+            padding-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .bg-mck-blue { background-color: var(--mck-blue); }
+        .text-mck-blue { color: var(--mck-blue); }
+        .text-mck-accent { color: var(--mck-accent); }
+        .border-mck-accent { border-color: var(--mck-accent); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        /* Animations */
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-soft { animation: pulse-soft 3s infinite; }
+
+        @keyframes flow {
+            to { stroke-dashoffset: -20; }
+        }
+        .flow-line {
+            stroke-dasharray: 5;
+            animation: flow 1s linear infinite;
+        }
+
+        /* Modal */
+        #transcriptModal {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col relative bg-white">
+
+    <!-- Audio Player (Hidden) -->
+    <audio id="sourceAudio" src="recording.opus" preload="auto"></audio>
+
+    <!-- Header / Navigation -->
+    <header class="h-14 border-b border-gray-200 flex items-center justify-between px-8 bg-white z-20 shrink-0">
+        <div class="flex items-center space-x-4">
+            <div class="bg-mck-blue text-white px-2 py-1 text-xs font-bold tracking-tighter uppercase">Decktation</div>
+            <div class="h-4 w-px bg-gray-300"></div>
+            <h1 class="text-xs font-bold uppercase tracking-widest text-gray-500">Equity Operations Strategy</h1>
+        </div>
+        <div class="flex items-center space-x-6">
+            <div class="text-xs font-medium text-gray-400" id="slideCounter">Slide 1 / 5</div>
+            <div class="flex border border-gray-200 rounded overflow-hidden">
+                <button onclick="prevSlide()" class="px-3 py-1 hover:bg-gray-50 border-r border-gray-200 transition"><i class="fas fa-chevron-left text-xs"></i></button>
+                <button onclick="nextSlide()" class="px-3 py-1 hover:bg-gray-50 transition"><i class="fas fa-chevron-right text-xs"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Slide Stage -->
+    <main id="deck" class="flex-grow relative">
+
+        <!-- SLIDE 0: Process Overview -->
+        <div class="slide active p-10 md:p-16" id="slide1">
+            <div class="max-w-7xl mx-auto w-full flex flex-col h-full">
+                <h2 class="text-3xl font-bold action-title mb-4">
+                    Autonomous synthesis converts raw operational data into executive insights, eliminating manual translation latency and ensuring consistent strategic alignment.
+                </h2>
+                <p class="text-sm text-gray-500 mb-10">Meta-Context: This deck was autonomously generated from a stakeholders interview recording using an AI-native documentation pipeline.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center flex-grow">
+                    <!-- Left: Process Visual -->
+                    <div class="relative bg-gray-50 rounded-xl p-8 border border-gray-100 shadow-sm h-full flex flex-col justify-center">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-mck-accent mb-8 text-center">The Autonomous Intelligence Pipeline</h3>
+                        
+                        <div class="relative h-64">
+                            <svg viewBox="0 0 500 200" class="w-full h-full">
+                                <!-- Nodes -->
+                                <!-- 1. Audio -->
+                                <circle cx="60" cy="100" r="35" fill="#e0f2fe" stroke="#005f9e" stroke-width="2"/>
+                                <path d="M50 90 Q60 80 70 90 M45 100 Q60 85 75 100 M40 110 Q60 90 80 110" fill="none" stroke="#005f9e" stroke-width="2"/>
+                                <text x="60" y="160" text-anchor="middle" class="text-[10px] font-bold fill-gray-600">recording.opus</text>
+
+                                <!-- 2. Transcript -->
+                                <rect x="190" y="65" width="60" height="70" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+                                <line x1="200" y1="80" x2="240" y2="80" stroke="#ca8a04" stroke-width="1.5"/>
+                                <line x1="200" y1="95" x2="230" y2="95" stroke="#ca8a04" stroke-width="1.5"/>
+                                <line x1="200" y1="110" x2="240" y2="110" stroke="#ca8a04" stroke-width="1.5"/>
+                                <text x="220" y="160" text-anchor="middle" class="text-[10px] font-bold fill-gray-600">transcript.md</text>
+
+                                <!-- 3. LLM -->
+                                <path d="M330 65 L380 100 L330 135 L280 100 Z" fill="#f3e8ff" stroke="#9333ea" stroke-width="2"/>
+                                <text x="330" y="105" text-anchor="middle" class="text-[10px] font-bold fill-purple-700 uppercase">LLM</text>
+                                <text x="330" y="160" text-anchor="middle" class="text-[10px] font-bold fill-gray-600">Pyramid Synthesis</text>
+
+                                <!-- 4. Deck -->
+                                <rect x="420" y="70" width="60" height="45" rx="2" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                                <rect x="425" y="75" width="50" height="10" fill="#16a34a" opacity="0.2"/>
+                                <text x="450" y="160" text-anchor="middle" class="text-[10px] font-bold fill-gray-600">index.html</text>
+
+                                <!-- Flow Lines -->
+                                <path d="M95 100 L185 100" fill="none" stroke="#94a3b8" stroke-width="2" class="flow-line"/>
+                                <path d="M255 100 L275 100" fill="none" stroke="#94a3b8" stroke-width="2" class="flow-line"/>
+                                <path d="M385 100 L415 100" fill="none" stroke="#94a3b8" stroke-width="2" class="flow-line"/>
+                            </svg>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                            <button id="playBtn" class="flex items-center justify-center space-x-2 bg-white border border-gray-200 px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-50 transition shadow-sm">
+                                <i class="fas fa-play text-mck-accent" id="playIcon"></i>
+                                <span>Play Source Interview</span>
+                            </button>
+                            <button onclick="showTranscript()" class="flex items-center justify-center space-x-2 bg-white border border-gray-200 px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-50 transition shadow-sm">
+                                <i class="fas fa-align-left text-yellow-600"></i>
+                                <span>Read Full Transcript</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Business Value -->
+                    <div class="flex flex-col space-y-8">
+                        <div>
+                            <h4 class="text-mck-accent font-bold mb-2 flex items-center">
+                                <span class="bg-mck-accent text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] mr-2">1</span>
+                                Unprecedented Velocity
+                            </h4>
+                            <p class="text-sm text-gray-600">Traditional synthesis takes 2-4 hours per hour of audio. Autonomous pipelines deliver boardroom-ready decks in < 60 seconds, enabling immediate post-interview alignment.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-mck-accent font-bold mb-2 flex items-center">
+                                <span class="bg-mck-accent text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] mr-2">2</span>
+                                Structural Integrity
+                            </h4>
+                            <p class="text-sm text-gray-600">Enforces the Pyramid Principle and MECE (Mutually Exclusive, Collectively Exhaustive) frameworks by default, preventing analyst bias or oversight in reporting.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-mck-accent font-bold mb-2 flex items-center">
+                                <span class="bg-mck-accent text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] mr-2">3</span>
+                                Hyper-Scalability
+                            </h4>
+                            <p class="text-sm text-gray-600">One "source of truth" (the transcript) can be instantly re-pivoted into multiple versions: an ROI deck for the CFO, a process map for Ops, or a compliance audit trail.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Current State Bottleneck -->
+        <div class="slide p-10 md:p-16" id="slide2">
+            <div class="max-w-7xl mx-auto w-full flex flex-col h-full">
+                <h2 class="text-3xl font-bold action-title mb-4">
+                    The current reporting model is operationally brittle, consuming 1.5 FTE-months per year in manual data reconciliation and formatting "heroics."
+                </h2>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8 flex-grow">
+                    <!-- Workflow SVG -->
+                    <div class="lg:col-span-2 bg-gray-50 rounded-xl p-8 border border-gray-100 flex flex-col">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-mck-accent mb-6">Current State: Equity Reporting Workflow</h3>
+                        <div class="flex-grow">
+                            <svg viewBox="0 0 600 300" class="w-full h-full">
+                                <!-- Horizontal Timeline -->
+                                <line x1="50" y1="150" x2="550" y2="150" stroke="#cbd5e1" stroke-width="1"/>
+                                
+                                <!-- Step 1: Vistara -->
+                                <g transform="translate(50, 100)">
+                                    <rect x="0" y="0" width="100" height="100" rx="4" fill="white" stroke="#94a3b8" stroke-width="1"/>
+                                    <text x="50" y="30" text-anchor="middle" class="text-[10px] font-bold fill-gray-400">INPUT</text>
+                                    <text x="50" y="55" text-anchor="middle" class="text-[12px] font-bold fill-gray-700">Vistara</text>
+                                    <text x="50" y="75" text-anchor="middle" class="text-[9px] fill-red-500">Unstructured Bundle</text>
+                                </g>
+
+                                <!-- Step 2: Reconciliation (The Pain Point) -->
+                                <g transform="translate(200, 80)">
+                                    <rect x="0" y="0" width="120" height="140" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                                    <text x="60" y="30" text-anchor="middle" class="text-[10px] font-bold fill-red-800 uppercase">Bottleneck</text>
+                                    <text x="60" y="60" text-anchor="middle" class="text-[14px] font-bold fill-red-900">Manual Rec</text>
+                                    <text x="60" y="85" text-anchor="middle" class="text-[10px] fill-red-700">3 FTEs x 2 Weeks</text>
+                                    <text x="60" y="105" text-anchor="middle" class="text-[10px] italic fill-red-700">"Copy-Paste Heroics"</text>
+                                    <path d="M50 120 L70 120" stroke="#ef4444" stroke-width="2" class="animate-pulse-soft"/>
+                                </g>
+
+                                <!-- Step 3: Formatting -->
+                                <g transform="translate(370, 100)">
+                                    <rect x="0" y="0" width="100" height="100" rx="4" fill="white" stroke="#94a3b8" stroke-width="1"/>
+                                    <text x="50" y="30" text-anchor="middle" class="text-[10px] font-bold fill-gray-400">PROCESS</text>
+                                    <text x="50" y="55" text-anchor="middle" class="text-[12px] font-bold fill-gray-700">Brittle PDFs</text>
+                                    <text x="50" y="75" text-anchor="middle" class="text-[9px] fill-orange-600">Locked Formatting</text>
+                                </g>
+
+                                <!-- Step 4: Output -->
+                                <g transform="translate(520, 110)">
+                                    <rect x="0" y="0" width="60" height="80" rx="2" fill="#dcfce7" stroke="#16a34a" stroke-width="1"/>
+                                    <text x="30" y="45" text-anchor="middle" class="text-[10px] font-bold fill-green-800">Final</text>
+                                    <text x="30" y="60" text-anchor="middle" class="text-[10px] font-bold fill-green-800">Report</text>
+                                </g>
+
+                                <!-- Flow Arrows -->
+                                <path d="M150 150 L195 150" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arrow)"/>
+                                <path d="M320 150 L365 150" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arrow)"/>
+                                <path d="M470 150 L515 150" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arrow)"/>
+
+                                <defs>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#cbd5e1" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Impact Summary -->
+                    <div class="flex flex-col space-y-6">
+                        <div class="bg-white border-l-4 border-red-500 p-6 shadow-sm">
+                            <h4 class="text-sm font-bold uppercase text-gray-500 mb-2">Key Risk: Key Person Dependency</h4>
+                            <p class="text-xs text-gray-600 italic">"One person out sick and we feel it immediately. It’s not just busy; it’s brittle."</p>
+                        </div>
+                        <div class="bg-mck-blue text-white p-6 rounded-lg">
+                            <div class="text-3xl font-light mb-1">6 Weeks</div>
+                            <div class="text-[10px] uppercase font-bold tracking-wider text-blue-300 mb-4">Total Manual Effort / Quarter</div>
+                            <p class="text-xs text-blue-100">3 FTEs are dedicated full-time for 2 weeks every cycle solely for collation, reconciliation, and formatting.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                            <h4 class="text-sm font-bold text-mck-blue mb-2">Primary Bottlenecks</h4>
+                            <ul class="text-xs space-y-2 text-gray-600">
+                                <li class="flex items-center"><i class="fas fa-times-circle text-red-400 mr-2"></i> Unstructured "reporting bundles"</li>
+                                <li class="flex items-center"><i class="fas fa-times-circle text-red-400 mr-2"></i> Inconsistent naming (Final_FINAL2)</li>
+                                <li class="flex items-center"><i class="fas fa-times-circle text-red-400 mr-2"></i> Manual copy-paste into brand-locked PDFs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Root Cause Analysis -->
+        <div class="slide p-10 md:p-16" id="slide3">
+            <div class="max-w-7xl mx-auto w-full flex flex-col h-full">
+                <h2 class="text-3xl font-bold action-title mb-4">
+                    The focus on "time-to-market" has created a technical debt trap, where manual reconciliation prevents value-added analytical reporting.
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+                    <div class="space-y-10">
+                        <div class="flex items-start space-x-6">
+                            <div class="bg-mck-accent text-white p-3 rounded shadow-sm shrink-0">
+                                <i class="fas fa-database text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-2">Upstream Data Decay</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">The third-party administrator (Vistara) provides raw Excel extracts and PDFs without a stable schema. FundOps spends the majority of their time "interpreting" data rather than validating it.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-6">
+                            <div class="bg-mck-accent text-white p-3 rounded shadow-sm shrink-0">
+                                <i class="fas fa-file-invoice text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-2">Presentation Layer Rigidity</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">PDF templates are "brand-driven" with locked formatting. Tables break frequently, necessitating manual re-formatting that adds zero client value.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-6">
+                            <div class="bg-mck-accent text-white p-3 rounded shadow-sm shrink-0">
+                                <i class="fas fa-brain text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-2">Analytical Deficit</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">IR and Sales report that commentary is "repetitive" and "lacks depth." This is a direct consequence of the team being exhausted by the formatting phase.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-8 border border-gray-100 flex flex-col justify-center">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-mck-accent mb-6">The Negative Feedback Loop</h3>
+                        <svg viewBox="0 0 400 300" class="w-full h-full">
+                            <!-- Loop -->
+                            <circle cx="200" cy="150" r="80" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4"/>
+                            
+                            <!-- Points -->
+                            <g transform="translate(200, 70)">
+                                <circle r="30" fill="white" stroke="#ef4444" stroke-width="2"/>
+                                <text x="0" y="5" text-anchor="middle" class="text-[8px] font-bold fill-red-800">Manual Data</text>
+                                <text x="0" y="15" text-anchor="middle" class="text-[8px] font-bold fill-red-800">Friction</text>
+                            </g>
+                            <g transform="translate(280, 150)">
+                                <circle r="30" fill="white" stroke="#f59e0b" stroke-width="2"/>
+                                <text x="0" y="5" text-anchor="middle" class="text-[8px] font-bold fill-amber-800">Time-to-Market</text>
+                                <text x="0" y="15" text-anchor="middle" class="text-[8px] font-bold fill-amber-800">Obsession</text>
+                            </g>
+                            <g transform="translate(200, 230)">
+                                <circle r="30" fill="white" stroke="#6366f1" stroke-width="2"/>
+                                <text x="0" y="5" text-anchor="middle" class="text-[8px] font-bold fill-indigo-800">Generic</text>
+                                <text x="0" y="15" text-anchor="middle" class="text-[8px] font-bold fill-indigo-800">Commentary</text>
+                            </g>
+                            <g transform="translate(120, 150)">
+                                <circle r="30" fill="white" stroke="#64748b" stroke-width="2"/>
+                                <text x="0" y="5" text-anchor="middle" class="text-[8px] font-bold fill-gray-800">Analyst</text>
+                                <text x="0" y="15" text-anchor="middle" class="text-[8px] font-bold fill-gray-800">Exhaustion</text>
+                            </g>
+
+                            <!-- Center -->
+                            <text x="200" y="153" text-anchor="middle" class="text-[10px] font-bold fill-mck-blue uppercase tracking-tighter">Value Decay</text>
+                        </svg>
+                        <div class="mt-6 text-center">
+                            <p class="text-xs text-gray-500 italic">"IR and Sales complain that the commentary reads like last quarter with the dates changed."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Target Operating Model -->
+        <div class="slide p-10 md:p-16" id="slide4">
+            <div class="max-w-7xl mx-auto w-full flex flex-col h-full">
+                <h2 class="text-3xl font-bold action-title mb-4">
+                    Transitioning to a structured data schema and automated population will reduce FTE overhead by 66% while enabling high-alpha client analysis.
+                </h2>
+                <div class="mt-12 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-grow">
+                    <div class="lg:col-span-3 bg-gray-50 rounded-xl p-8 border border-gray-100 relative">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-mck-accent mb-8">Target State: Automated Reporting Platform</h3>
+                        <div class="h-64">
+                            <svg viewBox="0 0 500 200" class="w-full h-full">
+                                <!-- Step 1: Vistara API -->
+                                <rect x="20" y="70" width="80" height="60" rx="8" fill="white" stroke="#3b82f6" stroke-width="2"/>
+                                <text x="60" y="95" text-anchor="middle" class="text-[10px] font-bold">Vistara</text>
+                                <text x="60" y="110" text-anchor="middle" class="text-[8px] fill-blue-600 font-bold">Structured API</text>
+
+                                <!-- Step 2: Auto Rec -->
+                                <rect x="180" y="50" width="140" height="100" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                                <text x="250" y="80" text-anchor="middle" class="text-[11px] font-bold uppercase fill-blue-800">Automated</text>
+                                <text x="250" y="100" text-anchor="middle" class="text-[11px] font-bold uppercase fill-blue-800">Reconciliation</text>
+                                <text x="250" y="125" text-anchor="middle" class="text-[9px] fill-blue-600">Exception Handling Only</text>
+
+                                <!-- Step 3: Headless CMS / Template Engine -->
+                                <rect x="400" y="70" width="80" height="60" rx="8" fill="white" stroke="#16a34a" stroke-width="2"/>
+                                <text x="440" y="95" text-anchor="middle" class="text-[10px] font-bold">Dynamic</text>
+                                <text x="440" y="110" text-anchor="middle" class="text-[8px] fill-green-600 font-bold">Auto-Gen PDFs</text>
+
+                                <!-- Connectors -->
+                                <path d="M100 100 L175 100" fill="none" stroke="#3b82f6" stroke-width="3" marker-end="url(#blue-arrow)"/>
+                                <path d="M320 100 L395 100" fill="none" stroke="#3b82f6" stroke-width="3" marker-end="url(#blue-arrow)"/>
+
+                                <defs>
+                                    <marker id="blue-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="grid grid-cols-3 gap-8 mt-4 text-center">
+                            <div>
+                                <h4 class="text-[10px] font-bold uppercase text-gray-400 mb-1">Standardization</h4>
+                                <p class="text-[11px] text-gray-600 leading-tight">Eliminate manual interpretation via fixed field definitions.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-[10px] font-bold uppercase text-gray-400 mb-1">Automation</h4>
+                                <p class="text-[11px] text-gray-600 leading-tight">Auto-populate 95% of report fields from validated data sources.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-[10px] font-bold uppercase text-gray-400 mb-1">Analytics</h4>
+                                <p class="text-[11px] text-gray-600 leading-tight">Reclaim 2 weeks per quarter for high-value IR commentary.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-between space-y-4">
+                        <div class="bg-mck-blue text-white p-6 rounded-lg shadow-md">
+                            <h4 class="text-xs uppercase font-bold tracking-widest text-blue-300 mb-2">Success Vision</h4>
+                            <div class="text-2xl font-light mb-4">1 FTE <span class="text-sm opacity-60">Overseeing</span></div>
+                            <p class="text-xs text-blue-100">Shift from "heroic compilation" to exception-based management. No more manual copy-pasting.</p>
+                        </div>
+                        <div class="bg-green-50 border border-green-200 p-6 rounded-lg">
+                            <h4 class="text-xs uppercase font-bold tracking-widest text-green-700 mb-2">Alpha Impact</h4>
+                            <p class="text-xs text-green-800 font-medium">Reports out on time without heroics. Commentary that says something new—restoring IR and Sales confidence.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Roadmap -->
+        <div class="slide p-10 md:p-16" id="slide5">
+            <div class="max-w-7xl mx-auto w-full flex flex-col h-full">
+                <h2 class="text-3xl font-bold action-title mb-4">
+                    Phase 1 focuses on upstream data stabilization, followed by automated template integration in Phase 2.
+                </h2>
+                <div class="mt-16 relative">
+                    <div class="absolute h-1 bg-gray-100 w-full top-12 left-0 z-0"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
+                        <!-- Phase 1 -->
+                        <div class="flex flex-col">
+                            <div class="w-24 h-24 bg-mck-blue text-white rounded-full flex flex-col items-center justify-center mb-6 shadow-lg border-4 border-white">
+                                <span class="text-xs font-bold opacity-70">PHASE 1</span>
+                                <span class="text-xl font-bold">Q1-Q2</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-4">Data Governance</h3>
+                            <ul class="text-sm space-y-3 text-gray-600">
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Establish fixed data schema with Vistara</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Deploy automated reconciliation engine</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Map historical data to new target schema</li>
+                            </ul>
+                        </div>
+                        <!-- Phase 2 -->
+                        <div class="flex flex-col">
+                            <div class="w-24 h-24 bg-mck-accent text-white rounded-full flex flex-col items-center justify-center mb-6 shadow-lg border-4 border-white">
+                                <span class="text-xs font-bold opacity-70">PHASE 2</span>
+                                <span class="text-xl font-bold">Q3</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-4">Template Automation</h3>
+                            <ul class="text-sm space-y-3 text-gray-600">
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Decouple brand design from PDF logic</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Pilot auto-population for 3 equity funds</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Integrate commentary workflow into platform</li>
+                            </ul>
+                        </div>
+                        <!-- Phase 3 -->
+                        <div class="flex flex-col">
+                            <div class="w-24 h-24 bg-gray-100 text-gray-400 rounded-full flex flex-col items-center justify-center mb-6 shadow-lg border-4 border-white">
+                                <span class="text-xs font-bold opacity-70">PHASE 3</span>
+                                <span class="text-xl font-bold">Q4+</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-4">Steady State</h3>
+                            <ul class="text-sm space-y-3 text-gray-600">
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Rollout across all separate accounts</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Decommission legacy manual checklists</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-mck-accent mr-3 mt-1"></i> Full FTE reallocation to Client Analytics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="h-10 border-t border-gray-100 flex items-center justify-between px-8 bg-white z-20 shrink-0">
+        <div class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Confidential: Investment Operations Review</div>
+        <div class="text-[10px] text-gray-400 font-medium">Page <span id="footerPage">1</span> of 5</div>
+    </footer>
+
+    <!-- Transcript Modal -->
+    <div id="transcriptModal" class="fixed inset-0 bg-mck-blue bg-opacity-90 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-11/12 max-w-2xl h-5/6 rounded-lg shadow-2xl flex flex-col relative">
+            <button onclick="hideTranscript()" class="absolute -top-12 right-0 text-white hover:text-gray-300 transition text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="p-8 overflow-y-auto font-mono text-sm leading-relaxed text-gray-700" id="transcriptContent">
+                <!-- Content will be injected or hardcoded -->
+                <p class="mb-4 text-mck-accent font-bold uppercase text-xs tracking-widest border-b pb-2">Source: transcript.md</p>
+                <div class="space-y-4">
+                    <p><strong>Consultant:</strong> Hey, thanks for making the time. I know you’re slammed. I’ll keep this tight. To start, when you say “client reporting,” what exactly are we talking about—quarterly reports for which products?</p>
+                    <p><strong>Ops Manager:</strong> Yep, quarterly client reports for our equity funds. So, commingled equity vehicles, a couple of separate accounts that follow the same reporting pack. Same rhythm every quarter: compile, review, distribute.</p>
+                    <p><strong>Consultant:</strong> Got it. Walk me through the core workflow end-to-end. Like, “data comes from X, then Y happens, then PDF goes out.”</p>
+                    <p><strong>Ops Manager:</strong> Sure. Step one: we request the quarter-end data from our third-party fund administrator—Vistara. They send back what they call the “reporting bundle.” Step two: we reconcile that against our internal numbers, basically to make sure holdings, cash, fees, performance, all line up. Step three: we populate our report templates—these are formatting-heavy PDF templates—with the validated numbers. Step four: IR reviews commentary and sign-off. Step five: we send to clients and upload to the portal.</p>
+                    <p><strong>Consultant:</strong> When you say “reporting bundle,” what format is it coming in?</p>
+                    <p><strong>Ops Manager:</strong> That’s… the pain point. It’s raw and unstructured. Some parts are Excel extracts, some are PDFs, sometimes it’s a ZIP with multiple versions, and the naming conventions aren’t consistent. You’ll see “Final_FINAL2” kind of stuff. And then we have to manually reconcile it.</p>
+                    <p><strong>Consultant:</strong> So the bottleneck is the intake and reconciliation from Vistara, before it even hits your templates?</p>
+                    <p><strong>Ops Manager:</strong> Exactly. If Vistara gave us clean, structured tables with stable field names, we’d be in a different world. Instead, we spend days interpreting what they meant, matching it to our internal ledger, and then copy-pasting into the templates.</p>
+                    <p><strong>Consultant:</strong> Let’s quantify it. What’s the current effort and headcount?</p>
+                    <p><strong>Ops Manager:</strong> It’s three FTEs dedicated for about two full weeks every quarter. That’s basically their life during reporting season—data collation, reconciliation, and formatting. And it’s not just “busy.” It’s brittle. One person out sick and we feel it immediately.</p>
+                    <p><strong>Consultant:</strong> Three FTEs, two full weeks, every quarter—just for data collation and formatting. Not including review cycles?</p>
+                    <p><strong>Ops Manager:</strong> Correct. Review cycles add time, but the heavy lift is getting the numbers into the right shape and into the PDF templates. The templates are… I mean, they’re a nightmare. Very brand-driven. Lots of locked formatting, tables that break if you breathe on them.</p>
+                    <p><strong>Consultant:</strong> Where do handoffs happen? I’m listening for “this team does X, then throws over the wall.”</p>
+                    <p><strong>Ops Manager:</strong> Vistara to FundOps is the big one. Then FundOps to IR for commentary and final checks. Sales also gets pulled in because they want certain client-specific angles, but that’s more ad hoc. And Compliance sometimes pops in late with “did you include the right disclosures.”</p>
+                    <p><strong>Consultant:</strong> Quick clarification: is the commentary written by FundOps or IR?</p>
+                    <p><strong>Ops Manager:</strong> Mostly IR. But we feed them a draft, honestly. We provide the standard paragraphs, the “market backdrop,” that sort of thing, because they’re also stretched.</p>
+                    <p><strong>Consultant:</strong> And quality-wise—what’s working, what isn’t?</p>
+                    <p><strong>Ops Manager:</strong> Look, our primary goal is getting the reports out the door on time. That’s the KPI that matters. But yes—IR and Sales complain a lot that the commentary is repetitive and lacks analytical depth. They’ll say, “This reads like last quarter with the dates changed.” And… they’re not wrong. We don’t have time to do deep analysis when we’re fighting formatting issues.</p>
+                    <p><strong>Consultant:</strong> Understood. Where do errors creep in—if they do?</p>
+                    <p><strong>Ops Manager:</strong> Manual copy-paste is the obvious one. Also version control. Vistara sends updates, then we’re not always sure which number set made it into which template version. We’ve got checklists, but it’s still messy.</p>
+                    <p><strong>Consultant:</strong> If I waved a wand, what would you change first?</p>
+                    <p><strong>Ops Manager:</strong> Standardize the intake from Vistara. Give me structured data, predictable fields, and a reconciliation report that ties out cleanly. Second, reduce dependency on these PDF templates—at least automate population. Because right now, three people spending two weeks per quarter on collation and formatting is just… not a good use of talent.</p>
+                    <p><strong>Consultant:</strong> Last one: what does “success” look like a year from now?</p>
+                    <p><strong>Ops Manager:</strong> Reports out on time without heroics. Maybe one FTE doing oversight instead of three people in the trenches. And commentary that actually says something new—so IR and Sales stop rolling their eyes.</p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-100 flex justify-end">
+                <button onclick="hideTranscript()" class="bg-gray-100 text-gray-600 px-6 py-2 rounded font-bold text-xs uppercase tracking-widest hover:bg-gray-200 transition">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logic -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 5;
+
+        function updateDeck() {
+            document.querySelectorAll('.slide').forEach((s, i) => {
+                s.classList.toggle('active', (i + 1) === currentSlide);
+            });
+            document.getElementById('slideCounter').innerText = `Slide ${currentSlide} / ${totalSlides}`;
+            document.getElementById('footerPage').innerText = currentSlide;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateDeck();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateDeck();
+            }
+        }
+
+        // Audio controls
+        const audio = document.getElementById('sourceAudio');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        let playing = false;
+
+        playBtn.addEventListener('click', () => {
+            if (playing) {
+                audio.pause();
+                playIcon.classList.replace('fa-pause', 'fa-play');
+                playBtn.querySelector('span').innerText = 'Play Source Interview';
+            } else {
+                audio.play().catch(() => alert('Audio file not found.'));
+                playIcon.classList.replace('fa-play', 'fa-pause');
+                playBtn.querySelector('span').innerText = 'Pause Interview';
+            }
+            playing = !playing;
+        });
+
+        // Transcript Modal
+        function showTranscript() {
+            const m = document.getElementById('transcriptModal');
+            m.classList.remove('hidden');
+            setTimeout(() => m.classList.add('opacity-100'), 10);
+        }
+
+        function hideTranscript() {
+            const m = document.getElementById('transcriptModal');
+            m.classList.remove('opacity-100');
+            setTimeout(() => m.classList.add('hidden'), 300);
+        }
+
+        // Keyboard Nav
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'Escape') hideTranscript();
+        });
+    </script>
+</body>
+</html>

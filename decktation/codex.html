@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equity Reporting Process Diagnostic Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-0: #eaf0f7;
+      --bg-1: #f7fafc;
+      --bg-2: #dce6f3;
+      --ink-900: #0f172a;
+      --ink-700: #334155;
+      --ink-500: #64748b;
+      --line: #c9d6e8;
+      --panel: #ffffff;
+      --primary: #003a70;
+      --primary-2: #005b9a;
+      --accent: #0f9f8c;
+      --warn: #b45309;
+      --danger: #b91c1c;
+      --good: #0f766e;
+      --shadow: 0 18px 50px rgba(14, 42, 78, 0.12);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: var(--ink-900);
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(0, 91, 154, 0.14), transparent 44%),
+        radial-gradient(circle at 89% 18%, rgba(15, 159, 140, 0.08), transparent 40%),
+        linear-gradient(155deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.92), transparent 85%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #deck {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 620ms cubic-bezier(0.22, 0.88, 0.23, 0.99);
+      will-change: transform;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      padding: clamp(56px, 6vh, 72px) clamp(22px, 3.7vw, 56px) clamp(86px, 11vh, 110px);
+      display: grid;
+      align-content: start;
+      gap: clamp(14px, 1.7vh, 20px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 58, 112, 0.4) transparent;
+    }
+
+    .slide::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .slide::-webkit-scrollbar-thumb {
+      background: rgba(0, 58, 112, 0.4);
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .action-title {
+      margin: 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: clamp(1.62rem, 2.6vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--ink-900);
+      max-width: 24ch;
+    }
+
+    .slide-subtitle {
+      margin: 0;
+      max-width: 85ch;
+      color: var(--ink-700);
+      font-size: clamp(0.95rem, 1.23vw, 1.13rem);
+      line-height: 1.45;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: clamp(12px, 1.6vw, 18px);
+      align-items: stretch;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .panel {
+      background: linear-gradient(175deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.94));
+      border: 1px solid rgba(0, 58, 112, 0.13);
+      border-radius: var(--radius-lg);
+      padding: clamp(14px, 1.75vw, 22px);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: -40% auto auto -40%;
+      width: 66%;
+      height: 75%;
+      background: radial-gradient(circle, rgba(0, 91, 154, 0.07), transparent 70%);
+      pointer-events: none;
+    }
+
+    .panel h3 {
+      margin: 0 0 8px;
+      font-size: clamp(0.95rem, 1.1vw, 1.18rem);
+      color: var(--primary);
+    }
+
+    .panel p,
+    .panel li,
+    .table,
+    .metric-note {
+      position: relative;
+      z-index: 1;
+      color: var(--ink-700);
+      font-size: 0.93rem;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    ul.clean {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .metric {
+      border: 1px solid rgba(0, 58, 112, 0.18);
+      background: linear-gradient(155deg, rgba(0, 58, 112, 0.08), rgba(15, 159, 140, 0.06));
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: grid;
+      gap: 2px;
+    }
+
+    .metric .value {
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.08;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric .label {
+      font-size: 0.82rem;
+      color: var(--ink-700);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid rgba(0, 58, 112, 0.2);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      color: var(--primary);
+      background: rgba(255, 255, 255, 0.82);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 9px 0;
+      border-top: 1px solid rgba(0, 58, 112, 0.12);
+    }
+
+    .step:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .step-index {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 8px 18px rgba(0, 58, 112, 0.3);
+    }
+
+    .step strong {
+      color: var(--ink-900);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .risk-high { color: var(--danger); font-weight: 700; }
+    .risk-med { color: var(--warn); font-weight: 700; }
+    .risk-low { color: var(--good); font-weight: 700; }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+
+    .table th,
+    .table td {
+      border: 1px solid rgba(0, 58, 112, 0.18);
+      padding: 8px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .table th {
+      background: rgba(0, 58, 112, 0.08);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .audio-strip {
+      display: grid;
+      grid-template-columns: 1.5fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid rgba(0, 58, 112, 0.18);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    audio {
+      width: 100%;
+      min-width: 190px;
+      height: 36px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(0, 58, 112, 0.25);
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 9px 14px;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+      box-shadow: 0 10px 22px rgba(0, 58, 112, 0.24);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(0, 58, 112, 0.3);
+      outline: none;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: none;
+    }
+
+    .process-svg,
+    .flow-svg,
+    .future-svg {
+      width: 100%;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(0, 58, 112, 0.15);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(242, 248, 253, 0.95));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    }
+
+    .flow-line {
+      stroke: rgba(0, 58, 112, 0.45);
+      stroke-width: 2.2;
+      stroke-dasharray: 6 8;
+      animation: dash 9s linear infinite;
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -140;
+      }
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(10px);
+      will-change: transform, opacity;
+    }
+
+    .slide.active .reveal {
+      animation: rise 520ms ease forwards;
+    }
+
+    .slide.active .reveal.d1 { animation-delay: 80ms; }
+    .slide.active .reveal.d2 { animation-delay: 190ms; }
+    .slide.active .reveal.d3 { animation-delay: 300ms; }
+    .slide.active .reveal.d4 { animation-delay: 420ms; }
+
+    #controls {
+      position: fixed;
+      z-index: 3;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      width: min(900px, calc(100vw - 22px));
+      background: rgba(7, 25, 47, 0.78);
+      color: #f8fbff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      backdrop-filter: blur(8px);
+      display: grid;
+      grid-template-columns: auto auto 1fr auto;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 10px;
+    }
+
+    .ctrl-btn {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.06rem;
+      line-height: 1;
+    }
+
+    .ctrl-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    #slideLabel {
+      font-size: 0.84rem;
+      color: rgba(245, 250, 255, 0.92);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.17);
+      margin-left: 6px;
+    }
+
+    #progressBar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #7cc9ff, #86f0ce);
+      transition: width 420ms ease;
+    }
+
+    #counter {
+      font-size: 0.78rem;
+      color: rgba(240, 248, 255, 0.9);
+      min-width: 58px;
+      text-align: right;
+    }
+
+    #transcriptModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 10, 18, 0.72);
+      z-index: 6;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(12px, 4vw, 26px);
+    }
+
+    #transcriptModal.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(920px, 100%);
+      max-height: min(86vh, 900px);
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 58, 112, 0.2);
+      box-shadow: 0 24px 60px rgba(0, 13, 28, 0.35);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0, 58, 112, 0.15);
+      background: linear-gradient(180deg, #f7fbff, #f0f6fd);
+    }
+
+    .modal-head strong {
+      font-size: 0.94rem;
+      color: var(--primary);
+    }
+
+    #closeTranscript {
+      border: 1px solid rgba(0, 58, 112, 0.2);
+      background: #fff;
+      color: var(--primary);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    #transcriptBody {
+      padding: 14px;
+      overflow: auto;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      color: #1f2937;
+      font-size: 0.92rem;
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+    }
+
+    .legend {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--ink-700);
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+
+    .legend i {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    @media (max-width: 1080px) {
+      .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .slide {
+        padding-top: 56px;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .audio-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .action-title {
+        max-width: 100%;
+      }
+
+      #controls {
+        grid-template-columns: auto auto 1fr auto;
+      }
+
+      #slideLabel {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="deck">
+    <div id="track">
+      <section class="slide active" data-title="Automation Converts Interviews Into Scalable Intelligence">
+        <p class="eyebrow reveal d1">Auto-Generated Process Slide</p>
+        <h1 class="action-title reveal d1">Automating recording-to-transcript-to-deck conversion turns every interview into a scalable decision asset.</h1>
+        <p class="slide-subtitle reveal d2">This deck was auto-generated by transcribing <strong>recording.opus</strong> into <strong>transcript.md</strong>, then structuring the transcript into action-title slides. The workflow compresses cycle time and increases consistency while enabling rapid audience-specific variants.</p>
+
+        <div class="grid-2 reveal d2">
+          <div class="panel">
+            <h3>Pipeline Visualization</h3>
+            <svg class="process-svg" viewBox="0 0 1200 300" role="img" aria-label="Audio to transcript to deck pipeline">
+              <defs>
+                <linearGradient id="gradA" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#005b9a" />
+                  <stop offset="100%" stop-color="#0f9f8c" />
+                </linearGradient>
+              </defs>
+              <rect x="42" y="102" width="186" height="96" rx="14" fill="#eef6ff" stroke="#5a8fb8" />
+              <rect x="282" y="102" width="186" height="96" rx="14" fill="#effcf8" stroke="#5ea590" />
+              <rect x="522" y="102" width="186" height="96" rx="14" fill="#f5f7ff" stroke="#7791c2" />
+              <rect x="762" y="102" width="186" height="96" rx="14" fill="#fff8ef" stroke="#c69657" />
+              <rect x="995" y="74" width="170" height="70" rx="14" fill="#f4f8ff" stroke="#5a8fb8" />
+              <rect x="995" y="156" width="170" height="70" rx="14" fill="#f0fcf9" stroke="#5ea590" />
+
+              <text x="135" y="142" text-anchor="middle" font-size="17" font-weight="700" fill="#003a70">recording.opus</text>
+              <text x="135" y="165" text-anchor="middle" font-size="13" fill="#475569">Audio Capture</text>
+
+              <text x="375" y="142" text-anchor="middle" font-size="17" font-weight="700" fill="#0f766e">ASR + Cleanup</text>
+              <text x="375" y="165" text-anchor="middle" font-size="13" fill="#475569">Speaker Turn Parsing</text>
+
+              <text x="615" y="142" text-anchor="middle" font-size="17" font-weight="700" fill="#003a70">transcript.md</text>
+              <text x="615" y="165" text-anchor="middle" font-size="13" fill="#475569">Structured Source</text>
+
+              <text x="855" y="142" text-anchor="middle" font-size="17" font-weight="700" fill="#b45309">Deck Compiler</text>
+              <text x="855" y="165" text-anchor="middle" font-size="13" fill="#475569">Pyramid Storyline</text>
+
+              <text x="1080" y="111" text-anchor="middle" font-size="16" font-weight="700" fill="#003a70">IR Version</text>
+              <text x="1080" y="193" text-anchor="middle" font-size="16" font-weight="700" fill="#0f766e">Sales Version</text>
+
+              <path class="flow-line" d="M228 150 H282" fill="none" />
+              <path class="flow-line" d="M468 150 H522" fill="none" />
+              <path class="flow-line" d="M708 150 H762" fill="none" />
+              <path class="flow-line" d="M948 150 H995" fill="none" />
+              <path class="flow-line" d="M948 150 C972 150 972 109 995 109" fill="none" />
+              <path class="flow-line" d="M948 150 C972 150 972 191 995 191" fill="none" />
+
+              <circle r="7" fill="url(#gradA)">
+                <animateMotion dur="5.8s" repeatCount="indefinite" path="M228 150 H995" />
+              </circle>
+              <circle r="6" fill="#0f9f8c">
+                <animateMotion dur="6.6s" repeatCount="indefinite" path="M228 150 H948 C972 150 972 109 995 109" />
+              </circle>
+              <circle r="6" fill="#005b9a">
+                <animateMotion dur="6.2s" repeatCount="indefinite" path="M228 150 H948 C972 150 972 191 995 191" />
+              </circle>
+            </svg>
+            <div class="legend">
+              <span><i style="background:#005b9a"></i>Primary content flow</span>
+              <span><i style="background:#0f9f8c"></i>Audience variant generation</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Business Impact Beyond Time Savings</h3>
+            <div class="grid-2">
+              <div class="metric">
+                <span class="label">Cycle Time</span>
+                <span class="value">Hours, not days</span>
+                <span class="metric-note">Eliminates repetitive manual repackaging from scratch.</span>
+              </div>
+              <div class="metric">
+                <span class="label">Scalability</span>
+                <span class="value">One-to-many</span>
+                <span class="metric-note">Additional interviews generate decks with near-zero setup.</span>
+              </div>
+              <div class="metric">
+                <span class="label">Consistency</span>
+                <span class="value">Reusable logic</span>
+                <span class="metric-note">Action-title structure and formatting stay standardized.</span>
+              </div>
+              <div class="metric">
+                <span class="label">Agility</span>
+                <span class="value">Fast re-generation</span>
+                <span class="metric-note">When process changes, regenerate deck from updated transcript.</span>
+              </div>
+              <div class="metric">
+                <span class="label">Audience Fit</span>
+                <span class="value">IR / Sales / Compliance</span>
+                <span class="metric-note">Single source can produce tailored narrative emphasis per audience.</span>
+              </div>
+              <div class="metric">
+                <span class="label">Governance</span>
+                <span class="value">Traceable chain</span>
+                <span class="metric-note">Audio, transcript, and slides remain linked for auditability.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audio-strip reveal d3">
+          <audio controls preload="metadata" aria-label="Original interview audio">
+            <source src="recording.opus" type="audio/ogg; codecs=opus" />
+            <source src="recording.opus" type="audio/opus" />
+            Your browser does not support audio playback.
+          </audio>
+          <button class="btn" id="openTranscript" type="button">Open `transcript.md`</button>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Experts Start Where Information Breaks">
+        <p class="eyebrow reveal d1">Expert Planning Lens</p>
+        <h2 class="action-title reveal d1">Experts test structure, handoffs, and controls first because that is where reporting systems usually fail.</h2>
+        <p class="slide-subtitle reveal d2">Before building slides, we used the lens an experienced operating model diagnostician would use: detect hidden instability, validate ownership clarity, and surface failure points that novices often miss.</p>
+
+        <div class="grid-3 reveal d2">
+          <div class="panel">
+            <h3>Patterns Experts Recognize</h3>
+            <ul class="clean">
+              <li>Upstream data variability predicts downstream rework load.</li>
+              <li>Handoff density correlates with latency and ambiguity.</li>
+              <li>Manual formatting effort displaces analytical depth.</li>
+              <li>"Heroic" success signals fragility, not operational strength.</li>
+              <li>Late-stage review involvement increases re-open loops.</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h3>Questions Experts Ask Early</h3>
+            <ul class="clean">
+              <li>Exactly which source fields arrive unstable each quarter?</li>
+              <li>Where does ownership shift without formal control checks?</li>
+              <li>Which steps are value-add vs. pure translation effort?</li>
+              <li>How much capacity is consumed before insight creation starts?</li>
+              <li>What single change would reduce failure probability most?</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h3>Failures Experts Anticipate</h3>
+            <ul class="clean">
+              <li>Version drift from inconsistent "final" file variants.</li>
+              <li>Copy-paste transcription errors in locked templates.</li>
+              <li>Key-person dependency during peak reporting windows.</li>
+              <li>Repetitive commentary from insufficient analytical time.</li>
+              <li>Late compliance disclosures forcing release delays.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel reveal d3">
+          <h3>How This Lens Shaped This Deck</h3>
+          <p>The following slides explicitly trace root cause chain: <strong>input disorder -> reconciliation burden -> capacity drain -> insight quality decline -> redesign levers</strong>. This keeps the story hypothesis-driven instead of anecdotal.</p>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Interviewer Used a Deliberate Diagnostic Funnel">
+        <p class="eyebrow reveal d1">Interview Intent Decoded</p>
+        <h2 class="action-title reveal d1">The interviewer intentionally moved from scope to bottleneck economics to isolate root causes rather than symptoms.</h2>
+        <p class="slide-subtitle reveal d2">Question sequence was not random. It followed a consulting-style funnel to expose where effort is spent, where quality breaks, and what "success" should look like one year out.</p>
+
+        <div class="grid-2 reveal d2">
+          <div class="panel">
+            <h3>Question Funnel and What Each Step Tested</h3>
+            <div class="timeline">
+              <div class="step"><span class="step-index">1</span><div><strong>Define Scope</strong>"What exactly is client reporting?" -> Product and cadence boundary.</div></div>
+              <div class="step"><span class="step-index">2</span><div><strong>Map Workflow</strong>"Walk me through end-to-end" -> Process architecture and owners.</div></div>
+              <div class="step"><span class="step-index">3</span><div><strong>Probe Bottleneck</strong>"What format is bundle in?" -> Intake quality and pre-analysis friction.</div></div>
+              <div class="step"><span class="step-index">4</span><div><strong>Quantify Load</strong>"Current effort and headcount?" -> Capacity economics.</div></div>
+              <div class="step"><span class="step-index">5</span><div><strong>Surface Handoffs</strong>"Who throws over the wall?" -> Interface risk and accountability gaps.</div></div>
+              <div class="step"><span class="step-index">6</span><div><strong>Test Quality + Errors</strong>"What works, what fails?" -> Output perception and control weaknesses.</div></div>
+              <div class="step"><span class="step-index">7</span><div><strong>Anchor Future State</strong>"What does success look like?" -> Target operating model.</div></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Intended Learning Objectives</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Objective</th>
+                  <th>Evidence Captured</th>
+                  <th>Why It Matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Pinpoint true bottleneck</td>
+                  <td>Unstructured Vistara bundle called out as pain point.</td>
+                  <td>Prevents solutioning on downstream symptoms only.</td>
+                </tr>
+                <tr>
+                  <td>Quantify business impact</td>
+                  <td>3 FTEs for ~2 weeks every quarter.</td>
+                  <td>Creates urgency and ROI baseline.</td>
+                </tr>
+                <tr>
+                  <td>Diagnose quality tradeoffs</td>
+                  <td>Commentary "repetitive" and low depth.</td>
+                  <td>Shows strategic cost beyond operations burden.</td>
+                </tr>
+                <tr>
+                  <td>Define success criteria</td>
+                  <td>1 FTE oversight + better commentary.</td>
+                  <td>Enables measurable transformation target.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Current Workflow Is Linear and Handoff-Heavy">
+        <p class="eyebrow reveal d1">Current-State Process</p>
+        <h2 class="action-title reveal d1">The reporting process is a linear chain with high handoff friction, and FundOps absorbs most integration complexity.</h2>
+        <p class="slide-subtitle reveal d2">Process steps are clear, but information quality degrades at boundaries. The "Vistara -> FundOps" interface is the dominant stress point.</p>
+
+        <div class="grid-2 reveal d2">
+          <div class="panel">
+            <h3>End-to-End Flow (Actor View)</h3>
+            <svg class="flow-svg" viewBox="0 0 980 390" role="img" aria-label="Current reporting workflow with handoffs">
+              <defs>
+                <marker id="arrowA" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                  <polygon points="0 0, 9 3.5, 0 7" fill="#3a6f9c"></polygon>
+                </marker>
+              </defs>
+
+              <rect x="26" y="38" width="180" height="70" rx="12" fill="#eef6ff" stroke="#6a9bc2"/>
+              <text x="116" y="68" text-anchor="middle" font-size="16" font-weight="700" fill="#003a70">Vistara Admin</text>
+              <text x="116" y="88" text-anchor="middle" font-size="12" fill="#475569">Sends reporting bundle</text>
+
+              <rect x="250" y="38" width="220" height="70" rx="12" fill="#f6fbff" stroke="#6a9bc2"/>
+              <text x="360" y="68" text-anchor="middle" font-size="16" font-weight="700" fill="#003a70">FundOps: Intake + Reconcile</text>
+              <text x="360" y="88" text-anchor="middle" font-size="12" fill="#475569">Manual matching and tie-out</text>
+
+              <rect x="514" y="38" width="220" height="70" rx="12" fill="#fff8ee" stroke="#be955f"/>
+              <text x="624" y="68" text-anchor="middle" font-size="16" font-weight="700" fill="#8a5a14">PDF Template Population</text>
+              <text x="624" y="88" text-anchor="middle" font-size="12" fill="#475569">Locked, formatting-heavy</text>
+
+              <rect x="772" y="38" width="180" height="70" rx="12" fill="#effcf8" stroke="#5ea590"/>
+              <text x="862" y="68" text-anchor="middle" font-size="16" font-weight="700" fill="#0f766e">IR Review + Sign-off</text>
+              <text x="862" y="88" text-anchor="middle" font-size="12" fill="#475569">Commentary + checks</text>
+
+              <rect x="772" y="158" width="180" height="70" rx="12" fill="#eef8ff" stroke="#6a9bc2"/>
+              <text x="862" y="188" text-anchor="middle" font-size="16" font-weight="700" fill="#003a70">Client Distribution</text>
+              <text x="862" y="208" text-anchor="middle" font-size="12" fill="#475569">Email + portal upload</text>
+
+              <rect x="514" y="158" width="220" height="70" rx="12" fill="#f2f7ff" stroke="#6a9bc2"/>
+              <text x="624" y="188" text-anchor="middle" font-size="15" font-weight="700" fill="#003a70">Sales / Compliance Input</text>
+              <text x="624" y="208" text-anchor="middle" font-size="12" fill="#475569">Often ad hoc, sometimes late</text>
+
+              <line class="flow-line" x1="206" y1="74" x2="250" y2="74" marker-end="url(#arrowA)" />
+              <line class="flow-line" x1="470" y1="74" x2="514" y2="74" marker-end="url(#arrowA)" />
+              <line class="flow-line" x1="734" y1="74" x2="772" y2="74" marker-end="url(#arrowA)" />
+              <line class="flow-line" x1="862" y1="108" x2="862" y2="158" marker-end="url(#arrowA)" />
+              <line class="flow-line" x1="624" y1="158" x2="624" y2="108" marker-end="url(#arrowA)" />
+
+              <circle r="5.5" fill="#005b9a">
+                <animateMotion dur="6.2s" repeatCount="indefinite" path="M206 74 L250 74 L470 74 L734 74 L772 74 L862 74 L862 158" />
+              </circle>
+            </svg>
+            <div class="chip-row" style="margin-top:10px">
+              <span class="chip">Primary stress point: Vistara -> FundOps</span>
+              <span class="chip">Manual touchpoints: intake, reconcile, template</span>
+              <span class="chip">Late input risk: Sales + Compliance</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Where Work Accumulates</h3>
+            <ul class="clean">
+              <li><strong>Step 1-2 (Intake + Reconcile):</strong> raw bundle interpreted across inconsistent file formats and naming.</li>
+              <li><strong>Step 3 (Template population):</strong> locked PDF format amplifies rework for even minor data changes.</li>
+              <li><strong>Step 4 (IR review):</strong> review adds value, but often constrained by upstream timing pressure.</li>
+              <li><strong>Step 5 (Distribution):</strong> final step is operationally straightforward once upstream quality is stable.</li>
+            </ul>
+            <div class="grid-2" style="margin-top:12px">
+              <div class="metric">
+                <span class="label">Process Shape</span>
+                <span class="value">Sequential</span>
+                <span class="metric-note">Minimal parallelization across teams.</span>
+              </div>
+              <div class="metric">
+                <span class="label">Control Style</span>
+                <span class="value">Checklist-based</span>
+                <span class="metric-note">Useful but vulnerable to version churn.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Unstructured Intake Is the Root Bottleneck">
+        <p class="eyebrow reveal d1">Root-Cause Diagnosis</p>
+        <h2 class="action-title reveal d1">Unstructured Vistara bundles create the primary bottleneck before analysis can begin, forcing expensive interpretation work.</h2>
+        <p class="slide-subtitle reveal d2">The issue is not report distribution or review discipline. It is upstream data packaging quality: inconsistent formats, versions, and field naming conventions.</p>
+
+        <div class="grid-2 reveal d2">
+          <div class="panel">
+            <h3>Input Reality vs. Required State</h3>
+            <div class="grid-2">
+              <div>
+                <p><strong>What arrives today</strong></p>
+                <ul class="clean">
+                  <li>Mixed Excel extracts, PDFs, ZIP archives.</li>
+                  <li>Inconsistent naming (e.g., multiple "final" files).</li>
+                  <li>Unstable schema across reporting periods.</li>
+                  <li>Manual interpretation before reconciliation starts.</li>
+                </ul>
+              </div>
+              <div>
+                <p><strong>What workflow needs</strong></p>
+                <ul class="clean">
+                  <li>Stable structured tables with fixed field names.</li>
+                  <li>Version-controlled package manifest.</li>
+                  <li>Machine-readable reconciliation report.</li>
+                  <li>Deterministic load into template pipeline.</li>
+                </ul>
+              </div>
+            </div>
+
+            <svg class="flow-svg" viewBox="0 0 960 210" role="img" aria-label="Transformation from raw bundle to structured intake">
+              <rect x="24" y="36" width="230" height="138" rx="12" fill="#fff4f4" stroke="#c78e8e" />
+              <text x="139" y="70" text-anchor="middle" font-size="15" font-weight="700" fill="#9f2424">Raw Bundle</text>
+              <text x="139" y="94" text-anchor="middle" font-size="12" fill="#6b7280">xlsx + pdf + zip + v2_final</text>
+
+              <path class="flow-line" d="M262 104 H428" fill="none" />
+
+              <rect x="428" y="52" width="120" height="104" rx="60" fill="#fff8e8" stroke="#c08d42"/>
+              <text x="488" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#9a670e">Parser +</text>
+              <text x="488" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#9a670e">Validator</text>
+
+              <path class="flow-line" d="M556 104 H736" fill="none" />
+
+              <rect x="736" y="36" width="200" height="138" rx="12" fill="#eefdf8" stroke="#5ea590" />
+              <text x="836" y="70" text-anchor="middle" font-size="15" font-weight="700" fill="#0f766e">Structured Intake</text>
+              <text x="836" y="94" text-anchor="middle" font-size="12" fill="#6b7280">stable schema + version ID</text>
+
+              <circle r="6" fill="#b91c1c">
+                <animateMotion dur="4.8s" repeatCount="indefinite" path="M254 104 H548" />
+              </circle>
+              <circle r="6" fill="#0f9f8c">
+                <animateMotion dur="4.8s" begin="1s" repeatCount="indefinite" path="M556 104 H736" />
+              </circle>
+            </svg>
+          </div>
+
+          <div class="panel">
+            <h3>Transcript Evidence and Implication</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Observed Statement</th>
+                  <th>Operational Implication</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>"Raw and unstructured ... naming conventions aren’t consistent."</td>
+                  <td>No deterministic ingestion; human interpretation becomes mandatory.</td>
+                </tr>
+                <tr>
+                  <td>"We spend days interpreting what they meant."</td>
+                  <td>Cycle time consumed before analytical value creation begins.</td>
+                </tr>
+                <tr>
+                  <td>"Then copy-pasting into templates."</td>
+                  <td>Error surface area expands through manual transport steps.</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="metric" style="margin-top:12px">
+              <span class="label">Root Cause Summary</span>
+              <span class="value">Input disorder drives downstream labor.</span>
+              <span class="metric-note">Fixing downstream review without intake standardization will not materially change effort.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Manual Mechanics Consume 24 FTE-Weeks Per Year">
+        <p class="eyebrow reveal d1">Capacity Economics</p>
+        <h2 class="action-title reveal d1">Manual reconciliation and PDF formatting consume roughly 24 FTE-weeks per year and create immediate key-person fragility.</h2>
+        <p class="slide-subtitle reveal d2">The workload concentration is operationally expensive and strategically costly because scarce talent is allocated to translation tasks instead of analysis.</p>
+
+        <div class="grid-3 reveal d2">
+          <div class="panel">
+            <h3>Effort Baseline</h3>
+            <div class="metric">
+              <span class="label">Quarterly Load</span>
+              <span class="value">3 FTE x 2 weeks</span>
+              <span class="metric-note">Dedicated reporting season effort for collation + formatting.</span>
+            </div>
+            <div class="metric" style="margin-top:10px">
+              <span class="label">Annualized</span>
+              <span class="value">24 FTE-weeks</span>
+              <span class="metric-note">Equivalent to nearly half a full-time year of labor.</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Where Hours Are Spent</h3>
+            <svg class="flow-svg" viewBox="0 0 420 260" role="img" aria-label="Allocation of time across activities">
+              <rect x="32" y="42" width="356" height="38" rx="10" fill="#e2edf8" />
+              <rect x="32" y="42" width="186" height="38" rx="10" fill="#003a70" />
+              <text x="42" y="67" font-size="12" fill="#fff">Interpret + reconcile inputs</text>
+
+              <rect x="32" y="98" width="356" height="38" rx="10" fill="#e7f5f0" />
+              <rect x="32" y="98" width="130" height="38" rx="10" fill="#0f9f8c" />
+              <text x="42" y="123" font-size="12" fill="#fff">Template formatting</text>
+
+              <rect x="32" y="154" width="356" height="38" rx="10" fill="#efe9dc" />
+              <rect x="32" y="154" width="88" height="38" rx="10" fill="#b45309" />
+              <text x="42" y="179" font-size="12" fill="#fff">Review coordination</text>
+
+              <text x="32" y="222" font-size="12" fill="#334155">Indicative distribution derived from interview emphasis.</text>
+            </svg>
+            <div class="legend">
+              <span><i style="background:#003a70"></i>Highest effort concentration</span>
+              <span><i style="background:#0f9f8c"></i>Formatting overhead</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Fragility Signals</h3>
+            <ul class="clean">
+              <li><strong>Absence sensitivity:</strong> "One person out sick and we feel it immediately."</li>
+              <li><strong>Template brittleness:</strong> locked PDF tables break with minor edits.</li>
+              <li><strong>Surge dependency:</strong> concentrated quarter-end load encourages heroics.</li>
+              <li><strong>Limited slack:</strong> little room for investigative analysis.</li>
+            </ul>
+            <div class="chip-row" style="margin-top:12px">
+              <span class="chip">Operational risk: High</span>
+              <span class="chip">Talent utilization: Poor</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Upstream Friction Degrades Insight Quality and Controls">
+        <p class="eyebrow reveal d1">Quality and Risk Chain</p>
+        <h2 class="action-title reveal d1">Capacity absorbed by data wrangling drives repetitive commentary, version ambiguity, and avoidable control risk.</h2>
+        <p class="slide-subtitle reveal d2">Stakeholder complaints are downstream indicators of an upstream operating model mismatch: too much manual mechanics, too little analytical bandwidth.</p>
+
+        <div class="grid-2 reveal d2">
+          <div class="panel">
+            <h3>Causal Mechanism</h3>
+            <svg class="flow-svg" viewBox="0 0 920 250" role="img" aria-label="Cause and effect chain">
+              <defs>
+                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                  <polygon points="0 0, 9 3.5, 0 7" fill="#4d6f90"></polygon>
+                </marker>
+              </defs>
+              <rect x="30" y="78" width="190" height="88" rx="12" fill="#eef6ff" stroke="#6a9bc2"/>
+              <text x="125" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="#003a70">Input Disorder</text>
+              <text x="125" y="133" text-anchor="middle" font-size="12" fill="#475569">mixed formats + versions</text>
+
+              <rect x="258" y="78" width="190" height="88" rx="12" fill="#eef6ff" stroke="#6a9bc2"/>
+              <text x="353" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="#003a70">Manual Rework</text>
+              <text x="353" y="133" text-anchor="middle" font-size="12" fill="#475569">reconcile + copy-paste</text>
+
+              <rect x="486" y="78" width="190" height="88" rx="12" fill="#fff8ee" stroke="#be955f"/>
+              <text x="581" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="#9a670e">Capacity Squeeze</text>
+              <text x="581" y="133" text-anchor="middle" font-size="12" fill="#475569">analysis time collapses</text>
+
+              <rect x="714" y="32" width="176" height="62" rx="10" fill="#fff4f4" stroke="#c78e8e"/>
+              <text x="802" y="59" text-anchor="middle" font-size="13" font-weight="700" fill="#b91c1c">Repetitive Narrative</text>
+              <text x="802" y="78" text-anchor="middle" font-size="11" fill="#6b7280">IR / Sales dissatisfaction</text>
+
+              <rect x="714" y="104" width="176" height="62" rx="10" fill="#fff4f4" stroke="#c78e8e"/>
+              <text x="802" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#b91c1c">Version Ambiguity</text>
+              <text x="802" y="148" text-anchor="middle" font-size="11" fill="#6b7280">which set made template?</text>
+
+              <rect x="714" y="176" width="176" height="62" rx="10" fill="#fff4f4" stroke="#c78e8e"/>
+              <text x="802" y="202" text-anchor="middle" font-size="13" font-weight="700" fill="#b91c1c">Late Compliance Risk</text>
+              <text x="802" y="220" text-anchor="middle" font-size="11" fill="#6b7280">disclosure gaps near release</text>
+
+              <line class="flow-line" x1="220" y1="122" x2="258" y2="122" marker-end="url(#arrowB)" />
+              <line class="flow-line" x1="448" y1="122" x2="486" y2="122" marker-end="url(#arrowB)" />
+              <line class="flow-line" x1="676" y1="122" x2="714" y2="62" marker-end="url(#arrowB)" />
+              <line class="flow-line" x1="676" y1="122" x2="714" y2="134" marker-end="url(#arrowB)" />
+              <line class="flow-line" x1="676" y1="122" x2="714" y2="206" marker-end="url(#arrowB)" />
+            </svg>
+          </div>
+
+          <div class="panel">
+            <h3>Risk Register (Interview-Derived)</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Risk</th>
+                  <th>Probability</th>
+                  <th>Impact</th>
+                  <th>Evidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Copy-paste error</td>
+                  <td class="risk-med">Medium</td>
+                  <td class="risk-high">High</td>
+                  <td>Manual transfer into brittle templates.</td>
+                </tr>
+                <tr>
+                  <td>Version mismatch</td>
+                  <td class="risk-high">High</td>
+                  <td class="risk-high">High</td>
+                  <td>Multiple updates and unclear "final" lineage.</td>
+                </tr>
+                <tr>
+                  <td>Narrative stagnation</td>
+                  <td class="risk-high">High</td>
+                  <td class="risk-med">Medium</td>
+                  <td>Reported repetitive commentary each quarter.</td>
+                </tr>
+                <tr>
+                  <td>Late compliance rework</td>
+                  <td class="risk-med">Medium</td>
+                  <td class="risk-med">Medium</td>
+                  <td>Compliance may join late with disclosure checks.</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="metric" style="margin-top:12px">
+              <span class="label">Executive Insight</span>
+              <span class="value">Quality problems are structural, not individual.</span>
+              <span class="metric-note">Fixing people without fixing process will recycle the same outcome.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Two Levers Can Shift the Model from Heroics to Oversight">
+        <p class="eyebrow reveal d1">Future-State Design</p>
+        <h2 class="action-title reveal d1">Standardized intake contracts plus automated template population can move the team from manual production to analytical oversight.</h2>
+        <p class="slide-subtitle reveal d2">The redesign intentionally targets the highest-friction steps first and preserves controls with stronger traceability, not heavier checklists.</p>
+
+        <div class="grid-2 reveal d2">
+          <div class="panel">
+            <h3>Target Architecture</h3>
+            <svg class="future-svg" viewBox="0 0 980 320" role="img" aria-label="Target workflow architecture">
+              <defs>
+                <marker id="arrowC" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                  <polygon points="0 0, 9 3.5, 0 7" fill="#3f6f96"></polygon>
+                </marker>
+              </defs>
+              <rect x="24" y="38" width="180" height="90" rx="12" fill="#eef6ff" stroke="#6a9bc2"/>
+              <text x="114" y="74" text-anchor="middle" font-size="15" font-weight="700" fill="#003a70">Vistara Delivery</text>
+              <text x="114" y="94" text-anchor="middle" font-size="12" fill="#475569">data contract enforced</text>
+
+              <rect x="244" y="38" width="210" height="90" rx="12" fill="#eefdf8" stroke="#5ea590"/>
+              <text x="349" y="74" text-anchor="middle" font-size="15" font-weight="700" fill="#0f766e">Validation + Reconcile</text>
+              <text x="349" y="94" text-anchor="middle" font-size="12" fill="#475569">auto tie-out + exceptions</text>
+
+              <rect x="494" y="38" width="210" height="90" rx="12" fill="#f5f7ff" stroke="#6a9bc2"/>
+              <text x="599" y="74" text-anchor="middle" font-size="15" font-weight="700" fill="#003a70">Template Engine</text>
+              <text x="599" y="94" text-anchor="middle" font-size="12" fill="#475569">data bindings, no copy-paste</text>
+
+              <rect x="744" y="20" width="212" height="58" rx="10" fill="#f3f9ff" stroke="#6a9bc2"/>
+              <text x="850" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#003a70">IR Narrative Pack</text>
+
+              <rect x="744" y="90" width="212" height="58" rx="10" fill="#f0fcf8" stroke="#5ea590"/>
+              <text x="850" y="122" text-anchor="middle" font-size="14" font-weight="700" fill="#0f766e">Sales Variant</text>
+
+              <rect x="744" y="160" width="212" height="58" rx="10" fill="#fff8ef" stroke="#be955f"/>
+              <text x="850" y="192" text-anchor="middle" font-size="14" font-weight="700" fill="#9a670e">Compliance Pack</text>
+
+              <rect x="494" y="184" width="210" height="90" rx="12" fill="#f8fbff" stroke="#6a9bc2"/>
+              <text x="599" y="220" text-anchor="middle" font-size="15" font-weight="700" fill="#003a70">Audit Log</text>
+              <text x="599" y="240" text-anchor="middle" font-size="12" fill="#475569">source-to-slide lineage</text>
+
+              <line class="flow-line" x1="204" y1="82" x2="244" y2="82" marker-end="url(#arrowC)"/>
+              <line class="flow-line" x1="454" y1="82" x2="494" y2="82" marker-end="url(#arrowC)"/>
+              <line class="flow-line" x1="704" y1="82" x2="744" y2="49" marker-end="url(#arrowC)"/>
+              <line class="flow-line" x1="704" y1="82" x2="744" y2="119" marker-end="url(#arrowC)"/>
+              <line class="flow-line" x1="704" y1="82" x2="744" y2="189" marker-end="url(#arrowC)"/>
+              <line class="flow-line" x1="599" y1="128" x2="599" y2="184" marker-end="url(#arrowC)"/>
+
+              <circle r="6" fill="#0f9f8c">
+                <animateMotion dur="6s" repeatCount="indefinite" path="M204 82 L244 82 L454 82 L704 82" />
+              </circle>
+              <circle r="5" fill="#005b9a">
+                <animateMotion dur="5.2s" begin="1s" repeatCount="indefinite" path="M704 82 L744 49" />
+              </circle>
+              <circle r="5" fill="#0f9f8c">
+                <animateMotion dur="5.2s" begin="2s" repeatCount="indefinite" path="M704 82 L744 119" />
+              </circle>
+              <circle r="5" fill="#b45309">
+                <animateMotion dur="5.2s" begin="3s" repeatCount="indefinite" path="M704 82 L744 189" />
+              </circle>
+            </svg>
+          </div>
+
+          <div class="panel">
+            <h3>Two-Lever Implementation Focus</h3>
+            <div class="grid-2">
+              <div>
+                <p><strong>Lever 1: Intake Standardization</strong></p>
+                <ul class="clean">
+                  <li>Define Vistara delivery schema and naming contract.</li>
+                  <li>Require package manifest + timestamped version ID.</li>
+                  <li>Auto-generate reconciliation delta report.</li>
+                </ul>
+              </div>
+              <div>
+                <p><strong>Lever 2: Template Automation</strong></p>
+                <ul class="clean">
+                  <li>Bind structured fields directly to report templates.</li>
+                  <li>Automate repetitive tables and calculated sections.</li>
+                  <li>Shift humans to exception handling and insight.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="grid-3" style="margin-top:12px">
+              <div class="metric">
+                <span class="label">Manual Touchpoints</span>
+                <span class="value">Down</span>
+                <span class="metric-note">Fewer copy-paste steps.</span>
+              </div>
+              <div class="metric">
+                <span class="label">Traceability</span>
+                <span class="value">Up</span>
+                <span class="metric-note">Clear source lineage.</span>
+              </div>
+              <div class="metric">
+                <span class="label">Narrative Quality</span>
+                <span class="value">Up</span>
+                <span class="metric-note">More time for analysis.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="A 12-Month Rollout Delivers Resilient, Audience-Specific Reporting">
+        <p class="eyebrow reveal d1">Execution Roadmap</p>
+        <h2 class="action-title reveal d1">A phased 12-month rollout can reduce production effort from three FTEs to one oversight FTE while improving timeliness, insight depth, and audience specificity.</h2>
+        <p class="slide-subtitle reveal d2">The target state aligns with the Ops Manager’s success criteria: on-time release without heroics, richer commentary, and a modular reporting stack that can produce multiple stakeholder versions quickly.</p>
+
+        <div class="grid-2 reveal d2">
+          <div class="panel">
+            <h3>Phased Plan</h3>
+            <div class="timeline">
+              <div class="step"><span class="step-index">1</span><div><strong>0-90 Days | Stabilize Intake Contract</strong>Define schema with Vistara, enforce naming rules, pilot manifest + version IDs.</div></div>
+              <div class="step"><span class="step-index">2</span><div><strong>3-6 Months | Automate Core Template Sections</strong>Bind high-volume tables first; retain manual fallback for exceptions.</div></div>
+              <div class="step"><span class="step-index">3</span><div><strong>6-9 Months | Institutionalize Exception Workflow</strong>Shift team from data transport to QA, narrative review, and insight checks.</div></div>
+              <div class="step"><span class="step-index">4</span><div><strong>9-12 Months | Scale Audience Variants</strong>Generate IR, Sales, and Compliance versions from one validated dataset.</div></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Outcome Scorecard (Baseline -> Target)</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>Current</th>
+                  <th>12-Month Target</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Quarterly staffing model</td>
+                  <td>3 FTEs in reporting trenches</td>
+                  <td>1 FTE oversight + exception management</td>
+                </tr>
+                <tr>
+                  <td>Timeliness posture</td>
+                  <td>On-time via heroics</td>
+                  <td>On-time through stable process controls</td>
+                </tr>
+                <tr>
+                  <td>Commentary quality</td>
+                  <td>Often repetitive</td>
+                  <td>Fresh, evidence-backed analytical narrative</td>
+                </tr>
+                <tr>
+                  <td>Version control confidence</td>
+                  <td>Ambiguous final lineage</td>
+                  <td>Deterministic source-to-report traceability</td>
+                </tr>
+                <tr>
+                  <td>Audience output model</td>
+                  <td>Ad hoc adjustments</td>
+                  <td>Systematic IR / Sales / Compliance variants</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="chip-row" style="margin-top:10px">
+              <span class="chip">Strategic payoff: process resilience + narrative differentiation</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="controls" aria-label="Slide controls">
+    <button class="ctrl-btn" id="prevBtn" type="button" aria-label="Previous slide">&#8592;</button>
+    <button class="ctrl-btn" id="nextBtn" type="button" aria-label="Next slide">&#8594;</button>
+    <span id="slideLabel">Automation Converts Interviews Into Scalable Intelligence</span>
+    <div class="progress-wrap"><div id="progressBar"></div></div>
+    <span id="counter">1 / 9</span>
+  </div>
+
+  <div id="transcriptModal" role="dialog" aria-modal="true" aria-labelledby="transcriptTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong id="transcriptTitle">transcript.md</strong>
+        <button id="closeTranscript" type="button">Close</button>
+      </div>
+      <pre id="transcriptBody"></pre>
+    </div>
+  </div>
+
+  <script id="transcriptData" type="text/plain">Consultant: Hey, thanks for making the time. I know you’re slammed. I’ll keep this tight. To start, when you say “client reporting,” what exactly are we talking about—quarterly reports for which products?
+
+Ops Manager: Yep, quarterly client reports for our equity funds. So, commingled equity vehicles, a couple of separate accounts that follow the same reporting pack. Same rhythm every quarter: compile, review, distribute.
+
+Consultant: Got it. Walk me through the core workflow end-to-end. Like, “data comes from X, then Y happens, then PDF goes out.”
+
+Ops Manager: Sure. Step one: we request the quarter-end data from our third-party fund administrator—Vistara. They send back what they call the “reporting bundle.” Step two: we reconcile that against our internal numbers, basically to make sure holdings, cash, fees, performance, all line up. Step three: we populate our report templates—these are formatting-heavy PDF templates—with the validated numbers. Step four: IR reviews commentary and sign-off. Step five: we send to clients and upload to the portal.
+
+Consultant: When you say “reporting bundle,” what format is it coming in?
+
+Ops Manager: That’s… the pain point. It’s raw and unstructured. Some parts are Excel extracts, some are PDFs, sometimes it’s a ZIP with multiple versions, and the naming conventions aren’t consistent. You’ll see “Final_FINAL2” kind of stuff. And then we have to manually reconcile it.
+
+Consultant: So the bottleneck is the intake and reconciliation from Vistara, before it even hits your templates?
+
+Ops Manager: Exactly. If Vistara gave us clean, structured tables with stable field names, we’d be in a different world. Instead, we spend days interpreting what they meant, matching it to our internal ledger, and then copy-pasting into the templates.
+
+Consultant: Let’s quantify it. What’s the current effort and headcount?
+
+Ops Manager: It’s three FTEs dedicated for about two full weeks every quarter. That’s basically their life during reporting season—data collation, reconciliation, and formatting. And it’s not just “busy.” It’s brittle. One person out sick and we feel it immediately.
+
+Consultant: Three FTEs, two full weeks, every quarter—just for data collation and formatting. Not including review cycles?
+
+Ops Manager: Correct. Review cycles add time, but the heavy lift is getting the numbers into the right shape and into the PDF templates. The templates are… I mean, they’re a nightmare. Very brand-driven. Lots of locked formatting, tables that break if you breathe on them.
+
+Consultant: Where do handoffs happen? I’m listening for “this team does X, then throws over the wall.”
+
+Ops Manager: Vistara to FundOps is the big one. Then FundOps to IR for commentary and final checks. Sales also gets pulled in because they want certain client-specific angles, but that’s more ad hoc. And Compliance sometimes pops in late with “did you include the right disclosures.”
+
+Consultant: Quick clarification: is the commentary written by FundOps or IR?
+
+Ops Manager: Mostly IR. But we feed them a draft, honestly. We provide the standard paragraphs, the “market backdrop,” that sort of thing, because they’re also stretched.
+
+Consultant: And quality-wise—what’s working, what isn’t?
+
+Ops Manager: Look, our primary goal is getting the reports out the door on time. That’s the KPI that matters. But yes—IR and Sales complain a lot that the commentary is repetitive and lacks analytical depth. They’ll say, “This reads like last quarter with the dates changed.” And… they’re not wrong. We don’t have time to do deep analysis when we’re fighting formatting issues.
+
+Consultant: Understood. Where do errors creep in—if they do?
+
+Ops Manager: Manual copy-paste is the obvious one. Also version control. Vistara sends updates, then we’re not always sure which number set made it into which template version. We’ve got checklists, but it’s still messy.
+
+Consultant: If I waved a wand, what would you change first?
+
+Ops Manager: Standardize the intake from Vistara. Give me structured data, predictable fields, and a reconciliation report that ties out cleanly. Second, reduce dependency on these PDF templates—at least automate population. Because right now, three people spending two weeks per quarter on collation and formatting is just… not a good use of talent.
+
+Consultant: Last one: what does “success” look like a year from now?
+
+Ops Manager: Reports out on time without heroics. Maybe one FTE doing oversight instead of three people in the trenches. And commentary that actually says something new—so IR and Sales stop rolling their eyes.</script>
+
+  <script>
+    (function () {
+      const track = document.getElementById("track");
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const progressBar = document.getElementById("progressBar");
+      const counter = document.getElementById("counter");
+      const slideLabel = document.getElementById("slideLabel");
+
+      let current = 0;
+      let touchStartX = null;
+      let touchEndX = null;
+
+      function updateSlideState() {
+        track.style.transform = `translateX(-${current * 100}%)`;
+        slides.forEach((slide, idx) => {
+          slide.classList.toggle("active", idx === current);
+          slide.scrollTop = 0;
+        });
+
+        const pct = ((current + 1) / slides.length) * 100;
+        progressBar.style.width = `${pct}%`;
+        counter.textContent = `${current + 1} / ${slides.length}`;
+        slideLabel.textContent = slides[current].dataset.title || "";
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+      }
+
+      function nextSlide() {
+        if (current < slides.length - 1) {
+          current += 1;
+          updateSlideState();
+        }
+      }
+
+      function prevSlide() {
+        if (current > 0) {
+          current -= 1;
+          updateSlideState();
+        }
+      }
+
+      prevBtn.addEventListener("click", prevSlide);
+      nextBtn.addEventListener("click", nextSlide);
+
+      document.addEventListener("keydown", (ev) => {
+        if (ev.key === "ArrowRight" || ev.key === "PageDown" || ev.key === " ") {
+          ev.preventDefault();
+          nextSlide();
+        }
+        if (ev.key === "ArrowLeft" || ev.key === "PageUp") {
+          ev.preventDefault();
+          prevSlide();
+        }
+      });
+
+      document.addEventListener("wheel", (ev) => {
+        if (Math.abs(ev.deltaY) < 24) return;
+        if (ev.deltaY > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }, { passive: true });
+
+      document.addEventListener("touchstart", (ev) => {
+        touchStartX = ev.changedTouches[0].screenX;
+      }, { passive: true });
+
+      document.addEventListener("touchend", (ev) => {
+        touchEndX = ev.changedTouches[0].screenX;
+        if (touchStartX == null || touchEndX == null) return;
+        if (touchStartX - touchEndX > 55) nextSlide();
+        if (touchEndX - touchStartX > 55) prevSlide();
+        touchStartX = null;
+        touchEndX = null;
+      }, { passive: true });
+
+      const modal = document.getElementById("transcriptModal");
+      const openBtn = document.getElementById("openTranscript");
+      const closeBtn = document.getElementById("closeTranscript");
+      const transcriptBody = document.getElementById("transcriptBody");
+      const transcriptData = document.getElementById("transcriptData").textContent.trim();
+
+      function openModal() {
+        transcriptBody.textContent = transcriptData;
+        modal.classList.add("open");
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+      }
+
+      openBtn.addEventListener("click", openModal);
+      closeBtn.addEventListener("click", closeModal);
+      modal.addEventListener("click", (ev) => {
+        if (ev.target === modal) closeModal();
+      });
+
+      document.addEventListener("keydown", (ev) => {
+        if (ev.key === "Escape" && modal.classList.contains("open")) {
+          closeModal();
+        }
+      });
+
+      updateSlideState();
+    })();
+  </script>
+</body>
+</html>
