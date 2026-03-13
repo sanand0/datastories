@@ -56,6 +56,7 @@ Before the first page, introduce a process slide. Mention that this deck is auto
 After that slide, progress to the actual content slides summarizing the transcript.
 
 Plan like an expert writing the slides. In this context, first think about:
+
 - What patterns would an expert in this field check / recognize that beginners would miss?
 - What questions would an expert ask that a beginner would not know to?
 - What problems / failures would an expert anticipate that beginners may not be aware of?
@@ -71,9 +72,9 @@ Keep the language simple and layman friendly (e.g. by explaining jargon).
 
 When I click on the left arrow, I get:
 
-decktation/:1648  Uncaught SyntaxError: Failed to execute 'add' on 'DOMTokenList': The token provided must not be empty.
-    at goTo (decktation/:1648:20)
-    at HTMLDocument.<anonymous> (decktation/:1702:58)\
+decktation/:1648 Uncaught SyntaxError: Failed to execute 'add' on 'DOMTokenList': The token provided must not be empty.
+at goTo (decktation/:1648:20)
+at HTMLDocument.<anonymous> (decktation/:1702:58)\
 
 The unicode icons look terrible. Use professional icon libraries.
 
@@ -93,8 +94,14 @@ Depict this process visually with an illustration. Explain the benefits of such 
 After that slide, progress to the actual content slides summarizing the transcript. Keep that to about 3-4 slides.
 
 Plan like an expert writing the slides. In this context, first think about:
+
 - What patterns would an expert in this field check / recognize that beginners would miss?
 - What questions would an expert ask that a beginner would not know to ask?
 - What problems / failures would an expert anticipate that beginners may not be aware of?
 
 Use this to formulate a plan of action before writing the slides.
+
+### Other versions
+
+- Gemini: https://gemini.google.com/app/377e5cb2ab8075ac
+- Gemini CLI is what finally became index.html

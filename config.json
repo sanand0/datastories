@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "crack-the-prompt",
+      "title": "Crack the Prompt",
+      "description": "A PyConf Hyderabad 2026 security challenge: three AI personas guarding hidden system prompts. Codex extracted all three in seven words each.",
+      "link": "crack-the-prompt/",
+      "screenshot": "crack-the-prompt/screenshot.webp",
+      "date": "2026-03-13",
+      "folder": "crack-the-prompt"
+    },
+    {
       "id": "decktation",
       "title": "Strategic Assessment: Client Reporting Transformation",
       "description": "An AI-generated executive strategy deck synthesized from a stakeholder interview recording, showing how raw audio can be transformed into boardroom-ready insights.",

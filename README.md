@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Crack the Prompt](crack-the-prompt/). A PyConf Hyderabad 2026 security challenge: three AI personas guarding hidden system prompts. Codex extracted all three in seven words each.
+  [![](crack-the-prompt/screenshot.webp)](crack-the-prompt/)
 - [Strategic Assessment: Client Reporting Transformation](decktation/). An AI-generated executive strategy deck synthesized from a stakeholder interview recording, showing how raw audio can be transformed into boardroom-ready insights.
   <video src="decktation/screenshot.webm" autoplay muted loop playsinline preload="metadata"></video>
 - [Codex Session Gap Analysis](codex-session-analysis/). Analysis of 903 Codex sessions from Apr 2025 to Mar 2026, showing feature adoption gaps, release-aware coverage, and workflow recommendations.
