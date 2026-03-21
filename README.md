@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Three Novel Data Visualizations](novel-dataviz/). Each chart solves an analytical problem for which no adequate visualization previously existed, combining novel encodings with rich, realistic synthetic data.
+  [![](novel-dataviz/screenshot.avif)](novel-dataviz/)
 - [Crack the Prompt](crack-the-prompt/). A PyConf Hyderabad 2026 security challenge: three AI personas guarding hidden system prompts. Codex extracted all three in seven words each.
   [![](crack-the-prompt/screenshot.webp)](crack-the-prompt/)
 - [Strategic Assessment: Client Reporting Transformation](decktation/). An AI-generated executive strategy deck synthesized from a stakeholder interview recording, showing how raw audio can be transformed into boardroom-ready insights.

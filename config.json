@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "novel-dataviz",
+      "title": "Three Novel Data Visualizations",
+      "description": "Each chart solves an analytical problem for which no adequate visualization previously existed, combining novel encodings with rich, realistic synthetic data.",
+      "link": "novel-dataviz/",
+      "screenshot": "novel-dataviz/screenshot.avif",
+      "date": "2026-03-21",
+      "folder": "novel-dataviz"
+    },
+    {
       "id": "crack-the-prompt",
       "title": "Crack the Prompt",
       "description": "A PyConf Hyderabad 2026 security challenge: three AI personas guarding hidden system prompts. Codex extracted all three in seven words each.",

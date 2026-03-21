@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Novel Data Visualizations</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#090a14;--bg2:#0e0f1e;
+  --text:#d8d8f0;--muted:#8080aa;
+  --accent:#6474ff;--border:rgba(120,130,220,.18);
+}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;width:100vw;height:100vh}
+#deck{position:relative;width:100vw;height:100vh}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;transition:opacity .55s ease}
+.slide.active{opacity:1;pointer-events:all}
+
+/* ── Info panel (left sidebar on viz slides) ── */
+.info{width:270px;flex-shrink:0;padding:44px 28px;display:flex;flex-direction:column;justify-content:center;
+  background:linear-gradient(180deg,rgba(9,10,22,.95),rgba(12,14,28,.95));
+  border-right:1px solid var(--border)}
+.info-num{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#8888bb;margin-bottom:10px}
+.info-title{font-size:22px;font-weight:700;color:#eeeeff;line-height:1.2;margin-bottom:7px}
+.info-sub{font-size:13px;color:#9898c8;margin-bottom:26px;line-height:1.6}
+.info-block{margin-bottom:18px}
+.info-block-h{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#8898d8;margin-bottom:6px;font-weight:600}
+.info-block-t{font-size:12.5px;color:#a8a8cc;line-height:1.65}
+.info-block-t b{color:#c0caff;font-weight:600}
+.info-hint{font-size:11px;color:#8080b8;margin-top:16px}
+
+/* ── Viz panel ── */
+.viz{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px 16px}
+
+/* ── Intro slide ── */
+#s0{background:radial-gradient(ellipse at 28% 48%,rgba(50,60,160,.3) 0%,transparent 55%),
+    radial-gradient(ellipse at 72% 52%,rgba(110,40,90,.24) 0%,transparent 48%);
+  display:flex;align-items:center;justify-content:center}
+.intro-wrap{max-width:740px;text-align:center;padding:40px 20px}
+.intro-eyebrow{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:#8888b0;margin-bottom:16px}
+.intro-title{font-size:46px;font-weight:800;line-height:1.05;margin-bottom:16px;
+  background:linear-gradient(140deg,#a0b4ff,#e0e8ff 50%,#c4a0ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.intro-desc{font-size:16px;color:#8888aa;margin-bottom:38px;line-height:1.75;max-width:580px;margin-left:auto;margin-right:auto}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:left}
+.card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:11px;padding:20px 18px;cursor:pointer;transition:all .2s}
+.card:hover{background:rgba(100,116,255,.08);border-color:rgba(100,116,255,.32);transform:translateY(-2px)}
+.card-num{font-size:11px;letter-spacing:2px;color:var(--accent);margin-bottom:8px;font-weight:600}
+.card-title{font-size:15px;font-weight:600;color:#d0d2f0;margin-bottom:6px}
+.card-desc{font-size:12.5px;color:#8888aa;line-height:1.55}
+
+/* ── Navigation ── */
+#nav{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;z-index:999;
+  background:rgba(9,10,20,.7);backdrop-filter:blur(8px);
+  border:1px solid rgba(100,110,200,.15);border-radius:30px;padding:6px 14px}
+.nd{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:all .3s;flex-shrink:0}
+.nd.on{background:var(--accent);width:18px;border-radius:3px}
+.nd-sep{width:1px;height:10px;background:rgba(255,255,255,.15);margin:0 3px}
+.nb{background:transparent;border:none;color:#9090c0;padding:4px 8px;cursor:pointer;font-size:12px;transition:color .2s}
+.nb:hover{color:#e0e0ff}
+
+/* ── Tooltip ── */
+#tt{position:fixed;z-index:1000;background:rgba(8,9,22,.97);border:1px solid rgba(120,130,220,.3);
+  border-radius:9px;padding:11px 14px;font-size:12.5px;color:#c0c0dc;pointer-events:none;
+  opacity:0;transition:opacity .12s;max-width:260px;line-height:1.65;
+  box-shadow:0 8px 28px rgba(0,0,0,.65)}
+#tt.on{opacity:1}
+#tt strong{color:#e8e8ff;display:block;margin-bottom:2px}
+#tt .dim{color:#6868a0;font-size:11px}
+
+/* ── VIZ 2 slider ── */
+.slider-row{display:flex;align-items:center;gap:9px;margin-top:18px}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:rgba(90,100,200,.4);border-radius:2px;outline:none}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer}
+.sl-val{font-size:12px;color:#9090c0;min-width:46px;text-align:right}
+.play{background:rgba(80,90,200,.16);border:1px solid rgba(80,90,200,.32);color:#b0b0e8;
+  width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.play:hover{background:rgba(80,90,200,.34)}
+
+/* ════════════════════════════════════════
+   APPENDIX SLIDES
+   ════════════════════════════════════════ */
+.aslide{flex-direction:column;padding:42px 58px 28px;overflow-y:auto}
+.aslide-inner{max-width:1080px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:0;min-height:100%}
+.achapter{font-size:10px;letter-spacing:3.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;opacity:.85}
+.atitle{font-size:34px;font-weight:800;color:#eeeeff;margin-bottom:8px;line-height:1.12}
+.asub{font-size:14.5px;color:#9898c0;margin-bottom:28px;line-height:1.65;max-width:840px;border-left:3px solid rgba(100,120,255,.3);padding-left:16px}
+.acols{display:grid;gap:20px;flex:1}
+.acols-2{grid-template-columns:1fr 1fr}
+.acols-3{grid-template-columns:1fr 1fr 1fr}
+.ablock{background:rgba(255,255,255,.025);border:1px solid rgba(110,120,210,.14);border-radius:10px;padding:20px 22px}
+.ablock-title{font-size:11.5px;font-weight:700;color:#a8b2ff;margin-bottom:9px;letter-spacing:.3px;text-transform:uppercase}
+.ablock-text{font-size:13.5px;color:#9898c2;line-height:1.72}
+.ablock-text b{color:#c8d0ff}
+.ablock-text em{color:#b0b8e8;font-style:italic}
+.ablock-text li{margin-left:16px;margin-bottom:4px}
+.atag{display:inline-block;padding:2px 9px;border-radius:4px;font-size:9.5px;letter-spacing:1px;font-weight:700;text-transform:uppercase;margin-bottom:7px}
+.atag.fail{background:rgba(255,80,60,.12);color:#ff9070;border:1px solid rgba(255,80,60,.22)}
+.atag.ok{background:rgba(60,200,100,.1);color:#60dc80;border:1px solid rgba(60,200,100,.22)}
+.atag.info{background:rgba(80,120,255,.1);color:#90a0ff;border:1px solid rgba(80,120,255,.22)}
+.atag.warn{background:rgba(255,180,40,.1);color:#ffc060;border:1px solid rgba(255,180,40,.22)}
+.atable{width:100%;border-collapse:collapse;font-size:14px}
+.atable th{color:#8898d8;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:8px 12px;border-bottom:1px solid rgba(110,120,210,.2);text-align:left}
+.atable td{padding:9px 12px;color:#9898c2;border-bottom:1px solid rgba(60,65,120,.3);line-height:1.55;vertical-align:top}
+.atable td b{color:#c8d0ff}
+.atable td em{color:#8898d8;font-style:normal}
+.atable tr:last-child td{border-bottom:none}
+.ahighlight{background:rgba(100,120,255,.07);border-left:3px solid var(--accent);padding:13px 18px;border-radius:0 9px 9px 0;margin:18px 0;font-size:13.5px;color:#b0b0d8;line-height:1.65}
+.ahighlight b{color:#d8e0ff}
+.abefore-after{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.aba-box{border-radius:8px;padding:14px 16px;font-size:12px;line-height:1.65;font-family:monospace}
+.aba-box.before{background:rgba(200,60,40,.08);border:1px solid rgba(200,60,40,.2);color:#c09090}
+.aba-box.after{background:rgba(60,200,100,.07);border:1px solid rgba(60,200,100,.2);color:#90c0a0}
+.aba-label{font-size:9.5px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;margin-bottom:8px;opacity:.7}
+.astep{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.astep-num{background:rgba(100,120,255,.15);border:1px solid rgba(100,120,255,.25);color:#a0aaff;
+  width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.astep-text{font-size:13px;color:#9898c2;line-height:1.65}
+.astep-text b{color:#c8d0ff}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 0: INTRO
+     ══════════════════════════════════════════════════ -->
+<div class="slide active" id="s0">
+<div class="intro-wrap">
+  <div class="intro-eyebrow">Data Visualization Research · 2026</div>
+  <h1 class="intro-title">Three Never-Before-Seen<br>Chart Types</h1>
+  <p class="intro-desc">Each chart solves an analytical problem for which no adequate visualization previously existed—combining novel encodings with rich, realistic synthetic data.</p>
+  <div class="cards">
+    <div class="card" onclick="nav.go(1)">
+      <div class="card-num">01 · MACROECONOMICS</div>
+      <div class="card-title">Causal Lag Clock Matrix</div>
+      <div class="card-desc">Shows which economic indicators lead or lag others—and by exactly how many months—across all 28 pairs at once</div>
+    </div>
+    <div class="card" onclick="nav.go(2)">
+      <div class="card-num">02 · SPORTS ANALYTICS</div>
+      <div class="card-title">Phase Portrait Leaderboard</div>
+      <div class="card-desc">Maps season record vs. recent momentum in a phase space with animated trajectory tails, revealing teams peaking at the right time</div>
+    </div>
+    <div class="card" onclick="nav.go(3)">
+      <div class="card-num">03 · BUSINESS INTELLIGENCE</div>
+      <div class="card-title">Temporal Rosette</div>
+      <div class="card-desc">Encodes 24-hour and 7-day activity rhythms as a single radial "fingerprint"—every business type has a uniquely recognizable signature</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 1: CAUSAL LAG CLOCK MATRIX
+     ══════════════════════════════════════════════════ -->
+<div class="slide" id="s1">
+<div class="info">
+  <div class="info-num">Visualization 01 · Macroeconomics</div>
+  <h2 class="info-title">Causal Lag Clock Matrix</h2>
+  <p class="info-sub">An 8×8 matrix where each cell encodes both <em>how strongly</em> two indicators correlate and <em>which one leads the other</em>—and by how many months.</p>
+  <div class="info-block">
+    <div class="info-block-h">The Novel Encoding</div>
+    <div class="info-block-t">A <b>clock arc</b> in each cell: the dot's position (left=row leads, top=simultaneous, right=column leads) encodes the timing offset. Cell color shows correlation sign and strength.</div>
+  </div>
+  <div class="info-block">
+    <div class="info-block-h">Why Better Than Alternatives</div>
+    <div class="info-block-t">A correlation matrix ignores timing. Cross-correlograms show one pair at a time. This chart shows all <b>28 pairwise lead-lag relationships simultaneously</b>.</div>
+  </div>
+  <div class="info-block">
+    <div class="info-block-h">Real-World Dataset</div>
+    <div class="info-block-t">8 US macro indicators with known causal timing: Yield Spread, Housing Starts, Consumer Confidence, PMI, Retail Sales, Inflation, Unemployment, Corporate Profits.</div>
+  </div>
+  <div class="info-hint">→ Hover any cell to read the relationship</div>
+</div>
+<div class="viz" id="c1"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 2: PHASE PORTRAIT LEADERBOARD
+     ══════════════════════════════════════════════════ -->
+<div class="slide" id="s2">
+<div class="info">
+  <div class="info-num">Visualization 02 · Sports Analytics</div>
+  <h2 class="info-title">Phase Portrait Leaderboard</h2>
+  <p class="info-sub">Physics' phase portrait concept applied to competitive standings: season win% on X, recent-game momentum on Y, with animated trajectory tails.</p>
+  <div class="info-block">
+    <div class="info-block-h">The Novel Encoding</div>
+    <div class="info-block-t">Each team traces a <b>path through phase space</b> as the season evolves. Quadrant = competitive archetype. Tail direction = improving or fading.</div>
+  </div>
+  <div class="info-block">
+    <div class="info-block-h">Why Better Than Alternatives</div>
+    <div class="info-block-t">Bump charts show rank but not velocity. Line charts show one metric without comparison. This reveals <b>which teams are peaking at the right moment</b>.</div>
+  </div>
+  <div class="info-block">
+    <div class="info-block-h">Real-World Dataset</div>
+    <div class="info-block-t">10 NBA teams over a 30-week season. Storyline arcs include a mid-season collapse (LAL), a late surge from bottom (OKC), and a dominant front-runner (BOS).</div>
+  </div>
+  <div class="slider-row">
+    <button class="play" id="v2play">▶</button>
+    <input type="range" id="v2sl" min="0" max="29" value="0" step="1">
+    <span class="sl-val" id="v2wk">Wk 1</span>
+  </div>
+</div>
+<div class="viz" id="c2"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SLIDE 3: TEMPORAL ROSETTE
+     ══════════════════════════════════════════════════ -->
+<div class="slide" id="s3">
+<div class="info">
+  <div class="info-num">Visualization 03 · Business Intelligence</div>
+  <h2 class="info-title">Temporal Rosette</h2>
+  <p class="info-sub">A dual-ring radial "rhythm fingerprint" that simultaneously shows the <em>hourly</em> (inner petals) and <em>day-of-week</em> (outer ring) activity patterns.</p>
+  <div class="info-block">
+    <div class="info-block-h">The Novel Encoding</div>
+    <div class="info-block-t"><b>Inner 24 petals</b>: each hour's average activity, variable-length, midnight at top. <b>Outer 7 arcs</b>: Mon–Sun intensity. Two temporal scales in one compact glyph.</div>
+  </div>
+  <div class="info-block">
+    <div class="info-block-h">Why Better Than Alternatives</div>
+    <div class="info-block-t">Heatmap calendars can't show two timescales in one view. Small multiples use 14× the space. This is a <b>dashboard-scale glyph</b> recognizable at a glance.</div>
+  </div>
+  <div class="info-block">
+    <div class="info-block-h">Real-World Dataset</div>
+    <div class="info-block-t">8 business archetypes: Coffee Shop, Hospital ER, Gym, E-Commerce, Restaurant, Movie Theater, Social Media, Bank ATM. Each shape is instantly distinctive.</div>
+  </div>
+  <div class="info-hint">→ Hover petals or outer arcs for details</div>
+</div>
+<div class="viz" id="c3"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APPENDIX A — THE CHALLENGE
+     ══════════════════════════════════════════════════ -->
+<div class="slide aslide" id="s4">
+<div class="aslide-inner">
+  <div class="achapter">Appendix A</div>
+  <h2 class="atitle">Why Is Novelty So Hard?</h2>
+  <p class="asub">The chart design space feels infinite. In practice, the intersection of "visually novel" × "analytically superior" × "actually readable" is vanishingly small. Most combinations have already been explored.</p>
+  <div class="acols acols-2" style="margin-bottom:20px">
+    <div class="ablock">
+      <div class="ablock-title">Three criteria for genuine novelty</div>
+      <div class="ablock-text">
+        <div class="astep">
+          <div class="astep-num">1</div>
+          <div class="astep-text"><b>Solves a problem no existing chart solves</b> — not a cosmetic variation. There must be an analytical question that becomes answerable for the first time.</div>
+        </div>
+        <div class="astep">
+          <div class="astep-num">2</div>
+          <div class="astep-text"><b>Introduces a genuinely new visual encoding</b> — at minimum one new mapping from data dimension to visual variable, not seen in this combination before.</div>
+        </div>
+        <div class="astep">
+          <div class="astep-num">3</div>
+          <div class="astep-text"><b>Is clearly superior for a specific task</b> — novelty alone isn't enough. For at least one real dataset/task pair, this chart must outperform all existing alternatives.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ablock">
+      <div class="ablock-title">The design methodology</div>
+      <div class="ablock-text">
+        Rather than asking <em>"what new chart can I invent?"</em>, the productive framing is: <b>"what analytical task currently has no adequate visualization?"</b> Start with the gap, then design toward it.<br><br>
+        Each of the three charts began as a frustrated analyst's question:
+        <ul style="margin-top:10px">
+          <li style="margin-bottom:8px"><b>"How can I see all economic lead-lag relationships at once?"</b><br>→ Causal Lag Clock Matrix</li>
+          <li style="margin-bottom:8px"><b>"Which team is peaking at the right moment—and how do I see that?"</b><br>→ Phase Portrait Leaderboard</li>
+          <li><b>"What does this business's rhythm look like in one single glance?"</b><br>→ Temporal Rosette</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="ahighlight">
+    <b>The key insight:</b> Existing charts fail in predictable ways—they show one thing at a time (single-pair CCF plots), or they ignore a critical dimension (correlation matrices ignore timing), or they require too much space (small multiples). Every successful novel chart fixes exactly one of these failure modes for a specific task.
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APPENDIX B — SEARCH PROCESS
+     ══════════════════════════════════════════════════ -->
+<div class="slide aslide" id="s5">
+<div class="aslide-inner">
+  <div class="achapter">Appendix B</div>
+  <h2 class="atitle">Verifying Novelty — What Already Existed</h2>
+  <p class="asub">Before committing to any design, we searched to confirm we weren't reinventing something that already exists. Novelty claims require evidence.</p>
+  <div class="ablock" style="margin-bottom:20px">
+    <div class="ablock-title">Web searches conducted</div>
+    <table class="atable">
+      <tr><th>Query</th><th>What Existed</th><th>What Was Missing</th><th>Verdict</th></tr>
+      <tr>
+        <td><em>"lead lag cross-correlation matrix visualization"</em></td>
+        <td>CCF correlograms (single pair), static correlation matrices</td>
+        <td>No chart showing all N×N pairs with timing simultaneously</td>
+        <td><span class="atag ok">Novel</span></td>
+      </tr>
+      <tr>
+        <td><em>"temporal fingerprint multidimensional radial chart"</em></td>
+        <td>ArcGIS temporal profile charts (GIS context), forensic fingerprints</td>
+        <td>No compact multi-scale radial glyph for business rhythms</td>
+        <td><span class="atag ok">Novel</span></td>
+      </tr>
+      <tr>
+        <td><em>"phase portrait sports standings momentum visualization"</em></td>
+        <td>Momentum bars, bump charts (rank over time), standings tracers</td>
+        <td>No phase-space scatter with trajectory tails for competitive data</td>
+        <td><span class="atag ok">Novel</span></td>
+      </tr>
+      <tr>
+        <td><em>"harmonic frequency portrait time series multiple entities"</em></td>
+        <td>Spectrograms, wavelet transforms, VizStruct Fourier projections</td>
+        <td>All single time-series; no readable glyph for non-technical audiences</td>
+        <td><span class="atag ok">Novel</span></td>
+      </tr>
+      <tr>
+        <td><em>"radial multi-ring business rhythm hourly daily fingerprint"</em></td>
+        <td>Forensic fingerprint papers (wrong domain entirely)</td>
+        <td>Confirms the visualization type doesn't exist</td>
+        <td><span class="atag ok">Novel</span></td>
+      </tr>
+    </table>
+  </div>
+  <div class="acols acols-2">
+    <div class="ablock">
+      <div class="ablock-title">Edge cases investigated</div>
+      <div class="ablock-text">
+        <b>DeltaLag (arxiv 2511.00390):</b> A deep learning method for detecting lead-lag patterns in financial markets. This is an <em>analytical algorithm</em>, not a visualization. Confirmed our clock matrix is a distinct visual design.<br><br>
+        <b>Observable phase portrait:</b> Jo Wood's phase portrait notebook on Observable shows math/physics phase portraits. The specific application to competitive sports standings with trajectory tails is absent.
+      </div>
+    </div>
+    <div class="ablock">
+      <div class="ablock-title">What novelty verification doesn't guarantee</div>
+      <div class="ablock-text">
+        Web search confirms no one has <em>published or prominently discussed</em> these designs. It does not guarantee they haven't been created in private dashboards, unpublished conference posters, or commercial tools.<br><br>
+        The stronger claim—that these designs are <em>analytically superior</em> for their specific task—rests on the logical argument that no alternative can simultaneously encode the information each chart shows.
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APPENDIX C — REJECTED DESIGNS
+     ══════════════════════════════════════════════════ -->
+<div class="slide aslide" id="s6">
+<div class="aslide-inner">
+  <div class="achapter">Appendix C</div>
+  <h2 class="atitle">The Graveyard — Six Rejected Designs</h2>
+  <p class="asub">For every chart that made it into the deck, several more were considered and discarded. Rejection is part of the design process, not a failure of it.</p>
+  <div class="acols acols-3">
+    <div class="ablock">
+      <div class="atag fail">Rejected</div>
+      <div class="ablock-title">Gravity Well Chart</div>
+      <div class="ablock-text">Data "masses" distort a background grid like gravitational lensing. Beautiful, but the grid distortion is perceptually ambiguous—hard to read quantitatively. The metaphor was too clever for practical use.</div>
+    </div>
+    <div class="ablock">
+      <div class="atag fail">Rejected</div>
+      <div class="ablock-title">Stroboscopic Heatmap</div>
+      <div class="ablock-text">A calendar heatmap where each cell has concentric rings (like tree rings) showing data from successive months. In practice the rings became so small they were illegible, and time orientation was confusing.</div>
+    </div>
+    <div class="ablock">
+      <div class="atag fail">Rejected</div>
+      <div class="ablock-title">Bloom Chart</div>
+      <div class="ablock-text">Radial petals represent multi-metric profiles that "bloom" as time progresses. Beautiful for presentations, but hard to compare across entities—effectively redundant with animated small-multiple radar charts.</div>
+    </div>
+    <div class="ablock">
+      <div class="atag fail">Rejected</div>
+      <div class="ablock-title">Fourier Rosette (FFT)</div>
+      <div class="ablock-text">Original plan was to compute actual spectral decomposition of each business's time series. While technically precise, FFT interpretation is too abstract for non-technical audiences. Replaced with direct hourly/daily profiles.</div>
+    </div>
+    <div class="ablock">
+      <div class="atag fail">Rejected</div>
+      <div class="ablock-title">Momentum Ribbon</div>
+      <div class="ablock-text">For rankings over time, show momentum as ribbon width/color. Rejected because it exists as a known variant of the alluvial/Sankey diagram family—not novel enough to include alongside genuinely new designs.</div>
+    </div>
+    <div class="ablock">
+      <div class="atag fail">Rejected — cut late</div>
+      <div class="ablock-title">Three-Ring Rosette</div>
+      <div class="ablock-text">Original VIZ 3 had a third outer ring for weekly trend (4 sectors). Cut after early rendering showed the third ring made glyphs too large, and the week-to-week variation was subtle enough to look like noise rather than signal.</div>
+    </div>
+  </div>
+  <div class="ahighlight" style="margin-top:20px">
+    <b>Pattern of rejection:</b> Most designs failed because they were either (1) too abstract to read without a manual, (2) visually appealing but not analytically superior to alternatives, or (3) variants of existing chart types rather than genuinely new encodings.
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APPENDIX D — DATA DESIGN
+     ══════════════════════════════════════════════════ -->
+<div class="slide aslide" id="s7">
+<div class="aslide-inner">
+  <div class="achapter">Appendix D</div>
+  <h2 class="atitle">Designing the Data — Synthetic but Faithful</h2>
+  <p class="asub">Synthetic data must be designed to demonstrate the visualization's power, not merely fill the space. Each dataset was engineered with specific narrative and analytical intent—grounded in real-world evidence.</p>
+  <div class="acols acols-3">
+    <div class="ablock">
+      <div class="ablock-title">Viz 1 — Economic Lead-Lag Matrix</div>
+      <div class="ablock-text">
+        The 28 pairwise relationships encode well-established macroeconomic causal chains from the economics literature:<br><br>
+        <b>Inverted yield curve → unemployment (+10 mo, −0.72):</b> The strongest predictor of recessions, documented since 1986.<br><br>
+        <b>Consumer confidence → retail sales (+2 mo, +0.80):</b> The strongest positive link, encoded as the biggest dot in the matrix.<br><br>
+        <b>PMI → corporate profits (+3 mo, +0.75):</b> Manufacturing activity as a profits predictor.<br><br>
+        <b>Phillips curve (UNE leads CPI, −0.48):</b> Initially encoded as positive correlation—a factual error caught and fixed.
+      </div>
+    </div>
+    <div class="ablock">
+      <div class="ablock-title">Viz 2 — NBA Phase Portrait</div>
+      <div class="ablock-text">
+        Team trajectories were designed to tell stories <em>visible only in phase space</em>, not in a regular standings table:<br><br>
+        <b>LAL (Lakers):</b> Mid-season collapse—drifts left and down into STRUGGLING quadrant, then partially recovers. Mirrors documented 2022-23 Lakers slump.<br><br>
+        <b>PHX (Suns):</b> Starts DOMINANT, slides to COOLING, then STRUGGLING. Classic over-performing team that regresses.<br><br>
+        <b>OKC (Thunder):</b> Long northeast diagonal from bottom-left to top-right = sustained, consistent improvement. The one team whose trajectory is a clean story arc.<br><br>
+        <b>MEM (Grizzlies):</b> Chaotic zig-zag—a team that can't maintain streaks.
+      </div>
+    </div>
+    <div class="ablock">
+      <div class="ablock-title">Viz 3 — Business Temporal Profiles</div>
+      <div class="ablock-text">
+        Each business's hourly/daily profile was calibrated against published consumer behavior research:<br><br>
+        <b>Hospital ER:</b> Surprisingly flat hourly pattern (slight evening peak). Most people expect a dramatic shape—the near-flat ring is itself a finding.<br><br>
+        <b>Gym:</b> Classic double-peak (6–9am, 5–8pm), sharply weekday-heavy. Uniquely bimodal shape.<br><br>
+        <b>Movie Theater:</b> Hard cutoff before 5pm on weekdays; almost entirely weekend. The "absence" of morning petals is part of the fingerprint.<br><br>
+        <b>Social Media:</b> Remarkably flat both hourly and daily—high everywhere. The uniform shape contrasts starkly with every other business.
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APPENDIX E — FAILURES & BACKTRACKING
+     ══════════════════════════════════════════════════ -->
+<div class="slide aslide" id="s8">
+<div class="aslide-inner">
+  <div class="achapter">Appendix E</div>
+  <h2 class="atitle">What Went Wrong First</h2>
+  <p class="asub">Every complex visualization involves debugging. Here is an honest record of the failures encountered during development, categorized by type.</p>
+  <div class="acols acols-2">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="ablock">
+        <div class="atag fail">Technical failure</div>
+        <div class="ablock-title">D3 Arc Angle Convention</div>
+        <div class="ablock-text">
+          D3 uses <b>0 = top (12 o'clock), clockwise</b>—not the standard math convention (0 = right, counterclockwise). The clock arcs in VIZ 1 were initially rotated 90°, with "midnight" appearing at the right side instead of the top. Required careful re-derivation of the coordinate transform: <b>x = r·sin(θ), y = −r·cos(θ)</b> to get clock-face coordinates from D3 angles.
+        </div>
+      </div>
+      <div class="ablock">
+        <div class="atag fail">Technical failure</div>
+        <div class="ablock-title">SVG Stacking Order in Rosette</div>
+        <div class="ablock-text">
+          The rosette's center label was initially rendered <em>beneath</em> the inner petals (invisible). SVG renders elements in DOM order—last added = on top. The center text, added before the petals in the first version, was covered. Fixed by restructuring the append order: background circle → petals → outer ring → labels.
+        </div>
+      </div>
+      <div class="ablock">
+        <div class="atag fail">Data failure</div>
+        <div class="ablock-title">Phillips Curve Sign Error</div>
+        <div class="ablock-text">
+          The relationship between unemployment and CPI was initially encoded as a <em>positive</em> correlation (+0.48). This is empirically wrong—low unemployment leads to higher inflation (negative correlation). The Phillips curve relationship was corrected to corr=−0.48, with unemployment leading CPI by 6 months.
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="ablock">
+        <div class="atag fail">Design failure</div>
+        <div class="ablock-title">Full-Circle Clock Arc (VIZ 1 v1)</div>
+        <div class="ablock-text">
+          The first version used a full circle for the clock arc, so the lag indicator dot could appear anywhere on a 360° ring. This was visually ambiguous—the bottom half of the circle was unused and confusing. Switching to a <b>semicircle (9 o'clock → 12 → 3 o'clock)</b> dedicated all visual space to the meaningful lag range of −6 to +6 months.
+        </div>
+      </div>
+      <div class="ablock">
+        <div class="atag fail">Data failure</div>
+        <div class="ablock-title">NBA Data Too Bunched (VIZ 2 v1)</div>
+        <div class="ablock-text">
+          First version simulated individual game outcomes probabilistically. The resulting win% distributions were too narrow (all teams between 0.42–0.58)—the phase portrait looked like an undifferentiated blob. Solution: replaced game simulation with <b>smooth trajectory curves + small noise</b>, deliberately widening the spread to make the narrative arcs visible.
+        </div>
+      </div>
+      <div class="ablock">
+        <div class="atag warn">Planning failure</div>
+        <div class="ablock-title">Three-Ring Rosette Too Dense</div>
+        <div class="ablock-text">
+          The original plan included a third outer ring for weekly trend (4 week-of-month sectors). After rendering, the three-ring glyph was ~30% larger than the two-ring version, and the weekly variation was too subtle relative to the ring's visual weight. Cut before final implementation—caught in planning phase, not after building.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APPENDIX F — POST-DESIGN FEEDBACK & ITERATION
+     ══════════════════════════════════════════════════ -->
+<div class="slide aslide" id="s9">
+<div class="aslide-inner">
+  <div class="achapter">Appendix F</div>
+  <h2 class="atitle">The Contrast Problem — Post-Design Feedback</h2>
+  <p class="asub">After the first working version shipped, feedback was: <em>"Some of the content is barely visible—mostly because of poor contrast, partly because of small font sizes."</em> This was a systematic, not isolated, failure.</p>
+  <div class="acols acols-2" style="margin-bottom:20px">
+    <div class="ablock">
+      <div class="ablock-title">The pattern of failure</div>
+      <div class="ablock-text">
+        An audit of every text element revealed a consistent anti-pattern: <b>dark background + desaturated blue-gray color + low alpha opacity = compounding visibility failure.</b><br><br>
+        The intent was to create visual hierarchy using opacity: important text = full opacity, secondary = medium, tertiary = low. But in practice:
+        <ul style="margin-top:10px">
+          <li>Secondary text at opacity .5 is often unreadable at normal viewing distance</li>
+          <li>WCAG AA requires 4.5:1 contrast for normal text; several elements were below 2:1</li>
+          <li>The "subtle" look that feels elegant in a design mockup becomes frustrating in actual use</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ablock">
+      <div class="ablock-title">Specific offenders found in audit</div>
+      <div class="ablock-text">
+        <div class="abefore-after">
+          <div class="aba-box before">
+            <div class="aba-label">Before (original)</div>
+            .info-hint: color #383870 ≈ 1.5:1<br>
+            SVG legend: #303068 ≈ 1.4:1<br>
+            Quadrant labels: opacity .22<br>
+            Axis text: opacity .65<br>
+            Rosette center: 9.5px font<br>
+            Hour tick labels: 7px font<br>
+            Info block headers: 8.5px
+          </div>
+          <div class="aba-box after">
+            <div class="aba-label">After (this version)</div>
+            .info-hint: color #8080b8 ≈ 3.6:1<br>
+            SVG legend: #7070a8 ≈ 3.2:1<br>
+            Quadrant labels: opacity .5<br>
+            Axis text: full #a0a8cc<br>
+            Rosette center: 13px font<br>
+            Hour tick labels: 9px font<br>
+            Info block headers: 10px
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ahighlight">
+    <b>Key learning:</b> Opacity should be used for <em>intentional fading</em> (e.g., trail tails, background watermarks), not as a substitute for color selection in achieving typographic hierarchy. Use <em>lightness and saturation</em> to differentiate text roles, and reserve opacity reduction for elements that are genuinely meant to recede.
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APPENDIX G — BLAMELESS POST-MORTEM
+     ══════════════════════════════════════════════════ -->
+<div class="slide aslide" id="s10">
+<div class="aslide-inner">
+  <div class="achapter">Appendix G — Blameless Post-Mortem</div>
+  <h2 class="atitle">What We'd Do Differently</h2>
+  <p class="asub">A structured retrospective on the full process: what worked, what didn't, root causes, and the process changes that would prevent recurrence.</p>
+  <div class="acols acols-2" style="margin-bottom:18px">
+    <div class="ablock">
+      <div class="atag ok">What went well</div>
+      <div class="ablock-title">Successes</div>
+      <div class="ablock-text">
+        <ul>
+          <li style="margin-bottom:6px"><b>Zero JavaScript errors on first render.</b> D3 v7 API usage was correct throughout; no v5→v7 migration issues.</li>
+          <li style="margin-bottom:6px"><b>All three visualizations rendered correctly on first attempt.</b> The SVG layout math was right despite its complexity.</li>
+          <li style="margin-bottom:6px"><b>Novelty was rigorously verified</b> through five distinct search queries before committing to any design.</li>
+          <li style="margin-bottom:6px"><b>Data encoding is analytically sound.</b> Real economic causal chains, realistic sports narrative arcs, research-backed business rhythm profiles.</li>
+          <li><b>Interactivity worked immediately:</b> tooltips, animation, keyboard navigation, play/pause, slider all functional without debugging.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ablock">
+      <div class="atag fail">What didn't go well</div>
+      <div class="ablock-title">Shortfalls</div>
+      <div class="ablock-text">
+        <ul>
+          <li style="margin-bottom:6px"><b>Contrast was systematically underspecified.</b> No contrast audit step existed in the workflow. Relied on "looks fine" judgment rather than measurable targets.</li>
+          <li style="margin-bottom:6px"><b>Font sizes were consistently too small</b> in SVG-rendered labels and sidebar headers, especially on information-dense slides.</li>
+          <li style="margin-bottom:6px"><b>Over-indexing on aesthetic restraint.</b> The design philosophy of "subtle, glowing dark theme" led to over-suppressing important textual information.</li>
+          <li><b>Phillips curve sign error</b> in initial data encoding—a factual error that required correction. Missing a subject-matter fact-check step.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="acols acols-3">
+    <div class="ablock">
+      <div class="ablock-title">Root cause analysis</div>
+      <div class="ablock-text">
+        The contrast failures trace to a single root cause: <b>no explicit contrast target was set before styling began.</b> Without a floor (e.g., "minimum 3:1 for all text"), individual opacity choices that each seem reasonable accumulate into a systematically illegible design.
+      </div>
+    </div>
+    <div class="ablock">
+      <div class="ablock-title">Process changes</div>
+      <div class="ablock-text">
+        <b>1. Set contrast floor first.</b> Before any styling, define: normal text ≥ 4.5:1, large/bold text ≥ 3:1, decorative elements exempt.<br><br>
+        <b>2. Named "contrast pass" step.</b> After visual design, explicitly audit every <code>rgba(..., .X)</code> and ask: "readability-reducing or intentional fade?"<br><br>
+        <b>3. Fact-check data relationships</b> against a reference before encoding.
+      </div>
+    </div>
+    <div class="ablock">
+      <div class="ablock-title">What good process looks like</div>
+      <div class="ablock-text">
+        CSS custom properties for each text role with explicit contrast targets baked in. Visual hierarchy through <em>lightness + saturation</em>, not opacity alone. Opacity reserved for true "fade" use cases: trail tails, background watermarks, hover states, decorative elements that genuinely should recede.
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div><!-- #deck -->
+
+<div id="nav">
+  <button class="nb" onclick="nav.prev()">← Prev</button>
+  <div class="nd on"  onclick="nav.go(0)"></div>
+  <div class="nd"     onclick="nav.go(1)"></div>
+  <div class="nd"     onclick="nav.go(2)"></div>
+  <div class="nd"     onclick="nav.go(3)"></div>
+  <div class="nd-sep"></div>
+  <div class="nd"     onclick="nav.go(4)"></div>
+  <div class="nd"     onclick="nav.go(5)"></div>
+  <div class="nd"     onclick="nav.go(6)"></div>
+  <div class="nd"     onclick="nav.go(7)"></div>
+  <div class="nd"     onclick="nav.go(8)"></div>
+  <div class="nd"     onclick="nav.go(9)"></div>
+  <div class="nd"     onclick="nav.go(10)"></div>
+  <button class="nb" onclick="nav.next()">Next →</button>
+</div>
+<div id="tt"></div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────
+const nav = (() => {
+  const slides = [...document.querySelectorAll('.slide')];
+  const dots   = [...document.querySelectorAll('.nd')];
+  let cur = 0;
+  const done = new Set([0]);
+  function go(n) {
+    n = Math.max(0, Math.min(slides.length-1, n));
+    if (n === cur) return;
+    if (cur === 2 && v2timer) { clearInterval(v2timer); v2timer=null; v2playing=false; const pb=document.getElementById('v2play'); if(pb) pb.textContent='▶'; }
+    slides[cur].classList.remove('active'); dots[cur].classList.remove('on');
+    cur = n;
+    slides[cur].classList.add('active');  dots[cur].classList.add('on');
+    if (!done.has(n)) { done.add(n); if(n===1)initV1(); else if(n===2)initV2(); else if(n===3)initV3(); }
+  }
+  return { go, next:()=>go(cur+1), prev:()=>go(cur-1) };
+})();
+
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowRight'||e.key==='ArrowDown') nav.next();
+  if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   nav.prev();
+});
+
+// ─────────────────────────────────────────────────────────────
+// TOOLTIP
+// ─────────────────────────────────────────────────────────────
+const ttEl = document.getElementById('tt');
+function showTT(html, ev) { ttEl.innerHTML=html; ttEl.classList.add('on'); moveTT(ev); }
+function moveTT(ev) {
+  const x=ev.clientX, y=ev.clientY, W=innerWidth, H=innerHeight, tw=265, th=95;
+  ttEl.style.left = (x+16+tw>W ? x-tw-14 : x+14)+'px';
+  ttEl.style.top  = (y+12+th>H ? y-th-10 : y+10)+'px';
+}
+function hideTT() { ttEl.classList.remove('on'); }
+
+// ─────────────────────────────────────────────────────────────
+// VIZ 1 — CAUSAL LAG CLOCK MATRIX
+// ─────────────────────────────────────────────────────────────
+function initV1() {
+  const cont = document.getElementById('c1');
+  const cw = cont.clientWidth, ch = cont.clientHeight;
+
+  const IND = [
+    { id:'YLD',  name:'Yield Spread',      desc:'10yr − 2yr Treasury spread',    type:'Leading'   },
+    { id:'HST',  name:'Housing Starts',    desc:'New residential units started', type:'Leading'   },
+    { id:'CONF', name:'Consumer Conf.',    desc:'Conference Board Index',         type:'Leading'   },
+    { id:'PMI',  name:'Mfg PMI',           desc:'ISM Manufacturing PMI',          type:'Leading'   },
+    { id:'RET',  name:'Retail Sales',      desc:'Month-over-month change',        type:'Coincident'},
+    { id:'CPI',  name:'Inflation (CPI)',   desc:'Core CPI, year-over-year',       type:'Lagging'   },
+    { id:'UNE',  name:'Unemployment',      desc:'U-3 unemployment rate',          type:'Lagging'   },
+    { id:'PRF',  name:'Corp Profits',      desc:'S&P 500 EPS growth, YoY',        type:'Lagging'   },
+  ];
+  const N = IND.length;
+
+  const M = Array.from({length:N},()=>Array.from({length:N},()=>({corr:.12,lag:0})));
+  for (let i=0;i<N;i++) M[i][i]={corr:1,lag:0};
+  function rel(i,j,c,l){ M[i][j]={corr:c,lag:l}; M[j][i]={corr:c,lag:-l}; }
+
+  rel(0,1, .62,  3);  rel(0,2, .71,  5);  rel(0,3, .65,  4);  rel(0,4, .58,  7);
+  rel(0,5,-.45,  8);  rel(0,6,-.72, 10);  rel(0,7, .68, 12);
+  rel(1,2, .55,  2);  rel(1,3, .60,  1);  rel(1,4, .48,  4);
+  rel(1,5,-.38,  5);  rel(1,6,-.65,  7);  rel(1,7, .52,  9);
+  rel(2,3, .72,  0);  rel(2,4, .80,  2);  rel(2,5,-.30,  4);  rel(2,6,-.55,  5);  rel(2,7, .45,  6);
+  rel(3,4, .68,  1);  rel(3,5, .42,  3);  rel(3,6,-.60,  4);  rel(3,7, .75,  3);
+  rel(4,5, .35,  2);  rel(4,6,-.42,  3);  rel(4,7, .55,  2);
+  rel(5,6,-.48, -6);  rel(5,7, .28, -1);  rel(6,7,-.50,  2);
+
+  const CELL = Math.min(72, Math.floor(Math.min(cw-180, ch-90) / N));
+  const LW=140, LH=58;
+  const SVW = LW + CELL*N + 30, SVH = LH + CELL*N + 40;
+
+  const svg = d3.select('#c1').append('svg').attr('width',SVW).attr('height',SVH);
+  const g = svg.append('g').attr('transform',`translate(${LW},${LH})`);
+
+  const posC = d3.scaleLinear().domain([0,.5,1]).range(['rgba(20,30,70,.3)','rgba(40,80,210,.45)','rgba(70,140,255,.78)']);
+  const negC = d3.scaleLinear().domain([0,.5,1]).range(['rgba(20,30,70,.3)','rgba(200,55,38,.45)','rgba(255,80,50,.78)']);
+  const typeColor = {'Leading':'#7aaae8','Coincident':'#6ccfa0','Lagging':'#e8806a'};
+
+  // Column labels
+  svg.selectAll('.cl').data(IND).join('g').attr('class','cl')
+    .attr('transform',(d,i)=>`translate(${LW+i*CELL+CELL/2},${LH-10})`)
+    .call(s=>{
+      s.append('text').text(d=>d.id).attr('text-anchor','middle').attr('font-size',13)
+        .attr('font-weight',700).attr('fill','#c0c8e8');
+      s.append('text').text(d=>d.type.slice(0,4)).attr('y',-20).attr('text-anchor','middle')
+        .attr('font-size',9).attr('fill',d=>typeColor[d.type]);
+    });
+
+  // Row labels
+  svg.selectAll('.rl').data(IND).join('g').attr('class','rl')
+    .attr('transform',(d,i)=>`translate(${LW-10},${LH+i*CELL+CELL/2})`)
+    .call(s=>{
+      s.append('text').text(d=>d.id).attr('text-anchor','end').attr('dy','0.35em')
+        .attr('font-size',13).attr('font-weight',700).attr('fill','#c0c8e8');
+      s.append('text').text(d=>d.type.slice(0,4)).attr('x',-60).attr('dy','0.35em')
+        .attr('font-size',9).attr('fill',d=>typeColor[d.type]);
+    });
+
+  // Cells
+  for (let i=0;i<N;i++) for (let j=0;j<N;j++) {
+    const {corr,lag} = M[i][j];
+    const diag = i===j;
+    const cg = g.append('g').attr('transform',`translate(${j*CELL+CELL/2},${i*CELL+CELL/2})`);
+
+    const bgFill = diag ? 'rgba(90,90,200,.14)' : corr>=0 ? posC(Math.abs(corr)) : negC(Math.abs(corr));
+    cg.append('rect').attr('x',-CELL/2+1.5).attr('y',-CELL/2+1.5)
+      .attr('width',CELL-3).attr('height',CELL-3).attr('rx',4)
+      .attr('fill',bgFill)
+      .attr('stroke',diag?'rgba(140,140,255,.3)':'rgba(50,55,100,.55)').attr('stroke-width',.5);
+
+    if (diag) {
+      cg.append('circle').attr('r',6).attr('fill','rgba(150,150,255,.6)');
+      cg.append('text').attr('y',CELL/2-7).attr('text-anchor','middle')
+        .attr('font-size',9.5).attr('fill','rgba(200,200,255,.9)').text('1.00');
+    } else {
+      const ARC_CY = -3, r = CELL * 0.30;
+      const arcPath = d3.arc().innerRadius(r-2).outerRadius(r+2).startAngle(-Math.PI/2).endAngle(Math.PI/2);
+      cg.append('path').attr('d',arcPath()).attr('transform',`translate(0,${ARC_CY})`).attr('fill','rgba(80,90,160,.18)');
+
+      // Tick marks
+      [-6,-3,0,3,6].forEach(tk=>{
+        const ta=(tk/6)*(Math.PI/2);
+        cg.append('circle').attr('cx',r*Math.sin(ta)).attr('cy',ARC_CY-r*Math.cos(ta))
+          .attr('r',tk===0?1.4:.7).attr('fill',tk===0?'rgba(200,210,255,.65)':'rgba(130,140,200,.4)');
+      });
+
+      // Lag dot
+      const lagC = Math.max(-6,Math.min(6,lag));
+      const ang = (lagC/6)*(Math.PI/2);
+      const dotX=r*Math.sin(ang), dotY=ARC_CY-r*Math.cos(ang);
+      const dotColor = corr>=0 ? '#6aabff' : '#ff8060';
+      const dotR = 3 + Math.abs(corr)*3.8;
+      cg.append('circle').attr('cx',dotX).attr('cy',dotY).attr('r',dotR).attr('fill',dotColor);
+      if (Math.abs(corr)>.6)
+        cg.append('circle').attr('cx',dotX).attr('cy',dotY).attr('r',dotR+2.5)
+          .attr('fill','none').attr('stroke',dotColor).attr('stroke-width',.8).attr('opacity',.35);
+
+      // Corr value text
+      cg.append('text').attr('y',CELL/2-7).attr('text-anchor','middle')
+        .attr('font-size',8.5).attr('fill',corr>=0?'#80a8f0':'#f08870')
+        .text((corr>=0?'+':'')+corr.toFixed(2));
+
+      // Hover
+      cg.style('cursor','pointer').on('mouseover',ev=>{
+        const iI=IND[i],jI=IND[j],lagAbs=Math.abs(lag);
+        const dir=lag>0?`<b>${iI.id}</b> leads <b>${jI.id}</b> by ${lagAbs} months`
+                  :lag<0?`<b>${jI.id}</b> leads <b>${iI.id}</b> by ${lagAbs} months`
+                  :'<b>Coincident</b> — no timing offset';
+        const str=Math.abs(corr)>.65?'strong':Math.abs(corr)>.4?'moderate':'weak';
+        showTT(`<strong>${iI.name} → ${jI.name}</strong>${dir}<br>Correlation: ${(corr>=0?'+':'')+corr.toFixed(2)} (${str} ${corr>=0?'positive':'inverse'})<span class="dim">${iI.desc} · ${jI.desc}</span>`,ev);
+      }).on('mousemove',moveTT).on('mouseleave',hideTT);
+    }
+  }
+
+  // Grid
+  for(let k=0;k<=N;k++){
+    g.append('line').attr('x1',k*CELL).attr('y1',0).attr('x2',k*CELL).attr('y2',N*CELL).attr('stroke','rgba(70,78,130,.5)').attr('stroke-width',.5);
+    g.append('line').attr('x1',0).attr('y1',k*CELL).attr('x2',N*CELL).attr('y2',k*CELL).attr('stroke','rgba(70,78,130,.5)').attr('stroke-width',.5);
+  }
+
+  // Legend
+  const leg=svg.append('g').attr('transform',`translate(${LW},${LH+N*CELL+18})`);
+  leg.append('text').attr('font-size',11).attr('fill','#7878a8')
+    .text("Clock arc 9→12→3 o'clock: left dot = row leads · center = coincident · right dot = column leads");
+  leg.append('text').attr('x',N*CELL).attr('text-anchor','end').attr('font-size',11).attr('fill','#7878a8').attr('dy',12)
+    .text('Blue = positive correlation · Red = negative (inverse) correlation');
+}
+
+// ─────────────────────────────────────────────────────────────
+// VIZ 2 — PHASE PORTRAIT LEADERBOARD
+// ─────────────────────────────────────────────────────────────
+let v2playing=false, v2timer=null, v2week=0;
+
+function makeCurve(pts,n){
+  return Array.from({length:n},(_,w)=>{
+    if(w<=pts[0][0]) return pts[0][1];
+    if(w>=pts[pts.length-1][0]) return pts[pts.length-1][1];
+    for(let k=0;k<pts.length-1;k++){
+      const[w0,v0]=pts[k],[w1,v1]=pts[k+1];
+      if(w>=w0&&w<=w1){ const t=(w-w0)/(w1-w0),s=t*t*(3-2*t); return v0+(v1-v0)*s; }
+    }
+    return pts[pts.length-1][1];
+  });
+}
+
+const TEAMS=[
+  {id:'BOS',name:'Celtics',  color:'#2dba88',sc:[[0,.50],[6,.58],[12,.63],[20,.62],[25,.68],[29,.70]],rc:[[0,.50],[3,.70],[7,.60],[11,.80],[14,.50],[18,.40],[22,.70],[26,.90],[29,.80]]},
+  {id:'GSW',name:'Warriors', color:'#f5c418',sc:[[0,.55],[10,.65],[20,.66],[29,.65]],rc:[[0,.60],[5,.70],[10,.60],[15,.70],[20,.60],[25,.70],[29,.65]]},
+  {id:'LAL',name:'Lakers',   color:'#a055d5',sc:[[0,.55],[8,.62],[14,.55],[20,.50],[24,.54],[29,.58]],rc:[[0,.60],[7,.70],[11,.40],[16,.30],[20,.40],[24,.60],[29,.70]]},
+  {id:'MIA',name:'Heat',     color:'#e84568',sc:[[0,.48],[5,.44],[10,.52],[16,.50],[22,.54],[29,.55]],rc:[[0,.40],[4,.20],[8,.80],[12,.60],[16,.40],[20,.70],[24,.50],[29,.60]]},
+  {id:'NYK',name:'Knicks',   color:'#4899e8',sc:[[0,.40],[8,.44],[16,.52],[22,.58],[29,.63]],rc:[[0,.40],[6,.50],[12,.60],[18,.70],[24,.80],[29,.82]]},
+  {id:'PHX',name:'Suns',     color:'#f07030',sc:[[0,.60],[8,.65],[16,.62],[22,.55],[29,.47]],rc:[[0,.70],[6,.70],[12,.60],[18,.40],[23,.28],[29,.30]]},
+  {id:'DAL',name:'Mavs',     color:'#40a8d8',sc:[[0,.48],[12,.50],[16,.58],[22,.60],[29,.62]],rc:[[0,.50],[10,.50],[14,.80],[18,.70],[22,.60],[29,.65]]},
+  {id:'MEM',name:'Grizzlies',color:'#9090d0',sc:[[0,.48],[5,.52],[10,.45],[15,.52],[20,.49],[29,.50]],rc:[[0,.50],[4,.70],[8,.30],[12,.70],[16,.40],[20,.60],[25,.50],[29,.50]]},
+  {id:'OKC',name:'Thunder',  color:'#40b8e8',sc:[[0,.35],[10,.38],[15,.48],[22,.57],[29,.64]],rc:[[0,.30],[8,.40],[12,.60],[18,.70],[23,.80],[29,.78]]},
+  {id:'CHI',name:'Bulls',    color:'#e84060',sc:[[0,.40],[10,.42],[20,.40],[29,.37]],rc:[[0,.40],[5,.50],[10,.35],[15,.40],[20,.30],[25,.40],[29,.35]]},
+].map(t=>{
+  const W=30; let seed=t.id.charCodeAt(0)*17+t.id.charCodeAt(1)*31;
+  const rng=()=>{ seed=(seed*1664525+1013904223)&0x7fffffff; return seed/0x7fffffff; };
+  const sv=makeCurve(t.sc,W), rv=makeCurve(t.rc,W);
+  return {...t,data:Array.from({length:W},(_,w)=>({
+    s:Math.max(.18,Math.min(.86,sv[w]+(rng()-.5)*.04)),
+    r:Math.max(.0, Math.min(1.0,rv[w]+(rng()-.5)*.10))
+  }))};
+});
+
+function initV2(){
+  const cont=document.getElementById('c2');
+  const cw=cont.clientWidth, ch=cont.clientHeight;
+  const Mg={t:38,r:44,b:64,l:68};
+  const W=cw-Mg.l-Mg.r, H=ch-Mg.t-Mg.b;
+  const svg=d3.select('#c2').append('svg').attr('width',cw).attr('height',ch);
+  const g=svg.append('g').attr('transform',`translate(${Mg.l},${Mg.t})`);
+  const xS=d3.scaleLinear().domain([.22,.82]).range([0,W]);
+  const yS=d3.scaleLinear().domain([0,1]).range([H,0]);
+
+  // Quadrant fills + labels
+  [{x1:.22,x2:.5,y1:.5,y2:1,c:'rgba(255,190,40,.04)',lx:.36,ly:.75,lb:'SURGING'},
+   {x1:.5,x2:.82,y1:.5,y2:1,c:'rgba(44,200,100,.05)',lx:.66,ly:.75,lb:'DOMINANT'},
+   {x1:.22,x2:.5,y1:0,y2:.5,c:'rgba(200,44,44,.038)',lx:.36,ly:.25,lb:'STRUGGLING'},
+   {x1:.5,x2:.82,y1:0,y2:.5,c:'rgba(255,140,40,.038)',lx:.66,ly:.25,lb:'COOLING'}
+  ].forEach(q=>{
+    g.append('rect').attr('x',xS(q.x1)).attr('y',yS(q.y2))
+      .attr('width',xS(q.x2)-xS(q.x1)).attr('height',yS(q.y1)-yS(q.y2)).attr('fill',q.c);
+    g.append('text').attr('x',xS(q.lx)).attr('y',yS(q.ly)+5)
+      .attr('text-anchor','middle').attr('font-size',10.5).attr('letter-spacing','2')
+      .attr('fill','rgba(160,165,220,.52)').text(q.lb);
+  });
+
+  // Dividers
+  g.append('line').attr('x1',xS(.5)).attr('y1',0).attr('x2',xS(.5)).attr('y2',H)
+    .attr('stroke','rgba(140,148,230,.22)').attr('stroke-width',1).attr('stroke-dasharray','5,4');
+  g.append('line').attr('x1',0).attr('y1',yS(.5)).attr('x2',W).attr('y2',yS(.5))
+    .attr('stroke','rgba(140,148,230,.22)').attr('stroke-width',1).attr('stroke-dasharray','5,4');
+
+  // Axes
+  const xAx=g.append('g').attr('transform',`translate(0,${H})`).call(d3.axisBottom(xS).tickFormat(d=>Math.round(d*100)+'%').ticks(8));
+  const yAx=g.append('g').call(d3.axisLeft(yS).tickFormat(d=>d.toFixed(1)).ticks(6));
+  [xAx,yAx].forEach(ax=>{
+    ax.select('.domain').attr('stroke','rgba(120,128,220,.28)');
+    ax.selectAll('.tick line').attr('stroke','rgba(100,108,200,.2)');
+    ax.selectAll('.tick text').attr('fill','#b0b4d8').attr('font-size','11');
+  });
+  g.append('text').attr('x',W/2).attr('y',H+50).attr('text-anchor','middle').attr('font-size',12).attr('fill','#a0a4c8').text('Season Win Percentage →');
+  g.append('text').attr('transform','rotate(-90)').attr('x',-H/2).attr('y',-52).attr('text-anchor','middle').attr('font-size',12).attr('fill','#a0a4c8').text('Recent Form — Last 10 Games →');
+
+  const wkLabel=g.append('text').attr('x',W-8).attr('y',26).attr('text-anchor','end')
+    .attr('font-size',32).attr('font-weight',800).attr('fill','rgba(100,108,200,.38)').text('Week 1');
+
+  const TRAIL=7;
+  const tGroups=TEAMS.map(team=>{
+    const tg=g.append('g');
+    const trail=tg.selectAll('.tr').data(d3.range(TRAIL)).join('circle')
+      .attr('r',(d,k)=>2.2+k*.75).attr('fill',team.color).attr('opacity',(d,k)=>.05+k*.11);
+    const dot=tg.append('circle').attr('r',11).attr('fill',team.color)
+      .attr('stroke','rgba(255,255,255,.2)').attr('stroke-width',1.3).style('cursor','pointer')
+      .on('mouseover',ev=>{
+        const d=team.data[v2week];
+        const q=d.s>=.5&&d.r>=.5?'DOMINANT':d.s<.5&&d.r>=.5?'SURGING':d.s>=.5?'COOLING':'STRUGGLING';
+        showTT(`<strong>${team.name} (${team.id})</strong>Season: ${(d.s*100).toFixed(1)}%  ·  L10: ${Math.round(d.r*10)}-${10-Math.round(d.r*10)}<span class="dim">Phase: ${q}</span>`,ev);
+      }).on('mousemove',moveTT).on('mouseleave',hideTT);
+    const lbl=tg.append('text').attr('text-anchor','middle').attr('dy','0.35em')
+      .attr('font-size',8).attr('font-weight',700).attr('fill','rgba(0,0,0,.88)').attr('pointer-events','none').text(team.id);
+    return {trail,dot,lbl};
+  });
+
+  function updateV2(w,anim=true){
+    v2week=w;
+    wkLabel.text(`Week ${w+1}`);
+    document.getElementById('v2wk').textContent=`Wk ${w+1}`;
+    TEAMS.forEach((team,ti)=>{
+      const{trail,dot,lbl}=tGroups[ti]; const d=team.data[w];
+      const tx=xS(d.s),ty=yS(d.r);
+      trail.attr('cx',(_,k)=>xS(team.data[Math.max(0,w-TRAIL+1+k)].s))
+           .attr('cy',(_,k)=>yS(team.data[Math.max(0,w-TRAIL+1+k)].r));
+      if(anim){dot.transition().duration(320).attr('cx',tx).attr('cy',ty);lbl.transition().duration(320).attr('x',tx).attr('y',ty);}
+      else    {dot.attr('cx',tx).attr('cy',ty);lbl.attr('x',tx).attr('y',ty);}
+    });
+  }
+
+  document.getElementById('v2sl').addEventListener('input',function(){updateV2(+this.value,false);});
+  document.getElementById('v2play').addEventListener('click',function(){
+    v2playing=!v2playing; this.textContent=v2playing?'⏸':'▶';
+    if(v2playing){
+      if(v2week>=29){v2week=0;document.getElementById('v2sl').value=0;}
+      v2timer=setInterval(()=>{
+        const nw=v2week+1;
+        if(nw>29){clearInterval(v2timer);v2timer=null;v2playing=false;this.textContent='▶';return;}
+        document.getElementById('v2sl').value=nw; updateV2(nw,true);
+      },420);
+    } else {clearInterval(v2timer);v2timer=null;}
+  });
+  updateV2(0,false);
+}
+
+// ─────────────────────────────────────────────────────────────
+// VIZ 3 — TEMPORAL ROSETTE
+// ─────────────────────────────────────────────────────────────
+function initV3(){
+  const BIZ=[
+    {name:'Coffee Shop',  color:'#c8804a',h:[.04,.02,.01,.01,.04,.14,.68,.95,.88,.70,.52,.50,.78,.60,.40,.42,.38,.32,.28,.22,.18,.12,.08,.05],d:[.75,.88,.90,.85,.80,.64,.50]},
+    {name:'Hospital ER',  color:'#e05568',h:[.55,.46,.36,.30,.30,.34,.44,.54,.64,.70,.74,.72,.68,.64,.64,.68,.70,.76,.84,.90,.88,.80,.70,.62],d:[.80,.82,.80,.82,.85,.90,.95]},
+    {name:'Gym & Fitness',color:'#44c878',h:[.04,.02,.01,.01,.03,.10,.78,.96,.84,.52,.38,.34,.48,.44,.40,.42,.54,.88,.92,.80,.62,.44,.20,.08],d:[.92,.96,.92,.90,.78,.52,.38]},
+    {name:'E-Commerce',   color:'#5090ff',h:[.20,.12,.08,.06,.06,.08,.14,.22,.36,.50,.62,.68,.72,.65,.60,.65,.70,.74,.85,.92,.88,.78,.62,.42],d:[.64,.60,.62,.65,.70,.96,.98]},
+    {name:'Restaurant',   color:'#e0a030',h:[.04,.02,.01,.01,.01,.02,.05,.10,.16,.22,.38,.86,.90,.74,.44,.26,.22,.32,.76,.96,.90,.80,.58,.18],d:[.50,.60,.65,.72,.80,.98,.94]},
+    {name:'Movie Theater',color:'#a050d8',h:[.02,.01,.01,.01,.01,.01,.02,.02,.06,.12,.18,.28,.42,.52,.48,.46,.42,.52,.66,.86,.96,.90,.74,.28],d:[.28,.32,.38,.44,.70,.98,.92]},
+    {name:'Social Media', color:'#30c8e8',h:[.55,.45,.34,.24,.20,.24,.36,.50,.64,.72,.74,.70,.68,.64,.68,.70,.72,.74,.82,.90,.94,.90,.84,.70],d:[.85,.82,.80,.82,.85,.94,.92]},
+    {name:'Bank ATM',     color:'#58d880',h:[.02,.01,.01,.01,.01,.02,.06,.12,.22,.36,.56,.72,.76,.66,.56,.46,.46,.52,.44,.36,.22,.12,.06,.03],d:[.92,.86,.88,.90,.85,.54,.14]},
+  ];
+
+  const cont=document.getElementById('c3');
+  const cw=cont.clientWidth, ch=cont.clientHeight;
+  const COLS=4,ROWS=2, cellW=cw/COLS, cellH=ch/ROWS;
+  const base=Math.min(cellW,cellH)*.5;
+  const rIB=base*.15, rIM=base*.46, rOB=base*.53, rOM=base*.67;
+
+  const svg=d3.select('#c3').append('svg').attr('width',cw).attr('height',ch);
+  for(let c=1;c<COLS;c++) svg.append('line').attr('x1',c*cellW).attr('y1',0).attr('x2',c*cellW).attr('y2',ch).attr('stroke','rgba(70,78,130,.35)').attr('stroke-width',.5);
+  for(let r=1;r<ROWS;r++) svg.append('line').attr('x1',0).attr('y1',r*cellH).attr('x2',cw).attr('y2',r*cellH).attr('stroke','rgba(70,78,130,.35)').attr('stroke-width',.5);
+
+  BIZ.forEach((biz,bi)=>{
+    const col=bi%COLS,row=Math.floor(bi/COLS);
+    const cx=col*cellW+cellW/2, cy=row*cellH+cellH/2-10;
+    const bg=svg.append('g').attr('transform',`translate(${cx},${cy})`);
+
+    // Background
+    bg.append('circle').attr('r',rOM+10).attr('fill',biz.color).attr('opacity',.04);
+    bg.append('circle').attr('r',rIB*.92).attr('fill','rgba(9,10,20,.9)');
+
+    // Inner ring: 24-hour petals
+    const hStep=2*Math.PI/24;
+    biz.h.forEach((val,hi)=>{
+      bg.append('path')
+        .attr('d',d3.arc().innerRadius(rIB).outerRadius(rIB+(rIM-rIB)*val).startAngle(hi*hStep).endAngle((hi+.82)*hStep)())
+        .attr('fill',biz.color).attr('opacity',.42+val*.55)
+        .on('mouseover',ev=>{
+          const h12=hi===0?'midnight':hi<12?`${hi}am`:hi===12?'noon':`${hi-12}pm`;
+          showTT(`<strong>${biz.name}</strong>Hour: ${h12}<span class="dim">Relative activity: ${Math.round(val*100)}% of peak</span>`,ev);
+        }).on('mousemove',moveTT).on('mouseleave',hideTT);
+    });
+
+    bg.append('circle').attr('r',rIM+1).attr('fill','none').attr('stroke',biz.color).attr('stroke-width',.5).attr('opacity',.2);
+
+    // Outer ring: day-of-week
+    const dStep=2*Math.PI/7;
+    const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    biz.d.forEach((val,di)=>{
+      bg.append('path')
+        .attr('d',d3.arc().innerRadius(rOB).outerRadius(rOM).startAngle(di*dStep).endAngle((di+.84)*dStep)())
+        .attr('fill',biz.color).attr('opacity',.22+val*.72)
+        .on('mouseover',ev=>{
+          showTT(`<strong>${biz.name}</strong>Day: ${dayNames[di]} <span class="dim">Relative activity: ${Math.round(val*100)}% of peak</span>`,ev);
+        }).on('mousemove',moveTT).on('mouseleave',hideTT);
+
+      // Day labels — larger, more opaque
+      const mA=(di+.42)*dStep, lr=rOM+14;
+      bg.append('text').attr('x',lr*Math.sin(mA)).attr('y',-lr*Math.cos(mA)+4)
+        .attr('text-anchor','middle').attr('font-size',10).attr('fill',biz.color).attr('opacity',.88)
+        .text(dayNames[di].slice(0,1));
+    });
+
+    // Ring separator
+    bg.append('circle').attr('r',rOB-.5).attr('fill','none').attr('stroke','rgba(20,22,50,.9)').attr('stroke-width',2);
+
+    // Hour labels at cardinal positions
+    [[0,'12a','middle',-8],[Math.PI/2,'6a','start',3],[Math.PI,'12p','middle',14],[-Math.PI/2,'6p','end',3]]
+      .forEach(([ang,lbl,anchor,dy])=>{
+        bg.append('text').attr('x',(rIM+9)*Math.sin(ang)).attr('y',-(rIM+9)*Math.cos(ang)+dy)
+          .attr('text-anchor',anchor).attr('font-size',9).attr('fill','rgba(190,195,240,.8)').text(lbl);
+      });
+
+    // Center label — larger font, full opacity
+    bg.append('text').attr('y',5).attr('text-anchor','middle')
+      .attr('font-size',13).attr('font-weight',700).attr('fill',biz.color).text(biz.name);
+  });
+
+  // Legend
+  svg.append('text').attr('x',cw/2).attr('y',ch-10).attr('text-anchor','middle')
+    .attr('font-size',11).attr('fill','#8888b8')
+    .text('Inner petals: hourly activity · midnight at top, clockwise  ·  Outer ring: Mon→Sun clockwise  ·  Opacity = intensity');
+}
+</script>
+</body>
+</html>
