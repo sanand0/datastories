@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "github-usage-increase",
+      "title": "The Return That Wasn't — Did Vibe Coding Bring Developers Back to GitHub?",
+      "description": "When AI supposedly brought a generation of lapsed developers back to GitHub, we checked the commit logs. Here's what we found.",
+      "link": "github-usage-increase/",
+      "screenshot": "github-usage-increase/screenshot.webp",
+      "date": "2026-03-23",
+      "folder": "github-usage-increase"
+    },
+    {
       "id": "novel-dataviz",
       "title": "Three Novel Data Visualizations",
       "description": "Each chart solves an analytical problem for which no adequate visualization previously existed, combining novel encodings with rich, realistic synthetic data.",

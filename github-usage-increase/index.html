@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Return That Wasn't — Did Vibe Coding Bring Developers Back to GitHub?</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #faf8f4;
+    --cream: #f5f0e8;
+    --accent: #e8462a;
+    --accent-dim: #c73d24;
+    --gold: #d4a843;
+    --green: #3a7d44;
+    --muted: #8a8a9a;
+    --border: #e0dbd0;
+    --serif: 'Georgia', 'Times New Roman', serif;
+    --sans: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+  .masthead .kicker {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+  .masthead h1 {
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 400;
+    line-height: 1.2;
+    max-width: 900px;
+    margin: 0 auto 1.2rem;
+  }
+  .masthead h1 em { font-style: italic; color: var(--gold); }
+  .masthead .deck {
+    font-family: var(--sans);
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    max-width: 640px;
+    margin: 0 auto 1.8rem;
+    line-height: 1.6;
+  }
+  .masthead .byline {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.05em;
+  }
+
+  /* SKETCHNOTE HERO */
+  .sketchnote-wrap {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+  .sketchnote-wrap a img {
+    max-width: 100%;
+    width: 820px;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.15);
+    transition: box-shadow 0.2s;
+    cursor: zoom-in;
+  }
+  .sketchnote-wrap a img:hover { box-shadow: 0 10px 50px rgba(0,0,0,0.25); }
+  .sketchnote-wrap .caption {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.8rem;
+    letter-spacing: 0.03em;
+  }
+
+  /* ARTICLE BODY */
+  .article { max-width: 760px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .section {
+    padding: 3.5rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-top: 2.5rem;
+    margin-bottom: 0.8rem;
+    font-style: italic;
+  }
+
+  p { margin-bottom: 1.3rem; }
+  p + p { text-indent: 1.5em; }
+
+  /* PULL QUOTE */
+  .pullquote {
+    border-left: 4px solid var(--accent);
+    margin: 2.5rem 0;
+    padding: 1.2rem 1.8rem;
+    background: var(--cream);
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .pullquote cite {
+    display: block;
+    margin-top: 0.7rem;
+    font-size: 0.78rem;
+    font-family: var(--sans);
+    font-style: normal;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+  /* STAT CALLOUT */
+  .stat-block {
+    display: flex;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    flex: 1;
+    min-width: 150px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 6px;
+    padding: 1.5rem 1.2rem;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .stat-card .label {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.4;
+  }
+
+  /* CHART WRAPPER */
+  .chart-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.8rem 1.5rem 1.2rem;
+    margin: 2.5rem 0;
+  }
+  .chart-box .chart-title {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+  .chart-box .chart-subtitle {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    line-height: 1.4;
+  }
+  .chart-box canvas { width: 100% !important; }
+
+  /* SORTABLE TABLE */
+  .table-wrap { overflow-x: auto; margin: 2rem 0; }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+  }
+  .data-table thead tr { background: var(--ink); color: var(--paper); }
+  .data-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .data-table th:hover { background: #2d2d4e; }
+  .data-table th.sort-asc::after { content: ' ↑'; color: var(--gold); }
+  .data-table th.sort-desc::after { content: ' ↓'; color: var(--gold); }
+  .data-table td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .data-table tbody tr:nth-child(even) { background: var(--cream); }
+  .data-table .hi { color: var(--accent); font-weight: 700; }
+  .data-table .lo { color: var(--green); font-weight: 700; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+    margin: 2.5rem 0;
+    background: rgba(232,70,42,0.04);
+  }
+  .highlight-box > strong {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.7rem;
+  }
+
+  /* GREEN SUCCESS BOX */
+  .success-box {
+    border: 2px solid var(--green);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+    margin: 2.5rem 0;
+    background: rgba(58,125,68,0.04);
+  }
+  .success-box > strong {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.7rem;
+  }
+
+  .info-box {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--cream);
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #555;
+  }
+  .info-box strong { color: var(--ink); }
+
+  /* TOOLTIP */
+  [data-tooltip] {
+    border-bottom: 1px dotted var(--accent);
+    cursor: help;
+    position: relative;
+  }
+  [data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: #fff;
+    padding: 0.5rem 0.9rem;
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    line-height: 1.4;
+    white-space: pre-line;
+    max-width: 260px;
+    text-align: center;
+    z-index: 100;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+  [data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--ink);
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  /* INLINE CITATION LINKS */
+  .cite-link {
+    display: inline;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-style: normal;
+    color: var(--accent);
+    border-bottom: 1px dashed var(--accent);
+    cursor: pointer;
+    margin-left: 2px;
+    white-space: nowrap;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 0;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .cite-link:hover { color: var(--accent-dim); border-bottom-color: var(--accent-dim); }
+
+  /* POPUP */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,20,0.6);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .popup-overlay.open { display: flex; }
+  .popup-box {
+    background: white;
+    border-radius: 10px;
+    max-width: 620px;
+    width: 100%;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 2rem 2rem 1.5rem;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+  .popup-box .popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--muted);
+    line-height: 1;
+  }
+  .popup-box .popup-close:hover { color: var(--ink); }
+  .popup-box h4 {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.7rem;
+    padding-right: 2rem;
+  }
+  .popup-box .popup-body {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #333;
+  }
+  .popup-body p { margin-bottom: 0.8rem; font-style: normal; }
+  .popup-body p:last-child { margin-bottom: 0; }
+  .popup-body blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    color: #555;
+    font-style: italic;
+    margin: 0.8rem 0;
+  }
+  .popup-body a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted; }
+  .popup-body a:hover { color: var(--accent-dim); }
+  .popup-body ul { padding-left: 1.2rem; }
+  .popup-body li { margin-bottom: 0.4rem; }
+  .popup-body strong { color: var(--ink); }
+
+  /* DEVELOPER PROFILE CARDS */
+  .dev-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.2rem;
+    margin: 2rem 0;
+  }
+  .dev-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    transition: box-shadow 0.15s;
+  }
+  .dev-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .dev-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.1rem 0.7rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .dev-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--sans); font-size: 1rem; font-weight: 700;
+    color: var(--gold);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .dev-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .dev-name {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--ink);
+  }
+  .dev-name a { color: var(--ink); border-bottom: 1px solid transparent; }
+  .dev-name a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+  .dev-repo {
+    font-family: var(--sans);
+    font-size: 0.73rem;
+    color: var(--muted);
+  }
+  .dev-repo a { color: var(--muted); border-bottom: 1px dotted; font-family: 'Courier New', monospace; }
+  .dev-repo a:hover { color: var(--accent); }
+  .dev-card-body { padding: 0.85rem 1.1rem; }
+  .dev-sparkline {
+    height: 36px;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+  }
+  .dev-sparkline .bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    transition: opacity 0.2s;
+  }
+  .dev-sparkline .bar.pre { background: var(--muted); opacity: 0.5; }
+  .dev-sparkline .bar.post { background: var(--green); }
+  .dev-sparkline .bar.post.decline { background: var(--accent); }
+  .dev-stats {
+    display: flex;
+    gap: 1rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: #555;
+  }
+  .dev-stats .stat { flex: 1; }
+  .dev-stats .stat .val {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: block;
+    line-height: 1.2;
+  }
+  .dev-stats .stat .val.up { color: var(--green); }
+  .dev-stats .stat .val.down { color: var(--accent); }
+  .dev-stats .stat .lbl { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .dev-note {
+    margin-top: 0.6rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: #666;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  .dev-badge {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-bottom: 0.4rem;
+  }
+  .dev-badge.increase { background: rgba(58,125,68,0.12); color: var(--green); }
+  .dev-badge.decline { background: rgba(232,70,42,0.1); color: var(--accent); }
+
+  /* COHORT VIZ */
+  .cohort-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+  }
+  .cohort-row .cohort-label { width: 170px; flex-shrink: 0; color: #444; }
+  .cohort-row .cohort-bar-wrap {
+    flex: 1;
+    height: 22px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cohort-row .cohort-bar { height: 100%; border-radius: 4px; }
+  .cohort-row .cohort-val { width: 50px; text-align: right; color: var(--muted); font-size: 0.75rem; }
+
+  /* TAKEAWAYS */
+  .takeaways-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin: 2rem 0;
+  }
+  .takeaway-card {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 1.3rem 1.2rem;
+  }
+  .takeaway-card .num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+  .takeaway-card p {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
+    margin: 0;
+    text-indent: 0;
+  }
+  .takeaway-card .tag {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.75;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  /* FOOTNOTE */
+  .footnotes {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    line-height: 1.6;
+    margin-top: 1rem;
+  }
+  .footnotes a { color: var(--muted); }
+  .footnotes a:hover { color: var(--accent); }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  a:hover { border-bottom-color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .stat-card .num { font-size: 2.2rem; }
+    .cohort-row .cohort-label { width: 110px; font-size: 0.72rem; }
+    .popup-box { padding: 1.5rem 1.2rem 1.2rem; }
+    .dev-grid { grid-template-columns: 1fr; }
+    .takeaways-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <p class="kicker">Data Investigation · GitHub Activity · 2025–2026</p>
+  <h1>The Return That <em>Wasn't</em></h1>
+  <p class="deck">When AI supposedly brought a generation of lapsed developers back to GitHub, we checked the commit logs. Here's what we found.</p>
+  <p class="byline">Analysis based on 1,762 sampled GitHub users · March 2026</p>
+</header>
+
+<!-- SKETCHNOTE -->
+<div class="sketchnote-wrap">
+  <a href="sketchnote.avif" target="_blank" rel="noopener" title="Click to open full-size sketchnote">
+    <img src="sketchnote.avif" alt="Sketchnote summarising the GitHub activity analysis" loading="lazy">
+  </a>
+  <p class="caption">Visual overview of the analysis — click to enlarge</p>
+</div>
+
+<!-- ARTICLE -->
+<main class="article">
+
+  <!-- SECTION 1: THE HOOK -->
+  <section class="section">
+    <span class="section-label">I — The Narrative</span>
+    <h2>The CEOs Who Coded</h2>
+
+    <p>On a Tuesday in early December 2025, Sebastian Siemiatkowski, the CEO of Klarna, walked into a meeting with something unusual under his arm — not a slide deck, but a working prototype he'd built himself the night before. It had taken him twenty minutes. "I no longer have to beg someone more technically proficient to create a product," he said. "I can just build it." <a class="cite-link" href="#" onclick="openPopup('cite-klarna'); return false;">[Read more →]</a></p>
+
+    <p>He wasn't alone. Across Silicon Valley, in boardrooms in Stockholm and São Paulo and Singapore, a peculiar thing was happening. Founders who hadn't touched a code editor in years were suddenly shipping demos. Executives were building internal dashboards before the weekend. Non-technical product managers were deploying web apps before lunch. The Wall Street Journal called it the "<span data-tooltip="A movement where people describe what they want in plain English and let AI write the code — coined by AI researcher Andrej Karpathy in February 2025">vibe coding</span> revolution." Collins English Dictionary named it their Word of the Year.</p>
+
+    <p>The cause, everyone agreed, was November 2025. Two AI models had arrived in quick succession — Anthropic's <span data-tooltip="Released November 24, 2025. Scored 80.9% on SWE-bench Verified, the gold standard for autonomous software engineering. Priced at $5/$25 per million tokens.">Claude Opus 4.5</span> on November 24th, and OpenAI's <span data-tooltip="Released December 18, 2025. Described by OpenAI as 'the most advanced agentic coding model yet for complex, real-world software engineering.'">GPT-5.2-Codex</span> just weeks later. Developer and writer Simon Willison captured the feeling exactly: "It genuinely feels to me like GPT-5.2 and Opus 4.5 in November represent an inflection point — one of those moments where the models get incrementally better in a way that tips across an invisible capability line where suddenly a whole bunch of much harder coding problems open up." <a class="cite-link" href="#" onclick="openPopup('cite-willison'); return false;">[Simon Willison →]</a></p>
+
+    <div class="pullquote">
+      "CEOs that finally feel unleashed."
+      <cite>— Amjad Masad, CEO of Replit, describing the wave of non-developer executives suddenly building their own software</cite>
+    </div>
+
+    <p>The anecdotes were everywhere. A quarter of Y Combinator's Winter 2025 batch had codebases that were 95% AI-generated. <a class="cite-link" href="#" onclick="openPopup('cite-ycombinator'); return false;">[YC Winter 2025 →]</a> GitHub itself was reporting that a new developer joined the platform every second — 36 million in a single year. <a class="cite-link" href="#" onclick="openPopup('cite-octoverse'); return false;">[GitHub Octoverse →]</a> By early 2026, 63% of active vibe coding users weren't developers at all. The story told itself.</p>
+
+    <p>But stories, however compelling, are not data. And this one had an obvious empirical test: if the revolution was real — if lapsed coders were genuinely returning to their keyboards, and dormant GitHub accounts were suddenly lighting up with commits — you should be able to see it in the code.</p>
+
+    <p>So we looked.</p>
+  </section>
+
+  <!-- SECTION 2: THE METHOD -->
+  <section class="section">
+    <span class="section-label">II — The Investigation</span>
+    <h2>How to Measure a Comeback</h2>
+
+    <p>Testing whether a specific event triggered a behavioral change in millions of developers is harder than it sounds. The obvious approach — check whether commit activity went up after November 2025 — immediately runs into a measurement trap. If you sample developers who were active <em>just before</em> November, you've already selected people near their activity peak. Their subsequent decline looks dramatic, but much of it is just <span data-tooltip="The statistical tendency for extreme values to be followed by more ordinary ones. If you select users who were unusually active last month, their activity next month will probably look lower — not because of any real change, but because the selection was based on an extreme moment.">regression to the mean</span>. <a class="cite-link" href="#" onclick="openPopup('cite-method'); return false;">[Methodology →]</a></p>
+
+    <p>To avoid this, we ran a carefully designed two-stage sampling study using the GitHub REST API. We sampled 1,762 developers across four separate collection batches, comparing their commit activity in two equal three-month windows: before November 2025 (August–October) and after (November 2025–January 2026). The core design question was: what fraction of developers showed a meaningful increase?</p>
+
+    <div class="info-box">
+      <strong>What counts as a "meaningful increase"?</strong> We required <em>both</em> conditions to hold: the developer committed at least 10 more times in the post-window than the pre-window, <em>and</em> their post-window count was at least double their pre-window count. This double filter weeds out trivially small changes in either absolute or relative terms.
+    </div>
+
+    <p>We also ran a crucial debiasing step: a second, smaller sample drawn from developers active in <em>March–April 2025</em> — six months before the hypothesized break — to check whether the main sample's overlap with the pre-window was distorting the results. And we ran a <span data-tooltip="A test where you apply your analysis to a different time period when no intervention occurred, to check whether your method would detect a 'surge' even where none exists.">placebo sweep</span>, asking: if we moved our hypothetical break month to July, or August, or October — months when nothing especially dramatic happened in AI — would November still stand out as exceptional?</p>
+  </section>
+
+  <!-- SECTION 3: THE DATA -->
+  <section class="section">
+    <span class="section-label">III — The Numbers</span>
+    <h2>Six Percent</h2>
+
+    <p>The answer came back with unusual consistency across every configuration we tried.</p>
+
+    <div class="stat-block">
+      <div class="stat-card">
+        <span class="num">6%</span>
+        <span class="label">of developers showed a meaningful increase post-Nov 2025</span>
+      </div>
+      <div class="stat-card">
+        <span class="num">1,762</span>
+        <span class="label">total developers sampled across 4 batches</span>
+      </div>
+      <div class="stat-card">
+        <span class="num">10</span>
+        <span class="label">classic "dormant returners" — near-zero pre, active post</span>
+      </div>
+    </div>
+
+    <p>In the main 1,600-user sample, exactly 96 developers — 6.0% — met the bar for a meaningful increase. In the smaller, carefully debiased 162-user sample drawn from an earlier, non-overlapping seed period, the number was 10 out of 162 — 6.2%. The two figures are so close they could be the same measurement taken twice. The 95% confidence intervals overlap substantially. This is not noise. This is a stable signal.</p>
+
+    <p>And that signal says: no broad surge.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Increase share is consistent across sampling designs</div>
+      <div class="chart-subtitle">% of developers showing meaningful increase in commits post-Nov 2025, by sample group. Whiskers show 95% Wilson confidence intervals. The early-seeded group is the least biased estimate.</div>
+      <canvas id="chart-batches" height="220"></canvas>
+    </div>
+
+    <p>If there had been a genuine wave of returning coders, we'd expect something like 20%, 30%, perhaps 40% of developers to show a marked uptick. Campaigns that meaningfully change population-level behavior — public health interventions, major platform launches, viral trends — show up unmistakably in the data. Six percent is not a wave. It's barely a ripple.</p>
+
+    <h3>The dormant returners: a rounding error</h3>
+
+    <p>Most striking of all was the cohort we were specifically hunting for: the <em>dormant returners</em>. These are developers who had effectively gone quiet before November — minimal activity in the pre-window — and then suddenly reactivated. The vibe coding narrative predicted hundreds of them. We found ten.</p>
+
+    <p>Just ten. Out of 1,600 sampled users. That's 0.6%.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Where did the 1,600 developers land?</div>
+      <div class="chart-subtitle">Cohort classification based on pre/post activity patterns. "Dormant returner" and "newly active" together — the groups the narrative predicted — are less than 1.2% of the sample.</div>
+      <div id="cohort-bars" style="margin-top:1rem;"></div>
+    </div>
+
+    <p>The picture that emerges is not a homecoming parade. It's more like a slow exhale. The largest cohort — 851 developers, 53% of the sample — were <em>declining</em>: meaningfully less active after November than before. A quarter landed in "other" (roughly flat). Only 15% were consistently active throughout. The returnees were statistical ghosts.</p>
+
+    <h3>The humans behind the six percent</h3>
+
+    <p>Who are the 6% who actually did increase? Browsing through the individual cases reveals something interesting: they're not the lapsed professionals who stopped coding and picked it back up. They're developers who started new projects — or dramatically intensified work on existing ones. Here are a few representative examples from the sample.</p>
+
+    <div class="dev-grid" id="dev-cards-increase"></div>
+
+    <p>Notice what these cases have in common. These aren't dormant developers returning. They're people who were already committing code before November — and then accelerated. The most evocative case may be <a href="https://github.com/rjwalters/vibesql" target="_blank">rjwalters/vibesql</a>: someone who named their project after the very movement we're studying, and whose commit pace nearly sextupled after October. The irony is almost too neat.</p>
+
+    <p>And on the other side — the developers who slowed down or stopped entirely — the picture is equally instructive.</p>
+
+    <div class="dev-grid" id="dev-cards-decline"></div>
+
+    <p>The sheer scale of decline in the top cases reflects a pattern common to GitHub: many repos function as automated data stores — receiving thousands of commits from scripts or bots rather than human keystrokes. When those scripts stop running, the commit counts collapse to zero. This is why looking at the <em>share</em> of developers who changed is more meaningful than the raw numbers: it's the human pattern we're trying to detect, and raw totals are swamped by automation.</p>
+  </section>
+
+  <!-- SECTION 4: THE TWIST -->
+  <section class="section">
+    <span class="section-label">IV — The Twist</span>
+    <h2>November Was Actually the <em>Weakest</em> Month</h2>
+
+    <p>Here is where the data gets genuinely strange — and genuinely informative.</p>
+
+    <p>We ran the placebo test. We asked: if we defined our "break month" as July 2025 instead of November, what fraction of developers would look like they'd increased their activity? What about August? September?</p>
+
+    <p>The results are remarkable.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">November 2025 is the <em>weakest</em> candidate break month</div>
+      <div class="chart-subtitle">If November were truly special, it should produce a higher "increase share" than placebo months. Instead, it's the lowest. (Overlap-seeded panel, n=180 users)</div>
+      <canvas id="chart-placebo" height="240"></canvas>
+    </div>
+
+    <p>In July 2025 — months before the big AI model releases — 13.9% of developers looked like they were ramping up. By August, still 12.8%. The share steadily eroded as we moved toward November. By the time we reach November itself, only 2.2% looked like they were accelerating. December: 1.7%.</p>
+
+    <p>This is the opposite of what a true November surge would produce. If the Opus 4.5 release had genuinely brought developers back to their keyboards, November should show an <em>uptick</em> in the increase share — not the nadir.</p>
+
+    <div class="highlight-box">
+      <strong>⚠ The Signal That Wasn't There</strong>
+      If November 2025 were truly the inflection point the internet described, it should have been the <em>strongest</em> candidate break month, not the weakest. The placebo test finds exactly the opposite. This is the strongest evidence that no broad activation wave occurred in public GitHub commit data.
+    </div>
+
+    <h3>The aggregate looks fine — until you look underneath</h3>
+
+    <p>There's one more thing worth noting. If you plot raw monthly commit totals across the sample, November actually looks decent — activity holds steady at levels last seen in July and August, before a pullback in December. For a moment, you might think: maybe there is something here.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Monthly activity looks stable — but that's misleading</div>
+      <div class="chart-subtitle">Scaled total commits per month (180-user panel, scaled to full 1,600-user sample). Raw totals hold in Nov–Dec, but the median developer was falling. The mean is propped up by 10 extremely prolific accounts.</div>
+      <canvas id="chart-monthly" height="220"></canvas>
+    </div>
+
+    <p>But this aggregate hides a severe concentration problem. In our sample, the top 10 most active users generated <strong>83.8%</strong> of all monthly commits. Ten people out of 1,600. The "stable November" isn't a broad trend — it's the behavior of a handful of prolific contributors whose patterns happen to hold up, while the typical developer was quieting down.</p>
+
+    <p>This is why looking at medians matters. The median developer's commit count dropped dramatically after October. The mean is buoyed by outliers. The typical developer was not having a coding renaissance. They were having a coding winter.</p>
+  </section>
+
+  <!-- SECTION 5: THE REAL STORY -->
+  <section class="section">
+    <span class="section-label">V — What's Actually Happening</span>
+    <h2>The Revolution Is Real — Just Not <em>Here</em></h2>
+
+    <p>At this point, you might reasonably ask: are we just calling the vibe coding revolution fake? Is this all just hype?</p>
+
+    <p>Not exactly. The revolution is real. But it's playing out somewhere other than the public GitHub commit logs of established developers.</p>
+
+    <p>The GitHub Octoverse 2025 report tells a fascinating adjacent story: 36 million new developers joined GitHub in a single year — more than one per second. <a class="cite-link" href="#" onclick="openPopup('cite-octoverse'); return false;">[GitHub Octoverse →]</a> Commits on GitHub grew 25% year-over-year. Pull request merges grew 23%. These are genuine, enormous numbers.</p>
+
+    <p>But these are <em>new</em> developers — people arriving on GitHub for the first time, people who never had a GitHub account before AI made coding accessible. They're the Klarna CEO building prototypes. They're the Y Combinator founders shipping 95% AI-generated codebases. They are, in many cases, people for whom GitHub is a new destination, not a place they're returning to.</p>
+
+    <p>That distinction matters enormously. Our study could only observe developers who already <em>had</em> a GitHub presence — people seeded from prior public commits. We deliberately filtered to users with pre-window activity. If the vibe coding wave was primarily recruiting <em>new</em> entrants rather than reactivating dormant ones, our study would not catch it by design. And the cohort data suggests that's precisely what's happening: just 8 "newly active" users in our 1,600-person sample, because our sampling method couldn't capture the truly new arrivals.</p>
+
+    <div class="pullquote">
+      "63% of active vibe coding users aren't developers at all — they're founders, product managers, and marketers building real products."
+      <cite>— Multiple industry surveys, early 2026</cite>
+    </div>
+
+    <p>Think of it this way. The vibe coding narrative has two versions. Version one: lapsed developers who used to commit code but stopped are now coming back. Version two: people who never really coded before are starting for the first time. The GitHub Octoverse data strongly supports version two. Our analysis cannot rule out version one, but finds no evidence for it in existing users' commit patterns.</p>
+
+    <h3>Why the "returner" story was so easy to believe</h3>
+
+    <p>Andrej Karpathy coined "<a href="https://x.com/karpathy/status/1886192184808149383" target="_blank">vibe coding</a>" in February 2025 — a term that, by his own description, meant "giving in to the vibes, embracing exponentials, and forgetting that the code even exists." <a class="cite-link" href="#" onclick="openPopup('cite-karpathy'); return false;">[Karpathy →]</a> The term wasn't describing dormant experts returning. It was describing a new mode of engagement with software — one that didn't require traditional programming expertise. Collins Dictionary named it Word of the Year. Merriam-Webster listed it as slang trending.</p>
+
+    <p>But the anecdotes that followed — the CEO who built a prototype, the founder who shipped a demo — were overwhelmingly about <em>people who had never been active GitHub users</em>. They were new entrants, not returnees. The narrative of the "returning developer" was a seductive misread of what was actually a story about lowering the entry barrier, not raising the return rate.</p>
+
+    <h3>The sample comparison, sortable</h3>
+
+    <p>Below is the full cross-batch comparison. Click any column header to sort. The "early-seeded" group — seeded from March–April 2025, six months before the break — is the least susceptible to sampling bias and should be weighted most heavily.</p>
+
+    <div class="table-wrap">
+      <table class="data-table" id="batch-table">
+        <thead>
+          <tr>
+            <th data-col="0">Sample Group</th>
+            <th data-col="1">Users</th>
+            <th data-col="2">Meaningful Increase</th>
+            <th data-col="3">95% CI (increase)</th>
+            <th data-col="4">Meaningful Decrease</th>
+            <th data-col="5">Median Pre</th>
+            <th data-col="6">Median Post</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Main batch</td>
+            <td>900</td>
+            <td class="lo">5.7%</td>
+            <td>4.3–7.4%</td>
+            <td class="hi">47.1%</td>
+            <td>36</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>Page-2 batch</td>
+            <td>700</td>
+            <td class="lo">6.4%</td>
+            <td>4.8–8.5%</td>
+            <td class="hi">50.1%</td>
+            <td>34</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Combined overlap-seeded</td>
+            <td>1,600</td>
+            <td class="lo">6.0%</td>
+            <td>4.9–7.3%</td>
+            <td class="hi">48.4%</td>
+            <td>35</td>
+            <td>1.5</td>
+          </tr>
+          <tr>
+            <td><strong>Early-seeded (debiased)</strong></td>
+            <td>162</td>
+            <td class="lo"><strong>6.2%</strong></td>
+            <td>3.4–11.0%</td>
+            <td>32.1%</td>
+            <td>31.5</td>
+            <td>7.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 6: THE CONCLUSION -->
+  <section class="section">
+    <span class="section-label">VI — Bottom Line</span>
+    <h2>Anecdotes Are Not Trends. But Trends Don't Explain Anecdotes.</h2>
+
+    <p>Here's what the data can and cannot say.</p>
+
+    <p>It can say, with considerable confidence, that there was no broad wave of dormant GitHub users reactivating their accounts after November 2025. The surge was not in the commit logs. November was not a structural break in the activity patterns of existing developers. The specific claim — that lapsed coders returned to GitHub in droves — is not data-backed.</p>
+
+    <p>It cannot say that nothing happened. Something clearly did. GitHub's own data shows the platform growing faster than ever, with new developers arriving at a rate unmatched in its history. AI-assisted coding became genuinely easier in November 2025. Founders really were building prototypes in twenty minutes. That is all real.</p>
+
+    <p>The distinction is subtle but important. The vibe coding revolution appears to be a revolution of new entrants, not returning exiles. It's lowering the drawbridge, not raising the dead. The GitHub commit logs of people who were already using GitHub don't show the revolution because those aren't the people having it.</p>
+
+    <div class="highlight-box">
+      <strong>🔬 What we can conclude with confidence</strong>
+      <p style="margin:0; font-family: var(--sans); font-size: 0.85rem; line-height: 1.7;">
+        1. <strong>No broad post-November surge</strong> in public GitHub commit activity among sampled developers.<br>
+        2. Only <strong>~6% of existing developers</strong> showed a meaningful increase — stable across sampling designs.<br>
+        3. November 2025 does <strong>not stand out</strong> as a positive structural break; it was the weakest candidate month in the placebo test.<br>
+        4. Aggregate commit totals are <strong>dominated by &lt;1% of users</strong> — raw totals mislead.<br>
+        5. The vibe coding revolution most likely reflects <strong>new entrants to GitHub</strong>, not reactivation of dormant users.
+      </p>
+    </div>
+
+    <p>Malcolm Gladwell once observed that the most dangerous kind of story is the one that feels truest. The returning developer narrative felt true because it matched something real: AI coding genuinely got dramatically better. But "better tools" and "lapsed developers returning to GitHub" are not the same claim. One is a fact about models. The other is a claim about human behavior. And human behavior, it turns out, is stubborn. The developers who had stepped back from GitHub didn't suddenly flood back. What changed, perhaps, is who's arriving for the first time.</p>
+
+    <p>That's a different story — and in some ways a more interesting one. The era of coding as the exclusive province of professional software engineers may genuinely be ending. But you won't find the evidence for that in the commit patterns of people who were already on GitHub. You'll find it in the 36 million new accounts. In the CEO who walked into that meeting with a working prototype. In the Word of the Year that didn't even exist two years ago.</p>
+
+    <p>The revolution is real. The returners are ghosts.</p>
+  </section>
+
+  <!-- SECTION 7: TAKEAWAYS -->
+  <section class="section">
+    <span class="section-label">VII — Takeaways</span>
+    <h2>What This Means — For Developers, Researchers, and the Industry</h2>
+
+    <div class="takeaways-grid">
+      <div class="takeaway-card">
+        <span class="tag">For journalists</span>
+        <span class="num">≠</span>
+        <p>Platform-level growth (36M new users) and account-level reactivation are different claims. Verify which one your sources are actually measuring before reporting either.</p>
+      </div>
+      <div class="takeaway-card">
+        <span class="tag">For researchers</span>
+        <span class="num">6%</span>
+        <p>The meaningful-increase rate was stable at ~6% across multiple sampling designs. Any future study that finds a much higher rate should scrutinize sampling overlap with the pre-window.</p>
+      </div>
+      <div class="takeaway-card">
+        <span class="tag">For the industry</span>
+        <span class="num">84%</span>
+        <p>Of all commits in our panel came from just 10 users. Aggregate metrics about developer activity can be wildly misleading — insist on medians and percentile breakdowns, not means.</p>
+      </div>
+      <div class="takeaway-card">
+        <span class="tag">For AI companies</span>
+        <span class="num">New</span>
+        <p>The vibe coding revolution is best understood as a story about new entrants to coding, not returning ones. Your growth is at the top of the funnel, not the re-engagement layer.</p>
+      </div>
+      <div class="takeaway-card">
+        <span class="tag">For skeptics</span>
+        <span class="num">Real</span>
+        <p>The November 2025 inflection is genuinely real for individual capability — models got better. But better models ≠ more commits from existing developers. Don't confuse tool quality with user behavior.</p>
+      </div>
+      <div class="takeaway-card">
+        <span class="tag">For future work</span>
+        <span class="num">→</span>
+        <p>The strongest next test: compare new-account commit rates pre and post November 2025. That's where the revolution should show up, and it's currently unmeasured by this study.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY NOTE -->
+  <section class="section">
+    <span class="section-label">Methodology</span>
+    <h2>How This Study Was Done</h2>
+
+    <p>We used the GitHub REST API with an authenticated token to sample developers from public commit activity. Users were seeded via <code>/search/commits</code> queries across defined date windows, then counted using the <code>/repos/{owner}/{repo}/commits</code> endpoint with <code>per_page=1</code> and Link header parsing — a technique that infers commit counts efficiently without downloading full commit histories.</p>
+
+    <p>Four batches were collected: two "overlap-seeded" batches (seed period May–October 2025, overlapping the pre-window) totaling 1,600 users, and two "early-seeded" debiased batches (seed period March–April 2025, non-overlapping) totaling 162 users. Pre-window: August 1–October 31, 2025; post-window: November 1, 2025–January 30, 2026.</p>
+
+    <p>Change-point detection used the <code>ruptures</code> Python library with PELT algorithm. Confidence intervals use the Wilson method. The placebo sweep tested candidate break months from July to December 2025. Full replication code is in <code>scripts/github_activity_analysis.py</code>.</p>
+
+    <p><strong>Scope limits:</strong> Public commits on default branches only, for users seeded from searchable commits. Does not capture private repositories, non-default branches, or developers who had never previously made a public commit. The 36 million new GitHub joiners are not captured by design.</p>
+
+    <div class="footnotes">
+      <strong style="display:block; margin-bottom:0.5rem; font-size:0.8rem; letter-spacing:0.05em;">KEY REFERENCES</strong>
+      <a href="https://www.entrepreneur.com/business-news/this-ai-tool-is-helping-disempowered-ceos-with-a-major-problem-finally-feel-unleashed" target="_blank">Entrepreneur — CEOs Are Vibe Coding</a> ·
+      <a href="https://simonwillison.net/2026/Jan/4/inflection/" target="_blank">Simon Willison — The November 2025 Inflection Point</a> ·
+      <a href="https://x.com/karpathy/status/1886192184808149383" target="_blank">Andrej Karpathy — original vibe coding post</a> ·
+      <a href="https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/" target="_blank">GitHub Octoverse 2025</a> ·
+      <a href="https://www.anthropic.com/news/claude-opus-4-5" target="_blank">Anthropic — Claude Opus 4.5</a> ·
+      <a href="https://openai.com/index/introducing-gpt-5-2-codex/" target="_blank">OpenAI — GPT-5.2-Codex</a> ·
+      <a href="https://en.wikipedia.org/wiki/Vibe_coding" target="_blank">Wikipedia — Vibe coding</a> ·
+      <a href="https://aimagazine.com/news/google-and-klarnas-ceos-are-vibe-coding-should-you-be" target="_blank">AI Magazine — CEOs vibe coding</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- POPUP OVERLAY -->
+<div class="popup-overlay" id="popup-overlay" onclick="closePopupOutside(event)">
+  <div class="popup-box" id="popup-box">
+    <button class="popup-close" onclick="closePopup()">×</button>
+    <h4 id="popup-title"></h4>
+    <div class="popup-body" id="popup-body"></div>
+  </div>
+</div>
+
+<script>
+/* ─── POPUP DATA ─────────────────────────────────────────── */
+const popups = {
+  'cite-klarna': {
+    title: 'Klarna CEO builds a prototype in 20 minutes',
+    body: `
+      <p>Sebastian Siemiatkowski, CEO of fintech giant Klarna, became one of the most-cited faces of the vibe coding movement. He described how AI programming tools now allow him to build working prototypes in just 20 minutes — a process that previously required weeks of engineering coordination.</p>
+      <blockquote>"I no longer have to beg someone more technically proficient to create a product. I can just build it."</blockquote>
+      <p>Siemiatkowski uses Replit, a cloud-based development platform, to create custom dashboards and internal tools. He builds interfaces that consolidate his preferred information sources — the kind of task that previously required a developer ticket and a two-week queue.</p>
+      <p>The broader pattern: "We have CEOs that finally feel unleashed," according to Replit CEO Amjad Masad. Chief executives are now walking into meetings with working demos instead of slide decks — and the psychological shift is significant. They no longer have to explain and persuade a technical intermediary; they can just show.</p>
+      <p><a href="https://www.entrepreneur.com/business-news/this-ai-tool-is-helping-disempowered-ceos-with-a-major-problem-finally-feel-unleashed" target="_blank">→ Entrepreneur: CEOs Are Vibe Coding</a><br>
+      <a href="https://aimagazine.com/news/google-and-klarnas-ceos-are-vibe-coding-should-you-be" target="_blank">→ AI Magazine: Why Google &amp; Klarna's CEOs Embrace Vibe Coding</a><br>
+      <a href="https://technologymagazine.com/news/google-ceo-why-vibe-coding-makes-software-exciting-again" target="_blank">→ Technology Magazine: Why vibe coding makes software exciting again</a><br>
+      <a href="https://www.jpmorgan.com/insights/technology/artificial-intelligence/vibe-coding-a-guide-for-startups-and-founders" target="_blank">→ JPMorgan: Vibe Coding Guide for Startups &amp; Founders</a></p>
+    `
+  },
+  'cite-willison': {
+    title: 'Simon Willison — The November 2025 inflection point',
+    body: `
+      <p>Simon Willison — co-creator of Django, creator of Datasette, and one of the most careful and prolific writers on AI tools — published a widely-shared post in January 2026 identifying November 2025 as a qualitative threshold in AI coding capability.</p>
+      <blockquote>"It genuinely feels to me like GPT-5.2 and Opus 4.5 in November represent an inflection point — one of those moments where the models get incrementally better in a way that tips across an invisible capability line where suddenly a whole bunch of much harder coding problems open up."</blockquote>
+      <p>Willison describes being able to "produce 10 times the amount of software that I used to be able to because I don't have to type it all into my computer myself." He characterizes the models as now capable of handling full specifications autonomously: "If you can give a coding agent a good enough specification and a good enough definition of what you want done, they can get there now."</p>
+      <p>He also vibe coded a full custom macOS presentation app overnight before a February 2026 talk — not as a trick demo, but as a tool he actually used in the presentation.</p>
+      <p>Importantly, Willison is careful to distinguish between tool capability (genuinely improved) and what developers actually do with it (a separate empirical question). His inflection point claim is about what's <em>possible</em>, not about what every developer is now doing.</p>
+      <p><a href="https://simonwillison.net/2026/Jan/4/inflection/" target="_blank">→ The November 2025 inflection point (simonwillison.net)</a><br>
+      <a href="https://simonwillison.net/2025/Nov/24/claude-opus/" target="_blank">→ Claude Opus 4.5, and why evaluating new LLMs is increasingly difficult</a><br>
+      <a href="https://leaddev.com/ai/why-gpt-5-2-and-opus-4-5-are-a-leap-forward-for-coding" target="_blank">→ LeadDev: Why GPT-5.2 and Opus 4.5 are a leap forward for coding</a><br>
+      <a href="https://simonwillison.net/2026/Feb/25/present/" target="_blank">→ I vibe coded my dream macOS presentation app</a></p>
+    `
+  },
+  'cite-ycombinator': {
+    title: 'Y Combinator Winter 2025 — AI-generated codebases',
+    body: `
+      <p>Y Combinator's Winter 2025 cohort became a bellwether for vibe coding in professional software development. Surveys found a substantial fraction of startups had codebases that were almost entirely AI-generated:</p>
+      <ul>
+        <li>A quarter of startups in the batch had codebases that were <strong>95% AI-generated</strong></li>
+        <li>21% of the cohort reported codebases that were 91% or more AI-generated</li>
+        <li>Founders were shipping production apps, internal dashboards, and customer-facing products using AI coding tools</li>
+      </ul>
+      <p>This represented a dramatic shift from prior YC batches. The change is significant not because the code is AI-generated — it's because the <em>founders</em> are generating it, often without an engineering co-founder on the team.</p>
+      <p><strong>Critical note:</strong> These are new startups, new codebases, new GitHub repositories — not the reactivation of dormant developer accounts. They represent <em>new entrants</em> to the coding ecosystem. This is entirely consistent with our finding that the vibe coding revolution shows up in new GitHub joiners, not in the commit patterns of existing users.</p>
+      <p><a href="https://www.inc.com/ben-sherry/the-vibe-coding-companies-and-founders-to-watch-in-2025/91221111" target="_blank">→ Inc: The Vibe-Coding Companies and Founders to Watch in 2025</a></p>
+    `
+  },
+  'cite-octoverse': {
+    title: 'GitHub Octoverse 2025 — Record platform growth',
+    body: `
+      <p>GitHub's annual Octoverse report for 2025 documented extraordinary platform growth that provides essential context for interpreting our analysis:</p>
+      <ul>
+        <li><strong>36+ million new developers</strong> joined GitHub in 2025 — more than one per second</li>
+        <li>Platform now hosts <strong>180+ million developers</strong> globally</li>
+        <li>Nearly <strong>1 billion commits</strong> pushed in 2025 (+25.1% year-over-year)</li>
+        <li>Monthly pull request merges averaged 43.2 million (+23% YoY)</li>
+        <li>TypeScript overtook Python and JavaScript in August 2025 as the most-used language</li>
+        <li>80% of new developers on GitHub use Copilot in their first week</li>
+        <li>India surpassed the US in total open-source contributor count for the first time</li>
+      </ul>
+      <p>The Octoverse report noted that the release of GitHub Copilot Free in late 2024 coincided with a step-change in new developer sign-ups. This growth was concentrated in <em>new</em> developers rather than reactivation of dormant ones — fully consistent with our findings.</p>
+      <p><a href="https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/" target="_blank">→ GitHub Blog: Octoverse — A New Developer Joins Every Second</a><br>
+      <a href="https://github.blog/news-insights/octoverse/what-986-million-code-pushes-say-about-the-developer-workflow-in-2025/" target="_blank">→ GitHub Blog: What 986 million code pushes say about developer workflow</a></p>
+    `
+  },
+  'cite-method': {
+    title: 'Methodology — Regression to the mean and sampling bias',
+    body: `
+      <p>One of the trickiest problems in before/after studies is <strong>regression to the mean</strong>: if you select people because they were unusually active recently, their subsequent activity will naturally look lower — not because of any real change, but because you selected them at a high point.</p>
+      <p>Our initial sampling design seeded users from commits in May–October 2025, which <em>overlapped</em> with the pre-window (August–October 2025). This meant we were selecting users who were active at an unusually productive moment just before the break, making subsequent declines look more dramatic than they were.</p>
+      <p><strong>How we addressed it:</strong> We collected a separate, debiased sensitivity sample using an earlier seed window (March–April 2025), excluding all users already seen in the main sample. This separates the selection period from the measurement period, reducing mechanical inflation of decline rates.</p>
+      <p><strong>Result:</strong> The increase estimate was remarkably stable (6.0% vs 6.2%) — confirming the core finding. The decrease estimate dropped substantially (48% → 32%), confirming that the large decline figure was partly an artifact of the sampling design.</p>
+      <p>The regression-to-the-mean diagnostic (decline rate by pre-activity quintile) confirmed the pattern: users in the highest pre-activity quintile showed a ~89% decline rate — nearly impossible on its merits, and diagnostic of selection bias rather than a real population trend.</p>
+    `
+  },
+  'cite-karpathy': {
+    title: 'Andrej Karpathy coins "vibe coding"',
+    body: `
+      <p>On February 6, 2025, AI researcher and OpenAI co-founder Andrej Karpathy posted on X, introducing the term that would define a movement:</p>
+      <blockquote>"There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists. It's possible because the LLMs (e.g. Cursor Composer w Sonnet) are getting too good."</blockquote>
+      <p>The term rapidly escaped its original technical context. By March 2025, Merriam-Webster listed it as "slang & trending." Collins English Dictionary named it their <strong>Word of the Year for 2025</strong> — a remarkable trajectory for a phrase coined less than twelve months earlier.</p>
+      <p>The original definition described something quite specific: a senior engineer deliberately surrendering control of the code to an AI, trusting the output without reading it carefully. This is more radical than merely using AI as an assistant. In popular usage, however, "vibe coding" became shorthand for any kind of AI-assisted development — the CEO building dashboards, the YC founder shipping AI-generated apps, the student building their first web project.</p>
+      <p>By early 2026, Karpathy had moved on, suggesting the term was already passé and promoting "agentic engineering" for professional AI-assisted development.</p>
+      <p><a href="https://x.com/karpathy/status/1886192184808149383" target="_blank">→ Original Karpathy post on X</a><br>
+      <a href="https://en.wikipedia.org/wiki/Vibe_coding" target="_blank">→ Wikipedia: Vibe coding (includes Collins Word of the Year note)</a><br>
+      <a href="https://simonwillison.net/2025/Mar/19/vibe-coding/" target="_blank">→ Simon Willison: Not all AI-assisted programming is vibe coding</a></p>
+    `
+  }
+};
+
+function openPopup(id) {
+  const data = popups[id];
+  if (!data) return;
+  document.getElementById('popup-title').textContent = data.title;
+  document.getElementById('popup-body').innerHTML = data.body;
+  document.getElementById('popup-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePopup() {
+  document.getElementById('popup-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closePopupOutside(e) {
+  if (e.target === document.getElementById('popup-overlay')) closePopup();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+
+/* ─── DEVELOPER CARDS ────────────────────────────────────── */
+const increasers = [
+  {
+    login: 'rjwalters',
+    repo: 'rjwalters/vibesql',
+    pre: 523,
+    post: 3107,
+    note: 'Named the project after the movement itself — commits nearly sextupled after October 2025.',
+    type: 'increase'
+  },
+  {
+    login: 'TLWolsten',
+    repo: 'TLWolsten/officescreen',
+    pre: 727,
+    post: 4545,
+    note: 'An office screen monitoring tool that went from a side project to intense daily development.',
+    type: 'increase'
+  },
+  {
+    login: 'omarpagz01',
+    repo: 'omarpagz01/ml-trading-dashboard',
+    pre: 1,
+    post: 7469,
+    note: 'Near-zero pre-window activity, then an ML trading dashboard exploded into life post-November.',
+    type: 'increase'
+  },
+  {
+    login: 'christianthesorcerer',
+    repo: 'christianthesorcerer/Trip_summaries',
+    pre: 1169,
+    post: 4000,
+    note: 'Trip documentation project more than tripled in activity — real personal coding, not automation.',
+    type: 'increase'
+  }
+];
+
+const decliners = [
+  {
+    login: 'isaacsaltiel',
+    repo: 'isaacsaltiel/puntazo_web_v2',
+    pre: 104743,
+    post: 1,
+    note: 'Went from 104,743 pre-window commits to a single post-window commit — project effectively wound down.',
+    type: 'decline'
+  },
+  {
+    login: 'bocaletto-luca',
+    repo: 'bocaletto-luca/LPM',
+    pre: 67957,
+    post: 0,
+    note: 'Complete halt after heavy pre-window activity. A common pattern among repos used for automated data storage.',
+    type: 'decline'
+  },
+  {
+    login: 'b74laser',
+    repo: 'b74laser/LakeShore',
+    pre: 108030,
+    post: 49788,
+    note: 'Significant but partial decline — still active, but at roughly half the prior pace post-November.',
+    type: 'decline'
+  }
+];
+
+function makeCards(devs, containerId) {
+  const container = document.getElementById(containerId);
+  devs.forEach(d => {
+    const ratio = d.post / Math.max(d.pre, 1);
+    const delta = d.post - d.pre;
+    const isUp = d.type === 'increase';
+    const maxVal = Math.max(d.pre, d.post);
+    const preH = Math.round((d.pre / maxVal) * 34);
+    const postH = Math.round((d.post / maxVal) * 34);
+    const fmtNum = n => n >= 1000 ? (n/1000).toFixed(1)+'k' : n;
+    const initial = d.login[0].toUpperCase();
+
+    const card = document.createElement('div');
+    card.className = 'dev-card';
+    card.innerHTML = `
+      <div class="dev-card-header">
+        <div class="dev-avatar">
+          <img src="https://github.com/${d.login}.png?size=76"
+               onerror="this.parentNode.textContent='${initial}'"
+               alt="${d.login}" loading="lazy">
+        </div>
+        <div>
+          <div class="dev-name"><a href="https://github.com/${d.login}" target="_blank" rel="noopener">@${d.login}</a></div>
+          <div class="dev-repo"><a href="https://github.com/${d.repo}" target="_blank" rel="noopener">${d.repo}</a></div>
+        </div>
+      </div>
+      <div class="dev-card-body">
+        <span class="dev-badge ${d.type === 'increase' ? 'increase' : 'decline'}">${isUp ? '↑ Increased' : '↓ Declined'}</span>
+        <div class="dev-sparkline">
+          <div class="bar pre" style="height:${Math.max(preH,2)}px" title="Pre-window: ${fmtNum(d.pre)} commits"></div>
+          <div style="width:6px"></div>
+          <div class="bar post ${isUp ? '' : 'decline'}" style="height:${Math.max(postH,2)}px" title="Post-window: ${fmtNum(d.post)} commits"></div>
+        </div>
+        <div class="dev-stats">
+          <div class="stat">
+            <span class="val">${fmtNum(d.pre)}</span>
+            <span class="lbl">Pre-window</span>
+          </div>
+          <div class="stat">
+            <span class="val ${isUp ? 'up' : 'down'}">${fmtNum(d.post)}</span>
+            <span class="lbl">Post-window</span>
+          </div>
+          <div class="stat">
+            <span class="val ${isUp ? 'up' : 'down'}">${isUp ? '+' : ''}${delta > 0 ? fmtNum(delta) : fmtNum(delta)}</span>
+            <span class="lbl">Delta</span>
+          </div>
+          <div class="stat">
+            <span class="val ${isUp ? 'up' : 'down'}">${ratio >= 2 ? ratio.toFixed(1)+'×' : (ratio*100).toFixed(0)+'%'}</span>
+            <span class="lbl">Ratio</span>
+          </div>
+        </div>
+        <p class="dev-note">${d.note}</p>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+makeCards(increasers, 'dev-cards-increase');
+makeCards(decliners, 'dev-cards-decline');
+
+/* ─── SORTABLE TABLE ──────────────────────────────────────── */
+(function() {
+  const table = document.getElementById('batch-table');
+  if (!table) return;
+  const headers = table.querySelectorAll('th');
+  let sortCol = -1, sortAsc = true;
+
+  function parseCell(td) {
+    const t = td.textContent.trim().replace('%','').replace(',','').replace('–','–').split('–')[0];
+    return isNaN(parseFloat(t)) ? t.toLowerCase() : parseFloat(t);
+  }
+
+  headers.forEach((th, colIdx) => {
+    th.addEventListener('click', () => {
+      if (sortCol === colIdx) sortAsc = !sortAsc;
+      else { sortCol = colIdx; sortAsc = true; }
+      headers.forEach(h => h.classList.remove('sort-asc','sort-desc'));
+      th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.rows);
+      rows.sort((a, b) => {
+        const av = parseCell(a.cells[colIdx]);
+        const bv = parseCell(b.cells[colIdx]);
+        return sortAsc ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
+      });
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+})();
+
+/* ─── CHARTS ─────────────────────────────────────────────── */
+const INK = '#1a1a2e', ACCENT = '#e8462a', GOLD = '#d4a843', GREEN = '#3a7d44', MUTED = '#c0bdb0';
+Chart.defaults.font.family = "'Helvetica Neue', Arial, sans-serif";
+Chart.defaults.color = '#555';
+
+/* BATCH COMPARISON */
+(function() {
+  const ctx = document.getElementById('chart-batches').getContext('2d');
+  const groups = ['Main\n(n=900)', 'Page 2\n(n=700)', 'Combined\n(n=1,600)', 'Early-seeded\n(n=162)'];
+  const inc = [5.7, 6.4, 6.0, 6.2];
+  const ciLow = [4.3, 4.8, 4.9, 3.4];
+  const ciHigh = [7.4, 8.5, 7.3, 11.0];
+  const colors = [ACCENT+'99', ACCENT+'99', ACCENT+'cc', GREEN];
+
+  const errorPlugin = {
+    id: 'err',
+    afterDatasetsDraw(chart) {
+      const { ctx, scales: { x, y } } = chart;
+      inc.forEach((_, i) => {
+        const xp = x.getPixelForValue(i);
+        const yL = y.getPixelForValue(ciLow[i]);
+        const yH = y.getPixelForValue(ciHigh[i]);
+        ctx.save();
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.8;
+        ctx.beginPath(); ctx.moveTo(xp, yL); ctx.lineTo(xp, yH); ctx.stroke();
+        [yL, yH].forEach(y0 => {
+          ctx.beginPath(); ctx.moveTo(xp-6, y0); ctx.lineTo(xp+6, y0); ctx.stroke();
+        });
+        ctx.restore();
+      });
+    }
+  };
+
+  new Chart(ctx, {
+    type: 'bar',
+    plugins: [errorPlugin],
+    data: {
+      labels: groups,
+      datasets: [{ data: inc, backgroundColor: colors, borderRadius: 5, label: '% increase' }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${inc[c.dataIndex]}% (95% CI: ${ciLow[c.dataIndex]}–${ciHigh[c.dataIndex]}%)` } }
+      },
+      scales: {
+        y: { min: 0, max: 14, ticks: { callback: v => v+'%' }, title: { display: true, text: '% with meaningful increase' } },
+        x: { ticks: { maxRotation: 0 } }
+      }
+    }
+  });
+})();
+
+/* COHORT BARS */
+(function() {
+  const cohorts = [
+    { label: 'Declining', pct: 53.2, color: ACCENT },
+    { label: 'Other / flat', pct: 25.6, color: '#aaa' },
+    { label: 'Consistently active', pct: 15.2, color: '#4a7abd' },
+    { label: 'Increasing (active pre)', pct: 4.9, color: GREEN },
+    { label: 'Dormant returner', pct: 0.6, color: '#888' },
+    { label: 'Newly active', pct: 0.5, color: '#bbb' },
+  ];
+  const container = document.getElementById('cohort-bars');
+  cohorts.forEach(c => {
+    const row = document.createElement('div');
+    row.className = 'cohort-row';
+    row.innerHTML = `
+      <span class="cohort-label">${c.label}</span>
+      <span class="cohort-bar-wrap"><span class="cohort-bar" style="width:${c.pct}%;background:${c.color}"></span></span>
+      <span class="cohort-val">${c.pct}%</span>
+    `;
+    container.appendChild(row);
+  });
+})();
+
+/* PLACEBO SWEEP */
+(function() {
+  const ctx = document.getElementById('chart-placebo').getContext('2d');
+  const months = ['Jul 2025', 'Aug 2025', 'Sep 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025'];
+  const inc = [13.9, 12.8, 9.4, 7.2, 2.2, 1.7];
+  const colors = months.map((m, i) => i === 4 ? ACCENT : INK+'88');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [{ data: inc, backgroundColor: colors, borderRadius: 5, label: '% increase' }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.raw}% showed meaningful increase` } }
+      },
+      scales: {
+        y: { min: 0, max: 17, ticks: { callback: v => v+'%' }, title: { display: true, text: '% of developers with meaningful increase' } }
+      }
+    }
+  });
+  const note = document.createElement('p');
+  note.style.cssText = 'font-family:sans-serif;font-size:0.72rem;color:'+ACCENT+';margin-top:0.4rem;font-weight:600;text-align:right;';
+  note.textContent = '↑ Red bar = November 2025 — the "revolution month" and the weakest result';
+  document.getElementById('chart-placebo').parentNode.appendChild(note);
+})();
+
+/* MONTHLY TREND */
+(function() {
+  const ctx = document.getElementById('chart-monthly').getContext('2d');
+  const labels = ['Mar\n2025','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan\n2026','Feb'];
+  const vals = [1010507,949502,1190667,1691573,3127689,3360107,2397520,2900258,3127796,2132587,2099342,1348444].map(v => Math.round(v/1000));
+  const ptColors = labels.map((l,i) => i === 8 ? ACCENT : INK+'cc');
+  const ptRadius = labels.map((l,i) => i === 8 ? 7 : 4);
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: vals,
+        borderColor: INK,
+        backgroundColor: 'rgba(26,26,46,0.07)',
+        borderWidth: 2,
+        pointRadius: ptRadius,
+        pointBackgroundColor: ptColors,
+        fill: true,
+        tension: 0.3,
+        label: 'Commits (K)'
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.raw.toLocaleString()}K commits (scaled)` } }
+      },
+      scales: {
+        y: { ticks: { callback: v => v>=1000?(v/1000).toFixed(0)+'M':v+'K' }, title: { display: true, text: 'Scaled commit count (thousands)' } },
+        x: { ticks: { maxRotation: 0 } }
+      }
+    }
+  });
+  const note = document.createElement('p');
+  note.style.cssText = 'font-family:sans-serif;font-size:0.72rem;color:#555;margin-top:0.4rem;';
+  note.innerHTML = '<strong style="color:'+ACCENT+'">●</strong> November 2025 (highlighted). Aggregate holds steady — but 83.8% of commits come from just 10 accounts.';
+  document.getElementById('chart-monthly').parentNode.appendChild(note);
+})();
+</script>
+</body>
+</html>

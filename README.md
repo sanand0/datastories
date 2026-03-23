@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [The Return That Wasn't — Did Vibe Coding Bring Developers Back to GitHub?](github-usage-increase/). When AI supposedly brought a generation of lapsed developers back to GitHub, we checked the commit logs. Here's what we found.
+  [![](github-usage-increase/screenshot.webp)](github-usage-increase/)
 - [Three Novel Data Visualizations](novel-dataviz/). Each chart solves an analytical problem for which no adequate visualization previously existed, combining novel encodings with rich, realistic synthetic data.
   [![](novel-dataviz/screenshot.avif)](novel-dataviz/)
 - [Crack the Prompt](crack-the-prompt/). A PyConf Hyderabad 2026 security challenge: three AI personas guarding hidden system prompts. Codex extracted all three in seven words each.
