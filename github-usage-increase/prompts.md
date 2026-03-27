@@ -2,6 +2,8 @@
 
 ## Analyze GitHub activity, 22 Mar 2026 (Copilot Yolo - GPT 5.4 medium)
 
+<!-- https://claude.ai/chat/d79fd3ff-9fb9-4f2a-a226-4ec1256b3c09 -->
+
 Analyse GitHub commit activity to detect whether the release of Opus 4.5 in Nov 2025 caused a measurable increase in developer activity, i.e. are there several GitHub users who were less active before Nov 2025 and then became much more active after?
 
 Using the GitHub REST API (authenticated) using the GitHub token in .env, sample ~1,000 developers and compare their commit activity across two time windows to test whether a structural break exists — and if so, when it occurs.

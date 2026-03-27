@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [The 80-Year Blind Spot: The Polya Audit](polya-for-ai/). In 1945, George Pólya gave mathematicians 15 rules for solving problems. For eight decades, they were treated as gospel. Nobody ever tested them. Until now.
+  [![](polya-for-ai/screenshot.webp)](polya-for-ai/)
 - [The Return That Wasn't — Did Vibe Coding Bring Developers Back to GitHub?](github-usage-increase/). When AI supposedly brought a generation of lapsed developers back to GitHub, we checked the commit logs. Here's what we found.
   [![](github-usage-increase/screenshot.webp)](github-usage-increase/)
 - [Three Novel Data Visualizations](novel-dataviz/). Each chart solves an analytical problem for which no adequate visualization previously existed, combining novel encodings with rich, realistic synthetic data.

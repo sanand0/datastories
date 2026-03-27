@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "polya-for-ai",
+      "title": "The 80-Year Blind Spot: The Polya Audit",
+      "description": "In 1945, George Pólya gave mathematicians 15 rules for solving problems. For eight decades, they were treated as gospel. Nobody ever tested them. Until now.",
+      "link": "polya-for-ai/",
+      "screenshot": "polya-for-ai/screenshot.webp",
+      "date": "2026-03-26",
+      "folder": "polya-for-ai"
+    },
+    {
       "id": "github-usage-increase",
       "title": "The Return That Wasn't — Did Vibe Coding Bring Developers Back to GitHub?",
       "description": "When AI supposedly brought a generation of lapsed developers back to GitHub, we checked the commit logs. Here's what we found.",
