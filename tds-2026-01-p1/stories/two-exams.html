@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>There Were Two Exams · TDS Jan 2026</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .theory-cards { display: grid; gap: 12px; margin: 2em 0; }
+    .theory-card {
+      border: 1px solid var(--border);
+      padding: 18px 20px;
+    }
+    .theory-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .theory-name {
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .verdict-badge {
+      font-family: system-ui, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      padding: 3px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .theory-explanation {
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+    .chart-overflow { overflow-x: auto; }
+    .section-spacer { margin-top: 3em; }
+    /* hero-to-body spacing */
+    .article-body { padding-top: 56px; }
+    svg text { user-select: none; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav-bar">
+    <a class="nav-brand" href="../index.html">TDS · P1</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">← All Stories</a></li>
+      <li><a href="social-infrastructure.html">Social Infrastructure</a></li>
+      <li><a href="two-labor-markets.html">Two Labor Markets</a></li>
+      <li><a href="endgame.html">Six Ways</a></li>
+      <li><a href="model-playbook.html">Model Playbook</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <header class="article-hero">
+    <span class="hero-label">SKILL TRANSFER</span>
+    <h1 class="hero-title">There Were Two Exams</h1>
+    <p class="hero-byline">TDS Jan 2026 · Project 1 Analysis</p>
+    <p class="hero-date">March 2026</p>
+  </header>
+
+  <main class="article-body">
+
+    <div class="scroll-fade">
+      <p class="lead-para">Imagine designing a course that teaches students to use AI tools. You'd expect the students who are good at one AI task to be generally good at others. You would be wrong — by a correlation of <span data-tooltip="A Pearson correlation of 0.020 means virtually no linear relationship between the two variables — effectively independent">0.020</span>.</p>
+    </div>
+
+    <div class="scroll-fade section-spacer">
+      <span class="section-label">THE SETUP</span>
+      <h2>The Assumption Behind Every Multi-Part Exam</h2>
+      <p>When a course has multiple questions, there is usually an implicit assumption: the skills they test are related. A student who masters one question will likely have an easier time with the others. The questions reinforce each other. They form a coherent assessment of a coherent set of abilities.</p>
+      <p>The TDS Jan 2026 course had twelve questions measuring eleven distinct tasks. The assumption seemed safe. They all involved AI tools. They were all in the same course. The students who knew how to use AI for network analysis should have some advantage on AI-assisted image generation.</p>
+      <p>The correlation between those two skill families is <span data-tooltip="A Pearson correlation of 0.020 means virtually no linear relationship between the two variables — effectively independent">0.020</span>.</p>
+      <blockquote class="pull-quote">0.020. For practical purposes, these are two independent exams sitting inside one course.</blockquote>
+    </div>
+
+    <div class="scroll-fade">
+      <div class="chart-container chart-overflow">
+        <p class="chart-title">The Skill Map: Three Clusters, One Chasm</p>
+        <div id="heatmap"></div>
+        <p class="chart-caption">The top-left 3×3 block (network games) shows correlations of 0.78–0.82. The bottom-right 4×4 block (image briefs) shows 0.10–0.27. Between them: essentially nothing.</p>
+      </div>
+    </div>
+
+    <div class="scroll-fade section-spacer">
+      <span class="section-label">THE COMPLICATION</span>
+      <h2>Inside the Network: One Skill Family</h2>
+      <p>The three network game questions — Labyrinth, Graph Detective, and The Signal — correlate with each other at 0.78 to 0.82. In psychometric terms, that's the range you'd expect from three tests of the same underlying ability. They are, for practical purposes, measuring the same thing three times.</p>
+      <p>This is useful information for course design. It suggests that the three network questions, despite their different surface features, draw on a shared skill: probably something like "ability to navigate structured environments using AI assistance." A student who masters Labyrinth has very likely already mastered Detective and Signal.</p>
+    </div>
+
+    <div class="scroll-fade section-spacer">
+      <span class="section-label">THE REVELATION</span>
+      <h2>Inside the Image Unit: Four Different Skills</h2>
+      <p>The image questions tell the opposite story. The four image briefs — <a href="https://github.com/sanand0/tools-in-data-science-public/discussions/324" target="_blank" rel="noopener">Affective Chart</a>, <a href="https://github.com/sanand0/tools-in-data-science-public/discussions/325" target="_blank" rel="noopener">Concept Incarnation</a>, Paradox Portrait, Style Transplant — show internal correlations of only 0.099 to 0.266. These are questions within the same assignment unit, evaluated by the same rubric, submitted in the same week. They should be measuring the same thing.</p>
+      <p>They are not measuring the same thing.</p>
+      <blockquote class="pull-quote">Four image briefs. Four different skills masquerading as one assignment.</blockquote>
+    </div>
+
+    <div class="scroll-fade">
+      <div class="chart-container chart-overflow">
+        <p class="chart-title">Network Pairs Stay Tight; Image Pairs Fall Apart</p>
+        <div id="dotplot"></div>
+        <p class="chart-caption">Every network-network correlation exceeds 0.78. The highest image-image correlation is 0.266. The gap between these worlds is structural.</p>
+      </div>
+    </div>
+
+    <div class="scroll-fade section-spacer">
+      <span class="section-label">THE THEORY VERDICTS</span>
+      <h2>What Three Learning Theories Say About This</h2>
+      <div class="theory-cards" id="theory-cards"></div>
+    </div>
+
+    <div class="scroll-fade section-spacer">
+      <span class="section-label">WHAT THE DATA PROVES</span>
+      <h2>What Transfers — and What Doesn't</h2>
+      <p>Three learning theories survive contact with this dataset. One — a popular one — doesn't.</p>
+
+      <p><strong><a href="https://en.wikipedia.org/wiki/Transfer_of_learning#Thorndike's_identical_elements" target="_blank" rel="noopener">Thorndike's Identical Elements Theory</a> (1901)</strong> holds that transfer between tasks is strongest when they share the same underlying structure. The three network games — Data Labyrinth, Graph Detective, The Signal — all demand the same cognitive operation: traverse a graph under constraints, read state, make decisions. Their correlations of 0.78–0.82 are exactly what Thorndike would predict. The image briefs share almost nothing with graph traversal — hence the 0.020 correlation. Writing 125 years ago, Thorndike could have forecast this result to two decimal places.</p>
+
+      <p><strong><a href="https://en.wikipedia.org/wiki/Situated_learning" target="_blank" rel="noopener">Situated Cognition</a> (Lave &amp; Wenger)</strong> argues that knowledge is bound to the context in which it was acquired — not portable by default. A student who mastered "how to iterate through graph nodes" did not thereby master "how to make emotionally resonant abstract art." These are not harder and easier versions of the same skill. They are different skills, acquired in different contexts, activated by different triggers. The 0.020 cross-cluster correlation is situated cognition theory expressed as a single number.</p>
+
+      <p><strong><a href="https://en.wikipedia.org/wiki/Threshold_concept" target="_blank" rel="noopener">Threshold Concepts</a> (Meyer &amp; Land)</strong> predict that once a learner crosses a conceptual threshold, performance transforms discontinuously — a one-way door to a different understanding. The semantic match thresholds — concept-match, paradox-match, tradition-match — are literal threshold concepts in action. Once students crossed the semantic threshold, once Gemini could recognize what they intended, scores jumped from 5.2–5.9 to 8.2–9.0. Below the threshold, polish didn't help. Above it, everything worked.</p>
+
+      <p>The theory this data <em>breaks</em> is the <strong><a href="https://en.wikipedia.org/wiki/AI_literacy" target="_blank" rel="noopener">"AI Literacy"</a> unitary construct</strong> — the assumption, widespread among educators and researchers, that AI proficiency is a single dimension you either have or don't. The 0.020 correlation shows this is false. The course contained two independent exams measuring skills that barely predict each other. Students who aced one had no systematic advantage on the other.</p>
+
+      <h3 style="font-family:system-ui,sans-serif;font-size:16px;font-weight:700;margin:1.5em 0 .5em">Practical takeaways for educators</h3>
+      <ul style="padding-left:1.5em;margin:.5em 0">
+        <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">Treat image-generation tasks and network/systems tasks as <strong>separate skill domains</strong> — separate rubrics, separate feedback, possibly separate instructional sequences.</li>
+        <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">If your goal is cross-domain AI fluency, <strong>design explicitly for transfer</strong>. It will not happen organically from proximity alone.</li>
+        <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">The threshold effect means remedial interventions should <strong>target semantic understanding, not more iterations</strong>. Students below the threshold don't need to submit more; they need to understand what the brief is asking for.</li>
+      </ul>
+
+      <h3 style="font-family:system-ui,sans-serif;font-size:16px;font-weight:700;margin:1.5em 0 .5em">For students</h3>
+      <ul style="padding-left:1.5em;margin:.5em 0">
+        <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">Being good at network puzzles doesn't make you good at AI art generation. Both are real skills; neither predicts the other.</li>
+        <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">In image generation, the prompt that makes Gemini <em>recognize your concept</em> matters more than a beautiful image. Master the semantics before optimizing aesthetics.</li>
+      </ul>
+    </div>
+
+    <div class="scroll-fade section-spacer">
+      <span class="section-label">IMPLICATIONS</span>
+      <h2>The Model Playbook Is Brief-Specific</h2>
+      <p>If AI proficiency were a single skill, you'd use the same model for everything. The correlation data says you shouldn't. DALL·E is strong on Concept Incarnation (8.557). It's weak on Affective Chart (7.013). That's not random variation — it's structural. Different briefs activate different cognitive and generative requirements, and different models have different strengths.</p>
+      <p>The practical implication: treat each image brief as a separate skill to develop, with its own tool recommendations. And treat the network game questions as a single skill cluster — mastering one of them is strong evidence you can handle the others.</p>
+      <p>There were not twelve questions in this course. There were two exams — one measuring network navigation, one measuring image generation — assembled, perhaps accidentally, into a single gradebook. The students who aced both had to learn two different things. The ones who only learned one had no idea what the other one would ask of them. Neither did anyone else, until now.</p>
+    </div>
+
+  </main>
+
+  <footer style="background:var(--header-bg);color:rgba(255,255,255,0.45);text-align:center;padding:32px 24px;font-family:system-ui,sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;">
+    TDS Jan 2026 · Project 1 Analysis
+  </footer>
+
+  <script type="module">
+    import { initAll, lerpColor } from './shared.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      buildHeatmap();
+      buildDotPlot();
+      buildTheoryCards();
+      initAll();
+    });
+
+    /* ── tooltip text for heatmap cells ────────────────────────── */
+    function cellTooltip(ri, ci, v, rowL, colL) {
+      if (ri === ci) return `${rowL[ri]} vs itself — r=1.00 by definition (diagonal)`;
+      const grp = i => i <= 2 ? 'network' : i <= 4 ? 'protocol' : 'image';
+      const rg = grp(ri), cg = grp(ci);
+      const lo = Math.min(ri, ci), hi = Math.max(ri, ci);
+      const named = {
+        '0,1': 'r=0.821 — the strongest link in the course. Both require graph traversal under constraints.',
+        '0,2': 'r=0.793 — same network skill family: graph navigation under AI assistance.',
+        '1,2': 'r=0.783 — Detective and Signal are near-identical cognitively.',
+        '0,8': 'r=0.020 — effectively independent. Two separate skills hiding in one course.',
+        '1,8': 'r=−0.061 — slightly negative: network mastery gives no advantage on Style Transplant.',
+        '7,8': 'r=0.266 — highest image-image correlation. Paradox and Style both reward visual restraint.',
+        '6,8': 'r=0.242 — Style Transplant and Concept Incarnation share some semantic-clarity demand.',
+        '5,7': 'r=0.148 — Affective Chart and Paradox Portrait: weak link despite being the same assignment unit.',
+        '5,6': 'r=0.099 — weakest image-image pair: Affective tests emotional resonance, Concept tests semantic clarity.',
+      };
+      const key = `${lo},${hi}`;
+      if (named[key]) return named[key];
+      if (rg === cg && rg === 'network') return `r=${v.toFixed(3)} — both network games: same graph-traversal skill family.`;
+      if (rg === cg && rg === 'image') return `r=${v.toFixed(3)} — image-image pair: weaker internal correlation than the network cluster.`;
+      if (rg === cg) return `r=${v.toFixed(3)} — same cluster (${rg}).`;
+      return `r=${v.toFixed(3)} — cross-domain: ${rowL[ri]} (${rg}) vs ${colL[ci]} (${cg}).`;
+    }
+
+    /* ── colour helpers ─────────────────────────────────────────── */
+    function lum(c) {
+      let r, g, b;
+      if (c.startsWith('rgb(')) {
+        [r, g, b] = c.slice(4, -1).split(',').map(Number);
+      } else {
+        const n = parseInt(c.replace('#', ''), 16);
+        r = (n >> 16) & 255; g = (n >> 8) & 255; b = n & 255;
+      }
+      return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    }
+    const ink = c => lum(c) < 0.5 ? '#fff' : '#1a1a1a';
+
+    function cellColor(v) {
+      if (v < 0)   return '#fdeaea';
+      if (v < 0.5) return lerpColor('#e8e4dd', '#f5c842', v * 2);
+      return lerpColor('#f5c842', '#2d3a8c', (v - 0.5) * 2);
+    }
+
+    /* ── heatmap ────────────────────────────────────────────────── */
+    function buildHeatmap() {
+      const rowLabels = ['Labyrinth','Detective','Signal','Markdown','Sh. Secret','Affective','Concept','Paradox','Style'];
+      const colLabels = ['Labyrnth','Detective','Signal','Markdown','Sh.Secret','Affective','Concept','Paradox','Style'];
+      const vals = [
+        [1.000, 0.821, 0.793, 0.394, 0.290, 0.050, 0.037, 0.045,  0.020],
+        [0.821, 1.000, 0.783, 0.385, 0.280, 0.082, 0.030, 0.060, -0.061],
+        [0.793, 0.783, 1.000, 0.310, 0.384, 0.040, 0.037, 0.030,  0.025],
+        [0.394, 0.385, 0.310, 1.000, 0.350, 0.060, 0.050, 0.081,  0.040],
+        [0.290, 0.280, 0.384, 0.350, 1.000, 0.040, 0.030, 0.050,  0.020],
+        [0.050, 0.082, 0.040, 0.060, 0.040, 1.000, 0.099, 0.148,  0.138],
+        [0.037, 0.030, 0.037, 0.050, 0.030, 0.099, 1.000, 0.178,  0.242],
+        [0.045, 0.060, 0.030, 0.081, 0.050, 0.148, 0.178, 1.000,  0.266],
+        [0.020,-0.061, 0.025, 0.040, 0.020, 0.138, 0.242, 0.266,  1.000],
+      ];
+
+      const n = 9, cs = 47, rlw = 88, bw = 16, lh = 88;
+      const W = bw + rlw + n * cs + 4;
+      const H = lh + n * cs + 4;
+      const ox = bw + rlw; // cell area x origin
+
+      let s = '';
+
+      /* group colour bands on diagonal */
+      [[0,2,'rgba(45,58,140,.08)'],[3,4,'rgba(184,134,11,.1)'],[5,8,'rgba(214,64,69,.07)']].forEach(([gs,ge,fill]) => {
+        const x = ox + gs*cs, y = lh + gs*cs, sz = (ge - gs + 1)*cs;
+        s += `<rect x="${x}" y="${y}" width="${sz}" height="${sz}" fill="${fill}"/>`;
+      });
+
+      /* left-side group brackets */
+      [{l:'Network',gs:0,ge:2,c:'#2d3a8c'},{l:'Protocol',gs:3,ge:4,c:'#9a7414'},{l:'Image',gs:5,ge:8,c:'#d64045'}].forEach(({l,gs,ge,c}) => {
+        const y1 = lh + gs*cs, y2 = lh + (ge+1)*cs, my = (y1+y2)/2;
+        const bx = bw - 3;
+        s += `<line x1="${bx}" y1="${y1}" x2="${bx}" y2="${y2}" stroke="${c}" stroke-width="2"/>`;
+        s += `<line x1="${bx-4}" y1="${y1}" x2="${bx}" y2="${y1}" stroke="${c}" stroke-width="2"/>`;
+        s += `<line x1="${bx-4}" y1="${y2}" x2="${bx}" y2="${y2}" stroke="${c}" stroke-width="2"/>`;
+        s += `<text transform="rotate(-90,${Math.round(bx/2)},${my})" x="${Math.round(bx/2)}" y="${my}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui" font-size="8" font-weight="700" fill="${c}">${l}</text>`;
+      });
+
+      /* column headers (rotated) */
+      colLabels.forEach((lb, ci) => {
+        const x = ox + ci*cs + cs/2;
+        s += `<text transform="translate(${x},${lh - 5}) rotate(-45)" text-anchor="start" font-family="system-ui" font-size="9" fill="#1a1a1a">${lb}</text>`;
+      });
+
+      /* row labels */
+      rowLabels.forEach((lb, ri) => {
+        const y = lh + ri*cs + cs/2;
+        s += `<text x="${ox - 6}" y="${y}" text-anchor="end" dominant-baseline="middle" font-family="system-ui" font-size="11" fill="#1a1a1a">${lb}</text>`;
+      });
+
+      /* cells */
+      vals.forEach((row, ri) => {
+        row.forEach((v, ci) => {
+          const x = ox + ci*cs, y = lh + ri*cs;
+          const fill = cellColor(v);
+          const tt = cellTooltip(ri, ci, v, rowLabels, colLabels).replace(/"/g, '&quot;');
+          s += `<rect x="${x}" y="${y}" width="${cs}" height="${cs}" fill="${fill}" stroke="#fff" stroke-width="1.5" data-tooltip="${tt}"/>`;
+          s += `<text x="${x+cs/2}" y="${y+cs/2}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui" font-size="9.5" fill="${ink(fill)}">${v.toFixed(2)}</text>`;
+        });
+      });
+
+      /* network cluster border */
+      s += `<rect x="${ox}" y="${lh}" width="${3*cs}" height="${3*cs}" fill="none" stroke="#2d3a8c" stroke-width="2.5" rx="2"/>`;
+      /* image cluster border */
+      s += `<rect x="${ox+5*cs}" y="${lh+5*cs}" width="${4*cs}" height="${4*cs}" fill="none" stroke="#d64045" stroke-width="2.5" rx="2"/>`;
+      /* key stat highlight: Labyrinth ↔ Style = 0.020 (row 0, col 8) */
+      s += `<rect x="${ox+8*cs}" y="${lh}" width="${cs}" height="${cs}" fill="none" stroke="#d64045" stroke-width="2" stroke-dasharray="4,2.5"/>`;
+
+      /* colour scale legend */
+      const legY = H - 2, legX = ox, legW = n*cs;
+      const steps = 20;
+      for (let i = 0; i < steps; i++) {
+        const v = i / (steps - 1);
+        s += `<rect x="${legX + i*(legW/steps)}" y="${legY - 8}" width="${Math.ceil(legW/steps)+1}" height="8" fill="${cellColor(v)}"/>`;
+      }
+      s += `<text x="${legX}" y="${legY + 10}" font-family="system-ui" font-size="9" fill="#6b6b6b">r = 0</text>`;
+      s += `<text x="${legX + legW/2}" y="${legY + 10}" text-anchor="middle" font-family="system-ui" font-size="9" fill="#6b6b6b">0.5</text>`;
+      s += `<text x="${legX + legW}" y="${legY + 10}" text-anchor="end" font-family="system-ui" font-size="9" fill="#6b6b6b">1.0</text>`;
+
+      const el = document.getElementById('heatmap');
+      if (el) el.innerHTML = `<svg viewBox="0 0 ${W} ${H+14}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="Correlation heatmap of 9 tasks across three skill clusters">${s}</svg>`;
+    }
+
+    /* ── dot plot ───────────────────────────────────────────────── */
+    function buildDotPlot() {
+      const pairs = [
+        ['Labyrinth ↔ Detective',  0.821, 'network', 'Same skill family'],
+        ['Labyrinth ↔ Signal',     0.793, 'network', 'Same skill family'],
+        ['Detective ↔ Signal',     0.783, 'network', 'Same skill family'],
+        ['Markdown ↔ Labyrinth',   0.394, 'cross',   'Weak bridge'],
+        ['Sh. Secret ↔ Signal',    0.384, 'cross',   'Weak bridge'],
+        ['Paradox ↔ Style',        0.266, 'image',   'Highest image-image'],
+        ['Concept ↔ Style',        0.242, 'image',   'Image-image'],
+        ['Affective ↔ Paradox',    0.148, 'image',   'Image-image'],
+        ['Affective ↔ Concept',    0.099, 'image',   'Weakest image-image'],
+        ['Affective ↔ Graph Det.', 0.082, 'cross',   'Near-zero'],
+        ['Paradox ↔ Markdown',     0.081, 'cross',   'Near-zero'],
+        ['Style ↔ Graph Det.',    -0.061, 'cross',   'Slightly negative'],
+      ];
+      const gCol = { network: '#2d3a8c', image: '#d64045', cross: '#9b9b9b' };
+      const lw = 162, pl = 10, pw = 290, pr = 14, pt = 28, rh = 32;
+      const W = lw + pl + pw + pr, H = pt + pairs.length * rh + 28;
+      const xMin = -0.15, xMax = 1.0;
+      const xs = v => pl + (v - xMin) / (xMax - xMin) * pw;
+
+      let s = '';
+
+      s += `<text x="${lw + pl + pw/2}" y="13" text-anchor="middle" font-family="system-ui" font-size="10" fill="#6b6b6b">Pearson r (correlation coefficient)</text>`;
+
+      /* reference lines */
+      [[0,'#888','0'],[0.1,'#d64045','r = 0.1'],[0.5,'#2d3a8c','r = 0.5']].forEach(([v,col,lbl]) => {
+        const x = lw + xs(v);
+        s += `<line x1="${x}" y1="${pt-5}" x2="${x}" y2="${H-24}" stroke="${col}" stroke-width="1" stroke-dasharray="${v?'4,3':'2,2'}" opacity=".5"/>`;
+        s += `<text x="${x}" y="${pt-7}" text-anchor="middle" font-family="system-ui" font-size="8.5" fill="${col}" opacity=".9">${lbl}</text>`;
+      });
+
+      /* rows */
+      pairs.forEach(([pair, r, grp, desc], i) => {
+        const y = pt + i * rh + rh / 2;
+        const col = gCol[grp];
+        if (i % 2 === 0) s += `<rect x="${lw}" y="${pt+i*rh}" width="${pl+pw+pr}" height="${rh}" fill="#f8f5f0" opacity=".65"/>`;
+        s += `<rect x="0" y="${pt+i*rh+5}" width="4" height="${rh-10}" fill="${col}" rx="2"/>`;
+        s += `<text x="8" y="${y}" dominant-baseline="middle" font-family="system-ui" font-size="11" fill="#1a1a1a">${pair}</text>`;
+        const descX = lw - 6;
+        s += `<text x="${descX}" y="${y+1}" text-anchor="end" dominant-baseline="middle" font-family="system-ui" font-size="8.5" fill="#9b9b9b" font-style="italic">${desc}</text>`;
+        s += `<line x1="${lw+pl}" y1="${y}" x2="${lw+pl+pw}" y2="${y}" stroke="#e8e4dd" stroke-width="1"/>`;
+        const cx = lw + xs(r);
+        const dotTip = `${pair}: r=${r.toFixed(3)}. ${desc}.`.replace(/"/g, '&quot;');
+        s += `<circle cx="${cx}" cy="${y}" r="7.5" fill="${col}" opacity=".88" data-tooltip="${dotTip}"/>`;
+        s += `<text x="${cx}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui" font-size="8.5" font-weight="700" fill="#fff">${r.toFixed(2)}</text>`;
+      });
+
+      /* legend */
+      const legY = H - 11;
+      [['#2d3a8c','Network'],['#d64045','Image'],['#9b9b9b','Cross-group']].forEach(([col, lbl], i) => {
+        const x = lw + pl + i * 96;
+        s += `<circle cx="${x}" cy="${legY}" r="5" fill="${col}"/>`;
+        s += `<text x="${x+10}" y="${legY}" dominant-baseline="middle" font-family="system-ui" font-size="10" fill="#6b6b6b">${lbl}</text>`;
+      });
+
+      const el = document.getElementById('dotplot');
+      if (el) el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="Dot plot of correlation pairs grouped by network, image, and cross categories">${s}</svg>`;
+    }
+
+    /* ── theory cards ───────────────────────────────────────────── */
+    function buildTheoryCards() {
+      const rows = [
+        {
+          name: "Thorndike's Identical Elements",
+          tip: "Edward Thorndike's 1901 theory: learning transfers between tasks only when they share specific identical elements",
+          verdict: 'Strongly supported', vc: '#2a9d5c', bg: '#e6f4ec', bc: '#a8d8bc',
+          expl: "Transfer happens only when tasks share specific elements. Network games share underlying structure; image briefs don't share enough with anything else.",
+        },
+        {
+          name: 'One General AI Aptitude',
+          tip: '',
+          verdict: 'Strongly broken', vc: '#d64045', bg: '#fdeaea', bc: '#f5b8ba',
+          expl: "If a single general ability existed, correlations would cluster above 0.4. The 0.020 systems-to-image correlation rules this out.",
+        },
+        {
+          name: 'Situated Cognition',
+          tip: '',
+          verdict: 'Supported', vc: '#2a9d5c', bg: '#e6f4ec', bc: '#a8d8bc',
+          expl: "Learning is context-dependent. Network game skills are situated in graph-navigation contexts; image skills require different situation-specific knowledge.",
+        },
+        {
+          name: 'Threshold Concepts',
+          tip: '',
+          verdict: 'Supported', vc: '#2a9d5c', bg: '#e6f4ec', bc: '#a8d8bc',
+          expl: `Crossing the network game <span data-tooltip="A concept that, once understood, transforms the learner's perception of the subject — like a one-way door to a new understanding">threshold concept</span> opens access to Detective and Signal. But it doesn't unlock image generation — that threshold requires a separate crossing.`,
+        },
+      ];
+
+      const el = document.getElementById('theory-cards');
+      if (!el) return;
+      el.innerHTML = rows.map(r => `
+        <div class="theory-card" style="background:${r.bg}18;border-color:${r.bc}">
+          <div class="theory-card-header">
+            <span class="theory-name"${r.tip ? ` data-tooltip="${r.tip}"` : ''}>${r.name}</span>
+            <span class="verdict-badge" style="color:${r.vc};background:${r.bg};border:1px solid ${r.bc}">${r.verdict}</span>
+          </div>
+          <p class="theory-explanation">${r.expl}</p>
+        </div>`).join('');
+    }
+  </script>
+</body>
+</html>

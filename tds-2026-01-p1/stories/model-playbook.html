@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Model Playbook · TDS Jan 2026</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .archetype-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin: 2em 0;
+    }
+    .arch-card {
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-top: 4px solid #ccc;
+    }
+    .arch-name {
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 4px;
+    }
+    .arch-meta {
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .arch-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .arch-badge {
+      font-family: system-ui, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+    .arch-badge.good { background: #e6f4ec; color: #2a9d5c; }
+    .arch-badge.bad  { background: #fdeaea; color: #d64045; }
+    .arch-desc { font-size: 13px; line-height: 1.55; color: #444; margin: 0; }
+    .playbook-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: system-ui, sans-serif;
+      font-size: 12.5px;
+    }
+    .playbook-table th {
+      background: var(--header-bg);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .playbook-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .playbook-table tbody tr:nth-child(even) { background: var(--light-bg); }
+    .badge-use   { background:#e6f4ec; color:#2a9d5c; border-radius:3px; padding:2px 7px; font-weight:700; white-space:nowrap; }
+    .badge-avoid { background:#fdeaea; color:#d64045; border-radius:3px; padding:2px 7px; font-weight:700; white-space:nowrap; }
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: system-ui, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .legend-grad {
+      width: 80px;
+      height: 10px;
+      border-radius: 2px;
+      background: linear-gradient(to right, #d64045, #f5c842, #2a9d5c);
+      flex-shrink: 0;
+    }
+    .sec-break { margin-top: 3em; margin-bottom: .25em; }
+    /* hero-to-body spacing */
+    .article-body { padding-top: 56px; }
+    @media (max-width: 600px) {
+      .archetype-grid { grid-template-columns: 1fr; }
+      .playbook-table { font-size: 11px; }
+      .playbook-table td, .playbook-table th { padding: 7px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav-bar">
+  <a class="nav-brand" href="../index.html">TDS · P1</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">← All Stories</a></li>
+    <li><a href="social-infrastructure.html">Social Infrastructure</a></li>
+    <li><a href="two-labor-markets.html">Two Labor Markets</a></li>
+    <li><a href="endgame.html">Six Ways</a></li>
+    <li><a href="two-exams.html">Two Exams</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<header class="article-hero">
+  <span class="hero-label">AI TOOLS</span>
+  <h1 class="hero-title">The Model Playbook</h1>
+  <p class="hero-byline">TDS Jan 2026 · Project 1 Analysis</p>
+  <p class="hero-date">March 2026</p>
+</header>
+
+<main class="article-body">
+
+  <p class="lead-para">In 2026, 765 students generated nearly two thousand AI images and had them all evaluated by Gemini. The results didn't match the marketing. The best model for one creative brief was the worst for another. The map of task fit had been hiding in plain sight.</p>
+
+  <!-- ── THE SETUP ── -->
+  <div class="scroll-fade sec-break">
+    <span class="section-label">The Setup</span>
+    <h2>Everyone Had a Favorite, and Most People Used It for Everything</h2>
+  </div>
+
+  <div class="scroll-fade">
+    <p>DALL·E dominated the dataset with 935 image rows — nearly 54% of all evaluated images. Most students had a single preferred model and used it across all four briefs. This is the natural behavior: pick a tool, learn it well, apply it everywhere. It's efficient. It's also wrong.</p>
+  </div>
+
+  <div class="scroll-fade chart-container">
+    <p class="chart-title">No Model Wins Every Brief — The Best Choice Rotates</p>
+    <div id="heatmap"></div>
+    <div class="heatmap-legend">
+      <span>6.5 (low)</span>
+      <span class="legend-grad"></span>
+      <span>9.0 (high)</span>
+      <span style="margin-left:16px;color:#1a1a1a;font-weight:700">★ = brief winner</span>
+    </div>
+    <p class="chart-caption">Each row has a different winner. Ideogram leads Affective. Midjourney leads Concept. Gemini leads Paradox. Ideogram and Midjourney tie Style. DALL·E, the most-used model, wins none.</p>
+  </div>
+
+  <!-- ── THE COMPLICATION ── -->
+  <div class="scroll-fade sec-break">
+    <span class="section-label">The Complication</span>
+    <h2>DALL·E's Split Personality</h2>
+  </div>
+
+  <div class="scroll-fade">
+    <p>DALL·E scores 8.557 on <a href="https://github.com/sanand0/tools-in-data-science-public/discussions/325" target="_blank" rel="noopener">Concept Incarnation</a> — among the highest in the dataset. On <a href="https://github.com/sanand0/tools-in-data-science-public/discussions/324" target="_blank" rel="noopener">Affective Chart</a>, it scores 7.013 with a 43.5% <span data-tooltip="The percentage of images scoring above the exhibition threshold — considered 'gallery-worthy' by the evaluator">exhibition rate</span>. That gap — 1.5 points, nearly two standard deviations — is not noise. It's structure.</p>
+    <p>The Affective Chart brief requires something that DALL·E appears poorly calibrated for: making an image that feels emotionally resonant and data-informative simultaneously. It's the brief that most demands constraint adherence alongside visual originality. DALL·E's tendency toward polished, slightly literal interpretations works against it here.</p>
+  </div>
+
+  <blockquote class="pull-quote scroll-fade">"DALL·E wins Concept Incarnation and loses Affective Chart. The gap is 1.5 points. In grading terms, that's the difference between a strong pass and a borderline one."</blockquote>
+
+  <div class="scroll-fade chart-container">
+    <p class="chart-title">Every Brief Has a Different Winner</p>
+    <div id="dotplot"></div>
+    <p class="chart-caption">The model rankings reshuffle completely across briefs. No single model dominates all four.</p>
+  </div>
+
+  <!-- ── THE HIDDEN GRADING AXIS ── -->
+  <div class="scroll-fade sec-break">
+    <span class="section-label">The Hidden Grading Axis</span>
+    <h2>Semantic Match Is the Real Threshold</h2>
+  </div>
+
+  <div class="scroll-fade">
+    <p>The rubric has dimensions — composition, emotional resonance, technical execution. But the data reveals a hidden axis that cuts across all of them: does the evaluator recognize what you intended? The data calls this <span data-tooltip="Whether the generated image demonstrably contains the required conceptual element — the hidden grading axis">'semantic match'</span> — whether the generated image demonstrably contains the required conceptual element.</p>
+    <p>When semantic match fails, scores collapse.</p>
+  </div>
+
+  <div class="scroll-fade chart-container">
+    <p class="chart-title">Miss the Semantic Target and Lose 3–5 Points</p>
+    <div id="gapchart"></div>
+    <p class="chart-caption">For <a href="https://github.com/sanand0/tools-in-data-science-public/discussions/327" target="_blank" rel="noopener">Style Transplant</a>, failing <span data-tooltip="For Style Transplant: whether the image demonstrates identifiable knowledge of the target artistic tradition">tradition_match</span> means a score of 3.1 vs 8.2 — the largest single predictive gap in the entire image evaluation dataset.</p>
+  </div>
+
+  <!-- ── THE REVELATION ── -->
+  <div class="scroll-fade sec-break">
+    <span class="section-label">The Revelation</span>
+    <h2>The Semantic Threshold: Not 'Is It Beautiful?' But 'Did Gemini Understand It?'</h2>
+  </div>
+
+  <div class="scroll-fade">
+    <p>This reveals something important about how the evaluation worked. Gemini was not just scoring beauty or technical craft. It was checking: does this image instantiate the concept the brief called for? A stunning image that missed the concept could score below 6. An average image that nailed it could score above 8.</p>
+    <p>This means the optimal strategy was not to make the most beautiful image — it was to make sure the image communicated its intent clearly enough for an AI evaluator to recognize it.</p>
+  </div>
+
+  <blockquote class="pull-quote scroll-fade">"The question wasn't 'is this beautiful?' It was 'does Gemini understand what you meant?'"</blockquote>
+
+  <!-- ── STUDENT ARCHETYPES ── -->
+  <div class="scroll-fade sec-break">
+    <span class="section-label">Student Archetypes</span>
+    <h2>Five Ways to Navigate Four Image Briefs</h2>
+  </div>
+
+  <div class="scroll-fade">
+    <p>Among 419 students with complete image portfolios, the scores cluster into five recognizable patterns.</p>
+  </div>
+
+  <div class="archetype-grid scroll-fade" id="arch-grid"></div>
+
+  <div class="scroll-fade sec-break" style="margin-top:2.5em">
+    <span class="section-label">Prompt Engineering</span>
+  </div>
+
+  <div class="scroll-fade chart-container">
+    <p class="chart-title">Longer Prompts Help on Affective, Hurt on Paradox</p>
+    <div id="linechart"></div>
+    <p class="chart-caption"><a href="https://github.com/sanand0/tools-in-data-science-public/discussions/326" target="_blank" rel="noopener">Paradox Portrait</a> peaks with medium-length prompts. Over-specification backfired — too many constraints narrowed the image away from paradox tension.</p>
+  </div>
+
+  <!-- ── THE PLAYBOOK ── -->
+  <div class="scroll-fade sec-break">
+    <span class="section-label">The Playbook</span>
+    <h2>One Table to Save You a Week of Experimenting</h2>
+  </div>
+
+  <div class="scroll-fade chart-container" style="padding:24px 0 0">
+    <table class="playbook-table" id="playbook"></table>
+  </div>
+
+  <!-- ── THEORY + TAKEAWAYS ── -->
+  <div class="scroll-fade sec-break" style="margin-top:3em">
+    <span class="section-label">Theory &amp; Takeaways</span>
+    <h2>Why Models Specialize — and What That Means for You</h2>
+  </div>
+
+  <div class="scroll-fade">
+    <p><strong><a href="https://en.wikipedia.org/wiki/Situated_learning" target="_blank" rel="noopener">Situated Learning</a> + Model Specialization.</strong> The model performance data is a real-world demonstration of situated learning theory. DALL·E, trained on billions of image-caption pairs, is optimized for the most common request: "generate a plausible scene." That's exactly what Concept Incarnation rewards. But Affective Chart asks something different: make an abstraction that communicates emotion <em>without explanation</em>. That's a harder, rarer request in training data — and DALL·E's gap (7.013 vs Ideogram's 7.637) shows it. Models aren't general-purpose intelligences. They're situated learners, shaped by the data contexts they were trained on.</p>
+
+    <p><strong>The <a href="https://en.wikipedia.org/wiki/Information_bottleneck_method" target="_blank" rel="noopener">Semantic Bottleneck</a> — a threshold concept in practice.</strong> The 3.1-point penalty for missing tradition_match in Style Transplant (score = 3.112 when anachronism is flagged vs. 8.248 when recognized) is not a grading artifact. It's the grading system correctly identifying what the brief is testing. A "Victorian painting style" with a modern iPhone in it is not a Victorian painting with a twist — it's a failure of representational understanding. The threshold isn't aesthetic; it's semantic. Cross it and everything else works. Miss it and nothing else helps.</p>
+
+    <p style="font-style:italic;border-left:3px solid var(--border);padding-left:1em;margin:1.5em 0;color:#555"><strong><a href="https://en.wikipedia.org/wiki/Feynman_Technique" target="_blank" rel="noopener">Feynman</a>'s question:</strong> Could you explain <em>why</em> this image represents your concept to someone who has never seen the brief? If yes, you've cleared the semantic threshold. If no, more iterations won't help — the image doesn't know what it's supposed to mean.</p>
+
+    <h3 style="font-family:system-ui,sans-serif;font-size:15px;font-weight:700;margin:1.5em 0 .5em">For students</h3>
+    <ol style="padding-left:1.5em;margin:.5em 0">
+      <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">Choose your model based on the brief, not on brand loyalty. Use the playbook table above.</li>
+      <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">Before generating, test your concept: can you describe it clearly in one sentence? If you can't describe it, the model can't render it.</li>
+      <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">"Negative prompts" hurt more than they help (negative-prompt syntax showed −0.387 score delta on Concept Incarnation). Focus your positive prompt; don't try to exclude failure modes.</li>
+    </ol>
+
+    <h3 style="font-family:system-ui,sans-serif;font-size:15px;font-weight:700;margin:1.5em 0 .5em">For educators</h3>
+    <ol style="padding-left:1.5em;margin:.5em 0">
+      <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">Model choice should be part of the rubric. Encourage students to explain <em>why</em> they chose a specific model for each brief.</li>
+      <li style="margin-bottom:.65em;font-size:14px;line-height:1.6">The semantic threshold is a teachable concept: show students the before/after of a concept-matched vs. concept-mismatched submission to make the gap concrete.</li>
+    </ol>
+  </div>
+
+</main>
+
+<footer style="background:var(--header-bg);color:rgba(255,255,255,.5);text-align:center;padding:24px;font-family:system-ui,sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase">
+  TDS Jan 2026 · Project 1 Analysis
+</footer>
+
+<script type="module">
+import { initAll } from './shared.js';
+
+// ── Utilities ──────────────────────────────────────────────────────────────
+
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function lerp(a, b, t) {
+  const h = s => { const n = parseInt(s.slice(1), 16); return [n>>16&255, n>>8&255, n&255]; };
+  const [ar,ag,ab] = h(a), [br,bg,bb] = h(b);
+  return `rgb(${Math.round(ar+(br-ar)*t)},${Math.round(ag+(bg-ag)*t)},${Math.round(ab+(bb-ab)*t)})`;
+}
+
+function scoreCol(v) {
+  if (v == null) return '#e0e0e0';
+  if (v <= 7.5) return lerp('#d64045', '#f5c842', Math.min((v - 6.5) / 1.0, 1));
+  return lerp('#f5c842', '#2a9d5c', Math.min((v - 7.5) / 1.5, 1));
+}
+
+function lumText(c) {
+  const m = c.match(/\d+/g);
+  if (!m) return '#1a1a1a';
+  return (0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2]) / 255 < 0.55 ? '#fff' : '#1a1a1a';
+}
+
+// ── Chart 1: Heatmap ───────────────────────────────────────────────────────
+
+function buildHeatmap() {
+  const el = document.getElementById('heatmap');
+  if (!el) return;
+
+  const briefs = ["Affective Chart", "Concept Incarnation", "Paradox Portrait", "Style Transplant"];
+  const models = ["DALL·E", "Gemini/Imagen", "Ideogram", "Midjourney", "Flux", "Other"];
+  const scores = [
+    [7.013, 7.488, 7.637, 7.522, 7.118, 7.283],
+    [8.557, 8.510, 8.515, 8.969, 8.278, 7.885],
+    [7.485, 8.051, 7.432, 8.038, null,  7.346],
+    [7.755, 8.050, 8.332, 8.336, 7.769, 6.894],
+  ];
+
+  // Index of highest score per row
+  const winners = scores.map(row =>
+    row.reduce((best, v, i) => (v != null && v > (row[best] ?? -Infinity)) ? i : best, 0)
+  );
+
+  const VW = 620, VH = 290, rlW = 132, hdrH = 82;
+  const cW = (VW - rlW) / 6, cH = (VH - hdrH) / 4;
+
+  let s = `<svg viewBox="0 0 ${VW} ${VH}" style="width:100%;height:auto" aria-label="Model × Brief score heatmap">`;
+
+  // Column headers (angled +40°) — text extends up-left into header band
+  models.forEach((m, ci) => {
+    const cx = rlW + ci * cW + cW / 2;
+    s += `<text transform="translate(${cx.toFixed(1)},${hdrH - 6}) rotate(40)" text-anchor="end" font-family="system-ui" font-size="11" fill="#333">${esc(m)}</text>`;
+  });
+
+  // Rows
+  scores.forEach((row, ri) => {
+    const ry = hdrH + ri * cH;
+    s += `<text x="${rlW - 8}" y="${(ry + cH / 2).toFixed(1)}" text-anchor="end" dominant-baseline="middle" font-family="system-ui" font-size="11.5" fill="#1a1a1a">${esc(briefs[ri])}</text>`;
+
+    row.forEach((v, ci) => {
+      const cx = rlW + ci * cW;
+      const fill = scoreCol(v);
+      const isW = ci === winners[ri];
+      const exhibRate = [[43.5,62.1,71.2,68.4,55.0,58.3],[82.4,81.7,83.1,91.2,77.6,70.2],[70.3,78.5,69.8,79.1,null,68.4],[74.1,78.2,82.6,83.0,73.5,61.7]];
+      const exhV = exhibRate[ri]?.[ci];
+      const exhStr = exhV != null ? `, ${exhV}% exhibition rate` : '';
+      const winStr = isW ? ' ★ brief winner' : '';
+      const tt = v != null
+        ? `${models[ci]} on ${briefs[ri]}: mean ${v.toFixed(3)}${exhStr}${winStr}`
+        : `${models[ci]} on ${briefs[ri]}: insufficient data`;
+
+      s += `<rect x="${(cx + .5).toFixed(1)}" y="${(ry + .5).toFixed(1)}" width="${(cW - 1).toFixed(1)}" height="${(cH - 1).toFixed(1)}" fill="${fill}" rx="2" data-tooltip="${tt.replace(/"/g, '&quot;')}"/>`;
+      if (isW) {
+        s += `<rect x="${(cx + 1).toFixed(1)}" y="${(ry + 1).toFixed(1)}" width="${(cW - 2).toFixed(1)}" height="${(cH - 2).toFixed(1)}" fill="none" stroke="#1a1a1a" stroke-width="2" rx="2"/>`;
+      }
+
+      if (v != null) {
+        const tc = lumText(fill);
+        const midX = (cx + cW / 2).toFixed(1);
+        const midY = (ry + cH / 2 - (isW ? 4 : 0)).toFixed(1);
+        s += `<text x="${midX}" y="${midY}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui" font-size="13" font-weight="600" fill="${tc}">${v.toFixed(1)}</text>`;
+        if (isW) {
+          s += `<text x="${midX}" y="${(ry + cH - 6).toFixed(1)}" text-anchor="middle" font-family="system-ui" font-size="9" fill="${tc}">★ BEST</text>`;
+        }
+      } else {
+        s += `<text x="${(cx + cW / 2).toFixed(1)}" y="${(ry + cH / 2).toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui" font-size="11" fill="#bbb">N/A</text>`;
+      }
+    });
+  });
+
+  s += '</svg>';
+  el.innerHTML = s;
+}
+
+// ── Chart 2: Faceted Dot Plot ──────────────────────────────────────────────
+
+function buildDotPlot() {
+  const el = document.getElementById('dotplot');
+  if (!el) return;
+
+  const briefs  = ["Affective Chart", "Concept Incarnation", "Paradox Portrait", "Style Transplant"];
+  const models  = ["DALL·E", "Gemini/Imagen", "Ideogram", "Midjourney", "Flux", "Other"];
+  const scores  = [
+    [7.013, 7.488, 7.637, 7.522, 7.118, 7.283],
+    [8.557, 8.510, 8.515, 8.969, 8.278, 7.885],
+    [7.485, 8.051, 7.432, 8.038, null,  7.346],
+    [7.755, 8.050, 8.332, 8.336, 7.769, 6.894],
+  ];
+  const colors  = ['#2d3a8c', '#e76f51', '#2a9d5c', '#d64045', '#f5c842', '#888'];
+  const winners = scores.map(row =>
+    row.reduce((best, v, i) => (v != null && v > (row[best] ?? -Infinity)) ? i : best, 0)
+  );
+
+  const VW = 620, rlW = 132, padR = 20, padT = 14, padB = 50, stripH = 68;
+  const chartW = VW - rlW - padR;
+  const VH = briefs.length * stripH + padT + padB;
+  const MIN = 6.5, MAX = 9.5;
+  const sx = v => rlW + (v - MIN) / (MAX - MIN) * chartW;
+
+  let s = `<svg viewBox="0 0 ${VW} ${VH}" style="width:100%;height:auto">`;
+
+  // Vertical grid lines + axis labels
+  [6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5].forEach(v => {
+    const x = sx(v).toFixed(1);
+    s += `<line x1="${x}" y1="${padT}" x2="${x}" y2="${VH - padB + 8}" stroke="#e8e4dd" stroke-width="1"/>`;
+    s += `<text x="${x}" y="${VH - padB + 22}" text-anchor="middle" font-family="system-ui" font-size="10" fill="#999">${v.toFixed(1)}</text>`;
+  });
+
+  scores.forEach((row, ri) => {
+    const cy = (padT + ri * stripH + stripH / 2).toFixed(1);
+    if (ri % 2 === 0) {
+      s += `<rect x="${rlW}" y="${padT + ri * stripH}" width="${chartW + padR}" height="${stripH}" fill="#f8f5f0"/>`;
+    }
+    s += `<text x="${rlW - 8}" y="${cy}" text-anchor="end" dominant-baseline="middle" font-family="system-ui" font-size="11.5" font-weight="600" fill="#1a1a1a">${esc(briefs[ri])}</text>`;
+
+    row.forEach((v, mi) => {
+      if (v == null) return;
+      const x = sx(v).toFixed(1);
+      const isW = mi === winners[ri];
+      const dotTip = `${models[mi]} — ${briefs[ri]}: ${v.toFixed(3)}${isW ? ' (★ brief winner)' : ''}`.replace(/"/g, '&quot;');
+      s += `<circle cx="${x}" cy="${cy}" r="${isW ? 8 : 5}" fill="${colors[mi]}" opacity=".9" data-tooltip="${dotTip}"/>`;
+      if (isW) {
+        const cyN = padT + ri * stripH + stripH / 2;
+        s += `<text x="${x}" y="${(cyN - 14).toFixed(1)}" text-anchor="middle" font-family="system-ui" font-size="9.5" font-weight="700" fill="${colors[mi]}">${esc(models[mi])}</text>`;
+        s += `<text x="${x}" y="${(cyN + 21).toFixed(1)}" text-anchor="middle" font-family="system-ui" font-size="9.5" fill="${colors[mi]}">${v.toFixed(1)}</text>`;
+      }
+    });
+  });
+
+  s += '</svg>';
+
+  const leg = models.map((m, i) =>
+    `<span style="display:flex;align-items:center;gap:4px;font-family:system-ui;font-size:11px"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="${colors[i]}"/></svg>${esc(m)}</span>`
+  ).join('');
+
+  el.innerHTML = s + `<div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:8px">${leg}</div>`;
+}
+
+// ── Chart 3: Semantic Penalty Gap Chart ───────────────────────────────────
+
+function buildGapChart() {
+  const el = document.getElementById('gapchart');
+  if (!el) return;
+
+  const data = [
+    { q: "Concept Incarnation", flag: "concept_match = False",   wo: 5.883, wi: 8.975, gap: 3.092 },
+    { q: "Paradox Portrait",    flag: "paradox_match = False",   wo: 5.214, wi: 8.238, gap: 3.024 },
+    { q: "Style Transplant",    flag: "tradition_match = False", wo: 3.112, wi: 8.248, gap: 5.136 },
+  ];
+
+  const VW = 620, rlW = 164, padR = 20, padT = 16, padB = 40, rowH = 80;
+  const chartW = VW - rlW - padR;
+  const VH = data.length * rowH + padT + padB;
+  const sx = v => rlW + (v / 10) * chartW;
+
+  let s = `<svg viewBox="0 0 ${VW} ${VH}" style="width:100%;height:auto">`;
+
+  [0, 2, 4, 6, 8, 10].forEach(v => {
+    const x = sx(v).toFixed(1);
+    s += `<line x1="${x}" y1="${padT}" x2="${x}" y2="${VH - padB + 8}" stroke="#e8e4dd" stroke-width="1"/>`;
+    s += `<text x="${x}" y="${VH - padB + 22}" text-anchor="middle" font-family="system-ui" font-size="10" fill="#999">${v}</text>`;
+  });
+
+  data.forEach((d, ri) => {
+    const cy = padT + ri * rowH + rowH / 2;
+    const xwo = sx(d.wo).toFixed(1), xwi = sx(d.wi).toFixed(1);
+    const midX = ((sx(d.wo) + sx(d.wi)) / 2).toFixed(1);
+
+    s += `<text x="${rlW - 8}" y="${cy - 9}" text-anchor="end" font-family="system-ui" font-size="12" font-weight="700" fill="#1a1a1a">${esc(d.q)}</text>`;
+    s += `<text x="${rlW - 8}" y="${cy + 8}" text-anchor="end" font-family="system-ui" font-size="10" fill="#888" font-style="italic">${esc(d.flag)}</text>`;
+
+    // Connecting line and gap label
+    s += `<line x1="${xwo}" y1="${cy}" x2="${xwi}" y2="${cy}" stroke="#ddd" stroke-width="3"/>`;
+    s += `<text x="${midX}" y="${cy - 14}" text-anchor="middle" font-family="system-ui" font-size="11" font-weight="700" fill="#555">−${d.gap.toFixed(1)} pts</text>`;
+
+    // Without-match dot (red)
+    s += `<circle cx="${xwo}" cy="${cy}" r="11" fill="#d64045" data-tooltip="${d.q} without ${d.flag}: ${d.wo.toFixed(3)} — missing semantic match costs ${d.gap.toFixed(1)} pts."/>`;
+    s += `<text x="${xwo}" y="${cy}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui" font-size="10.5" font-weight="700" fill="#fff">${d.wo.toFixed(1)}</text>`;
+
+    // With-match dot (green)
+    s += `<circle cx="${xwi}" cy="${cy}" r="11" fill="#2a9d5c" data-tooltip="${d.q} with ${d.flag}: ${d.wi.toFixed(3)} — semantic match met, full score unlocked."/>`;
+    s += `<text x="${xwi}" y="${cy}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui" font-size="10.5" font-weight="700" fill="#fff">${d.wi.toFixed(1)}</text>`;
+  });
+
+  // Legend
+  const ly = VH - 13;
+  s += `<circle cx="${rlW + 10}" cy="${ly}" r="5" fill="#d64045"/>`;
+  s += `<text x="${rlW + 20}" y="${ly + 4}" font-family="system-ui" font-size="10" fill="#d64045">Without match</text>`;
+  s += `<circle cx="${rlW + 130}" cy="${ly}" r="5" fill="#2a9d5c"/>`;
+  s += `<text x="${rlW + 140}" y="${ly + 4}" font-family="system-ui" font-size="10" fill="#2a9d5c">With match</text>`;
+
+  s += '</svg>';
+  el.innerHTML = s;
+}
+
+// ── Chart 4: Prompt Length Dual Line Chart ─────────────────────────────────
+
+function buildLineChart() {
+  const el = document.getElementById('linechart');
+  if (!el) return;
+
+  const buckets = ["<20 words", "20–40", "41–80", "81–150", ">150"];
+  const aff = [6.735, 7.012, 7.241, 7.523, 7.731];
+  const par = [7.102, 7.445, 7.821, 7.634, 7.234];
+
+  const VW = 620, padL = 46, padR = 88, padT = 24, padB = 50;
+  const cW = VW - padL - padR, cH = 160;
+  const VH = cH + padT + padB;
+  const MIN = 6.5, MAX = 8.2;
+  const xp = i => padL + i * (cW / (buckets.length - 1));
+  const yp = v => padT + cH - (v - MIN) / (MAX - MIN) * cH;
+
+  let s = `<svg viewBox="0 0 ${VW} ${VH}" style="width:100%;height:auto">`;
+
+  // Grid lines
+  [6.5, 7.0, 7.5, 8.0].forEach(v => {
+    const y = yp(v).toFixed(1);
+    s += `<line x1="${padL}" y1="${y}" x2="${VW - padR}" y2="${y}" stroke="#e8e4dd" stroke-width="1"/>`;
+    s += `<text x="${padL - 6}" y="${y}" text-anchor="end" dominant-baseline="middle" font-family="system-ui" font-size="10" fill="#999">${v.toFixed(1)}</text>`;
+  });
+
+  // X-axis labels
+  buckets.forEach((b, i) => {
+    s += `<text x="${xp(i).toFixed(1)}" y="${VH - 8}" text-anchor="middle" font-family="system-ui" font-size="10" fill="#888">${esc(b)}</text>`;
+  });
+
+  // Lines
+  const polyA = aff.map((v, i) => `${xp(i).toFixed(1)},${yp(v).toFixed(1)}`).join(' ');
+  const polyP = par.map((v, i) => `${xp(i).toFixed(1)},${yp(v).toFixed(1)}`).join(' ');
+  s += `<polyline points="${polyA}" fill="none" stroke="#2d3a8c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  s += `<polyline points="${polyP}" fill="none" stroke="#d64045" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+
+  // Dots
+  aff.forEach((v, i) => { s += `<circle cx="${xp(i).toFixed(1)}" cy="${yp(v).toFixed(1)}" r="4" fill="#2d3a8c"/>`; });
+  par.forEach((v, i) => { s += `<circle cx="${xp(i).toFixed(1)}" cy="${yp(v).toFixed(1)}" r="4" fill="#d64045"/>`; });
+
+  // End labels
+  const lastX = (xp(4) + 8).toFixed(1);
+  s += `<text x="${lastX}" y="${yp(aff[4]).toFixed(1)}" dominant-baseline="middle" font-family="system-ui" font-size="11" font-weight="700" fill="#2d3a8c">Affective ↗</text>`;
+  s += `<text x="${lastX}" y="${yp(par[4]).toFixed(1)}" dominant-baseline="middle" font-family="system-ui" font-size="11" font-weight="700" fill="#d64045">Paradox ↘</text>`;
+
+  s += '</svg>';
+  el.innerHTML = s;
+}
+
+// ── Archetype Cards ────────────────────────────────────────────────────────
+
+function buildArchetypes() {
+  const el = document.getElementById('arch-grid');
+  if (!el) return;
+
+  const archetypes = [
+    { name: "All-Around Elites",    n: 207, mean: 8.505, color: "#2a9d5c", best: "Everything",              bad: "—",                      model: "DALL·E", desc: "Consistent performers across all four briefs. Their DALL·E usage worked because they understood what each brief needed — not because DALL·E is universally best." },
+    { name: "Affective Strugglers", n: 71,  mean: 7.541, color: "#b8860b", best: "Concept Incarn. (9.053)", bad: "Affective Chart (4.837)", model: "DALL·E", desc: "Strong on structured concept tasks, weak on emotionally resonant abstraction. The Affective Chart semantic gap caught them — they generated polished images that missed the emotional target." },
+    { name: "Concept Strugglers",   n: 58,  mean: 7.203, color: "#d64045", best: "Style Transplant",        bad: "Concept Incarnation",    model: "Mixed",  desc: "Struggled to materialize abstract concepts into visual form. High semantic miss rate on Concept Incarnation." },
+    { name: "Paradox Literalists",  n: 44,  mean: 7.102, color: "#2d3a8c", best: "Affective Chart",         bad: "Paradox Portrait (5.8)", model: "DALL·E", desc: "Generated literal images for the Paradox Portrait brief — depictions of the paradox scenario rather than visual embodiments of the paradox tension." },
+    { name: "Style Collapsers",     n: 39,  mean: 6.891, color: "#6b6b6b", best: "Concept Incarnation",     bad: "Style Transplant (5.1)", model: "DALL·E", desc: "Failed the tradition_match dimension consistently. Generated stylistically appealing images that didn't demonstrate knowledge of the target artistic tradition." },
+  ];
+
+  el.innerHTML = archetypes.map(a => `
+    <div class="arch-card" style="border-top-color:${a.color}">
+      <div class="arch-name" style="color:${a.color}">${a.name}</div>
+      <div class="arch-meta">n = ${a.n} &nbsp;·&nbsp; mean ${a.mean.toFixed(3)} &nbsp;·&nbsp; ${a.model}</div>
+      <div class="arch-badges">
+        <span class="arch-badge good">✓ ${a.best}</span>
+        <span class="arch-badge bad">✗ ${a.bad}</span>
+      </div>
+      <p class="arch-desc">${a.desc}</p>
+    </div>`).join('');
+}
+
+// ── Playbook Table ─────────────────────────────────────────────────────────
+
+function buildPlaybook() {
+  const el = document.getElementById('playbook');
+  if (!el) return;
+
+  const rows = [
+    { brief: "Affective Chart",     use: "Ideogram or Midjourney",     avoid: "DALL·E",                tip: "Prioritize emotional resonance over polish. Longer prompts help." },
+    { brief: "Concept Incarnation", use: "Any mainstream model",        avoid: "Long-tail models",      tip: "Semantic clarity matters most. Make the concept unmistakable." },
+    { brief: "Paradox Portrait",    use: "Gemini/Imagen or Midjourney", avoid: "DALL·E or Ideogram",    tip: "Let the tension breathe. Medium-length prompts peak here." },
+    { brief: "Style Transplant",    use: "Midjourney or Ideogram",      avoid: "Long-tail models",      tip: "Demonstrate knowledge of the tradition. Gemini is the safe fallback." },
+    { brief: "Overall portfolio",   use: "Gemini/Imagen (generalist)",  avoid: "Single-model strategy", tip: "Switch models per brief. There is no universal winner." },
+  ];
+
+  el.innerHTML = `
+    <thead>
+      <tr><th>Brief</th><th>Use</th><th>Avoid</th><th>Key principle</th></tr>
+    </thead>
+    <tbody>
+      ${rows.map((r, i) => `
+        <tr${i % 2 ? ' style="background:var(--light-bg)"' : ''}>
+          <td style="font-weight:700">${r.brief}</td>
+          <td><span class="badge-use">${r.use}</span></td>
+          <td><span class="badge-avoid">${r.avoid}</span></td>
+          <td style="color:#555;font-size:12px">${r.tip}</td>
+        </tr>`).join('')}
+    </tbody>`;
+}
+
+// ── Bootstrap ──────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildHeatmap();
+  buildDotPlot();
+  buildGapChart();
+  buildLineChart();
+  buildArchetypes();
+  buildPlaybook();
+  initAll();
+});
+</script>
+
+</body>
+</html>

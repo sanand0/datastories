@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [What 765 Students Taught Us About Learning, Hacking, and Everything In Between](tds-2026-01-p1/). Analysis of 765 students, 9,046 saved submissions, and 1,731 evaluated AI images from TDS Jan 2026 Project 1, showing how learning shifts when answers are one search away.
+  [![](tds-2026-01-p1/screenshot.webp)](tds-2026-01-p1/)
 - [The 80-Year Blind Spot: The Polya Audit](polya-for-ai/). In 1945, George Pólya gave mathematicians 15 rules for solving problems. For eight decades, they were treated as gospel. Nobody ever tested them. Until now.
   [![](polya-for-ai/screenshot.webp)](polya-for-ai/)
 - [The Return That Wasn't — Did Vibe Coding Bring Developers Back to GitHub?](github-usage-increase/). When AI supposedly brought a generation of lapsed developers back to GitHub, we checked the commit logs. Here's what we found.
@@ -81,11 +83,11 @@ File structure:
   - README.md
   - Other supporting files
 
-When adding a new story, update:
+When adding a new story, update config.json, README.md (and setup.sh if required).
 
-- config.json
-- README.md
-- setup.sh
+```bash
+codex "Update README.md and config.json with tds-2026-01-p1/ and screenshot" --yolo`
+```
 
 Assets are stored in a GitHub Release creatd via:
 

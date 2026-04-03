@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TDS Jan 2026 · Project 1 Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stories/shared.css">
+  <style>
+    /* === page-specific overrides === */
+
+    :root {
+      --accent: #c8102e;
+      --blue: #2d3a8c;
+      --gold: #b45309;
+      --green: #16a34a;
+      --purple: #7c3aed;
+      --hero-bg: #111;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', Georgia, serif;
+    }
+
+    /* NAV overrides */
+    .nav-bar {
+      background: #0f0f0f;
+      border-bottom: 1px solid #222;
+      gap: 0;
+    }
+
+    .nav-brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      color: var(--accent);
+      padding-right: 20px;
+      border-right: 1px solid #2a2a2a;
+      margin-right: 8px;
+    }
+
+    .nav-links { gap: 2px; }
+
+    .nav-links a {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .04em;
+      text-transform: none;
+      color: rgba(255,255,255,.55);
+      padding: 0 10px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      border-bottom-color: #333;
+    }
+
+    .nav-links a.nav-cta {
+      color: var(--accent);
+      font-weight: 500;
+      margin-left: 4px;
+    }
+
+    .nav-links a.nav-cta:hover {
+      color: #e8304a;
+      border-bottom-color: var(--accent);
+    }
+
+    /* HERO */
+    .site-hero {
+      background: var(--hero-bg);
+      padding: 72px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .site-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 10% 90%, rgba(200,16,46,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 90% 10%, rgba(45,58,140,.09) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-kicker {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp .5s ease .1s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(2rem, 5.5vw, 3rem) !important;
+      font-weight: 700;
+      line-height: 1.14;
+      color: #f2ede6;
+      margin-bottom: 28px;
+      letter-spacing: -.01em;
+      opacity: 0;
+      animation: fadeUp .7s ease .25s forwards;
+    }
+
+    .hero-byline {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 3px;
+      opacity: 0;
+      animation: fadeUp .5s ease .5s forwards;
+    }
+
+    .hero-date {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 12px;
+      color: rgba(255,255,255,.3);
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeUp .5s ease .55s forwards;
+    }
+
+    .hero-ornament {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 36px;
+      opacity: 0;
+      animation: fadeUp .5s ease .7s forwards;
+    }
+
+    .hero-ornament .orn-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #333, #333, transparent);
+    }
+
+    /* INTRO */
+    .intro-section {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 52px 24px 48px;
+    }
+
+    .intro-section p {
+      font-family: 'IBM Plex Sans', Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.82;
+      color: #222;
+      margin-bottom: 1.4em;
+    }
+
+    .intro-section p:first-child {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.15rem;
+      color: #111;
+      font-style: italic;
+      border-left: 3px solid var(--accent);
+      padding-left: 20px;
+      margin-left: -23px;
+    }
+
+    .intro-sep {
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+      margin: 0 0 1.6em;
+    }
+
+    /* STORIES SECTION */
+    .stories-section {
+      background: #f6f3ee;
+      padding: 56px 24px 64px;
+      border-top: 1px solid #e8e4dd;
+    }
+
+    .section-eyebrow {
+      max-width: 1080px;
+      margin: 0 auto 32px;
+    }
+
+    .section-eyebrow h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #aaa;
+      position: relative;
+      padding-bottom: 14px;
+    }
+
+    .section-eyebrow h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    /* CARD GRID — override shared .story-cards */
+    .story-cards {
+      max-width: 1080px;
+      margin: 0 auto;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .story-cards { grid-template-columns: 1fr; }
+    }
+
+    .story-card {
+      background: #fff;
+      border: 1px solid #e8e4dd;
+      border-left: 4px solid var(--accent);
+      padding: 28px 24px 22px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow .2s ease, border-left-color .2s ease, transform .2s ease;
+    }
+
+    .story-card:hover {
+      box-shadow: 0 6px 28px rgba(0,0,0,.1);
+      transform: translateY(-3px);
+    }
+
+    .story-card.card-blue  { border-left-color: var(--blue);   }
+    .story-card.card-gold  { border-left-color: var(--gold);   }
+    .story-card.card-green { border-left-color: var(--green);  }
+    .story-card.card-purple{ border-left-color: var(--purple); }
+
+    .story-card:hover.card-blue   { box-shadow: 0 6px 28px rgba(45,58,140,.12);   }
+    .story-card:hover.card-gold   { box-shadow: 0 6px 28px rgba(180,83,9,.1);     }
+    .story-card:hover.card-green  { box-shadow: 0 6px 28px rgba(22,163,74,.1);    }
+    .story-card:hover.card-purple { box-shadow: 0 6px 28px rgba(124,58,237,.1);   }
+
+    .story-card-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .card-blue  .story-card-label { color: var(--blue);   }
+    .card-gold  .story-card-label { color: var(--gold);   }
+    .card-green .story-card-label { color: var(--green);  }
+    .card-purple .story-card-label { color: var(--purple); }
+
+    .story-card-title {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.28;
+      color: #111;
+      margin-bottom: 12px;
+    }
+
+    .story-card-teaser {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #555;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid #f0ece6;
+    }
+
+    .card-read-time {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: .04em;
+    }
+
+    .card-arrow {
+      font-size: 14px;
+      color: var(--accent);
+      transition: transform .2s;
+      line-height: 1;
+    }
+
+    .card-blue   .card-arrow { color: var(--blue);   }
+    .card-gold   .card-arrow { color: var(--gold);   }
+    .card-green  .card-arrow { color: var(--green);  }
+    .card-purple .card-arrow { color: var(--purple); }
+
+    .story-card:hover .card-arrow { transform: translateX(5px); }
+
+    /* NUMBERS SECTION */
+    .numbers-section {
+      background: #0a0a0a;
+      padding: 64px 24px 72px;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    .numbers-eyebrow {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .numbers-eyebrow h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #444;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 14px;
+    }
+
+    .numbers-eyebrow h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 2px;
+      background: var(--blue);
+    }
+
+    /* override shared .stat-grid / .stat-card for landing page */
+    .numbers-section .stat-grid {
+      max-width: 860px;
+      margin: 0 auto;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      background: none;
+    }
+
+    @media (max-width: 560px) {
+      .numbers-section .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .numbers-section .stat-card {
+      background: transparent;
+      border: none;
+      border-top: 1px solid #1e1e1e;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .numbers-section .stat-number {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      color: var(--blue);
+      line-height: 1;
+      margin-bottom: 10px;
+      letter-spacing: -.02em;
+    }
+
+    .numbers-section .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: #0f0f0f;
+      border-top: 1px solid #1a1a1a;
+      padding: 36px 24px;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #3a3a3a;
+      margin-bottom: 12px;
+    }
+
+    .footer-link a {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 13px;
+      color: #666;
+      text-decoration: none;
+      transition: color .15s;
+    }
+
+    .footer-link a:hover { color: #bbb; }
+
+    .footer-copy {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 11px;
+      color: #2a2a2a;
+      margin-top: 14px;
+    }
+
+    /* KEYFRAMES */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    /* bump .scroll-fade delay slightly per card for stagger */
+    .story-cards .story-card:nth-child(1) { transition-delay: 0ms;   }
+    .story-cards .story-card:nth-child(2) { transition-delay: 60ms;  }
+    .story-cards .story-card:nth-child(3) { transition-delay: 120ms; }
+    .story-cards .story-card:nth-child(4) { transition-delay: 180ms; }
+    .story-cards .story-card:nth-child(5) { transition-delay: 240ms; }
+  </style>
+</head>
+<body>
+
+  <!-- sticky nav -->
+  <nav class="nav-bar">
+    <a href="index.html" class="nav-brand">TDS · P1</a>
+    <ul class="nav-links">
+      <li><a href="#stories">All Stories</a></li>
+      <li><a href="stories/social-infrastructure.html">Social Infrastructure</a></li>
+      <li><a href="stories/two-labor-markets.html">Two Labor Markets</a></li>
+      <li><a href="stories/endgame.html">Endgame</a></li>
+      <li><a href="stories/two-exams.html">Two Exams</a></li>
+      <li><a href="stories/model-playbook.html">Model Playbook</a></li>
+      <li><a href="gallery/index.html" class="nav-cta">Dashboard →</a></li>
+    </ul>
+  </nav>
+
+  <!-- hero section -->
+  <header class="site-hero">
+    <div class="hero-inner">
+      <p class="hero-kicker">TDS JAN 2026 · PROJECT 1 ANALYSIS</p>
+      <h1 class="hero-title">What 765 Students Taught Us About Learning, Hacking, and Everything In Between</h1>
+      <p class="hero-byline">By the TDS Analysis Team</p>
+      <p class="hero-date">March 2026</p>
+      <div class="hero-ornament">
+        <div class="orn-line"></div>
+        <svg width="72" height="10" viewBox="0 0 72 10" fill="none" aria-hidden="true">
+          <circle cx="5"  cy="5" r="2.2" fill="#333"/>
+          <circle cx="20" cy="5" r="1.4" fill="#2a2a2a"/>
+          <circle cx="36" cy="5" r="2.8" fill="#3a3a3a"/>
+          <circle cx="52" cy="5" r="1.4" fill="#2a2a2a"/>
+          <circle cx="67" cy="5" r="2.2" fill="#333"/>
+        </svg>
+        <div class="orn-line"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- intro paragraph -->
+  <section class="intro-section">
+    <p>"In January 2026, 765 students enrolled in a graduate course about AI tools. What followed was not quite an exam. It was closer to a social experiment — one that nobody designed on purpose."</p>
+    <div class="intro-sep"></div>
+    <p>The exam had twelve questions. Eleven of them measured skill. The twelfth — and this is the one nobody expected — measured whether you'd noticed that the first eleven had already been solved by someone else.</p>
+    <p>This is what 765 students, 9,046 saved submissions, and 1,731 evaluated AI images can tell you about how people learn when the answer is always one search away.</p>
+  </section>
+
+  <!-- 5 story cards grid -->
+  <section class="stories-section" id="stories">
+    <div class="section-eyebrow">
+      <h2>Five Stories</h2>
+    </div>
+    <div class="story-cards">
+
+      <a href="stories/social-infrastructure.html" class="story-card scroll-fade">
+        <span class="story-card-label">Social Dynamics</span>
+        <h3 class="story-card-title">The Exam That Became Infrastructure</h3>
+        <p class="story-card-teaser">By the 154th student to solve a puzzle, all 100 secret agent IDs were already public. Only 63 students ever contributed a new one.</p>
+        <div class="card-footer">
+          <span class="card-read-time">8 min read</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="stories/two-labor-markets.html" class="story-card card-blue scroll-fade">
+        <span class="story-card-label">Contribution Strategy</span>
+        <h3 class="story-card-title">Two Labor Markets</h3>
+        <p class="story-card-teaser">When a professor mentioned one repository in a discussion forum, 801 students redirected their contribution strategy in days. Merge probability beat public value.</p>
+        <div class="card-footer">
+          <span class="card-read-time">7 min read</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="stories/endgame.html" class="story-card card-gold scroll-fade">
+        <span class="story-card-label">Behavioral Archetypes</span>
+        <h3 class="story-card-title">Six Ways to End an Exam</h3>
+        <p class="story-card-teaser">55 students finished the exam — and then kept touching the dashboard until the final log made them look broken.</p>
+        <div class="card-footer">
+          <span class="card-read-time">9 min read</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="stories/two-exams.html" class="story-card card-green scroll-fade">
+        <span class="story-card-label">Skill Transfer</span>
+        <h3 class="story-card-title">There Were Two Exams</h3>
+        <p class="story-card-teaser">Among 419 complete portfolios, systems performance vs. image performance correlated at 0.020. The course had two nearly independent skill tests hiding inside one exam.</p>
+        <div class="card-footer">
+          <span class="card-read-time">6 min read</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="stories/model-playbook.html" class="story-card card-purple scroll-fade">
+        <span class="story-card-label">AI Tools</span>
+        <h3 class="story-card-title">The Model Playbook</h3>
+        <p class="story-card-teaser">DALL·E was wrong for emotional charts. Gemini won on paradox. Ideogram was the dark horse for affective abstraction. The data told a story the marketing never did.</p>
+        <div class="card-footer">
+          <span class="card-read-time">8 min read</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="gallery/index.html" class="story-card scroll-fade" style="border-left-color:#b45309;background:linear-gradient(135deg,#fffbf2 0%,#fff 100%)">
+        <span class="story-card-label" style="color:#b45309">Interactive Dashboard</span>
+        <h3 class="story-card-title">Image Gallery &amp; Scores</h3>
+        <p class="story-card-teaser">Browse every AI-generated image from 765 students across 4 creative briefs. See Gemini's dimension-by-dimension scores, compare prompts, explore what makes a chart exhibition-worthy.</p>
+        <div class="card-footer">
+          <span class="card-read-time">1,731 images · 4 questions</span>
+          <span class="card-arrow" style="color:#b45309">→</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- "The Numbers" stats section -->
+  <section class="numbers-section">
+    <div class="numbers-eyebrow">
+      <h2>The Numbers</h2>
+    </div>
+    <div class="stat-grid">
+
+      <div class="stat-card scroll-fade">
+        <span class="stat-number" data-count="765">0</span>
+        <span class="stat-label">Students Enrolled</span>
+      </div>
+
+      <div class="stat-card scroll-fade">
+        <span class="stat-number" data-count="9046">0</span>
+        <span class="stat-label">Saved Submissions</span>
+      </div>
+
+      <div class="stat-card scroll-fade">
+        <span class="stat-number" data-count="4115">0</span>
+        <span class="stat-label">Failed Saves</span>
+      </div>
+
+      <div class="stat-card scroll-fade">
+        <span class="stat-number" data-count="1731">0</span>
+        <span class="stat-label">Images Evaluated</span>
+      </div>
+
+      <div class="stat-card scroll-fade">
+        <span class="stat-number" data-count="80" data-suffix="%" data-exact="80.46%">0%</span>
+        <span class="stat-label">Used the Public Decoder</span>
+      </div>
+
+      <div class="stat-card scroll-fade">
+        <span class="stat-number" data-count="83" data-suffix="%" data-exact="83.2%">0%</span>
+        <span class="stat-label">Used Sink Repos Near Deadline</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-brand">TDS Jan 2026 · Project 1 Analysis</p>
+    <p class="footer-link"><a href="gallery/index.html">→ Interactive Scoring Dashboard</a></p>
+    <p class="footer-copy">© 2026 TDS Analysis Team · All rights reserved</p>
+  </footer>
+
+  <script type="module">
+    import { initAll } from './stories/shared.js';
+    document.addEventListener('DOMContentLoaded', () => {
+      initAll();
+      // Restore precise decimal values after count-up animation finishes
+      document.querySelectorAll('[data-exact]').forEach(el => {
+        const io = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) {
+            setTimeout(() => { el.textContent = el.dataset.exact; }, 1350);
+            io.disconnect();
+          }
+        }, { threshold: 0.5 });
+        io.observe(el);
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Six Ways to End an Exam · TDS Jan 2026</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    /* archetype cards */
+    .archetype-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin:2em 0}
+    .arch-card{border:1px solid var(--border);border-top:4px solid;padding:20px}
+    .arch-card-name{font-family:system-ui,sans-serif;font-size:12px;font-weight:700;
+      letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+    .arch-card-n{font-family:system-ui,sans-serif;font-size:12px;color:var(--muted);margin-bottom:12px}
+    .arch-card-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-bottom:12px}
+    .arch-stat{font-family:system-ui,sans-serif;font-size:11px;color:var(--muted)}
+    .arch-stat strong{display:block;font-size:13px;color:var(--text);font-weight:600;
+      font-family:system-ui,sans-serif}
+    .arch-story{font-style:italic;font-size:13px;line-height:1.55;
+      border-top:1px solid var(--border);padding-top:10px;margin-top:4px}
+    /* table row accent */
+    .row-good td:first-child{border-left:3px solid #2a9d5c}
+    .row-warn td:first-child{border-left:3px solid #d64045}
+    .row-mid  td:first-child{border-left:3px solid #b0b0b0}
+    /* funnel */
+    .funnel-bar{display:flex;align-items:center;margin-bottom:16px;gap:14px}
+    .funnel-label{font-family:system-ui,sans-serif;font-size:12px;color:var(--muted);
+      width:76px;text-align:right;flex-shrink:0}
+    .funnel-track{flex:1;background:var(--border);height:38px;border-radius:2px;overflow:hidden}
+    .funnel-fill{height:100%;border-radius:2px;display:flex;align-items:center;
+      justify-content:flex-end;padding-right:10px;width:0;
+      transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+    .funnel-fill span{font-family:system-ui,sans-serif;font-size:13px;font-weight:700;color:#fff}
+    /* play button */
+    .play-btn{font-family:system-ui,sans-serif;font-size:11px;font-weight:600;
+      text-transform:uppercase;letter-spacing:.08em;background:#fff;
+      border:1px solid var(--border);padding:6px 14px;cursor:pointer;
+      transition:background .15s}
+    .play-btn:hover{background:var(--light-bg)}
+    /* performance section */
+    .theory-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin:1.5em 0}
+    .theory-card{background:var(--light-bg,#f8f5f0);border-left:3px solid;padding:16px 20px}
+    .theory-name{font-family:system-ui,sans-serif;font-size:11px;font-weight:700;
+      text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .theory-text{font-size:13px;line-height:1.6;margin:0}
+    .takeaway-list{padding-left:1.5em;margin:.75em 0}
+    .takeaway-list li{margin-bottom:.65em;font-size:14px;line-height:1.6}
+    /* hero-to-body spacing */
+    .article-body { padding-top: 56px; }
+    /* section spacing */
+    .scroll-fade + h2, .scroll-fade + p { margin-top: 0; }
+    @media(max-width:768px){.archetype-grid{grid-template-columns:1fr}.theory-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <a class="nav-brand" href="../index.html">TDS · P1</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">← All Stories</a></li>
+    <li><a href="social-infrastructure.html">Social Infrastructure</a></li>
+    <li><a href="two-labor-markets.html">Two Labor Markets</a></li>
+    <li><a href="two-exams.html">Two Exams</a></li>
+    <li><a href="model-playbook.html">Model Playbook</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="article-hero">
+  <span class="hero-label">Behavioral Archetypes</span>
+  <h1 class="hero-title">Six Ways to End an Exam</h1>
+  <p class="hero-byline">TDS Jan 2026 · Project 1 Analysis</p>
+  <p class="hero-date">March 2026</p>
+</header>
+
+<!-- BODY -->
+<main class="article-body">
+
+  <p class="lead-para scroll-fade">At 11:47pm on March 30, 2026, a student refreshed their exam dashboard for what would not be the last time that night. They had already answered eleven questions correctly. They were, by any measure, done. But the exam's submission system had one more trap waiting.</p>
+
+  <!-- SECTION 1 -->
+  <div class="scroll-fade">
+    <span class="section-label">The Setup</span>
+    <h2>The Conventional Picture of Exam Failure Is Wrong</h2>
+  </div>
+
+  <p class="scroll-fade">The conventional picture of exam failure is someone who didn't study enough. The data from this exam tells a different story. 100 students ended the API trail on a failed save. But 80 of them already had an earlier valid submission somewhere in the system. They weren't failing — they were trapped.</p>
+
+  <!-- ANIMATED TIMELINE -->
+  <div class="chart-container scroll-fade" id="timeline-anim">
+    <span class="section-label">Animated Visualization</span>
+    <div class="chart-title">Six Paths Through the Final 24 Hours</div>
+    <svg id="timeline-svg" viewBox="0 0 700 310" width="100%"
+      aria-label="Animated timeline showing submission patterns for six student archetypes across the final 24 hours of the exam"></svg>
+    <div style="text-align:center;margin-top:10px">
+      <button class="play-btn" id="timeline-play">▶ Play Again</button>
+    </div>
+    <p class="chart-caption">Each dot is a submission attempt. Watch how different archetypes approach the final hours — from calm finishers to panicked patchers.</p>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="scroll-fade">
+    <span class="section-label">The Six Archetypes</span>
+    <h2>Not One Failure Mode. Six.</h2>
+    <p>When you cluster exam behavior by submission patterns, negative save counts, and final state, six distinct archetypes emerge. Each one tells a different story about what went wrong — and what went right.</p>
+  </div>
+
+  <div class="archetype-grid scroll-fade" id="archetype-cards"></div>
+
+  <!-- SECTION 3 -->
+  <div class="scroll-fade">
+    <span class="section-label">The Ghost Finisher Problem</span>
+    <h2>The Most Preventable Failure Mode</h2>
+    <p>The <span data-tooltip="Students who solved all questions correctly but whose final logged submission was invalid due to continued attempts after solving">Ghost Finisher</span> archetype is the most striking because it represents a completely avoidable outcome. These 55 students had done the hard part. Median solved questions: 11. They were, on any content-based metric, among the top performers. What trapped them was a loop: they submitted, got a validation error for reasons unrelated to their answers, submitted again, and the system logged the most recent attempt as their final state.</p>
+  </div>
+
+  <blockquote class="pull-quote scroll-fade">
+    "55 students did the hard part. The system's <span data-tooltip="The cycle where a student receives a validation error, submits again to fix it, receives another error, and continues — even when an earlier valid submission exists">validator loop</span> did the rest."
+  </blockquote>
+
+  <p class="scroll-fade">This is not a grading problem. It's a UX problem. The validator was right — each rejected submission had a technical error. But the student had no clear indication that their earlier valid submission was safe. So they kept trying to fix it. And each attempt made their API trail look more erratic.</p>
+
+  <!-- OVERVIEW TABLE -->
+  <div class="chart-container scroll-fade">
+    <span class="section-label">Archetype Overview</span>
+    <div class="chart-title">All Six Archetypes, Side by Side</div>
+    <div style="overflow-x:auto;margin-top:12px">
+      <table class="data-table">
+        <thead><tr>
+          <th>Archetype</th><th>N</th><th>Latest Invalid</th>
+          <th>Med. Solved</th><th>Med. Attempts</th><th>Saves / 24h</th><th>Neg / 24h</th>
+        </tr></thead>
+        <tbody id="archetype-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION: PERFORMANCE OUTCOMES -->
+  <div class="scroll-fade">
+    <span class="section-label">Performance Outcomes</span>
+    <h2>But Did It Matter?</h2>
+    <p>The most surprising finding is not which archetype did best. It's that the pattern of submission behavior was a poor predictor of final score — with one important exception.</p>
+  </div>
+
+  <p class="scroll-fade">Panic Patchers achieved median scores identical to Steady Finishers (8.0). The students who submitted 17 times in the last day and generated 8 failed saves did just as well, point-for-point, as the students who serenely submitted 0.3 times in that same window. The exam rewarded answers, not composure.</p>
+
+  <p class="scroll-fade">But Ghost Finishers are the exception that breaks the pattern. They solved a median of 10.25 questions — almost identical to Steady Finishers (10.34). Yet their median total score was 7.0, a full point lower. The culprit: their final visible submission was invalid. They had already done the work. The exam just couldn't see it.</p>
+
+  <div class="chart-container scroll-fade">
+    <span class="section-label">Chart · Median Score by Archetype</span>
+    <div class="chart-title">Behavior ≠ Performance (Except for Ghost Finishers)</div>
+    <div id="perf-chart" style="margin-top:16px"></div>
+    <p class="chart-caption">Ghost Finishers solved as many questions as Steady Finishers (10.25 vs 10.34) but scored a median point lower. Panic Patchers, despite 17 saves in the final day, matched the calmest students exactly.</p>
+  </div>
+
+  <div class="chart-container scroll-fade">
+    <span class="section-label">Data · Archetype Performance</span>
+    <div class="chart-title">Score vs. Solved Questions, Archetype by Archetype</div>
+    <div style="overflow-x:auto;margin-top:12px">
+      <table class="data-table">
+        <thead><tr>
+          <th>Archetype</th><th>N</th><th>Median Total Score</th>
+          <th>Mean Solved Qs</th><th>Final Submission</th>
+        </tr></thead>
+        <tbody id="perf-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="scroll-fade">
+    <span class="section-label">The Negative Save Taxonomy</span>
+    <h2>98.8% of Failed Saves Were Server Probe Attempts</h2>
+    <p>The course explicitly <a href="https://exam.sanand.workers.dev/tds-2026-01-p1" target="_blank" rel="noopener">encourages hacking</a>. Students are expected to probe the question servers, test edge cases, and try to extract answers through non-standard means. A <span data-tooltip="A save recorded as total:-1 in the server — logged when the server rejects an answer (invalid format, failed validation, score tampering, etc.). See the exam worker source.">negative save</span> is the server's receipt for these probing attempts: logged, counted, never rewarded. See the <a href="https://github.com/sanand0/exam" target="_blank" rel="noopener">exam worker source</a>. The breakdown shows that 98.8% of the 4,115 failed saves were the server catching and recording exactly what students were supposed to be trying.</p>
+  </div>
+
+  <div class="chart-container scroll-fade">
+    <span class="section-label">Chart · Negative Save Families</span>
+    <div class="chart-title">The Server Was Being Probed</div>
+    <div id="neg-save-chart" style="margin-top:16px"></div>
+    <p class="chart-caption">4,065 of 4,115 failed saves were server-validation rejections — students sending answers the question servers were designed to reject. <em>This is the intended behavior.</em> The remaining 50 were deadline submissions, score-tampering attempts, and auth failures.</p>
+  </div>
+
+  <div class="chart-container scroll-fade">
+    <span class="section-label">Chart · Deadline Compression</span>
+    <div class="chart-title">The Submission Spike</div>
+    <div id="funnel-chart" style="margin-top:20px;padding:0 8px"></div>
+    <p class="chart-caption">1 in 4 of all saves happened in the final 24 hours. The exam system was under maximum load when it was most likely to generate validation errors.</p>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="scroll-fade">
+    <span class="section-label">Implications</span>
+    <h2>Different Failure Modes Need Different Solutions</h2>
+    <p>Ghost Finishers don't need more study time. They need a clearer UI state that tells them: <em>your earlier submission is valid. You can stop now.</em> Deadline Sprinters don't need intervention — they completed successfully, just late. Panic Patchers need the same UX signal as Ghost Finishers, plus possibly a rate-limiter on submissions in the final hour. Long Grinders are the only cohort that needs content help.</p>
+  </div>
+
+  <blockquote class="pull-quote scroll-fade">
+    "The exam design created different failure modes. The solutions should be equally specific."
+  </blockquote>
+
+  <!-- SECTION: THEORIES -->
+  <div class="scroll-fade">
+    <span class="section-label">Theory</span>
+    <h2>What This Tells Us</h2>
+    <p>Behind each archetype is a different cognitive story — and each one maps onto decades of behavioral research. The archetypes aren't quirks of this particular exam. They're predictable patterns that emerge whenever high-stakes assessment meets deadline pressure.</p>
+  </div>
+
+  <div class="theory-grid scroll-fade">
+    <div class="theory-card" style="border-left-color:#d97706">
+      <div class="theory-name"><a href="https://en.wikipedia.org/wiki/Yerkes%E2%80%93Dodson_law" target="_blank" rel="noopener">Yerkes-Dodson Law</a></div>
+      <p class="theory-text">Panic Patchers show that extreme arousal doesn't necessarily harm performance — at least on this exam. The inverted-U might flatten for well-prepared students: once you know the material, even panic doesn't stop you.</p>
+    </div>
+    <div class="theory-card" style="border-left-color:#7b2d8b">
+      <div class="theory-name"><a href="https://en.wikipedia.org/wiki/Zeigarnik_effect" target="_blank" rel="noopener">Zeigarnik Effect</a></div>
+      <p class="theory-text">Ghost Finishers kept returning because the unfinished validator state created psychological tension. The exam UX exploited a known cognitive glitch — unresolved tasks demand attention even when there is nothing left to do.</p>
+    </div>
+    <div class="theory-card" style="border-left-color:#6b6b6b">
+      <div class="theory-name"><a href="https://en.wikipedia.org/wiki/Self-efficacy" target="_blank" rel="noopener">Self-Efficacy</a> (Bandura)</div>
+      <p class="theory-text">Long Grinders show low self-efficacy in action — not just low performance, but low persistence normalized to success. They attempted fewer questions and quit earlier, a pattern that compounds disadvantage beyond any content gap alone.</p>
+    </div>
+    <div class="theory-card" style="border-left-color:#d64045">
+      <div class="theory-name">Assessment Design Theory</div>
+      <p class="theory-text">The ghost-finisher problem is a known issue in high-stakes testing. Students who complete work but cannot properly submit should not receive a zero. The validator created an artificial ceiling for a group that had already demonstrated competence.</p>
+    </div>
+  </div>
+
+  <div class="scroll-fade">
+    <span class="section-label">Practical Takeaways · Educators</span>
+    <h2>If You Design Exams Like This</h2>
+    <ol class="takeaway-list">
+      <li><strong>A "latest failed save" is not a zero.</strong> Students who ended on a failed save after multiple valid submissions deserve score reconciliation. The most recent attempt is not necessarily the most representative one.</li>
+      <li><strong>Validator feedback should be immediate, specific, and non-blocking.</strong> A student who solved 11 questions should never end up with a score of 0 because of a submission UI loop. Show saved state clearly and persistently.</li>
+      <li><strong>Deadline compression is predictable and unavoidable.</strong> The 25.1% final-24h submission surge is not laziness — it's rational deadline optimization. Design systems to handle peak load without degrading validation quality at exactly the moment students can least afford errors.</li>
+    </ol>
+  </div>
+
+  <div class="scroll-fade">
+    <span class="section-label">Practical Takeaways · Students</span>
+    <h2>If You're Taking an Exam Like This</h2>
+    <ol class="takeaway-list">
+      <li><strong>If you've solved a question, submit early.</strong> Don't optimize the submission in the last hour. A valid save from earlier is worth more than a perfect-looking attempt that hits the validator at peak load.</li>
+      <li><strong>Panic Patchers had good outcomes, but their strategy was costly in stress.</strong> The calm student isn't smarter — they just stopped sooner. Knowing when to stop is itself a skill the exam rewards.</li>
+    </ol>
+  </div>
+
+</main>
+
+<footer style="background:var(--header-bg);color:rgba(255,255,255,0.45);text-align:center;
+  padding:24px 16px;font-family:system-ui,sans-serif;font-size:12px;letter-spacing:.04em">
+  TDS Jan 2026 · Project 1 Analysis
+</footer>
+
+<script type="module">
+import { initAll, createBarChart } from './shared.js';
+
+const archetypes = [
+  {
+    name: 'Steady Finishers', n: 90, color: '#2a9d5c',
+    latestInvalid: '0%', medSolved: 11, medAttempts: 41, savesPer24h: 0.28, negPer24h: 0.0,
+    story: 'They solved what needed solving, then stopped. Zero probe attempts. The only archetype that treated the validator as a boundary, not a challenge.'
+  },
+  {
+    name: 'Deadline Sprinters', n: 172, color: '#2d3a8c',
+    latestInvalid: '0%', medSolved: 9, medAttempts: 40, savesPer24h: 6.76, negPer24h: 2.28,
+    story: 'They left it late, but they got there. 6.76 saves per final 24h — active probing and submitting, but the latest answer stuck.'
+  },
+  {
+    name: 'Ghost Finishers', n: 55, color: '#7b2d8b',
+    latestInvalid: '100%', medSolved: 11, medAttempts: 79, savesPer24h: 5.8, negPer24h: 4.0,
+    story: 'They solved every question. Then kept probing. Their final submission was invalid — not because they were wrong, but because continued server-probing after a valid submission overwrote it.'
+  },
+  {
+    name: 'Panic Patchers', n: 21, color: '#d64045',
+    latestInvalid: '0%', medSolved: 11, medAttempts: 113, savesPer24h: 17.0, negPer24h: 8.19,
+    story: '17 saves per final 24 hours. 8 server probes per day. The most active hackers in the dataset — despite having already solved all 11 questions.'
+  },
+  {
+    name: 'Long Grinders', n: 5, color: '#6b6b6b',
+    latestInvalid: '60%', medSolved: 4, medAttempts: 46, savesPer24h: 6.0, negPer24h: 5.2,
+    story: 'The only cohort genuinely struggling with content. Fewer than half their questions solved, high invalid rate — not trapped by the system, challenged by the material.'
+  },
+  {
+    name: 'Other', n: 422, color: '#b0b0b0',
+    latestInvalid: '9.9%', medSolved: 7, medAttempts: 42, savesPer24h: 0.94, negPer24h: 0.41,
+    story: 'The broad middle — moderate activity, moderate success, occasional validator collisions. The median student experience.'
+  }
+];
+
+const negSaveFamilies = [
+  { family: 'server-validation', count: 4065, pct: 98.8 },
+  { family: 'deadline',          count: 28,   pct: 0.68 },
+  { family: 'score-mismatch',    count: 11,   pct: 0.27 },
+  { family: 'auth',              count: 7,    pct: 0.17 },
+  { family: 'exam-not-open',     count: 4,    pct: 0.10 },
+];
+
+const deadlineCompression = [
+  { window: 'Final 24h', pct: 25.1 },
+  { window: 'Final 6h',  pct: 16.9 },
+  { window: 'Final 1h',  pct: 6.7  },
+];
+
+// ── Archetype cards ────────────────────────────────────────────────────────
+function buildCards() {
+  document.getElementById('archetype-cards').innerHTML = archetypes.map(a => `
+    <div class="arch-card" style="border-top-color:${a.color}">
+      <div class="arch-card-name" style="color:${a.color}">${a.name}</div>
+      <div class="arch-card-n">N = ${a.n}</div>
+      <div class="arch-card-stats">
+        <div class="arch-stat"><strong>${a.latestInvalid}</strong>Latest Invalid</div>
+        <div class="arch-stat"><strong>${a.medSolved}</strong>Med. Solved</div>
+        <div class="arch-stat"><strong>${a.savesPer24h}</strong>Saves / 24h</div>
+        <div class="arch-stat"><strong>${a.negPer24h}</strong>Neg. / 24h</div>
+      </div>
+      <div class="arch-story">${a.story}</div>
+    </div>`).join('');
+}
+
+// ── Overview table ─────────────────────────────────────────────────────────
+function buildTable() {
+  const good = new Set(['Steady Finishers', 'Deadline Sprinters']);
+  const warn = new Set(['Ghost Finishers', 'Panic Patchers']);
+  const rowCls = a => warn.has(a.name) ? 'row-warn' : good.has(a.name) ? 'row-good' : 'row-mid';
+  document.getElementById('archetype-tbody').innerHTML = archetypes.map(a => `
+    <tr class="${rowCls(a)}">
+      <td style="font-weight:600;color:${a.color}">${a.name}</td>
+      <td>${a.n}</td><td>${a.latestInvalid}</td><td>${a.medSolved}</td>
+      <td>${a.medAttempts}</td><td>${a.savesPer24h}</td><td>${a.negPer24h}</td>
+    </tr>`).join('');
+}
+
+// ── Negative save horizontal bar chart ────────────────────────────────────
+function buildNegSaveChart() {
+  createBarChart(
+    document.getElementById('neg-save-chart'),
+    negSaveFamilies.map(d => ({
+      label: d.family,
+      value: d.pct,
+      color: d.family === 'server-validation' ? '#d64045' : '#c0c0c0',
+      tooltip: `${d.family}: ${d.count} failed saves (${d.pct}% of all negative saves)${d.family === 'server-validation' ? ' — students probing question servers with invalid/exploratory answers (intended behavior)' : d.family === 'score-mismatch' ? ' — students attempted to manually alter their scores' : d.family === 'auth' ? ' — invalid email or tampered signature' : ''}`,
+    })),
+    { horizontal: true, height: 220, unit: '%', maxValue: 120 }
+  );
+}
+
+// ── Deadline compression funnel ────────────────────────────────────────────
+function buildFunnel() {
+  const el = document.getElementById('funnel-chart');
+  const maxPct = deadlineCompression[0].pct;
+  const colors = ['#d64045', '#e76f51', '#f5c842'];
+  const funnelTips = [
+    `Final 24 hours: ${deadlineCompression[0].pct}% of all exam saves — deadline compression. The system was under maximum load at maximum risk.`,
+    `Final 6 hours: ${deadlineCompression[1].pct}% of all saves. Nearly 1 in 6 submissions crammed into the last 360 minutes.`,
+    `Final 1 hour: ${deadlineCompression[2].pct}% of all saves. The highest-stress window, highest validation error rate.`,
+  ];
+  el.innerHTML = deadlineCompression.map((d, i) => `
+    <div class="funnel-bar">
+      <div class="funnel-label">${d.window}</div>
+      <div class="funnel-track">
+        <div class="funnel-fill" data-w="${(d.pct / maxPct * 100).toFixed(1)}"
+          data-tooltip="${funnelTips[i]}"
+          style="background:${colors[i]}">
+          <span>${d.pct}%</span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  new IntersectionObserver((entries, io) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      el.querySelectorAll('.funnel-fill').forEach(f => { f.style.width = f.dataset.w + '%'; });
+      io.disconnect();
+    });
+  }, { threshold: 0.3 }).observe(el);
+}
+
+// ── Timeline SVG animation ─────────────────────────────────────────────────
+function buildTimeline() {
+  const svg = document.getElementById('timeline-svg');
+  const W = 700, H = 310;
+  const lx = 150;       // label right edge x
+  const xs = lx + 8;   // time axis start
+  const xe = W - 12;   // time axis end
+  const xw = xe - xs;  // time axis width
+
+  // row color here is for dot rendering (Panic Patchers uses amber to contrast invalid-red)
+  const rows = [
+    {
+      label: 'Steady Finishers', color: '#2a9d5c', cy: 42,
+      dots: [1, 3, 5, 7, 9, 12, 15].map(t => ({ t: t / 24, inv: false }))
+    },
+    {
+      label: 'Deadline Sprinters', color: '#2d3a8c', cy: 84,
+      dots: [17, 18.5, 19, 19.5, 20, 20.5, 21, 21.2, 21.8, 22.2, 22.7, 23, 23.3, 23.6, 23.8]
+            .map(t => ({ t: t / 24, inv: false }))
+    },
+    {
+      label: 'Ghost Finishers', color: '#7b2d8b', cy: 126,
+      dots: [
+        ...[2, 5, 8, 10, 12, 14, 16, 18, 20, 22, 23, 23.5].map(t => ({ t: t / 24, inv: false })),
+        { t: 23.85 / 24, inv: true }
+      ]
+    },
+    {
+      label: 'Panic Patchers', color: '#d97706', cy: 168,
+      dots: [0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5,
+             11.5, 12.5, 13.5, 14.5, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5, 21.5, 22.5, 23.5]
+            .map((t, i) => ({ t: t / 24, inv: i % 3 === 2 }))
+    },
+    {
+      label: 'Long Grinders', color: '#6b6b6b', cy: 210,
+      dots: [2, 5, 9, 12, 15, 18, 20, 22, 23]
+            .map((t, i) => ({ t: t / 24, inv: [2, 4, 7].includes(i) }))
+    },
+    {
+      label: 'Other', color: '#b0b0b0', cy: 252,
+      dots: [3, 7, 11, 15, 18, 21, 22.5, 23].map(t => ({ t: t / 24, inv: false }))
+    },
+  ];
+
+  const xOf = t => xs + t * xw;
+
+  let s = '';
+
+  // Alternating row bands
+  rows.forEach((r, i) => {
+    if (i % 2 === 0) {
+      s += `<rect x="0" y="${r.cy - 20}" width="${W}" height="40" fill="#f8f5f0" opacity=".55"/>`;
+    }
+  });
+
+  // Vertical grid lines + time labels
+  [0, 6, 12, 18, 24].forEach(h => {
+    const x = xOf(h / 24).toFixed(1);
+    s += `<line x1="${x}" y1="22" x2="${x}" y2="${H - 32}" stroke="#e8e4dd" stroke-width="1"/>`;
+    s += `<text x="${x}" y="${H - 15}" text-anchor="middle" font-family="system-ui" font-size="10" fill="#999">${h}h</text>`;
+  });
+
+  // Row labels + centre track lines
+  rows.forEach(r => {
+    s += `<text x="${lx - 3}" y="${r.cy}" text-anchor="end" dominant-baseline="middle"
+      font-family="system-ui" font-size="10" font-weight="600" fill="${r.color}">${r.label}</text>`;
+    s += `<line x1="${xs}" y1="${r.cy}" x2="${xe}" y2="${r.cy}"
+      stroke="${r.color}" stroke-width=".4" stroke-dasharray="3,5" opacity=".3"/>`;
+  });
+
+  // Dot elements (hidden initially)
+  const allDots = [];
+  rows.forEach((r, ri) => {
+    r.dots.forEach((d, di) => {
+      const id = `tl-${ri}-${di}`;
+      const cx = xOf(d.t).toFixed(1);
+      const fill = d.inv ? '#d64045' : r.color;
+      const r2 = d.inv ? 5 : 3.5;
+      const stroke = d.inv ? ' stroke="#fff" stroke-width="1.5"' : '';
+      s += `<circle id="${id}" cx="${cx}" cy="${r.cy}" r="${r2}" fill="${fill}"${stroke} opacity="0"/>`;
+      allDots.push({ id, t: d.t });
+    });
+  });
+
+  // Animated sweep line
+  s += `<line id="tl-sweep" x1="${xs}" y1="22" x2="${xs}" y2="${H - 32}"
+    stroke="#d64045" stroke-width="1.5" stroke-dasharray="4,3" opacity="0"/>`;
+
+  svg.innerHTML = s;
+
+  let rafId = null;
+
+  function play() {
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    allDots.forEach(d => {
+      const el = svg.querySelector('#' + d.id);
+      if (el) el.setAttribute('opacity', '0');
+    });
+    const sweep = svg.querySelector('#tl-sweep');
+    if (sweep) sweep.setAttribute('opacity', '.5');
+    const t0 = performance.now();
+    const dur = 3200;
+
+    function step(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      if (sweep) {
+        const sx = (xs + p * xw).toFixed(1);
+        sweep.setAttribute('x1', sx);
+        sweep.setAttribute('x2', sx);
+      }
+      allDots.forEach(d => {
+        if (d.t <= p) {
+          const el = svg.querySelector('#' + d.id);
+          if (el && el.getAttribute('opacity') === '0') el.setAttribute('opacity', '1');
+        }
+      });
+      if (p < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        if (sweep) sweep.setAttribute('opacity', '0');
+      }
+    }
+    rafId = requestAnimationFrame(step);
+  }
+
+  // Auto-play on first scroll into view
+  new IntersectionObserver((entries, io) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      setTimeout(play, 500);
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.25 }).observe(document.getElementById('timeline-anim'));
+
+  document.getElementById('timeline-play').addEventListener('click', play);
+}
+
+const perfData = [
+  { name: 'Steady Finishers',   n: 90,  medScore: 8.0, meanSolved: 10.34, finalState: '0% invalid',   color: '#2a9d5c' },
+  { name: 'Panic Patchers',     n: 21,  medScore: 8.0, meanSolved: 10.86, finalState: '0% invalid',   color: '#d64045' },
+  { name: 'Ghost Finishers',    n: 51,  medScore: 7.0, meanSolved: 10.25, finalState: '100% invalid', color: '#7b2d8b' },
+  { name: 'Deadline Sprinters', n: 172, medScore: 7.0, meanSolved: 8.59,  finalState: '0% invalid',   color: '#2d3a8c' },
+  { name: 'Other',              n: 406, medScore: 7.0, meanSolved: 7.51,  finalState: 'Mixed',         color: '#b0b0b0' },
+  { name: 'Long Grinders',      n: 5,   medScore: 3.0, meanSolved: 4.00,  finalState: '60% invalid',  color: '#6b6b6b' },
+];
+
+// ── Performance bar chart ──────────────────────────────────────────────────
+function buildPerfChart() {
+  createBarChart(
+    document.getElementById('perf-chart'),
+    perfData.map(d => ({
+      label: d.name, value: d.medScore, color: d.color,
+      tooltip: `${d.name} (n=${d.n}): median score ${d.medScore.toFixed(1)}, mean solved ${d.meanSolved} questions. Final state: ${d.finalState}.`,
+    })),
+    { horizontal: true, height: 260, unit: '', maxValue: 10 }
+  );
+}
+
+// ── Performance table ──────────────────────────────────────────────────────
+function buildPerfTable() {
+  const ghostNames = new Set(['Ghost Finishers', 'Long Grinders']);
+  document.getElementById('perf-tbody').innerHTML = perfData.map(d => {
+    const cls = ghostNames.has(d.name) ? 'row-warn' : (d.medScore >= 8 ? 'row-good' : 'row-mid');
+    return `<tr class="${cls}">
+      <td style="font-weight:600;color:${d.color}">${d.name}</td>
+      <td>${d.n}</td>
+      <td><strong>${d.medScore.toFixed(1)}</strong></td>
+      <td>${d.meanSolved.toFixed(2)}</td>
+      <td>${d.finalState}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Boot ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildCards();
+  buildTable();
+  buildNegSaveChart();
+  buildFunnel();
+  buildTimeline();
+  buildPerfChart();
+  buildPerfTable();
+  initAll();
+});
+</script>
+</body>
+</html>

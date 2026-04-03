@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TDS 2026-01 P1 · AI Image Scores</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%232563eb' width='64' height='64' rx='10'/%3E%3Ctext x='32' y='38' text-anchor='middle' dominant-baseline='middle' font-size='36'%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
+<script type="importmap">{"imports":{"d3":"https://cdn.jsdelivr.net/npm/d3@7/+esm"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* ── CSS vars & fonts ── */
+:root {
+  --q0: #2563eb; --q1: #7c3aed; --q2: #d97706; --q3: #059669;
+  --q0-bg: #eff6ff; --q1-bg: #f5f3ff; --q2-bg: #fffbeb; --q3-bg: #ecfdf5;
+  --ink: #111; --muted: #666; --rule: #e2e8f0; --red: #be0000;
+}
+
+/* ── Page ── */
+body {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  background: #fff; color: var(--ink);
+}
+
+/* ═══════════════════════════════════════════════════
+   NYT DATA STORY — editorial chrome outside the table
+   ═══════════════════════════════════════════════════ */
+.nyt-header {
+  max-width: 700px;
+  padding: 2rem 0 1.5rem;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1.5rem;
+}
+.nyt-kicker {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .72em; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--red);
+  margin-bottom: .4rem;
+}
+h1.nyt-headline {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+  font-weight: 700; line-height: 1.18; color: var(--ink);
+  margin: 0 0 .65rem;
+}
+.nyt-deck {
+  font-size: 1.05em; color: #444; line-height: 1.65; margin: 0 0 .9rem;
+}
+.nyt-byline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .84em; color: var(--muted); letter-spacing: .02em;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .7rem;
+  border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;
+  padding: .45rem 0; margin-bottom: .7rem;
+}
+.nyt-byline a { color: var(--red); text-decoration: none; }
+.nyt-byline a:hover { text-decoration: underline; }
+.nyt-byline-sep { color: #bbb; }
+.nyt-hint { font-size: .8em; color: #999; font-style: italic; }
+
+/* ── Question pills ── */
+.q-pills { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-bottom: 1.5rem; }
+.q-pills-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .69em; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: #aaa;
+}
+.q-pill {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .85em; font-weight: 600; letter-spacing: .03em;
+  padding: .22rem .65rem; border-radius: 3px; cursor: pointer;
+  border: 1.5px solid currentColor; background: transparent;
+  transition: background .12s;
+}
+.q-pill:hover { opacity: .8; }
+.q-pill-0 { color: var(--q0); } .q-pill-0:hover { background: var(--q0-bg); }
+.q-pill-1 { color: var(--q1); } .q-pill-1:hover { background: var(--q1-bg); }
+.q-pill-2 { color: var(--q2); } .q-pill-2:hover { background: var(--q2-bg); }
+.q-pill-3 { color: var(--q3); } .q-pill-3:hover { background: var(--q3-bg); }
+
+/* ── Key numbers row ── */
+.nyt-numbers {
+  display: flex; flex-wrap: wrap; gap: 0;
+  border-top: 2.5px solid var(--ink); border-bottom: 1px solid #ddd;
+  margin-bottom: 1.25rem;
+}
+.nyt-number {
+  padding: .55rem 1.3rem; border-right: 1px solid var(--rule); text-align: center;
+}
+.nyt-number:last-child { border-right: none; }
+.nyt-number-val {
+  display: block;
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 1.45em; font-weight: 700; color: var(--ink); line-height: 1.1;
+}
+.nyt-number-lbl {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .68em; letter-spacing: .1em; text-transform: uppercase; color: #999;
+  margin-top: .12rem;
+}
+
+/* ── Section rule ── */
+.nyt-rule { border-top: 2.5px solid var(--ink); padding-top: .5rem; margin-top: 3rem; margin-bottom: 1rem; }
+.nyt-rule-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .7em; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--red); margin-bottom: .75rem;
+}
+
+/* ── Footer ── */
+.nyt-footer { border-top: 1px solid var(--rule); padding-top: 1rem; margin-top: 1rem; margin-bottom: 2rem; }
+
+/* ═══════════════════════════════════════════════════
+   STICKY TWO-ROW TABLE HEADER
+   ═══════════════════════════════════════════════════ */
+table { border-collapse: separate; border-spacing: 0; }
+thead th {
+  position: sticky; background: #f8f9fa; z-index: 2;
+  border-bottom: 2px solid #cbd5e1 !important; white-space: nowrap;
+  font-size: .78em; letter-spacing: .02em;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+}
+thead tr:first-child th { top: 0; }
+thead tr:last-child  th { top: var(--th1-h, 33px); }
+
+/* Question group color bands */
+.q-grp[data-qi="0"] { background: var(--q0-bg) !important; color: var(--q0); border-bottom-color: var(--q0) !important; }
+.q-grp[data-qi="1"] { background: var(--q1-bg) !important; color: var(--q1); border-bottom-color: var(--q1) !important; }
+.q-grp[data-qi="2"] { background: var(--q2-bg) !important; color: var(--q2); border-bottom-color: var(--q2) !important; }
+.q-grp[data-qi="3"] { background: var(--q3-bg) !important; color: var(--q3); border-bottom-color: var(--q3) !important; }
+.q-grp:hover { filter: brightness(.95); }
+.th-q0 { border-top: 2px solid var(--q0) !important; }
+.th-q1 { border-top: 2px solid var(--q1) !important; }
+.th-q2 { border-top: 2px solid var(--q2) !important; }
+.th-q3 { border-top: 2px solid var(--q3) !important; }
+
+.table-wrap { overflow: auto; max-height: 65vh; border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+
+/* Score cells */
+.sc {
+  text-align: center; font-size: .8em; font-variant-numeric: tabular-nums;
+  cursor: pointer; padding: 3px 4px !important;
+}
+.sc:hover { filter: brightness(.85); }
+.sc.overall { font-weight: 700; font-size: .85em; border-left: 2px solid var(--rule) !important; }
+.sc.gap  { background: #fef9c3 !important; color: #713f12 !important; }
+.sc.err  { background: #fee2e2 !important; color: #7f1d1d !important; }
+
+/* Fixed columns */
+.col-id   { min-width: 128px; cursor: pointer; font-size: .82em; font-family: 'IBM Plex Mono', monospace; }
+.col-id:hover { color: var(--q0); text-decoration: underline; }
+.col-time { min-width: 92px; font-size: .75em; color: #64748b; white-space: nowrap; }
+.col-tot, .col-norm { min-width: 52px; text-align: center; font-weight: 700; font-size: .85em; }
+.col-norm { color: #475569; }
+
+/* Sort indicators */
+th[data-sort] { cursor: pointer; user-select: none; }
+th[data-sort]:hover  { background: #e2e8f0 !important; }
+th.sort-asc::after  { content: " ↑"; opacity: .6; }
+th.sort-desc::after { content: " ↓"; opacity: .6; }
+
+.q-grp { text-align: center; cursor: pointer; font-weight: 700; letter-spacing: .02em; }
+
+/* ═══════════════════════════════════════════════════
+   DIALOGS & POPUPS
+   ═══════════════════════════════════════════════════ */
+dialog {
+  border: none; border-radius: 12px;
+  box-shadow: 0 28px 80px -8px rgba(0,0,0,.38), 0 0 0 1px rgba(0,0,0,.08);
+  padding: 0; max-width: min(96vw, 1100px); width: min(96vw, 1100px);
+  max-height: 92vh; overflow: auto;
+}
+#d-img, #d-eval, #d-q { width: auto; max-width: min(96vw, 760px); }
+dialog::backdrop { background: rgba(15,23,42,.6); backdrop-filter: blur(4px); }
+.dlg-head {
+  padding: .65rem 1.1rem; border-bottom: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: center;
+  position: sticky; top: 0; background: #fff; z-index: 10; gap: .5rem;
+  font-family: 'Barlow Condensed', sans-serif; font-size: .9em; letter-spacing: .02em;
+}
+.dlg-body { padding: 1.1rem; }
+
+/* Thumbnails */
+.thumb-lg {
+  max-width: 640px; width: 100%; border-radius: 8px; display: block;
+  cursor: pointer; border: 1px solid var(--rule); margin: 0 auto;
+}
+.thumb-sm {
+  width: 100%; max-width: 180px; border-radius: 6px; display: block; cursor: pointer;
+}
+.thumb-wrap { display: flex; justify-content: center; }
+
+/* Score badge */
+.score-big {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 2.4em; font-weight: 700; line-height: 1; letter-spacing: -.02em;
+}
+
+/* Dimension table */
+.dim-table { font-size: .82em; }
+.dim-table td, .dim-table th { padding: .35rem .5rem !important; vertical-align: top; }
+.dim-score-cell { text-align: center; font-weight: 700; min-width: 42px; border-radius: 4px; }
+.dim-rank-cell  { text-align: center; font-size: .75em; color: #64748b; min-width: 42px; }
+.dim-norm-cell  { text-align: center; font-size: .8em; min-width: 46px; }
+
+/* Info pills */
+.info-pill {
+  display: inline-flex; align-items: center; gap: .25rem;
+  font-size: .78em; padding: .2rem .55rem; border-radius: 999px;
+  background: #f1f5f9; border: 1px solid var(--rule); white-space: nowrap;
+}
+
+/* Distribution chart */
+.dist-chart-wrap { display: flex; justify-content: center; padding: .5rem 0 .25rem; }
+.dist-svg text { fill: #555; }
+
+/* Submission info */
+.sub-key { color: #94a3b8; font-size: .72em; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
+.sub-val { font-size: .85em; line-height: 1.45; }
+
+/* Popup section card */
+.popup-section { background: #f8fafc; border: 1px solid var(--rule); border-radius: 8px; padding: .75rem; }
+</style>
+</head>
+<body>
+<div class="container-fluid py-3 px-4 px-xl-5">
+
+  <!-- NYT editorial header -->
+  <header class="nyt-header">
+    <div class="nyt-kicker">Data Report &ensp;·&ensp; Tools in Data Science &ensp;·&ensp; Jan 2026</div>
+    <h1 class="nyt-headline">How 539 Students Generated AI&nbsp;Art<br>— and How We Graded It</h1>
+    <p class="nyt-deck">
+      Four creative challenges. Five evaluation dimensions. One AI judge.
+      Students used image-generation models for tasks ranging from emotionally charged charts
+      to style-transplanted artworks. Every submission was scored by Gemini&nbsp;3.1&nbsp;Pro on
+      five criteria, each 0–10.
+    </p>
+    <div class="nyt-byline">
+      <span>Evaluated by <strong>Gemini 3.1 Pro</strong></span>
+      <span class="nyt-byline-sep">·</span>
+      <a href="https://exam.sanand.workers.dev/tds-2026-01-p1" target="_blank" rel="noopener">TDS Jan 2026 Project 1</a>
+      <span class="nyt-byline-sep">·</span>
+      <span>Scores: 0–10 scale &ensp;·&ensp; 5 dimensions per question</span>
+    </div>
+    <div class="nyt-hint">
+      <strong>Click any cell</strong> for details &ensp;·&ensp;
+      <strong>Click column headers</strong> to sort &ensp;·&ensp;
+      Arrow keys navigate open popups
+    </div>
+  </header>
+
+  <!-- Question pills -->
+  <div class="q-pills">
+    <span class="q-pills-label">Questions</span>
+    <div id="q-list" class="d-flex flex-wrap gap-2"></div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="py-5 text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+    <div class="mt-2 text-muted small">Loading summary.json…</div>
+  </div>
+
+  <!-- Main app (hidden until data loads) -->
+  <div id="app" class="d-none">
+
+    <!-- Key numbers -->
+    <div class="nyt-numbers mb-4" id="stats"></div>
+
+    <!-- Table -->
+    <div class="table-wrap" id="table-wrap">
+      <table class="table table-sm table-hover mb-0" id="scores-table">
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="text-muted small mt-1" id="tfoot-info"></div>
+
+    <!-- Score distributions -->
+    <div class="nyt-rule">
+      <div class="nyt-rule-label">Score Distributions</div>
+    </div>
+    <div class="d-flex flex-wrap gap-4 align-items-end" id="charts"></div>
+
+    <!-- Eval footer -->
+    <div class="nyt-footer">
+      <p class="text-muted small mb-0">
+        Evaluated by <strong id="model-name"></strong> ·
+        Images scaled to ≤768×768 px · Scores: 5.0 = competent, 9.0+ = exceptional.
+        <button class="btn btn-sm btn-link p-0 ms-2" id="eval-btn">See evaluation details →</button>
+      </p>
+    </div>
+
+  </div>
+
+</div><!-- /container -->
+
+<!-- ── Question info dialog ── -->
+<dialog id="d-q">
+  <div class="dlg-head">
+    <strong id="d-q-title"></strong>
+    <button class="btn-close" onclick="closeDialog('d-q')"></button>
+  </div>
+  <div class="dlg-body" id="d-q-body"></div>
+</dialog>
+
+<!-- ── Score popup dialog ── -->
+<dialog id="d-score">
+  <div class="dlg-head">
+    <span id="d-score-title" class="fw-semibold flex-grow-1 small"></span>
+    <span class="text-muted" style="font-size:.75em;white-space:nowrap">← → cols · ↑ ↓ students</span>
+    <button class="btn-close ms-2" onclick="closeDialog('d-score')"></button>
+  </div>
+  <div class="dlg-body" id="d-score-body"></div>
+</dialog>
+
+<!-- ── Full-size image dialog ── -->
+<dialog id="d-img">
+  <div class="dlg-head">
+    <span class="small text-muted">Full size image</span>
+    <button class="btn-close" onclick="closeDialog('d-img')"></button>
+  </div>
+  <div class="p-2 text-center">
+    <img id="d-img-el" src="" style="max-width:100%;max-height:84vh;border-radius:8px" loading="lazy">
+  </div>
+</dialog>
+
+<!-- ── Evaluation details dialog ── -->
+<dialog id="d-eval">
+  <div class="dlg-head">
+    <strong>Evaluation Details</strong>
+    <button class="btn-close" onclick="closeDialog('d-eval')"></button>
+  </div>
+  <div class="dlg-body" id="d-eval-body" style="max-width:700px"></div>
+</dialog>
+
+<script type="module">
+import * as d3 from "d3";
+
+// ── Constants ────────────────────────────────────────────────────────────────
+const EXAM    = "https://exam.sanand.workers.dev/tds-2026-01-p1";
+const RELEASE = "https://github.com/sanand0/datastories/releases/download";
+const Qs = [
+  "q-generate-affective-chart",
+  "q-generate-concept-incarnation",
+  "q-generate-paradox-portrait",
+  "q-generate-style-transplant",
+];
+const ERR = new Set(["image-fetch-error","json-fetch-error","image-metadata-error","invalid-answer-format"]);
+
+// ── State ────────────────────────────────────────────────────────────────────
+let data, students = [], byUser = new Map();
+let sortKey = "total", sortDir = "desc";
+// popup: { type:"id"|"overall"|"sub", user, qi, di }  qi=question idx, di=dim idx (-1=overall)
+let popup = null;
+let popSt = 0, popQi = 0, popDi = -1;
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtDim  = s => s.replace(/_/g," ").replace(/\b\w/g, c => c.toUpperCase());
+const fmtTime = ms => ms ? new Date(ms).toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}) : "—";
+
+const colorScale = d3.scaleSequential(d3.interpolateRdYlGn).domain([0, 10]);
+function scoreColor(v) { return v == null ? "#f0f0f0" : colorScale(v); }
+function scoreTextColor(v) { return v == null ? "" : (v < 3.5 || v > 7) ? "white" : ""; }
+
+function getScore(st, qi)      { const r = st.byQ[qi]; return r?.status === "ok" ? (r.response?.overall_score ?? null) : null; }
+function getDimScore(st, qi, di){ const r = st.byQ[qi]; if (!r || r.status !== "ok") return null; return r.response?.scores?.[data.questions[Qs[qi]].score_dimensions[di]]?.score ?? null; }
+function getTotal(st)          { return Qs.reduce((s, _, i) => s + (getScore(st, i) ?? 0), 0) * 0.075; }
+function releaseUrl(user, id, q, ext) { return `${RELEASE}/tds-2026-01-p1_${q}/${user}--submission-${id}.${ext}`; }
+function maxTime(st) { return Math.max(0, ...Object.values(st.byQ).map(r => r.time || 0)); }
+
+// ── Normalization (z-scores per question overall) ────────────────────────────
+let normStats = {}; // qi → { mean, std, dimStats: { dimName → { mean, std } } }
+
+function computeNormStats() {
+  Qs.forEach((qid, qi) => {
+    const vals = students.map(s => getScore(s, qi)).filter(v => v != null);
+    const mean = d3.mean(vals) ?? 0;
+    const std  = d3.deviation(vals) || 1;
+    const dimStats = {};
+    data.questions[qid].score_dimensions.forEach(dim => {
+      const dv   = students.map(s => getDimScore(s, qi, data.questions[qid].score_dimensions.indexOf(dim))).filter(v => v != null);
+      dimStats[dim] = { mean: d3.mean(dv) ?? 0, std: d3.deviation(dv) || 1 };
+    });
+    normStats[qi] = { mean, std, dimStats };
+  });
+}
+
+function zScore(v, mean, std) { return (v - mean) / std; }
+function getNormScore(st, qi) {
+  const v = getScore(st, qi);
+  if (v == null) return null;
+  const { mean, std } = normStats[qi];
+  return zScore(v, mean, std);
+}
+function getNormTotal(st) {
+  return Qs.reduce((s, _, i) => s + (getNormScore(st, i) ?? 0), 0);
+}
+// Rank of a score within an array (1 = best, higher is worse)
+function scoreRank(val, allVals) { return allVals.filter(v => v > val).length + 1; }
+
+// ── Build student index ──────────────────────────────────────────────────────
+function buildStudents(results) {
+  const map = new Map();
+  for (const r of results) {
+    if (!map.has(r.user)) map.set(r.user, { user: r.user, email: r.email, byQ: {} });
+    const st = map.get(r.user);
+    if (r.email) st.email = r.email;
+    st.byQ[Qs.indexOf(r.question)] = r;
+  }
+  return [...map.values()];
+}
+
+// ── Sort ─────────────────────────────────────────────────────────────────────
+function sortStudents() {
+  students.sort((a, b) => {
+    let va, vb;
+    if (sortKey === "id")    { va = (a.email||a.user).toLowerCase(); vb = (b.email||b.user).toLowerCase(); }
+    else if (sortKey === "time")  { va = maxTime(a); vb = maxTime(b); }
+    else if (sortKey === "total") { va = getTotal(a); vb = getTotal(b); }
+    else if (sortKey === "norm")  { va = getNormTotal(a); vb = getNormTotal(b); }
+    else { // "qi:o" or "qi:di"
+      const [qiS, what] = sortKey.split(":");
+      va = what === "o" ? (getScore(a, +qiS) ?? -1) : (getDimScore(a, +qiS, +what) ?? -1);
+      vb = what === "o" ? (getScore(b, +qiS) ?? -1) : (getDimScore(b, +qiS, +what) ?? -1);
+    }
+    const c = typeof va === "string" ? va.localeCompare(vb) : va - vb;
+    return sortDir === "asc" ? c : -c;
+  });
+}
+
+// ── Render header ────────────────────────────────────────────────────────────
+function renderHeader() {
+  const thead = $("#thead");
+  if (thead.childElementCount) return; // idempotent
+
+  const mkTh = (html, attrs = {}, title = "") => {
+    const th = document.createElement("th");
+    th.innerHTML = html;
+    if (title) th.title = title;
+    for (const [k, v] of Object.entries(attrs)) th.setAttribute(k, v);
+    return th;
+  };
+
+  // Row 1
+  const tr1 = document.createElement("tr");
+  tr1.append(
+    mkTh("ID",    { rowspan:2, class:"col-id",   "data-sort":"id"   }, "Student ID (email if shared, else anonymous hash)"),
+    mkTh("Time",  { rowspan:2, class:"col-time",  "data-sort":"time" }, "Latest submission time before deadline"),
+  );
+  Qs.forEach((qid, qi) => {
+    const q = data.questions[qid];
+    tr1.append(mkTh(q.label, { colspan:6, class:"q-grp", "data-qi":qi }, "Click for question details"));
+  });
+  tr1.append(mkTh("Total", { rowspan:2, class:"col-tot", "data-sort":"total" }, "0.75 × (score ÷ 10) per question, summed over 4 questions. Max = 3.0 (all tens), min = 0."));
+  tr1.append(mkTh("Norm", { rowspan:2, class:"col-norm", "data-sort":"norm" }, "Sum of 4 z-scores (normalized to N(0,1) per question). Higher = relatively stronger performer."));
+  thead.append(tr1);
+
+  // Row 2 — sub-columns
+  const tr2 = document.createElement("tr");
+  Qs.forEach((qid, qi) => {
+    const q = data.questions[qid];
+    const thO = mkTh("#", { "data-sort":`${qi}:o`, class:"sc overall" }, "Overall score (0–10)");
+    tr2.append(thO);
+    q.score_dimensions.forEach((dim, di) => {
+      tr2.append(mkTh(String(di+1), { "data-sort":`${qi}:${di}`, class:"sc" }, fmtDim(dim)));
+    });
+  });
+  thead.append(tr2);
+
+  // Sort click handlers
+  thead.querySelectorAll("[data-sort]").forEach(th => {
+    th.addEventListener("click", () => {
+      const k = th.getAttribute("data-sort");
+      sortDir = sortKey === k ? (sortDir === "asc" ? "desc" : "asc") : (k === "id" ? "asc" : "desc");
+      sortKey = k;
+      renderBody();
+      updateSortUI();
+      saveState();
+    });
+  });
+
+  // Question header click → question info popup
+  thead.querySelectorAll("[data-qi]").forEach(th => {
+    th.addEventListener("click", () => showQDialog(+th.dataset.qi));
+  });
+
+  // Compute sticky top for row 2 after first paint
+  requestAnimationFrame(() => {
+    const h = tr1.getBoundingClientRect().height;
+    document.documentElement.style.setProperty("--th1-h", h + "px");
+  });
+}
+
+// ── Render body ──────────────────────────────────────────────────────────────
+function renderBody() {
+  sortStudents();
+  const tbody = $("#tbody");
+  tbody.innerHTML = "";
+  for (const st of students) tbody.append(buildRow(st));
+}
+
+function buildRow(st) {
+  const tr = document.createElement("tr");
+  tr.dataset.u = st.user;
+
+  // ID cell
+  const tdId = document.createElement("td");
+  tdId.className = "col-id";
+  tdId.textContent = st.email || st.user;
+  tdId.title = "Click to see all 4 submissions";
+  tdId.addEventListener("click", () => openPopupFn({ type:"id", user:st.user, qi:0, di:-1 }));
+  tr.append(tdId);
+
+  // Time cell
+  const tdT = document.createElement("td");
+  tdT.className = "col-time";
+  tdT.textContent = fmtTime(maxTime(st) || null);
+  tr.append(tdT);
+
+  // Score cells per question
+  Qs.forEach((qid, qi) => {
+    const r   = st.byQ[qi];
+    const isOk  = r?.status === "ok";
+    const isErr = ERR.has(r?.status);
+
+    // Overall score
+    const tdO = document.createElement("td");
+    tdO.className = "sc overall" + (isOk ? "" : isErr ? " err" : " gap");
+    if (isOk) {
+      const v = r.response?.overall_score;
+      if (v != null) { tdO.textContent = v.toFixed(1); tdO.style.background = scoreColor(v); tdO.style.color = scoreTextColor(v); }
+      else tdO.textContent = "—";
+    } else {
+      tdO.textContent = isErr ? "✕" : "—";
+      tdO.title = r?.status_detail || "No submission";
+    }
+    tdO.addEventListener("click", () => openPopupFn({ type:"overall", user:st.user, qi, di:-1 }));
+    tr.append(tdO);
+
+    // Dimension scores
+    data.questions[qid].score_dimensions.forEach((dim, di) => {
+      const td = document.createElement("td");
+      if (isOk) {
+        td.className = "sc";
+        const v = r.response?.scores?.[dim]?.score;
+        if (v != null) { td.textContent = v.toFixed(1); td.style.background = scoreColor(v); td.style.color = scoreTextColor(v); }
+        else td.textContent = "—";
+      } else {
+        td.className = "sc" + (isErr ? " err" : " gap");
+      }
+      td.addEventListener("click", () => {
+        if (!isOk) return openPopupFn({ type:"overall", user:st.user, qi, di:-1 });
+        openPopupFn({ type:"sub", user:st.user, qi, di });
+      });
+      tr.append(td);
+    });
+  });
+
+  // Total + Norm
+  const tdT2 = document.createElement("td");
+  tdT2.className = "col-tot";
+  tdT2.textContent = getTotal(st).toFixed(2);
+  tr.append(tdT2);
+  const tdN = document.createElement("td");
+  tdN.className = "col-norm";
+  const nv = getNormTotal(st);
+  tdN.textContent = nv.toFixed(2);
+  tdN.style.color = nv >= 0 ? "#16a34a" : "#dc2626";
+  tr.append(tdN);
+
+  return tr;
+}
+
+function updateSortUI() {
+  document.querySelectorAll("[data-sort]").forEach(th => {
+    th.classList.remove("sort-asc","sort-desc");
+    if (th.getAttribute("data-sort") === sortKey) th.classList.add("sort-" + sortDir);
+  });
+}
+
+// ── Popup helpers ────────────────────────────────────────────────────────────
+function thumbHtml(r, size = "lg") {
+  if (!r || r.status !== "ok" || !r.thumbnail) return "";
+  const src    = `./${r.thumbnail}`;
+  const ghUrl  = releaseUrl(r.user, r.id, r.question, "png");
+  const cls    = size === "lg" ? "thumb-lg" : "thumb-sm";
+  return `<a href="${ghUrl}" target="_blank" rel="noopener" onclick="event.preventDefault();showImg('${ghUrl.replace(/'/g,"\\'")}')">
+    <img class="${cls}" src="${src}" loading="lazy" alt="student submission"></a>`;
+}
+
+// Returns an array of {key, html} pairs for submission metadata
+function subFields(r) {
+  if (!r?.submission) return [];
+  const s = r.submission;
+  const qid = r.question;
+  const rows = [];
+  if (s.prompt)         rows.push({ key:"Prompt",     html: esc(s.prompt) });
+  if (s.model)          rows.push({ key:"Model",      html: `<code class="small">${esc(s.model)}</code>` });
+  if (s.dataset_name)   rows.push({ key:"Dataset",    html: s.dataset_url ? `<a href="${esc(s.dataset_url)}" target="_blank">${esc(s.dataset_name)}</a>` : esc(s.dataset_name) });
+  if (s.insight)        rows.push({ key:"Insight",    html: esc(s.insight) });
+  if (s.concept)        rows.push({ key:"Concept",    html: esc(s.concept) });
+  if (s.metaphor)       rows.push({ key:"Metaphor",   html: esc(s.metaphor) });
+  if (s.paradox)        rows.push({ key:"Paradox",    html: esc(s.paradox) });
+  if (s.visual_logic)   rows.push({ key:"Visual logic", html: esc(s.visual_logic) });
+  if (s.tradition_name) rows.push({ key:"Tradition",  html: esc(s.tradition_name) + (s.tradition_period ? ` <span class="text-muted">(${esc(s.tradition_period)})</span>` : "") });
+  if (s.tradition_approach) rows.push({ key:"Approach", html: esc(s.tradition_approach) });
+  rows.push({ key:"Time",    html: fmtTime(r.time) });
+  rows.push({ key:"Question", html: `<a href="${EXAM}#h${qid}" target="_blank">${esc(data.questions[qid].label)}</a>` });
+  return rows;
+}
+
+function subInfoHtml(r) {
+  const fields = subFields(r);
+  if (!fields.length) return "";
+  return fields.map(({ key, html }) =>
+    `<div class="mb-2"><div class="sub-key">${key}</div><div class="sub-val">${html}</div></div>`
+  ).join("");
+}
+
+// ── Open popup ───────────────────────────────────────────────────────────────
+function openPopupFn({ type, user, qi, di }) {
+  popup  = { type, user, qi, di };
+  popSt  = students.findIndex(s => s.user === user);
+  popQi  = qi; popDi = di;
+  renderPopup();
+  saveState();
+}
+
+// ── Render popup ─────────────────────────────────────────────────────────────
+function renderPopup() {
+  const { type } = popup;
+  const st  = students[popSt];
+  if (!st) return;
+
+  const label = st.email || st.user;
+  const qid   = Qs[popQi];
+  const r     = st.byQ[popQi];
+  const isOk  = r?.status === "ok";
+  const q     = data.questions[qid];
+  const title = $("#d-score-title");
+  const body  = $("#d-score-body");
+
+  // ── type: id — 2×2 grid of all 4 questions ───────────────────────────────
+  if (type === "id") {
+    title.textContent = label;
+    let html = '<div class="row g-3">';
+    Qs.forEach((qidX, qiX) => {
+      const rx  = st.byQ[qiX];
+      const qx  = data.questions[qidX];
+      const isOkX = rx?.status === "ok";
+      const v   = isOkX ? rx.response?.overall_score : null;
+      const nv  = getNormScore(st, qiX);
+      const qColor = ["var(--q0)","var(--q1)","var(--q2)","var(--q3)"][qiX];
+      html += `<div class="col-12 col-md-6"><div class="card h-100 p-0 overflow-hidden">
+        <div class="px-3 py-2 d-flex justify-content-between align-items-center" style="border-bottom:2px solid ${qColor}">
+          <a class="fw-semibold small" style="color:${qColor}" href="${EXAM}#h${qidX}" target="_blank">${qx.label}</a>
+          ${v != null ? `<span class="fw-bold" style="color:${scoreColor(v)};font-size:1.1em">${v.toFixed(1)}</span>` : ""}
+        </div>
+        <div class="p-2">`;
+      if (isOkX) {
+        html += thumbHtml(rx, "sm");
+        html += `<div class="mt-2 small text-muted">${esc(rx.submission?.model || "")}`;
+        if (rx.submission?.dataset_name) html += ` · ${esc(rx.submission.dataset_name)}`;
+        html += `</div>`;
+        if (rx.response?.one_line_verdict) html += `<div class="fst-italic small mt-1 text-muted">"${esc(rx.response.one_line_verdict)}"</div>`;
+      } else {
+        const statusLabel = rx ? rx.status.replace(/-/g," ") : "not submitted";
+        const detail = rx?.status === "assets-not-fetched" ? "No valid submission before deadline." : (rx?.status_detail || "No submission.");
+        html += `<div class="small text-muted py-2"><em class="text-capitalize">${esc(statusLabel)}</em> — ${esc(detail)}</div>`;
+      }
+      html += `</div></div></div>`;
+    });
+    html += "</div>";
+    body.innerHTML = html;
+
+  // ── type: overall or sub ──────────────────────────────────────────────────
+  } else {
+    const dimName   = popDi >= 0 ? q.score_dimensions[popDi] : null;
+    const dimLabel  = dimName ? fmtDim(dimName) : "Overall";
+    const qColor    = ["var(--q0)","var(--q1)","var(--q2)","var(--q3)"][popQi];
+    title.innerHTML = `<span style="color:${qColor};font-weight:700">${esc(q.label)}</span> <span class="text-muted">·</span> ${dimLabel} <span class="text-muted small ms-2">${esc(label)}</span>`;
+
+    // ── Gap / no-submission ─────────────────────────────────────────────────
+    if (!isOk) {
+      const statusLabel = r ? r.status.replace(/-/g, " ") : "not submitted";
+      const detail      = r?.status === "assets-not-fetched" ? "No valid submission before deadline."
+                          : (r?.status_detail || (r ? `Status: ${r.status}` : "This student did not submit an answer for this question."));
+      let html = `<div class="alert alert-warning mb-0">
+        <strong class="text-capitalize">${esc(statusLabel)}</strong><br><span class="small">${esc(detail)}</span>`;
+      if (r?.image_url) html += `<br class="mt-1"><a class="small" href="${esc(r.image_url)}" target="_blank" rel="noopener">Image URL ↗</a>`;
+      if (r?.json_url)  html += ` · <a class="small" href="${esc(r.json_url)}" target="_blank" rel="noopener">JSON URL ↗</a>`;
+      html += `</div>`;
+      body.innerHTML = html;
+      if (!$("#d-score").open) $("#d-score").showModal();
+      return;
+    }
+
+    const resp  = r.response;
+    const score = dimName ? resp?.scores?.[dimName]?.score : resp?.overall_score;
+
+    // ── Thumbnail (full width) ───────────────────────────────────────────────
+    let html = `<div class="mb-3 thumb-wrap">${thumbHtml(r, "lg")}</div>`;
+
+    // ── Two-column row: left=submission info, right=score+details ───────────
+    html += `<div class="row g-3 mb-3">`;
+
+    // Left: submission metadata
+    html += `<div class="col-12 col-md-5"><div class="popup-section h-100">${subInfoHtml(r)}</div></div>`;
+
+    // Right: score + flags + verdict + dist chart
+    html += `<div class="col-12 col-md-7"><div class="popup-section h-100">`;
+
+    // Score badge + z-score
+    const nv = dimName ? null : getNormScore(st, popQi);
+    const allScores = students.map(s => {
+      const rx = s.byQ[popQi];
+      if (!rx || rx.status !== "ok") return null;
+      return dimName ? rx.response?.scores?.[dimName]?.score : rx.response?.overall_score;
+    }).filter(v => v != null);
+    const rank = score != null ? scoreRank(score, allScores) : null;
+    const pct  = rank != null ? Math.round((1 - rank / allScores.length) * 100) : null;
+
+    html += `<div class="d-flex align-items-baseline gap-2 mb-2">
+      <span class="score-big" style="color:${scoreColor(score)}">${score?.toFixed(1) ?? "—"}</span>
+      <span class="text-muted small">/10</span>`;
+    if (nv != null) html += `<span class="ms-1 small text-secondary">z=${nv.toFixed(2)}</span>`;
+    if (rank != null) html += `<span class="info-pill ms-auto">Rank ${rank}/${allScores.length} · top&nbsp;${pct}%</span>`;
+    html += `</div>`;
+
+    // Sub popup: show reason + improvement here
+    if (type === "sub") {
+      const sv = resp?.scores?.[dimName];
+      if (sv?.reason)      html += `<div class="mb-2"><div class="sub-key">Reason</div><div class="sub-val">${esc(sv.reason)}</div></div>`;
+      if (sv?.improvement) html += `<div class="mb-2"><div class="sub-key">Improvement</div><div class="sub-val text-muted">${esc(sv.improvement)}</div></div>`;
+    }
+
+    // Overall popup: show flags + verdict
+    if (type === "overall") {
+      const ef = [];
+      const flag = (cond, label) => `<span class="info-pill">${cond ? "✅":"❌"} ${label}</span>`;
+      if ("brief_met"             in resp) ef.push(flag(resp.brief_met,             "Brief met"));
+      if ("exhibition_worthy"     in resp) ef.push(flag(resp.exhibition_worthy,     "Exhibition worthy"));
+      if ("model_default_escaped" in resp) ef.push(flag(resp.model_default_escaped, "Escaped AI defaults"));
+      if ("concept_match"         in resp) ef.push(flag(resp.concept_match,         `Concept${resp.concept_identified_by_evaluator ? `: <em>${esc(resp.concept_identified_by_evaluator)}</em>` : ""}`));
+      if ("paradox_match"         in resp) ef.push(flag(resp.paradox_match,         `Paradox${resp.paradox_identified_by_evaluator ? `: <em>${esc(resp.paradox_identified_by_evaluator)}</em>` : ""}`));
+      if ("tradition_match"       in resp) ef.push(flag(resp.tradition_match,       `Tradition${resp.tradition_identified_by_evaluator ? `: <em>${esc(resp.tradition_identified_by_evaluator)}</em>` : ""}`));
+      if ("diptych"               in resp) ef.push(flag(resp.diptych,               `Diptych${resp.diptych_justified ? " (justified)" : ""}`));
+      if (ef.length) html += `<div class="d-flex flex-wrap gap-1 mb-2">${ef.join("")}</div>`;
+      if (resp.one_line_verdict) html += `<div class="fst-italic small text-muted mb-2">"${esc(resp.one_line_verdict)}"</div>`;
+    }
+
+    // Distribution chart
+    html += `</div></div>`; // right col end
+    html += `</div>`; // row end
+
+    // Full-width distribution chart
+    html += `<div class="dist-chart-wrap"><div id="d-mini-dist"></div></div>`;
+
+    // ── Dimension scores table (overall popup only) ───────────────────────────
+    if (type === "overall" && resp?.scores) {
+      html += `<div class="sub-key mb-1">Dimension Scores</div>`;
+      html += `<table class="table table-sm dim-table mb-0"><thead class="table-light"><tr>
+        <th>Dimension</th><th class="text-center">Score</th><th class="text-center">Rank</th><th class="text-center">z</th><th>Reason</th><th>Improvement</th>
+      </tr></thead><tbody>`;
+      const dimStats = normStats[popQi]?.dimStats ?? {};
+      for (const [dk, sv] of Object.entries(resp.scores)) {
+        const dimAllVals = students.map(s => {
+          const rx = s.byQ[popQi];
+          if (!rx || rx.status !== "ok") return null;
+          return rx.response?.scores?.[dk]?.score;
+        }).filter(v => v != null);
+        const dRank = sv.score != null ? scoreRank(sv.score, dimAllVals) : null;
+        const dStat = dimStats[dk];
+        const dZ    = dStat && sv.score != null ? zScore(sv.score, dStat.mean, dStat.std).toFixed(2) : "—";
+        const isHighlighted = dk === dimName;
+        html += `<tr${isHighlighted ? ' class="table-active"' : ""}>
+          <td class="fw-semibold text-nowrap">${fmtDim(dk)}</td>
+          <td class="dim-score-cell" style="background:${scoreColor(sv.score)};color:${scoreTextColor(sv.score)||"inherit"}">${sv.score?.toFixed(1) ?? "—"}</td>
+          <td class="dim-rank-cell">${dRank ? `${dRank}/${dimAllVals.length}` : "—"}</td>
+          <td class="dim-norm-cell" style="color:${(+dZ) >= 0 ? "#16a34a" : "#dc2626"}">${dZ}</td>
+          <td class="small text-muted">${esc(sv.reason)}</td>
+          <td class="small text-muted">${esc(sv.improvement)}</td>
+        </tr>`;
+      }
+      html += `</tbody></table>`;
+    }
+
+    body.innerHTML = html;
+
+    // Wire up thumbnail click
+    body.querySelectorAll(".thumb-lg, .thumb-sm").forEach(img => {
+      img.addEventListener("click", e => {
+        e.preventDefault();
+        showImg(img.closest("a")?.href || "");
+      });
+    });
+
+    // Render mini dist chart
+    const distEl = document.getElementById("d-mini-dist");
+    if (distEl && allScores.length) renderMiniDist(distEl, allScores, score);
+  }
+
+  if (!$("#d-score").open) $("#d-score").showModal();
+}
+
+// ── Distribution chart ────────────────────────────────────────────────────────
+function renderMiniDist(container, scores, highlight, compact = false) {
+  container.innerHTML = "";
+  if (!scores.length) return;
+
+  if (compact) {
+    // Small chart for question-info dialogs
+    const W = 260, H = 90, M = { l:22, r:5, t:8, b:18 };
+    const iW = W - M.l - M.r, iH = H - M.t - M.b;
+    const x = d3.scaleLinear().domain([0, 10]).range([0, iW]);
+    const bins = d3.bin().domain([0, 10]).thresholds(20)(scores);
+    const y = d3.scaleLinear().domain([0, d3.max(bins, b => b.length) || 1]).range([iH, 0]);
+    const svg = d3.select(container).append("svg").attr("width", W).attr("height", H)
+      .attr("class","dist-svg").style("display","block");
+    const g = svg.append("g").attr("transform", `translate(${M.l},${M.t})`);
+    g.selectAll("rect").data(bins).join("rect")
+      .attr("x", d => x(d.x0)+1).attr("width", d => Math.max(0, x(d.x1)-x(d.x0)-2))
+      .attr("y", d => y(d.length)).attr("height", d => Math.max(0, iH-y(d.length)))
+      .attr("fill", d => {
+        if (highlight != null) { const inBin = highlight >= d.x0 && (d === bins[bins.length-1] ? highlight <= d.x1 : highlight < d.x1); if (inBin) return "#dc3545"; }
+        return "#94a3b8";
+      }).attr("opacity", 0.8);
+    g.append("g").attr("transform",`translate(0,${iH})`).call(d3.axisBottom(x).ticks(5).tickSize(3)).select(".domain").remove();
+    g.append("g").call(d3.axisLeft(y).ticks(3).tickSize(2)).select(".domain").remove();
+    return;
+  }
+
+  // ── Large chart for popups (480 × 400) ──────────────────────────────────
+  const W = 480, H = 400, M = { l:50, r:24, t:52, b:58 };
+  const iW = W - M.l - M.r, iH = H - M.t - M.b;
+
+  const x = d3.scaleLinear().domain([0, 10]).range([0, iW]);
+  const bins = d3.bin().domain([0, 10]).thresholds(20)(scores);
+  const y = d3.scaleLinear().domain([0, d3.max(bins, b => b.length) || 1]).range([iH, 0]);
+
+  const svg = d3.select(container).append("svg")
+    .attr("width", W).attr("height", H).attr("class","dist-svg").style("display","block");
+  const g = svg.append("g").attr("transform", `translate(${M.l},${M.t})`);
+
+  // IQR band
+  const sorted = [...scores].sort(d3.ascending);
+  const q1 = d3.quantile(sorted, 0.25) ?? 0;
+  const q3 = d3.quantile(sorted, 0.75) ?? 10;
+  g.append("rect")
+    .attr("x", x(q1)).attr("width", Math.max(0, x(q3) - x(q1)))
+    .attr("y", 0).attr("height", iH)
+    .attr("fill", "#e8f0fe").attr("rx", 2).attr("opacity", 0.8);
+
+  // Bars
+  g.selectAll(".bar").data(bins).join("rect").attr("class","bar")
+    .attr("x", d => x(d.x0)+1).attr("width", d => Math.max(1, x(d.x1)-x(d.x0)-2))
+    .attr("y", d => y(d.length)).attr("height", d => Math.max(0, iH-y(d.length)))
+    .attr("fill", d => {
+      if (highlight != null) {
+        const inBin = highlight >= d.x0 && (d === bins[bins.length-1] ? highlight <= d.x1 : highlight < d.x1);
+        if (inBin) return "#be0000";
+      }
+      return "#64748b";
+    }).attr("rx", 1).attr("opacity", 0.82);
+
+  // Mean line
+  const meanScore = d3.mean(scores) ?? 0;
+  g.append("line")
+    .attr("x1", x(meanScore)).attr("x2", x(meanScore))
+    .attr("y1", 0).attr("y2", iH)
+    .attr("stroke", "#2563eb").attr("stroke-dasharray","4,3").attr("stroke-width", 1.5).attr("opacity",.85);
+  g.append("text")
+    .attr("x", x(meanScore)).attr("y", -8)
+    .attr("text-anchor","middle").attr("font-size",11).attr("fill","#2563eb").attr("font-weight","600")
+    .text(`μ ${meanScore.toFixed(2)}`);
+
+  // Median line (only if meaningfully different)
+  const medScore = d3.median(scores) ?? 0;
+  if (Math.abs(medScore - meanScore) > 0.12) {
+    const leftOffset = Math.abs(x(medScore) - x(meanScore)) < 28 ? (medScore < meanScore ? -28 : 28) : 0;
+    g.append("line")
+      .attr("x1", x(medScore)).attr("x2", x(medScore))
+      .attr("y1", 0).attr("y2", iH)
+      .attr("stroke", "#059669").attr("stroke-dasharray","4,3").attr("stroke-width", 1.5).attr("opacity",.85);
+    g.append("text")
+      .attr("x", x(medScore) + leftOffset).attr("y", -22)
+      .attr("text-anchor","middle").attr("font-size",11).attr("fill","#059669").attr("font-weight","600")
+      .text(`med ${medScore.toFixed(2)}`);
+  }
+
+  // Student highlight line
+  if (highlight != null) {
+    const rank = scores.filter(v => v > highlight).length + 1;
+    const pct  = Math.round((1 - rank / scores.length) * 100);
+    const hx   = x(highlight);
+    g.append("line")
+      .attr("x1", hx).attr("x2", hx).attr("y1", -10).attr("y2", iH)
+      .attr("stroke","#be0000").attr("stroke-width", 2);
+    const rightSide = hx > iW * 0.65;
+    g.append("text")
+      .attr("x", rightSide ? hx - 8 : hx + 8).attr("y", 14)
+      .attr("text-anchor", rightSide ? "end" : "start")
+      .attr("font-size", 12).attr("fill","#be0000").attr("font-weight","700")
+      .text(`${highlight.toFixed(1)} — Rank ${rank}/${scores.length} · top ${pct}%`);
+  }
+
+  // X axis
+  g.append("g").attr("transform",`translate(0,${iH})`)
+    .call(d3.axisBottom(x).ticks(10).tickSize(4))
+    .call(g2 => g2.select(".domain").remove())
+    .call(g2 => g2.selectAll("text").attr("font-size",11));
+
+  // Y axis
+  g.append("g").call(d3.axisLeft(y).ticks(5).tickSize(3))
+    .call(g2 => g2.select(".domain").remove())
+    .call(g2 => g2.selectAll("text").attr("font-size",11));
+
+  // Axis labels
+  g.append("text").attr("x", iW/2).attr("y", iH+46)
+    .attr("text-anchor","middle").attr("font-size",12).attr("fill","#555").text("Score (0–10)");
+  g.append("text").attr("transform","rotate(-90)").attr("x",-iH/2).attr("y",-40)
+    .attr("text-anchor","middle").attr("font-size",12).attr("fill","#555").text("Students");
+
+  // IQR annotation
+  g.append("text").attr("x", x((q1+q3)/2)).attr("y", iH+32)
+    .attr("text-anchor","middle").attr("font-size",10).attr("fill","#94a3b8")
+    .text(`IQR: ${q1.toFixed(1)}–${q3.toFixed(1)}`);
+
+  // n & std (top-right)
+  const std = d3.deviation(scores);
+  g.append("text").attr("x", iW).attr("y", -32)
+    .attr("text-anchor","end").attr("font-size",10.5).attr("fill","#64748b")
+    .text(`n=${scores.length}   σ=${std?.toFixed(2)}`);
+}
+
+// ── Question info dialog ──────────────────────────────────────────────────────
+function showQDialog(qi) {
+  const qid = Qs[qi];
+  const q   = data.questions[qid];
+  $("#d-q-title").textContent = q.label;
+
+  let html = `<p class="mb-2"><a href="${EXAM}#h${qid}" target="_blank" rel="noopener">Open question ↗</a></p>
+    <ul class="small mb-3">
+      <li><strong>System prompt:</strong> <span class="text-muted">${esc(q.system_instruction.slice(0, 300))}…</span></li>
+      <li class="mt-1"><strong>User prompt:</strong> <span class="text-muted">${esc(q.user_message)}</span></li>
+      <li class="mt-1"><strong>Output schema:</strong> ${q.score_dimensions.map((d, i) => `<span class="badge bg-secondary me-1">${i+1}. ${fmtDim(d)}</span>`).join("")}</li>
+    </ul>
+    <h6>Score Distributions</h6>
+    <div class="d-flex flex-wrap gap-3" id="qdist-wrap"></div>`;
+  $("#d-q-body").innerHTML = html;
+
+  const wrap = document.getElementById("qdist-wrap");
+  [null, ...q.score_dimensions].forEach(dim => {
+    const label = dim ? fmtDim(dim) : "Overall";
+    const div = document.createElement("div");
+    div.innerHTML = `<div class="text-muted small mb-1">${label}</div>`;
+    const chartDiv = document.createElement("div");
+    div.append(chartDiv);
+    wrap.append(div);
+    const scores = students.map(s => {
+      const rx = s.byQ[qi];
+      if (!rx || rx.status !== "ok") return null;
+      return dim ? rx.response?.scores?.[dim]?.score : rx.response?.overall_score;
+    }).filter(v => v != null);
+    requestAnimationFrame(() => renderMiniDist(chartDiv, scores, null, true));
+  });
+
+  $("#d-q").showModal();
+}
+
+// ── Full-size image ───────────────────────────────────────────────────────────
+window.showImg      = url => { $("#d-img-el").src = url; $("#d-img").showModal(); };
+window.closeDialog  = id  => document.getElementById(id).close();
+
+// ── Keyboard navigation ───────────────────────────────────────────────────────
+document.addEventListener("keydown", e => {
+  const dlg = $("#d-score");
+  if (!dlg.open || !popup) return;
+
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    e.preventDefault();
+    popSt = Math.max(0, Math.min(students.length - 1, popSt + (e.key === "ArrowDown" ? 1 : -1)));
+    popup = { ...popup, user: students[popSt].user };
+    renderPopup(); saveState();
+  }
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    e.preventDefault();
+    if (popup.type === "id") return;
+    const d = e.key === "ArrowRight" ? 1 : -1;
+    const dims = data.questions[Qs[popQi]].score_dimensions;
+
+    if (popup.type === "sub") {
+      if (d === 1 && popDi < dims.length - 1) { popDi++; }
+      else if (d === 1 && popQi < Qs.length - 1) { popQi++; popDi = -1; popup = { ...popup, type:"overall" }; }
+      else if (d === -1 && popDi > 0) { popDi--; }
+      else if (d === -1 && popDi === 0) { popDi = -1; popup = { ...popup, type:"overall" }; }
+      else if (d === -1 && popQi > 0) { popQi--; popDi = data.questions[Qs[popQi]].score_dimensions.length - 1; }
+    } else { // overall
+      if (d === 1)  { popDi = 0; popup = { ...popup, type:"sub" }; }
+      else if (d === -1 && popQi > 0) { popQi--; popDi = data.questions[Qs[popQi]].score_dimensions.length - 1; popup = { ...popup, type:"sub" }; }
+    }
+    popup = { ...popup, qi: popQi, di: popDi };
+    renderPopup(); saveState();
+  }
+});
+
+// ── URL state ─────────────────────────────────────────────────────────────────
+function saveState() {
+  const p = new URLSearchParams();
+  p.set("sort", sortKey); p.set("dir", sortDir);
+  if (popup) p.set("popup", [popup.type, popup.user, popup.qi ?? "", popup.di ?? -1].join(":"));
+  history.replaceState(null, "", "?" + p);
+}
+
+function loadState() {
+  const p = new URLSearchParams(location.search);
+  if (p.has("sort")) sortKey = p.get("sort");
+  if (p.has("dir"))  sortDir = p.get("dir");
+  if (p.has("popup")) {
+    const [type, user, qi, di] = p.get("popup").split(":");
+    popup = { type, user, qi: qi !== "" ? +qi : 0, di: di !== "" ? +di : -1 };
+  }
+}
+
+// ── Main distribution charts ──────────────────────────────────────────────────
+function renderCharts() {
+  const container = $("#charts");
+  container.innerHTML = "";
+  Qs.forEach((qid, qi) => {
+    const q      = data.questions[qid];
+    const scores = students.map(s => getScore(s, qi)).filter(v => v != null);
+    const avg    = d3.mean(scores);
+
+    const div = document.createElement("div");
+    div.style.cursor = "pointer";
+    div.addEventListener("click", () => showQDialog(qi));
+    div.innerHTML = `<div class="fw-semibold small mb-1">${q.label} <span class="text-muted">(n=${scores.length}, avg=${avg?.toFixed(2)})</span></div>`;
+    const chartDiv = document.createElement("div");
+    div.append(chartDiv);
+    container.append(div);
+
+    requestAnimationFrame(() => {
+      const W = 230, H = 95, M = { l:22, r:5, t:8, b:18 };
+      const x = d3.scaleLinear().domain([0, 10]).range([M.l, W - M.r]);
+      const bins = d3.bin().domain([0, 10]).thresholds(20)(scores);
+      const y = d3.scaleLinear().domain([0, d3.max(bins, b => b.length) || 1]).range([H - M.b, M.t]);
+      const svg = d3.select(chartDiv).append("svg").attr("width", W).attr("height", H).attr("class","dist-svg").style("display","block");
+      svg.selectAll("rect").data(bins).join("rect")
+        .attr("x", d => x(d.x0)+1).attr("width", d => Math.max(0, x(d.x1)-x(d.x0)-2))
+        .attr("y", d => y(d.length)).attr("height", d => H-M.b-y(d.length))
+        .attr("fill", d3.schemeTableau10[qi % 10]).attr("opacity", 0.8);
+      svg.append("g").attr("transform", `translate(0,${H-M.b})`).call(d3.axisBottom(x).ticks(5).tickSize(3)).select(".domain").remove();
+      svg.append("g").attr("transform", `translate(${M.l},0)`).call(d3.axisLeft(y).ticks(3).tickSize(2)).select(".domain").remove();
+    });
+  });
+}
+
+// ── Stats cards ───────────────────────────────────────────────────────────────
+function renderStats() {
+  const el = $("#stats");
+  const items = [
+    { label:"Students",  v: data.student_count },
+    { label:"Evaluated", v: data.ok_result_count },
+    { label:"Gaps",      v: data.gap_count },
+    { label:"Model",     v: data.model },
+  ];
+  if (data.cost_estimate?.observed?.total_usd != null)
+    items.push({ label:"Est. Cost", v: `$${data.cost_estimate.observed.total_usd.toFixed(2)}` });
+  el.innerHTML = items.map(i =>
+    `<div class="nyt-number"><span class="nyt-number-val">${esc(String(i.v))}</span><span class="nyt-number-lbl">${esc(i.label)}</span></div>`
+  ).join("");
+}
+
+// ── Question list pills ─────────────────────────────────────────────────────
+function renderQList() {
+  const container = $("#q-list");
+  Qs.forEach((qid, qi) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = `q-pill q-pill-${qi}`;
+    btn.textContent = data.questions[qid].label;
+    btn.addEventListener("click", () => showQDialog(qi));
+    container.append(btn);
+  });
+}
+
+// ── Eval details section ──────────────────────────────────────────────────────
+function setupEval() {
+  $("#model-name").textContent = data.model;
+  $("#eval-btn").addEventListener("click", () => {
+    $("#d-eval-body").innerHTML = `
+      <h6>Pipeline</h6>
+      <p class="small">Student images were evaluated using <strong>${esc(data.model)}</strong>
+        with structured JSON output. Each image was resized to ≤768×768 px before submission.
+        Scores are on a 0–10 scale with 1 decimal of precision.</p>
+      <h6>Score Interpretation</h6>
+      <ul class="small"><li>5.0 = competent but undistinguished</li>
+        <li>9.0+ = genuinely exceptional</li>
+        <li>Scores spread to differentiate a cohort of ~540 students</li></ul>
+      <h6>Questions &amp; Dimensions</h6>
+      <ul class="small">${Qs.map(qid => {
+        const q = data.questions[qid];
+        return `<li><strong>${q.label}:</strong> ${q.score_dimensions.map(fmtDim).join(", ")}</li>`;
+      }).join("")}</ul>
+      <h6>Coverage</h6>
+      <ul class="small">${Object.entries(data.status_counts).map(([k, v]) => `<li><code>${k}</code>: ${v}</li>`).join("")}</ul>
+      <p class="text-muted small mt-2">Generated: ${esc(data.generated_at_utc || "—")}</p>`;
+    $("#d-eval").showModal();
+  });
+}
+
+// ── Bootstrap ────────────────────────────────────────────────────────────────
+async function main() {
+  loadState();
+  try {
+    const resp = await fetch("./summary.json");
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+    data = await resp.json();
+    students = buildStudents(data.results);
+    for (const s of students) byUser.set(s.user, s);
+    computeNormStats(); // must run before renderBody
+
+    $("#loading").classList.add("d-none");
+    $("#app").classList.remove("d-none");
+
+    renderQList();
+    renderHeader();
+    renderBody();
+    updateSortUI();
+    renderCharts();
+    renderStats();
+    setupEval();
+
+    $("#tfoot-info").textContent =
+      `${data.student_count} students · ${data.ok_result_count} evaluated · ${data.gap_count} gaps · Deadline: ${fmtTime(data.deadline.time_ms)}`;
+
+    // Restore popup from URL
+    if (popup) {
+      const st = byUser.get(popup.user);
+      if (st) {
+        popSt = students.indexOf(st);
+        popQi = popup.qi; popDi = popup.di;
+        renderPopup();
+      } else popup = null;
+    }
+  } catch (e) {
+    $("#loading").innerHTML = `<div class="alert alert-danger">Failed to load: ${esc(e.message)}</div>`;
+  }
+}
+
+// ── Click outside (backdrop) to close topmost dialog ─────────────────────────
+document.querySelectorAll("dialog").forEach(dlg => {
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+});
+document.getElementById("d-score").addEventListener("close", () => { popup = null; saveState(); });
+
+main();
+</script>
+</body>
+</html>

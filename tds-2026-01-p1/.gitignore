@@ -1,0 +1,6 @@
+data/
+analysis/*.md
+analysis/*.csv
+analysis/image-evals/
+__pycache__/
+*.pyc

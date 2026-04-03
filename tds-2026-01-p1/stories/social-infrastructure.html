@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Exam That Became Infrastructure · TDS Jan 2026</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .hero-stats{display:flex;gap:32px;margin-top:32px;flex-wrap:wrap}
+    .hstat-num{font-size:38px;font-weight:700;color:var(--accent);line-height:1}
+    .hstat-lbl{font-family:system-ui,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-top:4px}
+    .anim-wrap{text-align:center;padding:8px 0}
+    .btn-play{background:var(--accent);color:#fff;border:none;padding:8px 24px;font-family:system-ui,sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;margin-top:10px}
+    .btn-play:hover{background:#b83338}
+    .table-wrap{overflow-x:auto;margin:1.5em 0}
+    tr.hi{background:#fdeaea!important;font-weight:600}
+    .footer-bar{background:var(--header-bg);color:rgba(255,255,255,.5);text-align:center;padding:32px 24px;font-family:system-ui,sans-serif;font-size:12px}
+    .footer-bar a{color:var(--accent);text-decoration:none}
+    .footer-bar a:hover{text-decoration:underline}
+    .hero-date{display:block;font-family:system-ui,sans-serif;font-size:12px;color:rgba(255,255,255,.45);margin-top:8px;letter-spacing:.05em}
+    .chart-legend{display:flex;gap:16px;font-family:system-ui,sans-serif;font-size:11px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+    .legend-swatch{width:12px;height:12px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+    /* hero-to-body spacing */
+    .article-body { padding-top: 56px; }
+  </style>
+</head>
+<body>
+
+<nav class="nav-bar">
+  <a class="nav-brand" href="../index.html">TDS · P1</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">← All Stories</a></li>
+    <li><a href="two-labor-markets.html">Two Labor Markets</a></li>
+    <li><a href="endgame.html">Six Ways to End an Exam</a></li>
+    <li><a href="two-exams.html">Two Exams</a></li>
+    <li><a href="model-playbook.html">Model Playbook</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<header class="article-hero">
+  <span class="hero-label">SOCIAL DYNAMICS</span>
+  <h1 class="hero-title">The Exam That Became Infrastructure</h1>
+  <p class="hero-byline">TDS Jan 2026 · Project 1 Analysis</p>
+  <time class="hero-date">March 2026</time>
+  <div class="hero-stats">
+    <div><div class="hstat-num">80<span style="font-size:.58em">%</span></div><div class="hstat-lbl">Used the public decoder</div></div>
+    <div><div class="hstat-num">63</div><div class="hstat-lbl">Students who contributed</div></div>
+    <div><div class="hstat-num">154</div><div class="hstat-lbl">Solver to complete the map</div></div>
+    <div><div class="hstat-num">57</div><div class="hstat-lbl">IDs shared in one day</div></div>
+  </div>
+</header>
+
+<main class="article-body">
+
+<div class="scroll-fade">
+<p class="lead-para">On February 11, 2026, thirty-one students solved a puzzle about secret agents. By the end of that day, sixty of the hundred agent IDs needed to solve the puzzle were already mapped and shared — even though none of the thirty-one had to share anything to solve their own version.</p>
+</div>
+
+<div class="scroll-fade">
+<span class="section-label">THE SETUP</span>
+<h2>A Puzzle That Looked Like a Solo Quest</h2>
+
+<p><a href="https://exam.sanand.workers.dev/tds-2026-01-p1#hq-share-secret-server" target="_blank" rel="noopener">The Share Secret question</a> asked each student to identify 3 of 100 possible agent IDs. On its surface, it looked like a puzzle you solved alone — you received a unique variant, you matched your agents, you moved on. The answer you needed was specific to you. The process was yours.</p>
+
+<p>But the solution space was finite. One hundred agent IDs, no more. Every student who solved the puzzle and shared what they found was contributing a tile to a mosaic that, once complete, made the puzzle disappear. Not harder. Not easier. Gone.</p>
+
+<blockquote class="pull-quote">"The puzzle stopped being a puzzle on day one. It became a coordination problem."</blockquote>
+</div>
+
+<!-- CHART 1: CASCADE -->
+<div class="scroll-fade">
+<div class="chart-container">
+  <span class="section-label">CHART 1 OF 3</span>
+  <div class="chart-title">The Map Filled Faster Than Anyone Contributed</div>
+  <svg id="c1" viewBox="0 0 560 250" width="100%" role="img" aria-label="Step chart: cumulative IDs mapped vs solver number, reaching 100 at solver 154"></svg>
+  <p class="chart-caption">By solver #154 on March 3, every one of the 100 agent ID mappings was publicly known. The puzzle had a finite solution space, and a community of 765 students filled it completely.</p>
+</div>
+</div>
+
+<div class="scroll-fade">
+<span class="section-label">THE SUPER-SPREADER</span>
+<h2>February 11: The Day Everything Changed</h2>
+
+<p>The data shows a pattern common to information cascades: uneven distribution. One day — February 11 — accounted for 57 of the first 60 mapped IDs. The mechanism was simple: the first thirty-one solvers did not just solve the puzzle. They posted what they found. And once they posted, the ratio flipped.</p>
+
+<p>Before February 11, every solver was a <span data-tooltip="A single day when the majority of available IDs became public — analogous to a disease super-spreader event in epidemiology">super-spreader</span> candidate — producing new information, expanding the map. After February 11, most solvers were consumers. They arrived at a party that was already well underway, with a <span data-tooltip="A crowdsourced mapping of all 100 agent IDs, assembled organically through shared submissions"><a href="https://tds-hackkkkkkk.vercel.app/" target="_blank" rel="noopener">public decoder</a></span> already waiting.</p>
+</div>
+
+<!-- CHART 2: SUPER-SPREADER DAYS -->
+<div class="scroll-fade">
+<div class="chart-container">
+  <span class="section-label">CHART 2 OF 3</span>
+  <div class="chart-title">Feb 11 Was a <span data-tooltip="A single day when the majority of available IDs became public — analogous to a disease super-spreader event in epidemiology">Super-Spreader</span> Day: 57 IDs in One Day</div>
+  <div class="chart-legend">
+    <span><span class="legend-swatch" style="background:#d64045"></span>IDs added</span>
+    <span><span class="legend-swatch" style="background:#2d3a8c"></span>Lookup-only %</span>
+  </div>
+  <svg id="c2" viewBox="0 0 560 300" width="100%" role="img" aria-label="Two-panel chart: IDs added per day and lookup-only percentage over six days"></svg>
+  <p class="chart-caption">On Feb 12, more than half of all solvers simply looked up the answer that the previous day's contributors had revealed.</p>
+</div>
+</div>
+
+<!-- ANIMATED AGENT MAP -->
+<div class="scroll-fade">
+<div class="chart-container">
+  <span class="section-label">LIVE VISUALIZATION</span>
+  <div class="chart-title">Watch the Map Build</div>
+  <div class="chart-legend">
+    <span><span class="legend-swatch" style="background:#f5c842;border-radius:50%"></span>Early solvers (pre-Feb 11)</span>
+    <span><span class="legend-swatch" style="background:#d64045;border-radius:50%"></span>Feb 11 burst</span>
+    <span><span class="legend-swatch" style="background:#2d3a8c;border-radius:50%"></span>Later contributors</span>
+  </div>
+  <div class="anim-wrap">
+    <svg id="c3anim" viewBox="0 0 320 320" width="260" height="260" role="img" aria-label="10×10 grid of agent circles lighting up over 8 seconds"></svg>
+    <br>
+    <button class="btn-play" id="anim-btn">▶ Play</button>
+  </div>
+  <p class="chart-caption">Each circle represents one of 100 agent IDs. Watch them light up as solvers contribute mappings — with a burst on February 11.</p>
+</div>
+</div>
+
+<div class="scroll-fade">
+<span class="section-label">THE REVELATION</span>
+<h2>80% of Solvers Never Needed to Solve Anything</h2>
+
+<p>Here is the number that clarifies everything: 80.46% of all first successes in the Share Secret question matched the <span data-tooltip="A crowdsourced mapping of all 100 agent IDs, assembled organically through shared submissions"><a href="https://tds-hackkkkkkk.vercel.app/" target="_blank" rel="noopener">public decoder</a></span> exactly. That means 4 in 5 students who solved this question did not solve it — they looked it up. The puzzle had an answer key, and the answer key was free, and almost everyone used it.</p>
+
+<p>This is not a criticism. It is a finding. The answer key emerged organically, as a byproduct of honest work. Students shared what they discovered. Others benefited. In any other context, this would be called knowledge sharing. In an exam context, it is something more complicated.</p>
+
+<blockquote class="pull-quote">"Only 63 students ever contributed a new mapping. The other 617 just borrowed theirs."</blockquote>
+
+<p>The <a href="https://tds-hackkkkkkk.vercel.app/" target="_blank" rel="noopener">public decoder tool</a> did not arrive on day one. On <strong>March 6</strong> — nearly four weeks after the map was complete — a student posted in the course's <a href="https://github.com/sanand0/tools-in-data-science-public/discussions/277" target="_blank" rel="noopener">GitHub discussion thread</a>: <em>"If anyone wants agent password and email. You can use the below website. It works correctly."</em> Another student replied simply: <em>"I don't know how but it worked for me."</em> No documentation. No fanfare. Just peer-to-peer credentialing dropped mid-thread. The tool worked because someone said it worked, and that was enough. This is how student-built course infrastructure spreads — not through announcements, but through social proof woven into a conversation that was already happening.</p>
+</div>
+
+<div class="scroll-fade">
+<span class="section-label">THE DISCUSSION THREAD</span>
+<h2>GitHub Discussion #277: A Coordination Market in 173 Comments</h2>
+
+<p>The data tells one story. The 173-comment GitHub Discussion thread tells another. <a href="https://github.com/sanand0/tools-in-data-science-public/discussions/277" target="_blank" rel="noopener">Discussion #277</a> opened on <strong>February 10, 2026</strong> — day one of solving — and what followed reads less like a help forum and more like an open-outcry trading floor. Within 24 hours, a student had shared a Google Spreadsheet for centralized coordination. Others were posting their credentials openly, in plain sight: <em>"I am Agent 027 willing to help anyone needing my password. I am looking for 021, 092, 070."</em></p>
+
+<blockquote class="pull-quote">"I am Agent 027 willing to help anyone needing my password. I am looking for 021, 092, 070."</blockquote>
+
+<p>February 11 — the same super-spreader day visible in the charts — saw students posting credentials simultaneously, a coordination cascade that mirrors the data almost perfectly. But the thread also revealed something the numbers couldn't: confusion. <em>"I'm with ID 016, but I see same ID's provided to different people. Is this a bug?"</em> It wasn't a bug. Multiple students could be assigned the same agent. The puzzle's design was already more layered than anyone had assumed, and the students were mapping their way through the ambiguity in real time.</p>
+
+<p>By late February and into March, the thread had transformed. Students were still posting — "looking for agent 087, 095, 051" on March 7 — apparently unaware that the <a href="https://tds-hackkkkkkk.vercel.app/" target="_blank" rel="noopener">decoder tool</a> shared the day before had made their search obsolete. The irony is exact: the students who found the decoder were playing a completely different game from those still hunting IDs in a 173-comment thread. Same course. Same assignment. Radically different experiences. The discussion didn't just fill the map — for those who never found the shortcut, <em>it was</em> the map.</p>
+
+<p>And then there is Agent 070. From February 20 onward, students kept asking for them — a recurring name in a thread that was supposedly resolving. Agent 070 appeared in post after post: someone looking, someone waiting, someone forwarding the Google Sheet link in case it helped. For six weeks, Agent 070 was an open variable, a missing tile that somehow no one had. Then, on <strong>March 29</strong> — nine days before the deadline — three posts appeared in under a minute: <em>"I'm agent 70. Hello."</em> Then: <em>"Agent 70 here."</em> Then: <em>"Heya, i'm agent 070, looking for 004, 079 and 027."</em> Three different students, all Agent 070, all arriving simultaneously, all immediately looking for someone else. The thread had been waiting for them for six weeks. They arrived and immediately needed something too.</p>
+
+<blockquote class="pull-quote">"I'm agent 70. Hello." · "Agent 70 here." · "Heya, i'm agent 070" — three posts, under one minute, March 29.</blockquote>
+
+<p>The decoder link, meanwhile, was being rediscovered continuously. It was shared on March 6. Then March 10. Then March 20. Then March 22 — where one student posted it <em>five times in a row</em>, each post apparently independent of the others, as if repetition would reach the readers that the previous four posts hadn't. Then March 29. Each sharer thought they were breaking news. None of them knew they were the fifth or sixth person to announce the same thing in the same thread. This is not carelessness. It is a structural feature of large asynchronous discussions: the cost of reading the full thread is higher than the cost of posting, so people post first and discover the redundancy later — if at all.</p>
+
+<p>On March 29, Agent 004 finally appeared — only to find that the Google Sheet they'd been pointed toward for weeks was no longer accessible: <em>"the sheet isn't available."</em> The infrastructure that had been the backbone of cohort coordination had quietly gone offline. Students arriving at the end of the thread found a broken link where the collective map used to be. The decoder, meanwhile, still worked — but only for those who knew to look for it buried somewhere in 173 comments. The thread had become a palimpsest: layers of working solutions written over obsolete ones, with no index, no version history, no way for a newcomer to know which layer they were reading.</p>
+
+<p>The arc closes on deadline day, March 30, with students still posting their own agent credentials and searching for others manually — the same behavior as February 11, seven weeks later, in a thread where the answer had been available in 30 seconds for months. The thread did not fail. It worked exactly as threads work: it preserved every piece of information ever posted, and it surfaced none of it reliably. The question was never whether the information existed. It was whether anyone could find it in time.</p>
+</div>
+
+<!-- CHART 3: TRANSCRIBE COMPARISON -->
+<div class="scroll-fade">
+<div class="chart-container">
+  <span class="section-label">CHART 3 OF 3</span>
+  <div class="chart-title">The Transcribe Question Also Had a <span data-tooltip="A point in time when privately-held information becomes public, changing the nature of the task for all subsequent solvers">Disclosure Moment</span></div>
+  <div class="chart-legend">
+    <span><span class="legend-swatch" style="background:#d64045"></span>Median attempts (↓ declining)</span>
+    <span><span class="legend-swatch" style="background:#2d3a8c"></span>First-try success % (↑ rising)</span>
+  </div>
+  <svg id="c4" viewBox="0 0 560 230" width="100%" role="img" aria-label="Horizontal bars comparing transcribe question effort across three time cohorts"></svg>
+  <p class="chart-caption">After the Mar 26 HTML workaround appeared, median effort fell by 67%. First-try success jumped from 1.6% to 19.6%. The question didn't get easier — the answer got public.</p>
+</div>
+</div>
+
+<div class="scroll-fade">
+<span class="section-label">IMPLICATIONS</span>
+<h2>The Exam Had <span data-tooltip="A point in time when privately-held information becomes public, changing the nature of the task for all subsequent solvers">Disclosure Moments</span>, Not a Difficulty Curve</h2>
+
+<p>What happened here is not cheating in the conventional sense. No rules were broken. The course allowed public discussion. The students who contributed agent mappings were doing something generous — they shared what they found, and others benefited. The question is what the exam was measuring once the map was complete.</p>
+
+<p>The conventional picture of an exam is a difficulty curve: harder at the top, easier at the bottom, the shape of a ski slope. What the Share Secret data shows instead is a step function — flat for weeks, then suddenly trivial. The difficulty curve has <span data-tooltip="A point in time when privately-held information becomes public, changing the nature of the task for all subsequent solvers">disclosure moments</span>.</p>
+
+<blockquote class="pull-quote">"The exam did not have a single difficulty curve. It had <span data-tooltip="A point in time when privately-held information becomes public, changing the nature of the task for all subsequent solvers">disclosure moments</span>."</blockquote>
+</div>
+
+<!-- DATA TABLE -->
+<div class="scroll-fade">
+<div class="chart-container">
+  <span class="section-label">FULL DATA</span>
+  <div class="chart-title">The Super-Spreader Timeline</div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>Day</th><th>IDs Before</th><th>IDs After</th><th>IDs Added</th><th>Solvers</th><th>Lookup-only %</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Feb 10</td><td>0</td><td>3</td><td>3</td><td>1</td><td>0.0%</td></tr>
+        <tr class="hi"><td>Feb 11 ★</td><td>3</td><td>60</td><td>57</td><td>31</td><td>9.7%</td></tr>
+        <tr><td>Feb 12</td><td>60</td><td>70</td><td>10</td><td>15</td><td>53.3%</td></tr>
+        <tr><td>Feb 13</td><td>70</td><td>77</td><td>7</td><td>9</td><td>33.3%</td></tr>
+        <tr><td>Feb 14</td><td>77</td><td>81</td><td>4</td><td>9</td><td>66.7%</td></tr>
+        <tr><td>Feb 15</td><td>81</td><td>85</td><td>4</td><td>9</td><td>55.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="scroll-fade">
+<span class="section-label">THEORY &amp; PRACTICE</span>
+<h2>What the Textbooks Got Right — and What They Missed</h2>
+
+<p>Vygotsky described the <a href="https://en.wikipedia.org/wiki/Zone_of_proximal_development" target="_blank" rel="noopener">Zone of Proximal Development</a> as the space between what a learner can do alone and what they can do with guidance. Discussion thread #277 was a ZPD at population scale. Hundreds of students, each just beyond their individual capacity, finding peers to scaffold them — not through tutoring, but through collective intelligence. The scaffold wasn't a teacher. It was a Google Sheet and a 173-comment thread. Vygotsky imagined a student and a mentor. What actually happened was a student and six hundred strangers working in parallel.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Robert_Cialdini" target="_blank" rel="noopener">Cialdini</a> would recognize what happened next. Once the spreadsheet had enough credible entries, it became the default path. Late-joining students never stopped to ask whether they should build their own map — the existing one was right there, and other students had already vouched for it. Social proof doesn't require advertising. It just requires that someone went first, and that the evidence of their going is visible to everyone who follows.</p>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Curse_of_knowledge" target="_blank" rel="noopener">Curse of Knowledge</a> explains the March 6 gap. The student who shared the decoder tool couldn't understand why anyone was still asking for individual agent IDs — but those students didn't know the tool existed. Information asymmetry in a public forum. The announcement had been made; most of the audience had missed it. On March 7, students were still trading credentials one by one, three scrolls away from a tool that made the whole exercise unnecessary. Diffusion is never complete. There is always a late majority that the innovation never quite reaches.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Diffusion_of_innovations" target="_blank" rel="noopener">Rogers</a> called this the diffusion curve, and the decoder's journey follows it faithfully. One pioneer shares it. A handful of early adopters test and validate it. And then — nothing. A long tail of students who never see it, never benefit from it, who keep doing things the hard way not because they prefer it but because the information simply didn't travel far enough. The course discussion thread was a perfectly permeable membrane: some things moved through it instantly, others barely moved at all.</p>
+
+<p class="lead-para" style="margin-top:2em"><strong>For educators:</strong> If a puzzle can be solved by collective intelligence, assume students will use collective intelligence — and design accordingly. Disclosure moments don't just reduce effort; they change what the exam is testing. Track when workarounds appear and update rubrics in real time. The decoder tool was built by a student, for students. Course infrastructure that students build is often more useful than what instructors provide — and it spreads faster, because it has social proof attached to it from the moment it appears.</p>
+
+<p><strong>For students:</strong> The first 63 solvers did real cognitive work. The last 600 did social work. Both are valuable — but they are not the same skill. Knowing when to stop rebuilding what already exists, when to plug into the cohort's information network rather than reconstruct it alone — that too is a form of competence. It just doesn't appear on any rubric. The students who found the decoder on March 6 didn't cheat the puzzle. They solved a harder one.</p>
+</div>
+
+</main>
+
+<footer class="footer-bar">
+  <p>TDS Jan 2026 · Project 1 Analysis · 5 Stories</p>
+  <p style="margin-top:8px"><a href="../index.html">← Back to All Stories</a></p>
+</footer>
+
+<script type="module">
+import { initAll } from './shared.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  initAll();
+  drawCascade();
+  drawSpread();
+  buildAgentMap();
+  drawTranscribe();
+  document.getElementById('anim-btn').addEventListener('click', toggleAnim);
+});
+
+// ── SVG helpers ──────────────────────────────────────────────────────────────
+const NS = 'http://www.w3.org/2000/svg';
+
+function svgEl(tag, attrs) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, String(v));
+  return e;
+}
+const mkLine  = (x1,y1,x2,y2,a) => svgEl('line',  {x1,y1,x2,y2,...a});
+const mkRect  = (x,y,w,h,a)     => svgEl('rect',   {x,y,width:w,height:h,...a});
+const mkCirc  = (cx,cy,r,a)     => svgEl('circle', {cx,cy,r,...a});
+const mkPath  = (d,a)           => svgEl('path',   {d,...a});
+
+function mkText(x, y, txt, a) {
+  const e = svgEl('text', {x, y, ...a});
+  e.textContent = txt;
+  return e;
+}
+
+// ── Chart 1: Cascade ─────────────────────────────────────────────────────────
+function drawCascade() {
+  const svg = document.getElementById('c1');
+  if (!svg) return;
+  const W=560, H=250, ml=44, mr=28, mt=26, mb=38;
+  const cw=W-ml-mr, ch=H-mt-mb;
+  const px = s => ml + (s/200)*cw;
+  const py = v => mt + ch - (v/100)*ch;
+
+  const gridA = {'stroke':'#e8e4dd','stroke-width':'1'};
+  for (const v of [0,25,50,75,100]) {
+    svg.appendChild(mkLine(ml,py(v),ml+cw,py(v),gridA));
+    svg.appendChild(mkText(ml-5,py(v)+4,String(v),{'font-family':'system-ui,sans-serif','font-size':'10','text-anchor':'end','fill':'#bbb'}));
+  }
+  for (const s of [0,50,100,150,200]) {
+    svg.appendChild(mkLine(px(s),mt+ch,px(s),mt+ch+4,{'stroke':'#ddd','stroke-width':'1'}));
+    svg.appendChild(mkText(px(s),mt+ch+14,String(s),{'font-family':'system-ui,sans-serif','font-size':'10','text-anchor':'middle','fill':'#bbb'}));
+  }
+
+  const axisA = {'font-family':'system-ui,sans-serif','font-size':'10','fill':'#999','text-anchor':'middle'};
+  svg.appendChild(mkText(ml+cw/2, H-2, 'Solver number (cumulative)', axisA));
+  const yl = mkText(11, mt+ch/2, 'IDs Mapped', axisA);
+  yl.setAttribute('transform', `rotate(-90,11,${mt+ch/2})`);
+  svg.appendChild(yl);
+
+  // horizontal ceiling line
+  svg.appendChild(mkLine(ml,py(100),ml+cw,py(100),{'stroke':'#ccc','stroke-width':'1','stroke-dasharray':'4 4'}));
+
+  const pts = [
+    {s:0,v:0},{s:1,v:3},{s:5,v:12},{s:10,v:26},
+    {s:20,v:46},{s:50,v:73},{s:100,v:95},{s:154,v:100},{s:200,v:100}
+  ];
+
+  // area fill
+  let area = `M${px(0)},${py(0)}`;
+  pts.forEach(p => { area += ` L${px(p.s)},${py(p.v)}`; });
+  area += ` L${px(200)},${mt+ch} L${px(0)},${mt+ch}Z`;
+  svg.appendChild(mkPath(area, {fill:'rgba(214,64,69,.10)',stroke:'none'}));
+
+  // main line
+  let d = `M${px(0)},${py(0)}`;
+  pts.forEach(p => { d += ` L${px(p.s)},${py(p.v)}`; });
+  svg.appendChild(mkPath(d, {fill:'none',stroke:'#d64045','stroke-width':'2.5','stroke-linejoin':'round','stroke-linecap':'round'}));
+
+  // solver 154 annotation
+  const x154 = px(154), y100 = py(100);
+  svg.appendChild(mkLine(x154,mt,x154,mt+ch,{'stroke':'#d64045','stroke-width':'1.5','stroke-dasharray':'6 4'}));
+  svg.appendChild(mkRect(x154-88,mt+4,84,28,{fill:'rgba(248,245,240,.95)',rx:'2'}));
+  const labelA = {'font-family':'system-ui,sans-serif','font-size':'8.5','fill':'#d64045','font-weight':'700','text-anchor':'end'};
+  svg.appendChild(mkText(x154-6, mt+15, 'ALL 100 IDs MAPPED', labelA));
+  svg.appendChild(mkText(x154-6, mt+25, '← solver #154', {'font-family':'system-ui,sans-serif','font-size':'8','fill':'#d64045','text-anchor':'end'}));
+  svg.appendChild(mkCirc(x154,y100,'5.5',{fill:'#d64045',stroke:'#fff','stroke-width':'2'}));
+}
+
+// ── Chart 2: Super-spreader two-panel ────────────────────────────────────────
+function drawSpread() {
+  const svg = document.getElementById('c2');
+  if (!svg) return;
+  const W=560, H=300;
+  const days  = ['Feb 10','Feb 11','Feb 12','Feb 13','Feb 14','Feb 15'];
+  const added  = [3, 57, 10, 7, 4, 4];
+  const lookup = [0, 9.7, 53.3, 33.3, 66.7, 55.6];
+  const n=days.length, ml=50, mr=20;
+  const slot=(W-ml-mr)/n, bw=slot*0.55;
+  const cx = i => ml + i*slot + slot/2;
+
+  // Panel 1: IDs Added  y=24..132
+  const p1={t:24,b:132};
+  const maxA=64;
+  const gridA={'stroke':'#e8e4dd','stroke-width':'1'};
+
+  svg.appendChild(mkText(ml, p1.t-6, 'IDs Added per Day',
+    {'font-family':'system-ui,sans-serif','font-size':'11','font-weight':'700','fill':'#444'}));
+
+  for (const v of [0,20,40,60]) {
+    const y = p1.b-(v/maxA)*(p1.b-p1.t);
+    svg.appendChild(mkLine(ml,y,W-mr,y,gridA));
+    svg.appendChild(mkText(ml-5,y+3,String(v),{'font-family':'system-ui,sans-serif','font-size':'9','text-anchor':'end','fill':'#bbb'}));
+  }
+
+  added.forEach((v,i) => {
+    const x=cx(i)-bw/2;
+    const bh=(v/maxA)*(p1.b-p1.t);
+    const isS=(i===1);
+    svg.appendChild(mkRect(x,p1.b-bh,bw,bh,{fill:isS?'#d64045':'rgba(214,64,69,.40)',rx:'2'}));
+    if (isS) {
+      svg.appendChild(mkText(cx(i),p1.b-bh-5,'57',
+        {'font-family':'system-ui,sans-serif','font-size':'10','font-weight':'700','text-anchor':'middle','fill':'#d64045'}));
+    }
+    svg.appendChild(mkText(cx(i),p1.b+13,days[i],
+      {'font-family':'system-ui,sans-serif','font-size':'9','text-anchor':'middle','fill':'#999'}));
+  });
+
+  // Panel 2: Lookup %  y=165..275
+  const p2={t:165,b:275};
+  const maxL=80;
+
+  svg.appendChild(mkText(ml, p2.t-6, 'Lookup-only % (consumers vs contributors)',
+    {'font-family':'system-ui,sans-serif','font-size':'11','font-weight':'700','fill':'#444'}));
+
+  for (const v of [0,25,50,75]) {
+    const y=p2.b-(v/maxL)*(p2.b-p2.t);
+    svg.appendChild(mkLine(ml,y,W-mr,y,gridA));
+    svg.appendChild(mkText(ml-5,y+3,v+'%',{'font-family':'system-ui,sans-serif','font-size':'9','text-anchor':'end','fill':'#bbb'}));
+  }
+
+  const trendPts = [];
+  lookup.forEach((v,i) => {
+    const x=cx(i)-bw/2;
+    const bh=(v/maxL)*(p2.b-p2.t);
+    const yb=p2.b-bh;
+    svg.appendChild(mkRect(x,yb,bw,bh,{fill:v===0?'rgba(45,58,140,.15)':'rgba(45,58,140,.8)',rx:'2'}));
+    svg.appendChild(mkText(cx(i),p2.b+13,days[i],
+      {'font-family':'system-ui,sans-serif','font-size':'9','text-anchor':'middle','fill':'#999'}));
+    trendPts.push({x:cx(i), y:p2.b-(v/maxL)*(p2.b-p2.t)});
+  });
+
+  // trend line
+  let td=`M${trendPts[0].x},${trendPts[0].y}`;
+  trendPts.slice(1).forEach(p => { td+=` L${p.x},${p.y}`; });
+  svg.appendChild(mkPath(td,{fill:'none',stroke:'rgba(45,58,140,.5)','stroke-width':'1.5','stroke-dasharray':'5 3'}));
+
+  // annotation: flip after Feb 11
+  svg.appendChild(mkText(cx(2),p2.b-3,'majority lookup →',
+    {'font-family':'system-ui,sans-serif','font-size':'8.5','fill':'rgba(45,58,140,.7)','font-style':'italic'}));
+}
+
+// ── Chart 3: Transcribe horizontal bars ─────────────────────────────────────
+function drawTranscribe() {
+  const svg = document.getElementById('c4');
+  if (!svg) return;
+  const W=560, H=230;
+  const data = [
+    {label:'Before Mar 4', attempts:12, firstTry:1.6},
+    {label:'Mar 4 – 25',   attempts:7,  firstTry:8.7},
+    {label:'After Mar 26', attempts:4,  firstTry:19.6},
+  ];
+  const ml=108, mr=24, mt=42, mb=30;
+  const cw=W-ml-mr, ch=H-mt-mb;
+  const n=data.length, rowH=ch/n, bH=Math.floor(rowH*0.26);
+  const halfW=cw/2-10;
+  const maxA=14, maxF=24;
+
+  // column titles
+  const tA={'font-family':'system-ui,sans-serif','font-size':'10','font-weight':'700','text-anchor':'middle'};
+  svg.appendChild(mkText(ml+halfW/2,mt-12,'Median Attempts',{...tA,fill:'#d64045'}));
+  svg.appendChild(mkText(ml+halfW/2,mt-2,'(fewer = less work)',{'font-family':'system-ui,sans-serif','font-size':'8.5','text-anchor':'middle','fill':'rgba(214,64,69,.7)'}));
+  svg.appendChild(mkText(ml+halfW+12+halfW/2,mt-12,'First-try Success',{...tA,fill:'#2d3a8c'}));
+  svg.appendChild(mkText(ml+halfW+12+halfW/2,mt-2,'(higher = easier)',{'font-family':'system-ui,sans-serif','font-size':'8.5','text-anchor':'middle','fill':'rgba(45,58,140,.7)'}));
+
+  // center divider
+  svg.appendChild(mkLine(ml+halfW+6,mt-18,ml+halfW+6,H-mb,{'stroke':'#e8e4dd','stroke-width':'1'}));
+
+  // row labels + bars
+  data.forEach((d,i) => {
+    const yc = mt + i*rowH + rowH/2;
+
+    svg.appendChild(mkText(ml-8,yc+4,d.label,
+      {'font-family':'system-ui,sans-serif','font-size':'11','text-anchor':'end','fill':'#555'}));
+
+    // attempts bar
+    const aW=(d.attempts/maxA)*halfW;
+    svg.appendChild(mkRect(ml,yc-bH-1,aW,bH,{fill:'#d64045',rx:'2'}));
+    svg.appendChild(mkText(ml+aW+5,yc+bH/2-bH,d.attempts+'×',
+      {'font-family':'system-ui,sans-serif','font-size':'11','fill':'#d64045','font-weight':'600'}));
+
+    // first-try bar
+    const fW=(d.firstTry/maxF)*halfW;
+    const fx=ml+halfW+12;
+    svg.appendChild(mkRect(fx,yc-bH-1,fW,bH,{fill:'#2d3a8c',rx:'2'}));
+    svg.appendChild(mkText(fx+fW+5,yc+bH/2-bH,d.firstTry+'%',
+      {'font-family':'system-ui,sans-serif','font-size':'11','fill':'#2d3a8c','font-weight':'600'}));
+
+    // row separator
+    if (i<n-1) svg.appendChild(mkLine(ml-4,mt+(i+1)*rowH,W-mr,mt+(i+1)*rowH,{'stroke':'#f0ece6','stroke-width':'1'}));
+  });
+
+  // scale hints
+  const scA={'font-family':'system-ui,sans-serif','font-size':'8.5','fill':'#ccc','text-anchor':'middle'};
+  svg.appendChild(mkText(ml,H-mb+12,'0',scA));
+  svg.appendChild(mkText(ml+halfW,H-mb+12,'14',scA));
+  svg.appendChild(mkText(ml+halfW+12,H-mb+12,'0%',scA));
+  svg.appendChild(mkText(ml+halfW+12+halfW,H-mb+12,'24%',scA));
+}
+
+// ── Animated Agent Map ────────────────────────────────────────────────────────
+const CIRCLES = [];
+
+function buildAgentMap() {
+  const svg = document.getElementById('c3anim');
+  if (!svg) return;
+  for (let i=0; i<100; i++) {
+    const col=i%10, row=Math.floor(i/10);
+    const cx=16+col*29+14, cy=16+row*29+14;
+    const c = mkCirc(cx,cy,'11',{fill:'#e8e4dd',stroke:'#d0cbc4','stroke-width':'1'});
+    svg.appendChild(c);
+    CIRCLES.push(c);
+  }
+}
+
+// Wave schedule: [circleIndex, delayMs, color]
+function makeSchedule() {
+  const s=[];
+  for (let i=0;i<3;i++)  s.push([i,   400+i*180,'#f5c842']);
+  for (let i=0;i<57;i++) s.push([3+i, 1400+i*55,'#d64045']);
+  for (let i=0;i<25;i++) s.push([60+i,5200+i*70,'#2d3a8c']);
+  for (let i=0;i<15;i++) s.push([85+i,7100+i*80,'#2d3a8c']);
+  return s;
+}
+
+let _timers=[], _running=false, _done=false;
+
+function toggleAnim() {
+  const btn=document.getElementById('anim-btn');
+  if (_running) {
+    _timers.forEach(clearTimeout); _timers=[];
+    _running=false; _done=false;
+    CIRCLES.forEach(c=>{c.setAttribute('fill','#e8e4dd');c.setAttribute('stroke','#d0cbc4');c.setAttribute('r','11');});
+    btn.textContent='▶ Play';
+    return;
+  }
+  if (_done) {
+    CIRCLES.forEach(c=>{c.setAttribute('fill','#e8e4dd');c.setAttribute('stroke','#d0cbc4');c.setAttribute('r','11');});
+    _done=false;
+  }
+  _running=true;
+  btn.textContent='⏹ Reset';
+  makeSchedule().forEach(([id,delay,color])=>{
+    _timers.push(setTimeout(()=>{
+      const c=CIRCLES[id];
+      if (!c) return;
+      c.setAttribute('fill',color);
+      c.setAttribute('stroke',color);
+      c.setAttribute('r','12.5');
+      setTimeout(()=>c.setAttribute('r','11'),220);
+    },delay));
+  });
+  _timers.push(setTimeout(()=>{
+    _running=false; _done=true;
+    if(btn) btn.textContent='↺ Replay';
+  },8800));
+}
+</script>
+</body>
+</html>
