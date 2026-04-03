@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [The Three Yeses — How 25 Universities Govern AI](ai-policies/). Every one of twenty-five universities says students may use AI. None of them mean the same thing — and what none of them say is the story that matters most. Analysis of public AI governance documents across 25 leading universities in 9 countries.
+  [![](ai-policies/screenshot.webp)](ai-policies/)
 - [What 765 Students Taught Us About Learning, Hacking, and Everything In Between](tds-2026-01-p1/). Analysis of 765 students, 9,046 saved submissions, and 1,731 evaluated AI images from TDS Jan 2026 Project 1, showing how learning shifts when answers are one search away.
   [![](tds-2026-01-p1/screenshot.webp)](tds-2026-01-p1/)
 - [The 80-Year Blind Spot: The Polya Audit](polya-for-ai/). In 1945, George Pólya gave mathematicians 15 rules for solving problems. For eight decades, they were treated as gospel. Nobody ever tested them. Until now.

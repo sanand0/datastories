@@ -195,9 +195,9 @@ It should feature a table of scores. 1 row per student. The columns are below. O
   - #: overall_score
   - 1: compositional_intent.score
   - 2: constraint_adherence.score
-  - 3. emotional_impact.score
-  - 4. legibility_without_labels.score
-  - 5. visual_originality.score
+  - 3: emotional_impact.score
+  - 4: legibility_without_labels.score
+  - 5: visual_originality.score
 - Concept Incarnation: similarly
 - Paradox Portrait: similarly
 - Style Transplant: similarly
@@ -343,5 +343,43 @@ Link extensively at every opportunity - e.g. to GitHub discussions, original sou
 In endgame.html keep in mind that server-validation errors are usually students trying to HACK the server (which is encouraged)! It's not a server side mistake. Reword that section accordingly.
 
 Also: From index.html include a card (as the sixth one) linking to gallery/ and explain what it is.
+
+---
+
+<!-- model claude-sonnet-4.6 (medium) -->
+
+On 1 Apr 2026, at around 10:30 pm IST, a student sent me this WhatsApp message.
+
+```
+Sir, I just wanted to say you thanks
+TDS course is really amazing and i learnt a lot from it
+You know what
+I learnt more in a single course than my entire diploma
+Though it's time taking but I'm really enjoying this
+
+It helped me to interact with my peers
+Before this i was not interacting with anyone
+Because of the online nature of this degree
+
+But TDS helped me to connect with everyone
+We are having meet regularly
+We divide questions with each other
+And then we solve and discuss
+
+Before this TDS course I was hating this degree
+But now I fell in love with what I'm doing..
+
+I really wanted to tell you this and today I got your number from one of my peer..
+
+Please shower your blessings on me!
+```
+
+This is so powerful. **THIS** is what the social question was all about. In the AI era, _this_ is the skill we need to teach.
+
+Include a relevant excerpt from this message in two-exams.html.
+
+---
+
+Sorry! Add it to social-infrastructure.html not two-exams.html. Restore two-exams.html. Write it into social-infrastructure.html in a way that fits with the narrative.
 
 <!-- copilot --resume=fff49a52-d237-4f56-b2f7-27af4ebfbc60 -->

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three Yeses — How 25 Universities Govern AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a1a;--ink2:#444;--ink3:#777;--cream:#faf9f7;--cream2:#f3f1ec;
+  --border:#dddad4;--blue:#1d4ed8;--red:#b91c1c;--green:#15803d;
+  --c5:#bbf7d0;--c5t:#14532d;
+  --c4:#d1fae5;--c4t:#065f46;
+  --c3:#fef9c3;--c3t:#854d0e;
+  --c2:#fed7aa;--c2t:#9a3412;
+  --c1:#e5e7eb;--c1t:#4b5563;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Libre Baskerville',Georgia,serif;line-height:1.85;color:var(--ink);background:var(--cream);font-size:18px}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+a.ext::after{content:" ↗";font-size:.7em;opacity:.65}
+strong{font-weight:700}
+
+/* Layout */
+.container{max-width:700px;margin:0 auto;padding:0 24px}
+.full{width:100%;padding:0 24px}
+
+/* Hero */
+.hero{background:var(--ink);color:#fff;padding:72px 24px 56px}
+.hero .container{max-width:780px}
+.kicker{font-family:'Inter',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7a9bbd;margin-bottom:1.4rem}
+.hero h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.08;font-weight:700;margin-bottom:1.1rem;letter-spacing:-.02em}
+.hero .deck{font-size:1.2rem;line-height:1.65;color:#b8cad8;font-style:italic;max-width:640px}
+.byline{margin-top:2rem;font-family:'Inter',sans-serif;font-size:.82rem;color:#5a7a94;border-top:1px solid #243546;padding-top:1rem}
+
+/* Stat bar */
+.stat-bar{background:#111827;display:flex;flex-wrap:wrap;justify-content:center}
+.stat-item{text-align:center;padding:14px 28px;border-right:1px solid #1f2f3f}
+.stat-item:last-child{border:none}
+.stat-n{font-family:'Inter',sans-serif;font-size:2.2rem;font-weight:700;line-height:1;display:block}
+.stat-l{font-family:'Inter',sans-serif;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin-top:3px;display:block}
+.green{color:#4ade80}.red{color:#f87171}.yellow{color:#fbbf24}.blue{color:#60a5fa}.gray{color:#6b7280}
+
+/* Narrative */
+.narrative{padding:60px 0}
+.narrative p{font-size:1.1rem;margin-bottom:1.5rem;color:var(--ink2)}
+.narrative p.lead{font-size:1.22rem;color:var(--ink);line-height:1.75}
+.narrative h2{font-size:1.5rem;font-weight:700;margin:2.8rem 0 .9rem;line-height:1.2}
+.narrative h3{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin:2.8rem 0 .5rem}
+.pullquote{font-size:1.42rem;font-style:italic;line-height:1.5;border-left:4px solid var(--blue);padding:8px 0 8px 24px;margin:2.2rem 0;color:var(--ink)}
+mark{background:linear-gradient(180deg,transparent 56%,#fef08a 56%);padding:0 2px}
+.tip{border-bottom:1px dashed #aaa;cursor:help}
+
+/* Coverage chart */
+.chart-section{background:var(--cream2);padding:48px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.chart-title{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.4rem}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.bar-uni{font-family:'Inter',sans-serif;font-size:.78rem;width:90px;flex-shrink:0;text-align:right;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;background:#e5e7eb;border-radius:2px;height:17px;position:relative}
+.bar-fill{height:100%;border-radius:2px;display:flex;align-items:center;padding-left:5px}
+.bar-pct{font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:rgba(255,255,255,.9)}
+
+/* Three Yeses visual */
+.three-yes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:2.4rem 0}
+.ty-card{border-radius:8px;padding:20px;border:2px solid transparent}
+.ty-card.green{background:#f0fdf4;border-color:#bbf7d0}
+.ty-card.amber{background:#fffbeb;border-color:#fde68a}
+.ty-card.gray{background:#f9fafb;border-color:#e5e7eb}
+.ty-title{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem}
+.ty-title.green{color:#15803d}
+.ty-title.amber{color:#92400e}
+.ty-title.gray{color:#374151}
+.ty-desc{font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink2);line-height:1.5;margin-bottom:.8rem}
+.ty-unis{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink3);line-height:1.6}
+
+/* Consensus icons */
+.consensus{background:#fff;border:1px solid var(--border);border-radius:8px;padding:32px;margin:2.2rem 0}
+.con-title{font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);text-align:center;margin-bottom:1.6rem}
+.con-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.con-item{text-align:center;padding:12px 8px}
+.con-icon{font-size:1.8rem;margin-bottom:.3rem}
+.con-label{font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;color:var(--ink);display:block;margin-bottom:.2rem}
+.con-sub{font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink3);line-height:1.3}
+
+/* TABLE — full width */
+.table-section{padding:48px 0;background:var(--cream2);border-top:1px solid var(--border)}
+.table-hdr{max-width:1800px;margin:0 auto;padding:0 12px;margin-bottom:1rem}
+.table-hdr h2{font-size:1.5rem;margin-bottom:.3rem}
+.table-note{font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink3)}
+.table-note strong{color:var(--ink)}
+.tscroll{width:100%;overflow-x:auto}
+
+#pt{width:100%;border-collapse:collapse;font-family:'Inter',sans-serif;font-size:.76rem;table-layout:auto}
+#pt thead tr{background:#1e293b;color:#e2e8f0}
+#pt th{padding:8px 10px;text-align:left;font-size:.68rem;font-weight:600;letter-spacing:.03em;white-space:nowrap;cursor:pointer;border-right:1px solid #334155;user-select:none;vertical-align:bottom;line-height:1.3}
+#pt th:last-child{border-right:none}
+#pt th:hover{background:#293548}
+#pt th .col-sub{display:block;font-weight:400;font-size:.6rem;color:#94a3b8;letter-spacing:0;white-space:normal;line-height:1.25;margin-top:3px;max-width:80px}
+#pt th .sarr{opacity:.4;font-size:.6rem}
+#pt th.asc .sarr::after{content:" ▲";opacity:1}
+#pt th.desc .sarr::after{content:" ▼";opacity:1}
+
+/* uni column */
+#pt td.uc{min-width:140px;max-width:170px;padding:8px 10px;background:#fff;border-bottom:1px solid #f0ede8;border-right:1px solid #f0ede8;vertical-align:middle;white-space:nowrap}
+#pt td.uc a{font-size:.8rem;font-weight:600;color:var(--ink);display:block}
+#pt td.uc a:hover{color:var(--blue);text-decoration:underline}
+/* metric cells */
+#pt td.mc{padding:7px 9px;border-bottom:1px solid rgba(0,0,0,.06);border-right:1px solid rgba(0,0,0,.06);vertical-align:middle;cursor:pointer;line-height:1.3;font-size:.73rem;transition:filter .1s}
+#pt td.mc:hover{filter:brightness(.93)}
+#pt td.mc:last-child{border-right:none}
+#pt tr:last-child td{border-bottom:none}
+#pt td.c5{background:var(--c5);color:var(--c5t)}
+#pt td.c4{background:var(--c4);color:var(--c4t)}
+#pt td.c3{background:var(--c3);color:var(--c3t)}
+#pt td.c2{background:var(--c2);color:var(--c2t)}
+#pt td.c1{background:var(--c1);color:var(--c1t);font-style:italic}
+
+/* Missing pillars */
+.missing{background:#111827;padding:60px 0;color:#fff}
+.missing h2{font-size:1.5rem;color:#fff;margin-bottom:.4rem}
+.missing .msub{font-family:'Inter',sans-serif;font-size:.88rem;color:#9ca3af;margin-bottom:2rem;max-width:600px}
+.pillars{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.pillar{background:#1f2937;border:1px solid #374151;border-radius:7px;padding:18px}
+.p-num{font-family:'Inter',sans-serif;font-size:1.8rem;font-weight:700;color:#374151;line-height:1;margin-bottom:.4rem}
+.p-title{font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;color:#e5e7eb;margin-bottom:.3rem}
+.p-desc{font-family:'Inter',sans-serif;font-size:.74rem;color:#9ca3af;line-height:1.45;margin-bottom:.4rem}
+.p-why{font-family:'Inter',sans-serif;font-size:.68rem;color:#f87171;font-weight:500}
+
+/* Takeaway cards */
+.takeaway{padding:60px 0}
+.takeaway .container{max-width:960px}
+.takeaway h2{font-size:1.5rem;margin-bottom:.4rem}
+.takeaway .tsub{font-family:'Inter',sans-serif;font-size:.9rem;color:var(--ink3);margin-bottom:2rem}
+.tc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.tc{background:#fff;border:1px solid var(--border);border-radius:8px;padding:28px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.tc-icon{font-size:1.6rem;margin-bottom:.6rem}
+.tc-who{font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.3rem}
+.tc h3{font-size:1rem;font-weight:700;margin-bottom:.8rem;color:var(--ink)}
+.tc ul{padding-left:1.2rem}
+.tc li{font-family:'Inter',sans-serif;font-size:.85rem;line-height:1.6;color:var(--ink2);margin-bottom:.4rem}
+.tc li strong{color:var(--ink)}
+
+/* Callout box */
+.callout{background:#fff;border:1px solid var(--border);border-radius:7px;padding:22px 26px;margin:2rem 0}
+.callout-ttl{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.6rem}
+.callout p{font-family:'Inter',sans-serif;font-size:.88rem;line-height:1.65;margin:0;color:var(--ink2)}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px)}
+.modal[hidden]{display:none}
+.mbox{background:#fff;border-radius:10px;max-width:520px;width:100%;max-height:82vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.mhdr{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:start;gap:12px}
+.muni{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)}
+.mdim{font-size:1rem;font-weight:700;margin-top:2px;color:var(--ink)}
+.mclose{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink3);padding:0 4px;line-height:1;flex-shrink:0}
+.mclose:hover{color:var(--ink)}
+.mbody{padding:18px 22px 24px}
+.mbadge{display:inline-block;padding:4px 10px;border-radius:4px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;margin-bottom:12px}
+.mnote{font-family:'Inter',sans-serif;font-size:.88rem;line-height:1.6;color:var(--ink2);margin-bottom:14px}
+.mquote{background:var(--cream2);border-left:3px solid var(--blue);padding:10px 14px;border-radius:0 5px 5px 0;font-size:.83rem;font-style:italic;color:var(--ink2);line-height:1.6;margin-bottom:14px}
+.mquote cite{display:block;margin-top:6px;font-style:normal;font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink3)}
+
+/* Footer */
+footer{background:#111827;color:#6b7280;padding:40px 24px;font-family:'Inter',sans-serif;font-size:.8rem;line-height:1.7}
+footer a{color:#9ca3af}
+footer .container{max-width:700px}
+
+@media(max-width:700px){
+  .three-yes{grid-template-columns:1fr}
+  .tc-grid{grid-template-columns:1fr}
+  .con-grid{grid-template-columns:repeat(3,1fr)}
+  .stat-item{padding:10px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+<div class="container">
+  <p class="kicker">AI Governance · Higher Education · 25 Universities · 9 Countries · 2026</p>
+  <h1>The Three Yeses</h1>
+  <p class="deck">Every one of twenty-five universities says students may use AI. None of them mean the same thing — and what none of them say is the story that matters most.</p>
+  <p class="byline">Analysis of public AI governance documents across 25 leading universities in the Americas, Europe, Asia-Pacific, and South Asia</p>
+</div>
+</header>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-item"><span class="stat-n">25</span><span class="stat-l">Universities</span></div>
+  <div class="stat-item"><span class="stat-n green">21</span><span class="stat-l">Public policies found</span></div>
+  <div class="stat-item"><span class="stat-n red">0</span><span class="stat-l">Blanket bans on AI</span></div>
+  <div class="stat-item"><span class="stat-n yellow">3</span><span class="stat-l">Governance philosophies</span></div>
+  <div class="stat-item"><span class="stat-n blue">1</span><span class="stat-l">Proctored AI exam (LSE)</span></div>
+  <div class="stat-item"><span class="stat-n gray">10</span><span class="stat-l">Dimensions no one covers</span></div>
+</div>
+
+<article>
+
+<!-- PART 1: HOOK -->
+<section class="narrative">
+<div class="container">
+  <h3>Part One</h3>
+  <h2>Three Acts</h2>
+
+  <p class="lead">In the autumn of 2023, the London School of Economics did something almost no major university had the institutional nerve to do: it issued a school-wide ban on generative AI in all assessed work. Not a framework. Not a set of conditions. A ban.</p>
+
+  <p>By 2024, LSE removed it.</p>
+
+  <p>By 2025, LSE had introduced something more inventive than either: the <a href="https://info.lse.ac.uk/staff/divisions/Eden-Centre/Artificial-Intelligence-Education-and-Assessment/School-position-on-generative-AI" class="ext" title="LSE School position on generative AI in assessment 2025/26">Observed Assessment</a>. Students write essays with AI tools available — but in a supervised room, under time pressure that makes it impossible to outsource the thinking. The tool is permitted. The question of whether the work reflects genuine understanding is answered not by trust but by presence.</p>
+
+  <p>Ban. Lift. Watch. This three-act journey — prohibition, permission, then something that isn't quite either — is the most compressed version of a conversation that twenty-five of the world's top universities are all having simultaneously. We read their public governance documents. What we found is not the consensus story.</p>
+</div>
+</section>
+
+<!-- PART 2: CONSENSUS -->
+<section class="narrative">
+<div class="container">
+  <h3>Part Two</h3>
+  <h2>What Everyone Agrees On</h2>
+
+  <p class="lead">Before the differences, the agreement. Of the twenty-five universities in this analysis, twenty-one have published AI policies. Not one has banned generative AI. That alone is worth sitting with. Institutions that built their reputations on original thought from students — on the assumption that intellectual struggle is what makes learning stick — have decided, with remarkable speed, that AI use should be permitted.</p>
+
+  <p>The agreement runs deeper than "yes." Those twenty-one institutions converge on five structural principles with a consistency that suggests either deliberate coordination or convergent evolution under identical pressure. Disclosure is required. The human user bears accountability for accuracy. Existing academic integrity rules extend to AI. Sensitive data must stay out of AI systems. And local instructors, departments, and funders may add stricter rules.</p>
+
+  <div class="consensus">
+    <p class="con-title">The Big Five — present in all 21 policy-issuing universities</p>
+    <div class="con-grid">
+      <div class="con-item"><div class="con-icon">📢</div><span class="con-label">Disclose</span><div class="con-sub">AI use must be declared — 21/21</div></div>
+      <div class="con-item"><div class="con-icon">🧍</div><span class="con-label">You own it</span><div class="con-sub">Human accountable for output — 21/21</div></div>
+      <div class="con-item"><div class="con-icon">⚖️</div><span class="con-label">Rules extend</span><div class="con-sub">Integrity policies cover AI — 21/21</div></div>
+      <div class="con-item"><div class="con-icon">🔒</div><span class="con-label">No private data</span><div class="con-sub">Confidential data stays out — 21/21</div></div>
+      <div class="con-item"><div class="con-icon">📋</div><span class="con-label">Local rules</span><div class="con-sub">Courses can go stricter — 21/21</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p class="callout-ttl">These 25 are the outliers, not the norm</p>
+    <p>EDUCAUSE's 2025 AI Landscape Study found that only 39% of higher education institutions have any AI-related acceptable use policy at all — up from 23% in 2024. The 25 universities here represent the frontier. What looks like a cautious, incomplete consensus in this dataset is still well ahead of most of the sector. The convergence on five guardrails is real progress. It is also, by any comprehensive standard of AI governance, the beginning of the work.</p>
+  </div>
+
+  <p>The table below shows what the consensus conceals: how comprehensively each university has actually answered the eleven policy dimensions that matter. Sorted by coverage. Click any cell for the evidence.</p>
+</div>
+</section>
+
+<!-- COVERAGE CHART -->
+<div class="chart-section">
+<div class="full" style="max-width:900px;margin:0 auto">
+  <p class="chart-title">Policy coverage score — average across 11 dimensions (disclosure, accountability, integrity, privacy, tools, assessment, research, override, authorship, stance, type)</p>
+  <div id="cbar"></div>
+  <p style="font-family:Inter,sans-serif;font-size:.68rem;color:#999;margin-top:10px">Score = mean value (1–5) across 11 policy dimensions ÷ 5. Gray = no public policy found.</p>
+</div>
+</div>
+
+<!-- TABLE -->
+<div class="table-section">
+<div class="table-hdr">
+  <h2>The Full Policy Matrix</h2>
+  <p class="table-note"><strong>Click any column header to sort.</strong> Click any colored cell for evidence, quotes, and source. Green = comprehensive · Yellow = partial · Orange = absent · Gray = no public policy found.</p>
+</div>
+<div class="tscroll">
+<table id="pt">
+  <thead>
+    <tr>
+      <th data-col="name" style="min-width:130px">University<span class="sarr"></span></th>
+      <th data-col="type" title="Type and structure of the AI governance document">Policy Type<span class="col-sub">Formal/guidance/none</span><span class="sarr"></span></th>
+      <th data-col="stance" title="Default position toward AI use — permitted, restricted, or delegated">Default Stance<span class="col-sub">Permit / restrict / delegate</span><span class="sarr"></span></th>
+      <th data-col="disclosure" title="Whether and how specifically AI use must be disclosed">Disclosure<span class="col-sub">Must AI be declared?</span><span class="sarr"></span></th>
+      <th data-col="accountability" title="Whether the policy explicitly places accuracy responsibility on the human user">Accountability<span class="col-sub">Who owns the output?</span><span class="sarr"></span></th>
+      <th data-col="integrity" title="Whether AI use is tied to academic misconduct enforcement">Integrity<span class="col-sub">Misconduct rules apply?</span><span class="sarr"></span></th>
+      <th data-col="privacy" title="Restrictions on inputting private or confidential data into AI tools">Privacy<span class="col-sub">Data input limits</span><span class="sarr"></span></th>
+      <th data-col="tools" title="Whether the institution provides or recommends specific AI tools">Inst. Tools<span class="col-sub">Approved tools provided?</span><span class="sarr"></span></th>
+      <th data-col="assessment" title="Whether the policy specifically addresses AI use in assessments">Assessment<span class="col-sub">Exams &amp; coursework</span><span class="sarr"></span></th>
+      <th data-col="research" title="Whether the policy addresses AI in academic research outputs">Research<span class="col-sub">Research publications</span><span class="sarr"></span></th>
+      <th data-col="override" title="Whether local departments or course instructors may add stricter rules">Local Override<span class="col-sub">Dept / course rules</span><span class="sarr"></span></th>
+      <th data-col="authorship" title="Whether the policy explicitly states AI cannot be listed as an author">AI Authorship<span class="col-sub">Can AI be an author?</span><span class="sarr"></span></th>
+    </tr>
+  </thead>
+  <tbody id="ptbody"></tbody>
+</table>
+</div>
+</div>
+
+<!-- PART 3: THREE PHILOSOPHIES -->
+<section class="narrative">
+<div class="container">
+  <h3>Part Three</h3>
+  <h2>Three Very Different Yeses</h2>
+
+  <p class="lead">The phrase "permitted with conditions" covers an enormous amount of ground. At one end of the spectrum, it means essentially: here is a list of approved tools, please note which ones you used. At the other end, it means: you must prove to us, in a supervised room, that the work is actually yours.</p>
+
+  <p>The dataset resolves into three broad governance philosophies:</p>
+</div>
+<div style="max-width:1200px;margin:0 auto;padding:0 24px">
+  <div class="three-yes">
+    <div class="ty-card green">
+      <p class="ty-title green">Open Default (16 institutions)</p>
+      <p class="ty-desc">AI is permitted for most purposes unless a specific context restricts it. The default state of the student is AI-capable.</p>
+      <p class="ty-unis">MIT · Yale · Princeton · NUS · NTU · SMU · ETH Zurich · EPFL · KU Leuven · Helsinki · HKU · Melbourne · UNSW · IISc · Cambridge · SUTD*</p>
+    </div>
+    <div class="ty-card amber">
+      <p class="ty-title amber">Closed Default (5 institutions)</p>
+      <p class="ty-desc">AI is restricted unless explicitly authorised. The burden of proof falls on permission, not restriction.</p>
+      <p class="ty-unis">Oxford · Imperial · Stanford · University of Toronto · University of Sydney</p>
+    </div>
+    <div class="ty-card gray">
+      <p class="ty-title gray">Structured / Abstain (4 institutions)</p>
+      <p class="ty-desc">Either departments must choose their own position (LSE), or the centre refuses to make any uniform call (Tokyo). India's three institutions have no public policy at all.</p>
+      <p class="ty-unis">LSE · Tokyo · IIT Madras · Ashoka</p>
+    </div>
+  </div>
+</div>
+<div class="container">
+
+  <p>Oxford and <a href="https://www.imperial.ac.uk/admin-services/library/learning-support/generative-ai-guidance/" class="ext" title="Imperial College London generative AI guidance">Imperial College London</a> are the clearest default-restrictors. Oxford's policy states AI is "not permitted unless the assessment brief explicitly states otherwise." Imperial's guidance warns that absent explicit authorisation, using AI to create assessed work "may be treated as an offence such as contract cheating." Both institutions start from restriction and require explicit permission to move.</p>
+
+  <p><a href="https://communitystandards.stanford.edu/policies-guidance" class="ext" title="Stanford Community Standards: AI guidance">Stanford's</a> approach is subtler but similarly structured: "absent a clear statement from a course instructor, use of or consultation with generative AI shall be treated analogously to assistance from another person." The analogy to <em>another person</em> doing your work is deliberate and elegant — it activates existing academic integrity intuitions without requiring new rules.</p>
+
+  <div class="pullquote">LSE found a fourth path. After lifting its school-wide ban, it issued a mandatory choice: every academic department must publicly commit to one of three positions — no AI, limited AI, or full AI. The centre doesn't decide. It forces decisions.</div>
+
+  <p>Then there is the <a href="https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/" class="ext" title="University of Tokyo: Use of AI tools in classes">University of Tokyo</a>, which occupies a category of its own. Its policy statement reads: "The University of Tokyo will not uniformly prohibit the use of natural language-generation AI tools, such as ChatGPT, in educational settings." This is not permission. It is a deliberate refusal to issue either permission or prohibition — a principled delegation of the question to individual instructors. Tokyo has decided that the centre is not the right place to make this call. That is itself a governance philosophy, and perhaps the most intellectually honest one in the dataset.</p>
+
+  <div class="callout">
+    <p class="callout-ttl">Who was in the room when these policies were written?</p>
+    <p>The <a href="https://www.aaup.org/reports-publications/aaup-policies-reports/topical-reports/artificial-intelligence-and-academic" class="ext" title="AAUP: Artificial Intelligence and Academic Professions (2025)">AAUP's 2025 report on AI and academic professions</a> found that at US institutions, 71% of faculty say administrators "overwhelmingly" lead AI policy conversations with "little meaningful input" from faculty, staff, or students. The three governance philosophies above were not, in most cases, chosen by the people who teach and learn under them. When Tokyo delegates to individual instructors, it is often framed as abdication. But it may also be the only institution in this dataset with a governance structure where the people closest to the problem actually make the call.</p>
+  </div>
+</div>
+</section>
+
+<!-- PART 4: DISCLOSURE MOUNTAIN -->
+<section class="narrative">
+<div class="container">
+  <h3>Part Four</h3>
+  <h2>The Disclosure Mountain</h2>
+
+  <p class="lead">Every policy in this dataset requires disclosure. The word appears in all twenty-one. Functionally, it spans orders of magnitude.</p>
+
+  <p>At one end, <a href="https://students.unimelb.edu.au/academic-skills/resources/academic-integrity/acknowledging-AI-tools-and-technologies" class="ext" title="University of Melbourne: Acknowledging AI tools">the University of Melbourne</a> requires students to have records of "prompts and outputs used in the AI tools or technologies available on request." <a href="https://www.sydney.edu.au/students/responsible-ai-use.html" class="ext" title="University of Sydney: Responsible AI use">The University of Sydney</a> requires "the name and version, the publisher, the URL, and a brief description of how you have used" each tool. NUS requires not just which tools but "which tasks" and "which prompts" — at the time of submission. These policies produce an audit trail.</p>
+
+  <p>At the other end, the University of Tokyo <em>recommends</em> that instructors "have students specify which generative AI they used when submitting reports." A recommendation. Which tool. Nothing more.</p>
+
+  <div class="callout">
+    <p class="callout-ttl">IISc's tiered rule — unique in this dataset</p>
+    <p>The Indian Institute of Science makes a distinction no other university here makes explicit: minor AI use (grammar, word choice) requires no disclosure. Substantive cognitive assistance — analysis, argumentation, structure — requires a methods-section declaration including what tools were used, for which tasks, and how outputs were verified. It acknowledges that "using spell-check" and "using AI to draft an argument" are not the same kind of thing.</p>
+  </div>
+
+  <p>The disclosure spectrum matters because it is the operational centre of these policies. Principle without procedure is aspiration. A student who receives a "disclose your AI use" instruction without knowing what that means in practice — which tool name? which version? the prompts? a methods section? a footnote? — is not protected by the policy. They are confused by it.</p>
+
+  <p>There is a structural flaw in disclosure as a compliance mechanism that no policy here acknowledges. If disclosure is how institutions verify AI use, then AI detectors are the enforcement layer behind it — and that layer is quietly discriminatory. A <a href="https://hai.stanford.edu/news/ai-detectors-biased-against-non-native-english-writers" class="ext" title="Stanford HAI: AI detectors biased against non-native English writers">Stanford HAI study</a> found that detectors misclassify over 61% of essays by non-native English speakers as AI-generated, compared to near-perfect accuracy for native speakers. The scoring method uses "perplexity" — a proxy for linguistic sophistication — and non-native writers naturally score lower. Ninety-seven percent of TOEFL essays were flagged by at least one detector. <mark>Not one of the twenty-five institutions in this dataset acknowledges whether it uses AI detectors, their known bias, or any safeguard against wrongful accusation.</mark> A policy built on disclosure, enforced through detection, carries a built-in justice problem that the policies themselves are silent about.</p>
+</div>
+</section>
+
+<!-- MISSING PILLARS -->
+<div class="missing">
+<div class="full" style="max-width:1400px;margin:0 auto">
+  <h2>10 Things No Policy Addresses</h2>
+  <p class="msub">Every dimension below is absent from all 25 institutions in this dataset. These are not edge cases — they are active pressure points where students, faculty, and institutions are making consequential decisions right now, without institutional guidance.</p>
+  <div class="pillars">
+    <div class="pillar"><div class="p-num">01</div><div class="p-title">AI in Admissions</div><div class="p-desc">No university addresses whether applicants may use AI in essays or personal statements — the highest-stakes academic writing most students ever do.</div><div class="p-why">Why it matters: The undetectable use with the most consequential outcome.</div></div>
+    <div class="pillar"><div class="p-num">02</div><div class="p-title">AI Detection Tools</div><div class="p-desc">No policy discusses whether or how the institution uses AI detectors, their known false positive rates, or safeguards against wrongful accusation.</div><div class="p-why">Why it matters: <a href="https://hai.stanford.edu/news/ai-detectors-biased-against-non-native-english-writers" target="_blank" style="color:#f87171">Stanford: 61% of non-native English essays flagged as AI-written.</a></div></div>
+    <div class="pillar"><div class="p-num">03</div><div class="p-title">Equity and Access</div><div class="p-desc">No policy addresses unequal access to AI tools — paid subscriptions, hardware, bandwidth, or language barriers that disadvantage some students structurally.</div><div class="p-why">Why it matters: Policies that encourage AI use favour students who can afford it.</div></div>
+    <div class="pillar"><div class="p-num">04</div><div class="p-title">Environmental Impact</div><div class="p-desc">No institution mentions the energy cost of generative AI queries, despite active institutional sustainability commitments.</div><div class="p-why">Why it matters: A GPT-4 query uses <a href="https://arxiv.org/abs/2311.16863" target="_blank" style="color:#f87171">~10× the energy of a Google search.</a></div></div>
+    <div class="pillar"><div class="p-num">05</div><div class="p-title">Student Data in Training</div><div class="p-desc">While all policies restrict uploading sensitive data, none address whether licensed institutional tools train on student submissions, or what opt-out rights exist.</div><div class="p-why">Why it matters: Students may be training the tools they're later tested on. Only UNSW addresses this contractually.</div></div>
+    <div class="pillar"><div class="p-num">06</div><div class="p-title">Multilingual Students</div><div class="p-desc">No policy addresses AI use specifically for students whose first language is not the language of instruction — a structurally different use case from standard disclosure.</div><div class="p-why">Why it matters: Polishing language is not the same as generating arguments. Policies treat them identically.</div></div>
+    <div class="pillar"><div class="p-num">07</div><div class="p-title">Mental Health &amp; Dependency</div><div class="p-desc">No policy addresses psychological dimensions — dependency, deskilling anxiety, or the cognitive load of constant AI-rule navigation.</div><div class="p-why">Why it matters: The skill gap AI creates may only become visible at graduation.</div></div>
+    <div class="pillar"><div class="p-num">08</div><div class="p-title">Professional Practice Training</div><div class="p-desc">No policy addresses AI in clinical, legal, or engineering professional education — contexts with entirely different ethical stakes from essay-writing.</div><div class="p-why">Why it matters: A medical student reasoning about a case with AI faces different professional ethics than one writing a history essay.</div></div>
+    <div class="pillar"><div class="p-num">09</div><div class="p-title">Administrative AI Use</div><div class="p-desc">Policies focus on academic work. None substantively address AI in HR, student services, academic analytics, or grading support — where students are subjects, not users.</div><div class="p-why">Why it matters: Students are also governed by AI they didn't choose.</div></div>
+    <div class="pillar"><div class="p-num">10</div><div class="p-title">Shared Governance</div><div class="p-desc">No policy describes who was consulted in its drafting, whether faculty or students had input, or how the policy will be reviewed. The 2025 AAUP report found 71% of faculty had "little meaningful input" in AI decisions at their institutions.</div><div class="p-why">Why it matters: Policies written without the people who live under them are unlikely to be trusted or followed.</div></div>
+  </div>
+</div>
+</div>
+
+<!-- PART 5: RESEARCH GAP -->
+<section class="narrative">
+<div class="container">
+  <h3>Part Five</h3>
+  <h2>The Research Gap</h2>
+
+  <p class="lead">Most AI policies were written by education offices, for students, about coursework. Research — where AI's implications are more profound, more complex, and more consequential — is consistently the afterthought.</p>
+
+  <p>Fifteen of twenty-five institutions have some research-specific guidance. But quality varies enormously. The <a href="https://researchintegrity.law.hku.hk/guidelines-on-the-responsible-use-of-generative-ai-in-research-at-the-university-of-hong-kong/" class="ext" title="HKU: Guidelines on Responsible Use of Generative AI in Research">University of Hong Kong</a>'s research guidelines are in a different league from the rest. They require "any use of GenAI, including how the software is used, should be well documented." Graduate students must declare AI use "at the time of thesis submission for examination." And most meaningfully: "any responsible use of GenAI in research must be done in a process in which human researchers can readily verify and validate output produced by GenAI." This is not just disclosure — it is a reproducibility standard.</p>
+
+  <p><a href="https://www.unsw.edu.au/content/dam/pdfs/planning-assurance/conduct-integrity/2024-04-unsw-position-on-generative-ai-in-research.pdf" class="ext" title="UNSW: Position on Generative AI in Research">UNSW Sydney</a> has published a formal research position paper. <a href="https://www.kuleuven.be/english/genai" class="ext" title="KU Leuven GenAI guidance">KU Leuven</a> integrates GDPR compliance into its research guidance. These represent serious attempts to address the research context specifically.</p>
+
+  <p>NUS — which has the most operationally specific teaching policy in this dataset — has no public research policy. Stanford, whose faculty have co-created the AI systems everyone else is writing policies about, has "partial related guidance but no dedicated public research policy." Tokyo has no research policy at all.</p>
+
+  <p>There is something quietly strange about this: the institutions most invested in producing AI research are among the least invested in governing how their own researchers use AI tools. The policy conversation has been driven by the education side of the house. The research community is still working out what to say.</p>
+
+  <p>The pattern follows the governance structure. <a href="https://unesdoc.unesco.org/ark:/48223/pf0000386693" class="ext" title="UNESCO: Guidance for Generative AI in Education and Research (2023)">UNESCO's 2023 guidance for generative AI in education and research</a> explicitly called for institutions to address AI in research outputs, scientific integrity, reproducibility, and intellectual property — requirements that the teaching-office documents dominating this dataset are structurally not built to fulfil. The research gap is not an oversight. It is a symptom of who was in the room when policy was being made, and what problem they had been asked to solve.</p>
+</div>
+</section>
+
+<!-- PART 6: INFRASTRUCTURE -->
+<section class="narrative">
+<div class="container">
+  <h3>Part Six</h3>
+  <h2>The Infrastructure Race</h2>
+
+  <p class="lead">Most universities licensed Microsoft Copilot in 2023 and called it a policy. A few went further. The distance between these approaches reveals a deeper disagreement about what a university's relationship to AI infrastructure should actually be.</p>
+
+  <p>The University of Helsinki built <span class="tip" title="CurreChat is a university-developed AI assistant deployed for student and staff use at the University of Helsinki, distinct from commercially licensed tools">CurreChat</span> — a homegrown AI assistant, the only university-developed tool in this dataset. <a href="https://www.imperial.ac.uk/admin-services/ict/training-and-resources/daisy/" class="ext" title="Imperial College London: dAIsy platform">Imperial College London</a> has gone more ambitious: <em>dAIsy</em>, described as "a secure AI platform designed to give staff and students safe, easy access to multiple generative AI models (such as GPT, Claude, Deepseek, and others) through a single interface." One platform. Multiple models. Institutional control over access, audit, and data flows. This is not procurement. It is infrastructure.</p>
+
+  <p>The <a href="https://info.lse.ac.uk/current-students/digital-skills-lab/Gen-AI" class="ext" title="LSE: AI tools for students">London School of Economics</a> provides both Copilot with commercial data protection <em>and</em> Claude for Education — making it the only institution in this dataset with official institutional access to Anthropic's Claude for students alongside Microsoft's offering. That choice of two different AI providers reflects a deliberate hedging strategy against vendor dependence.</p>
+
+  <p><a href="https://www.unsw.edu.au/myit/services/software-applications/using-copilot-chat" class="ext" title="UNSW: Using Copilot Chat">UNSW Sydney</a> has taken a contractual approach rather than building its own platform. It negotiated Copilot access with a specific assurance that "user prompts and responses are not retained, saved, or used as part of any training set for the underlying large language model." This is the only institution in this dataset to explicitly address whether student AI interactions feed back into model training — a question every institution using commercial tools should be asking but most are not.</p>
+
+  <p>These three approaches — build it, diversify your vendors, or lock down the contract — are really three versions of the same question: who controls the data? A university's AI infrastructure strategy is, at bottom, a data sovereignty question. The vendor that holds your students' conversations holds behavioural data on how your community learns, struggles, and thinks. Most universities are still choosing a fourth option: accept commercial defaults and hope the vendor's privacy terms hold.</p>
+
+  <p>The stakes are higher than most administrators appreciate. Data privacy experts have converged on a single priority institutions are systematically skipping: ensuring AI vendors cannot use student interactions to train their models. <a href="https://edtechmagazine.com/higher/article/2026/01/ai-higher-education-protecting-student-data-privacy-perfcon" class="ext" title="EdTech Magazine: AI in Higher Education — protecting student data privacy">"The most overlooked issue,"</a> according to a 2026 EdTech analysis of higher education AI risk, "is ensuring that student data is not used to train external AI models." UNSW is the only institution in this dataset to have made this a contractual requirement. For every other institution, the question of whether student AI sessions feed back into the models that will later evaluate them remains unanswered — and unasked.</p>
+</div>
+</section>
+
+</article>
+
+<!-- TAKEAWAY CARDS -->
+<section class="takeaway">
+<div class="container">
+  <h2>What This Means</h2>
+  <p class="tsub">Four practical conclusions from twenty-five policies, nine countries, and ten governance blind spots.</p>
+  <div class="tc-grid">
+    <div class="tc">
+      <div class="tc-icon">🎓</div>
+      <div class="tc-who">For students</div>
+      <h3>The real policy is probably not the central one</h3>
+      <ul>
+        <li>The universal <strong>local override clause</strong> means your course syllabus or instructor's guidance is the rule that governs you — not the university's headline statement.</li>
+        <li>If your institution has no public AI policy (IIT Madras, SUTD, Ashoka), your instructor sets the rules. Ask — <strong>in writing</strong> — before you submit.</li>
+        <li>"Disclosure required" is a statement of principle until it specifies what to write and where. Ask for the format.</li>
+        <li>The <strong>specificity gap</strong> between institutions is real: NUS tells you which prompts to declare; MIT just says disclose. The word "disclosure" is not a sufficient guide.</li>
+      </ul>
+    </div>
+    <div class="tc">
+      <div class="tc-icon">👩‍🏫</div>
+      <div class="tc-who">For instructors</div>
+      <h3>The override clause makes you the policymaker</h3>
+      <ul>
+        <li>Every institution in this dataset has delegated the real decisions to you. That means your students' AI experience <strong>depends on your explicit guidance</strong> — not the central policy.</li>
+        <li>Consider IISc's tiered approach: grammar/word choice is different from argument generation. <strong>Not all AI use is the same</strong>; a tiered rule respects that.</li>
+        <li>The best course AI policies in this dataset answer: <em>which tools, for which tasks, in what format, with what evidence.</em> Yours should too.</li>
+        <li>The specificity gap between your colleagues is <strong>invisible to students</strong>. They experience it as arbitrary inconsistency.</li>
+      </ul>
+    </div>
+    <div class="tc">
+      <div class="tc-icon">🏛️</div>
+      <div class="tc-who">For institutions</div>
+      <h3>The missing agenda is the urgent one</h3>
+      <ul>
+        <li>Start with <strong>equity</strong>: who has access to the tools you're encouraging or requiring students to use? This is solvable and unaddressed.</li>
+        <li>Address <strong>AI detection tools before deploying them</strong>: Stanford found 61% false positive rates for non-native English speakers. That is a justice issue dressed as a technical one.</li>
+        <li>Research governance is the missing chapter. Teaching policies were written by education offices. <strong>The research community needs its own framework.</strong></li>
+        <li>Follow UNSW: ask your vendor, in writing, whether <strong>student prompts are used to train models</strong>. This is the most important data privacy question no policy currently asks.</li>
+        <li><strong>Include faculty, students, and staff as co-authors</strong> of policy — not as reviewers of a finished document. The AAUP found that 71% of faculty had "little meaningful input" in AI policy decisions. Policies written without the people who live under them are not governance. They are announcements.</li>
+      </ul>
+    </div>
+    <div class="tc">
+      <div class="tc-icon">🔭</div>
+      <div class="tc-who">Watch this space</div>
+      <h3>Three developments to track</h3>
+      <ul>
+        <li><strong>Observed Assessment.</strong> LSE's proctored AI exam is a live experiment. If it holds up under scrutiny — if it actually tests thinking rather than tool use — it could become a template. Watch whether others adopt it.</li>
+        <li><strong>Institutional AI platforms.</strong> Helsinki's CurreChat and Imperial's dAIsy represent a bet on sovereignty over convenience. As commercial AI terms evolve, this bet will either look prescient or unnecessary. The outcome matters for every university currently accepting commercial defaults.</li>
+        <li><strong>The India gap.</strong> Three of the world's leading technical institutions — IIT Madras, IISc (barely), Ashoka — have no meaningful public AI governance. As AI becomes embedded in coursework and research, this absence will become increasingly costly. The question is whether the change comes from within or through external pressure.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal" hidden>
+  <div class="mbox">
+    <div class="mhdr">
+      <div><div class="muni" id="muni"></div><div class="mdim" id="mdim"></div></div>
+      <button class="mclose" id="mclose">×</button>
+    </div>
+    <div class="mbody">
+      <div id="mbadge"></div>
+      <div class="mnote" id="mnote"></div>
+      <blockquote class="mquote" id="mquote"></blockquote>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+<div class="container">
+  <p>Policy data collected from publicly accessible university websites, official policy documents, and institutional guidance pages as of early 2026. Each claim is evidenced with direct quotes and source URLs. Where no public document was found, the institution is marked as having no public policy — internal policies may exist but could not be verified.</p>
+  <p style="margin-top:.8rem">Universities: MIT · Yale · Princeton · Stanford · University of Toronto · University of Oxford · University of Cambridge · Imperial College London · LSE · ETH Zurich · EPFL · KU Leuven · University of Helsinki · NUS · NTU · SMU · SUTD · Indian Institute of Science · IIT Madras · Ashoka University · University of Sydney · University of Melbourne · UNSW Sydney · University of Hong Kong · University of Tokyo</p>
+  <p style="margin-top:.8rem"><a href="../">← Back to Data Stories</a></p>
+</div>
+</footer>
+
+<script>
+// =====================================================================
+// DATA
+// =====================================================================
+const COLS=[
+  {id:'type',      label:'Policy Type',     desc:'Type and structure of the governance document'},
+  {id:'stance',    label:'Default Stance',   desc:'Default position toward AI use'},
+  {id:'disclosure',label:'Disclosure',       desc:'Whether and how AI use must be disclosed'},
+  {id:'accountability',label:'Accountability',desc:'Whether the human user is explicitly accountable'},
+  {id:'integrity', label:'Integrity',        desc:'Whether AI use is tied to misconduct enforcement'},
+  {id:'privacy',   label:'Privacy',          desc:'Restrictions on inputting private/confidential data'},
+  {id:'tools',     label:'Inst. Tools',      desc:'Whether institution provides/recommends specific AI tools'},
+  {id:'assessment',label:'Assessment',       desc:'Whether the policy covers AI in assessments'},
+  {id:'research',  label:'Research',         desc:'Whether the policy covers AI in research outputs'},
+  {id:'override',  label:'Local Override',   desc:'Whether local departments/courses may add stricter rules'},
+  {id:'authorship',label:'AI Authorship',    desc:'Whether policy states AI cannot be an author'},
+];
+
+// v: 5=strong yes, 4=yes conditional, 3=unclear/partial, 2=no explicit rule, 1=not found
+// l: short display label  n: note  q: quote  s: source URL
+const UNI=[
+{name:'Massachusetts Institute of Technology',short:'MIT',country:'USA',flag:'🇺🇸',rank:'#1 QS 2025',url:'https://ist.mit.edu/ai',
+ type:{v:4,l:'Official Guidance',n:'MIT labels this "guidance" rather than a formal policy instrument — issued by Information Systems & Technology (IS&T), not the Provost.',q:'"IS&T has assembled this initial guidance and list of MIT-licensed tools and services to assist community members in making use of generative AI, while protecting MIT information and adhering to Institute policies and best practices."',s:'https://ist.mit.edu/ai'},
+ stance:{v:4,l:'Permit + conditions',n:'Enabling use within security, tool-selection and policy guardrails. Recommends licensed institutional tools first.',q:'"IS&T recommends MIT community members first consider using tools and services which have already been licensed by IS&T for use by the MIT community."',s:'https://ist.mit.edu/ai-guidance'},
+ disclosure:{v:5,l:'Required',n:'Explicit disclosure mandate covering academic, educational, and research uses.',q:'"You should disclose the use of generative AI tools for all academic, educational, and research-related uses. Do not publish research results that rely on content generated through the use of a generative AI tool without disclosing the nature of the use."',s:'https://ist.mit.edu/ai-guidance'},
+ accountability:{v:5,l:'User accountable',n:'Explicitly places accuracy responsibility on the human user.',q:'"Be aware that information generated by AI may be inaccurate, incomplete, misleading, biased, fabricated... You are responsible for the accuracy of any information you publish, including AI-generated content."',s:'https://ist.mit.edu/ai-guidance'},
+ integrity:{v:5,l:'Enforced',n:'AI use explicitly tied to existing academic misconduct and integrity rules.',q:'"Ensure that your use of generative AI tools and services complies with Institute policies (including 10.1 Academic and Research Misconduct, 11.0 Privacy and Disclosure of Personal Information, and 13.0 Information Policies)."',s:'https://ist.mit.edu/ai-guidance'},
+ privacy:{v:5,l:'Restricted',n:'Explicit protections for MIT information and confidential data.',q:'"Protect MIT information and confidential data... ensure that your use of generative AI tools and services follows all guidelines outlined on Information Protection at MIT."',s:'https://ist.mit.edu/ai-guidance'},
+ tools:{v:5,l:'Provided',n:'MIT IS&T licenses and officially recommends Google Gemini, NotebookLM, and Microsoft Copilot.',q:'"Google Gemini — MIT faculty, staff, and students. Google NotebookLM — MIT faculty, staff, and students. Microsoft Copilot — MIT faculty, staff, students, and affiliates."',s:'https://ist.mit.edu/ai-tools'},
+ assessment:{v:3,l:'Unclear',n:'Flags AI use in student evaluation as "high-risk" requiring consultation — but no student-facing summative assessment policy comparable to Oxford\'s.',q:'"Do not use generative AI for purposes that may require in-depth risk assessments without contacting ai-guidance@mit.edu. Examples include: evaluating student academic performance."',s:'https://ist.mit.edu/ai-guidance'},
+ research:{v:5,l:'Covered',n:'Research explicitly included — a clear disclosure requirement for publications.',q:'"Do not publish research results that rely on content generated through the use of a generative AI tool without disclosing the nature of the use of such generative AI tool in producing the content."',s:'https://ist.mit.edu/ai-guidance'},
+ override:{v:5,l:'Allowed',n:'Departments, labs, and centres explicitly permitted to add stricter rules beyond central guidance.',q:'"Ensure that your use of generative AI tools and services complies with any additional policies established by your department, lab, center, or institute (DLCI)."',s:'https://ist.mit.edu/ai-guidance'},
+ authorship:{v:2,l:'No explicit rule',n:'MIT invokes academic integrity frameworks but the central guidance does not explicitly state that AI cannot be an author or that undisclosed AI use constitutes plagiarism.',q:'"MIT policies include 10.0 Academic and Research Misconduct and Dishonesty… Academic Integrity at MIT… Policies Regarding Student Behavior." [No AI-specific authorship statement at central level.]',s:'https://ist.mit.edu/ai-guidance'},
+},
+{name:'Yale University',short:'Yale',country:'USA',flag:'🇺🇸',rank:'#15 QS 2025',url:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools',
+ type:{v:4,l:'Guidance + local rules',n:'Central Provost guidance supplemented by school- and department-level rules. Not a single formal policy instrument.',q:'"The following message provides guidance to all members of the Yale community regarding the responsible use of generative AI tools."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ stance:{v:4,l:'Encourage + conditions',n:'Yale positions itself as enabling responsible adoption; encourages thoughtful engagement within integrity and privacy constraints.',q:'"Yale encourages members of the Yale community to engage thoughtfully with generative AI tools."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ disclosure:{v:4,l:'Course-dependent',n:'Disclosure is required where instructors specify; course-level rules govern specifics rather than a universal central standard.',q:'"Students should follow course-specific instructions regarding the use of generative AI tools in their work."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ accountability:{v:5,l:'User accountable',n:'Explicitly states users are responsible for verifying accuracy.',q:'"Users are responsible for verifying the accuracy and appropriateness of content generated by AI tools."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use tied to Yale\'s academic integrity framework.',q:'"Use of AI tools in ways not permitted by course guidelines may violate Yale\'s academic integrity policy."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ privacy:{v:5,l:'Restricted',n:'Explicit warning against inputting sensitive Yale data, personal information, or protected health information.',q:'"Do not input sensitive information — including protected health information, personally identifiable information, or proprietary Yale data — into public generative AI tools."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ tools:{v:5,l:'Provided',n:'Yale has licensed AI tools for community use, including Microsoft Copilot.',q:'"Yale has licensed certain AI tools for use by the Yale community."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ assessment:{v:5,l:'Covered',n:'Policy addresses AI in assessments; instructors must communicate AI use rules in syllabi.',q:'"Instructors should clearly communicate their policies on AI use in course syllabi and assignments."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ research:{v:5,l:'Covered',n:'Research explicitly addressed; data privacy concerns flagged specifically for research use.',q:'"Research data and unpublished intellectual property should not be entered into public AI systems."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ override:{v:5,l:'Allowed',n:'Schools and instructors explicitly empowered to establish more specific or restrictive guidelines.',q:'"Schools and instructors may establish more specific guidelines for AI use in their programs and courses."',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+ authorship:{v:2,l:'No explicit rule',n:'Yale does not state in its central guidance that AI cannot be an author, or that undisclosed AI use constitutes plagiarism. Academic integrity policy is invoked but not AI-specifically defined.',q:'"Use of AI tools in ways not permitted by course guidelines may violate Yale\'s academic integrity policy." [No AI-specific authorship clause.]',s:'https://provost.yale.edu/news/guidelines-use-generative-ai-tools'},
+},
+{name:'Princeton University',short:'Princeton',country:'USA',flag:'🇺🇸',rank:'#13 QS 2025',url:'https://oit.princeton.edu/generative-ai',
+ type:{v:4,l:'Central framework + instructor discretion',n:'Princeton has a central guidance page and Dean\'s communication supplemented by faculty discretion. Covers research, teaching, and learning.',q:'"Launched by the Office of Information Technology, the website is designed to provide guidance and resources for using generative AI tools for research, teaching, learning and work."',s:'https://research.princeton.edu/artificial-intelligence-ai-resources-research'},
+ stance:{v:4,l:'Permit + conditions',n:'Princeton encourages faculty to experiment with AI and permits use within conditions. Faculty set course-level rules.',q:'"We encourage faculty to experiment with generative AI (GAI) tools."',s:'https://mcgraw.princeton.edu/generative-ai-and-our-classrooms'},
+ disclosure:{v:5,l:'Required',n:'Disclosure required when AI is used; must follow scholarly standards for acknowledging sources and stating method.',q:'"Students who\'ve received permission to use generative AI must follow the requirements for acknowledging sources in academic work… and must adhere to the scholarly standards for an explicit statement of method."',s:'https://odoc.princeton.edu/about/official-deans-communications/2023/generative-ai-teaching-and-learning-fall-2023-faculty-and'},
+ accountability:{v:5,l:'User accountable',n:'Explicit: maintain oversight, review and validate AI-generated content before publishing.',q:'"Maintain oversight and always review and validate AI-generated content to ensure accuracy and appropriateness."',s:'https://oit.princeton.edu/generative-ai'},
+ integrity:{v:5,l:'Enforced',n:'Students who do not follow AI regulations subject to disciplinary action.',q:'"Students who don\'t follow these regulations will be subject to disciplinary action."',s:'https://odoc.princeton.edu/about/official-deans-communications/2023/generative-ai-teaching-and-learning-fall-2023-faculty-and'},
+ privacy:{v:5,l:'Restricted',n:'Explicit data protection rule: do not use non-public Princeton data in public Gen AI tools.',q:'"Data Privacy: Protect sensitive information and adhere to relevant data protection regulations… Don\'t use non-public Princeton data in public Gen AI tools."',s:'https://oit.princeton.edu/generative-ai'},
+ tools:{v:5,l:'Provided',n:'Princeton provides free access to Microsoft Copilot for all students, faculty, and staff.',q:'"Princeton provides free access to Microsoft Copilot."',s:'https://mcgraw.princeton.edu/generative-ai-and-our-classrooms'},
+ assessment:{v:5,l:'Covered',n:'Assessment covered; students may only use AI where instructor grants permission, and must follow disclosure rules.',q:'"Students who\'ve received permission to use generative AI must follow the requirements for acknowledging sources in academic work."',s:'https://odoc.princeton.edu/about/official-deans-communications/2023/generative-ai-teaching-and-learning-fall-2023-faculty-and'},
+ research:{v:4,l:'Covered',n:'Research AI guidelines exist covering data privacy, IP, bias monitoring, and accuracy verification.',q:'"These guidelines outline practices to protect against risks associated with the usage of generative AI in research."',s:'https://research.princeton.edu/artificial-intelligence-ai-resources-research'},
+ override:{v:5,l:'Allowed',n:'Faculty have full discretion to set their own course-level AI policies.',q:'"Faculty members have the discretion to set their own generative AI policy for their courses."',s:'https://odoc.princeton.edu/about/official-deans-communications/2023/generative-ai-teaching-and-learning-fall-2023-faculty-and'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Princeton explicitly states AI output may not be passed off as the student\'s own work — the clearest AI-plagiarism rule among the US institutions.',q:'"Just as students may not turn in someone else\'s work as their own, students may not misrepresent as their own work any output generated by or derived from generative AI."',s:'https://odoc.princeton.edu/about/official-deans-communications/2023/generative-ai-teaching-and-learning-fall-2023-faculty-and'},
+},
+{name:'Stanford University',short:'Stanford',country:'USA',flag:'🇺🇸',rank:'#5 QS 2025',url:'https://communitystandards.stanford.edu/policies-guidance',
+ type:{v:4,l:'Central framework + instructor discretion',n:'Stanford has community standards guidance supplemented by responsible AI resources. Faculty set course-level rules.',q:'"Absent a clear statement from a course instructor, use of or consultation with generative AI shall be treated analogously to assistance from another person."',s:'https://communitystandards.stanford.edu/policies-guidance#policies-guidance-links/bca-guidance-recommendations'},
+ stance:{v:3,l:'Restricted unless specified',n:'ASSESSMENT-RESTRICTIVE: absent instructor authorisation, AI use is treated as using another person — activating existing unauthorised-assistance rules. A clever default restriction that doesn\'t require new rules.',q:'"Absent a clear statement from a course instructor, use of or consultation with generative AI shall be treated analogously to assistance from another person. In particular, using generative AI tools to substantially complete an assignment or exam… is not permitted."',s:'https://communitystandards.stanford.edu/policies-guidance#policies-guidance-links/bca-guidance-recommendations'},
+ disclosure:{v:5,l:'Required',n:'Students must acknowledge AI use and default to disclosing when in doubt.',q:'"Students should acknowledge the use of generative AI (other than incidental use) and default to disclosing such assistance when in doubt about whether disclosure is required."',s:'https://communitystandards.stanford.edu/policies-guidance#policies-guidance-links/bca-guidance-recommendations'},
+ accountability:{v:5,l:'User accountable',n:'Explicitly warns that AI outputs can be incorrect and should not be trusted completely.',q:'"Information provided by AI can be incorrect… We can\'t trust results from generative AI completely."',s:'https://uit.stanford.edu/security/responsibleai'},
+ integrity:{v:5,l:'Enforced',n:'AI use in breach of course rules violates Stanford\'s Honor Code.',q:'"Using generative AI tools to substantially complete an assignment or exam is a violation of the Fundamental Standard."',s:'https://communitystandards.stanford.edu/policies-guidance#policies-guidance-links/bca-guidance-recommendations'},
+ privacy:{v:5,l:'Restricted',n:'Responsible AI guidance restricts use of institutional and personal data in public AI tools.',q:'"Protect sensitive data: avoid entering Stanford confidential, personally identifiable, or proprietary information into public generative AI tools."',s:'https://uit.stanford.edu/security/responsibleai'},
+ tools:{v:5,l:'Provided',n:'Stanford provides institutional AI resources and tools through its IT and responsible AI programmes.',q:'"Stanford provides access to AI tools and resources for the Stanford community."',s:'https://uit.stanford.edu/ai'},
+ assessment:{v:4,l:'Covered — default closed',n:'The "treat as another person" default creates a de facto restriction unless instructors specify otherwise.',q:'"Absent a clear statement from a course instructor, use of or consultation with generative AI shall be treated analogously to assistance from another person."',s:'https://communitystandards.stanford.edu/policies-guidance#policies-guidance-links/bca-guidance-recommendations'},
+ research:{v:3,l:'Partial',n:'Research policy handbook referenced but no dedicated public Stanford GenAI research policy found.',q:'"Consider other policies that might apply to your work and scholarship, as well." [Research Policy Handbook referenced without AI-specific guidance.]',s:'https://uit.stanford.edu/security/responsibleai'},
+ override:{v:5,l:'Allowed',n:'A "clear statement from a course instructor" explicitly changes the default — the local override is built into the policy design.',q:'"Absent a clear statement from a course instructor, use of or consultation with generative AI shall be treated analogously to assistance from another person."',s:'https://communitystandards.stanford.edu/policies-guidance#policies-guidance-links/bca-guidance-recommendations'},
+ authorship:{v:4,l:'Implied strongly',n:'"Treat as another person" framing implies AI cannot author your work, but no explicit "AI ≠ author" statement found.',q:'"Just as one cannot claim credit for work done by another person, students cannot present AI-generated content as their own."',s:'https://communitystandards.stanford.edu/policies-guidance#policies-guidance-links/bca-guidance-recommendations'},
+},
+{name:'University of Toronto',short:'Toronto',country:'Canada',flag:'🇨🇦',rank:'#25 QS 2025',url:'https://ai.utoronto.ca/guidelines/',
+ type:{v:4,l:'Guidance + local rules',n:'Official guidance from multiple central offices (Provost, graduate studies, academic integrity) supplemented by course-level rules.',q:'"The University of Toronto provides guidance on the responsible use of generative AI tools for students, faculty, and staff."',s:'https://ai.utoronto.ca/guidelines/'},
+ stance:{v:3,l:'Complete own work by default',n:'ASSESSMENT-RESTRICTIVE: default is that students complete their own work without AI unless otherwise specified. The burden falls on instructors to authorise AI use.',q:'"The University expects students to complete their own work, without any outside assistance from another person, tutor, or technology tool, unless otherwise specified by your instructor."',s:'https://www.academicintegrity.utoronto.ca/perils-and-pitfalls/using-chatgpt-or-other-ai-tool-on-a-marked-assessment/'},
+ disclosure:{v:4,l:'Required when permitted',n:'When AI use is permitted, disclosure must be clear — which tools, how and why they were used.',q:'"It must be clear to the reader which generative AI tools were used, as well as how and why they were used."',s:'https://www.sgs.utoronto.ca/about/guidance-on-the-use-of-generative-artificial-intelligence/'},
+ accountability:{v:5,l:'User accountable',n:'Graduate students who use AI in research outputs are "ultimately responsible for the content."',q:'"Graduate students who make use of AI tools and include the output in their research and written work are ultimately responsible for the content."',s:'https://www.sgs.utoronto.ca/about/guidance-on-the-use-of-generative-artificial-intelligence/'},
+ integrity:{v:5,l:'Enforced',n:'Undisclosed AI use treated as an academic integrity violation.',q:'"Using an AI tool to complete a part or all of an assignment without explicit permission from your instructor is academic dishonesty."',s:'https://www.academicintegrity.utoronto.ca/perils-and-pitfalls/using-chatgpt-or-other-ai-tool-on-a-marked-assessment/'},
+ privacy:{v:5,l:'Restricted',n:'Do not enter confidential, personal, or institutional data into public AI tools.',q:'"Do not use generative AI tools to process confidential, personal, or proprietary University of Toronto information."',s:'https://security.utoronto.ca/governance/guidelines/use-ai-intelligently/'},
+ tools:{v:5,l:'Provided',n:'U of T provides Microsoft Copilot, ChatGPT Edu, and Scopus AI — with students having access to at least Copilot and Scopus AI.',q:'"U of T faculty, librarians, staff have access to a protected version of Microsoft Copilot, ChatGPT Edu, and Scopus AI… The only systems of this type currently available to students are Scopus AI and Microsoft Copilot."',s:'https://www.viceprovostundergrad.utoronto.ca/16072-2/teaching-initiatives/generative-artificial-intelligence/'},
+ assessment:{v:5,l:'Covered',n:'Assessment policy is clearly addressed; default is own work unless instructor specifies.',q:'"The University expects students to complete their own work… unless otherwise specified by your instructor."',s:'https://www.academicintegrity.utoronto.ca/perils-and-pitfalls/using-chatgpt-or-other-ai-tool-on-a-marked-assessment/'},
+ research:{v:3,l:'Partial',n:'Graduate student research guidance exists but no dedicated university-wide research AI policy found.',q:'"Graduate students who make use of AI tools and include the output in their research and written work are ultimately responsible for the content."',s:'https://www.sgs.utoronto.ca/about/guidance-on-the-use-of-generative-artificial-intelligence/'},
+ override:{v:5,l:'Allowed',n:'Instructors can and must specify when AI is permitted — the policy is built around instructor-level rules.',q:'"If AI assistance is permitted, your instructor will specify how and for what purpose it may be used."',s:'https://www.academicintegrity.utoronto.ca/perils-and-pitfalls/using-chatgpt-or-other-ai-tool-on-a-marked-assessment/'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicit: AI cannot be an author; presenting AI work as your own is academic dishonesty.',q:'"AI tools cannot be listed as authors. Presenting AI-generated content as your own work is academic dishonesty."',s:'https://www.sgs.utoronto.ca/about/guidance-on-the-use-of-generative-artificial-intelligence/'},
+},
+{name:'University of Oxford',short:'Oxford',country:'UK',flag:'🇬🇧',rank:'#3 QS 2025',url:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment',
+ type:{v:5,l:'Formal Policy',n:'Oxford has the most complex policy structure in this dataset: a formal summative assessment policy, separate student handbook rules, research-specific guidance, and instructor guidance. Multiple distinct instruments.',q:'"This policy sets out the University\'s approach to the use of artificial intelligence (AI) tools in summative assessments."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ stance:{v:2,l:'Restricted by default',n:'UNIQUE DEFAULT: AI in summative assessments is forbidden unless the assessment brief explicitly permits it. Every other institution permits unless restricted. Oxford alone starts from restriction.',q:'"The use of AI tools in summative assessments is not permitted unless the assessment brief for that specific assessment explicitly states that the use of AI tools is permitted."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ disclosure:{v:5,l:'Required + cited',n:'Explicit disclosure required with citation guidance; AI-generated content must be clearly indicated and attributed.',q:'"Any use of AI tools must be appropriately acknowledged and any AI-generated content must be clearly indicated in the submitted work."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ accountability:{v:5,l:'User accountable',n:'Students remain responsible for submitted content; must verify accuracy independently.',q:'"Students remain responsible for the content they submit and must satisfy themselves of its accuracy and integrity."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use in assessments is explicitly named as academic misconduct.',q:'"Unauthorized use of AI tools in summative assessments will be treated as academic misconduct."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ privacy:{v:5,l:'Restricted',n:'Prohibits entering confidential university information, research data, or personal information into public AI systems.',q:'"Do not enter confidential University information, unpublished research data, or personal information into publicly accessible AI tools."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ tools:{v:5,l:'Provided',n:'Oxford provides Microsoft Copilot and other licensed tools to staff and students.',q:'"The University has made available a number of AI tools for use by staff and students, including [Microsoft Copilot]."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ assessment:{v:5,l:'Core focus',n:'Assessment policy is the central dedicated instrument — the most detailed treatment of AI in assessments in this dataset.',q:'"This policy sets out the University\'s approach to the use of artificial intelligence (AI) tools in summative assessments."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ research:{v:5,l:'Covered',n:'Research-specific guidance addresses AI in data collection, analysis, writing, and publication.',q:'"Researchers must disclose any AI tools used in their research and must ensure compliance with funder and publisher requirements."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ override:{v:5,l:'By design',n:'Individual assessment briefs govern permitted use — the local override is written into the policy design.',q:'"Individual assessment briefs may specify that AI tools are permitted for specific tasks within that assessment."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicit and unambiguous: AI cannot be listed as an author; unauthorized use = academic misconduct.',q:'"AI tools cannot be listed as authors of submitted work. Unauthorized use of AI tools in summative assessments constitutes academic misconduct."',s:'https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment'},
+},
+{name:'University of Cambridge',short:'Cambridge',country:'UK',flag:'🇬🇧',rank:'#5 QS 2025',url:'https://blendedlearning.cam.ac.uk/ai-policy-framework',
+ type:{v:4,l:'Framework + local rules',n:'Cambridge uses a decentralized design: a central framework that explicitly functions as a scaffold for faculty and departmental policies.',q:'"This framework provides a foundation for faculties, departments, and course organizers to develop their own specific policies on AI use."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ stance:{v:4,l:'Permit + local rules',n:'Central guidance permits use; specific restrictions set at local level. More permissive than Oxford at institutional level.',q:'"The University supports the responsible use of AI tools in teaching and learning, subject to relevant policies and guidance."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ disclosure:{v:4,l:'Context-dependent',n:'Disclosure required where course guidelines specify; format varies by context.',q:'"Students should disclose the use of AI tools in their work where required by their course or assessment guidelines."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ accountability:{v:5,l:'User accountable',n:'Explicit: students are responsible for submitted work including any AI-generated content.',q:'"Students remain responsible for the content they submit, including any AI-generated material."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use may constitute academic misconduct under University integrity framework.',q:'"Use of AI tools in breach of course or assessment guidelines may constitute academic misconduct under the University\'s academic integrity framework."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ privacy:{v:5,l:'Restricted',n:'Prohibits entering University confidential information, personal data, or unpublished research into public AI tools.',q:'"Do not enter University confidential information, personal data, or unpublished research into publicly accessible AI tools."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ tools:{v:5,l:'Provided',n:'Cambridge provides Microsoft Copilot and other licensed tools.',q:'"The University provides access to approved AI tools including Microsoft Copilot for staff and students."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ assessment:{v:5,l:'Covered',n:'Framework addresses AI in assessments; course organizers must specify rules clearly.',q:'"Course organizers are expected to specify clearly whether and how AI tools may be used in each assessment."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ research:{v:3,l:'Partial',n:'Framework mentions research but lacks the dedicated research-specific coverage found at Oxford, NTU, or Helsinki.',q:'"Researchers should consider relevant funder and publisher guidelines on the use of AI in their research."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ override:{v:5,l:'By design',n:'Local override is not merely allowed — it is the structural point. The framework IS a scaffold for local policies.',q:'"This framework provides a foundation for faculties, departments, and course organizers to develop their own specific policies on AI use."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Cambridge explicitly states AI cannot be named as an author in submitted work or publications.',q:'"AI tools cannot be listed as authors or co-authors of submitted work or publications."',s:'https://blendedlearning.cam.ac.uk/ai-policy-framework'},
+},
+{name:'Imperial College London',short:'Imperial',country:'UK',flag:'🇬🇧',rank:'#2 QS 2025',url:'https://www.imperial.ac.uk/admin-services/library/learning-support/generative-ai-guidance/',
+ type:{v:4,l:'Guidance + department rules',n:'Central guidance with department-level supplements. Imperial also has a dedicated data protection code of practice for AI use — one of the most legally structured in the dataset.',q:'"Imperial College London provides guidance on the use of generative AI tools for students and staff, supplemented by department-specific policies."',s:'https://www.imperial.ac.uk/students/academic-support/ai-and-study-guidance-hub/generative-ai-principles/'},
+ stance:{v:2,l:'Restricted for assessed work',n:'ASSESSMENT-RESTRICTIVE: absent explicit authorisation, AI use in assessed work "may be treated as an offence such as contract cheating." This is the strongest negative framing of any default position in the dataset.',q:'"Unless explicitly authorised, using AI to create assessed work may be treated as an offence such as contract cheating under Imperial\'s Plagiarism, Academic Misconduct and Research Misconduct procedures."',s:'https://www.imperial.ac.uk/admin-services/library/learning-support/generative-ai-guidance/'},
+ disclosure:{v:5,l:'Required',n:'Disclosure required when AI is used in assessed work or research.',q:'"When AI is used, this must be clearly disclosed in accordance with course or departmental guidelines."',s:'https://www.imperial.ac.uk/admin-services/library/learning-support/generative-ai-guidance/'},
+ accountability:{v:5,l:'User accountable',n:'Explicit instruction to fact-check every statement and preserve own voice.',q:'"Guard against AI \'hallucinations\' by fact-checking every statement before use. Preserve your own voice in written work — uncritical AI use often yields generic, inaccurate or misleading content."',s:'https://www.imperial.ac.uk/admin-services/library/learning-support/generative-ai-guidance/'},
+ integrity:{v:5,l:'Contract cheating framing',n:'The strongest misconduct framing in the dataset — unauthorized AI use in assessed work may constitute contract cheating, not just "a potential integrity issue."',q:'"Unless explicitly authorised, using AI to create assessed work may be treated as an offence such as contract cheating."',s:'https://www.imperial.ac.uk/admin-services/library/learning-support/generative-ai-guidance/'},
+ privacy:{v:5,l:'Restricted',n:'Data protection code of practice for AI use; strong privacy protections required.',q:'"Do not input personal data, confidential University data, or commercially sensitive information into public AI tools."',s:'https://www.imperial.ac.uk/media/imperial-college/administration-and-support-services/legal-services-office/public/data-protection/DPA-CoP-08---Use-of-Artificial-Intelligence-%28AI%29.pdf'},
+ tools:{v:5,l:'dAIsy platform',n:'NOTABLE: Imperial built dAIsy — a secure institutional AI platform giving access to multiple models (GPT, Claude, Deepseek) through a single interface. One of only two institutions with a homegrown platform.',q:'"dAIsy is Imperial College London\'s secure AI platform, designed to give staff and students safe, easy access to multiple generative AI models (such as GPT, Claude, Deepseek, and others) through a single interface."',s:'https://www.imperial.ac.uk/admin-services/ict/training-and-resources/daisy/'},
+ assessment:{v:5,l:'Covered — restricted default',n:'Assessment policy is central; the default restriction for assessed work is the defining feature of Imperial\'s approach.',q:'"Unless explicitly authorised, using AI to create assessed work may be treated as an offence such as contract cheating."',s:'https://www.imperial.ac.uk/admin-services/library/learning-support/generative-ai-guidance/'},
+ research:{v:3,l:'Partial',n:'dAIsy is described as supporting research, and the data protection code applies, but no dedicated public research AI policy found.',q:'"dAIsy is built to support teaching, learning, and research while ensuring data protection and institutional compliance."',s:'https://www.imperial.ac.uk/admin-services/ict/training-and-resources/daisy/'},
+ override:{v:5,l:'Allowed',n:'Departments and instructors can authorise AI use — the entire default-restriction model requires local override to unlock permission.',q:'"Your department or course team will provide specific guidance on when and how AI tools may be used in your studies."',s:'https://www.imperial.ac.uk/students/academic-support/ai-and-study-guidance-hub/generative-ai-principles/'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicit: AI cannot be listed as an author in submitted or published work.',q:'"AI tools cannot be listed as authors of submitted work or publications."',s:'https://www.imperial.ac.uk/admin-services/library/learning-support/generative-ai-guidance/'},
+},
+{name:'London School of Economics and Political Science',short:'LSE',country:'UK',flag:'🇬🇧',rank:'Top 50 QS 2025',url:'https://info.lse.ac.uk/staff/divisions/Eden-Centre/Artificial-Intelligence-Education-and-Assessment/School-position-on-generative-AI',
+ type:{v:4,l:'3-position framework + observed',n:'UNIQUE STRUCTURE: LSE requires every academic department to choose one of three formal positions (no AI / limited AI / full AI). In 2025, LSE also introduced Observed Assessment — AI-permitted exams conducted under supervised conditions. Previously had a school-wide ban (lifted 2024).',q:'"All academic departments must agree department-wide or course-level positions on the authorised use of generative AI in assessment within one of the following positions: Position 1: No authorised use... Position 2: Limited authorised use... Position 3: Full authorised use..."',s:'https://info.lse.ac.uk/staff/divisions/Eden-Centre/Artificial-Intelligence-Education-and-Assessment/School-position-on-generative-AI'},
+ stance:{v:3,l:'Dept. must choose position',n:'UNIQUE: LSE lifted its school-wide ban and replaced it with mandatory structured choice. Departments must publicly commit to a position. The centre no longer decides — but it forces every department to decide explicitly.',q:'"From the start of the new academic year, the LSE-wide prohibition will be removed. All academic departments must agree department-wide or course-level positions..."',s:'https://info.lse.ac.uk/staff/divisions/Eden-Centre/Assets-EC/Documents/AI-guidelines-update-May-2024/Guidelines-Generative-AI-2024-2025-Final.pdf'},
+ disclosure:{v:4,l:'Conditional + research detail',n:'Disclosure required in Position 2/3 assessments; research requires full documentation including prompts. Format set at departmental level.',q:'"Departments/course convenors, who allow the use of generative AI (position 2 or 3), are expected to communicate their referencing and citation requirements to students. This includes specifying how students should acknowledge the use of generative AI in their assessments."',s:'https://info.lse.ac.uk/staff/divisions/Eden-Centre/Assets-EC/Documents/AI-guidelines-update-May-2024/Guidelines-Generative-AI-2024-2025-Final.pdf'},
+ accountability:{v:5,l:'User accountable',n:'Student is fully accountable for all content produced with AI assistance.',q:'"I understand that I am fully accountable for all content produced with the support of GAI and cannot list AI as an author."',s:'https://www.lse.ac.uk/DSI/Assets/documents/LSE-Guidance-on-the-use-of-Generative-AI-for-research.pdf'},
+ integrity:{v:5,l:'Enforced',n:'Breaches of AI rules subject to LSE misconduct regulations.',q:'"If generative AI tools are used in ways that breach academic integrity, LSE misconduct regulations will apply."',s:'https://info.lse.ac.uk/staff/divisions/Eden-Centre/Assets-EC/Documents/AI-guidelines-update-May-2024/Guidelines-Generative-AI-2024-2025-Final.pdf'},
+ privacy:{v:5,l:'Restricted',n:'Strong privacy restrictions; research guidance explicitly covers consent requirements for personal data in AI tools.',q:'"I will not share personal, sensitive, or confidential data with third-party AI tools that do not provide assurances of privacy and security that are satisfactory to LSE standards."',s:'https://www.lse.ac.uk/DSI/Assets/documents/LSE-Guidance-on-the-use-of-Generative-AI-for-research.pdf'},
+ tools:{v:5,l:'Claude + Copilot',n:'NOTABLE: LSE provides both Claude for Education (making it the only institution in this dataset with official Anthropic Claude access for students) and Microsoft Copilot with commercial data protection.',q:'"Current tools available to LSE staff and students: Claude for Education: available to academic staff and students. Copilot (Copilot with Commercial Data Protection): available to all staff and students."',s:'https://info.lse.ac.uk/current-students/digital-skills-lab/Gen-AI'},
+ assessment:{v:5,l:'3-pos. + Observed exam',n:'UNIQUE: LSE introduced Observed Assessment in 2025 — a proctored exam format where AI tools are permitted but used under supervised, time-pressured conditions. Designed to ensure the thinking is still the student\'s own.',q:'"In June 2025, the School introduced an Observed Assessment policy on the use of generative AI in assessment."',s:'https://info.lse.ac.uk/staff/divisions/Eden-Centre/Artificial-Intelligence-Education-and-Assessment/School-position-on-generative-AI'},
+ research:{v:5,l:'Covered + prompt docs',n:'Separate research guidance requires prompt documentation, bias checking, and consent for personal data in AI tools.',q:'"Researchers should document their use of the tool including prompts and pre- and post-processing, to ensure transparency."',s:'https://www.lse.ac.uk/DSI/Assets/documents/LSE-Guidance-on-the-use-of-Generative-AI-for-research.pdf'},
+ override:{v:5,l:'Structural — dept mandated',n:'Every department must choose its position. Local override is not merely allowed — it is required. No department can remain silent.',q:'"All academic departments must agree department-wide or course-level positions on the authorised use of generative AI in assessment."',s:'https://info.lse.ac.uk/staff/divisions/Eden-Centre/Artificial-Intelligence-Education-and-Assessment/School-position-on-generative-AI'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicitly stated: AI cannot be listed as an author; full accountability rests with the human.',q:'"Author is always fully accountable; AI cannot be used or listed as an author. Copyright: Check AI outputs for inadvertent plagiarism (e.g. via Turnitin)."',s:'https://www.lse.ac.uk/DSI/Assets/documents/LSE-Guidance-on-the-use-of-Generative-AI-for-research.pdf'},
+},
+{name:'ETH Zurich',short:'ETH Zurich',country:'Switzerland',flag:'🇨🇭',rank:'#7 QS 2025',url:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html',
+ type:{v:4,l:'Guidance + course rules',n:'ETH Zurich provides central guidance and explicitly places specific rule-setting at the course level.',q:'"ETH Zurich provides guidance on the responsible use of AI in education; specific rules are set at the level of individual courses."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ stance:{v:5,l:'Encourage + enable',n:'ETH actively encourages engagement with AI as part of modern education.',q:'"ETH Zurich encourages students and teachers to engage thoughtfully with AI tools as part of modern education."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ disclosure:{v:5,l:'Required',n:'Disclosure required in accordance with course-specific guidelines.',q:'"Students must disclose the use of AI tools in their work in accordance with the guidelines specified by the course."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ accountability:{v:5,l:'User accountable',n:'Students remain responsible for accuracy and quality of submitted work.',q:'"Students remain responsible for the accuracy and quality of submitted work, regardless of whether AI tools were used."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use violates ETH\'s principles of academic integrity.',q:'"Unauthorized use of AI tools violates ETH\'s principles of academic integrity and may result in disciplinary action."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ privacy:{v:5,l:'Restricted',n:'Prohibition on uploading ETH confidential data, personal data, or unpublished research to external AI services.',q:'"Do not upload ETH confidential information, personal data, or unpublished research to external AI services."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ tools:{v:5,l:'Provided',n:'ETH Zurich provides licensed AI tools including Microsoft Copilot.',q:'"ETH Zurich provides access to licensed AI tools for students and staff."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ assessment:{v:5,l:'"Authorised aids" model',n:'AI tools integrated into ETH\'s existing "authorized aids" framework for assessments — use in exams must be explicitly authorized in course descriptions.',q:'"AI tools are treated as \'authorized aids\' under ETH\'s assessment framework. Their use in examinations must be explicitly authorized in the course description."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ research:{v:3,l:'Partial',n:'ETH\'s central guidance covers research partially; detailed guidance deferred to research groups and publisher policies.',q:'"For research publications, researchers should follow relevant journal and funder policies on the use of AI."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ override:{v:5,l:'By design',n:'Course-level rules are a structural feature, not an exception.',q:'"Specific rules on the use of AI are determined at the course level and published in course descriptions."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+ authorship:{v:3,l:'Originality required',n:'ETH addresses originality requirements but does not explicitly state in central guidance that AI cannot be an author.',q:'"Work submitted must represent the student\'s own intellectual contribution. AI-generated content that is incorporated must be declared."',s:'https://ethz.ch/en/the-eth-zurich/education/ai-in-education.html'},
+},
+{name:'EPFL',short:'EPFL',country:'Switzerland',flag:'🇨🇭',rank:'Top 20 QS 2025',url:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/',
+ type:{v:4,l:'Guidance + course rules',n:'EPFL provides central guidelines supplemented by course-level rules — similar architecture to ETH Zurich.',q:'"These guidelines provide a framework for the responsible use of AI in studying at EPFL."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ stance:{v:5,l:'Encourage + enable',n:'EPFL explicitly encourages AI as a study and productivity tool.',q:'"EPFL encourages students to use AI tools to enhance their learning experience."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ disclosure:{v:5,l:'Required',n:'Disclosure required when AI is used to support submitted work.',q:'"Students must disclose the use of AI tools in their submitted work, as specified by their course."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ accountability:{v:5,l:'User accountable',n:'Explicit: the student is responsible for accuracy and quality of work regardless of AI use.',q:'"You remain responsible for the accuracy and quality of submitted work."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use in assessments constitutes a breach of EPFL\'s academic integrity rules.',q:'"Unauthorized use of AI tools in assessments constitutes a breach of EPFL\'s academic integrity rules."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ privacy:{v:5,l:'Restricted',n:'Prohibits uploading sensitive information, unpublished research, or personal data to public AI tools.',q:'"Do not upload sensitive information, unpublished research, or personal data to public AI tools."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ tools:{v:5,l:'Provided',n:'EPFL provides a range of approved AI tools for student use.',q:'"EPFL provides access to a range of approved AI tools for students."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ assessment:{v:5,l:'Covered',n:'Assessment rules specified at course level within the central guidelines framework.',q:'"Each course specifies whether AI tools are permitted in assessments and to what extent."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ research:{v:3,l:'Partial',n:'Research coverage is partial; central guidelines defer to research group and publisher norms.',q:'"Researchers should follow journal and funder policies on the use of AI in research."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ override:{v:5,l:'By design',n:'Course instructors determine specific rules; central guidance is a framework.',q:'"Course instructors determine the specific rules for AI use in their courses."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+ authorship:{v:5,l:'AI ≠ Author',n:'EPFL explicitly states AI cannot be credited as an author.',q:'"AI tools cannot be credited as authors of submitted work or publications."',s:'https://www.epfl.ch/education/teaching/index-html/ai-teaching/guidelines-for-using-ai-in-studying/'},
+},
+{name:'KU Leuven',short:'KU Leuven',country:'Belgium',flag:'🇧🇪',rank:'Top 100 QS 2025',url:'https://www.kuleuven.be/english/genai',
+ type:{v:4,l:'Guidance + local rules',n:'KU Leuven has comprehensive central guidance with faculty/department supplements. GDPR compliance is prominently featured.',q:'"KU Leuven has developed guidance for the responsible use of generative AI in education and research."',s:'https://www.kuleuven.be/english/genai'},
+ stance:{v:5,l:'Encourage + AI literacy',n:'KU Leuven positions AI literacy as a professional competency students need to develop — one of the more forward-looking framings in this dataset.',q:'"KU Leuven encourages the development of AI literacy and the responsible use of AI tools as professional competencies."',s:'https://www.kuleuven.be/english/genai'},
+ disclosure:{v:5,l:'Required',n:'All AI use in academic work must be disclosed in accordance with course and research guidelines.',q:'"All use of AI tools in academic work must be disclosed in accordance with course and research guidelines."',s:'https://www.kuleuven.be/english/genai'},
+ accountability:{v:5,l:'User accountable',n:'Explicit responsibility for accuracy, quality, and integrity of AI-assisted work.',q:'"You are responsible for the accuracy, quality, and integrity of any work that incorporates AI-generated content."',s:'https://www.kuleuven.be/english/genai'},
+ integrity:{v:5,l:'Fraud if undisclosed',n:'Undisclosed AI use where disclosure is required is explicitly named as academic fraud — a stronger formulation than most.',q:'"Using AI tools without disclosure where disclosure is required constitutes academic fraud."',s:'https://www.kuleuven.be/english/genai'},
+ privacy:{v:5,l:'GDPR-aligned',n:'Strong GDPR-aligned restrictions on processing personal data through AI tools.',q:'"Do not process personal data through AI tools without appropriate consent and compliance with GDPR."',s:'https://www.kuleuven.be/english/genai'},
+ tools:{v:5,l:'Provided',n:'KU Leuven provides licensed and approved AI tools meeting institutional data protection requirements.',q:'"KU Leuven provides access to approved AI tools that comply with institutional data protection requirements."',s:'https://www.kuleuven.be/english/genai'},
+ assessment:{v:5,l:'Three-tier system',n:'KU Leuven uses a three-tier assessment taxonomy: AI-free, AI-with-disclosure, AI-integrated.',q:'"KU Leuven uses a three-tier system for classifying assessments: AI-free, AI-with-disclosure, and AI-integrated."',s:'https://www.kuleuven.be/english/genai'},
+ research:{v:5,l:'Covered + GDPR',n:'Dedicated research guidance with particular strength on GDPR compliance for research AI use.',q:'"Research use of AI must comply with GDPR, ethical guidelines, and relevant funder and publisher policies."',s:'https://www.kuleuven.be/english/genai'},
+ override:{v:5,l:'Allowed',n:'Faculties can add additional restrictions; course-level rules govern assessment specifics.',q:'"Faculties and programs may adopt additional policies that go beyond this central guidance."',s:'https://www.kuleuven.be/english/genai'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicit: AI cannot be an author; undisclosed use is fraud.',q:'"AI tools cannot be listed as authors. Undisclosed AI use where disclosure is required constitutes academic fraud."',s:'https://www.kuleuven.be/english/genai'},
+},
+{name:'University of Helsinki',short:'Helsinki',country:'Finland',flag:'🇫🇮',rank:'Top 120 QS 2025',url:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning',
+ type:{v:4,l:'Split research + teaching',n:'Helsinki has separate guidance for teaching and research. UNIQUE: Helsinki deployed CurreChat, a university-developed AI assistant — the only other homegrown AI tool besides Imperial\'s dAIsy in this dataset.',q:'"The University of Helsinki provides guidance for the use of AI tools in studying and in research."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ stance:{v:4,l:'Permit + local rules',n:'Central guidance permits use; specific rules set at course level.',q:'"The University permits the use of AI tools in accordance with course-specific guidelines."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ disclosure:{v:5,l:'Required',n:'Disclosure required; course guidelines specify exact format.',q:'"You must report the use of AI tools in submitted work in the manner specified by your course."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ accountability:{v:5,l:'User accountable',n:'Student is responsible for all submitted content including AI-generated material.',q:'"You are responsible for the content of your submissions, including any AI-generated content."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use in assessed work constitutes academic misconduct.',q:'"Unauthorized use of AI tools in assessed work constitutes academic misconduct."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ privacy:{v:5,l:'GDPR-aligned',n:'Strong GDPR-aligned restrictions; emphasis on not uploading personal or research data.',q:'"Do not process personal data or confidential research data through public AI tools."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ tools:{v:5,l:'CurreChat + Copilot',n:'UNIQUE: Helsinki deployed CurreChat (a university-developed AI assistant) alongside Microsoft Copilot — the only institution with a homegrown tool beyond commercial licensing.',q:'"The University provides CurreChat (a university-developed AI assistant) and Microsoft Copilot for student and staff use."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ assessment:{v:5,l:'Covered',n:'Course-level rules govern assessment AI use within the central framework.',q:'"Course teachers determine whether and how AI tools may be used in course assessments."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ research:{v:5,l:'Covered + GDPR',n:'Dedicated research guidance; GDPR and funder/publisher compliance particularly prominent.',q:'"Researchers must follow GDPR, ethical guidelines, and funder and publisher AI policies."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ override:{v:5,l:'Allowed',n:'Course and unit-level rules govern specifics within central guidance.',q:'"Teachers and units may specify additional requirements for AI use in their contexts."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+ authorship:{v:5,l:'AI ≠ Author',n:'AI cannot be listed as an author; submitted work must be the student\'s own intellectual contribution.',q:'"AI tools cannot be listed as authors. All submitted work must be the student\'s own intellectual contribution."',s:'https://studies.helsinki.fi/instructions/article/using-ai-support-learning'},
+},
+{name:'National University of Singapore',short:'NUS',country:'Singapore',flag:'🇸🇬',rank:'#8 QS 2025',url:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf',
+ type:{v:5,l:'Formal Central Policy',n:'NUS has a formal, centrally-issued policy document for teaching and learning — the most operationally specific policy in this dataset.',q:'"This document sets out NUS\'s formal policy on the use of AI tools in teaching and learning contexts."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ stance:{v:5,l:'Encourage + enable',n:'NUS actively encourages AI integration as a learning and productivity tool.',q:'"NUS encourages the use of AI tools to enhance learning and teaching effectiveness, subject to the conditions set out in this policy."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ disclosure:{v:5,l:'Required — tool + tasks + prompts',n:'MOST SPECIFIC IN DATASET: NUS requires disclosure of which tools were used, which process steps involved AI, and what prompts were submitted. No other institution matches this operational specificity at the central level.',q:'"Students must disclose: the AI tool(s) used, the specific tasks for which AI was used, and the prompts submitted to the AI tools."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ accountability:{v:5,l:'User accountable',n:'Students own the work regardless of AI involvement.',q:'"Students are fully responsible for the content they submit, including any AI-generated content that has been incorporated into their work."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use explicitly named as academic dishonesty under NUS\'s Code of Student Conduct.',q:'"Unauthorized use of AI tools constitutes a form of academic dishonesty under NUS\'s Code of Student Conduct."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ privacy:{v:5,l:'Restricted',n:'Prohibits uploading personal data, confidential NUS information, or unpublished research.',q:'"Do not upload personal data, confidential NUS information, or unpublished research to AI tools."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ tools:{v:5,l:'Provided',n:'NUS licenses and recommends specific AI tools for student use.',q:'"NUS provides access to approved AI tools for students and staff."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ assessment:{v:5,l:'Three-tier system',n:'Assessments classified: AI-free / AI-with-disclosure / AI-integrated. Students always know which category applies.',q:'"Assessments will specify whether AI use is: Not permitted / Permitted with disclosure / Integrated as a learning activity."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ research:{v:1,l:'Not covered',n:'NUS\'s public policy focuses exclusively on teaching and learning. No central research-specific AI policy found publicly.',q:'"This policy covers the use of AI tools in NUS teaching and learning contexts."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ override:{v:5,l:'Allowed',n:'Course instructors can specify additional or stricter requirements within the NUS framework.',q:'"Course instructors may specify additional requirements for AI use in their course, consistent with this policy."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicitly states AI cannot be listed as an author; unauthorized use = academic dishonesty.',q:'"AI tools cannot be listed as authors. Undisclosed use of AI tools constitutes academic dishonesty under NUS\'s Code of Student Conduct."',s:'https://ctlt.nus.edu.sg/wp-content/uploads/2025/11/Policy-for-Use-of-AI-in-Teaching-and-Learning-2024.pdf'},
+},
+{name:'Nanyang Technological University',short:'NTU',country:'Singapore',flag:'🇸🇬',rank:'#26 QS 2025',url:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research',
+ type:{v:4,l:'Split policy (research + teaching)',n:'NTU has separate policies for research and teaching — the research policy is among the most prescriptive for research contexts in this dataset.',q:'"NTU has developed separate guidance for generative AI use in research and in teaching and learning contexts."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ stance:{v:4,l:'Permit + conditions',n:'NTU permits use for research and teaching with conditions on disclosure, reproducibility, and tool selection.',q:'"NTU permits the use of generative AI tools in research, subject to the conditions set out in this guidance."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ disclosure:{v:5,l:'Tool + version + parameters',n:'Research disclosure must include tool name, model version, and parameters — especially for AI-generated figures — to ensure reproducibility. Most technically rigorous disclosure requirement in the dataset.',q:'"When AI tools are used to generate images or figures for research purposes, the tool name, version, and parameters used must be disclosed to ensure reproducibility."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ accountability:{v:5,l:'User accountable',n:'Researchers are fully accountable for accuracy, integrity, and quality of all research outputs.',q:'"Researchers are fully responsible for the accuracy, integrity, and quality of their research outputs, including those that incorporate AI-generated content."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use tied to NTU Academic Integrity Policy and research misconduct procedures.',q:'"Unauthorized use of AI tools constitutes academic dishonesty under NTU\'s Academic Integrity Policy."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ privacy:{v:5,l:'Restricted',n:'Prohibits uploading personal data, unpublished research, or confidential information to public AI platforms.',q:'"Do not upload personal data, confidential information, or unpublished research to public AI platforms."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ tools:{v:3,l:'Not listed publicly',n:'NTU\'s public policy documents do not clearly enumerate officially approved or institutionally licensed AI tools.',q:'[No specific approved tool list found in NTU\'s public policy documents.]',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ assessment:{v:5,l:'Covered',n:'Teaching and learning guidance covers assessment use; course instructors specify which AI uses are permitted.',q:'"Course instructors will specify the extent to which AI tools may be used in assessments."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ research:{v:5,l:'Core focus',n:'Dedicated research AI policy — most prescriptive on reproducibility of AI-generated figures in this dataset.',q:'"When AI tools are used to generate images or figures, the tool name, version, and parameters used must be disclosed to ensure reproducibility of research."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ override:{v:5,l:'Allowed',n:'Schools and faculties may issue additional guidance; course instructors govern assessment AI use.',q:'"Schools and faculties may issue additional guidance on AI use consistent with NTU\'s policy."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Among the most emphatic authorship statements in the dataset — explicitly prohibits listing AI as an author.',q:'"AI tools cannot be listed as authors of research papers or other publications. Researchers are accountable for the content of their publications."',s:'https://www.ntu.edu.sg/research/resources/use-of-gai-in-research'},
+},
+{name:'Singapore Management University',short:'SMU',country:'Singapore',flag:'🇸🇬',rank:'Top 100 QS 2025',url:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai',
+ type:{v:4,l:'Central framework',n:'SMU has a central AI framework for education with instructor discretion as a core design principle.',q:'"This framework provides principles and guidelines for the responsible use of generative AI in SMU\'s educational community."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ stance:{v:5,l:'Encourage + integrate',n:'SMU positions AI as a competency students must develop. "AI literacy" is an explicit institutional goal.',q:'"SMU encourages the responsible integration of generative AI to develop students\' AI competencies and enhance the learning experience."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ disclosure:{v:5,l:'Required',n:'Acknowledgment of AI assistance required in submitted work, as per course guidelines.',q:'"Students must acknowledge the use of AI tools in submitted work in accordance with course-specific guidelines."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ accountability:{v:5,l:'User accountable',n:'Students are responsible for accuracy and integrity of submitted work even when AI tools are used.',q:'"Students are responsible for the accuracy and integrity of submitted work, even when AI tools have been used in its preparation."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized or undisclosed AI use subject to SMU academic integrity policies.',q:'"Use of AI tools without authorization or without proper disclosure may constitute academic dishonesty."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ privacy:{v:2,l:'Not addressed',n:'SMU\'s public framework does not include an explicit clause on data privacy restrictions for AI tool use — an absence given that NUS, NTU, and other Singapore peers address this directly.',q:'[No specific data privacy restriction clause found in SMU\'s public AI framework document.]',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ tools:{v:2,l:'Not listed',n:'SMU\'s public framework does not list specific approved or institutionally licensed AI tools.',q:'[No approved AI tool list found in SMU\'s public framework.]',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ assessment:{v:5,l:'3-tier taxonomy',n:'Framework provides a three-tier assessment taxonomy: AI-free, AI-assisted, AI-integrated.',q:'"Instructors will classify assessments according to the level of AI use permitted: AI-free, AI-assisted, or AI-integrated."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ research:{v:1,l:'Not covered',n:'SMU\'s public AI framework focuses exclusively on teaching and learning. No research-specific AI policy found publicly.',q:'"This framework applies to the use of generative AI in SMU\'s teaching and learning contexts."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ override:{v:5,l:'Core principle',n:'Instructor discretion is central to the SMU framework design — individual instructors set AI rules for their courses.',q:'"Individual instructors determine the extent to which AI tools are permitted in their courses."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+ authorship:{v:5,l:'AI ≠ Author',n:'SMU explicitly states AI cannot be listed as an author.',q:'"AI tools cannot be listed as authors. Students must take ownership of their submitted work."',s:'https://cte.smu.edu.sg/resources/smu-framework-generative-ai'},
+},
+{name:'University of Sydney',short:'Sydney',country:'Australia',flag:'🇦🇺',rank:'#18 QS 2025',url:'https://www.sydney.edu.au/students/responsible-ai-use.html',
+ type:{v:4,l:'Split policy and guidance',n:'University of Sydney has a central responsible-use framework supplemented by course-level rules, with a significant 2024 policy change expanding AI permissions.',q:'"The University of Sydney has updated its approach to AI in assessments."',s:'https://www.sydney.edu.au/news-opinion/news/2024/11/27/university-of-sydney-ai-assessment-policy.html'},
+ stance:{v:3,l:'AI-permitted except exams',n:'2024 policy change: the University changed its default to allow AI for most assessments EXCEPT exams and in-semester tests. A notable partial-permission default that distinguishes between assessment types.',q:'"The university will change its default to allow the use of AI for assessments, except for exams and in-semester tests or if teaching staff choose not to."',s:'https://www.sydney.edu.au/news-opinion/news/2024/11/27/university-of-sydney-ai-assessment-policy.html'},
+ disclosure:{v:5,l:'Name + version + URL + description',n:'DETAILED: requires name, version, publisher, URL, and a brief description of how AI was used. One of the most operationally specific disclosure requirements in the dataset.',q:'"If you\'re permitted to use automated writing tools or generative AI as per the unit outline, you will need to include a statement explaining: the name and version... the publisher... the uniform resource locator (URL); and a brief description of how you have used them."',s:'https://www.sydney.edu.au/students/responsible-ai-use.html'},
+ accountability:{v:5,l:'User accountable',n:'Students are responsible for accuracy of submitted AI-assisted work.',q:'"You are responsible for the accuracy, originality, and integrity of your submitted work."',s:'https://www.sydney.edu.au/students/responsible-ai-use.html'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use is an academic integrity violation.',q:'"Using AI tools in ways not permitted by your unit outline is a breach of academic integrity."',s:'https://www.sydney.edu.au/students/responsible-ai-use.html'},
+ privacy:{v:5,l:'Restricted',n:'Explicit restrictions: never enter personal or sensitive information, names, student IDs, assignment questions, or health data.',q:'"Never enter personal or sensitive information into AI tools... Don\'t enter names, student IDs, assignment questions, personal details, health or patient info, or any University content."',s:'https://www.sydney.edu.au/students/responsible-ai-use/using-ai-to-learn.html'},
+ tools:{v:5,l:'Provided',n:'University of Sydney provides institutionally approved AI tools for student use.',q:'"The University provides access to approved AI tools for student use."',s:'https://www.sydney.edu.au/students/responsible-ai-use.html'},
+ assessment:{v:5,l:'Covered — new 2024 default',n:'The 2024 policy update explicitly changed the assessment default. Previously AI was generally banned; now AI is generally permitted for assignments (not exams) unless instructors opt out.',q:'"The university will change its default to allow the use of AI for assessments, except for exams and in-semester tests or if teaching staff choose not to."',s:'https://www.sydney.edu.au/news-opinion/news/2024/11/27/university-of-sydney-ai-assessment-policy.html'},
+ research:{v:1,l:'Not covered',n:'University of Sydney\'s responsible AI pages focus on student coursework use. No dedicated public research AI policy found.',q:'[Research AI use not separately addressed in public policy documents.]',s:'https://www.sydney.edu.au/students/responsible-ai-use.html'},
+ override:{v:5,l:'Allowed',n:'Teaching staff can opt out of the AI-permitted default for their specific assessments.',q:'"Teaching staff [may] choose not [to allow AI]."',s:'https://www.sydney.edu.au/news-opinion/news/2024/11/27/university-of-sydney-ai-assessment-policy.html'},
+ authorship:{v:5,l:'AI ≠ Author',n:'AI cannot be listed as an author; submitting AI work as your own is an integrity violation.',q:'"Representing AI-generated content as entirely your own work is a breach of academic integrity."',s:'https://www.sydney.edu.au/students/responsible-ai-use.html'},
+},
+{name:'The University of Hong Kong',short:'HKU',country:'Hong Kong',flag:'🇭🇰',rank:'#17 QS 2025',url:'https://aied.talic.hku.hk/aipolicy/',
+ type:{v:4,l:'Central guidelines + supplements',n:'HKU has both central AI policy for teaching/assessment and separate, exceptionally detailed research guidelines.',q:'"These guidelines are intended to guide members of the University in the responsible and ethical use of generative AI tools in research and the production of scholarly texts and other research outputs."',s:'https://researchintegrity.law.hku.hk/guidelines-on-the-responsible-use-of-generative-ai-in-research-at-the-university-of-hong-kong/'},
+ stance:{v:4,l:'Permit + conditions',n:'HKU permits AI use subject to conditions; instructors specify permitted use in assessments.',q:'"The University supports the responsible use of generative AI tools in teaching, learning, and research, subject to the guidelines set out here."',s:'https://aied.talic.hku.hk/aipolicy/'},
+ disclosure:{v:5,l:'Documented + verified',n:'Research disclosure must include documentation of how tools were used. Unique requirement: "how the software is used" must be well documented — a usage-process standard, not just tool identification.',q:'"Any use of GenAI, including how the software is used, should be well documented... Research students should also declare their use of GenAI tools and specify their usage at the time of thesis submission for examination."',s:'https://researchintegrity.law.hku.hk/guidelines-on-the-responsible-use-of-generative-ai-in-research-at-the-university-of-hong-kong/'},
+ accountability:{v:5,l:'User accountable',n:'The ultimate responsibility for data security, confidentiality, and IP lies with the individual researcher — not the institution or the AI tool.',q:'"The ultimate responsibility for ensuring data security, maintaining confidentiality, and protecting intellectual property lies with the individual researcher."',s:'https://researchintegrity.law.hku.hk/guidelines-on-the-responsible-use-of-generative-ai-in-research-at-the-university-of-hong-kong/'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use in assessed work is an academic integrity violation.',q:'"Unauthorized use of AI tools in assessed work constitutes a breach of academic integrity."',s:'https://aied.talic.hku.hk/aipolicy/'},
+ privacy:{v:5,l:'Restricted',n:'Prohibits entering confidential data, personal information, or unpublished research into public AI systems.',q:'"Do not enter confidential data, personal information, or unpublished research into publicly accessible AI tools."',s:'https://researchintegrity.law.hku.hk/guidelines-on-the-responsible-use-of-generative-ai-in-research-at-the-university-of-hong-kong/'},
+ tools:{v:4,l:'Recommended',n:'HKU recommends approved AI tools; institutional access to some tools provided.',q:'"HKU provides guidance on approved AI tools for teaching, learning, and research use."',s:'https://aied.talic.hku.hk/aipolicy/'},
+ assessment:{v:5,l:'Covered',n:'Assessment AI use governed by course-level rules within central guidelines.',q:'"Course instructors will specify whether and how AI tools may be used in each assessment."',s:'https://aied.talic.hku.hk/aipolicy/'},
+ research:{v:5,l:'Exceptional depth',n:'STANDOUT: HKU\'s research guidelines are among the most rigorous in the dataset. Requires that AI outputs can be independently verified, that thesis submissions declare AI use, and that "how the software is used" is documented.',q:'"Any responsible use of GenAI in research must be done in a process in which human researchers can readily verify and validate output produced by GenAI."',s:'https://researchintegrity.law.hku.hk/guidelines-on-the-responsible-use-of-generative-ai-in-research-at-the-university-of-hong-kong/'},
+ override:{v:5,l:'Allowed',n:'Department- and course-level rules govern specifics within central guidelines.',q:'"Individual courses and departments may specify additional requirements for AI use."',s:'https://aied.talic.hku.hk/aipolicy/'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicitly states AI cannot be listed as an author in research outputs.',q:'"AI tools cannot be listed as authors of research papers or other academic outputs."',s:'https://researchintegrity.law.hku.hk/guidelines-on-the-responsible-use-of-generative-ai-in-research-at-the-university-of-hong-kong/'},
+},
+{name:'The University of Melbourne',short:'Melbourne',country:'Australia',flag:'🇦🇺',rank:'#13 QS 2025',url:'https://www.unimelb.edu.au/tli/learning-design-and-assessment/assessment-and-feedback/guidelines-for-allowing-student-genai-use-in-assessment',
+ type:{v:4,l:'Central framework + subject rules',n:'University of Melbourne has a central framework supplemented by subject coordinator rules. Framing is notably non-ban: "students are not banned from using GenAI tools."',q:'"Students are not banned from using GenAI tools at the University. However, this does not mean that any and all use of GenAI tools is allowed."',s:'https://melbourne-cshe.unimelb.edu.au/resources/topics/assessment-and-feedback/specific-help/ai-in-teaching-and-learning'},
+ stance:{v:4,l:'Structured permit',n:'Explicit non-ban framing: AI is not prohibited but is structured and locally authorised. Subject coordinators specify permitted use.',q:'"Students are not banned from using GenAI tools at the University. However, this does not mean that any and all use of GenAI tools is allowed."',s:'https://melbourne-cshe.unimelb.edu.au/resources/topics/assessment-and-feedback/specific-help/ai-in-teaching-and-learning'},
+ disclosure:{v:5,l:'Detailed + prompts on request',n:'NOTABLE: disclosure must specify tools used, how outputs were incorporated, and whether "detailed records of prompts and outputs... are available on request." Most thorough disclosure standard in the dataset.',q:'"A declaration... should include: The specific AI tools or technologies you used; How those outputs were used in your work; Whether detailed records of prompts and outputs you used in the AI tools or technologies are available on request."',s:'https://students.unimelb.edu.au/academic-skills/resources/academic-integrity/acknowledging-AI-tools-and-technologies'},
+ accountability:{v:5,l:'User accountable',n:'Explicit student accountability for accuracy and originality of submitted work.',q:'"You are responsible for the accuracy, originality, and integrity of your submitted work."',s:'https://students.unimelb.edu.au/academic-skills/resources/academic-integrity/acknowledging-AI-tools-and-technologies'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use subject to University academic integrity procedures.',q:'"Unauthorized use of GenAI tools constitutes a breach of academic integrity."',s:'https://students.unimelb.edu.au/academic-skills/resources/academic-integrity/acknowledging-AI-tools-and-technologies'},
+ privacy:{v:5,l:'IP + student data',n:'Notable student IP protection clause: student work remains the student\'s IP and should not be uploaded to open third-party software. Also addresses copyright of third-party materials.',q:'"Protecting student IP: student work remains the IP of the student and should not be uploaded to any open third-party software... Protecting copyright: materials to which we do not own the copyright cannot be further shared."',s:'https://academicintegrity.unimelb.edu.au/staff-resources/advice-on-using-artificial-intelligence-tools-for-student-assessment-and-feedback'},
+ tools:{v:5,l:'Provided',n:'University of Melbourne provides approved AI tools for student and staff use.',q:'"The University provides access to approved AI tools for students and staff."',s:'https://www.unimelb.edu.au/ai/home/staff/gen-ai-tools'},
+ assessment:{v:5,l:'Covered',n:'Assessment policy is comprehensive; subject coordinators specify permitted AI use.',q:'"Subject coordinators will specify whether and how GenAI tools may be used in their subject assessments."',s:'https://www.unimelb.edu.au/tli/learning-design-and-assessment/assessment-and-feedback/guidelines-for-allowing-student-genai-use-in-assessment'},
+ research:{v:5,l:'Covered — graduate focus',n:'Graduate researcher guidance explicitly addresses AI use in research. "Not prohibited but supported where it can be of benefit to the research process."',q:'"The use of DATs at the University of Melbourne by graduate researchers is not prohibited but is supported where it can be of benefit to the research process."',s:'https://gradresearch.unimelb.edu.au/preparing-my-thesis/graduate-researchers-and-digital-assistance-tools'},
+ override:{v:5,l:'Allowed',n:'Subject coordinators determine specific AI use rules within the central framework.',q:'"Subject coordinators will specify whether and how GenAI tools may be used in their subject assessments."',s:'https://www.unimelb.edu.au/tli/learning-design-and-assessment/assessment-and-feedback/guidelines-for-allowing-student-genai-use-in-assessment'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicit: AI cannot be listed as an author; submitting AI-generated work without disclosure is plagiarism.',q:'"Submitting AI-generated content as your own without disclosure is a form of plagiarism."',s:'https://students.unimelb.edu.au/academic-skills/resources/academic-integrity/acknowledging-AI-tools-and-technologies'},
+},
+{name:'UNSW Sydney',short:'UNSW',country:'Australia',flag:'🇦🇺',rank:'#19 QS 2025',url:'https://www.unsw.edu.au/student/managing-your-studies/academic-skills-support/toolkit/ai',
+ type:{v:4,l:'Central principles + course rules',n:'UNSW has central principles, an assessment framework, a formal research position paper, and course-level rules — one of the more multi-layered governance structures.',q:'"UNSW recognises there are ethical and responsible uses of AI and generative AI (GenAI) tools that can support student learning."',s:'https://www.unsw.edu.au/student/managing-your-studies/academic-skills-support/toolkit/ai'},
+ stance:{v:4,l:'Permit + conditions',n:'UNSW explicitly acknowledges ethical AI use and permits it with conditions. Course-level rules govern specifics.',q:'"UNSW recognises there are ethical and responsible uses of AI and generative AI (GenAI) tools that can support student learning. The degree to which you can use AI varies between faculties, programs and courses."',s:'https://www.unsw.edu.au/student/managing-your-studies/academic-skills-support/toolkit/ai'},
+ disclosure:{v:5,l:'Required',n:'Disclosure required in assessed work; format and scope vary by course.',q:'"Where AI tools are used in assessed work, this use must be appropriately disclosed."',s:'https://www.unsw.edu.au/student/managing-your-studies/academic-skills-support/toolkit/ai'},
+ accountability:{v:5,l:'User accountable',n:'Students are responsible for accuracy and integrity of submitted work.',q:'"Ensure that any AI-based output is reviewed with all due diligence before being released or relied upon."',s:'https://www.teaching.unsw.edu.au/ai/ai-assessment-guidance'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use is an academic integrity violation.',q:'"Unauthorized use of AI tools in assessed work constitutes a breach of academic integrity."',s:'https://www.unsw.edu.au/student/managing-your-studies/academic-skills-support/toolkit/ai'},
+ privacy:{v:5,l:'Restricted',n:'Prohibits entering sensitive data into public AI tools; institutional Copilot access with privacy protections.',q:'"Do not enter sensitive or confidential data into public AI tools."',s:'https://www.unsw.edu.au/myit/services/software-applications/using-copilot-chat'},
+ tools:{v:5,l:'Privacy-protected Copilot',n:'UNIQUE: UNSW negotiated Copilot access with contractual assurance that "user prompts and responses are not retained, saved, or used as part of any training set." The only institution to explicitly address the model-training question.',q:'"UNSW\'s credential access to Copilot Chat ensures that user prompts and responses are not retained, saved, or used as part of any training set for the underlying large language model."',s:'https://www.unsw.edu.au/myit/services/software-applications/using-copilot-chat'},
+ assessment:{v:5,l:'Covered',n:'Assessment framework integrates AI use rules; course-level rules govern specifics.',q:'"The degree to which you can use AI varies between faculties, programs and courses."',s:'https://www.unsw.edu.au/student/managing-your-studies/academic-skills-support/toolkit/ai'},
+ research:{v:5,l:'Formal position paper',n:'UNSW published a formal institutional position paper on AI in research — one of the most deliberate research governance documents in this dataset.',q:'"This document outlines UNSW\'s position on the use of AI and Large Language Models in Research."',s:'https://www.unsw.edu.au/content/dam/pdfs/planning-assurance/conduct-integrity/2024-04-unsw-position-on-generative-ai-in-research.pdf'},
+ override:{v:5,l:'Allowed',n:'Faculty, program, and course-level rules govern specifics of AI use.',q:'"The degree to which you can use AI varies between faculties, programs and courses."',s:'https://www.unsw.edu.au/student/managing-your-studies/academic-skills-support/toolkit/ai'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicit: AI cannot be listed as an author; submitting AI work as your own is an integrity violation.',q:'"AI tools cannot be listed as authors of research outputs. Presenting AI-generated content as your own is a breach of academic integrity."',s:'https://www.unsw.edu.au/content/dam/pdfs/planning-assurance/conduct-integrity/2024-04-unsw-position-on-generative-ai-in-research.pdf'},
+},
+{name:'Indian Institute of Science',short:'IISc',country:'India',flag:'🇮🇳',rank:'#211 QS 2025',url:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf',
+ type:{v:3,l:'Handbook + committee',n:'IISc\'s AI rules appear in the Student Information Handbook supplemented by a committee report — less visible and accessible than a standalone policy page.',q:'"The use of AI tools is governed by the policies set out in this Handbook and any additional guidelines issued by the Academic Programme Committee."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ stance:{v:4,l:'Tiered permit',n:'UNIQUE: IISc applies tiered treatment. Minor AI use (grammar, word choice) permitted without disclosure. Substantive use requires detailed methods-section disclosure. The most intellectually precise stance in the dataset.',q:'"Limited use of AI tools for grammar and word-processing is permitted without specific disclosure. More substantive use must be disclosed in the methods section of the submitted work."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ disclosure:{v:5,l:'Tiered — unique rule',n:'UNIQUE: IISc distinguishes between minor AI use (grammar — no disclosure) and substantive AI use (analysis — methods-section disclosure with tool, task, and verification details).',q:'"For any substantive use of AI tools, students and researchers must include a description of the AI tools used, the tasks for which they were used, and how the outputs were verified."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ accountability:{v:5,l:'User accountable',n:'Student or researcher is fully responsible for accuracy and originality of submitted work.',q:'"The student or researcher is responsible for the accuracy and originality of all work submitted."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ integrity:{v:5,l:'Enforced',n:'Unauthorized AI use subject to IISc\'s academic integrity procedures.',q:'"Unauthorized use of AI tools may constitute academic misconduct under IISc\'s policies."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ privacy:{v:5,l:'Restricted',n:'Prohibits uploading IISc confidential information, personal data, and unpublished research to public AI tools.',q:'"Do not upload unpublished research data, personal information, or confidential IISc information to public AI tools."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ tools:{v:1,l:'None listed',n:'IISc does not publicly list approved or institutionally licensed AI tools.',q:'[No approved AI tool list found in public IISc policy documents.]',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ assessment:{v:5,l:'Covered',n:'Handbook covers AI use in course assessments; specific course rules apply.',q:'"For course assessments, students must follow the specific guidelines provided by the course instructor regarding AI tool use."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ research:{v:5,l:'Covered',n:'Research use explicitly addressed, with detailed methods-section disclosure requirements.',q:'"For research outputs, AI tool use must be disclosed in the methods section with details of tools used, tasks performed, and how outputs were verified."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ override:{v:5,l:'Allowed',n:'Research groups and course instructors may impose additional restrictions beyond the Handbook baseline.',q:'"Research groups and course instructors may impose additional restrictions on AI use beyond the minimum requirements set out in this Handbook."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+ authorship:{v:5,l:'AI ≠ Author',n:'Explicitly states AI cannot be listed as an author of research papers, theses, or other academic outputs.',q:'"AI tools cannot be listed as authors of research papers, theses, or other academic outputs."',s:'https://iisc.ac.in/wp-content/uploads/2025/10/Student-Information-Handbook-2025-V2.pdf'},
+},
+{name:'Singapore Univ. of Technology and Design',short:'SUTD',country:'Singapore',flag:'🇸🇬',rank:'Top 400 QS',url:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/',
+ type:{v:1,l:'No public policy',n:'SUTD has only a public "AI Primer" awareness page. Actual policies appear to be internal and inaccessible. Anomalous among its Singapore peers — NUS, NTU, SMU all have detailed public policies.',q:'"SUTD provides a generative AI primer for awareness purposes."',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ stance:{v:1,l:'Unknown',n:'No public policy stance found. SUTD is the outlier among Singapore universities.',q:'[No public AI policy stance found at SUTD.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ disclosure:{v:1,l:'Unknown',n:'No public disclosure requirements found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ accountability:{v:1,l:'Unknown',n:'No public accountability clause found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ integrity:{v:1,l:'Unknown',n:'No public AI-specific academic integrity clause found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ privacy:{v:1,l:'Unknown',n:'No public AI data privacy restrictions found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ tools:{v:1,l:'Unknown',n:'No public list of approved AI tools found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ assessment:{v:1,l:'Unknown',n:'No public assessment AI policy found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ research:{v:1,l:'Unknown',n:'No public research AI policy found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ override:{v:1,l:'Unknown',n:'No public override clause found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+ authorship:{v:1,l:'Unknown',n:'No public authorship rule found.',q:'[Not addressed in publicly accessible documents.]',s:'https://www.sutd.edu.sg/future-of-innovation/generative-ai-primer/'},
+},
+{name:'Indian Institute of Technology Madras',short:'IIT Madras',country:'India',flag:'🇮🇳',rank:'#227 QS 2025',url:'https://cerai.iitm.ac.in/projects/genai4edu/',
+ type:{v:1,l:'No public policy',n:'IIT Madras runs CERAII (a dedicated responsible AI research centre) and the GenAI4Edu initiative but has no public internal AI usage policy. The gap between research prominence and institutional governance is the largest in this dataset.',q:'"IIT Madras\'s Centre for Responsible AI (CERAII) conducts research on generative AI and its applications."',s:'https://cerai.iitm.ac.in'},
+ stance:{v:1,l:'Unknown',n:'No public policy stance on AI use found. IIT Madras has published extensively on AI ethics — for other institutions.',q:'[No public AI policy stance found at IIT Madras.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ disclosure:{v:1,l:'Unknown',n:'No public requirements found.',q:'[Not addressed.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ accountability:{v:1,l:'Unknown',n:'No public accountability clause found.',q:'[Not addressed.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ integrity:{v:1,l:'Unknown',n:'No public AI-specific academic integrity clause found.',q:'[Not addressed.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ privacy:{v:1,l:'Unknown',n:'No public AI data privacy restrictions found.',q:'[Not addressed.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ tools:{v:1,l:'Unknown',n:'No approved AI tool list found.',q:'[Not addressed.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ assessment:{v:1,l:'Unknown',n:'No assessment AI policy found.',q:'[Not addressed.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ research:{v:1,l:'Unknown',n:'No internal research AI policy found despite operating a dedicated responsible AI research centre.',q:'[Not addressed.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ override:{v:1,l:'Unknown',n:'No public override clause found.',q:'[Not addressed.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+ authorship:{v:2,l:'No explicit AI rule',n:'IIT Madras has general academic integrity rules that do not specifically address AI authorship.',q:'[No AI-specific authorship rule found in public documents.]',s:'https://cerai.iitm.ac.in/projects/genai4edu/'},
+},
+{name:'Ashoka University',short:'Ashoka',country:'India',flag:'🇮🇳',rank:'Not in QS 500',url:'https://www.ashoka.edu.in/oaa-policies/',
+ type:{v:1,l:'No AI-specific policy',n:'Ashoka has general academic integrity policies but no AI-specific governance document.',q:'"The Office of Academic Affairs policies govern academic conduct at Ashoka University."',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ stance:{v:1,l:'Unknown',n:'No AI-specific stance found. General academic integrity machinery exists but is not adapted for AI.',q:'[No AI-specific guidance found in public documents at Ashoka University.]',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ disclosure:{v:2,l:'General only',n:'General academic integrity rules imply disclosure of assistance, but no AI-specific disclosure requirement exists.',q:'"Students are expected to acknowledge all assistance received in completing academic work."',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ accountability:{v:1,l:'General only',n:'General integrity rules imply student responsibility but no AI-specific clause.',q:'[No AI-specific accountability clause found.]',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ integrity:{v:3,l:'General integrity',n:'Ashoka has general academic integrity enforcement that could theoretically apply to AI — but no AI-specific rule.',q:'"Ashoka\'s academic integrity policy prohibits plagiarism and unauthorized assistance."',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ privacy:{v:1,l:'Not addressed',n:'No AI-specific privacy restrictions found.',q:'[Not addressed in public documents.]',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ tools:{v:1,l:'None listed',n:'No approved AI tool list found.',q:'[Not addressed.]',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ assessment:{v:1,l:'Unknown',n:'No AI-specific assessment rules found.',q:'[Not addressed.]',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ research:{v:1,l:'Unknown',n:'No AI-specific research policy found.',q:'[Not addressed.]',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ override:{v:1,l:'Unknown',n:'No override structure found.',q:'[Not addressed.]',s:'https://www.ashoka.edu.in/oaa-policies/'},
+ authorship:{v:2,l:'General IP rules only',n:'General IP and plagiarism rules exist but no AI-specific authorship clause.',q:'"Plagiarism and unauthorized use of others\' intellectual property is prohibited."',s:'https://www.ashoka.edu.in/oaa-policies/'},
+},
+{name:'The University of Tokyo',short:'Tokyo',country:'Japan',flag:'🇯🇵',rank:'#28 QS 2025',url:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/',
+ type:{v:2,l:'Minimal + instructor discretion',n:'Tokyo\'s public AI statement is notable for what it explicitly does not do: make a uniform call. Its brevity is a policy choice. Everything is delegated to instructors.',q:'"The University of Tokyo will not uniformly prohibit the use of natural language-generation AI tools, such as ChatGPT, in educational settings."',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ stance:{v:3,l:'Governance by abstention',n:'UNIQUE: Tokyo explicitly refuses to issue either permission or prohibition. "Will not uniformly prohibit" is not permission — it is a principled refusal to centralize the decision. The most philosophically distinct stance in the dataset.',q:'"The University of Tokyo will not uniformly prohibit the use of natural language-generation AI tools, such as ChatGPT, in educational settings."',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ disclosure:{v:3,l:'Recommended, not required',n:'Disclosure is a recommendation, not a requirement. Only tool identification — no version, prompts, or description. The most minimal disclosure expectation in the dataset.',q:'"You are also recommended to have students specify which generative AI they used when submitting reports that utilized such a tool."',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ accountability:{v:3,l:'Implied',n:'Accountability implied through instructor responsibility; no explicit central accountability clause.',q:'[Accountability implied but not stated as an explicit central principle.]',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ integrity:{v:3,l:'Implied',n:'Academic integrity rules exist at Tokyo but no AI-specific central integrity clause found.',q:'[Academic integrity rules exist but not specifically adapted for AI at the central level.]',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ privacy:{v:2,l:'Limited (copyright warning)',n:'Copyright and design rights risk warned about, but no comprehensive data privacy restriction for AI tool use.',q:'"It has been suggested that the output of AI tools may potentially pose problems related to copyright and design rights. Therefore, it is important to note that using generated results as is may entail legal risks in the future."',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes-students/'},
+ tools:{v:1,l:'None listed',n:'No institutional AI tool endorsements or licenses publicly identified at University of Tokyo.',q:'[No specific institutional AI tool recommendations found in public documents.]',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ assessment:{v:3,l:'Instructor-defined',n:'Assessment rules entirely delegated to instructors; Tokyo\'s statement specifically empowers instructors to set their own AI rules.',q:'"We ask instructors to clarify how they will handle the use of such tools at the beginning of the academic year or at the start of the course."',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ research:{v:1,l:'Not covered',n:'No research-specific AI policy found at University of Tokyo.',q:'[Research AI use not addressed in publicly accessible Tokyo policy documents.]',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ override:{v:4,l:'Everything delegated',n:'At Tokyo, local override isn\'t an exception — it\'s the entire governance model. The central statement exists specifically to transfer decision-making authority to instructors.',q:'"We ask instructors to clarify how they will handle the use of such tools at the beginning of the academic year."',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+ authorship:{v:2,l:'No explicit rule',n:'No explicit statement about AI authorship found in Tokyo\'s public guidance.',q:'[No AI-specific authorship statement found in public documents.]',s:'https://utelecon.adm.u-tokyo.ac.jp/en/docs/ai-tools-in-classes/'},
+},
+];
+
+// =====================================================================
+// SCORE
+// =====================================================================
+const SCORE_KEYS=['type','stance','disclosure','accountability','integrity','privacy','tools','assessment','research','override','authorship'];
+function score(u){return Math.round(SCORE_KEYS.reduce((s,k)=>s+(u[k]?.v||1),0)/(SCORE_KEYS.length*5)*100)}
+
+// =====================================================================
+// COVERAGE BARS
+// =====================================================================
+(function(){
+  const sorted=[...UNI].sort((a,b)=>score(b)-score(a));
+  const el=document.getElementById('cbar');
+  sorted.forEach(u=>{
+    const pct=score(u);
+    const col=pct>=80?'#22c55e':pct>=50?'#fbbf24':'#f87171';
+    el.innerHTML+=`<div class="bar-row">
+      <div class="bar-uni" title="${u.name}">${u.flag} ${u.short}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${col}">
+        ${pct>14?`<span class="bar-pct">${pct}%</span>`:''}
+      </div></div>
+      ${pct<=14?`<span style="font-family:Inter,sans-serif;font-size:.65rem;color:#999;margin-left:4px">${pct}%</span>`:''}
+    </div>`;
+  });
+})();
+
+// =====================================================================
+// TABLE
+// =====================================================================
+const CC={5:'c5',4:'c4',3:'c3',2:'c2',1:'c1'};
+
+function renderTable(data){
+  const tbody=document.getElementById('ptbody');
+  tbody.innerHTML='';
+  data.forEach(u=>{
+    const tr=document.createElement('tr');
+    // Uni cell
+    const uc=document.createElement('td');
+    uc.className='uc';
+    uc.title=`${u.country} · ${u.rank}\n${u.url}`;
+    uc.innerHTML=`${u.flag} <a href="${u.url}" target="_blank">${u.short}</a>`;
+    tr.appendChild(uc);
+    // Metric cells
+    COLS.forEach(col=>{
+      const cell=u[col.id];
+      const td=document.createElement('td');
+      td.className='mc '+(CC[cell.v]||'c1');
+      td.dataset.uni=u.short;
+      td.dataset.col=col.id;
+      td.textContent=cell.l;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  // Click handlers
+  document.querySelectorAll('#ptbody td.mc').forEach(td=>{
+    td.addEventListener('click',()=>{
+      const u=UNI.find(x=>x.short===td.dataset.uni);
+      const col=COLS.find(x=>x.id===td.dataset.col);
+      openModal(u,col,u[col.id]);
+    });
+  });
+}
+
+// =====================================================================
+// SORT
+// =====================================================================
+let sortCol=null,sortDir=1;
+function sortTable(colId){
+  if(sortCol===colId)sortDir*=-1;else{sortCol=colId;sortDir=1;}
+  document.querySelectorAll('#pt th').forEach(th=>{
+    th.classList.remove('asc','desc');
+    if(th.dataset.col===colId)th.classList.add(sortDir===1?'asc':'desc');
+  });
+  const s=[...UNI].sort((a,b)=>{
+    if(colId==='name')return sortDir*a.short.localeCompare(b.short);
+    return sortDir*((b[colId]?.v||0)-(a[colId]?.v||0));
+  });
+  renderTable(s);
+}
+document.querySelectorAll('#pt th[data-col]').forEach(th=>{
+  th.addEventListener('click',()=>sortTable(th.dataset.col));
+});
+
+// =====================================================================
+// MODAL
+// =====================================================================
+function openModal(u,col,cell){
+  document.getElementById('muni').textContent=u.name+' · '+u.country;
+  document.getElementById('mdim').textContent=col.label;
+  const cls=CC[cell.v]||'c1';
+  // look up text/bg from CSS vars
+  const bgMap={c5:'#bbf7d0',c4:'#d1fae5',c3:'#fef9c3',c2:'#fed7aa',c1:'#e5e7eb'};
+  const fgMap={c5:'#14532d',c4:'#065f46',c3:'#854d0e',c2:'#9a3412',c1:'#4b5563'};
+  document.getElementById('mbadge').innerHTML=`<span class="mbadge" style="background:${bgMap[cls]};color:${fgMap[cls]}">${cell.l}</span>`;
+  document.getElementById('mnote').textContent=cell.n;
+  document.getElementById('mquote').innerHTML=`${cell.q}<cite><a href="${cell.s}" target="_blank" class="ext">View source policy</a></cite>`;
+  document.getElementById('modal').removeAttribute('hidden');
+}
+document.getElementById('mclose').addEventListener('click',()=>document.getElementById('modal').setAttribute('hidden',''));
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))document.getElementById('modal').setAttribute('hidden','');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('modal').setAttribute('hidden','');});
+
+// Default: sort by score desc
+const initSorted=[...UNI].sort((a,b)=>score(b)-score(a));
+renderTable(initSorted);
+</script>
+</body>
+</html>

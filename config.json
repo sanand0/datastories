@@ -1,6 +1,15 @@
 {
   "stories": [
     {
+      "id": "ai-policies",
+      "title": "The Three Yeses — How 25 Universities Govern AI",
+      "description": "Every one of twenty-five universities says students may use AI. None of them mean the same thing — and what none of them say is the story that matters most. Analysis of public AI governance documents across 25 leading universities in 9 countries.",
+      "link": "ai-policies/",
+      "screenshot": "ai-policies/screenshot.webp",
+      "date": "2026-04-03",
+      "folder": "ai-policies"
+    },
+    {
       "id": "tds-2026-01-p1",
       "title": "What 765 Students Taught Us About Learning, Hacking, and Everything In Between",
       "description": "Analysis of 765 students, 9,046 saved submissions, and 1,731 evaluated AI images from TDS Jan 2026 Project 1, showing how learning shifts when answers are one search away.",
