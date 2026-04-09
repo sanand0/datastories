@@ -72,4 +72,12 @@ Be thoughtful and critical in the analysis, and don't just report on the data - 
 
 Update README.md and config.json with the ai-policies/ data story and screenshot.
 
+---
+
+I have more universities' data in harvard_plus4_genai_policies_rigorous.json.
+Merge this into university-genai-policies.json.
+Make sure all tables, charts, etc. include the new universities.
+Incorporate any new insights or corrections.
+Don't make this look like a revision of the previous story. Ensure that it feels like a whole story, not a patchwork of old and new.
+
 <!-- claude --resume 4a1b4bc1-b51e-4f72-a7dc-bd1c5443eb6a -->

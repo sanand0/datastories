@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Feedback-Loop Amenability in Software Engineering</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a24;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f8f8fb;
+  --text2: #bab9c9;
+  --text3: #7e7d93;
+
+  /* Amenability spectrum — 6 levels */
+  --l1: #22c55e;   /* perfect */
+  --l2: #84cc16;   /* high */
+  --l3: #eab308;   /* moderate */
+  --l4: #f97316;   /* low */
+  --l5: #ef4444;   /* resistant */
+  --l6: #a855f7;   /* future-unlocked */
+
+  --accent: #6366f1;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Syne', sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  padding: 40px 48px 32px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.header-kicker {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.15;
+  max-width: 680px;
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.header-sub {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text2);
+  max-width: 640px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  padding: 0 48px;
+  gap: 0;
+}
+
+.tab-btn {
+  padding: 12px 20px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover { color: var(--text2); }
+.tab-btn.active { color: var(--text); border-bottom-color: var(--accent); }
+
+/* ── SECTIONS ── */
+section {
+  display: none;
+  padding: 36px 48px 64px;
+}
+section.active { display: block; }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--text2);
+}
+
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── LANDSCAPE CHART ── */
+.landscape {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.landscape-axes {
+  position: relative;
+  border-left: 1px solid var(--border2);
+  border-bottom: 1px solid var(--border2);
+  height: 480px;
+  margin: 40px 60px 60px 80px;
+}
+
+.axis-label-y {
+  position: absolute;
+  left: -72px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+.axis-label-x {
+  position: absolute;
+  bottom: -48px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+.axis-ticks-y {
+  position: absolute;
+  left: -48px;
+  top: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.axis-ticks-x {
+  position: absolute;
+  bottom: -28px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tick {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+}
+
+/* Grid lines */
+.grid-line-h, .grid-line-v {
+  position: absolute;
+  background: var(--border);
+}
+.grid-line-h { left: 0; right: 0; height: 1px; }
+.grid-line-v { top: 0; bottom: 0; width: 1px; }
+
+/* Data points */
+.dot {
+  position: absolute;
+  width: 12px; height: 12px;
+  border-radius: 2px;
+  transform: translate(-50%, 50%);
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 2;
+}
+
+.dot:hover {
+  transform: translate(-50%, 50%) scale(1.5);
+  z-index: 10;
+}
+
+.dot-future {
+  border: 1.5px solid var(--l6);
+  background: rgba(168,85,247,0.2);
+}
+
+.dot-label {
+  position: absolute;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 8px 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text);
+  white-space: nowrap;
+  z-index: 20;
+  pointer-events: none;
+  display: none;
+  max-width: 260px;
+  white-space: normal;
+  line-height: 1.5;
+}
+
+.dot:hover .dot-label {
+  display: block;
+}
+
+/* ── TABLE SECTION ── */
+.process-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.process-category {
+  margin-bottom: 32px;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0;
+  padding: 10px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-bottom: none;
+}
+
+.category-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.process-table {
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.process-row {
+  display: grid;
+  grid-template-columns: 200px 90px 90px 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+
+.process-row:last-child { border-bottom: none; }
+.process-row:hover { background: rgba(255,255,255,0.02); }
+
+.process-row.header {
+  background: var(--surface2);
+  pointer-events: none;
+}
+
+.process-row.header .cell {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.cell {
+  padding: 11px 14px;
+  font-size: 12px;
+  color: var(--text2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cell:last-child { border-right: none; }
+.cell.name { font-size: 12px; font-weight: 500; color: var(--text); }
+.cell.oracle { font-size: 11px; line-height: 1.5; }
+.cell.why { font-size: 11px; line-height: 1.5; }
+
+/* Amenability badge */
+.amen-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  padding: 3px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.a-perfect  { background: rgba(34,197,94,0.12);  color: var(--l1); }
+.a-high     { background: rgba(132,204,22,0.12); color: var(--l2); }
+.a-moderate { background: rgba(234,179,8,0.12);  color: var(--l3); }
+.a-low      { background: rgba(249,115,22,0.12); color: var(--l4); }
+.a-resist   { background: rgba(239,68,68,0.12);  color: var(--l5); }
+.a-future   { background: rgba(168,85,247,0.12); color: var(--l6); }
+
+/* Arrow indicator for change */
+.trend {
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.trend-up    { color: var(--l2); }
+.trend-stable { color: var(--text3); }
+.trend-unlock { color: var(--l6); }
+
+/* ── FRAMEWORK SECTION ── */
+.framework-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.framework-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 20px;
+}
+
+.framework-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.framework-card p {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.dimensions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.dim-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.dim-name {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.dim-desc {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* Boundary movement visualization */
+.boundary-vis {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.boundary-vis h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.boundary-bar {
+  margin-bottom: 16px;
+}
+
+.boundary-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text2);
+  margin-bottom: 5px;
+}
+
+.boundary-track {
+  height: 24px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.boundary-fill-now {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.5);
+  transition: width 0.8s ease;
+}
+
+.boundary-fill-future {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-right: 2px dashed rgba(168,85,247,0.5);
+  background: rgba(168,85,247,0.08);
+}
+
+@media (max-width: 700px) {
+  header, section, .tabs { padding-left: 20px; padding-right: 20px; }
+  .process-row { grid-template-columns: 140px 70px 1fr; }
+  .process-row .cell:nth-child(4),
+  .process-row .cell:nth-child(5) { display: none; }
+  .framework-grid { grid-template-columns: 1fr; }
+  .landscape-axes { margin: 20px 20px 60px 60px; height: 360px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-kicker">Software Engineering × LLM Feedback Loops</div>
+  <h1>What is <em>actually</em> optimizable<br>and what isn't — and why</h1>
+  <p class="header-sub">The gating criterion is verifiability: a feedback loop requires an oracle that can judge output quality without human interpretation. This analysis maps every SE process — current and AI-introduced — on that dimension.</p>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="show('landscape')">Landscape</button>
+  <button class="tab-btn" onclick="show('processes')">All Processes</button>
+  <button class="tab-btn" onclick="show('framework')">Framework & Principles</button>
+</div>
+
+<!-- ══════ LANDSCAPE ══════ -->
+<section id="landscape" class="active">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--l1)"></div>Perfect (binary oracle)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--l2)"></div>High (fast, objective)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--l3)"></div>Moderate (proxy oracles)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--l4)"></div>Low (slow or fuzzy)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--l5)"></div>Resistant (no ground truth)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--l6); border: 1.5px solid var(--l6)"></div>Future-unlocked (AI-introduced)</div>
+  </div>
+
+  <!-- Scatter plot: x = feedback speed, y = verifiability -->
+  <div class="landscape">
+    <div class="landscape-axes" id="chart">
+      <span class="axis-label-y">← verifiability (oracle clarity) →</span>
+      <span class="axis-label-x">← feedback latency (slow → fast) →</span>
+
+      <!-- Grid lines -->
+      <div class="grid-line-h" style="top:25%"></div>
+      <div class="grid-line-h" style="top:50%"></div>
+      <div class="grid-line-h" style="top:75%"></div>
+      <div class="grid-line-v" style="left:25%"></div>
+      <div class="grid-line-v" style="left:50%"></div>
+      <div class="grid-line-v" style="left:75%"></div>
+
+      <!-- Zone labels -->
+      <div style="position:absolute;top:4px;right:8px;font-family:var(--mono);font-size:9px;color:var(--l1);letter-spacing:.1em;opacity:.6">PERFECT ZONE</div>
+      <div style="position:absolute;bottom:4px;left:8px;font-family:var(--mono);font-size:9px;color:var(--l5);letter-spacing:.1em;opacity:.6">STRUCTURALLY RESISTANT</div>
+
+      <!-- ── DOTS ── x=speed (0=slow,100=fast), y=verifiability (0=bottom/low, 100=top/high) -->
+      <!-- Rendered as: left = x%, bottom = y% -->
+
+      <!-- Perfect amenability -->
+      <div class="dot" style="left:95%;bottom:98%;background:var(--l1)" title="Code formatting / style">
+        <div class="dot-label" style="bottom:20px;right:0">Code formatting<br><span style="color:var(--text3)">Oracle: diff matches linter config</span></div>
+      </div>
+      <div class="dot" style="left:92%;bottom:95%;background:var(--l1)" title="Type checking">
+        <div class="dot-label" style="bottom:20px;right:0">Type checking<br><span style="color:var(--text3)">Oracle: compiler exit code</span></div>
+      </div>
+      <div class="dot" style="left:90%;bottom:92%;background:var(--l1)" title="Unit testing">
+        <div class="dot-label" style="bottom:20px;right:0">Unit testing<br><span style="color:var(--text3)">Oracle: test pass/fail count</span></div>
+      </div>
+      <div class="dot" style="left:94%;bottom:89%;background:var(--l1)" title="Lint / static analysis">
+        <div class="dot-label" style="bottom:20px;right:0">Lint / static analysis<br><span style="color:var(--text3)">Oracle: error count = 0</span></div>
+      </div>
+      <div class="dot" style="left:88%;bottom:93%;background:var(--l1)" title="Build success">
+        <div class="dot-label" style="bottom:20px;left:0">Build success<br><span style="color:var(--text3)">Oracle: build exit code</span></div>
+      </div>
+      <div class="dot" style="left:86%;bottom:96%;background:var(--l1)" title="Dependency security">
+        <div class="dot-label" style="bottom:20px;left:0">Dependency security scan<br><span style="color:var(--text3)">Oracle: CVE database match</span></div>
+      </div>
+
+      <!-- High amenability -->
+      <div class="dot" style="left:78%;bottom:84%;background:var(--l2)" title="Integration testing">
+        <div class="dot-label" style="bottom:20px;right:0">Integration testing<br><span style="color:var(--text3)">Oracle: service contract pass/fail</span></div>
+      </div>
+      <div class="dot" style="left:82%;bottom:80%;background:var(--l2)" title="Performance benchmarking">
+        <div class="dot-label" style="bottom:20px;right:0">Performance benchmarking<br><span style="color:var(--text3)">Oracle: latency < target threshold</span></div>
+      </div>
+      <div class="dot" style="left:72%;bottom:82%;background:var(--l2)" title="API contract testing">
+        <div class="dot-label" style="bottom:20px;right:0">API contract testing<br><span style="color:var(--text3)">Oracle: schema validation</span></div>
+      </div>
+      <div class="dot" style="left:68%;bottom:78%;background:var(--l2)" title="Test coverage">
+        <div class="dot-label" style="bottom:20px;right:0">Test coverage measurement<br><span style="color:var(--text3)">Oracle: % covered lines ≥ N</span></div>
+      </div>
+      <div class="dot" style="left:76%;bottom:75%;background:var(--l2)" title="DB migration testing">
+        <div class="dot-label" style="bottom:20px;right:0">DB migration testing<br><span style="color:var(--text3)">Oracle: schema diff + data integrity</span></div>
+      </div>
+      <div class="dot" style="left:64%;bottom:85%;background:var(--l2)" title="Regression testing">
+        <div class="dot-label" style="bottom:20px;right:0">Regression testing<br><span style="color:var(--text3)">Oracle: output matches baseline</span></div>
+      </div>
+      <div class="dot" style="left:60%;bottom:72%;background:var(--l2)" title="Doc coverage">
+        <div class="dot-label" style="bottom:20px;right:0">Documentation completeness<br><span style="color:var(--text3)">Oracle: every public API has docstring</span></div>
+      </div>
+
+      <!-- Moderate amenability -->
+      <div class="dot" style="left:62%;bottom:60%;background:var(--l3)" title="Debugging">
+        <div class="dot-label" style="bottom:20px;right:0">Debugging<br><span style="color:var(--text3)">Oracle: failing test now passes (but root cause unclear)</span></div>
+      </div>
+      <div class="dot" style="left:55%;bottom:58%;background:var(--l3)" title="Refactoring">
+        <div class="dot-label" style="bottom:20px;right:0">Refactoring<br><span style="color:var(--text3)">Oracle: tests pass + complexity metrics improve</span></div>
+      </div>
+      <div class="dot" style="left:50%;bottom:62%;background:var(--l3)" title="Security scanning">
+        <div class="dot-label" style="bottom:20px;right:0">Security scanning (known patterns)<br><span style="color:var(--text3)">Oracle: SAST tool findings; misses novel vulnerabilities</span></div>
+      </div>
+      <div class="dot" style="left:44%;bottom:55%;background:var(--l3)" title="E2E testing">
+        <div class="dot-label" style="bottom:20px;left:0">E2E testing<br><span style="color:var(--text3)">Oracle: user flow pass/fail (but brittle to UI changes)</span></div>
+      </div>
+      <div class="dot" style="left:48%;bottom:48%;background:var(--l3)" title="Code review (mechanical)">
+        <div class="dot-label" style="bottom:20px;left:0">Code review (mechanical checks)<br><span style="color:var(--text3)">Oracle: pattern matching on known anti-patterns</span></div>
+      </div>
+      <div class="dot" style="left:58%;bottom:52%;background:var(--l3)" title="Prompt optimization">
+        <div class="dot-label" style="bottom:20px;left:0">Prompt / system prompt optimization<br><span style="color:var(--text3)">Oracle: eval suite pass rate (if you've written evals)</span></div>
+      </div>
+
+      <!-- Low amenability -->
+      <div class="dot" style="left:35%;bottom:42%;background:var(--l4)" title="API design">
+        <div class="dot-label" style="top:20px;left:0">API design<br><span style="color:var(--text3)">Oracle: usage patterns (months later); ergonomics is slow signal</span></div>
+      </div>
+      <div class="dot" style="left:28%;bottom:38%;background:var(--l4)" title="Architecture design">
+        <div class="dot-label" style="top:20px;left:0">Architecture / system design<br><span style="color:var(--text3)">Oracle: emergent failures (years later); no fast ground truth</span></div>
+      </div>
+      <div class="dot" style="left:32%;bottom:45%;background:var(--l4)" title="Performance optimization">
+        <div class="dot-label" style="top:20px;left:0">Performance optimization<br><span style="color:var(--text3)">Oracle: benchmark (measurable but slow iteration on prod)</span></div>
+      </div>
+      <div class="dot" style="left:22%;bottom:35%;background:var(--l4)" title="Tech debt assessment">
+        <div class="dot-label" style="top:20px;right:0">Technical debt assessment<br><span style="color:var(--text3)">Oracle: undefined; proxy metrics exist but imperfect</span></div>
+      </div>
+      <div class="dot" style="left:40%;bottom:32%;background:var(--l4)" title="Incident response">
+        <div class="dot-label" style="top:20px;left:0">Incident response triage<br><span style="color:var(--text3)">Oracle: MTTR, but correctness of root cause is fuzzy</span></div>
+      </div>
+
+      <!-- Resistant -->
+      <div class="dot" style="left:15%;bottom:22%;background:var(--l5)" title="Requirements elicitation">
+        <div class="dot-label" style="top:20px;right:0">Requirements elicitation<br><span style="color:var(--text3)">No oracle: user needs are not pre-known</span></div>
+      </div>
+      <div class="dot" style="left:10%;bottom:18%;background:var(--l5)" title="Architecture judgment">
+        <div class="dot-label" style="top:20px;right:0">Architecture judgment (is this right?)<br><span style="color:var(--text3)">No oracle: validated only by future system behavior</span></div>
+      </div>
+      <div class="dot" style="left:18%;bottom:15%;background:var(--l5)" title="UX decisions">
+        <div class="dot-label" style="top:20px;right:0">UX / product decisions<br><span style="color:var(--text3)">No oracle: requires user research + time</span></div>
+      </div>
+      <div class="dot" style="left:8%;bottom:12%;background:var(--l5)" title="Is this the right thing to build?">
+        <div class="dot-label" style="top:20px;right:0">"Is this the right thing to build?"<br><span style="color:var(--text3)">Structurally unverifiable without market</span></div>
+      </div>
+      <div class="dot" style="left:12%;bottom:28%;background:var(--l5)" title="Code review (judgment)">
+        <div class="dot-label" style="top:20px;right:0">Code review (judgment layer)<br><span style="color:var(--text3)">No oracle: "is this maintainable?" is a taste call</span></div>
+      </div>
+
+      <!-- Future-unlocked (AI-introduced processes) -->
+      <div class="dot dot-future" style="left:80%;bottom:88%;background:rgba(168,85,247,0.15)" title="Behavior spec verification">
+        <div class="dot-label" style="bottom:20px;left:0">Behavior spec verification [FUTURE]<br><span style="color:var(--text3)">Oracle: behavioral test suite; amenable because spec is executable</span></div>
+      </div>
+      <div class="dot dot-future" style="left:75%;bottom:82%;background:rgba(168,85,247,0.15)" title="LLM eval suite optimization">
+        <div class="dot-label" style="bottom:20px;left:0">LLM eval suite optimization [FUTURE]<br><span style="color:var(--text3)">Oracle: eval pass rate — the meta-loop over AI outputs</span></div>
+      </div>
+      <div class="dot dot-future" style="left:70%;bottom:70%;background:rgba(168,85,247,0.15)" title="Agent prompt refinement">
+        <div class="dot-label" style="bottom:20px;left:0">Agent prompt / CLAUDE.md refinement [FUTURE]<br><span style="color:var(--text3)">Oracle: task completion rate across test scenarios</span></div>
+      </div>
+      <div class="dot dot-future" style="left:55%;bottom:78%;background:rgba(168,85,247,0.15)" title="Synthetic test data quality">
+        <div class="dot-label" style="bottom:20px;right:0">Synthetic test data quality [FUTURE]<br><span style="color:var(--text3)">Oracle: distribution match + downstream test performance</span></div>
+      </div>
+      <div class="dot dot-future" style="left:65%;bottom:65%;background:rgba(168,85,247,0.15)" title="Multi-agent coordination">
+        <div class="dot-label" style="bottom:20px;right:0">Multi-agent coordination optimization [FUTURE]<br><span style="color:var(--text3)">Oracle: task completion rate + conflict rate</span></div>
+      </div>
+      <div class="dot dot-future" style="left:45%;bottom:72%;background:rgba(168,85,247,0.15)" title="Self-healing infrastructure">
+        <div class="dot-label" style="bottom:20px;right:0">Self-healing infrastructure [FUTURE]<br><span style="color:var(--text3)">Oracle: uptime recovery time — measurable but slow</span></div>
+      </div>
+      <div class="dot dot-future" style="left:35%;bottom:68%;background:rgba(168,85,247,0.15)" title="Autonomous dependency management">
+        <div class="dot-label" style="bottom:20px;right:0">Autonomous dependency mgmt [FUTURE]<br><span style="color:var(--text3)">Oracle: tests pass after update; near-perfect loop</span></div>
+      </div>
+      <div class="dot dot-future" style="left:30%;bottom:55%;background:rgba(168,85,247,0.15)" title="Codebase intent recovery">
+        <div class="dot-label" style="top:20px;right:0">Codebase intent recovery [FUTURE]<br><span style="color:var(--text3)">Oracle: undefined today; needs human validation still</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);padding:16px 20px;font-size:12px;color:var(--text2);line-height:1.7;max-width:720px">
+    <strong style="color:var(--text)">Key observation:</strong> The top-right quadrant (high verifiability + fast feedback) is where feedback loops produce the most value. Notice that <span style="color:var(--l6)">future AI-introduced processes</span> cluster disproportionately high on the verifiability axis — this is not an accident. AI tooling is eating its own interfaces first, and those interfaces were designed to be machine-readable from the start.
+  </div>
+</section>
+
+<!-- ══════ PROCESSES ══════ -->
+<section id="processes">
+
+  <!-- CORE PROCESSES — PERFECTLY AMENABLE -->
+  <div class="process-category">
+    <div class="category-header">
+      <div class="legend-dot" style="background:var(--l1)"></div>
+      <div class="category-label">Perfect amenability — binary oracle, sub-second feedback</div>
+    </div>
+    <div class="process-table">
+      <div class="process-row header">
+        <div class="cell">Process</div>
+        <div class="cell">Now</div>
+        <div class="cell">Direction</div>
+        <div class="cell oracle">Oracle / verifier</div>
+        <div class="cell why">Why it works / what limits it</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Code formatting & style</div>
+        <div class="cell"><span class="amen-badge a-perfect">Perfect</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Diff against linter output; deterministic</div>
+        <div class="cell why">The oracle is the linter itself. The loop can run with zero human involvement forever. Already automated in most shops.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Type checking</div>
+        <div class="cell"><span class="amen-badge a-perfect">Perfect</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Compiler exit code; error list</div>
+        <div class="cell why">Binary, fast, complete. The agent gets the error list and can iterate until clean. Completely solved.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Unit testing</div>
+        <div class="cell"><span class="amen-badge a-perfect">Perfect</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Test pass/fail count; coverage %</div>
+        <div class="cell why">The test suite is the oracle. Ralph loop's canonical use case. Limit: only as good as the tests themselves.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Lint / static analysis</div>
+        <div class="cell"><span class="amen-badge a-perfect">Perfect</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Error count = 0; specific rule violations</div>
+        <div class="cell why">Fully solved. The loop terminates when error count reaches zero. Already standard CI gate.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Build success</div>
+        <div class="cell"><span class="amen-badge a-perfect">Perfect</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Build exit code; artifact produced</div>
+        <div class="cell why">Binary and fast. Trivially automatable. Already the baseline CI loop.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Dependency security scanning</div>
+        <div class="cell"><span class="amen-badge a-perfect">Perfect</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">CVE database match; severity score</div>
+        <div class="cell why">The CVE database is the ground truth. Agent can auto-update + test + PR. Autonomous dependency management is near-solved.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIGH AMENABILITY -->
+  <div class="process-category">
+    <div class="category-header">
+      <div class="legend-dot" style="background:var(--l2)"></div>
+      <div class="category-label">High amenability — objective oracle, fast-to-medium latency</div>
+    </div>
+    <div class="process-table">
+      <div class="process-row header">
+        <div class="cell">Process</div>
+        <div class="cell">Now</div>
+        <div class="cell">Direction</div>
+        <div class="cell oracle">Oracle / verifier</div>
+        <div class="cell why">Why it works / what limits it</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Integration testing</div>
+        <div class="cell"><span class="amen-badge a-high">High</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Service contract pass/fail; API response match</div>
+        <div class="cell why">Works well when contracts are explicit. Limit: flaky tests from timing issues. Mitigation: retry logic in the loop.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Performance benchmarking</div>
+        <div class="cell"><span class="amen-badge a-high">High</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Latency < threshold; throughput > target</div>
+        <div class="cell why">When target is defined, this is an optimization loop. Limit: environment variance makes benchmarks noisy; statistical significance required.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">API contract testing</div>
+        <div class="cell"><span class="amen-badge a-high">High</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Schema validation; contract spec match</div>
+        <div class="cell why">OpenAPI/Swagger schemas are machine-readable contracts. Pact-style consumer-driven contracts make this fully automatable.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Test coverage measurement</div>
+        <div class="cell"><span class="amen-badge a-high">High</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">% lines covered ≥ N</div>
+        <div class="cell why">Easy to measure; hard to optimize well. Agent can write tests to hit coverage but they may be low-signal. Limit: coverage ≠ quality.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Database migration testing</div>
+        <div class="cell"><span class="amen-badge a-high">High</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Schema diff correctness; data integrity after migration</div>
+        <div class="cell why">Highly automatable. Apply migration → check schema matches expected → verify data integrity constraints. Reversibility testing adds complexity.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Regression testing</div>
+        <div class="cell"><span class="amen-badge a-high">High</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Output matches recorded baseline</div>
+        <div class="cell why">Snapshot testing is mechanically perfect. Limit: baseline itself may be wrong; updates to expected output require human judgment.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Documentation completeness</div>
+        <div class="cell"><span class="amen-badge a-high">High</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Every public function has docstring; no broken links</div>
+        <div class="cell why">The structural check is perfect. Content quality is harder — you can verify presence, not correctness or clarity.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Commit message / git hygiene</div>
+        <div class="cell"><span class="amen-badge a-high">High</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Conventional commit format; semantic grouping</div>
+        <div class="cell why">Format checking is perfect. Semantic quality (does the message describe the change accurately?) is moderate — requires diff analysis.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODERATE AMENABILITY -->
+  <div class="process-category">
+    <div class="category-header">
+      <div class="legend-dot" style="background:var(--l3)"></div>
+      <div class="category-label">Moderate amenability — proxy oracles, judgment required at edges</div>
+    </div>
+    <div class="process-table">
+      <div class="process-row header">
+        <div class="cell">Process</div>
+        <div class="cell">Now</div>
+        <div class="cell">Direction</div>
+        <div class="cell oracle">Oracle / verifier</div>
+        <div class="cell why">Why it works / what limits it</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Debugging</div>
+        <div class="cell"><span class="amen-badge a-moderate">Moderate</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Failing test now passes</div>
+        <div class="cell why">Highly amenable IF you have a failing test as oracle. Without a test, "bug fixed" is unverifiable. The loop teaches: write the test first, then fix.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Refactoring</div>
+        <div class="cell"><span class="amen-badge a-moderate">Moderate</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Tests pass + complexity/coupling metrics improve</div>
+        <div class="cell why">Behavioral correctness is verifiable (tests). Design quality is not — cyclomatic complexity is a proxy, not truth. Two separate loops needed.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Security review (known patterns)</div>
+        <div class="cell"><span class="amen-badge a-moderate">Moderate</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">SAST tool findings; known vulnerability patterns</div>
+        <div class="cell why">Known vulnerability patterns are verifiable. Novel attack surfaces require human judgment. The loop improves the known-bad space, not the unknown-bad space.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">E2E / browser testing</div>
+        <div class="cell"><span class="amen-badge a-moderate">Moderate</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">User flow pass/fail</div>
+        <div class="cell why">Oracle is clear but brittle — UI selectors break on any change. Flakiness is the enemy of the autonomous loop. High maintenance cost per test.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Code review (mechanical checks)</div>
+        <div class="cell"><span class="amen-badge a-moderate">Moderate</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Pattern matching on known anti-patterns</div>
+        <div class="cell why">Rule-based checks (no magic numbers, explicit error handling) are highly automatable. Architectural judgment is not. Two distinct tasks.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Prompt / system prompt optimization</div>
+        <div class="cell"><span class="amen-badge a-moderate">Moderate</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ unlocking</span></div>
+        <div class="cell oracle">Eval suite pass rate over a test set</div>
+        <div class="cell why">This is the meta-loop: AI improving AI instructions. Requires investment in evals. As eval quality improves, so does the loop. DSPy-style optimization is the pattern.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">CI/CD pipeline optimization</div>
+        <div class="cell"><span class="amen-badge a-moderate">Moderate</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Pipeline duration; failure rate; flakiness rate</div>
+        <div class="cell why">Metrics are objective. What to change to improve them requires understanding of causality. Partially automatable with enough history.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOW AMENABILITY -->
+  <div class="process-category">
+    <div class="category-header">
+      <div class="legend-dot" style="background:var(--l4)"></div>
+      <div class="category-label">Low amenability — slow oracle, or oracle requires human interpretation</div>
+    </div>
+    <div class="process-table">
+      <div class="process-row header">
+        <div class="cell">Process</div>
+        <div class="cell">Now</div>
+        <div class="cell">Direction</div>
+        <div class="cell oracle">Oracle / verifier</div>
+        <div class="cell why">Why it works / what limits it</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Debugging (no test)</div>
+        <div class="cell"><span class="amen-badge a-low">Low</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Undefined until you define what "fixed" means</div>
+        <div class="cell why">Without a test, the loop has no exit condition. The agent marks done when it believes it's done, which is often wrong. Solution: require a test before debugging.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">API design</div>
+        <div class="cell"><span class="amen-badge a-low">Low</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Usage patterns (months later); developer ergonomics</div>
+        <div class="cell why">Ergonomics is only revealed through use. No fast oracle. A loop can enforce structural conventions but not design quality.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Performance optimization</div>
+        <div class="cell"><span class="amen-badge a-low">Low</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">Benchmark score (but profiler interpretation is hard)</div>
+        <div class="cell why">Measurement is easy; causality is hard. "Why is this slow?" requires understanding data structures and algorithms that the loop can't always reason about correctly.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Technical debt assessment</div>
+        <div class="cell"><span class="amen-badge a-low">Low</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Proxy metrics (coupling, complexity) but no true oracle</div>
+        <div class="cell why">"How bad is this codebase?" has no ground truth. Metrics proxy it but don't capture the tacit knowledge of what actually causes maintenance pain.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Incident response</div>
+        <div class="cell"><span class="amen-badge a-low">Low</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">MTTR; system returned to green</div>
+        <div class="cell why">Triage automation is improving. Root cause analysis requires pattern matching across many logs — partially automatable. Mitigation actions are higher risk.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Onboarding documentation</div>
+        <div class="cell"><span class="amen-badge a-low">Low</span></div>
+        <div class="cell"><span class="trend trend-up">↑ improving</span></div>
+        <div class="cell oracle">New hire can follow it (user study); no fast proxy</div>
+        <div class="cell why">Quality is only revealed when someone tries to use it. Structural completeness checks work; clarity does not loop cleanly without user feedback.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESISTANT -->
+  <div class="process-category">
+    <div class="category-header">
+      <div class="legend-dot" style="background:var(--l5)"></div>
+      <div class="category-label">Structurally resistant — no ground truth exists without time or human judgment</div>
+    </div>
+    <div class="process-table">
+      <div class="process-row header">
+        <div class="cell">Process</div>
+        <div class="cell">Now</div>
+        <div class="cell">Direction</div>
+        <div class="cell oracle">Oracle / verifier</div>
+        <div class="cell why">Why it works / what limits it</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Requirements elicitation</div>
+        <div class="cell"><span class="amen-badge a-resist">Resistant</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">None — requirements are what we're trying to discover</div>
+        <div class="cell why">The oracle would be "stakeholders agree." That's a human process. No loop can verify that requirements are correct without the humans who hold the knowledge.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Architecture judgment</div>
+        <div class="cell"><span class="amen-badge a-resist">Resistant</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Emergent system failures (years later)</div>
+        <div class="cell why">An architecture decision's quality is revealed only by the system's evolution over time. No oracle exists at decision time. Speculative exploration helps; feedback loops do not.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Code review — judgment layer</div>
+        <div class="cell"><span class="amen-badge a-resist">Resistant</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">None — "is this maintainable?" is taste</div>
+        <div class="cell why">The mechanical layer (formatting, anti-patterns) is automatable. The judgment layer — is this the right abstraction? — has no oracle. Remains human.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">UX / product decisions</div>
+        <div class="cell"><span class="amen-badge a-resist">Resistant</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">User engagement metrics (weeks/months later)</div>
+        <div class="cell why">A/B testing provides an oracle but the latency is long and the signal is noisy. Generative AI can produce options; selection requires human judgment.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">"Is this the right thing to build?"</div>
+        <div class="cell"><span class="amen-badge a-resist">Resistant</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Market adoption (months to years)</div>
+        <div class="cell why">The most fundamental question in software. No feedback loop can answer it. This is where human judgment is irreducibly required. Will remain resistant indefinitely.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Security for novel threat models</div>
+        <div class="cell"><span class="amen-badge a-resist">Resistant</span></div>
+        <div class="cell"><span class="trend trend-stable">→ stable</span></div>
+        <div class="cell oracle">Unknown until attacked</div>
+        <div class="cell why">Known vulnerabilities: automatable. Novel attack surfaces require adversarial creativity that loops don't provide. Red-teaming remains a human craft.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUTURE-UNLOCKED -->
+  <div class="process-category">
+    <div class="category-header">
+      <div class="legend-dot" style="background:var(--l6)"></div>
+      <div class="category-label">Future-unlocked — AI-introduced processes; designed for machine verifiability from birth</div>
+    </div>
+    <div class="process-table">
+      <div class="process-row header">
+        <div class="cell">Process</div>
+        <div class="cell">Future</div>
+        <div class="cell">Direction</div>
+        <div class="cell oracle">Oracle / verifier</div>
+        <div class="cell why">Why this is categorically different</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Behavior specification writing</div>
+        <div class="cell"><span class="amen-badge a-future">Unlocking</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ new</span></div>
+        <div class="cell oracle">Behavioral test suite; spec-to-code compliance check</div>
+        <div class="cell why">Specs are now executable (formal verification, property-based testing). The loop: write spec → check code conforms → iterate. Didn't exist when code was written manually.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">LLM eval suite optimization (DSPy-style)</div>
+        <div class="cell"><span class="amen-badge a-future">Unlocking</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ new</span></div>
+        <div class="cell oracle">Eval pass rate across a defined test set</div>
+        <div class="cell why">The meta-loop: AI optimizing AI prompts/instructions using AI-judged evals. Amenable precisely because the oracle is itself an AI that can run at machine speed.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Agent prompt / CLAUDE.md refinement</div>
+        <div class="cell"><span class="amen-badge a-future">Unlocking</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ new</span></div>
+        <div class="cell oracle">Task completion rate across a benchmark of representative tasks</div>
+        <div class="cell why">As agent behavior becomes testable (via task benchmarks), the instruction set becomes optimizable. A new kind of programming: optimizing natural language instead of code.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Synthetic test data generation</div>
+        <div class="cell"><span class="amen-badge a-future">Unlocking</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ new</span></div>
+        <div class="cell oracle">Distribution match (statistical); downstream test performance</div>
+        <div class="cell why">Quality is measurable statistically. The loop: generate → measure distribution distance from real data → iterate. Partial oracle (distribution ≠ semantic validity).</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Multi-agent coordination optimization</div>
+        <div class="cell"><span class="amen-badge a-future">Unlocking</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ new</span></div>
+        <div class="cell oracle">Task completion rate + conflict rate + latency</div>
+        <div class="cell why">As agent teams become common, their coordination protocols become optimizable. The loop: run benchmark task → measure completion + conflicts → adjust coordination rules.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">Autonomous dependency management</div>
+        <div class="cell"><span class="amen-badge a-future">Unlocking</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ new</span></div>
+        <div class="cell oracle">Tests pass after update; security scan clean</div>
+        <div class="cell why">Near-perfect feedback loop. Update dependency → run tests → if green, auto-merge PR. Tools like Dependabot already do this; AI is extending it to semantic compatibility checking.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">LLM behavioral monitoring</div>
+        <div class="cell"><span class="amen-badge a-future">Unlocking</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ new</span></div>
+        <div class="cell oracle">Behavioral drift from baseline; failure rate by archetype</div>
+        <div class="cell why">As AI systems run in production, monitoring their behavioral consistency becomes a software process. Automatable because the oracle is pattern detection on outputs.</div>
+      </div>
+      <div class="process-row">
+        <div class="cell name">SKILL.md / agent instruction optimization</div>
+        <div class="cell"><span class="amen-badge a-future">Unlocking</span></div>
+        <div class="cell"><span class="trend trend-unlock">↑↑ new</span></div>
+        <div class="cell oracle">Agent output quality on benchmark tasks</div>
+        <div class="cell why">Your CLAUDE.md and SKILL.md files are now programs that can be optimized against measurable outputs. This is a genuinely new kind of programming loop.</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════ FRAMEWORK ══════ -->
+<section id="framework">
+
+  <div class="framework-grid">
+    <div class="framework-card">
+      <h3>The four dimensions of amenability</h3>
+      <div class="dimensions-list">
+        <div class="dim-item">
+          <div class="dim-name">1. Oracle clarity</div>
+          <div class="dim-desc">Does a machine-readable ground truth exist? Binary (pass/fail) &gt; numeric target &gt; proxy metric &gt; human judgment required. This is the gating criterion — without an oracle, no loop is possible.</div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-name">2. Feedback latency</div>
+          <div class="dim-desc">How long after the agent acts can it observe the result? Sub-second (compiler) &gt; seconds (test suite) &gt; minutes (E2E) &gt; hours (deployment) &gt; weeks (user adoption). Latency determines loop speed and how many iterations are feasible.</div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-name">3. Loop closure</div>
+          <div class="dim-desc">Can the agent observe the result of its own action without human intervention? Closed loop (compiler output → agent) vs. open loop (user feedback → human → agent). Only closed loops can be truly autonomous.</div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-name">4. Decomposability</div>
+          <div class="dim-desc">Can the task be broken into independently verifiable subtasks? Monolithic "does this architecture work?" is resistant. Decomposed into "does this module pass its contract?" becomes amenable.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="framework-card">
+      <h3>The non-obvious structural insights</h3>
+      <div class="dimensions-list">
+        <div class="dim-item">
+          <div class="dim-name">Verifiability can be engineered</div>
+          <div class="dim-desc">The boundary between amenable and resistant is not fixed. Tests make code verifiable; specs make requirements verifiable; evals make AI outputs verifiable. The move is always: "how do I create an oracle?" not "is an oracle available?"</div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-name">Future processes cluster high</div>
+          <div class="dim-desc">AI-introduced processes are disproportionately amenable because they were designed with machine-readability as a first-class concern. The AI layer is eating its own interfaces first. CLAUDE.md optimization is a programming loop; "is this a good architecture?" is not.</div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-name">The two-layer pattern</div>
+          <div class="dim-desc">Most "moderate" processes are actually two processes: a mechanical layer (highly amenable) and a judgment layer (resistant). Code review = pattern matching (perfect) + design judgment (resistant). Refactoring = behavior preservation (perfect) + design quality (resistant). Split them; automate only the former.</div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-name">The permanently resistant core</div>
+          <div class="dim-desc">"Is this the right thing to build?" will remain resistant indefinitely. The oracle — market adoption — is slow, noisy, and requires reality to run. No amount of AI capability eliminates the need for human judgment at the strategic frontier. This is where senior engineering judgment concentrates.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boundary movement bar chart -->
+  <div class="boundary-vis">
+    <h3>How the amenable boundary is moving</h3>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:20px;line-height:1.7">The percentage of each category's processes that are amenable to feedback-loop optimization. Solid fill = today; dashed line = estimated 3-year horizon as tooling matures.</p>
+
+    <div class="boundary-bar">
+      <div class="boundary-label">Code execution & build (compiler, tests, lint)</div>
+      <div class="boundary-track">
+        <div class="boundary-fill-now" style="width:95%;background:var(--l1)">95% today</div>
+        <div class="boundary-fill-future" style="width:98%"></div>
+      </div>
+    </div>
+
+    <div class="boundary-bar">
+      <div class="boundary-label">Verification & quality assurance</div>
+      <div class="boundary-track">
+        <div class="boundary-fill-now" style="width:75%;background:var(--l2)">75% today</div>
+        <div class="boundary-fill-future" style="width:90%"></div>
+      </div>
+    </div>
+
+    <div class="boundary-bar">
+      <div class="boundary-label">Security (known vulnerability surface)</div>
+      <div class="boundary-track">
+        <div class="boundary-fill-now" style="width:60%;background:var(--l2)">60% today</div>
+        <div class="boundary-fill-future" style="width:75%"></div>
+      </div>
+    </div>
+
+    <div class="boundary-bar">
+      <div class="boundary-label">AI-introduced processes (evals, prompts, agents)</div>
+      <div class="boundary-track">
+        <div class="boundary-fill-now" style="width:40%;background:var(--l6)">40% today</div>
+        <div class="boundary-fill-future" style="width:80%"></div>
+      </div>
+    </div>
+
+    <div class="boundary-bar">
+      <div class="boundary-label">Maintenance & operations (debugging, refactoring)</div>
+      <div class="boundary-track">
+        <div class="boundary-fill-now" style="width:45%;background:var(--l3)">45% today</div>
+        <div class="boundary-fill-future" style="width:65%"></div>
+      </div>
+    </div>
+
+    <div class="boundary-bar">
+      <div class="boundary-label">Architecture & design decisions</div>
+      <div class="boundary-track">
+        <div class="boundary-fill-now" style="width:15%;background:var(--l4)">15% today</div>
+        <div class="boundary-fill-future" style="width:25%"></div>
+      </div>
+    </div>
+
+    <div class="boundary-bar">
+      <div class="boundary-label">Requirements & product strategy</div>
+      <div class="boundary-track">
+        <div class="boundary-fill-now" style="width:5%;background:var(--l5)">5% today</div>
+        <div class="boundary-fill-future" style="width:8%"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;display:flex;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--text3)">
+        <div style="width:20px;height:10px;background:var(--l2)"></div> Today
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--text3)">
+        <div style="width:20px;height:10px;background:rgba(168,85,247,0.2);border-right:2px dashed rgba(168,85,247,0.7)"></div> 3-year horizon
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);padding:20px 24px">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Implication for software engineering practice</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.8;max-width:680px">
+      The structurally resistant processes — requirements, product strategy, architectural judgment — are concentrating in value as everything else becomes automatable. This is not a crisis; it is a clarification.
+      The engineering skill that compounds now is: <strong style="color:var(--text)">creating verifiability where it didn't exist before</strong> — writing the evals, defining the behavioral contracts, specifying what "done" means in machine-readable terms.
+      Every hour you spend writing a good test, a good eval, a good spec, or a good CLAUDE.md entry is multiplied by every future loop iteration that uses it as an oracle.
+      The bottleneck has always been judgment. Now we have empirical proof.
+    </p>
+  </div>
+
+</section>
+
+<script>
+function show(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick').includes(id)) b.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>

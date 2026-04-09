@@ -6223,5 +6223,1346 @@
         "notes": "UTokyo directly prohibits presenting AI text as your own."
       }
     }
+  },
+  {
+    "university": "Harvard University",
+    "reviewed_public_sources": [
+      {
+        "url": "https://privsec.harvard.edu/best-practices-generative-ai-community-members",
+        "quote": "These best practices are intended for students, faculty, staff, researchers, and affiliates who use generative AI tools as part of their Harvard work or studies.",
+        "why_used": "Best public evidence that Harvard has central community-wide guidance covering multiple internal audiences."
+      },
+      {
+        "url": "https://www.harvard.edu/ai/",
+        "quote": "Generative AI tools are changing the way we teach, learn, research, and work. Explore Harvard's work on the frontier of GenAI. Resources for the Harvard community.",
+        "why_used": "Shows Harvard's central public GenAI hub spans teaching, learning, research, and work."
+      },
+      {
+        "url": "https://www.harvard.edu/ai/learning-resources/",
+        "quote": "Learn with Generative AI. Resources for students. Generative AI tools, like ChatGPT, can aid in various aspects of learning ... However, its limitations include inaccuracies and a tendency for ‘hallucinations’ or false information. Harvard’s resources emphasize the importance of being critical of the AI’s output ... Visit your School’s website for the latest policies and guidance around using GenAI in the classroom.",
+        "why_used": "Shows student-facing enablement, verification expectations, and school-level policy decentralization."
+      },
+      {
+        "url": "https://www.harvard.edu/ai/research-resources/",
+        "quote": "Research with Generative AI. Resources for scholars and researchers. This resource page aims to provide Harvard researchers and scholars with basic guidance, information on available resources, and contacts. ... Most academic publishers require researchers using AI tools to document this use in the methods or acknowledgements sections of their papers. ... You should review the specific policies of potential funders to determine if the use of AI is permitted.",
+        "why_used": "Primary evidence for research coverage and for publisher/funder-specific overrides."
+      },
+      {
+        "url": "https://www.huit.harvard.edu/ai/guidelines",
+        "quote": "Faculty should be clear with students they're teaching and advising about their policies on permitted uses, if any, of generative AI in classes and on academic work.",
+        "why_used": "Evidence that classroom and assessment rules are locally set rather than governed by one blanket Harvard-wide default."
+      },
+      {
+        "url": "https://www.huit.harvard.edu/ai/guidelines",
+        "quote": "You should not enter data classified as confidential (Level 2 and above, including non-public research data, finance, HR, student records, medical information, ... )",
+        "why_used": "Best concise public evidence for Harvard's privacy and confidential-data restriction."
+      },
+      {
+        "url": "https://www.huit.harvard.edu/tools-services-students",
+        "quote": "AI Sandbox. Explore generative AI in this secure environment. Approved to handle data classified as: Level 3.",
+        "why_used": "Evidence that Harvard provides institution-supported GenAI environments."
+      },
+      {
+        "url": "https://www.huit.harvard.edu/openai-chatgpt-edu",
+        "quote": "Compliance with University guidelines for use of generative AI required for use. Eligibility. Faculty, staff, and researchers in FAS, College, GSAS, SEAS ...",
+        "why_used": "Evidence for institution-provided GenAI tooling and governance."
+      },
+      {
+        "url": "https://ari.hms.harvard.edu/ai",
+        "quote": "You should not enter data classified as confidential (Level 2 and above), including non-public research data, into publicly-available generative AI tools ... AI Tools cannot be listed as an author on a paper.",
+        "why_used": "Helpful corroboration from a Harvard research-integrity page, though narrower than a university-wide rule."
+      }
+    ],
+    "audit_changes": [
+      "Did not treat Harvard navigation pages as proof of policy scope; only used pages or snippets that explicitly described audience, guidance, or restrictions.",
+      "Downgraded assessment and academic-integrity claims because the public evidence points strongly to school-, course-, and instructor-level rule setting rather than one blanket Harvard-wide student assessment rule.",
+      "Kept disclosure and authorship claims cautious: public Harvard-wide evidence is strong on research-resource guidance and local policies, but weaker on a single universal Harvard disclosure mandate."
+    ],
+    "claims": {
+      "public_central_genai_policy_found": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://privsec.harvard.edu/best-practices-generative-ai-community-members",
+            "quote": "These best practices are intended for students, faculty, staff, researchers, and affiliates who use generative AI tools as part of their Harvard work or studies."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/",
+            "quote": "Generative AI tools are changing the way we teach, learn, research, and work. Explore Harvard's work on the frontier of GenAI. Resources for the Harvard community."
+          }
+        ],
+        "notes": "Harvard has clear central public guidance and a hub, but not one monolithic downloadable policy governing every use case."
+      },
+      "policy_character": {
+        "value": "central_guidance_hub_plus_school_level_rules",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/learning-resources/",
+            "quote": "Visit your School’s website for the latest policies and guidance around using GenAI in the classroom."
+          },
+          {
+            "url": "https://www.huit.harvard.edu/ai/guidelines",
+            "quote": "Faculty should be clear with students they're teaching and advising about their policies on permitted uses, if any, of generative AI in classes and on academic work."
+          }
+        ],
+        "notes": "Central guidance exists, but many operational rules are delegated to schools and instructors."
+      },
+      "covers_students": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://privsec.harvard.edu/best-practices-generative-ai-community-members",
+            "quote": "These best practices are intended for students, faculty, staff, researchers, and affiliates who use generative AI tools as part of their Harvard work or studies."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/learning-resources/",
+            "quote": "Learn with Generative AI. Resources for students."
+          }
+        ],
+        "notes": "Student coverage is explicit."
+      },
+      "covers_faculty_or_staff": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://privsec.harvard.edu/best-practices-generative-ai-community-members",
+            "quote": "These best practices are intended for students, faculty, staff, researchers, and affiliates who use generative AI tools as part of their Harvard work or studies."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/",
+            "quote": "Generative AI tools are changing the way we teach, learn, research, and work."
+          }
+        ],
+        "notes": "Faculty and staff are explicitly covered by Harvard's community guidance."
+      },
+      "covers_teaching_and_learning": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/",
+            "quote": "Generative AI tools are changing the way we teach, learn, research, and work."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/teaching-resources/",
+            "quote": "The following information offers advice for educators interested in using generative AI tools in their teaching and course preparation."
+          }
+        ],
+        "notes": "Teaching and learning are central themes of Harvard's public GenAI hub."
+      },
+      "covers_assessment": {
+        "value": "partial_school_and_course_level_guidance",
+        "evidence": [
+          {
+            "url": "https://www.huit.harvard.edu/ai/guidelines",
+            "quote": "Faculty should be clear with students they're teaching and advising about their policies on permitted uses, if any, of generative AI in classes and on academic work."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/learning-resources/",
+            "quote": "Visit your School’s website for the latest policies and guidance around using GenAI in the classroom."
+          }
+        ],
+        "notes": "Harvard clearly addresses academic work, but the strongest public evidence points to school and instructor rule-setting rather than a single university-wide assessment default."
+      },
+      "covers_research": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/research-resources/",
+            "quote": "Research with Generative AI. Resources for scholars and researchers. This resource page aims to provide Harvard researchers and scholars with basic guidance, information on available resources, and contacts."
+          }
+        ],
+        "notes": "Research coverage is explicit."
+      },
+      "default_position_toward_genai": {
+        "value": "permit_with_conditions_and_local_rules",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/learning-resources/",
+            "quote": "Generative AI tools, like ChatGPT, can aid in various aspects of learning ... However, its limitations include inaccuracies and a tendency for ‘hallucinations’ or false information."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/learning-resources/",
+            "quote": "Visit your School’s website for the latest policies and guidance around using GenAI in the classroom."
+          }
+        ],
+        "notes": "Harvard publicly treats GenAI as usable, but under safeguards and with substantial local variation."
+      },
+      "disclosure_or_attribution_required": {
+        "value": "conditional_research_or_school_specific",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/research-resources/",
+            "quote": "Most academic publishers require researchers using AI tools to document this use in the methods or acknowledgements sections of their papers."
+          },
+          {
+            "url": "https://ari.hms.harvard.edu/ai",
+            "quote": "AI Tools cannot be listed as an author on a paper."
+          }
+        ],
+        "notes": "Disclosure expectations are visible in research-facing and school-level guidance, but I did not verify a single blanket Harvard-wide disclosure rule for all contexts."
+      },
+      "prompt_or_tool_details_required_for_disclosure": {
+        "value": "no_explicit_public_universitywide_requirement_verified",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/research-resources/",
+            "quote": "Most academic publishers require researchers using AI tools to document this use in the methods or acknowledgements sections of their papers."
+          }
+        ],
+        "notes": "Public Harvard-wide materials reviewed did not show a universal requirement to include prompts, logs, or tool metadata in every disclosure."
+      },
+      "local_course_department_or_funder_override": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/learning-resources/",
+            "quote": "Visit your School’s website for the latest policies and guidance around using GenAI in the classroom."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/research-resources/",
+            "quote": "You should review the specific policies of potential funders to determine if the use of AI is permitted."
+          }
+        ],
+        "notes": "School, course, publisher, and funder overrides are explicit."
+      },
+      "human_user_retains_responsibility": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/learning-resources/",
+            "quote": "Harvard’s resources emphasize the importance of being critical of the AI’s output and integrating it thoughtfully into learning processes."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/research-resources/",
+            "quote": "Some of the primary safety issues and risks include ... Overreliance: The risk of relying excessively on AI systems without considering their limitations or potential errors."
+          }
+        ],
+        "notes": "Harvard's public guidance consistently puts verification and judgment back on the human user."
+      },
+      "academic_integrity_or_misconduct_enforcement": {
+        "value": "partial_school_level_rules",
+        "evidence": [
+          {
+            "url": "https://www.huit.harvard.edu/ai/guidelines",
+            "quote": "Faculty should be clear with students they're teaching and advising about their policies on permitted uses, if any, of generative AI in classes and on academic work."
+          },
+          {
+            "url": "https://www.gsd.harvard.edu/resources/ai/",
+            "quote": "The GSD’s academic integrity policy can be found in the Student Handbook and any reference to unauthorized human or non-human support and aids in producing academic work applies equally to generative AI tools."
+          }
+        ],
+        "notes": "Public Harvard materials point to academic-integrity enforcement, but the clearest rules in the reviewed evidence sit at school level."
+      },
+      "privacy_or_confidential_data_restrictions": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.huit.harvard.edu/ai/guidelines",
+            "quote": "You should not enter data classified as confidential (Level 2 and above, including non-public research data, finance, HR, student records, medical information, ... )"
+          },
+          {
+            "url": "https://www.huit.harvard.edu/ai/tools",
+            "quote": "However, per University guidelines, you should not enter data classified as confidential (Level 2 and above) into publicly-available Generative AI tools."
+          }
+        ],
+        "notes": "This is one of Harvard's clearest public restrictions."
+      },
+      "copyright_or_ip_restrictions": {
+        "value": "partial_general_guidance",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/research-resources/",
+            "quote": "Resources ... Copyright and Fair Use: A Guide for the Harvard Community ... Intellectual Property Policy ... Protecting Intellectual Property."
+          },
+          {
+            "url": "https://www.gsd.harvard.edu/resources/ai/",
+            "quote": "Depending on the tools and parameters you use, AI-generated content can be inaccurate, misleading, entirely fabricated, or may contain material protected by copyright. Do not submit work to which you don’t have rights into a generative AI tool."
+          }
+        ],
+        "notes": "Harvard clearly flags copyright and IP concerns, though the clearest operational rules in the reviewed material are sometimes school-level."
+      },
+      "institution_provided_or_recommended_tools": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.huit.harvard.edu/tools-services-students",
+            "quote": "AI Sandbox. Explore generative AI in this secure environment. Approved to handle data classified as: Level 3."
+          },
+          {
+            "url": "https://www.huit.harvard.edu/openai-chatgpt-edu",
+            "quote": "Compliance with University guidelines for use of generative AI required for use. Eligibility. Faculty, staff, and researchers in FAS, College, GSAS, SEAS ..."
+          }
+        ],
+        "notes": "Harvard clearly provides institution-managed GenAI tools."
+      },
+      "accuracy_bias_or_verification_expected": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.harvard.edu/ai/learning-resources/",
+            "quote": "Its limitations include inaccuracies and a tendency for ‘hallucinations’ or false information. Harvard’s resources emphasize the importance of being critical of the AI’s output."
+          },
+          {
+            "url": "https://www.harvard.edu/ai/research-resources/",
+            "quote": "Some of the primary safety issues and risks include the following: Bias and discrimination ... Overreliance ... Security vulnerabilities ..."
+          }
+        ],
+        "notes": "Verification and bias awareness are explicit."
+      },
+      "nonhuman_authorship_or_ai_plagiarism_rule": {
+        "value": "partial_school_or_research_guidance",
+        "evidence": [
+          {
+            "url": "https://ari.hms.harvard.edu/ai",
+            "quote": "AI Tools cannot be listed as an author on a paper."
+          },
+          {
+            "url": "https://www.gsd.harvard.edu/resources/ai/",
+            "quote": "Any reference to unauthorized human or non-human support and aids in producing academic work applies equally to generative AI tools."
+          }
+        ],
+        "notes": "The reviewed evidence strongly supports this in school/research contexts, but I did not verify one explicit university-wide sentence covering every Harvard school."
+      }
+    }
+  },
+  {
+    "university": "Columbia University",
+    "reviewed_public_sources": [
+      {
+        "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+        "quote": "This Generative AI policy (‘Policy’) governs the use of Generative AI tools by staff, faculty, students, and researchers (the ‘Columbia community’) in the performance of their functions for or on behalf of Columbia. ... This initial policy contains overarching guidelines that apply to all in the Columbia community while pursuing their Columbia activities. After these general requirements, the policy includes specific guidelines related to instruction (for both faculty and students) and research.",
+        "why_used": "Primary official evidence for scope, internal audience, and the existence of a central university policy."
+      },
+      {
+        "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+        "quote": "Columbia expects all Columbia community members to follow these guidelines when using Generative AI tools for teaching and learning, research, and work-related functions: Do not input Confidential Information ... Confirm the accuracy of the output ... Check the output ... for bias ... Disclose the use of Generative AI tools ... must not hold out any output generated by Generative AI tools as their own ... Ask the Generative AI system not to use inputs for training the system.",
+        "why_used": "Best single source for Columbia's core regulated dimensions."
+      },
+      {
+        "url": "https://provost.columbia.edu/content/generative-ai",
+        "quote": "While the University supports the responsible use of AI, these novel tools have notable limitations ... There are risks related to information security, data privacy, copyright, and academic integrity and bias. ... Absent a clear statement from a course instructor granting permission, the use of Generative AI tools to complete an assignment or exam is prohibited.",
+        "why_used": "Shows Columbia's overall stance and its restrictive default for student assignments/exams."
+      },
+      {
+        "url": "https://www.cuit.columbia.edu/content/ai-services",
+        "quote": "Sensitive Data, as defined in the University’s Data Classification Policy, may only be used with AI tools that have been specifically vetted and approved for such use by the University. At this time, the AI tool(s) approved for use with Sensitive Data are: ChatGPT Education, including access through the API.",
+        "why_used": "Evidence for vetted institution-approved tools and sensitive-data controls."
+      },
+      {
+        "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+        "quote": "As with other tools and research methods, individuals who use Generative AI in research must be transparent regarding its use ... Researchers are responsible for the accuracy of any content created by AI that is included in any research output ... Researchers must avoid uploading, or using as input, any unpublished research data or other Confidential Information into a Generative AI tool.",
+        "why_used": "Primary evidence for research-specific requirements."
+      }
+    ],
+    "audit_changes": [
+      "Kept Columbia as one of the strongest true central-policy cases because the Provost page is explicitly framed as a university policy with scope, rules, instruction guidance, and research guidance.",
+      "Did not understate Columbia's assignment default: the public policy clearly says student use on assignments and exams is prohibited absent instructor permission.",
+      "Used CUIT AI Services rather than marketing pages as the main evidence for approved tools and sensitive-data use."
+    ],
+    "claims": {
+      "public_central_genai_policy_found": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "This Generative AI policy (‘Policy’) governs the use of Generative AI tools by staff, faculty, students, and researchers (the ‘Columbia community’) in the performance of their functions for or on behalf of Columbia."
+          }
+        ],
+        "notes": "This is a true central university policy, not just a teaching center explainer."
+      },
+      "policy_character": {
+        "value": "central_policy_with_course_and_research_subsections",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "This initial policy contains overarching guidelines that apply to all in the Columbia community while pursuing their Columbia activities. After these general requirements, the policy includes specific guidelines related to instruction (for both faculty and students) and research."
+          }
+        ],
+        "notes": "Columbia combines central baseline rules with instruction and research-specific sections."
+      },
+      "covers_students": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "This Generative AI policy (‘Policy’) governs the use of Generative AI tools by staff, faculty, students, and researchers (the ‘Columbia community’) ..."
+          }
+        ],
+        "notes": "Students are explicitly in scope."
+      },
+      "covers_faculty_or_staff": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "This Generative AI policy (‘Policy’) governs the use of Generative AI tools by staff, faculty, students, and researchers ..."
+          }
+        ],
+        "notes": "Faculty and staff are explicitly in scope."
+      },
+      "covers_teaching_and_learning": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Columbia expects all Columbia community members to follow these guidelines when using Generative AI tools for teaching and learning, research, and work-related functions."
+          }
+        ],
+        "notes": "Teaching and learning are explicitly named."
+      },
+      "covers_assessment": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/generative-ai",
+            "quote": "Absent a clear statement from a course instructor granting permission, the use of Generative AI tools to complete an assignment or exam is prohibited. The unauthorized use of AI shall be treated similarly to unauthorized assistance and/or plagiarism."
+          }
+        ],
+        "notes": "This is one of the clearest restrictive defaults in the dataset."
+      },
+      "covers_research": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "GENERATIVE AI AND RESEARCH. The policies above apply to all Columbia research activity. In addition, the following considerations and policies also extend to all research activity using AI ..."
+          }
+        ],
+        "notes": "Research is explicitly and centrally regulated."
+      },
+      "default_position_toward_genai": {
+        "value": "restrictive_for_student_assignments_permissive_with_conditions_elsewhere",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/generative-ai",
+            "quote": "While the University supports the responsible use of AI ... Absent a clear statement from a course instructor granting permission, the use of Generative AI tools to complete an assignment or exam is prohibited."
+          }
+        ],
+        "notes": "Columbia permits use in many university contexts, but has a strong restrictive default for student assessed work."
+      },
+      "disclosure_or_attribution_required": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Disclose the use of Generative AI tools: Columbia community members who leverage Generative AI to produce any written materials or other work product must disclose that those materials and that work product is based on or derives from the use of Generative AI. Always be transparent if you are relying on the output of a Generative AI tool."
+          }
+        ],
+        "notes": "This is a broad, central disclosure requirement."
+      },
+      "prompt_or_tool_details_required_for_disclosure": {
+        "value": "no_explicit_central_prompt_log_requirement_verified",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Disclose the use of Generative AI tools ... must disclose that those materials and that work product is based on or derives from the use of Generative AI."
+          }
+        ],
+        "notes": "Disclosure is required, but the reviewed central policy does not require prompts or full logs for every case."
+      },
+      "local_course_department_or_funder_override": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/generative-ai",
+            "quote": "Absent a clear statement from a course instructor granting permission, the use of Generative AI tools to complete an assignment or exam is prohibited."
+          },
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Researchers are expected to follow the policies of journals, funding agencies and professional societies through which they report their research."
+          }
+        ],
+        "notes": "Instructor, journal, and funder-level rules all matter."
+      },
+      "human_user_retains_responsibility": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Confirm the accuracy of the output provided by Generative AI tools: Columbia community members must check the accuracy of information generated by Generative AI tools prior to relying on such information."
+          },
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Researchers are responsible for the accuracy of any content created by AI that is included in any research output and must use caution in utilizing AI output in research."
+          }
+        ],
+        "notes": "Human responsibility is explicit."
+      },
+      "academic_integrity_or_misconduct_enforcement": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/generative-ai",
+            "quote": "The unauthorized use of AI shall be treated similarly to unauthorized assistance and/or plagiarism."
+          },
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "At Columbia University, it is our shared responsibility to promote intellectual honesty and scholarly integrity, which could be undermined with the utilization of AI-generated content being passed off as one's own work."
+          }
+        ],
+        "notes": "Columbia centrally ties AI misuse to academic-integrity enforcement."
+      },
+      "privacy_or_confidential_data_restrictions": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Do not input Confidential Information: Columbia community members must not input any Confidential Information into Generative AI tools, except when permitted by validated contract language and security controls."
+          },
+          {
+            "url": "https://www.cuit.columbia.edu/content/ai-services",
+            "quote": "Sensitive Data ... may only be used with AI tools that have been specifically vetted and approved for such use by the University."
+          }
+        ],
+        "notes": "This is an explicit central restriction."
+      },
+      "copyright_or_ip_restrictions": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Do not input information that violates IP or general contract terms and conditions ... All members of the Columbia community must respect IP rights ... Comply with third-party intellectual property rights ... must not hold out any output generated by Generative AI tools as their own."
+          }
+        ],
+        "notes": "IP and copyright rules are explicit and central."
+      },
+      "institution_provided_or_recommended_tools": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.cuit.columbia.edu/content/ai-services",
+            "quote": "At this time, the AI tool(s) approved for use with Sensitive Data are: ChatGPT Education, including access through the API."
+          },
+          {
+            "url": "https://www.cuit.columbia.edu/content/cu-gpt",
+            "quote": "CU-GPT is Columbia University’s latest generative AI technology. Specifically designed for the Columbia community ..."
+          }
+        ],
+        "notes": "Columbia centrally vets and provides AI tools."
+      },
+      "accuracy_bias_or_verification_expected": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Confirm the accuracy of the output ... should not be relied upon without confirmation of accuracy from additional sources. It is possible for AI-generated content to be inaccurate, biased, or entirely fabricated."
+          },
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Check the output of Generative AI tools for bias ... Do not rely on any output that is indicative of a potential bias."
+          }
+        ],
+        "notes": "Verification and bias checks are explicit."
+      },
+      "nonhuman_authorship_or_ai_plagiarism_rule": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://provost.columbia.edu/content/office-senior-vice-provost/ai-policy",
+            "quote": "Columbia community members must not hold out any output generated by Generative AI tools as their own."
+          },
+          {
+            "url": "https://provost.columbia.edu/content/generative-ai",
+            "quote": "The unauthorized use of AI shall be treated similarly to unauthorized assistance and/or plagiarism."
+          }
+        ],
+        "notes": "Columbia is explicit on both plagiarism-like misuse and false ownership."
+      }
+    }
+  },
+  {
+    "university": "University of Pennsylvania",
+    "reviewed_public_sources": [
+      {
+        "url": "https://isc.upenn.edu/security/AI-guidance",
+        "quote": "Penn embraces innovations like generative artificial intelligence (‘AI’) models in teaching, learning, research, and the effective stewardship of Penn’s resources. To this end, this document provides guidelines for members of the Penn community who are using, or interested in using, AI in pursuit of Penn’s mission. ... This statement ... should not be viewed as a final policy.",
+        "why_used": "Primary source for Penn's central public AI guidance and for its non-final-policy status."
+      },
+      {
+        "url": "https://isc.upenn.edu/security/AI-guidance",
+        "quote": "General Guidance for Penn Community (Educators, Staff, Researchers, and Students). Be transparent about the use of AI. Disclose when a work product was created wholly or partially using an AI tool and, if appropriate, how AI was used to create the work product. ... The user of AI should endeavor to validate the accuracy of created content ... Users are accountable for their use of content created by AI and should be wary of misinformation or ‘hallucinations’.",
+        "why_used": "Core evidence for transparency, accountability, and verification."
+      },
+      {
+        "url": "https://isc.upenn.edu/security/AI-guidance",
+        "quote": "Most AI tools and services use input and data from users of the tool to train the model. ... users of AI should avoid sharing personal or sensitive data with the tool and should not input moderate or high-risk Penn data ... or intellectual property, without ... a contract in place to protect Penn data ... It is not permissible under HIPAA or Penn Medicine policy to share patient or research participant information in connection with open or public AI tools and services.",
+        "why_used": "Best evidence for privacy, IP, and clinical-research restrictions."
+      },
+      {
+        "url": "https://isc.upenn.edu/security/AI-guidance",
+        "quote": "As expectations may vary between classes and instructors, it is important for instructors to provide students with clear guidelines ... on the use of AI within coursework, and when and how the use of AI within a course should be cited. ... Individual courses may have different or more narrow guidance ... Yes, Schools, Centers, and other departments may publish more specific guidance on the use of AI to address certain situations or use cases.",
+        "why_used": "Evidence for local override and decentralized course-level expectations."
+      },
+      {
+        "url": "https://isc.upenn.edu/security/AI-guidance",
+        "quote": "Researchers should adhere to federal or international requirements on obtaining informed consent, and Institutional Review Board approvals should be obtained prior to exposing research participant data to AI tools. ... Researchers should avoid uploading confidential and/or proprietary information to AI platforms ... as doing so could jeopardize IP rights.",
+        "why_used": "Research-specific restrictions."
+      },
+      {
+        "url": "https://isc.upenn.edu/ai/tools/penn-generative-ai-tools-resources",
+        "quote": "Penn Generative AI Tools & Resources. Generative AI will revolutionize the teaching, research, and business of Penn. ISC manages a range of Generative AI tools for campus with negotiated enterprise contracts including improved security, privacy, and cost. ... Personal accounts on these services are not protected.",
+        "why_used": "Evidence for institution-provided tools and differentiated security posture."
+      },
+      {
+        "url": "https://cetli.upenn.edu/resources/generative-ai/course-policies-communication/",
+        "quote": "Your students may encounter different expectations around AI use in each of their classes, so it is important to help them understand your course policies. Include your AI policy and overall academic integrity policies in your syllabus and on Canvas. ... Along with your completed assignment, you are required to submit an AI-Assisted Learning Disclosure ... This assessment will be completed in class using a secure browser; therefore, use of generative AI will be prohibited.",
+        "why_used": "Shows Penn's operational model is strongly instructor- and assignment-specific."
+      }
+    ],
+    "audit_changes": [
+      "Kept Penn in the central-guidance but not final monolithic policy bucket because its main ISC statement explicitly says it should not be viewed as a final policy.",
+      "Did not overclaim a single Penn-wide assessment default; the clearest public evidence points to strong local course, school, and assignment-level variation.",
+      "Allowed broad yes-values for transparency, privacy, research, and responsibility because those are explicit in the central ISC guidance."
+    ],
+    "claims": {
+      "public_central_genai_policy_found": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "This document provides guidelines for members of the Penn community who are using, or interested in using, AI in pursuit of Penn’s mission."
+          }
+        ],
+        "notes": "Penn has central public guidance, but it expressly says it is not a final policy."
+      },
+      "policy_character": {
+        "value": "central_guidance_plus_local_school_and_course_rules",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "This statement ... should not be viewed as a final policy. ... Yes, Schools, Centers, and other departments may publish more specific guidance on the use of AI to address certain situations or use cases."
+          },
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "As expectations may vary between classes and instructors, it is important for instructors to provide students with clear guidelines ... on the use of AI within coursework."
+          }
+        ],
+        "notes": "Penn has central guidance with explicit room for local rulemaking."
+      },
+      "covers_students": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "General Guidance for Penn Community (Educators, Staff, Researchers, and Students)."
+          },
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "This Guidance applies to Penn faculty, staff, undergraduate students, pre-doctoral students, and post-doctoral trainees."
+          }
+        ],
+        "notes": "Students are explicitly covered."
+      },
+      "covers_faculty_or_staff": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "General Guidance for Penn Community (Educators, Staff, Researchers, and Students)."
+          }
+        ],
+        "notes": "Faculty, staff, and researchers are explicitly in scope."
+      },
+      "covers_teaching_and_learning": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Penn embraces innovations like generative artificial intelligence (‘AI’) models in teaching, learning, research, and the effective stewardship of Penn’s resources."
+          }
+        ],
+        "notes": "Teaching and learning are explicitly named."
+      },
+      "covers_assessment": {
+        "value": "partial_local_course_and_assignment_guidance",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "As expectations may vary between classes and instructors, it is important for instructors to provide students with clear guidelines ... on the use of AI within coursework, and when and how the use of AI within a course should be cited."
+          },
+          {
+            "url": "https://cetli.upenn.edu/resources/generative-ai/course-policies-communication/",
+            "quote": "This assessment will be completed in class using a secure browser; therefore, use of generative AI will be prohibited."
+          }
+        ],
+        "notes": "Penn clearly addresses coursework and assessments, but with substantial local variation rather than a single blanket default."
+      },
+      "covers_research": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Penn embraces innovations like generative artificial intelligence (‘AI’) models in teaching, learning, research ... Researchers should adhere to federal or international requirements on obtaining informed consent, and Institutional Review Board approvals should be obtained prior to exposing research participant data to AI tools."
+          }
+        ],
+        "notes": "Research is explicitly included and subject to additional safeguards."
+      },
+      "default_position_toward_genai": {
+        "value": "permit_with_conditions_and_local_rules",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Penn embraces innovations like generative artificial intelligence (‘AI’) models ... This document provides guidelines for members of the Penn community ..."
+          },
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Individual courses may have different or more narrow guidance on the use of AI that should be adhered to within the context of that course."
+          }
+        ],
+        "notes": "Penn is enabling overall, but with strong conditionality and local controls."
+      },
+      "disclosure_or_attribution_required": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Be transparent about the use of AI. Disclose when a work product was created wholly or partially using an AI tool and, if appropriate, how AI was used to create the work product."
+          }
+        ],
+        "notes": "Penn's central guidance includes an explicit transparency expectation."
+      },
+      "prompt_or_tool_details_required_for_disclosure": {
+        "value": "conditional_local_or_context_specific",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Educators may have requirements and guidance for citing the use of generative AI output and for attributing AI created content to the specific AI tool and parameters used."
+          },
+          {
+            "url": "https://cetli.upenn.edu/resources/generative-ai/course-policies-communication/",
+            "quote": "Along with your completed assignment, you are required to submit an AI-Assisted Learning Disclosure acknowledging the ways you did or did not use generative AI assistance."
+          }
+        ],
+        "notes": "Penn allows stronger tool- and parameter-level disclosure requirements, but the reviewed evidence does not show this as universal across every context."
+      },
+      "local_course_department_or_funder_override": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Individual courses may have different or more narrow guidance on the use of AI that should be adhered to within the context of that course."
+          },
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Yes, Schools, Centers, and other departments may publish more specific guidance on the use of AI to address certain situations or use cases."
+          }
+        ],
+        "notes": "Penn explicitly allows local variation."
+      },
+      "human_user_retains_responsibility": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "The user of AI should endeavor to validate the accuracy of created content with trusted first party sources and monitor the reliability of that content. Users are accountable for their use of content created by AI ..."
+          }
+        ],
+        "notes": "Responsibility remains with the human user."
+      },
+      "academic_integrity_or_misconduct_enforcement": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "All use of AI should be in line with Penn’s Code of Student Conduct and the Code of Academic Integrity."
+          },
+          {
+            "url": "https://cetli.upenn.edu/resources/generative-ai/course-policies-communication/",
+            "quote": "Submitting work that contains AI-generated content will be considered a violation of Penn’s Code of Academic Integrity, and suspected use will be referred to the Center for Community Standards & Accountability (CSA)."
+          }
+        ],
+        "notes": "Penn centrally ties AI use to existing integrity codes, with local enforcement details."
+      },
+      "privacy_or_confidential_data_restrictions": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Users of AI should avoid sharing personal or sensitive data with the tool and should not input moderate or high-risk Penn data ... or intellectual property, without ... a contract in place to protect Penn data."
+          },
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "It is not permissible under the Health Information Portability & Accountability Act (HIPAA) or Penn Medicine policy to share patient or research participant information in connection with open or public AI tools and services."
+          }
+        ],
+        "notes": "Privacy restrictions are explicit and strong."
+      },
+      "copyright_or_ip_restrictions": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Members of the Penn community should adhere to established principles of respect for intellectual property, particularly copyrights ... Avoid uploading confidential and/or proprietary information to AI platforms prior to seeking patent or copyright protection, as doing so could jeopardize IP rights."
+          }
+        ],
+        "notes": "Penn explicitly covers copyright and IP risk."
+      },
+      "institution_provided_or_recommended_tools": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/ai/tools/penn-generative-ai-tools-resources",
+            "quote": "ISC manages a range of Generative AI tools for campus with negotiated enterprise contracts including improved security, privacy, and cost."
+          },
+          {
+            "url": "https://support.wharton.upenn.edu/help/chatgpt",
+            "quote": "ChatGPT Edu adds enterprise-level security, enhanced privacy, and data agreements ... No data entered in the Wharton ChatGPT Edu workspace is used for training Open AI’s models."
+          }
+        ],
+        "notes": "Penn clearly offers institution-managed tools."
+      },
+      "accuracy_bias_or_verification_expected": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Users are accountable for their use of content created by AI and should be wary of misinformation or ‘hallucinations’ by AI tools."
+          },
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "When using AI, keep in mind that these tools are often trained on large, unmoderated bodies of text ... This can result in the production of biased and other unintended content."
+          }
+        ],
+        "notes": "Verification and bias awareness are explicit."
+      },
+      "nonhuman_authorship_or_ai_plagiarism_rule": {
+        "value": "partial_context_specific",
+        "evidence": [
+          {
+            "url": "https://isc.upenn.edu/security/AI-guidance",
+            "quote": "Consult with your department leadership and your discipline’s publishing standards to determine how the use of AI should be accounted for with regard to authorship in publications."
+          },
+          {
+            "url": "https://cetli.upenn.edu/resources/generative-ai/course-policies-communication/",
+            "quote": "Submitting work that contains AI-generated content will be considered a violation of Penn’s Code of Academic Integrity ... You will be responsible for the accuracy and quality of the work you submit, regardless of whether it was generated by you or an AI tool."
+          }
+        ],
+        "notes": "Penn clearly regulates plagiarism-like misuse, but authorship treatment is context-specific rather than governed by one short university-wide rule."
+      }
+    }
+  },
+  {
+    "university": "University of Chicago",
+    "reviewed_public_sources": [
+      {
+        "url": "https://genai.uchicago.edu/about/generative-ai-guidance",
+        "quote": "This FAQ provides guidance for faculty, staff, researchers, and students on the appropriate use of generative artificial intelligence (AI) tools at the University of Chicago. It outlines the review and approval process for AI tools, explains how decisions are made regarding their use, and clarifies when additional oversight—such as from Information Assurance, Procurement, or the Institutional Review Board (IRB)—is required.",
+        "why_used": "Primary central guidance source."
+      },
+      {
+        "url": "https://genai.uchicago.edu/about",
+        "quote": "The University has developed a generative AI service, PhoenixAI, which is available to all UChicago faculty, other academic appointees, postdoctoral researchers, students, and staff. ... When using these tools, members of the University community must consider issues related to information security, privacy, compliance, and academic integrity. ... Restricted data should not be entered into PhoenixAI or any other third-party generative AI tool.",
+        "why_used": "Strong evidence for audience scope, institutional tools, and restricted-data limits."
+      },
+      {
+        "url": "https://genai.uchicago.edu/generative-ai-tools",
+        "quote": "PhoenixAI is the University’s generative AI chat service ... Data submitted to PhoenixAI is kept within the UChicago environment and not shared with third-party vendors or used to train AI models. ... For SRDS Moderate research data, if IRB/DUA exists, then IRB/DUA approval is required. ... If a researcher or staff member intends to use a generative AI tool ... with sensitive data, or in research contexts that would not otherwise be reviewed through Procurement, please complete the Generative AI Tool Evaluation Form.",
+        "why_used": "Best evidence for tool governance, data protection, and research review."
+      },
+      {
+        "url": "https://genai.uchicago.edu/resources/students",
+        "quote": "UChicago Generative AI Guide for Student Learning ... addresses capabilities and limitations, ethical considerations, and academic integrity policies. ... Academic Integrity: For guidance on how generative AI tools intersect with academic honesty, it is recommended that students see Academic Honesty & Plagiarism in the Student Manual for University policy.",
+        "why_used": "Shows student-facing learning guidance tied back to official student-manual policy."
+      },
+      {
+        "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+        "quote": "Using generative AI without proper attribution is considered a breach of academic integrity. Furthermore, generative AI models may make errors in fact and in reasoning; it is important to critically evaluate AI outputs for accuracy and bias. ... Always refer to the instructors’ guidance on when and how generative artificial intelligence may be used in course work. Instructors may opt to limit or otherwise specify when AI tools are and are not permitted.",
+        "why_used": "Best public evidence for attribution, verification, and instructor override."
+      },
+      {
+        "url": "https://genai.uchicago.edu/resources/faculty-and-instructors/generative-artificial-intelligence-and-assignment-design",
+        "quote": "Let students know upfront where and how AI can be used in your assignments, if at all. ... Do students need to disclose and cite their use of these tools? If so, how? Clearly state your expectations, both during class and in your syllabus.",
+        "why_used": "Evidence that course-level expectations are set locally by instructors."
+      }
+    ],
+    "audit_changes": [
+      "Kept UChicago in the central governance plus local pedagogy bucket rather than overstating it as a single universal academic rulebook.",
+      "Marked disclosure-detail rules as conditional because the central materials tell instructors to decide whether disclosure/citation is required, rather than imposing one blanket disclosure format.",
+      "Allowed strong yes-values on institutional tools, restricted data, review requirements, and research oversight because the IT Services pages are unusually concrete."
+    ],
+    "claims": {
+      "public_central_genai_policy_found": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/about/generative-ai-guidance",
+            "quote": "This FAQ provides guidance for faculty, staff, researchers, and students on the appropriate use of generative artificial intelligence (AI) tools at the University of Chicago."
+          }
+        ],
+        "notes": "UChicago has a clear central official guidance site."
+      },
+      "policy_character": {
+        "value": "central_tool_and_data_governance_plus_local_course_rules",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/about/generative-ai-guidance",
+            "quote": "It outlines the review and approval process for AI tools, explains how decisions are made regarding their use, and clarifies when additional oversight ... is required."
+          },
+          {
+            "url": "https://genai.uchicago.edu/resources/faculty-and-instructors/generative-artificial-intelligence-and-assignment-design",
+            "quote": "Let students know upfront where and how AI can be used in your assignments, if at all. ... Clearly state your expectations, both during class and in your syllabus."
+          }
+        ],
+        "notes": "Central governance is strongest around tool approval and data use; pedagogical details are largely course-level."
+      },
+      "covers_students": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/about/generative-ai-guidance",
+            "quote": "This FAQ provides guidance for faculty, staff, researchers, and students ..."
+          },
+          {
+            "url": "https://genai.uchicago.edu/resources/students",
+            "quote": "UChicago Generative AI Guide for Student Learning ..."
+          }
+        ],
+        "notes": "Students are explicitly in scope."
+      },
+      "covers_faculty_or_staff": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/about",
+            "quote": "PhoenixAI ... is available to all UChicago faculty, other academic appointees, postdoctoral researchers, students, and staff."
+          }
+        ],
+        "notes": "Faculty and staff are explicitly in scope."
+      },
+      "covers_teaching_and_learning": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/",
+            "quote": "Generative artificial intelligence (AI) is a quickly evolving technology that offers capabilities to enhance teaching and learning, research, and administrative work at the University of Chicago."
+          },
+          {
+            "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+            "quote": "Generative AI tools like ChatGPT can help with various aspects of your academic work ... provided they are allowed by your instructor."
+          }
+        ],
+        "notes": "Teaching and learning are explicitly addressed."
+      },
+      "covers_assessment": {
+        "value": "partial_local_course_rules",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/faculty-and-instructors/generative-artificial-intelligence-and-assignment-design",
+            "quote": "Let students know upfront where and how AI can be used in your assignments, if at all. ... Do students need to disclose and cite their use of these tools? If so, how? Clearly state your expectations ... in your syllabus."
+          },
+          {
+            "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+            "quote": "Always refer to the instructors’ guidance on when and how generative artificial intelligence may be used in course work. Instructors may opt to limit or otherwise specify when AI tools are and are not permitted."
+          }
+        ],
+        "notes": "UChicago clearly addresses assignments and course work, but the operational rules are instructor-specific."
+      },
+      "covers_research": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/about/generative-ai-guidance",
+            "quote": "Researchers who wish to use AI tools in studies involving human subjects must inform the Institutional Review Board (IRB). The IRB must be aware of any technology used to collect, process, or analyze human subjects data."
+          },
+          {
+            "url": "https://genai.uchicago.edu/generative-ai-tools",
+            "quote": "For SRDS Moderate research data, if IRB/DUA exists, then IRB/DUA approval is required."
+          }
+        ],
+        "notes": "Research oversight is explicit."
+      },
+      "default_position_toward_genai": {
+        "value": "use_approved_tools_and_follow_local_rules",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/about/generative-ai-guidance",
+            "quote": "Members of the University community who wish to use a generative AI tool should first review the approved tools and use cases."
+          },
+          {
+            "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+            "quote": "Generative AI tools like ChatGPT can help with various aspects of your academic work ... provided they are allowed by your instructor."
+          }
+        ],
+        "notes": "UChicago is not centrally prohibition-first; it channels use through approved tools and local pedagogical rules."
+      },
+      "disclosure_or_attribution_required": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+            "quote": "Using generative AI without proper attribution is considered a breach of academic integrity."
+          }
+        ],
+        "notes": "Attribution is explicitly required when AI is used."
+      },
+      "prompt_or_tool_details_required_for_disclosure": {
+        "value": "conditional_local_requirement",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/faculty-and-instructors/generative-artificial-intelligence-and-assignment-design",
+            "quote": "Do students need to disclose and cite their use of these tools? If so, how? Clearly state your expectations, both during class and in your syllabus."
+          }
+        ],
+        "notes": "Disclosure detail is delegated to course-level expectations."
+      },
+      "local_course_department_or_funder_override": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+            "quote": "Always refer to the instructors’ guidance ... Instructors may opt to limit or otherwise specify when AI tools are and are not permitted."
+          }
+        ],
+        "notes": "Instructor-level override is explicit."
+      },
+      "human_user_retains_responsibility": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/students",
+            "quote": "If you use an AI service, it is your responsibility to review the accuracy and ownership of AI-generated content."
+          }
+        ],
+        "notes": "Responsibility remains with the user."
+      },
+      "academic_integrity_or_misconduct_enforcement": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+            "quote": "Using generative AI without proper attribution is considered a breach of academic integrity."
+          },
+          {
+            "url": "https://genai.uchicago.edu/resources/students",
+            "quote": "Academic Integrity: For guidance on how generative AI tools intersect with academic honesty, it is recommended that students see Academic Honesty & Plagiarism in the Student Manual for University policy."
+          }
+        ],
+        "notes": "The central site explicitly ties AI use to the Student Manual's academic-honesty framework."
+      },
+      "privacy_or_confidential_data_restrictions": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/about",
+            "quote": "Restricted data should not be entered into PhoenixAI or any other third-party generative AI tool."
+          },
+          {
+            "url": "https://genai.uchicago.edu/generative-ai-tools",
+            "quote": "Data submitted to PhoenixAI is kept within the UChicago environment and not shared with third-party vendors or used to train AI models."
+          }
+        ],
+        "notes": "Data-protection rules are explicit."
+      },
+      "copyright_or_ip_restrictions": {
+        "value": "partial_general_ownership_guidance",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/students",
+            "quote": "If you use an AI service, it is your responsibility to review the accuracy and ownership of AI-generated content."
+          }
+        ],
+        "notes": "The reviewed central materials clearly discuss ownership and compliance, though they are less explicit on copyright law than some peers."
+      },
+      "institution_provided_or_recommended_tools": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/about",
+            "quote": "The University has developed a generative AI service, PhoenixAI, which is available to all UChicago faculty, other academic appointees, postdoctoral researchers, students, and staff."
+          },
+          {
+            "url": "https://genai.uchicago.edu/generative-ai-tools",
+            "quote": "PhoenixAI is the University’s generative AI chat service ... Microsoft Copilot ... GitHub Copilot Business ..."
+          }
+        ],
+        "notes": "UChicago has unusually concrete institutional tooling."
+      },
+      "accuracy_bias_or_verification_expected": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+            "quote": "Generative AI models may make errors in fact and in reasoning; it is important to critically evaluate AI outputs for accuracy and bias."
+          }
+        ],
+        "notes": "Verification and bias awareness are explicit."
+      },
+      "nonhuman_authorship_or_ai_plagiarism_rule": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://genai.uchicago.edu/resources/students/generative-ai-student-guide",
+            "quote": "Using generative AI without proper attribution is considered a breach of academic integrity."
+          }
+        ],
+        "notes": "The public student guide makes the plagiarism/attribution rule explicit."
+      }
+    }
+  },
+  {
+    "university": "Cornell University",
+    "reviewed_public_sources": [
+      {
+        "url": "https://it.cornell.edu/ai/ai-guidelines",
+        "quote": "Cornell encourages a flexible framework in which faculty and instructors can choose to prohibit, to allow with attribution, or to encourage generative AI use. ... check with your college, department, or instructor for specific guidance.",
+        "why_used": "Best concise public evidence for Cornell's overall regulatory shape."
+      },
+      {
+        "url": "https://teaching.cornell.edu/generative-artificial-intelligence",
+        "quote": "Cornell’s response to generative AI in teaching and learning is built around seven core principles. ... These principles were developed by Cornell's Generative AI Education Working Group ... working closely with the Center for Teaching Innovation, Cornell Information Technologies, Cornell's AI Research Initiative, and college and university leadership.",
+        "why_used": "Evidence that Cornell has a central, university-backed educational response."
+      },
+      {
+        "url": "https://teaching.cornell.edu/generative-artificial-intelligence/ai-academic-integrity",
+        "quote": "To best support student learning and reduce violations of academic integrity, be sure to clearly communicate your policies regarding the use of generative AI in your syllabus, in assignment instructions, and verbally in class. When generative AI is permitted, clarify expectations for documentation and attribution ... Discuss with students how generative AI output can be incorrect or problematic and that they are responsible for verifying the output and references if AI use is allowed for an assignment.",
+        "why_used": "Best source for academic-integrity and verification expectations in teaching."
+      },
+      {
+        "url": "https://gradschool.cornell.edu/policies/academic-integrity/",
+        "quote": "Definition: Knowingly representing the work of others as your own, including the use of generative AI without appropriate disclosure or attribution, or in violation of stated rules or expectations. ... When you submit work for academic credit, you are certifying that the work is your own. All outside assistance should be acknowledged ... The use of generative AI without appropriate disclosure or attribution, or in violation of stated rules or expectations, may be considered an academic integrity violation.",
+        "why_used": "Strongest explicit public academic-integrity rule tying GenAI to misconduct."
+      },
+      {
+        "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+        "quote": "This report offers perspectives and practical guidelines to the Cornell community, specifically on the use of Generative Artificial Intelligence (GenAI) in the practice and dissemination of academic research. ... It is meant as internal advice rather than a set of binding rules. ... There are no general rules that prohibit the user of generative AI to generate research ideas. However ... sensitive information and individual data should never be entered for any phase of a research project ... As a general practice, authors should be transparent and fully disclose uses of generative AI technologies ... Any use of GenAI in the conception and reduction to practice of an invention or generation of copyrighted materials should be carefully documented and disclosed to the Center For Technology Licensing.",
+        "why_used": "Research-specific source with unusually rich detail, but also an explicit caveat that it is advice rather than binding rule."
+      },
+      {
+        "url": "https://it.cornell.edu/ai",
+        "quote": "This university-wide ‘private’ version of ChatGPT and Dall-E enables faculty, staff, and students who are 18 years of age or older to experiment with generative AI text, image, and coding tools without storing the person’s login and chat data or being used to train the large language models.",
+        "why_used": "Best evidence for institution-supported GenAI tooling."
+      }
+    ],
+    "audit_changes": [
+      "Kept Cornell in the guidance-and-principles bucket, not the hard-binding-central-policy bucket, because its research report explicitly says it is internal advice rather than binding rules.",
+      "Did not overstate a single default assessment rule: Cornell's own IT guidance says instructors may prohibit, allow with attribution, or encourage GenAI use.",
+      "Allowed strong yes-values for academic-integrity, tool support, and disclosure expectations because those are explicit in official Cornell pages, even though implementation remains distributed."
+    ],
+    "claims": {
+      "public_central_genai_policy_found": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://it.cornell.edu/ai/ai-guidelines",
+            "quote": "Cornell encourages a flexible framework in which faculty and instructors can choose to prohibit, to allow with attribution, or to encourage generative AI use."
+          },
+          {
+            "url": "https://teaching.cornell.edu/generative-artificial-intelligence",
+            "quote": "Cornell’s response to generative AI in teaching and learning is built around seven core principles."
+          }
+        ],
+        "notes": "Cornell has central university-backed guidance, though some pieces are principles or advice rather than binding policy code."
+      },
+      "policy_character": {
+        "value": "central_principles_and_guidance_with_local_instructor_choice",
+        "evidence": [
+          {
+            "url": "https://it.cornell.edu/ai/ai-guidelines",
+            "quote": "Cornell encourages a flexible framework in which faculty and instructors can choose to prohibit, to allow with attribution, or to encourage generative AI use. ... check with your college, department, or instructor for specific guidance."
+          }
+        ],
+        "notes": "Cornell is explicitly decentralized in operational teaching rules."
+      },
+      "covers_students": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://it.cornell.edu/ai",
+            "quote": "This university-wide ‘private’ version of ChatGPT and Dall-E enables faculty, staff, and students who are 18 years of age or older to experiment ..."
+          },
+          {
+            "url": "https://gradschool.cornell.edu/policies/academic-integrity/",
+            "quote": "When you submit work for academic credit, you are certifying that the work is your own."
+          }
+        ],
+        "notes": "Students are clearly in scope."
+      },
+      "covers_faculty_or_staff": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://it.cornell.edu/ai",
+            "quote": "This university-wide ‘private’ version of ChatGPT and Dall-E enables faculty, staff, and students ..."
+          },
+          {
+            "url": "https://teaching.cornell.edu/generative-artificial-intelligence",
+            "quote": "These principles were developed by Cornell's Generative AI Education Working Group ... with faculty, staff and students."
+          }
+        ],
+        "notes": "Faculty and staff are clearly involved."
+      },
+      "covers_teaching_and_learning": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://teaching.cornell.edu/generative-artificial-intelligence",
+            "quote": "Cornell’s response to generative AI in teaching and learning is built around seven core principles."
+          }
+        ],
+        "notes": "Teaching and learning are central."
+      },
+      "covers_assessment": {
+        "value": "partial_local_instructor_rules",
+        "evidence": [
+          {
+            "url": "https://it.cornell.edu/ai/ai-guidelines",
+            "quote": "Cornell encourages a flexible framework in which faculty and instructors can choose to prohibit, to allow with attribution, or to encourage generative AI use."
+          },
+          {
+            "url": "https://teaching.cornell.edu/generative-artificial-intelligence/ai-academic-integrity",
+            "quote": "To best support student learning and reduce violations of academic integrity, be sure to clearly communicate your policies regarding the use of generative AI in your syllabus, in assignment instructions, and verbally in class."
+          }
+        ],
+        "notes": "Cornell clearly addresses course work and assignments, but through faculty-chosen rules."
+      },
+      "covers_research": {
+        "value": "yes_but_research_guidance_is_advisory",
+        "evidence": [
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "This report offers perspectives and practical guidelines to the Cornell community ... It is meant as internal advice rather than a set of binding rules."
+          }
+        ],
+        "notes": "Cornell clearly covers research, but with advisory rather than binding language in the reviewed source."
+      },
+      "default_position_toward_genai": {
+        "value": "flexible_framework_with_instructor_choice",
+        "evidence": [
+          {
+            "url": "https://it.cornell.edu/ai/ai-guidelines",
+            "quote": "Cornell encourages a flexible framework in which faculty and instructors can choose to prohibit, to allow with attribution, or to encourage generative AI use."
+          }
+        ],
+        "notes": "Cornell is one of the clearest flexible-framework cases."
+      },
+      "disclosure_or_attribution_required": {
+        "value": "yes_contextually",
+        "evidence": [
+          {
+            "url": "https://gradschool.cornell.edu/policies/academic-integrity/",
+            "quote": "The use of generative AI without appropriate disclosure or attribution, or in violation of stated rules or expectations, may be considered an academic integrity violation."
+          },
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "As a general practice, authors should be transparent and fully disclose uses of generative AI technologies, consistent with publication outlet, department, or area policies."
+          }
+        ],
+        "notes": "Cornell expects disclosure where GenAI is used, though specific formats vary by context."
+      },
+      "prompt_or_tool_details_required_for_disclosure": {
+        "value": "conditional_recommended_not_universal",
+        "evidence": [
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "Any use of GenAI in the conception and reduction to practice of an invention or generation of copyrighted materials should be carefully documented and disclosed ... What was the GenAI tool used? What were the inputs ... What were the outputs ..."
+          },
+          {
+            "url": "https://teaching.cornell.edu/generative-artificial-intelligence/ai-academic-integrity",
+            "quote": "When generative AI is permitted, clarify expectations for documentation and attribution ..."
+          }
+        ],
+        "notes": "Cornell publicly recommends or requires richer documentation in some settings, but not as a universal blanket rule across all uses."
+      },
+      "local_course_department_or_funder_override": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://it.cornell.edu/ai/ai-guidelines",
+            "quote": "Check with your college, department, or instructor for specific guidance."
+          },
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "As a general practice, authors should be transparent and fully disclose uses of generative AI technologies, consistent with publication outlet, department, or area policies."
+          }
+        ],
+        "notes": "Department, instructor, and publication-outlet rules all matter."
+      },
+      "human_user_retains_responsibility": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://teaching.cornell.edu/generative-artificial-intelligence/ai-academic-integrity",
+            "quote": "Students are responsible for verifying the output and references if AI use is allowed for an assignment."
+          },
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "The summary of online survey data and/or other data sets can be assisted by Bard or ChatGPT to the extent that the researcher ... has responsibility for the accuracy of the summary."
+          }
+        ],
+        "notes": "Responsibility remains with the human user."
+      },
+      "academic_integrity_or_misconduct_enforcement": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://gradschool.cornell.edu/policies/academic-integrity/",
+            "quote": "Knowingly representing the work of others as your own, including the use of generative AI without appropriate disclosure or attribution, or in violation of stated rules or expectations."
+          }
+        ],
+        "notes": "Cornell explicitly ties GenAI misuse to academic-integrity violations."
+      },
+      "privacy_or_confidential_data_restrictions": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "There are no general rules that prohibit the user of generative AI to generate research ideas. However ... sensitive information and individual data should never be entered for any phase of a research project ..."
+          }
+        ],
+        "notes": "Cornell's research guidance is clear on confidentiality."
+      },
+      "copyright_or_ip_restrictions": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "Any use of GenAI in the conception and reduction to practice of an invention or generation of copyrighted materials should be carefully documented and disclosed to the Center For Technology Licensing."
+          },
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "Recent US case law has held that inventors of patents must be human beings under the US Patent Act. Documentation of human contribution and disclosure of the nature of GenAI utilization are essential for patent eligibility."
+          }
+        ],
+        "notes": "Cornell explicitly addresses both copyright and patent/inventorship issues."
+      },
+      "institution_provided_or_recommended_tools": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://it.cornell.edu/ai",
+            "quote": "This university-wide ‘private’ version of ChatGPT and Dall-E enables faculty, staff, and students ... to experiment with generative AI ... without ... being used to train the large language models."
+          }
+        ],
+        "notes": "Cornell clearly offers university-supported tools."
+      },
+      "accuracy_bias_or_verification_expected": {
+        "value": "yes",
+        "evidence": [
+          {
+            "url": "https://teaching.cornell.edu/generative-artificial-intelligence/ai-academic-integrity",
+            "quote": "Generative AI output can be incorrect or problematic and ... students are responsible for verifying the output and references."
+          },
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "Given these challenges, the use of GenAI tools for data generation and collection must be carefully documented and disclosed ..."
+          }
+        ],
+        "notes": "Verification and quality-control expectations are explicit."
+      },
+      "nonhuman_authorship_or_ai_plagiarism_rule": {
+        "value": "yes_for_plagiarism_partial_for_authorship",
+        "evidence": [
+          {
+            "url": "https://gradschool.cornell.edu/policies/academic-integrity/",
+            "quote": "The use of generative AI without appropriate disclosure or attribution, or in violation of stated rules or expectations, may be considered an academic integrity violation."
+          },
+          {
+            "url": "https://www.research-and-innovation.cornell.edu/generative-ai-in-academic-research/",
+            "quote": "Recent US case law has held that inventors of patents must be human beings under the US Patent Act."
+          }
+        ],
+        "notes": "Cornell is explicit on plagiarism-like misuse; the reviewed university-wide evidence on nonhuman authorship is stronger in research/IP contexts than in a single blanket rule."
+      }
+    }
   }
 ]
