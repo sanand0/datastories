@@ -32,3 +32,6 @@ uv run scripts/analyze_skill_transfer.py
 
 echo "[10/10] Writing reports"
 uv run scripts/write_reports.py
+
+echo "[11/11] Generating scores CSV"
+uv run scripts/generate_scores_csv.py

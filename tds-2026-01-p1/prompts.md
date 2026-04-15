@@ -382,4 +382,13 @@ Include a relevant excerpt from this message in two-exams.html.
 
 Sorry! Add it to social-infrastructure.html not two-exams.html. Restore two-exams.html. Write it into social-infrastructure.html in a way that fits with the narrative.
 
+---
+
+Programmatically generate an analysis/scores.csv that contains these columns:
+
+- email: the actual email ID for ALL students. We will be using this to grade the students and will not publish this
+- time: time of submission in ISO format
+- ${question}: overall score for the question, e.g. `q-generate-paradox-portrait`, `q-generate-affective-chart`, etc.
+- total: 0.75 x (sum of the question scores)
+
 <!-- copilot --resume=fff49a52-d237-4f56-b2f7-27af4ebfbc60 -->
