@@ -4,6 +4,14 @@
       "id": "ai-policies",
       "title": "The Three Yeses — How 25 Universities Govern AI",
       "description": "Every one of twenty-five universities says students may use AI. None of them mean the same thing — and what none of them say is the story that matters most. Analysis of public AI governance documents across 25 leading universities in 9 countries.",
+      "summary": "University AI policies all permit student use, but their disclosure rules range from vague encouragement to forensic audit trails, exposing fundamentally different accountability models for the same tools.",
+      "keywords": [
+        "university ai policy",
+        "disclosure requirements",
+        "academic integrity",
+        "governance models",
+        "audit trails"
+      ],
       "link": "ai-policies/",
       "screenshot": "ai-policies/screenshot.webp",
       "date": "2026-04-03",
@@ -13,6 +21,15 @@
       "id": "tds-2026-01-p1",
       "title": "What 765 Students Taught Us About Learning, Hacking, and Everything In Between",
       "description": "Analysis of 765 students, 9,046 saved submissions, and 1,731 evaluated AI images from TDS Jan 2026 Project 1, showing how learning shifts when answers are one search away.",
+      "summary": "Analysis of 765 students, 9,046 submission saves, and 1,731 evaluated images shows how deadline pressure, validator failures, collaboration patterns, and image-generation choices reshape learning when answers are easy to fetch.",
+      "keywords": [
+        "student submissions",
+        "deadline compression",
+        "validator failures",
+        "collaboration patterns",
+        "ai image generation",
+        "learning analytics"
+      ],
       "link": "tds-2026-01-p1/",
       "screenshot": "tds-2026-01-p1/screenshot.webp",
       "date": "2026-04-03",
@@ -22,6 +39,14 @@
       "id": "polya-for-ai",
       "title": "The 80-Year Blind Spot: The Polya Audit",
       "description": "In 1945, George Pólya gave mathematicians 15 rules for solving problems. For eight decades, they were treated as gospel. Nobody ever tested them. Until now.",
+      "summary": "Testing George Polya's 15 classic problem-solving heuristics against modern AI models finds that some rules still help, others backfire, and their value depends strongly on the model applying them.",
+      "keywords": [
+        "polya heuristics",
+        "mathematical problem solving",
+        "ai benchmark",
+        "reasoning strategies",
+        "pedagogy audit"
+      ],
       "link": "polya-for-ai/",
       "screenshot": "polya-for-ai/screenshot.webp",
       "date": "2026-03-26",
@@ -31,6 +56,14 @@
       "id": "github-usage-increase",
       "title": "The Return That Wasn't — Did Vibe Coding Bring Developers Back to GitHub?",
       "description": "When AI supposedly brought a generation of lapsed developers back to GitHub, we checked the commit logs. Here's what we found.",
+      "summary": "GitHub commit histories show no mass return of dormant developers after the vibe-coding boom; most apparent growth comes from already active users, survivorship effects, and a small minority with real increases.",
+      "keywords": [
+        "github activity",
+        "vibe coding",
+        "commit history",
+        "dormant developers",
+        "survivorship bias"
+      ],
       "link": "github-usage-increase/",
       "screenshot": "github-usage-increase/screenshot.webp",
       "date": "2026-03-23",
@@ -40,6 +73,15 @@
       "id": "novel-dataviz",
       "title": "Three Novel Data Visualizations",
       "description": "Each chart solves an analytical problem for which no adequate visualization previously existed, combining novel encodings with rich, realistic synthetic data.",
+      "summary": "Three original chart types show how to encode lead-lag relationships, team momentum, and business activity rhythms when familiar charts fail, using realistic synthetic datasets to demonstrate genuinely new analytical affordances.",
+      "keywords": [
+        "causal lag matrix",
+        "phase portrait leaderboard",
+        "temporal rosette",
+        "novel chart types",
+        "analytical encoding",
+        "synthetic datasets"
+      ],
       "link": "novel-dataviz/",
       "screenshot": "novel-dataviz/screenshot.avif",
       "date": "2026-03-21",
@@ -49,6 +91,14 @@
       "id": "crack-the-prompt",
       "title": "Crack the Prompt",
       "description": "A PyConf Hyderabad 2026 security challenge: three AI personas guarding hidden system prompts. Codex extracted all three in seven words each.",
+      "summary": "A PyConf security challenge shows how terse, carefully framed prompts can extract hidden system instructions from guarded AI personas, turning prompt injection from abstract risk into a concrete red-team exercise.",
+      "keywords": [
+        "prompt injection",
+        "system prompt extraction",
+        "ai security challenge",
+        "red teaming",
+        "guarded personas"
+      ],
       "link": "crack-the-prompt/",
       "screenshot": "crack-the-prompt/screenshot.webp",
       "date": "2026-03-13",
@@ -58,6 +108,14 @@
       "id": "decktation",
       "title": "Strategic Assessment: Client Reporting Transformation",
       "description": "An AI-generated executive strategy deck synthesized from a stakeholder interview recording, showing how raw audio can be transformed into boardroom-ready insights.",
+      "summary": "A stakeholder interview about client reporting becomes a boardroom-style strategy deck, showing how AI can turn messy audio, operational pain points, and business goals into structured transformation recommendations.",
+      "keywords": [
+        "audio-to-deck",
+        "client reporting",
+        "operational bottlenecks",
+        "strategy deck",
+        "stakeholder interview"
+      ],
       "link": "decktation/",
       "screenshot": "decktation/screenshot.webm",
       "date": "2026-03-05",
@@ -67,6 +125,14 @@
       "id": "codex-session-analysis",
       "title": "Codex Session Gap Analysis",
       "description": "Analysis of 903 Codex sessions from Apr 2025 to Mar 2026, showing feature adoption gaps, release-aware coverage, and workflow recommendations.",
+      "summary": "Reviewing 903 Codex sessions surfaces a feature-adoption gap: users embrace models and core chat flows but ignore newer workflow primitives like parallel, planning, and agent orchestration that could materially boost throughput.",
+      "keywords": [
+        "codex sessions",
+        "feature adoption",
+        "workflow gaps",
+        "agent orchestration",
+        "productivity analysis"
+      ],
       "link": "codex-session-analysis/",
       "screenshot": "codex-session-analysis/screenshot.webp",
       "date": "2026-03-01",
@@ -76,6 +142,14 @@
       "id": "sql-migration",
       "title": "SQL Migration Narrative Demo",
       "description": "An interactive walkthrough of migrating 100 SQL Server scripts to MySQL with LLM-assisted conversion, verification, and business-impact simulation.",
+      "summary": "An interactive migration demo shows how LLMs can convert 100 SQL Server scripts to MySQL while tracking verification, effort, and business impact, making legacy modernization legible instead of opaque.",
+      "keywords": [
+        "sql migration",
+        "sql server to mysql",
+        "llm-assisted conversion",
+        "verification workflow",
+        "legacy modernization"
+      ],
       "link": "sql-migration/",
       "screenshot": "sql-migration/screenshot.webm",
       "date": "2026-02-27",
@@ -85,6 +159,15 @@
       "id": "researcher-of-the-future",
       "title": "Researcher of the Future",
       "description": "How 3,200+ researchers across 113 countries view AI, integrity, collaboration, mobility, and impact — from Elsevier's Confidence in Research report.",
+      "summary": "An interactive deck distills Elsevier's global researcher survey into themes on AI, integrity, collaboration, mobility, and impact, highlighting how researchers expect technology and institutions to reshape scientific work.",
+      "keywords": [
+        "researcher survey",
+        "ai in research",
+        "research integrity",
+        "scientific collaboration",
+        "research mobility",
+        "scholarly impact"
+      ],
       "link": "researcher-of-the-future/",
       "screenshot": "researcher-of-the-future/screenshot.webp",
       "date": "2026-02-09",
@@ -94,6 +177,14 @@
       "id": "retraction-watch",
       "title": "Retractions Are Happening in Waves",
       "description": "We analyzed 68,658 Retraction Watch records to find the biggest patterns, surprising signals, and practical actions. An early-warning publisher dashboard for where trust, reputation, and legal risk can spike.",
+      "summary": "Analysis of 68,658 Retraction Watch records reveals retractions arrive in waves, cluster by publisher and country, and increasingly cite specific misconduct, creating an early-warning lens on scientific trust and legal risk.",
+      "keywords": [
+        "scientific retractions",
+        "publisher risk",
+        "research misconduct",
+        "early warning signals",
+        "trust in science"
+      ],
       "link": "retraction-watch/",
       "screenshot": "retraction-watch/screenshot.avif",
       "date": "2026-02-09",
@@ -103,6 +194,14 @@
       "id": "ai-agents-for-science",
       "title": "Can AI Replace Human Paper Reviewers?",
       "description": "An investigation into what happens when artificial intelligence reviews scientific papers — and what goes hilariously (and seriously) wrong.",
+      "summary": "AI reviewers of scientific papers produce distinct personalities, low agreement, and frequent blind spots, suggesting automated peer review can be entertaining and scalable without being reliable enough to replace humans.",
+      "keywords": [
+        "ai peer review",
+        "paper reviewers",
+        "reviewer disagreement",
+        "scientific publishing",
+        "automated evaluation"
+      ],
       "link": "ai-agents-for-science/",
       "screenshot": "ai-agents-for-science/screenshot.webp",
       "date": "2026-01-13",
@@ -112,6 +211,14 @@
       "id": "package-usage",
       "title": "The Invisible Infrastructure",
       "description": "How tens of thousands of packages depend on code almost no one has heard of.",
+      "summary": "Dependency analysis across top npm and PyPI packages shows modern software rests on obscure infrastructural libraries, with extreme concentration and aging critical packages creating hidden fragility beneath popular ecosystems.",
+      "keywords": [
+        "dependency concentration",
+        "npm packages",
+        "pypi packages",
+        "critical libraries",
+        "open-source fragility"
+      ],
       "link": "package-usage/",
       "screenshot": "package-usage/screenshot.webp",
       "date": "2026-01-08",
@@ -121,6 +228,14 @@
       "id": "exim",
       "title": "The Jamnagar Chokepoint: Inside India's $273B Trade Paradox",
       "description": "How a single port, two commodities, and a hidden export surge reveal the fragile architecture of India's $273 billion trade deficit.",
+      "summary": "India's trade deficit looks broad, but commodity flows through Jamnagar reveal a chokepoint economy where petroleum, hidden export surges, and geopolitical routing dominate a surprisingly fragile trade architecture.",
+      "keywords": [
+        "india trade deficit",
+        "jamnagar port",
+        "petroleum exports",
+        "commodity flows",
+        "geopolitical trade"
+      ],
       "link": "exim/",
       "screenshot": "exim/screenshot.webp",
       "date": "2026-01-01",
@@ -130,6 +245,14 @@
       "id": "emotify",
       "title": "The Ambiguous Song",
       "description": "How humans label emotions in music—400 tracks across 4 genres rated by multiple annotators, revealing which emotions spark the most disagreement.",
+      "summary": "Human annotators disagree sharply on musical emotion, and that disagreement itself becomes the story, revealing which feelings are ambiguous, which genres confuse listeners, and why single-label emotion datasets oversimplify music.",
+      "keywords": [
+        "music emotion labels",
+        "annotator disagreement",
+        "gems-9",
+        "genre differences",
+        "ambiguous songs"
+      ],
       "link": "emotify/",
       "screenshot": "emotify/screenshot.webp",
       "date": "2025-12-25",
@@ -139,6 +262,14 @@
       "id": "llm-music",
       "title": "Can AI Hear What We Feel?",
       "description": "Gemini's music-emotion predictions vs Emotify human ratings across 40 songs using GEMS-9, revealing where AI hears differently.",
+      "summary": "Comparing Gemini's music-emotion predictions with human Emotify ratings shows AI can imitate broad affect patterns but still misses uncertainty, overstates confidence, and hears some songs differently from people.",
+      "keywords": [
+        "music emotion prediction",
+        "gemini evaluation",
+        "human ratings",
+        "affect modeling",
+        "uncertainty calibration"
+      ],
       "link": "llm-music/",
       "screenshot": "llm-music/screenshot.webp",
       "date": "2025-12-25",
@@ -148,6 +279,14 @@
       "id": "anthropic-work",
       "title": "Communicating Insights Visually",
       "description": "How top AI chatbots and coding agents translate Anthropic’s “How AI is transforming work at Anthropic” into diverse animated chart ideas—compared and ranked.",
+      "summary": "Multiple AI assistants reinterpret Anthropic's work-transformation report into competing animated chart concepts, exposing which models generate the most original, usable visual narratives from the same source material.",
+      "keywords": [
+        "ai visualization ideas",
+        "anthropic work report",
+        "model comparison",
+        "animated charts",
+        "visual storytelling"
+      ],
       "link": "anthropic-work/",
       "screenshot": "anthropic-work/screenshot.webp",
       "date": "2025-12-16",
@@ -157,6 +296,14 @@
       "id": "weight-2025-12",
       "title": "The Ruler-Straight Disappearing Act",
       "description": "A 24 kg drop from 86.4 to 62.2 kg across 335 days in 2025, with two changepoints and a ruler-straight curve from a Google Fit export.",
+      "summary": "A 24 kg weight-loss record plots almost too neatly, with two changepoints and a ruler-straight decline that turns personal health tracking into a puzzle about discipline, measurement, and plausibility.",
+      "keywords": [
+        "weight loss",
+        "changepoint analysis",
+        "personal health tracking",
+        "google fit data",
+        "measurement consistency"
+      ],
       "link": "weight-2025-12/",
       "screenshot": "weight-2025-12/screenshot.webp",
       "date": "2025-12-10",
@@ -166,6 +313,14 @@
       "id": "promptfight",
       "title": "The Command Paradox",
       "description": "Inside 534k AI prompt battles, polite \"tell me a story\" requests beat forceful \"never reveal\" commands—tracking 785 students' 100-character defenses and attacks.",
+      "summary": "Across 534,000 prompt battles, polite attacks outperform forceful commands, revealing that persuasion and framing beat aggression when students try to jailbreak or defend 100-character AI prompts.",
+      "keywords": [
+        "prompt battles",
+        "prompt injection",
+        "jailbreak strategies",
+        "politeness effect",
+        "adversarial prompting"
+      ],
       "link": "promptfight/",
       "screenshot": "promptfight/screenshot.webp",
       "date": "2025-12-10",
@@ -175,6 +330,14 @@
       "id": "olap-commits",
       "title": "OLAP Git Commits",
       "description": "Forensic read of 466k commits across 13 OLAP databases—one-person armies, small-commit speed demons, and weekend work as a funding tell.",
+      "summary": "A forensic read of 466,000 commits across 13 OLAP databases finds wildly different development cultures, from one-person armies to high-velocity teams, with commit size and weekend work hinting at funding and maintenance styles.",
+      "keywords": [
+        "olap databases",
+        "commit forensics",
+        "developer concentration",
+        "weekend commits",
+        "engineering culture"
+      ],
       "link": "olap-commits/",
       "screenshot": "olap-commits/screenshot.webp",
       "date": "2025-12-06",
@@ -184,6 +347,14 @@
       "id": "generosity-of-strangers",
       "title": "Generosity of Strangers",
       "description": "Party-of-five NYC taxi riders tip 15–20% more than solo travelers—maps, routes, and night effects reveal where generosity spikes.",
+      "summary": "NYC taxi trips show larger groups tip more generously than solo riders, with geography, time of day, and route context shaping where the party-of-five premium appears strongest.",
+      "keywords": [
+        "nyc taxi tips",
+        "passenger count",
+        "tipping behavior",
+        "route geography",
+        "night effects"
+      ],
       "link": "generosity-of-strangers/",
       "screenshot": "generosity-of-strangers/screenshot.webp",
       "date": "2025-12-06",
@@ -193,6 +364,14 @@
       "id": "indian-batting-greats",
       "title": "Indian Batting Greats",
       "description": "Ranked Indian batting legends with an LLM-chosen metric: batting average x log(total runs), plotted across their active years.",
+      "summary": "Ranking Indian batting greats by batting average times log total runs balances longevity with excellence, creating an era-spanning comparison that favors sustained production over raw fame or peak mythology.",
+      "keywords": [
+        "cricket rankings",
+        "batting average",
+        "total runs",
+        "era comparison",
+        "composite metric"
+      ],
       "link": "indian-batting-greats/",
       "screenshot": "indian-batting-greats/screenshot.webp",
       "date": "2025-12-05",
@@ -202,6 +381,14 @@
       "id": "fuzzymatch",
       "title": "The Reconciliation Engine",
       "description": "Fuzzy search playground that reconciles bank transactions to accounting records using similarity scores and optimal assignments.",
+      "summary": "An interactive reconciliation engine demonstrates how similarity scoring and optimal assignment can match messy bank transactions to accounting records, turning fuzzy matching into a transparent financial-control workflow.",
+      "keywords": [
+        "fuzzy matching",
+        "transaction reconciliation",
+        "similarity scoring",
+        "optimal assignment",
+        "accounting records"
+      ],
       "link": "fuzzymatch/",
       "screenshot": "fuzzymatch/screenshot.webp",
       "date": "2025-12-02",
@@ -211,6 +398,14 @@
       "id": "tds-project-2025-11",
       "title": "TDS Project 2: The Cliff",
       "description": "Why only 29% of students mastered LLM problem-solving—and what the other 71% couldn't figure out - an analysis of 535 students at IIT Madras Tools in Data Science, November 2025",
+      "summary": "Performance data from 535 students reveals a steep capability cliff in LLM problem-solving: a minority internalized the workflow, while most never learned the hidden moves needed to finish.",
+      "keywords": [
+        "student performance",
+        "llm problem solving",
+        "mastery cliff",
+        "educational analytics",
+        "hidden skills"
+      ],
       "link": "tds-project-2025-11/",
       "screenshot": "tds-project-2025-11/screenshot.webp",
       "date": "2025-11-30",
@@ -220,6 +415,14 @@
       "id": "mmm",
       "title": "Market Mix Modeling Insights",
       "description": "Rather than wasting millions pushing past saturation points, invest in brand equity and pulsing spend during high-leverage moments.",
+      "summary": "Market mix modeling shows the real waste is not under-spending but pushing saturated channels too far, making a case for brand investment, pulsed campaigns, and timing-sensitive allocation.",
+      "keywords": [
+        "market mix modeling",
+        "advertising saturation",
+        "budget allocation",
+        "brand investment",
+        "diminishing returns"
+      ],
       "link": "mmm/",
       "screenshot": "mmm/screenshot.webp",
       "date": "2025-11-27",
@@ -229,6 +432,14 @@
       "id": "michelin",
       "title": "Michelin Star Restaurants",
       "description": "An analysis of 22,000 Michelin star restaurants to uncover trends in cuisine, location and ratings.",
+      "summary": "Analysis of 22,000 Michelin-recognized restaurants surfaces strong geographic and cuisine patterns while challenging simplistic prestige narratives through comparisons of stars, prices, and city-level concentration.",
+      "keywords": [
+        "michelin stars",
+        "restaurant geography",
+        "cuisine patterns",
+        "city concentration",
+        "price analysis"
+      ],
       "link": "michelin/",
       "screenshot": "michelin/screenshot.webp",
       "date": "2025-11-21",
@@ -238,6 +449,14 @@
       "id": "tds-improvements",
       "title": "TDS Improvements",
       "description": "An analysis of improvements in the IITM Tools in Data science course based on student performance data since 2024.",
+      "summary": "Exam data since 2024 identifies specific course-design problems, especially infrastructure-heavy questions and timing effects, and turns them into concrete teaching and assessment improvements for Tools in Data Science.",
+      "keywords": [
+        "course improvements",
+        "exam analytics",
+        "question design",
+        "infrastructure issues",
+        "student performance"
+      ],
       "link": "tds-improvements/",
       "screenshot": "tds-improvements/screenshot.webp",
       "date": "2025-11-19",
@@ -247,6 +466,14 @@
       "id": "code-review-shubham",
       "title": "Code Review of Shubham's GitHub",
       "description": "A comprehensive review of all repositories committed to in 2025 under Shubham's GitHub account, analyzing code quality, architecture, and technical debt.",
+      "summary": "A cross-repository code review finds exposed credentials, missing error handling, repository sprawl, and duplicated experiments, turning one developer's 2025 GitHub output into a map of technical debt and risk.",
+      "keywords": [
+        "code review",
+        "exposed credentials",
+        "error handling",
+        "repository sprawl",
+        "technical debt"
+      ],
       "link": "code-review-shubham/",
       "screenshot": "code-review-shubham/screenshot.webp",
       "date": "2025-11-18",
@@ -256,6 +483,14 @@
       "id": "frontiers-2024",
       "title": "The Publisher Who Chose to Shrink",
       "description": "How Frontiers deliberately cut output by 36% to fight AI-generated fraud and won with quality. A counterintuitive victory in academic publishing.",
+      "summary": "Frontiers cut output by 36% to fight paper-mill fraud and still improved quality, offering a rare publishing story where shrinking volume became the winning strategy.",
+      "keywords": [
+        "academic publishing",
+        "paper mills",
+        "output reduction",
+        "quality metrics",
+        "research integrity"
+      ],
       "link": "frontiers-2024/",
       "screenshot": "frontiers-2024/screenshot.webp",
       "date": "2025-11-18",
@@ -265,6 +500,14 @@
       "id": "ai-resistance",
       "title": "The Jobs We Refuse to Give Away",
       "description": "Why some occupations resist AI not because machines can't do them, but because we believe they shouldn't. Based on Friis & Riley (2025).",
+      "summary": "Some jobs resist AI not because automation is impossible, but because people judge those uses morally repugnant, separating technical feasibility from social permission.",
+      "keywords": [
+        "ai resistance",
+        "moral repugnance",
+        "job automation",
+        "social acceptance",
+        "technical feasibility"
+      ],
       "link": "ai-resistance/",
       "screenshot": "ai-resistance/screenshot.webp",
       "date": "2025-11-17",
@@ -274,6 +517,14 @@
       "id": "iss-tokyo",
       "title": "ISS vs Tokyo",
       "description": "The ISS never passes over Tokyo at midnight UTC, but touches Auckland over 30 times over 321 days. No conspiracy. Just the timing.",
+      "summary": "Tokyo's zero midnight-UTC ISS passes and Auckland's repeated ones look conspiratorial until orbital timing explains them, making a lesson in deterministic sampling rather than hidden anomalies.",
+      "keywords": [
+        "iss passes",
+        "orbital mechanics",
+        "sampling bias",
+        "tokyo visibility",
+        "auckland comparison"
+      ],
       "link": "iss-tokyo/",
       "screenshot": "iss-tokyo/screenshot.webp",
       "date": "2025-11-16",
@@ -283,6 +534,14 @@
       "id": "generative-ai-whatsapp-group",
       "title": "The Great Inversion",
       "description": "Volume != Influence. Questions are liked less but engaged with more. And more insights from a Generative AI WhatsApp Group",
+      "summary": "In a generative-AI WhatsApp group, volume does not equal influence: quieter members attract more replies, and questions earn deeper discussion even when they receive fewer likes.",
+      "keywords": [
+        "whatsapp group analysis",
+        "influence dynamics",
+        "reply rates",
+        "question engagement",
+        "social network"
+      ],
       "link": "generative-ai-whatsapp-group/",
       "screenshot": "generative-ai-whatsapp-group/screenshot.webp",
       "date": "2025-11-16",
@@ -292,6 +551,14 @@
       "id": "imdb-democracy-penalty",
       "title": "IMDb's Hidden Algorithm Bias",
       "description": "New popular movies on IMDb are punished - not by the algorithm, but the casual movie watchers rating movies lower than devotees.",
+      "summary": "IMDb's biggest hits are often rated lower not because the algorithm punishes popularity, but because mass audiences dilute the enthusiasm of devoted fans.",
+      "keywords": [
+        "imdb ratings",
+        "popularity penalty",
+        "audience bias",
+        "casual viewers",
+        "movie rankings"
+      ],
       "link": "imdb-democracy-penalty/",
       "screenshot": "imdb-democracy-penalty/screenshot.webp",
       "date": "2025-11-16",
@@ -301,6 +568,14 @@
       "id": "renewable-energy-india-expo",
       "title": "India's Renewable Energy Revolution",
       "description": "A narrative of REI Expo 2025 exhibitors: domestic players, solar dominance, and China collaboration.",
+      "summary": "Exhibitor data from REI Expo 2025 shows India's renewable push is domestically led and solar-heavy, yet still deeply entangled with Chinese suppliers and cross-border manufacturing links.",
+      "keywords": [
+        "renewable energy india",
+        "rei expo",
+        "solar manufacturing",
+        "domestic exhibitors",
+        "china linkages"
+      ],
       "link": "renewable-energy-india-expo/",
       "screenshot": "renewable-energy-india-expo/screenshot.webp",
       "date": "2025-10-25",
@@ -310,6 +585,14 @@
       "id": "gdpval",
       "title": "GDPVal: AI Augmentation",
       "description": "Explore occupations most suitable for AI augmentation based on OpenAI's GDPVal exercise",
+      "summary": "OpenAI's GDPVal framework maps which occupations are best suited for AI augmentation, linking task exposure to wages and showing where assistance may be more plausible than full replacement.",
+      "keywords": [
+        "ai augmentation",
+        "occupations",
+        "gdpval",
+        "task exposure",
+        "compensation"
+      ],
       "link": "gdpval/",
       "screenshot": "gdpval/screenshot.webp",
       "date": "2025-10-19",
@@ -319,6 +602,14 @@
       "id": "browser-history-rabbit-holes",
       "title": "Rabbit Holes",
       "description": "An interactive map of 3,560 browsing chains showing how sparks turn into deep dives across the web.",
+      "summary": "Browsing chains from 3,560 journeys show how small sparks turn into deep dives, revealing the momentum, branching, and attention drift behind web rabbit holes.",
+      "keywords": [
+        "browsing chains",
+        "rabbit holes",
+        "curiosity journeys",
+        "attention drift",
+        "web exploration"
+      ],
       "link": "browser-history/rabbit-holes/",
       "screenshot": "browser-history/rabbit-holes/screenshot.webp",
       "date": "2025-10-04",
@@ -328,6 +619,14 @@
       "id": "browser-history-search-funnels",
       "title": "Do Questions Find Answers?",
       "description": "Search journeys from query to first click, with filters that expose instant wins and wandering quests.",
+      "summary": "Search-funnel analysis tracks queries to first clicks, separating instant answers from wandering quests and showing which searches resolve quickly versus spiral into exploration.",
+      "keywords": [
+        "search funnels",
+        "query resolution",
+        "first click",
+        "information seeking",
+        "wandering searches"
+      ],
       "link": "browser-history/search-funnels/",
       "screenshot": "browser-history/search-funnels/screenshot.webp",
       "date": "2025-10-04",
@@ -337,6 +636,14 @@
       "id": "browser-history-attention-clock",
       "title": "Your Attention Clock",
       "description": "Heatmaps of weekly browsing reveal circadian focus, daily ebbs, and the domains that anchor attention.",
+      "summary": "Weekly attention heatmaps expose circadian browsing rhythms and the domains that anchor focus, turning raw browser logs into a clockface of recurring habits.",
+      "keywords": [
+        "attention heatmap",
+        "circadian browsing",
+        "weekly rhythms",
+        "focus patterns",
+        "domain habits"
+      ],
       "link": "browser-history/attention-clock/",
       "screenshot": "browser-history/attention-clock/screenshot.webp",
       "date": "2025-10-04",
@@ -346,6 +653,14 @@
       "id": "browser-history-digital-life",
       "title": "The Digital Life of Anand",
       "description": "An exposé of 97k visits across 84 days that charts top destinations, hourly habits, and AI-heavy searches.",
+      "summary": "An 84-day browser-history expose maps 97,000 visits into destinations, hourly routines, and AI-heavy behavior, revealing how one person's online life fragments across work, search, and curiosity.",
+      "keywords": [
+        "browser history",
+        "digital habits",
+        "top destinations",
+        "hourly routines",
+        "ai usage"
+      ],
       "link": "browser-history/digital-life/",
       "screenshot": "browser-history/digital-life/screenshot.webp",
       "date": "2025-10-04",
@@ -355,6 +670,14 @@
       "id": "scraping-sec",
       "title": "Scraping SEC",
       "description": "Narrative walkthrough of how Codex CLI built an SEC scraper in one-shot, recovering from errors, handling messy data, and with self-critique.",
+      "summary": "A one-shot Codex session builds an SEC scraper, recovers from messy filings and errors, and documents the full workflow, making agentic coding auditable rather than magical.",
+      "keywords": [
+        "sec scraping",
+        "codex cli",
+        "agentic coding",
+        "error recovery",
+        "filing extraction"
+      ],
       "link": "scraping-sec/",
       "screenshot": "scraping-sec/screenshot.webp",
       "date": "2025-09-30",
@@ -364,6 +687,14 @@
       "id": "bollywood-top-grossing",
       "title": "Bollywood Box Office Champions",
       "description": "Interactive, inflation-adjusted bubble chart of the top-grossing Hindi films from 1994 to 2024, spotlighting record-setting blockbusters.",
+      "summary": "An inflation-adjusted view of Hindi box-office champions shows how record-setting films, sequels, and post-pandemic releases reshaped the league table from 1994 to 2024.",
+      "keywords": [
+        "bollywood box office",
+        "inflation adjustment",
+        "highest-grossing films",
+        "sequels",
+        "post-pandemic cinema"
+      ],
       "link": "bollywood-top-grossing/",
       "screenshot": "bollywood-top-grossing/screenshot.webp",
       "date": "2025-09-27",
@@ -373,6 +704,14 @@
       "id": "google-searches",
       "title": "Google Search Topic Trends",
       "description": "Categorized every Google Search since Jan 2021 into 50 topics. It's mostly tech, AI, and geo-cultural. I also need to allocate more time to testing, databases, and other 'spiky' topics.",
+      "summary": "Four years of Google searches, clustered into 50 topics, reveal an AI gravity well, three distinct curiosity personas, and surprising search energy still devoted to Indian celebrities.",
+      "keywords": [
+        "google search history",
+        "topic modeling",
+        "ai research growth",
+        "curiosity personas",
+        "search trends"
+      ],
       "link": "google-searches/",
       "screenshot": "google-searches/google-search-topic-trends.webp",
       "date": "2025-07-26",
@@ -382,6 +721,14 @@
       "id": "chatgpt-vs-google",
       "title": "ChatGPT vs Google",
       "description": "How my ChatGPT usage has grown at the expense of Google usage. Google is only 60% of my usage, and far lower in engagement",
+      "summary": "Monthly usage shows ChatGPT steadily displacing Google in one person's workflow, with stronger engagement per interaction and a clear substitution pattern rather than complementary use.",
+      "keywords": [
+        "chatgpt usage",
+        "google search",
+        "substitution effect",
+        "monthly activity",
+        "engagement time"
+      ],
       "link": "chatgpt-vs-google/",
       "screenshot": "chatgpt-vs-google/chatgpt-vs-google-usage-ratio.webp",
       "date": "2025-07-24",
@@ -391,6 +738,14 @@
       "id": "vipassana",
       "title": "My Vipassana Experience",
       "description": "A manually LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions, via ChatGPT",
+      "summary": "A caption-driven ChatGPT comic retells a 10-day Vipassana retreat through monastic routines, silence, bodily discomfort, and pragmatic introspection, showing how simple prompts can become a coherent visual memoir.",
+      "keywords": [
+        "vipassana retreat",
+        "chatgpt comic",
+        "meditation routine",
+        "silence practice",
+        "visual memoir"
+      ],
       "link": "vipassana-chatgpt/",
       "screenshot": "vipassana-chatgpt/01.webp",
       "date": "2025-07-14",
@@ -400,6 +755,14 @@
       "id": "vipassana",
       "title": "My Vipassana Experience",
       "description": "A programmatically LLM-generated comic story book about my 10-day Vipassana meditation program, generated purely using a set of simple captions, via Gemini 2.0 Flash",
+      "summary": "A Gemini-generated comic recounts a 10-day Vipassana retreat as disciplined hostel life, sensory observation, and self-discovery, emphasizing the method's pragmatic, low-dogma approach to craving and aversion.",
+      "keywords": [
+        "vipassana retreat",
+        "gemini comic",
+        "sensory observation",
+        "craving and aversion",
+        "meditation discipline"
+      ],
       "link": "vipassana/",
       "screenshot": "vipassana/i-attended-a-10-day-vipassana-meditation-center.webp",
       "date": "2025-07-14",
@@ -409,6 +772,14 @@
       "id": "chatgpt-topics",
       "title": "ChatGPT Topic Trends",
       "description": "Categorized the 6,000 ChatGPT conversations I've had in the last 2 years to understand what topics I discuss the most. It's mostly tech, AI, reading/writing, and some daily-life stuff.",
+      "summary": "Topic modeling 6,000 ChatGPT conversations reveals a code-heavy prompt portfolio, growing AI-and-business brainstorming, and telling blind spots in areas like finance, music, and philosophy.",
+      "keywords": [
+        "chatgpt history",
+        "topic modeling",
+        "coding prompts",
+        "ai brainstorming",
+        "prompt blind spots"
+      ],
       "link": "chatgpt-topics/",
       "screenshot": "chatgpt-topics/screenshot.webp",
       "date": "2025-06-23",
@@ -418,6 +789,14 @@
       "id": "indian-high-courts",
       "title": "Indian High Courts Judgment Analysis",
       "description": "Comprehensive analysis of 16M judgments from 25 Indian High Courts. Reveals court efficiency disparities, seasonal justice patterns, and systematic UAPA bail delays with 120+ day gaps between hearings.",
+      "summary": "Analysis of 16 million judgments across 25 Indian High Courts exposes efficiency gaps, seasonal slowdowns, and especially long UAPA bail delays that turn procedural patterns into justice outcomes.",
+      "keywords": [
+        "high courts",
+        "judicial delays",
+        "uapa bail",
+        "court efficiency",
+        "case patterns"
+      ],
       "link": "indian-high-courts/",
       "screenshot": "https://picsum.photos/400/200",
       "date": "2025-06-17",
@@ -427,6 +806,14 @@
       "id": "code-vs-domain",
       "title": "LLM Agents in Software: Code vs Domain",
       "description": "Coding agents reduce the effort of coding. Does that mean domain will matter more? Here's an LLM-generated animation showing my perspective that domain agents will level the field.",
+      "summary": "An animated argument about software agents suggests coding automation will not make domain expertise singularly decisive because domain agents can lower that barrier too, expanding demand on both sides.",
+      "keywords": [
+        "coding agents",
+        "domain expertise",
+        "software economics",
+        "agent automation",
+        "animated explainer"
+      ],
       "link": "code-vs-domain/",
       "screenshot": "code-vs-domain/screenshot.webp",
       "date": "2025-06-16",
@@ -436,6 +823,14 @@
       "id": "horoscope-2025-06-16",
       "title": "Deep Research Horoscope Contradictions",
       "description": "Asked Gemini Deep Research to read Sagittarius horoscope for 16 June 2025 and list contradictions from various Indian media sources.",
+      "summary": "Comparing Sagittarius horoscopes across Indian outlets for a single day uncovers direct contradictions in advice, tone, and predictions, exposing the fragmented authorship and media economics behind daily astrology.",
+      "keywords": [
+        "horoscope contradictions",
+        "sagittarius",
+        "indian media",
+        "astrology analysis",
+        "conflicting predictions"
+      ],
       "link": "horoscope-2025-06-16/",
       "screenshot": "horoscope-2025-06-16/horoscope.webp",
       "date": "2025-06-16",
@@ -445,6 +840,14 @@
       "id": "employment-trends",
       "title": "Employment Growth Since 1980",
       "description": "Some US sectors like Scenic Transportation & Healthcare grew over 2X while Rail & Central Banks shrank to 40-80% of original size. Analysis using BLS CES data.",
+      "summary": "BLS employment data since 1980 shows some sectors doubling while others shrink dramatically, tracing a long shift toward services and away from industries more exposed to automation and structural change.",
+      "keywords": [
+        "employment trends",
+        "bls data",
+        "sector growth",
+        "automation exposure",
+        "structural shift"
+      ],
       "link": "employment-trends/",
       "screenshot": "employment-trends/img6.webp",
       "date": "2025-06-14",
@@ -454,6 +857,14 @@
       "id": "weight-2025-06",
       "title": "Weight Journey 2025",
       "description": "Lost 22 kg in 22 weeks through intermittent fasting. Skipped lunch, no snacks, no extra exercise.",
+      "summary": "A personal time series of 22 kg lost in 22 weeks links intermittent fasting to steady decline, while travel disruptions and moving averages reveal how routines shape progress.",
+      "keywords": [
+        "weight loss",
+        "intermittent fasting",
+        "personal time series",
+        "travel disruptions",
+        "moving averages"
+      ],
       "link": "weight-2025-06/",
       "screenshot": "weight-2025-06/screenshot.webp",
       "date": "2025-06-05",
