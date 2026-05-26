@@ -1,6 +1,23 @@
 {
   "stories": [
     {
+      "id": "erdos-planar-unit",
+      "title": "Erdos Planar Unit Visualizer",
+      "description": "Interactive visualizer for the Erdos planar unit distance problem, comparing OpenAI's construction scale with grid-based unit connections as point counts grow.",
+      "summary": "A single-page visualizer explains the Erdos unit distance problem through an interactive point-count control, contrasting grid behavior with a schematic of OpenAI's construction and its superlinear unit-distance bound.",
+      "keywords": [
+        "erdos unit distance",
+        "planar point sets",
+        "openai construction",
+        "discrete geometry",
+        "interactive visualizer"
+      ],
+      "link": "erdos-planar-unit/",
+      "screenshot": "erdos-planar-unit/screenshot.avif",
+      "date": "2026-05-26",
+      "folder": "erdos-planar-unit"
+    },
+    {
       "id": "longest-wikipedia-string",
       "title": "The Paragraph That Appears 418 Times — Wikipedia's Hidden Skeleton",
       "description": "We compressed all of English Wikipedia — 7.6 million articles — into 35 gigabytes and searched for the longest text that echoes through the most pages. What we found reveals the hidden skeleton of human knowledge.",

@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Erdős unit distance problem — Square grid vs OpenAI construction</title>
+  <style>
+    :root {
+      --bg: #070b16;
+      --ink: #eef4ff;
+      --muted: #a8b6d8;
+      --faint: #657391;
+      --line: rgba(255,255,255,.12);
+      --point: #7dd3fc;
+      --grid: #fbbf24;
+      --openai: #c084fc;
+      --shadow: 0 24px 80px rgba(0,0,0,.35);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(56,132,255,.25), transparent 34%),
+        radial-gradient(circle at 86% 6%, rgba(192,132,252,.24), transparent 31%),
+        var(--bg);
+    }
+    a { color: var(--point); text-decoration: none; border-bottom: 1px solid rgba(125,211,252,.35); }
+    a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+    .wrap { max-width: 1920px; margin: 0 auto; padding: 20px; }
+    .hero, .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.032));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero { padding: 22px; margin-bottom: 16px; }
+    .hero h1 { margin: 0 0 10px; font-size: clamp(30px, 4vw, 56px); line-height: 1; letter-spacing: -.045em; }
+    .hero p { margin: 0; color: var(--muted); line-height: 1.45; max-width: 1160px; font-size: 15px; }
+    .heroLinks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .heroLinks a {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(0,0,0,.14); color: var(--muted); font-size: 12px;
+    }
+    .heroLinks a:hover { color: var(--ink); border-color: rgba(125,211,252,.45); }
+    .simple { display: grid; grid-template-columns: 1fr 320px; gap: 16px; align-items: stretch; margin-top: 18px; }
+    .primaryControl { background: rgba(0,0,0,.18); border: 1px solid var(--line); border-radius: 20px; padding: 15px; }
+    .primaryControl label { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 10px; }
+    .primaryControl .labelText { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
+    .primaryControl output { color: var(--ink); font-size: clamp(28px, 4vw, 44px); font-weight: 900; letter-spacing: -.04em; }
+    input[type="range"] { width: 100%; accent-color: var(--openai); }
+    .tiny { color: var(--faint); font-size: 12px; line-height: 1.35; }
+    .takeaway { background: rgba(192,132,252,.13); border: 1px solid rgba(192,132,252,.33); border-radius: 20px; padding: 14px; color: var(--muted); line-height: 1.35; }
+    .takeaway b { color: var(--openai); }
+    main { display: grid; grid-template-columns: minmax(0, 1fr) 410px; gap: 16px; }
+    .vizCard { padding: 14px; }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    button {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.065);
+      color: var(--ink);
+      border-radius: 13px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+    button[data-mode="grid"].active { background: rgba(251,191,36,.20); border-color: rgba(251,191,36,.55); }
+    button[data-mode="openai"].active { background: rgba(192,132,252,.20); border-color: rgba(192,132,252,.55); }
+    .canvasShell { height: min(70vh, 770px); min-height: 560px; position: relative; overflow: hidden; border-radius: 20px; background: #050814; border: 1px solid var(--line); }
+    canvas { width: 100%; height: 100%; display: block; }
+    .hud { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; pointer-events: none; }
+    .badge { background: rgba(5,8,18,.76); border: 1px solid rgba(255,255,255,.14); border-radius: 16px; padding: 11px 13px; backdrop-filter: blur(10px); max-width: 620px; }
+    .badge .k { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+    .badge .v { font-size: 19px; font-weight: 900; margin-top: 2px; }
+    .legend { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; background: rgba(5,8,18,.76); border: 1px solid rgba(255,255,255,.12); color: var(--muted); padding: 7px 9px; border-radius: 999px; font-size: 12px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--point); display: inline-block; }
+    .keyline { width: 22px; height: 3px; border-radius: 99px; display: inline-block; }
+    .explain { color: var(--muted); font-size: 14px; line-height: 1.45; padding: 13px 2px 2px; }
+    .side { display: grid; gap: 16px; align-content: start; }
+    .metrics { padding: 14px; }
+    .metrics h2, .card h2 { margin: 0 0 12px; font-size: 15px; letter-spacing: -.01em; }
+    .bigCompare { display: grid; gap: 10px; }
+    .compareRow { display: grid; grid-template-columns: 16px 1fr auto; align-items: center; gap: 10px; padding: 13px; border: 1px solid var(--line); border-radius: 18px; background: rgba(0,0,0,.16); }
+    .compareRow .swatch { width: 12px; height: 44px; border-radius: 99px; }
+    .compareRow .label { color: var(--muted); font-size: 12px; margin-bottom: 3px; }
+    .compareRow .sub { color: var(--faint); font-size: 12px; line-height: 1.25; }
+    .compareRow .value { font-size: clamp(23px, 2.4vw, 34px); font-weight: 950; letter-spacing: -.045em; white-space: nowrap; }
+    .ratioHero { margin-top: 10px; padding: 16px; border-radius: 20px; border: 1px solid rgba(192,132,252,.33); background: rgba(192,132,252,.13); }
+    .ratioHero .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .ratioHero .value { font-size: 48px; line-height: .95; font-weight: 950; letter-spacing: -.05em; color: var(--openai); margin-top: 6px; }
+    .ratioHero .sub { color: var(--muted); font-size: 13px; line-height: 1.35; margin-top: 8px; }
+    .miniNote { margin-top: 11px; padding: 12px; border-radius: 16px; background: rgba(0,0,0,.15); border: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.38; }
+    .chartShell { height: 235px; background: rgba(0,0,0,.16); border-radius: 16px; border: 1px solid var(--line); overflow: hidden; }
+    .note { color: var(--muted); font-size: 13px; line-height: 1.45; padding: 12px 14px; background: rgba(0,0,0,.13); border-top: 1px solid var(--line); }
+    .bottom, .advancedPanel, .sourcesPanel { margin-top: 16px; padding: 16px; }
+    .pipelineGrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+    .step { border: 1px solid var(--line); background: rgba(0,0,0,.15); border-radius: 18px; padding: 12px; }
+    .num { width: 27px; height: 27px; border-radius: 10px; display: grid; place-items: center; font-weight: 900; background: rgba(192,132,252,.14); color: var(--openai); margin-bottom: 9px; }
+    .step h3 { margin: 0 0 5px; font-size: 13px; }
+    .step p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.36; }
+    .bottom .note { border: 1px solid var(--line); border-radius: 16px; margin-top: 12px; }
+    .advancedGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .control { background: rgba(0,0,0,.16); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+    .control label { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+    .control output { color: var(--ink); font-weight: 800; letter-spacing: 0; text-transform: none; }
+    .sourceGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .sourceCard { border: 1px solid var(--line); background: rgba(0,0,0,.15); border-radius: 18px; padding: 12px; min-height: 100px; }
+    .sourceCard h3 { margin: 0 0 6px; font-size: 13px; }
+    .sourceCard p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.36; }
+    @media (max-width: 1050px) {
+      main, .simple { grid-template-columns: 1fr; }
+      .canvasShell { height: 620px; }
+      .advancedGrid, .pipelineGrid, .sourceGrid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Erdős unit distance problem: Square grid vs OpenAI construction</h1>
+      <p>
+        The <a href="https://mathworld.wolfram.com/ErdosUnitDistanceProblem.html" target="_blank" rel="noopener">Erdős unit distance problem</a> asks a child-simple, mathematician-hard question: if you place <em>n</em> points on a flat plane, how many pairs can be exactly one unit apart? The <strong>Square grid</strong> gives the natural baseline: almost <em>2n</em> unit links. The <strong>OpenAI construction</strong> proves that this baseline is not the right long-run intuition: for infinitely many huge values of <em>n</em>, there are point sets with at least <em>n<sup>1+δ</sup></em> unit links for a fixed δ &gt; 0.
+      </p>
+      <div class="heroLinks">
+        <a href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/" target="_blank" rel="noopener">OpenAI announcement</a>
+        <a href="https://cdn.openai.com/pdf/74c24085-19b0-4534-9c90-465b8e29ad73/unit-distance-proof.pdf" target="_blank" rel="noopener">OpenAI proof PDF</a>
+        <a href="https://arxiv.org/html/2605.20695v1" target="_blank" rel="noopener">Human-readable remarks</a>
+        <a href="https://www.erdosproblems.com/90" target="_blank" rel="noopener">Erdős Problems #90</a>
+        <a href="https://teorth.github.io/optimizationproblems/constants/84a.html" target="_blank" rel="noopener">Known bounds summary</a>
+      </div>
+      <div class="simple">
+        <div class="primaryControl">
+          <label>
+            <span class="labelText">Number of points n</span>
+            <output id="nOut">10,000</output>
+          </label>
+          <input id="nSlider" type="range" min="1" max="30" step="0.001" value="4" />
+          <div class="tiny">Log scale. Counts use the full n. The picture draws only a representative patch so the page stays fast.</div>
+        </div>
+        <div class="takeaway" id="takeaway"></div>
+      </div>
+    </section>
+
+    <main>
+      <section class="card vizCard">
+        <div class="tabs">
+          <button data-mode="openai" class="active">OpenAI construction</button>
+          <button data-mode="grid">Square grid</button>
+          <button id="recalcBtn" title="Draw a different toy lattice coset and projection">Recalculate construction</button>
+        </div>
+        <div class="canvasShell">
+          <canvas id="viz"></canvas>
+          <div class="hud">
+            <div class="badge">
+              <div class="k">current view</div>
+              <div class="v" id="viewTitle">OpenAI construction</div>
+            </div>
+            <div class="legend">
+              <span><i class="dot"></i> point</span>
+              <span><i class="keyline" style="background:var(--grid)"></i> Square grid link</span>
+              <span><i class="keyline" style="background:var(--openai)"></i> OpenAI construction link</span>
+            </div>
+          </div>
+        </div>
+        <div class="explain" id="explainText"></div>
+      </section>
+
+      <aside class="side">
+        <section class="card metrics">
+          <h2>Main comparison</h2>
+          <div class="bigCompare">
+            <div class="compareRow">
+              <div class="swatch" style="background:var(--grid)"></div>
+              <div>
+                <div class="label">Square grid</div>
+                <div class="sub">Rows and columns. Almost 2n unit links.</div>
+              </div>
+              <div class="value" id="gridEdges">0</div>
+            </div>
+            <div class="compareRow">
+              <div class="swatch" style="background:var(--openai)"></div>
+              <div>
+                <div class="label">OpenAI construction scale</div>
+                <div class="sub">n^(1+δ), proven for infinitely many n.</div>
+              </div>
+              <div class="value" id="openaiEdges">0</div>
+            </div>
+          </div>
+          <div class="ratioHero">
+            <div class="label">OpenAI construction / Square grid</div>
+            <div class="value" id="ratio">0×</div>
+            <div class="sub" id="ratioSub">OpenAI construction scale compared with the Square grid baseline.</div>
+          </div>
+          <div class="miniNote">
+            The important move is not a better constant. It is a fixed extra exponent. A tiny δ compounds with n until the OpenAI construction scale passes the Square grid baseline and keeps growing faster.
+          </div>
+        </section>
+
+        <section class="card metrics">
+          <h2>When does the OpenAI construction beat the Square grid?</h2>
+          <div class="chartShell"><canvas id="chart"></canvas></div>
+          <div class="note" id="curveNote"></div>
+        </section>
+      </aside>
+    </main>
+
+    <section class="card bottom">
+      <h2>What the proof actually does</h2>
+      <div class="pipelineGrid">
+        <div class="step"><div class="num">1</div><h3>Make hidden switches</h3><p>Use algebraic number theory to create many independent choices that act like hidden switches.</p></div>
+        <div class="step"><div class="num">2</div><h3>Keep compatible choices</h3><p>A class-group argument keeps many choices that can be combined into the same kind of object.</p></div>
+        <div class="step"><div class="num">3</div><h3>Create unit moves</h3><p>Each compatible choice creates a move whose length is exactly 1 in every relevant complex view.</p></div>
+        <div class="step"><div class="num">4</div><h3>Pack many points</h3><p>Put many lattice points inside a high-dimensional rounded box so many point-plus-move pairs remain inside.</p></div>
+        <div class="step"><div class="num">5</div><h3>Project to the plane</h3><p>Look at one complex coordinate. Each surviving hidden move becomes a one-unit segment in the plane.</p></div>
+      </div>
+      <div class="note">
+        This page follows the proof skeleton, but the plotted dots are a browser cartoon. The actual construction needs explicit high-degree number fields, class groups, prime ideals, embeddings, and a lattice coset obtained by an averaging argument. See the <a href="https://cdn.openai.com/pdf/74c24085-19b0-4534-9c90-465b8e29ad73/unit-distance-proof.pdf" target="_blank" rel="noopener">proof PDF</a> and the <a href="https://arxiv.org/html/2605.20695v1" target="_blank" rel="noopener">human-readable remarks</a> for the real construction.
+      </div>
+    </section>
+
+    <section class="card advancedPanel">
+      <h2>Advanced controls</h2>
+      <div class="advancedGrid">
+        <div class="control">
+          <label>δ for OpenAI construction scale <output id="deltaOut">0.014</output></label>
+          <input id="deltaSlider" type="range" min="0.001" max="0.060" step="0.001" value="0.014" />
+        </div>
+        <div class="control">
+          <label>Max plotted points <output id="pointBudgetOut">6000</output></label>
+          <input id="pointBudgetSlider" type="range" min="500" max="30000" step="500" value="6000" />
+        </div>
+        <div class="control">
+          <label>Max plotted links <output id="edgeBudgetOut">16000</output></label>
+          <input id="edgeBudgetSlider" type="range" min="1000" max="80000" step="1000" value="16000" />
+        </div>
+      </div>
+    </section>
+
+    <section class="card sourcesPanel">
+      <h2>Useful links</h2>
+      <div class="sourceGrid">
+        <div class="sourceCard"><h3><a href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/" target="_blank" rel="noopener">OpenAI announcement</a></h3><p>The accessible overview of the result and why it matters.</p></div>
+        <div class="sourceCard"><h3><a href="https://cdn.openai.com/pdf/74c24085-19b0-4534-9c90-465b8e29ad73/unit-distance-proof.pdf" target="_blank" rel="noopener">Planar Point Sets with Many Unit Distances</a></h3><p>The proof document with the theorem and construction.</p></div>
+        <div class="sourceCard"><h3><a href="https://arxiv.org/html/2605.20695v1" target="_blank" rel="noopener">Remarks on the disproof</a></h3><p>A digested, human-verified discussion of the counterexample and its mathematical context.</p></div>
+        <div class="sourceCard"><h3><a href="https://mathworld.wolfram.com/ErdosUnitDistanceProblem.html" target="_blank" rel="noopener">MathWorld: Erdős unit distance problem</a></h3><p>A short reference definition of the problem.</p></div>
+        <div class="sourceCard"><h3><a href="https://www.erdosproblems.com/90" target="_blank" rel="noopener">Erdős Problems #90</a></h3><p>Problem-history page with known bounds and Erdős’s prize framing.</p></div>
+        <div class="sourceCard"><h3><a href="https://teorth.github.io/optimizationproblems/constants/84a.html" target="_blank" rel="noopener">Unit distance exponent</a></h3><p>Terence Tao’s optimization-problems page summarizing exponent bounds.</p></div>
+        <div class="sourceCard"><h3><a href="https://www.scientificamerican.com/article/ai-just-solved-an-80-year-old-erdos-problem-and-mathematicians-are-amazed/" target="_blank" rel="noopener">Scientific American explainer</a></h3><p>A readable news explanation of the breakthrough.</p></div>
+        <div class="sourceCard"><h3><a href="https://gilkalai.wordpress.com/2026/05/21/amazing-erdos-unit-distance-problem-was-disproved-it-was-achieved-by-ai/" target="_blank" rel="noopener">Gil Kalai commentary</a></h3><p>Mathematician commentary and links around the result.</p></div>
+      </div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const viz = $('#viz'), ctx = viz.getContext('2d');
+  const chart = $('#chart'), cctx = chart.getContext('2d');
+  const C = { point:'#7dd3fc', grid:'#fbbf24', openai:'#c084fc', muted:'#a8b6d8', faint:'#657391' };
+  const state = { logN:4, n:10000, delta:.014, mode:'openai', pointBudget:6000, edgeBudget:16000, seed: 17 };
+
+  function nFromLog(x) { return Math.round(Math.pow(10, x)); }
+  function fmt(x, sig=3) {
+    if (!isFinite(x)) return '—';
+    if (Math.abs(x) < 1e4) return Math.round(x).toLocaleString();
+    if (Math.abs(x) < 1e7) return (x/1e3).toFixed(x < 1e5 ? 1 : 0) + 'k';
+    if (Math.abs(x) < 1e10) return (x/1e6).toFixed(x < 1e8 ? 1 : 0) + 'M';
+    if (Math.abs(x) < 1e13) return (x/1e9).toFixed(x < 1e11 ? 1 : 0) + 'B';
+    return x.toExponential(sig-1).replace('e+', 'e');
+  }
+  function fmtLong(x) {
+    if (x < 1e12) return Math.round(x).toLocaleString();
+    return x.toExponential(3).replace('e+', ' × 10^');
+  }
+  function resize(canvas, context) {
+    const r = canvas.getBoundingClientRect();
+    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    const W = Math.round(r.width * dpr), H = Math.round(r.height * dpr);
+    if (canvas.width !== W || canvas.height !== H) {
+      canvas.width = W; canvas.height = H; context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    return {w:r.width, h:r.height};
+  }
+  function mulberry32(a) {
+    return function() {
+      let t = a += 0x6D2B79F5;
+      t = Math.imul(t ^ t >>> 15, t | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function randDisc(rnd, radius) {
+    const a = rnd() * Math.PI * 2;
+    const r = Math.sqrt(rnd()) * radius;
+    return {re: r * Math.cos(a), im: r * Math.sin(a)};
+  }
+  function squareGridEdges(n) {
+    const cols = Math.ceil(Math.sqrt(n));
+    const rows = Math.ceil(n / cols);
+    return {edges: Math.max(0, n - rows) + Math.max(0, n - cols), cols, rows};
+  }
+  function openaiScale(n, delta) { return Math.pow(n, 1 + delta); }
+  function ratioToSquareGrid(n, delta) { return openaiScale(n, delta) / squareGridEdges(n).edges; }
+  function crossover(delta) { return Math.pow(2, 1 / delta); }
+
+  function makeSquareGridPatch(limit) {
+    const n = Math.max(10, Math.floor(limit));
+    const cols = Math.ceil(Math.sqrt(n));
+    const pts = new Array(n);
+    for (let i = 0; i < n; i++) pts[i] = {x: i % cols, y: Math.floor(i / cols)};
+    const edges = [];
+    for (let i = 0; i < n && edges.length < state.edgeBudget; i++) {
+      if (i % cols !== cols - 1 && i + 1 < n) edges.push([i, i+1]);
+      if (i + cols < n) edges.push([i, i+cols]);
+    }
+    return {pts, edges};
+  }
+
+  function makeOpenAIToyPatch(limit) {
+    // Proof-faithful toy model:
+    // - a random coset offset y;
+    // - many candidate translations u whose every complex coordinate has modulus 1;
+    // - keep lattice-coset points x inside a product of discs W;
+    // - draw only the first complex coordinate, where each surviving x -> x+u has length 1.
+    const target = Math.max(10, Math.floor(limit));
+    const rnd = mulberry32((state.seed * 1000003 + target * 9176) >>> 0);
+    const views = Math.max(3, Math.min(7, Math.round(3 + Math.log10(target + 10) / 1.8))); // first view + hidden views
+    const moves = Math.max(12, Math.min(44, Math.round(10 + 4.5 * Math.log10(target + 10))));
+    let R = 3.8 + 0.42 * Math.log10(target + 10);
+
+    const u = [];
+    for (let m = 0; m < moves; m++) {
+      const coords = [];
+      for (let v = 0; v < views; v++) {
+        // Low-discrepancy angles with jitter: all coordinates are exactly unit-length moves.
+        const base = ((m * (0.61803398875 + 0.071 * v)) % 1) * Math.PI * 2;
+        const jitter = (rnd() - 0.5) * (Math.PI * 2 / moves) * 0.8;
+        const a = base + jitter + 0.37 * Math.sin((m + 1) * (v + 2) + state.seed);
+        coords.push({re: Math.cos(a), im: Math.sin(a)});
+      }
+      u.push(coords);
+    }
+
+    function keyOf(coeff) { return coeff.join(','); }
+    function inside(z, radius) {
+      for (let v = 0; v < z.length; v++) if (z[v].re*z[v].re + z[v].im*z[v].im > radius*radius) return false;
+      return true;
+    }
+    function shifted(z, moveIndex, sign) {
+      const next = new Array(views);
+      const mv = u[moveIndex];
+      for (let v = 0; v < views; v++) next[v] = {re: z[v].re + sign * mv[v].re, im: z[v].im + sign * mv[v].im};
+      return next;
+    }
+
+    const offset = new Array(views);
+    for (let v = 0; v < views; v++) offset[v] = randDisc(rnd, R * 0.22);
+    const zero = new Array(moves).fill(0);
+    const pts = [{x: offset[0].re, y: offset[0].im, coeff: zero, z: offset}];
+    const index = new Map([[keyOf(zero), 0]]);
+    const edges = [];
+
+    let attempts = 0;
+    while (pts.length < target && attempts < target * moves * 18) {
+      attempts++;
+      if (attempts === target * moves * 6 || attempts === target * moves * 12) R += 0.85;
+      const baseIndex = Math.floor(Math.pow(rnd(), 1.35) * pts.length);
+      const base = pts[baseIndex];
+      const moveIndex = Math.floor(rnd() * moves);
+      const sign = rnd() < 0.5 ? 1 : -1;
+      const coeff = base.coeff.slice();
+      coeff[moveIndex] += sign;
+      const key = keyOf(coeff);
+      if (index.has(key)) continue;
+      const z = shifted(base.z, moveIndex, sign);
+      if (!inside(z, R)) continue;
+      const j = pts.length;
+      index.set(key, j);
+      pts.push({x: z[0].re, y: z[0].im, coeff, z});
+      edges.push([baseIndex, j]);
+    }
+
+    // Add other surviving unit links between already-kept lattice points.
+    const seen = new Set(edges.map(([a,b]) => a < b ? a + ':' + b : b + ':' + a));
+    outer: for (let i = 0; i < pts.length; i++) {
+      const p = pts[i];
+      for (let m = 0; m < moves; m++) {
+        for (const sign of [-1, 1]) {
+          const coeff = p.coeff.slice(); coeff[m] += sign;
+          const j = index.get(keyOf(coeff));
+          if (j !== undefined && j !== i) {
+            const a = Math.min(i,j), b = Math.max(i,j), ek = a + ':' + b;
+            if (!seen.has(ek)) { seen.add(ek); edges.push([a,b]); if (edges.length >= state.edgeBudget) break outer; }
+          }
+        }
+      }
+    }
+    return {pts, edges, views, moves, radius: R, center: {x: 0, y: 0}};
+  }
+
+  function boundsOf(pts) {
+    let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+    for (const p of pts) { minX=Math.min(minX,p.x); minY=Math.min(minY,p.y); maxX=Math.max(maxX,p.x); maxY=Math.max(maxY,p.y); }
+    if (minX === maxX) { minX -= 1; maxX += 1; }
+    if (minY === maxY) { minY -= 1; maxY += 1; }
+    return {minX,minY,maxX,maxY};
+  }
+  function drawBackground(w,h,color) {
+    ctx.clearRect(0,0,w,h);
+    const g = ctx.createRadialGradient(w*.18,h*.12,0,w*.18,h*.12,Math.max(w,h));
+    g.addColorStop(0, color); g.addColorStop(1, '#050814'); ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle = 'rgba(255,255,255,.035)'; ctx.lineWidth = 1;
+    for (let x = 0; x < w; x += 38) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+    for (let y = 0; y < h; y += 38) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+  }
+  function drawModel(model, mode) {
+    const {w,h} = resize(viz, ctx);
+    const glow = mode === 'grid' ? 'rgba(251,191,36,.32)' : 'rgba(192,132,252,.30)';
+    drawBackground(w,h,glow);
+    const pts = model.pts, edges = model.edges;
+    let b = boundsOf(pts);
+    if (mode === 'openai' && model.radius) {
+      b = {
+        minX: Math.min(b.minX, -model.radius), minY: Math.min(b.minY, -model.radius),
+        maxX: Math.max(b.maxX, model.radius), maxY: Math.max(b.maxY, model.radius)
+      };
+    }
+    const margin = 64;
+    const scale = .92 * Math.min((w-2*margin)/(b.maxX-b.minX), (h-2*margin)/(b.maxY-b.minY));
+    const cx = (b.minX+b.maxX)/2, cy = (b.minY+b.maxY)/2;
+    const map = p => ({x:w/2+(p.x-cx)*scale, y:h/2+(p.y-cy)*scale});
+
+    if (mode === 'openai' && model.radius) {
+      const c = map({x:0,y:0});
+      ctx.save();
+      ctx.beginPath(); ctx.arc(c.x, c.y, model.radius * scale, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(192,132,252,.035)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(192,132,252,.34)'; ctx.lineWidth = 2; ctx.setLineDash([8,6]); ctx.stroke(); ctx.setLineDash([]);
+      ctx.restore();
+    }
+
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = mode === 'grid' ? 'rgba(251,191,36,.50)' : 'rgba(192,132,252,.42)';
+    ctx.lineWidth = Math.max(.45, Math.min(1.5, 150 / Math.sqrt(edges.length + 100)));
+    for (const [a,b] of edges) { const p=map(pts[a]), q=map(pts[b]); ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); }
+    const pr = Math.max(1.0, Math.min(4.2, 34 / Math.sqrt(pts.length)));
+    ctx.fillStyle = C.point;
+    for (const raw of pts) { const p=map(raw); ctx.beginPath(); ctx.arc(p.x,p.y,pr,0,Math.PI*2); ctx.fill(); }
+    if (mode === 'openai') {
+      drawLabel(28,h-112,286,84,'toy lattice coset inside a disc window',`${model.moves} unit moves across ${model.views} complex views
+${fmt(edges.length)} drawn links`,'rgba(192,132,252,.45)');
+      drawMovePalette(w, h, model.moves);
+    }
+    if (mode === 'grid') drawLabel(28,h-84,220,56,'Square grid','right/down neighbors create unit links','rgba(251,191,36,.45)');
+  }
+  function drawMovePalette(w, h, moves) {
+    const x = w - 104, y = h - 104, r = 54;
+    ctx.save();
+    ctx.fillStyle = 'rgba(5,8,18,.66)'; roundRect(x-r-18, y-r-18, 2*r+36, 2*r+55, 16); ctx.fill();
+    ctx.strokeStyle = 'rgba(192,132,252,.25)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
+    const shown = Math.min(moves, 28);
+    for (let i = 0; i < shown; i++) {
+      const a = 2 * Math.PI * i / shown + 0.22 * Math.sin(i * 1.7 + state.seed);
+      ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x + r * Math.cos(a), y + r * Math.sin(a));
+      ctx.strokeStyle = 'rgba(192,132,252,.58)'; ctx.lineWidth = 1.3; ctx.stroke();
+    }
+    ctx.fillStyle = '#eef4ff'; ctx.font = '800 12px system-ui'; ctx.textAlign = 'center'; ctx.fillText('candidate unit moves', x, y+r+22);
+    ctx.restore();
+  }
+  function roundRect(x,y,w,h,r) { ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+  function drawLabel(x,y,w,h,title,sub,color) {
+    ctx.save(); ctx.fillStyle='rgba(5,8,18,.72)'; roundRect(x,y,w,h,15); ctx.fill(); ctx.strokeStyle=color; ctx.lineWidth=1; ctx.stroke();
+    ctx.fillStyle='#eef4ff'; ctx.font='800 13px system-ui'; ctx.textAlign='center'; ctx.fillText(title,x+w/2,y+23);
+    ctx.fillStyle=C.muted; ctx.font='12px system-ui';
+    String(sub).split('\n').forEach((line, i) => ctx.fillText(line, x+w/2, y+42+i*16));
+    ctx.restore();
+  }
+
+  function drawChart() {
+    const {w,h} = resize(chart, cctx);
+    cctx.clearRect(0,0,w,h); cctx.fillStyle = '#050814'; cctx.fillRect(0,0,w,h);
+    const pad = {l:52,r:20,t:18,b:38}, minLog=1, maxLog=30;
+    const lx = L => pad.l + (L-minLog)/(maxLog-minLog)*(w-pad.l-pad.r);
+    const yMin = -2.2, yMax = 1.6;
+    const ly = logRatio => h-pad.b - (logRatio-yMin)/(yMax-yMin)*(h-pad.t-pad.b);
+    cctx.strokeStyle = 'rgba(255,255,255,.08)'; cctx.lineWidth = 1;
+    for (const L of [1,6,12,18,24,30]) { const x=lx(L); cctx.beginPath(); cctx.moveTo(x,pad.t); cctx.lineTo(x,h-pad.b); cctx.stroke(); }
+    for (const R of [-2,-1,0,1]) { const y=ly(R); cctx.beginPath(); cctx.moveTo(pad.l,y); cctx.lineTo(w-pad.r,y); cctx.stroke(); }
+    const zeroY = ly(0);
+    cctx.strokeStyle = C.grid; cctx.lineWidth = 2.4; cctx.beginPath(); cctx.moveTo(pad.l,zeroY); cctx.lineTo(w-pad.r,zeroY); cctx.stroke();
+    cctx.beginPath();
+    for (let i=0;i<=220;i++) {
+      const L = minLog + i/220*(maxLog-minLog), n = Math.pow(10,L);
+      const lr = Math.log10(ratioToSquareGrid(n,state.delta));
+      const x = lx(L), y = ly(Math.max(yMin, Math.min(yMax, lr)));
+      if (i) cctx.lineTo(x,y); else cctx.moveTo(x,y);
+    }
+    cctx.strokeStyle = C.openai; cctx.lineWidth = 3.2; cctx.stroke();
+    const Lnow = Math.log10(state.n); cctx.strokeStyle='rgba(255,255,255,.42)'; cctx.setLineDash([4,4]); cctx.beginPath(); cctx.moveTo(lx(Lnow),pad.t); cctx.lineTo(lx(Lnow),h-pad.b); cctx.stroke(); cctx.setLineDash([]);
+    const crossL = Math.log10(crossover(state.delta));
+    if (crossL >= minLog && crossL <= maxLog) { cctx.strokeStyle='rgba(192,132,252,.65)'; cctx.setLineDash([2,3]); cctx.beginPath(); cctx.moveTo(lx(crossL),pad.t); cctx.lineTo(lx(crossL),h-pad.b); cctx.stroke(); cctx.setLineDash([]); }
+    cctx.fillStyle=C.muted; cctx.font='11px system-ui'; cctx.textAlign='center';
+    for (const L of [1,6,12,18,24,30]) cctx.fillText('1e'+L, lx(L), h-13);
+    cctx.textAlign='right';
+    cctx.fillText('100×', pad.l-8, ly(2)+4); cctx.fillText('10×', pad.l-8, ly(1)+4); cctx.fillText('tie', pad.l-8, ly(0)+4); cctx.fillText('0.1×', pad.l-8, ly(-1)+4); cctx.fillText('0.01×', pad.l-8, ly(-2)+4);
+    cctx.fillStyle=C.grid; cctx.textAlign='left'; cctx.fillText('Square grid baseline: tie', pad.l+7, zeroY-7);
+    cctx.fillStyle=C.openai; cctx.fillText('OpenAI construction / Square grid', pad.l+7, pad.t+13);
+  }
+
+  function updateTextAndCounts() {
+    const n = state.n, delta = state.delta, grid = squareGridEdges(n), open = openaiScale(n,delta), ratio = open / grid.edges, cross = crossover(delta);
+    $('#nOut').value = fmtLong(n);
+    $('#deltaOut').value = delta.toFixed(3);
+    $('#pointBudgetOut').value = state.pointBudget.toLocaleString();
+    $('#edgeBudgetOut').value = state.edgeBudget.toLocaleString();
+    $('#gridEdges').textContent = fmt(grid.edges);
+    $('#openaiEdges').textContent = '≈ ' + fmt(open);
+    $('#ratio').textContent = ratio < .01 ? ratio.toExponential(1) + '×' : ratio.toFixed(ratio < 10 ? 2 : 1) + '×';
+    $('#ratioSub').textContent = ratio >= 1 ? 'The OpenAI construction scale has crossed the Square grid baseline.' : 'The OpenAI construction scale has not yet caught the Square grid baseline.';
+    $('#takeaway').innerHTML = `<b>At this n:</b> the OpenAI construction scale is ${ratio >= 1 ? 'above' : 'below'} the Square grid at ${ratio < .01 ? ratio.toExponential(1) : ratio.toFixed(ratio < 10 ? 2 : 1)}×. It catches the Square grid around n ≈ ${fmt(cross)} because the fixed extra exponent compounds as n grows.`;
+    $('#curveNote').innerHTML = `This chart plots a ratio, not raw link counts. The horizontal line means “equal to the Square grid.” The OpenAI construction curve crosses it near n≈${fmt(cross)} for δ=${delta.toFixed(3)}. After that, the fixed extra exponent keeps compounding.`;
+  }
+
+  function updateView() {
+    const drawN = Math.min(state.n, state.pointBudget);
+    let model, title, text;
+    if (state.mode === 'grid') {
+      model = makeSquareGridPatch(drawN); title = 'Square grid';
+      text = 'The Square grid is the everyday baseline. Put points in rows and columns. Each interior point links to nearby neighbors at distance 1, giving almost 2n unit links.';
+    } else {
+      model = makeOpenAIToyPatch(drawN); title = 'OpenAI construction';
+      text = 'This is a randomized toy projection, not the coordinates from the proof. It now mirrors the paper’s geometric step: choose a shifted lattice, keep only points inside a rounded high-dimensional window, connect pairs that differ by a candidate unit move, then project one complex coordinate to the plane.';
+    }
+    $('#viewTitle').textContent = title; $('#explainText').textContent = text; drawModel(model, state.mode); drawChart();
+  }
+  function render() { updateTextAndCounts(); updateView(); }
+  $('#nSlider').addEventListener('input', e => { state.logN = +e.target.value; state.n = nFromLog(state.logN); render(); });
+  $('#deltaSlider').addEventListener('input', e => { state.delta = +e.target.value; render(); });
+  $('#pointBudgetSlider').addEventListener('input', e => { state.pointBudget = +e.target.value; render(); });
+  $('#edgeBudgetSlider').addEventListener('input', e => { state.edgeBudget = +e.target.value; render(); });
+  document.querySelectorAll('[data-mode]').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active')); btn.classList.add('active'); state.mode = btn.dataset.mode; updateView(); }));
+  $('#recalcBtn').addEventListener('click', () => { state.seed = (state.seed * 1664525 + 1013904223) >>> 0; state.mode = 'openai'; document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active')); document.querySelector('[data-mode="openai"]').classList.add('active'); updateView(); });
+  window.addEventListener('resize', updateView);
+  render();
+})();
+</script>
+</body>
+</html>

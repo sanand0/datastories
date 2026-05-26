@@ -6,6 +6,10 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Erdos Planar Unit Visualizer](erdos-planar-unit/). Interactive visualizer for the Erdos planar unit distance problem, comparing OpenAI's construction scale with grid-based unit connections as point counts grow.
+  [![](erdos-planar-unit/screenshot.avif)](erdos-planar-unit/)
+- [The Paragraph That Appears 418 Times — Wikipedia's Hidden Skeleton](longest-wikipedia-string/). We compressed all of English Wikipedia — 7.6 million articles — into 35 gigabytes and searched for the longest text that echoes through the most pages. What we found reveals the hidden skeleton of human knowledge.
+  [![](longest-wikipedia-string/screenshot.avif)](longest-wikipedia-string/)
 - [The Three Yeses — How 30 Universities Govern AI](ai-policies/). Every one of thirty universities says students may use AI. None of them mean the same thing — and what none of them say is the story that matters most. Analysis of public AI governance documents across 30 leading universities in 10 countries.
   [![](ai-policies/screenshot.webp)](ai-policies/)
 - [What 765 Students Taught Us About Learning, Hacking, and Everything In Between](tds-2026-01-p1/). Analysis of 765 students, 9,046 saved submissions, and 1,731 evaluated AI images from TDS Jan 2026 Project 1, showing how learning shifts when answers are one search away.
@@ -22,6 +26,10 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
   <video src="decktation/screenshot.webm" autoplay muted loop playsinline preload="metadata"></video>
 - [Codex Session Gap Analysis](codex-session-analysis/). Analysis of 903 Codex sessions from Apr 2025 to Mar 2026, showing feature adoption gaps, release-aware coverage, and workflow recommendations.
 - [SQL Migration Narrative Demo](sql-migration/). An interactive walkthrough of migrating 100 SQL Server scripts to MySQL with LLM-assisted conversion, verification, and business-impact simulation.
+- [Researcher of the Future](researcher-of-the-future/). How 3,200+ researchers across 113 countries view AI, integrity, collaboration, mobility, and impact — from Elsevier's Confidence in Research report.
+  [![](researcher-of-the-future/screenshot.webp)](researcher-of-the-future/)
+- [Retractions Are Happening in Waves](retraction-watch/). We analyzed 68,658 Retraction Watch records to find the biggest patterns, surprising signals, and practical actions. An early-warning publisher dashboard for where trust, reputation, and legal risk can spike.
+  [![](retraction-watch/screenshot.avif)](retraction-watch/)
 - [Can AI Replace Human Paper Reviewers?](ai-agents-for-science/). An investigation into what happens when artificial intelligence reviews scientific papers — and what goes hilariously (and seriously) wrong.
   [![](ai-agents-for-science/screenshot.webp)](ai-agents-for-science/)
 - [The Invisible Infrastructure](package-usage/). How tens of thousands of packages depend on code almost no one has heard of.
@@ -91,7 +99,7 @@ When adding a new story, update config.json, README.md (and setup.sh if required
 codex "Update README.md and config.json with tds-2026-01-p1/ and screenshot" --yolo`
 ```
 
-Assets are stored in a GitHub Release creatd via:
+Assets are stored in a GitHub Release created via:
 
 ```bash
 gh release create main --title "Assets" --notes "Data story assets"
