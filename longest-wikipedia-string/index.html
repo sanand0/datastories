@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Paragraph That Appears 418 Times — Wikipedia's Hidden Skeleton</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23080c18' width='64' height='64' rx='10'/%3E%3Ccircle cx='32' cy='32' r='11' fill='none' stroke='%23f59e0b' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23f59e0b'/%3E%3Cline x1='32' y1='14' x2='32' y2='21' stroke='%23f59e0b' stroke-width='2'/%3E%3Cline x1='32' y1='43' x2='32' y2='50' stroke='%23f59e0b' stroke-width='2'/%3E%3Cline x1='14' y1='32' x2='21' y2='32' stroke='%23f59e0b' stroke-width='2'/%3E%3Cline x1='43' y1='32' x2='50' y2='32' stroke='%23f59e0b' stroke-width='2'/%3E%3C/svg%3E"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+/* ─── VARIABLES ─────────────────────────────────────────────────── */
+:root {
+  --bg:   #07091a;
+  --bg2:  #0c1225;
+  --bg3:  #111e38;
+  --bd:   #1a2e4a;
+  --text: #dce5f4;
+  --muted:#6b7fa0;
+  --amber:#f59e0b;
+  --amberD:#7a5106;
+  --cyan: #22d3ee;
+  --coral:#f43f5e;
+  --emer: #34d399;
+  --blue: #60a5fa;
+  --slate:#475569;
+  --c-template:    #475569;
+  --c-series:      #3b82f6;
+  --c-geographic:  #d97706;
+  --c-thematic:    #10b981;
+  --c-biographical:#f43f5e;
+  --ff-d: 'Space Grotesk', system-ui, sans-serif;
+  --ff-b: 'Lora', Georgia, serif;
+  --ff-m: 'JetBrains Mono', monospace;
+  --pw:   680px;
+  --r:    8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--ff-b);font-size:1.05rem;line-height:1.8;
+  overflow-x:hidden;
+}
+a{color:var(--cyan);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ─── STARS ─────────────────────────────────────────────────────── */
+#stars{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  animation:starsFade 3s 0.5s both;
+}
+@keyframes starsFade{from{opacity:0;}to{opacity:1;}}
+
+/* ─── HERO ───────────────────────────────────────────────────────── */
+.hero{
+  position:relative;z-index:1;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:4rem 1.5rem;
+}
+.hero-kicker{
+  font-family:var(--ff-d);font-size:0.68rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--amber);
+  margin-bottom:1.75rem;opacity:0;animation:up .9s .3s forwards;
+}
+.hero h1{
+  font-family:var(--ff-d);font-size:clamp(2.4rem,6.5vw,5rem);
+  font-weight:700;line-height:1.05;max-width:13ch;
+  margin-bottom:1.5rem;opacity:0;animation:up .9s .6s forwards;
+}
+.hero h1 .gold{color:var(--amber);}
+.hero-sub{
+  font-family:var(--ff-b);font-size:clamp(.95rem,2vw,1.15rem);
+  color:var(--muted);max-width:50ch;line-height:1.65;
+  margin-bottom:3.5rem;opacity:0;animation:up .9s .9s forwards;
+}
+.hero-scroll{
+  font-family:var(--ff-d);font-size:.75rem;letter-spacing:.12em;
+  color:var(--muted);opacity:0;animation:up .9s 1.2s forwards;
+}
+@keyframes up{
+  from{opacity:0;transform:translateY(22px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ─── CONTENT ────────────────────────────────────────────────────── */
+.content{position:relative;z-index:1;}
+
+/* ─── PROSE ──────────────────────────────────────────────────────── */
+.prose{max-width:var(--pw);margin:0 auto;padding:4rem 1.5rem;}
+.prose h2{
+  font-family:var(--ff-d);font-size:clamp(1.45rem,3vw,2.1rem);
+  font-weight:700;line-height:1.2;margin-bottom:1.2rem;
+}
+.prose p{margin-bottom:1.2rem;}
+.prose p:last-child{margin-bottom:0;}
+.prose .drop::first-letter{
+  font-family:var(--ff-d);font-size:4em;font-weight:700;
+  float:left;line-height:.82;margin:.06em .1em 0 0;color:var(--amber);
+}
+.prose strong{color:var(--text);font-weight:600;}
+.prose em{font-style:italic;}
+
+/* ─── PULL QUOTE ─────────────────────────────────────────────────── */
+.pq{
+  max-width:var(--pw);margin:2rem auto;
+  padding:1.5rem 1.5rem 1.5rem 2.5rem;
+  border-left:3px solid var(--amber);
+  font-family:var(--ff-b);font-style:italic;
+  font-size:clamp(1.1rem,2.5vw,1.35rem);
+  color:var(--text);line-height:1.55;
+}
+
+/* ─── STATS BAR ──────────────────────────────────────────────────── */
+.stats{
+  max-width:900px;margin:0 auto;
+  padding:1rem 1.5rem 3rem;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;
+}
+.stat{
+  text-align:center;padding:1.5rem 1rem;
+  background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);
+}
+.stat-n{
+  display:block;font-family:var(--ff-d);font-size:2.2rem;
+  font-weight:700;color:var(--amber);line-height:1;margin-bottom:.4rem;
+}
+.stat-l{
+  font-family:var(--ff-d);font-size:.72rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+}
+
+/* ─── VIZ SECTION ────────────────────────────────────────────────── */
+.viz-intro{max-width:var(--pw);margin:0 auto 2rem;padding:0 1.5rem;}
+.viz-intro h2{
+  font-family:var(--ff-d);font-size:clamp(1.45rem,3vw,2.1rem);
+  font-weight:700;margin-bottom:.75rem;
+}
+.viz-intro p{color:var(--muted);font-size:.95rem;line-height:1.65;}
+#chart{width:100%;min-width:540px;display:block;}
+
+/* ─── LEGEND ─────────────────────────────────────────────────────── */
+.legend{
+  display:flex;flex-wrap:wrap;gap:.75rem 2rem;justify-content:center;
+}
+.leg-item{
+  display:flex;align-items:center;gap:.5rem;
+  font-family:var(--ff-d);font-size:.72rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+}
+.leg-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+
+/* ─── CASES ──────────────────────────────────────────────────────── */
+.cases-intro{max-width:var(--pw);margin:0 auto;padding:4rem 1.5rem 2rem;}
+.cases-intro h2{
+  font-family:var(--ff-d);font-size:clamp(1.45rem,3vw,2.1rem);
+  font-weight:700;margin-bottom:1rem;
+}
+.cases-intro p{color:var(--muted);}
+.cases{
+  max-width:860px;margin:0 auto;
+  padding:0 1.5rem 4rem;display:grid;gap:1.25rem;
+}
+.case-card{
+  background:var(--bg2);border:1px solid var(--bd);
+  border-radius:var(--r);overflow:hidden;
+  transition:border-color .2s;
+}
+.case-card[open],.case-card:hover{border-color:var(--amberD);}
+.case-header{
+  padding:1.4rem 1.5rem;display:flex;
+  align-items:flex-start;gap:1.25rem;
+  cursor:pointer;list-style:none;
+}
+.case-header::-webkit-details-marker{display:none;}
+.case-rank{
+  font-family:var(--ff-d);font-size:.7rem;font-weight:700;
+  color:var(--muted);background:var(--bg3);
+  padding:.25rem .6rem;border-radius:4px;flex-shrink:0;margin-top:.2rem;
+}
+.case-title{
+  font-family:var(--ff-d);font-size:1.05rem;font-weight:600;
+  color:var(--text);line-height:1.3;margin-bottom:.3rem;
+}
+.case-meta{font-family:var(--ff-d);font-size:.75rem;color:var(--muted);}
+.case-meta strong{color:var(--amber);font-weight:700;}
+.case-body{
+  padding:0 1.5rem 1.5rem;
+  border-top:1px solid var(--bd);
+}
+.case-body p{margin:1rem 0;font-size:.95rem;line-height:1.7;color:var(--muted);}
+.case-body p strong{color:var(--text);}
+.case-text{
+  background:var(--bg3);border:1px solid var(--bd);border-radius:4px;
+  padding:1rem 1.25rem;font-family:var(--ff-m);font-size:.77rem;
+  line-height:1.65;color:var(--muted);max-height:200px;overflow-y:auto;
+  margin:1rem 0;
+}
+.case-links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;}
+.case-link{
+  font-family:var(--ff-d);font-size:.72rem;font-weight:600;
+  color:var(--cyan);padding:.2rem .6rem;
+  border:1px solid rgba(34,211,238,.2);border-radius:4px;
+  transition:background .15s;
+}
+.case-link:hover{background:rgba(34,211,238,.1);text-decoration:none;}
+
+/* ─── POPUP ──────────────────────────────────────────────────────── */
+.popup-ov{
+  position:fixed;inset:0;background:rgba(7,9,26,.88);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:1rem;backdrop-filter:blur(6px);
+}
+.popup-panel{
+  background:var(--bg2);border:1px solid var(--bd);border-radius:12px;
+  width:100%;max-width:680px;max-height:88vh;overflow-y:auto;
+  position:relative;padding:2rem;
+  animation:popIn .2s cubic-bezier(.16,1,.3,1);
+}
+@keyframes popIn{
+  from{opacity:0;transform:scale(.95) translateY(8px);}
+  to{opacity:1;transform:none;}
+}
+.popup-close{
+  position:sticky;top:0;float:right;
+  background:var(--bg3);border:1px solid var(--bd);
+  color:var(--muted);font-size:1.1rem;
+  width:30px;height:30px;border-radius:50%;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:color .15s;
+}
+.popup-close:hover{color:var(--text);}
+.popup-rank{
+  font-family:var(--ff-d);font-size:.68rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:.5rem;
+}
+.popup-title{
+  font-family:var(--ff-d);font-size:1.45rem;
+  font-weight:700;margin-bottom:.3rem;
+}
+.popup-topic{
+  font-family:var(--ff-d);font-size:.8rem;
+  color:var(--muted);margin-bottom:1.25rem;
+}
+.popup-stats{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.popup-stat{font-family:var(--ff-d);font-size:.75rem;}
+.popup-stat-n{
+  display:block;font-size:1.4rem;font-weight:700;
+  color:var(--amber);line-height:1;margin-bottom:.2rem;
+}
+.popup-stat-l{
+  color:var(--muted);text-transform:uppercase;
+  letter-spacing:.08em;font-size:.65rem;
+}
+.popup-text{
+  background:var(--bg3);border:1px solid var(--bd);border-radius:6px;
+  padding:1rem 1.25rem;font-family:var(--ff-m);font-size:.78rem;
+  line-height:1.65;color:var(--muted);max-height:220px;
+  overflow-y:auto;margin-bottom:1.5rem;white-space:pre-wrap;
+}
+.popup-ex-title{
+  font-family:var(--ff-d);font-size:.68rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);margin-bottom:.75rem;
+}
+.popup-examples{display:flex;flex-direction:column;gap:.4rem;}
+.popup-ex-link{
+  font-family:var(--ff-d);font-size:.85rem;color:var(--cyan);
+}
+.popup-ex-link:hover{text-decoration:underline;}
+
+/* ─── CHART TOOLTIP ──────────────────────────────────────────────── */
+.tip{
+  position:fixed;background:var(--bg2);border:1px solid var(--bd);
+  border-radius:8px;padding:.7rem 1rem;font-family:var(--ff-d);
+  font-size:.78rem;color:var(--text);pointer-events:none;
+  z-index:100;max-width:220px;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+.tip-title{font-weight:600;color:var(--amber);margin-bottom:.2rem;}
+.tip-stats{color:var(--muted);font-size:.72rem;}
+
+/* ─── FOOTER ─────────────────────────────────────────────────────── */
+footer{
+  max-width:var(--pw);margin:0 auto;
+  padding:3rem 1.5rem;border-top:1px solid var(--bd);
+  font-family:var(--ff-d);font-size:.78rem;color:var(--muted);
+  line-height:1.7;
+}
+footer p+p{margin-top:.75rem;}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────── */
+@media(max-width:640px){
+  .hero h1{font-size:2.2rem;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .pq{font-size:1.1rem;padding-left:1.25rem;}
+  .case-header{flex-direction:column;gap:.75rem;}
+}
+
+/* ─── LIGHT MODE ─────────────────────────────────────────────────── */
+[data-theme="light"]{
+  --bg:   #f0f4fc;
+  --bg2:  #e4eaf8;
+  --bg3:  #d6deef;
+  --bd:   #b8c6e0;
+  --text: #16213e;
+  --muted:#4a5980;
+  --amber:#b36800;
+  --amberD:#ffe0a0;
+  --cyan: #005f8c;
+  --coral:#c51030;
+  --emer: #0a7c52;
+  --blue: #1d5cbf;
+  --slate:#4a5980;
+  --c-template:    #475569;
+  --c-series:      #1d5cbf;
+  --c-geographic:  #9a5200;
+  --c-thematic:    #0a7c52;
+  --c-biographical:#c51030;
+}
+[data-theme="light"] #stars{opacity:0.15;}
+[data-theme="light"] body{background:var(--bg);}
+[data-theme="light"] .popup-ov{background:rgba(220,230,248,.92);}
+
+/* ─── THEME TOGGLE ────────────────────────────────────────────────── */
+.theme-toggle{
+  position:fixed;top:1.1rem;right:1.1rem;z-index:300;
+  background:var(--bg2);border:1px solid var(--bd);
+  color:var(--muted);border-radius:50%;
+  width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:color .2s,background .2s,border-color .2s;
+  font-size:1.05rem;
+}
+.theme-toggle:hover{color:var(--text);border-color:var(--amber);}
+
+/* ─── VIZ SECTION FULL-WIDTH ─────────────────────────────────────── */
+.viz-wrap{
+  padding:3rem 0 3rem;
+  background:var(--bg2);
+  border-top:1px solid var(--bd);
+  border-bottom:1px solid var(--bd);
+  margin:2rem 0;
+}
+#chart-wrap{
+  width:100%;
+  padding:0 1rem;overflow-x:auto;
+}
+.legend{
+  max-width:1200px;margin:1.5rem auto 0;padding:0 1rem;
+}
+</style>
+</head>
+<body>
+
+<!-- Twinkling stars -->
+<canvas id="stars"></canvas>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
+  <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<header class="hero">
+  <div class="hero-kicker">Wikipedia · Data Analysis · May 2026</div>
+  <h1>The Paragraph That<br>Appears <span class="gold">418 Times</span></h1>
+  <p class="hero-sub">We compressed all of English Wikipedia — 7.6 million articles — into 35 gigabytes and searched for the longest text that echoes through the most pages. What we found reveals the hidden skeleton of human knowledge.</p>
+  <div class="hero-scroll">↓ scroll to explore</div>
+</header>
+
+<div class="content">
+
+<!-- ── HOOK ─────────────────────────────────────────────────────── -->
+<section class="prose">
+  <p class="drop">On the fifth of March, 1899, a group of English-speaking students in Zürich arrived at the <a href="https://en.wikipedia.org/wiki/Allmend_Brunau" target="_blank" rel="noopener">Allmend</a> — a military commons they used as a football pitch — and found an official notice pinned to the gate. The military directorate of the canton had banned all play on the training ground until further notice. It was too late to reach anyone. The age of mobile phones was still a century away. <strong>The match against <a href="https://en.wikipedia.org/wiki/FC_Basel" target="_blank" rel="noopener">FC Basel</a> went ahead anyway, with only seven men on the Zürich side.</strong></p>
+
+  <p>Players trickled in as the game progressed. The referee, scheduled for the afternoon, never appeared — no one had told him the kickoff had been brought forward to the morning. The crowd, according to a contemporary account, consisted of "approximately 10 to 20 spectators." By the report's own judgment: <em>under such circumstances, such an important match should not have been played.</em></p>
+
+  <p>The <a href="https://en.wikipedia.org/wiki/Anglo-American_Club_Z%C3%BCrich" target="_blank" rel="noopener">Anglo-American Football Club of Zürich</a> — chemistry students at the Federal Polytechnic School, the institution that would become <a href="https://en.wikipedia.org/wiki/ETH_Z%C3%BCrich" target="_blank" rel="noopener">ETH Zürich</a> — <strong>won 10 to nothing. Their center forward, Robert Collinson, scored eight of those goals himself.</strong> The club went on to win <a href="https://en.wikipedia.org/wiki/1898%E2%80%9399_Swiss_Serie_A" target="_blank" rel="noopener">Switzerland's first-ever official national football championship</a> that season. They had also, six years earlier, been present at the founding of the <a href="https://en.wikipedia.org/wiki/Swiss_Football_Association" target="_blank" rel="noopener">Swiss Football Association</a> itself.</p>
+
+  <p>That story — all 316 words of it — lives in the Wikipedia article for <a href="https://en.wikipedia.org/wiki/Rudolf_Schwarz_(footballer)" target="_blank" rel="noopener">Rudolf Schwarz</a>. And in the article for <a href="https://en.wikipedia.org/wiki/Ernst_Gass" target="_blank" rel="noopener">Ernst Gass</a>. And <a href="https://en.wikipedia.org/wiki/Hans_Billeter" target="_blank" rel="noopener">Hans Billeter</a>, and <a href="https://en.wikipedia.org/wiki/Georges_F%C3%BCrstenberger" target="_blank" rel="noopener">Georges Fürstenberger</a>, and R. Sommer, and Ernst-Alfred Thalmann, and Adolf Rittmann, and <a href="https://en.wikipedia.org/wiki/Emanuel_Schiess" target="_blank" rel="noopener">Emanuel Schiess</a>. <strong>Eleven different players, eleven different Wikipedia pages, one word-for-word identical account of a single winter afternoon 127 years ago.</strong></p>
+</section>
+
+<blockquote class="pq">"Eleven articles sharing 316 words about a match played before a crowd of 10 to 20 spectators."</blockquote>
+
+<section class="prose">
+  <p>This seemed extraordinary — until we found the paragraph that appears not eleven times, but <strong>418</strong>.</p>
+
+  <p>Every time a new range of asteroids gets officially named, a Wikipedia editor creates an article. The article might be called "<a href="https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_269001%E2%80%93270000" target="_blank" rel="noopener">Meanings of minor-planet names: 269001–270000</a>" or "<a href="https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_380001%E2%80%93381000" target="_blank" rel="noopener">Meanings of minor-planet names: 380001–381000</a>." <strong>There are 418 such pages</strong>, tracking the names of numbered asteroids from the tens of thousands up past 380,000. And at the top of every single one sits the same 213-word paragraph. It explains how the <a href="https://en.wikipedia.org/wiki/Minor_Planet_Center" target="_blank" rel="noopener">International Astronomical Union's Minor Planet Center</a> assigns permanent numbers to space rocks. It cites the <a href="https://en.wikipedia.org/wiki/JPL_Small-Body_Database" target="_blank" rel="noopener">JPL Small-Body Database</a> and the <a href="https://en.wikipedia.org/wiki/IAU_Working_Group_for_Small_Bodies_Nomenclature" target="_blank" rel="noopener">IAU Working Group for Small Bodies Nomenclature</a>. It mentions a German astronomer named <a href="https://en.wikipedia.org/wiki/Lutz_D._Schmadel" target="_blank" rel="noopener">Lutz D. Schmadel</a> — born 1942 in Berlin, died October 21, 2016, Heidelberg — who spent his career at the <a href="https://en.wikipedia.org/wiki/Astronomisches_Rechen-Institut" target="_blank" rel="noopener">Astronomisches Rechen-Institut</a> compiling every naming citation into his <a href="https://en.wikipedia.org/wiki/Dictionary_of_Minor_Planet_Names" target="_blank" rel="noopener"><em>Dictionary of Minor Planet Names</em></a>, edition after edition, until the end of his life.</p>
+
+  <p><strong>The same 213 words. In 418 separate articles.</strong> This is what the data turns up when you ask: <em>what is the longest passage in all of English Wikipedia that appears in the most articles?</em></p>
+</section>
+
+<!-- ── THE DATASET ─────────────────────────────────────────────── -->
+<section class="prose">
+  <h2>A 35-Gigabyte Mirror of Everything</h2>
+
+  <p>The Wikimedia Foundation publishes all of English Wikipedia as structured data on <a href="https://huggingface.co/datasets/wikimedia/structured-wikipedia" target="_blank" rel="noopener">Hugging Face</a> — 86 Parquet files, a columnar format built for large-scale queries. <strong>Downloaded, they occupy 34.61 gigabytes. Inside: 7.6 million rows</strong>, one per article, with structured fields for the abstract, sections, references, infoboxes, tables, and editor metadata.</p>
+
+  <p>The sections field — a JSON blob containing the full article body — is where the text lives. <strong>The median article runs about 5,000 characters.</strong> The shortest are stubs of three characters; the longest, a <a href="https://en.wikipedia.org/wiki/List_of_government_schools_in_New_South_Wales_(A%E2%80%93F)" target="_blank" rel="noopener">list of government schools in New South Wales</a>, approaches a million. Seventeen percent of the most recent edits were made by bots.</p>
+
+  <p>To find what echoes most, we extracted <strong>190 million text fragments</strong> — every paragraph-length and sentence-length piece of text — and hashed each one. For each hash, we counted how many distinct articles it appeared in. Then we ranked by a score combining length and frequency: <em>words × log₂(articles + 1)</em>. Long text in many articles scores highest. Short text even in thousands of articles scores less. The top 30 results are what you see below.</p>
+</section>
+
+<!-- ── STATS BAR ────────────────────────────────────────────────── -->
+<div class="stats">
+  <div class="stat"><span class="stat-n">7.6M</span><span class="stat-l">Articles</span></div>
+  <div class="stat"><span class="stat-n">35 GB</span><span class="stat-l">Compressed</span></div>
+  <div class="stat"><span class="stat-n">190M</span><span class="stat-l">Fragments scanned</span></div>
+  <div class="stat"><span class="stat-n">418×</span><span class="stat-l">Most repeated passage</span></div>
+</div>
+
+<!-- ── VIZ ────────────────────────────────────────────────────────── -->
+<div class="viz-wrap">
+  <div class="viz-intro">
+    <h2>The Diversity Spectrum</h2>
+    <p>The 30 most-repeated long passages range from pure boilerplate — an 81-word census note copied into 2,920 Slovak village stubs — to something stranger: 316 words about an 1899 football match, shared across eleven individual player articles. Each circle is one passage. Horizontal position shows article diversity (how different the carrier articles are from each other). Vertical position is the interestingness score. Circle size scales with article count. <strong style="color:var(--text)">Click any circle</strong> to read the passage.</p>
+  </div>
+  <div id="chart-wrap"><svg id="chart"></svg></div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-template)"></div>Template — identical stubs</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-series)"></div>Series — numbered or alphabetical lists</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-geographic)"></div>Geographic — places in a shared region</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-thematic)"></div>Thematic — different subjects, shared science</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-biographical)"></div>Biographical — different individuals</div>
+  </div>
+</div>
+
+<!-- ── CASE STUDIES ───────────────────────────────────────────────── -->
+<div class="cases-intro">
+  <h2>Five Stories Inside the Data</h2>
+  <p>Most of what the analysis surfaces is expected: Wikipedia has hundreds of nearly-identical pages about Spanish Senate constituencies, Ohio townships, and NFL playoff seasons, and they share boilerplate explanations of their respective systems. The interesting exceptions are the passages that shouldn't repeat — that appear in contexts so different you'd never predict they'd share a sentence.</p>
+</div>
+
+<div class="cases">
+
+  <!-- 1. Minor planets -->
+  <details class="case-card" open>
+    <summary class="case-header">
+      <span class="case-rank">#1 by score</span>
+      <div>
+        <div class="case-title">The Asteroid Preamble</div>
+        <div class="case-meta"><strong>418 articles</strong> · 213 words · Score 1,855 · Series tier</div>
+      </div>
+    </summary>
+    <div class="case-body">
+      <p>The highest-scoring repeated passage is also the most predictable: the standard introductory paragraph for every "Meanings of minor-planet names" article. Wikipedia has 418 such pages, one for each thousand-asteroid range from the low thousands to past 380,000. Every one opens with the same 213-word explanation of how the International Astronomical Union assigns permanent numbers, how discoverers can then propose names, and how Lutz D. Schmadel compiled all the naming citations into his dictionary at the University of Heidelberg's Astronomisches Rechen-Institut until his death in October 2016.</p>
+      <p>The paragraph is doing necessary work: it contextualizes what these articles are. But its 418-way repetition also points to the scale of solar system cataloguing. The <a href="https://www.minorplanetcenter.net/" target="_blank" rel="noopener">Minor Planet Center</a> has now confirmed more than 600,000 numbered objects. The naming articles cover only a fraction — but already generate 418 near-identical introductions, and the count grows with every new discovery batch.</p>
+      <div class="case-text">As minor planet discoveries are confirmed, they are given a permanent number by the IAU's Minor Planet Center (MPC), and the discoverers can then submit names for them, following the IAU's naming conventions. The list below concerns those minor planets in the specified number-range that have received names, and explains the meanings of those names. Official naming citations of newly named small Solar System bodies are approved and published in a bulletin by IAU's Working Group for Small Bodies Nomenclature (WGSBN). Before May 2021, citations were published in MPC's Minor Planet Circulars for many decades. Recent citations can also be found on the JPL Small-Body Database (SBDB). Until his death in 2016, German astronomer Lutz D. Schmadel compiled these citations into the Dictionary of Minor Planet Names (DMP) and regularly updated the collection. Based on Paul Herget's The Names of the Minor Planets, Schmadel also researched the unclear origin of numerous asteroids, most of which had been named prior to World War II.</div>
+      <div class="case-links">
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_213001%E2%80%93214000" target="_blank">213001–214000</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_269001%E2%80%93270000" target="_blank">269001–270000</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_380001%E2%80%93381000" target="_blank">380001–381000</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_85001%E2%80%9386000" target="_blank">85001–86000</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- 12. The Zurich game -->
+  <details class="case-card" open>
+    <summary class="case-header">
+      <span class="case-rank">#12 · most diverse</span>
+      <div>
+        <div class="case-title">The Zurich Game</div>
+        <div class="case-meta"><strong>11 articles</strong> · 316 words · Score 1,133 · <strong style="color:var(--c-biographical)">Biographical tier</strong></div>
+      </div>
+    </summary>
+    <div class="case-body">
+      <p>The most surprising repeated passage is also one of the longest: a 316-word account of the <a href="https://en.wikipedia.org/wiki/Anglo-American_Club_Z%C3%BCrich" target="_blank" rel="noopener">Anglo-American Football Club</a>'s 1898–99 season — banned practice ground, missing referee, seven-man start, and the 10–0 rout that announced Switzerland's future champions to anyone who cared to watch. The club, formed by chemistry students at the Federal Polytechnic School, had attended the founding meeting of the <a href="https://en.wikipedia.org/wiki/1898%E2%80%9399_Swiss_Serie_A" target="_blank" rel="noopener">Swiss Football Association</a> in 1895 and won its first national title in 1899.</p>
+      <p>This passage doesn't appear in an article about the club. It appears in the Wikipedia pages for eleven individual players connected to that season — their articles otherwise distinct in career paths, biographical detail, and club affiliation. They share, word for word, this one episode of collective memory: a match played before 10 to 20 spectators that became the founding myth of Swiss football.</p>
+      <p>What makes this the most interesting entry isn't its score (modest, at 1,133) but its position on the diversity axis — the furthest right point on the chart. Eleven separate biographical subjects sharing a single narrative passage. It's the closest Wikipedia comes to a campfire story.</p>
+      <div class="case-text">A curiosity in their 1898–99 season was the friendly game in Zürich on 5 March 1899. The majority of them English students, had formed a club and the members of the Anglo-American Club even attended the founder meeting of the Swiss Football Association (ASF-SFV) in April 1895. They had found a place to play their games, although the Zurich commons was by no means ideal. It was often that the players found the grounds very sludgy or with freshly raised molehills. But at least, it was a homestead that was soon called "Anglo-Platz". Suddenly the announcement: "By decree of the military directorate of the canton of Zurich it is forbidden until further notice to play on the military training area Allmend". The following could be read about the game against FC Basel which was brought forward from the afternoon to the morning: "As a result, the Anglos, who were only partially able to notify their people, started the game with only seven men. The appointed referee was not there because he been scheduled for the afternoon. The crowd consisted of approximately 10 to 20 spectators. Under such circumstances, such an important match should not have been played." Despite all the obstacles: The game became a demonstration of the superiority of the British players from Zurich. The Anglo American Football Club won the match 10–0, with their center forward Robert Collinson alone scoring 8 goals. By then, at the latest, it was clear that the Anglos would be unstoppable on their way to the title.</div>
+      <div class="case-links">
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Rudolf_Schwarz_(footballer)" target="_blank">Rudolf Schwarz</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Ernst_Gass" target="_blank">Ernst Gass</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Hans_Billeter" target="_blank">Hans Billeter</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Georges_F%C3%BCrstenberger" target="_blank">Georges Fürstenberger</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Emanuel_Schiess" target="_blank">Emanuel Schiess</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Adolf_Rittmann" target="_blank">Adolf Rittmann</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- 25. Slovak villages -->
+  <details class="case-card" open>
+    <summary class="case-header">
+      <span class="case-rank">#25 · widest reach</span>
+      <div>
+        <div class="case-title">The Slovak Census Note</div>
+        <div class="case-meta"><strong>2,920 articles</strong> · 81 words · Score 933 · <strong style="color:var(--c-template)">Template tier</strong></div>
+      </div>
+    </summary>
+    <div class="case-body">
+      <p>The passage with the single largest article count is not the most interesting text we found. It is a methodological footnote: an 81-word note explaining why the population figure at the top of a Slovak municipality article may differ from the census figure in the table below. The reason: a student may be officially registered in their home village but spend most of their time studying in the city.</p>
+      <p>This note appears in 2,920 Wikipedia articles about Slovak villages and municipalities — roughly one for every settlement in the country. The entire Slovak municipal presence on Wikipedia is connected by a single paragraph about the limitations of permanent residence data. It is, in a way, the purest expression of the phenomenon: a sentence of bureaucratic clarification, copied faithfully across thousands of nearly identical stubs, doing invisible consistency work at national scale.</p>
+      <div class="case-text">Note on population: The difference between the population numbers above and in the census (here and below) is that the population numbers above are mostly made up of permanent residents, etc.; and the census should indicate the place where people actually mainly live. For example, a student is a citizen of a village because they have permanent residence there (they lived there as a child and has parents), but most of the time he studies at a university in the city.</div>
+      <div class="case-links">
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Sabinov_District" target="_blank">Sabinov District</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Smolenice" target="_blank">Smolenice</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Ilija,_Slovakia" target="_blank">Ilija</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Balo%C5%88" target="_blank">Baloň</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- 2. Proteasome -->
+  <details class="case-card" open>
+    <summary class="case-header">
+      <span class="case-rank">#2 · high score + high diversity</span>
+      <div>
+        <div class="case-title">The Proteasome Shadow</div>
+        <div class="case-meta"><strong>26 articles</strong> · 307 words · Score 1,460 · <strong style="color:var(--c-thematic)">Thematic tier</strong></div>
+      </div>
+    </summary>
+    <div class="case-body">
+      <p>The second-highest-scoring passage is the most surprising outlier in the chart: a 307-word explanation of the ubiquitin-proteasome system (UPS) — the cellular mechanism that disposes of damaged or misfolded proteins — appearing across 26 different gene articles. PSMA3, PSMB1, PSMA5, PSMD12, PSMB3, PSMC1: each is a different molecular component of the proteasome, with different functions and different disease associations. Their Wikipedia articles are genuinely distinct. But they all share nearly 2,250 characters explaining UPS's role in cancer, neurodegeneration, Alzheimer's, Parkinson's, ALS, Huntington's disease, and inflammatory response.</p>
+      <p>This is science boilerplate at its most pervasive, and also its most understandable. Every writer who touches a proteasome subunit article reaches for this paragraph because it efficiently establishes why the UPS matters. The problem: a factual update to any of those 307 words now needs to be made 26 times, in 26 separate places, or quietly diverges across articles until no one is sure which version is current.</p>
+      <div class="case-text">Several experimental and clinical studies have indicated that aberrations and deregulations of the UPS contribute to the pathogenesis of several neurodegenerative and myodegenerative disorders, including Alzheimer's disease, Parkinson's disease and Pick's disease, Amyotrophic lateral sclerosis (ALS), Huntington's disease, Creutzfeldt–Jakob disease, and motor neuron diseases, polyglutamine (PolyQ) diseases, Muscular dystrophies and several rare forms of neurodegenerative diseases associated with dementia. As part of the ubiquitin–proteasome system (UPS), the proteasome maintains cardiac protein homeostasis and thus plays a significant role in cardiac ischemic injury, ventricular hypertrophy and heart failure. Additionally, evidence is accumulating that the UPS plays an essential role in malignant transformation...</div>
+      <div class="case-links">
+        <a class="case-link" href="https://en.wikipedia.org/wiki/PSMA3" target="_blank">PSMA3</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/PSMB1" target="_blank">PSMB1</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/PSMA5" target="_blank">PSMA5</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/PSMD12" target="_blank">PSMD12</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/PSMB5" target="_blank">PSMB5</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- 23. Andor -->
+  <details class="case-card" open>
+    <summary class="case-header">
+      <span class="case-rank">#23</span>
+      <div>
+        <div class="case-title">The Andor Backstory</div>
+        <div class="case-meta"><strong>10 articles</strong> · 281 words · Score 972 · Thematic tier</div>
+      </div>
+    </summary>
+    <div class="case-body">
+      <p>The repetition problem is not confined to academic or governmental content. A 281-word history of how the Disney+ series <em>Andor</em> came to be — from Bob Iger's February 2018 announcement through Tony Gilroy replacing Stephen Schiff as showrunner, to the COVID-19 delay that forced Gilroy to manage production remotely from New York — appears in ten separate Wikipedia articles, one per episode of the show's first season.</p>
+      <p>Each episode article covers a different story, a different setting, a different moment in the narrative. But all ten share the identical origin paragraph in their "Background" sections. It's a reminder that Wikipedia's serialized episode-page structure naturally generates this pattern: the same contextual paragraph, pasted before each new chapter of any long-running work.</p>
+      <div class="case-text">Disney CEO Bob Iger announced in February 2018 that there were several Star Wars series in development, and that November one was revealed as a prequel to the film Rogue One (2016). The series was described as a spy thriller show focused on the character Cassian Andor, with Diego Luna reprising his role from the film. Jared Bush originally developed the series, writing a pilot script and series bible for the project. By the end of November, Stephen Schiff was serving as showrunner and executive producer of the series. Tony Gilroy, who was credited as a co-writer on Rogue One and oversaw extensive reshoots for the film, joined the series by early 2019 when he discussed the first story details with Luna...</div>
+      <div class="case-links">
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Narkina_5" target="_blank">Narkina 5</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/Reckoning_(Andor)" target="_blank">Reckoning</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/The_Eye_(Andor)" target="_blank">The Eye</a>
+        <a class="case-link" href="https://en.wikipedia.org/wiki/One_Way_Out_(Andor)" target="_blank">One Way Out</a>
+      </div>
+    </div>
+  </details>
+
+</div>
+
+<!-- ── CONCLUSION ──────────────────────────────────────────────── -->
+<section class="prose">
+  <h2>The Residue of Knowledge</h2>
+
+  <p>Think of Wikipedia as a coral reef. From above, it looks like 7.6 million individual organisms — each article its own shape and color, its own story. <strong>But underneath, they share a skeleton.</strong> The repeated passages we found are that skeleton: paragraphs doing the connective work that keeps the encyclopedia coherent, establishing context every time a new article touches a common system.</p>
+
+  <p>Most of that skeleton is dull infrastructure. The same note about <a href="https://en.wikipedia.org/wiki/Slovakia" target="_blank" rel="noopener">Slovak</a> census methodology in 2,920 village pages. The same township governance paragraph in 1,197 <a href="https://en.wikipedia.org/wiki/Ohio" target="_blank" rel="noopener">Ohio</a> articles. The same explanation of the <a href="https://en.wikipedia.org/wiki/D%27Hondt_method" target="_blank" rel="noopener">D'Hondt method</a> in 110 Spanish constituency articles. The same <a href="https://en.wikipedia.org/wiki/Judiciary_Act_of_1789" target="_blank" rel="noopener">Judiciary Act of 1789</a> text in 309 Supreme Court case lists. <strong>This is how encyclopedias work — and how they must work, to be consistent at scale.</strong></p>
+
+  <p>But some of it is more interesting. <strong>The hill fort passage, shared across 33 different ancient British earthworks</strong> — each a different place, each containing archaeologist <a href="https://en.wikipedia.org/wiki/Barry_Cunliffe" target="_blank" rel="noopener">Barry Cunliffe</a>'s argument about iron-age social stress and shifting trade routes. The superheavy element passage, explaining the <a href="https://en.wikipedia.org/wiki/Island_of_stability" target="_blank" rel="noopener">island of stability</a> theory, appearing in 25 element articles from <a href="https://en.wikipedia.org/wiki/Nihonium" target="_blank" rel="noopener">Nihonium</a> to <a href="https://en.wikipedia.org/wiki/Lawrencium" target="_blank" rel="noopener">Lawrencium</a>. And the 1898–99 football story, living in eleven separate biographical pages — <strong>the most diverse set of carrier articles in the entire top 30.</strong></p>
+
+  <p>These aren't just boilerplate. They're moments where editors writing about genuinely different things reached for the same explanation, because it was the right one. <strong>The same 224 words about why <a href="https://en.wikipedia.org/wiki/Hill_fort" target="_blank" rel="noopener">hill forts</a> were built fits every hill fort article because that's the state of the archaeological evidence.</strong> It belongs to all of them equally — and to none of them exclusively.</p>
+</section>
+
+<blockquote class="pq">"Strip away every repeated passage and what remains is the genuinely unique part of Wikipedia — the residue that no other article touches."</blockquote>
+
+<section class="prose">
+  <p>What would Wikipedia look like if you subtracted all duplicated text? You'd lose the minor planet preamble from 418 articles. The census note from 2,920 Slovak pages. The <a href="https://en.wikipedia.org/wiki/Andor_(TV_series)" target="_blank" rel="noopener">Andor</a> origin story from ten episode articles. The <a href="https://en.wikipedia.org/wiki/Ubiquitin%E2%80%93proteasome_system" target="_blank" rel="noopener">proteasome</a> paragraph from 26 gene pages. <strong>You'd be left with the actual unique contribution each article makes — the part written for exactly one context and no other.</strong></p>
+
+  <p><strong>That residue — the non-repeated fraction — might be the most accurate measure of how much Wikipedia actually knows.</strong> Not 82 billion characters. Something considerably smaller, and considerably more specific.</p>
+
+  <p>As for the football match: a group of chemistry students played in Zürich in the winter of 1899, before an audience of perhaps twenty people, under circumstances that argued against the game being played at all. They won anyway. <strong>A century and a quarter later, their story appears — word for word — in eleven separate corners of the largest reference work humanity has ever produced.</strong> The Allmend may have been frozen. The crowd may have been sparse. But that afternoon, it turns out, was not going to stay small.</p>
+</section>
+
+<footer>
+  <p><strong>Data source:</strong> <a href="https://huggingface.co/datasets/wikimedia/structured-wikipedia" target="_blank">wikimedia/structured-wikipedia</a> on Hugging Face (CC-BY-SA-4.0). English Wikipedia snapshot, 86 Parquet shards, 7,597,149 rows, 34.61 GiB compressed.</p>
+  <p><strong>Method:</strong> 190,503,959 text fragments extracted from abstract and section values; filtered to ≥10 words, ≥70 characters, ≥10 distinct articles; ranked by <em>words × log₂(articles + 1)</em>. Two-pass hash aggregation with DuckDB. Diversity scores (0–10) are qualitative assessments of how different the carrier articles are from each other.</p>
+  <p><strong>References:</strong> <a href="https://www.minorplanetcenter.net/" target="_blank">IAU Minor Planet Center</a> · <a href="https://www.wgsbn-iau.org/" target="_blank">WGSBN</a> · <a href="https://en.wikipedia.org/wiki/Lutz_D._Schmadel" target="_blank">Lutz D. Schmadel (Wikipedia)</a> · <a href="https://en.wikipedia.org/wiki/Anglo-American_Club_Z%C3%BCrich" target="_blank">Anglo-American Club Zürich (Wikipedia)</a> · <a href="https://en.wikipedia.org/wiki/1898%E2%80%9399_Swiss_Serie_A" target="_blank">1898–99 Swiss Serie A</a></p>
+  <p>Analysis by S. Anand · May 2026</p>
+</footer>
+
+</div><!-- /.content -->
+
+<!-- ─── POPUP ─────────────────────────────────────────────────────── -->
+<div id="popup" class="popup-ov" style="display:none" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+  <div class="popup-panel" tabindex="-1">
+    <button class="popup-close" id="popup-close" aria-label="Close">×</button>
+    <div id="popup-body"></div>
+  </div>
+</div>
+
+<!-- ─── TOOLTIP ──────────────────────────────────────────────────── -->
+<div class="tip" id="tip" style="display:none">
+  <div class="tip-title" id="tip-title"></div>
+  <div class="tip-stats" id="tip-stats"></div>
+</div>
+
+<!-- ─── SCRIPTS ──────────────────────────────────────────────────── -->
+<script>
+/* ── STARS ─────────────────────────────────────────────────────── */
+(function(){
+  const c=document.getElementById('stars'),ctx=c.getContext('2d');
+  let pts=[];
+  function resize(){c.width=innerWidth;c.height=innerHeight;}
+  function init(){
+    resize();
+    pts=Array.from({length:220},()=>({
+      x:Math.random()*c.width, y:Math.random()*c.height,
+      r:Math.random()*1.3+.15,
+      speed:Math.random()*.004+.001,
+      phase:Math.random()*Math.PI*2
+    }));
+  }
+  function draw(t){
+    ctx.clearRect(0,0,c.width,c.height);
+    pts.forEach(p=>{
+      const a=.25+.55*(Math.sin(t*p.speed+p.phase)*.5+.5);
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(190,210,255,${a})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',()=>{resize();});
+  init();requestAnimationFrame(draw);
+})();
+
+/* ── DATA ──────────────────────────────────────────────────────── */
+const TIERS={
+  template:    {label:'Template',    color:'#475569'},
+  series:      {label:'Series',      color:'#3b82f6'},
+  geographic:  {label:'Geographic',  color:'#d97706'},
+  thematic:    {label:'Thematic',    color:'#10b981'},
+  biographical:{label:'Biographical',color:'#f43f5e'}
+};
+
+const DATA=[
+ {rank:1,  articles:418,  words:213, score:1855.4, div:1.5, tier:'series',       label:'The Asteroid Preamble',          topic:'Minor Planet Names',
+  text:`As minor planet discoveries are confirmed, they are given a permanent number by the IAU's Minor Planet Center (MPC), and the discoverers can then submit names for them, following the IAU's naming conventions. The list below concerns those minor planets in the specified number-range that have received names, and explains the meanings of those names. Official naming citations of newly named small Solar System bodies are approved and published in a bulletin by IAU's Working Group for Small Bodies Nomenclature (WGSBN). Before May 2021, citations were published in MPC's Minor Planet Circulars for many decades. Recent citations can also be found on the JPL Small-Body Database (SBDB). Until his death in 2016, German astronomer Lutz D. Schmadel compiled these citations into the Dictionary of Minor Planet Names (DMP) and regularly updated the collection. Based on Paul Herget's The Names of the Minor Planets, Schmadel also researched the unclear origin of numerous asteroids, most of which had been named prior to World War II. This article incorporates text from this source, which is in the public domain: SBDB New namings may only be added to this list below after official publication as the preannouncement of names is condemned. The WGSBN publishes a comprehensive guideline for the naming rules of non-cometary small Solar System bodies`,
+  ex:[{t:'Meanings: 213001–214000',u:'https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_213001%E2%80%93214000'},{t:'Meanings: 269001–270000',u:'https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_269001%E2%80%93270000'},{t:'Meanings: 380001–381000',u:'https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_380001%E2%80%93381000'},{t:'Meanings: 85001–86000',u:'https://en.wikipedia.org/wiki/Meanings_of_minor-planet_names:_85001%E2%80%9386000'}]},
+ {rank:2,  articles:26,   words:307, score:1459.8, div:7.0, tier:'thematic',     label:'The Proteasome Shadow',          topic:'Proteasome Biology (UPS)',
+  text:`Several experimental and clinical studies have indicated that aberrations and deregulations of the UPS contribute to the pathogenesis of several neurodegenerative and myodegenerative disorders, including Alzheimer's disease, Parkinson's disease and Pick's disease, Amyotrophic lateral sclerosis (ALS), Huntington's disease, Creutzfeldt-Jakob disease, and motor neuron diseases, polyglutamine (PolyQ) diseases, Muscular dystrophies and several rare forms of neurodegenerative diseases associated with dementia. As part of the ubiquitin-proteasome system (UPS), the proteasome maintains cardiac protein homeostasis and thus plays a significant role in cardiac ischemic injury, ventricular hypertrophy and heart failure. Additionally, evidence is accumulating that the UPS plays an essential role in malignant transformation. UPS proteolysis plays a major role in responses of cancer cells to stimulatory signals that are critical for the development of cancer. Accordingly, gene expression by degradation of transcription factors, such as p53, c-jun, c-Fos, NF-kB, c-Myc, HIF-1a, MATa2, STAT3, sterol-regulated element-binding proteins and androgen receptors are all controlled by the UPS and thus involved in the development of various malignancies.`,
+  ex:[{t:'PSMA3',u:'https://en.wikipedia.org/wiki/PSMA3'},{t:'PSMB1',u:'https://en.wikipedia.org/wiki/PSMB1'},{t:'PSMA5',u:'https://en.wikipedia.org/wiki/PSMA5'},{t:'PSMB5',u:'https://en.wikipedia.org/wiki/PSMB5'},{t:'PSMD12',u:'https://en.wikipedia.org/wiki/PSMD12'}]},
+ {rank:3,  articles:58,   words:235, score:1382.4, div:2.5, tier:'series',       label:'Spanish Senate Constituencies',  topic:'Spanish Electoral System',
+  text:`Voting is on the basis of universal suffrage, which comprises all nationals over 18 years of age and in full enjoyment of their political rights. The only exception was in 1977, when this was limited to nationals over 21 years of age and in full enjoyment of their political and civil rights. Amendments to the electoral law in 2011 required for Spaniards abroad to apply for voting before being permitted to vote, a system known as "begged" or expat vote (Spanish: Voto rogado), which was abolished in 2022. 208 seats are elected using an open list partial block voting system, with electors voting for individual candidates instead of parties.`,
+  ex:[{t:'Biscay (Senate constituency)',u:'https://en.wikipedia.org/wiki/Biscay_(Senate_constituency)'},{t:'Jaén (Senate constituency)',u:'https://en.wikipedia.org/wiki/Ja%C3%A9n_(Senate_constituency)'},{t:'Gran Canaria (Senate constituency)',u:'https://en.wikipedia.org/wiki/Gran_Canaria_(Senate_constituency)'}]},
+ {rank:4,  articles:66,   words:222, score:1346.7, div:2.0, tier:'series',       label:'Kolkata Municipal History',      topic:'Kolkata Municipal Corporation Wards',
+  text:`Attempts were made to establish a municipal corporation at Kolkata from the middle of the 19th century. The electoral system was introduced for the first time in 1847, and 4 of the 7 board members were elected by the rate payers. In 1852 the board was replaced by a new one and in 1863 a new body was formed. As per old records, in 1872 there were 25 wards in Kolkata (spellings as in use at that time) - 1. Shyampukur, 2. Kumartuli, 3. Bartala, 4. Sukea Street, 5. Jorabagan, 6. Jorasanko, 7. Barabazar, 8. Kolutola, 9. Muchipara, 10. Boubazar, 11. Padmapukur, 12. Waterloo Street, 13. Fenwick Bazar, 14. Taltala, 15. Kalinga, 16. Park Street, 17. Victoria Terrace, 18. Hastings, 19. Entali, 20. Beniapukur, 21. Baliganj-Tollyganj, 22. Bhabanipur, 23. Alipur, 24.Ekbalpur and 25. Watganj.`,
+  ex:[{t:'Ward No. 54',u:'https://en.wikipedia.org/wiki/Ward_No._54,_Kolkata_Municipal_Corporation'},{t:'Ward No. 43',u:'https://en.wikipedia.org/wiki/Ward_No._43,_Kolkata_Municipal_Corporation'},{t:'Ward No. 91',u:'https://en.wikipedia.org/wiki/Ward_No._91,_Kolkata_Municipal_Corporation'}]},
+ {rank:5,  articles:34,   words:253, score:1297.7, div:2.5, tier:'series',       label:"Knight's Cross History",         topic:"Iron Cross Recipients",
+  text:`The Knight's Cross of the Iron Cross and its higher grades were based on four separate enactments. The first enactment, Reichsgesetzblatt I S. 1573 of 1 September 1939 instituted the Iron Cross (Eisernes Kreuz), the Knight's Cross of the Iron Cross and the Grand Cross of the Iron Cross. Article 2 of the enactment mandated that the award of a higher class be preceded by the award of all preceding classes. As the war progressed, some of the recipients of the Knight's Cross distinguished themselves further and a higher grade, the Knight's Cross of the Iron Cross with Oak Leaves, was instituted.`,
+  ex:[{t:"Recipients (V)",u:"https://en.wikipedia.org/wiki/List_of_Knight%27s_Cross_of_the_Iron_Cross_recipients_(V)"},{t:"Recipients (E)",u:"https://en.wikipedia.org/wiki/List_of_Knight%27s_Cross_of_the_Iron_Cross_recipients_(E)"},{t:"Recipients (X–Z)",u:"https://en.wikipedia.org/wiki/List_of_Knight%27s_Cross_of_the_Iron_Cross_recipients_(X%E2%80%93Z)"}]},
+ {rank:6,  articles:23,   words:280, score:1283.8, div:3.5, tier:'series',       label:'WWI Tunnelling Companies',       topic:'World War I Mining Operations',
+  text:`Norton-Griffiths ensured that tunnelling companies numbers 170 to 177 were ready for deployment in mid-February 1915. In the spring of that year, there was constant underground fighting in the Ypres Salient at Hooge, Hill 60, Railway Wood, Sanctuary Wood, St Eloi and The Bluff which required the deployment of new drafts of tunnellers for several months after the formation of the first eight companies. The lack of suitably experienced men led to some tunnelling companies starting work later than others.`,
+  ex:[{t:'184th Tunnelling Company',u:'https://en.wikipedia.org/wiki/184th_Tunnelling_Company'},{t:'179th Tunnelling Company',u:'https://en.wikipedia.org/wiki/179th_Tunnelling_Company'},{t:'252nd Tunnelling Company',u:'https://en.wikipedia.org/wiki/252nd_Tunnelling_Company'}]},
+ {rank:7,  articles:28,   words:259, score:1258.2, div:3.0, tier:'series',       label:"Legion of Honour System",        topic:"Légion d'honneur Recipients",
+  text:`The French government gives out the Legion of Honour awards, to both French and foreign nationals, based on a recipient's exemplary services rendered to France, or to the causes supported by France. This award is divided into five distinct categories, i.e. three ranks: Knight, Officer, Commander, and two titles: Grand Officer and Grand Cross. Knight is the most common and is awarded for either at least 20 years of public service or acts of military or civil bravery. The rest of the categories have a quota for the number of years of service in the category below before they can be awarded.`,
+  ex:[{t:"Recipients (F)",u:"https://en.wikipedia.org/wiki/List_of_L%C3%A9gion_d%27honneur_recipients_by_name_(F)"},{t:"Recipients (G)",u:"https://en.wikipedia.org/wiki/List_of_L%C3%A9gion_d%27honneur_recipients_by_name_(G)"},{t:"Recipients (N)",u:"https://en.wikipedia.org/wiki/List_of_L%C3%A9gion_d%27honneur_recipients_by_name_(N)"}]},
+ {rank:8,  articles:64,   words:205, score:1234.6, div:5.0, tier:'geographic',   label:'Jangipur Subdivision',           topic:'West Bengal Census Towns',
+  text:`Jangipur subdivision is crowded with 52 census towns and as such it had to be presented in two location maps. One of the maps can be seen alongside. The subdivision is located in the Rarh region that is spread over from adjoining Santhal Pargana division of Jharkhand. The land is slightly higher in altitude than the surrounding plains and is gently undulating. The river Ganges, along with its distributaries, is prominent in both the maps. At the head of the subdivision is the 2,245 m long Farakka Barrage, one of the largest projects of its kind in the country.`,
+  ex:[{t:'Basudebpur',u:'https://en.wikipedia.org/wiki/Basudebpur'},{t:'Anup Nagar',u:'https://en.wikipedia.org/wiki/Anup_Nagar'},{t:'Donalia',u:'https://en.wikipedia.org/wiki/Donalia'},{t:'Khidirpur, Murshidabad',u:'https://en.wikipedia.org/wiki/Khidirpur,_Murshidabad'}]},
+ {rank:9,  articles:14,   words:312, score:1218.9, div:2.0, tier:'series',       label:'Illinois Legislature History',   topic:'Illinois Legislative Districts',
+  text:`Prior to the ratification of the 1848 Illinois Constitution, counties (or two or more counties) were designated a certain number of Senators and Representatives. With the ratification of the 1848 Illinois Constitution, Legislative and Representative districts were numbered and called by name. Each district was still assigned a certain number of Senators and Representatives. After the passage of the 1872 Apportionment, only Legislative districts were drawn with Representatives elected cumulatively.`,
+  ex:[{t:"Illinois's 3rd House district",u:"https://en.wikipedia.org/wiki/Illinois%27s_3rd_House_of_Representatives_district"},{t:"Illinois's 13th Senate district",u:"https://en.wikipedia.org/wiki/Illinois%27s_13th_Senate_district"}]},
+ {rank:10, articles:19,   words:281, score:1214.5, div:2.5, tier:'series',       label:'Ligue 1 Foreign Players',        topic:'French Football (Ligue 1)',
+  text:`This is a list of foreign players in the Ligue 1, which commenced play in 1932. The following players must meet both of the following two criteria: - Have played at least one Ligue 1 game. Players who were signed by Ligue 1 clubs, but only played in lower league, cup and/or European games, or did not play in any competitive games at all, are not included. - Are considered foreign, i.e., outside France and its dependencies, determined by the following: - A player is considered foreign if he is not eligible to play for the national teams of France.`,
+  ex:[{t:'Foreign players: U',u:'https://en.wikipedia.org/wiki/List_of_foreign_Ligue_1_players:_U'},{t:'Foreign players: H',u:'https://en.wikipedia.org/wiki/List_of_foreign_Ligue_1_players:_H'},{t:'Foreign players: Z',u:'https://en.wikipedia.org/wiki/List_of_foreign_Ligue_1_players:_Z'}]},
+ {rank:11, articles:33,   words:224, score:1139.6, div:6.0, tier:'geographic',   label:'Hill Fort Origins',              topic:'British Iron Age Hill Forts',
+  text:`Hill forts developed in the Late Bronze and Early Iron Age, roughly the start of the first millennium BC. The reason for their emergence in Britain, and their purpose, has been a subject of debate. It has been argued that they could have been military sites constructed in response to invasion from continental Europe, sites built by invaders, or a military reaction to social tensions caused by an increasing population and consequent pressure on agriculture. The dominant view since the 1960s has been that the increasing use of iron led to social changes in Britain.`,
+  ex:[{t:'Maesbury Castle',u:'https://en.wikipedia.org/wiki/Maesbury_Castle'},{t:"Blacker's Hill",u:'https://en.wikipedia.org/wiki/Blacker%27s_Hill'},{t:"Bat's Castle",u:'https://en.wikipedia.org/wiki/Bat%27s_Castle'},{t:'Clatworthy Camp',u:'https://en.wikipedia.org/wiki/Clatworthy_Camp'}]},
+ {rank:12, articles:11,   words:316, score:1132.8, div:9.0, tier:'biographical', label:'The Zurich Game',                 topic:'1898–99 Swiss Football Season',
+  text:`A curiosity in their 1898-99 season was the friendly game in Zurich on 5 March 1899. The majority of them English students, had formed a club and the members of the Anglo-American Club even attended the founder meeting of the Swiss Football Association (ASF-SFV) in April 1895. They had found a place to play their games, although the Zurich commons was by no means ideal. It was often that the players found the grounds very sludgy or with freshly raised molehills. But at least, it was a homestead that was soon called "Anglo-Platz". Suddenly the announcement: "By decree of the military directorate of the canton of Zurich it is forbidden until further notice to play on the military training area Allmend". The following could be read about the game against FC Basel: "As a result, the Anglos, who were only partially able to notify their people, started the game with only seven men. The appointed referee was not there because he been scheduled for the afternoon. The crowd consisted of approximately 10 to 20 spectators. Under such circumstances, such an important match should not have been played." Despite all the obstacles: The game became a demonstration of the superiority of the British players from Zurich. The Anglo American Football Club won the match 10-0, with their center forward Robert Collinson alone scoring 8 goals. By then, at the latest, it was clear that the Anglos would be unstoppable on their way to the title.`,
+  ex:[{t:'Rudolf Schwarz (footballer)',u:'https://en.wikipedia.org/wiki/Rudolf_Schwarz_(footballer)'},{t:'Ernst Gass',u:'https://en.wikipedia.org/wiki/Ernst_Gass'},{t:'Hans Billeter',u:'https://en.wikipedia.org/wiki/Hans_Billeter'},{t:'Georges Fürstenberger',u:'https://en.wikipedia.org/wiki/Georges_F%C3%BCrstenberger'},{t:'Emanuel Schiess',u:'https://en.wikipedia.org/wiki/Emanuel_Schiess'},{t:'Adolf Rittmann',u:'https://en.wikipedia.org/wiki/Adolf_Rittmann'}]},
+ {rank:13, articles:25,   words:235, score:1104.6, div:7.5, tier:'thematic',     label:'Island of Stability',            topic:'Superheavy Elements',
+  text:`Alpha particles are commonly produced in radioactive decays because the mass of an alpha particle per nucleon is small enough to leave some energy for the alpha particle to be used as kinetic energy to leave the nucleus. Spontaneous fission is caused by electrostatic repulsion tearing the nucleus apart and produces various nuclei in different instances of identical nuclei fissioning. As the atomic number increases, spontaneous fission rapidly becomes more important: spontaneous fission partial half-lives decrease by 23 orders of magnitude from uranium (element 92) to nobelium (element 102), and by 30 orders of magnitude from thorium (element 90) to fermium (element 100).`,
+  ex:[{t:'Nihonium',u:'https://en.wikipedia.org/wiki/Nihonium'},{t:'Darmstadtium',u:'https://en.wikipedia.org/wiki/Darmstadtium'},{t:'Flerovium',u:'https://en.wikipedia.org/wiki/Flerovium'},{t:'Rutherfordium',u:'https://en.wikipedia.org/wiki/Rutherfordium'}]},
+ {rank:14, articles:146,  words:146, score:1051.2, div:1.5, tier:'template',     label:'UK Parliament Act Citations',    topic:'Acts of Parliament of the United Kingdom',
+  text:`The number shown after each act's title is its chapter number. Acts passed before 1963 are cited using this number, preceded by the year(s) of the reign during which the relevant parliamentary session was held; thus the Union with Ireland Act 1800 is cited as "39 & 40 Geo. 3 c. 67", meaning the 67th act passed during the session that started in the 39th year of the reign of George III and which finished in the 40th year of that reign. Note that the modern convention is to use Arabic numerals in citations (thus "41 Geo. 3" rather than "41 Geo. III").`,
+  ex:[{t:'Acts from 1804',u:'https://en.wikipedia.org/wiki/List_of_acts_of_the_Parliament_of_the_United_Kingdom_from_1804'},{t:'Acts from 1927',u:'https://en.wikipedia.org/wiki/List_of_acts_of_the_Parliament_of_the_United_Kingdom_from_1927'},{t:'Acts from 1957',u:'https://en.wikipedia.org/wiki/List_of_acts_of_the_Parliament_of_the_United_Kingdom_from_1957'}]},
+ {rank:15, articles:32,   words:207, score:1044.2, div:5.0, tier:'geographic',   label:'Ranchi Plateau Geography',       topic:'Jharkhand Community Development Blocks',
+  text:`The map alongside shows a part of the Ranchi plateau, most of it at an average elevation of 2,140 feet above sea level. Only a small part in the north-eastern part of the district is the lower Ranchi plateau, spread over Silli, Rahe, Sonahatu and Tamar CD blocks, at an elevation of 500 to 1,000 feet above sea level. There is a 16 km long ridge south-west of Ranchi. There are isolated hills in the central plateau. The principal river of the district, the Subarnarekha, originates near Ratu, flows in an easterly direction and descends from the plateau, with a drop of about 300 feet at Hundru Falls.`,
+  ex:[{t:'Chanho',u:'https://en.wikipedia.org/wiki/Chanho'},{t:'Angara, Jharkhand',u:'https://en.wikipedia.org/wiki/Angara,_Jharkhand'},{t:'Silli',u:'https://en.wikipedia.org/wiki/Silli'}]},
+ {rank:16, articles:51,   words:183, score:1043.2, div:2.5, tier:'series',       label:'Spanish Congress Constituencies', topic:'Spanish Congress of Deputies',
+  text:`Voting is on the basis of universal suffrage, which comprises all nationals over 18 years of age and in full enjoyment of their political rights. [...] 348 seats are elected using the D'Hondt method and a closed list proportional representation, with an electoral threshold of three percent of valid votes-which includes blank ballots-being applied in each constituency. Each provincial constituency is entitled to an initial minimum of two seats, with the remaining 248 being distributed in proportion to their populations. Ceuta and Melilla are allocated the two remaining seats, which are elected using plurality voting.`,
+  ex:[{t:"Cáceres (Congress)",u:"https://en.wikipedia.org/wiki/C%C3%A1ceres_(Congress_of_Deputies_constituency)"},{t:"Álava (Congress)",u:"https://en.wikipedia.org/wiki/%C3%81lava_(Congress_of_Deputies_constituency)"}]},
+ {rank:17, articles:19,   words:241, score:1041.6, div:3.0, tier:'series',       label:'KT-Class Torpedo Boats',         topic:'Soviet Motor Torpedo Boats',
+  text:`The vessel was a large motor torpedo boat. The total length of its wooden hull was 25.5 meters, with a beam of 6.1 meters and a draft of 1.13 meters. The standard displacement was 56 tons, and the full displacement was 67 tons. The hull was divided into eight compartments (from the bow): I - forepeak, II - crew quarters, III - officer quarters and galley, IV - generator room, officer quarters, and social facilities, V and VI - engines, VII - fuel tanks, and VIII - ammunition magazine and rudder compartment.`,
+  ex:[{t:'KT-71',u:'https://en.wikipedia.org/wiki/KT-71'},{t:'KT-73',u:'https://en.wikipedia.org/wiki/KT-73'},{t:'KT-83',u:'https://en.wikipedia.org/wiki/KT-83'}]},
+ {rank:18, articles:150,  words:141, score:1020.6, div:2.5, tier:'series',       label:'Paralympic Disability Categories', topic:'Paralympic Games Country Articles',
+  text:`Every participant at the Paralympics has their disability grouped into one of five disability categories; amputation, the condition may be congenital or sustained through injury or illness; cerebral palsy; wheelchair athletes, there is often overlap between this and other categories; visual impairment, including blindness; Les autres, any physical disability that does not fall strictly under one of the other categories, for example dwarfism or multiple sclerosis.`,
+  ex:[{t:'France at 2016 Paralympics',u:'https://en.wikipedia.org/wiki/France_at_the_2016_Summer_Paralympics'},{t:'Nigeria at 2016 Paralympics',u:'https://en.wikipedia.org/wiki/Nigeria_at_the_2016_Summer_Paralympics'},{t:'Kenya at 2016 Paralympics',u:'https://en.wikipedia.org/wiki/Kenya_at_the_2016_Summer_Paralympics'}]},
+ {rank:19, articles:1197, words:99,  score:1012.4, div:0.5, tier:'template',     label:'Ohio Township Governance',       topic:'Ohio Township Articles',
+  text:`The township is governed by a three-member board of trustees, who are elected in November of odd-numbered years to a four-year term beginning on the following January 1. Two are elected in the year after the presidential election and one is elected in the year before it. There is also an elected township fiscal officer, who serves a four-year term beginning on April 1 of the year after the election, which is held in November of the year before the presidential election. Vacancies in the fiscal officership or on the board of trustees are filled by the remaining trustees`,
+  ex:[{t:'Noble Township, Defiance County',u:'https://en.wikipedia.org/wiki/Noble_Township,_Defiance_County,_Ohio'},{t:'Burlington Township, Ohio',u:'https://en.wikipedia.org/wiki/Burlington_Township,_Ohio'},{t:'Hartford Township, Trumbull County',u:'https://en.wikipedia.org/wiki/Hartford_Township,_Trumbull_County,_Ohio'}]},
+ {rank:20, articles:29,   words:204, score:1001.0, div:2.0, tier:'series',       label:'NFL Playoff Structure',          topic:'NFL Playoff Articles',
+  text:`Within each conference, the four division winners and the top two non-division winners with the best overall regular season records) qualified for the playoffs. The four division winners are seeded 1-4 based on their overall won-lost-tied record, and the wild card teams are seeded 5-6. The NFL does not use a fixed bracket playoff system, and there are no restrictions regarding teams from the same division matching up in any round. In the first round, dubbed the wild-card playoffs or wild-card weekend, the third-seeded division winner hosts the sixth-seed wild card, and the fourth seed hosts the fifth.`,
+  ex:[{t:'2006-07 NFL playoffs',u:'https://en.wikipedia.org/wiki/2006%E2%80%9307_NFL_playoffs'},{t:'2009-10 NFL playoffs',u:'https://en.wikipedia.org/wiki/2009%E2%80%9310_NFL_playoffs'},{t:'2013-14 NFL playoffs',u:'https://en.wikipedia.org/wiki/2013%E2%80%9314_NFL_playoffs'}]},
+ {rank:21, articles:46,   words:177, score:983.2,  div:3.0, tier:'series',       label:'Casablanca-Class Carrier Specs', topic:'WWII Escort Carriers',
+  text:`She was powered by four Babcock & Wilcox Express D boilers that raised 285 psi (1,970 kPa) of steam at 577 degF (303 degC). The steam generated by these boilers fed two Skinner Unaflow reciprocating steam engines, delivering 9,000 hp (6,700 kW) to two propeller shafts. This allowed her to reach speeds of 19 kn (35 km/h; 22 mph), with a cruising range of 10,240 nmi (18,960 km; 11,780 mi) at 15 kn (28 km/h; 17 mph).`,
+  ex:[{t:'USS Mission Bay',u:'https://en.wikipedia.org/wiki/USS_Mission_Bay'},{t:'USS Manila Bay',u:'https://en.wikipedia.org/wiki/USS_Manila_Bay'},{t:'USS Natoma Bay',u:'https://en.wikipedia.org/wiki/USS_Natoma_Bay'}]},
+ {rank:22, articles:110,  words:144, score:978.4,  div:2.0, tier:'series',       label:'Spanish Candidate Lists',        topic:'Spanish Electoral Law',
+  text:`The electoral law allows for parties and federations registered in the interior ministry, coalitions and groupings of electors to present lists of candidates. Parties and federations intending to form a coalition ahead of an election are required to inform the relevant Electoral Commission within ten days of the election call-fifteen before 1985-whereas groupings of electors need to secure the signature of at least one percent of the electorate in the constituencies for which they seek election.`,
+  ex:[{t:'Biscay (Senate constituency)',u:'https://en.wikipedia.org/wiki/Biscay_(Senate_constituency)'},{t:'Lugo (Senate constituency)',u:'https://en.wikipedia.org/wiki/Lugo_(Senate_constituency)'}]},
+ {rank:23, articles:10,   words:281, score:972.1,  div:7.5, tier:'thematic',     label:'The Andor Backstory',            topic:'Andor (TV series) Episodes',
+  text:`Disney CEO Bob Iger announced in February 2018 that there were several Star Wars series in development, and that November one was revealed as a prequel to the film Rogue One (2016). The series was described as a spy thriller show focused on the character Cassian Andor, with Diego Luna reprising his role from the film. Jared Bush originally developed the series, writing a pilot script and series bible for the project. By the end of November, Stephen Schiff was serving as showrunner and executive producer of the series. Tony Gilroy, who was credited as a co-writer on Rogue One and oversaw extensive reshoots for the film, joined the series by early 2019 when he discussed the first story details with Luna. Gilroy's involvement was revealed that October, when he was set to write the first episode, direct multiple episodes, and work alongside Schiff; Gilroy had officially replaced Schiff as showrunner by April 2020. Six weeks of pre-production for the series had taken place in the United Kingdom by then, but this was halted and production on the series delayed due to the COVID-19 pandemic.`,
+  ex:[{t:'Narkina 5',u:'https://en.wikipedia.org/wiki/Narkina_5'},{t:'Reckoning (Andor)',u:'https://en.wikipedia.org/wiki/Reckoning_(Andor)'},{t:'The Eye (Andor)',u:'https://en.wikipedia.org/wiki/The_Eye_(Andor)'},{t:'One Way Out (Andor)',u:'https://en.wikipedia.org/wiki/One_Way_Out_(Andor)'}]},
+ {rank:24, articles:12,   words:252, score:932.5,  div:3.5, tier:'series',       label:'Lucha Libre Anniversary',        topic:'CMLL Anniversary Shows',
+  text:`Over the years the anniversary show would become the biggest show of the year for CMLL, akin to the Super Bowl for the National Football League (NFL) or WWE's WrestleMania event. The first anniversary show was held in Arena Modelo, which Lutteroth had bought after starting EMLL. In 1942-43 Lutteroth financed the construction of Arena Coliseo, which opened in April 1943. The EMLL 10th Anniversary Show was the first of the anniversary shows to be held in Arena Coliseo.`,
+  ex:[{t:'CMLL 69th Anniversary Show',u:'https://en.wikipedia.org/wiki/CMLL_69th_Anniversary_Show'},{t:'CMLL 60th Anniversary Show',u:'https://en.wikipedia.org/wiki/CMLL_60th_Anniversary_Show'},{t:'CMLL 81st Anniversary Show',u:'https://en.wikipedia.org/wiki/CMLL_81st_Anniversary_Show'}]},
+ {rank:25, articles:2920, words:81,  score:932.5,  div:0.0, tier:'template',     label:'The Slovak Census Note',         topic:'Slovak Municipality Stubs',
+  text:`Note on population: The difference between the population numbers above and in the census (here and below) is that the population numbers above are mostly made up of permanent residents, etc.; and the census should indicate the place where people actually mainly live. For example, a student is a citizen of a village because they have permanent residence there (they lived there as a child and has parents), but most of the time he studies at a university in the city`,
+  ex:[{t:'Sabinov District',u:'https://en.wikipedia.org/wiki/Sabinov_District'},{t:'Smolenice',u:'https://en.wikipedia.org/wiki/Smolenice'},{t:'Ilija, Slovakia',u:'https://en.wikipedia.org/wiki/Ilija,_Slovakia'},{t:'Baloň',u:'https://en.wikipedia.org/wiki/Balo%C5%88'}]},
+ {rank:26, articles:309,  words:112, score:926.9,  div:1.5, tier:'template',     label:'Judiciary Act of 1789',          topic:'US Supreme Court Case Lists',
+  text:`Under the Judiciary Act of 1789 the federal court structure at the time comprised District Courts, which had general trial jurisdiction; Circuit Courts, which had mixed trial and appellate (from the US District Courts) jurisdiction; and the United States Supreme Court, which had appellate jurisdiction over the federal District and Circuit courts-and for certain issues over state courts. The Supreme Court also had limited original jurisdiction.`,
+  ex:[{t:'US Supreme Court cases, vol. 45',u:'https://en.wikipedia.org/wiki/List_of_United_States_Supreme_Court_cases,_volume_45'},{t:'US Supreme Court cases, vol. 156',u:'https://en.wikipedia.org/wiki/List_of_United_States_Supreme_Court_cases,_volume_156'}]},
+ {rank:27, articles:26,   words:194, score:922.4,  div:2.5, tier:'series',       label:'Eurovision Jury Rules (2021)',   topic:'Eurovision Song Contest 2021',
+  text:`Voting during the three shows involved each country awarding two sets of points from 1-8, 10 and 12: one from their professional jury and the other from televoting. Each nation's jury consisted of five music industry professionals who are citizens of the country they represent, with a diversity in gender and age represented. The judges assess each entry based on the performances during the second Dress Rehearsal of each show, which takes place the night before each live show, against a set of criteria including: vocal capacity; the stage performance; the song's composition and originality; and the overall impression by the act.`,
+  ex:[{t:'France in Eurovision 2021',u:'https://en.wikipedia.org/wiki/France_in_the_Eurovision_Song_Contest_2021'},{t:'UK in Eurovision 2021',u:'https://en.wikipedia.org/wiki/United_Kingdom_in_the_Eurovision_Song_Contest_2021'},{t:'Australia in Eurovision 2021',u:'https://en.wikipedia.org/wiki/Australia_in_the_Eurovision_Song_Contest_2021'}]},
+ {rank:28, articles:17,   words:220, score:917.4,  div:2.0, tier:'series',       label:'Kolkata Ward History (variant)', topic:'Kolkata Municipal Corporation Wards',
+  text:`Attempts were made to establish a municipal corporation at Kolkata from the middle of the 19th century. The electoral system was introduced for the first time in 1847, and 4 of the 7 board members were elected by the rate payers. [Shorter variant of the Kolkata municipal history, covering the same 19th-century electoral reforms but with slightly less text than rank #4.]`,
+  ex:[{t:'Ward No. 3',u:'https://en.wikipedia.org/wiki/Ward_No._3,_Kolkata_Municipal_Corporation'},{t:'Ward No. 12',u:'https://en.wikipedia.org/wiki/Ward_No._12,_Kolkata_Municipal_Corporation'}]},
+ {rank:29, articles:112,  words:133, score:907.1,  div:2.5, tier:'series',       label:'Eurovision Jury Rules (2018–19)', topic:'Eurovision Song Contest 2018–19',
+  text:`Voting during the three shows involved each country awarding two sets of points from 1-8, 10 and 12: one from their professional jury and the other from televoting. Each nation's jury consisted of five music industry professionals who are citizens of the country they represent, with their names published before the contest to ensure transparency. This jury judged each entry based on: vocal capacity; the stage performance; the song's composition and originality; and the overall impression by the act.`,
+  ex:[{t:'Armenia in Eurovision 2019',u:'https://en.wikipedia.org/wiki/Armenia_in_the_Eurovision_Song_Contest_2019'},{t:'Bulgaria in Eurovision 2018',u:'https://en.wikipedia.org/wiki/Bulgaria_in_the_Eurovision_Song_Contest_2018'},{t:'Sweden in Eurovision 2019',u:'https://en.wikipedia.org/wiki/Sweden_in_the_Eurovision_Song_Contest_2019'}]},
+ {rank:30, articles:163,  words:123, score:905.0,  div:1.0, tier:'template',     label:'Indian Census Classifications',  topic:'Indian Census Community Blocks',
+  text:`Note: In the census records a person is considered a cultivator, if the person is engaged in cultivation/supervision of land owned by self/government/institution. When a person who works on another person's land for wages in cash or kind or share, is regarded as an agricultural labourer. Household industry is defined as an industry conducted by one or more members of the family within the household or village, and one that does not qualify for registration as a factory under the Factories Act.`,
+  ex:[{t:'Dhupguri (community development block)',u:'https://en.wikipedia.org/wiki/Dhupguri_(community_development_block)'},{t:'Andal (community development block)',u:'https://en.wikipedia.org/wiki/Andal_(community_development_block)'},{t:'Goalpokhar II',u:'https://en.wikipedia.org/wiki/Goalpokhar_II'}]},
+];
+
+/* ── D3 CHART ──────────────────────────────────────────────────── */
+(function(){
+  const wrap=document.getElementById('chart-wrap');
+  const svg=d3.select('#chart');
+  const m={top:50,right:80,bottom:70,left:68};
+
+  function getCSSVar(v){
+    return getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  }
+
+  window.drawChart=draw;
+
+  function draw(){
+    const W=Math.max(wrap.clientWidth,540);
+    const H=520;
+    const w=W-m.left-m.right;
+    const h=H-m.top-m.bottom;
+
+    svg.attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
+    svg.selectAll('*').remove();
+
+    const g=svg.append('g').attr('transform',`translate(${m.left},${m.top})`);
+
+    // Chart background (theme-aware)
+    const bgFill=getCSSVar('--bg');
+    const bdColor=getCSSVar('--bd');
+    const mutedColor=getCSSVar('--muted');
+    g.append('rect').attr('width',w).attr('height',h)
+      .attr('fill',bgFill).attr('rx',4);
+
+    const x=d3.scaleLinear().domain([-0.5,10.5]).range([0,w]);
+    const y=d3.scaleLinear()
+      .domain([d3.min(DATA,d=>d.score)-60, d3.max(DATA,d=>d.score)+80])
+      .range([h,0]);
+    const r=d3.scaleSqrt()
+      .domain([0,d3.max(DATA,d=>d.articles)])
+      .range([4,34]);
+
+    // Gridlines
+    y.ticks(6).forEach(v=>{
+      g.append('line')
+        .attr('x1',0).attr('x2',w).attr('y1',y(v)).attr('y2',y(v))
+        .attr('stroke',bdColor).attr('stroke-dasharray','3,5');
+    });
+    x.ticks(5).forEach(v=>{
+      g.append('line')
+        .attr('x1',x(v)).attr('x2',x(v)).attr('y1',0).attr('y2',h)
+        .attr('stroke',bdColor).attr('stroke-dasharray','3,5');
+    });
+
+    // Axes
+    g.append('g').attr('transform',`translate(0,${h})`)
+      .call(d3.axisBottom(x).tickValues([0,2.5,5,7.5,10])
+        .tickFormat(v=>({0:'Same type',2.5:'',5:'Mixed',7.5:'',10:'Diverse'}[v]||''))
+      )
+      .call(a=>{a.select('.domain').attr('stroke',bdColor);
+        a.selectAll('.tick line').attr('stroke',bdColor);
+        a.selectAll('.tick text').attr('fill',mutedColor)
+          .style('font-family','Space Grotesk').style('font-size','0.7rem');
+      });
+
+    g.append('g')
+      .call(d3.axisLeft(y).ticks(5).tickFormat(d=>d.toLocaleString()))
+      .call(a=>{a.select('.domain').attr('stroke',bdColor);
+        a.selectAll('.tick line').attr('stroke',bdColor);
+        a.selectAll('.tick text').attr('fill',mutedColor)
+          .style('font-family','Space Grotesk').style('font-size','0.7rem');
+      });
+
+    // Axis labels
+    g.append('text').attr('x',w/2).attr('y',h+52)
+      .attr('text-anchor','middle').attr('fill',mutedColor)
+      .style('font-family','Space Grotesk').style('font-size','.72rem').style('font-weight','600')
+      .text('← Article diversity (identical stub types to distinct individuals) →');
+
+    g.append('text').attr('transform','rotate(-90)').attr('x',-h/2).attr('y',-52)
+      .attr('text-anchor','middle').attr('fill',mutedColor)
+      .style('font-family','Space Grotesk').style('font-size','.72rem').style('font-weight','600')
+      .text('Interestingness score  (words × log₂ articles)');
+
+    // Glow filter
+    const defs=svg.append('defs');
+    const flt=defs.append('filter').attr('id','glow').attr('x','-40%').attr('y','-40%').attr('width','180%').attr('height','180%');
+    flt.append('feGaussianBlur').attr('stdDeviation','3').attr('result','coloredBlur');
+    const fm=flt.append('feMerge');
+    fm.append('feMergeNode').attr('in','coloredBlur');
+    fm.append('feMergeNode').attr('in','SourceGraphic');
+
+    // Circles
+    g.selectAll('circle').data(DATA).join('circle')
+      .attr('cx',d=>x(d.div)).attr('cy',d=>y(d.score))
+      .attr('r',d=>r(d.articles))
+      .attr('fill',d=>TIERS[d.tier].color).attr('fill-opacity',.65)
+      .attr('stroke',d=>TIERS[d.tier].color).attr('stroke-opacity',.9)
+      .attr('stroke-width',1.5).attr('filter','url(#glow)')
+      .style('cursor','pointer')
+      .on('mouseenter',function(ev,d){
+        d3.select(this).attr('fill-opacity',1).attr('r',r(d.articles)+4);
+        const t=document.getElementById('tip');
+        t.style.display='block';
+        document.getElementById('tip-title').textContent=d.label;
+        document.getElementById('tip-stats').textContent=
+          `${d.articles.toLocaleString()} articles · ${d.words} words · Score ${d.score.toFixed(0)}`;
+        moveTip(ev);
+      })
+      .on('mousemove',moveTip)
+      .on('mouseleave',function(ev,d){
+        d3.select(this).attr('fill-opacity',.65).attr('r',r(d.articles));
+        document.getElementById('tip').style.display='none';
+      })
+      .on('click',(ev,d)=>openPopup(d));
+
+    // Annotations for key points
+    const ann=[
+      {rank:1,  dx:14,  dy:-14, anchor:'start'},
+      {rank:2,  dx:10,  dy:-16, anchor:'start'},
+      {rank:12, dx:-10, dy:-14, anchor:'end'},
+      {rank:19, dx:12,  dy:14,  anchor:'start'},
+      {rank:25, dx:10,  dy:16,  anchor:'start'},
+    ];
+    ann.forEach(a=>{
+      const d=DATA.find(x=>x.rank===a.rank);
+      if(!d) return;
+      const cx=x(d.div), cy=y(d.score), rr=r(d.articles);
+      const lx=cx+a.dx+(a.dx>0?rr:-rr);
+      const ly=cy+a.dy;
+      g.append('line')
+        .attr('x1',cx+(a.dx>0?rr/1.4:-rr/1.4))
+        .attr('y1',cy+(a.dy>0?rr/1.4:-rr/1.4))
+        .attr('x2',lx).attr('y2',ly)
+        .attr('stroke',bdColor).attr('stroke-width',1);
+      g.append('text')
+        .attr('x',lx+(a.dx>0?4:-4)).attr('y',ly+4)
+        .attr('text-anchor',a.anchor)
+        .attr('fill',mutedColor)
+        .style('font-family','Space Grotesk').style('font-size','.64rem').style('font-weight','600')
+        .text(`#${d.rank} ${d.label}`);
+    });
+
+    // "Click to explore" hint
+    g.append('text').attr('x',w-6).attr('y',12)
+      .attr('text-anchor','end').attr('fill',bdColor)
+      .style('font-family','Space Grotesk').style('font-size','.65rem')
+      .text('click any circle to read the passage →');
+  }
+
+  draw();
+  let timer;
+  window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(draw,120);});
+})();
+
+/* ── TOOLTIP HELPER ────────────────────────────────────────────── */
+function moveTip(ev){
+  const t=document.getElementById('tip');
+  const x=Math.min(ev.clientX+14, window.innerWidth-230);
+  const y=Math.max(ev.clientY-70, 6);
+  t.style.left=x+'px'; t.style.top=y+'px';
+}
+
+/* ── POPUP ─────────────────────────────────────────────────────── */
+function openPopup(d){
+  const ov=document.getElementById('popup');
+  const body=document.getElementById('popup-body');
+  const tc=TIERS[d.tier].color;
+  body.innerHTML=`
+    <div class="popup-rank" style="color:${tc}">#${d.rank} · ${TIERS[d.tier].label.toUpperCase()}</div>
+    <div class="popup-title" id="popup-title">${esc(d.label)}</div>
+    <div class="popup-topic">${esc(d.topic)}</div>
+    <div class="popup-stats">
+      <div class="popup-stat"><span class="popup-stat-n">${d.articles.toLocaleString()}</span><span class="popup-stat-l">Articles</span></div>
+      <div class="popup-stat"><span class="popup-stat-n">${d.words}</span><span class="popup-stat-l">Words</span></div>
+      <div class="popup-stat"><span class="popup-stat-n">${d.score.toFixed(0)}</span><span class="popup-stat-l">Score</span></div>
+      <div class="popup-stat"><span class="popup-stat-n" style="font-size:1rem">${d.div.toFixed(1)}/10</span><span class="popup-stat-l">Diversity</span></div>
+    </div>
+    <div class="popup-text">${esc(d.text)}</div>
+    <div class="popup-ex-title">Example articles (${d.articles.toLocaleString()} total)</div>
+    <div class="popup-examples">${d.ex.map(e=>`<a class="popup-ex-link" href="${e.u}" target="_blank" rel="noopener">↗ ${esc(e.t)}</a>`).join('')}</div>
+  `;
+  ov.style.display='flex';
+  document.body.style.overflow='hidden';
+  ov.querySelector('.popup-panel').focus();
+}
+function closePopup(){
+  document.getElementById('popup').style.display='none';
+  document.body.style.overflow='';
+}
+document.getElementById('popup-close').addEventListener('click',closePopup);
+document.getElementById('popup').addEventListener('click',function(e){if(e.target===this)closePopup();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePopup();});
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ── THEME TOGGLE ──────────────────────────────────────────────── */
+(function(){
+  const SUN = `<path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/><circle cx="12" cy="12" r="5"/>`;
+  const MOON = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+  const btn = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+  const html = document.documentElement;
+
+  function apply(theme){
+    html.setAttribute('data-theme', theme);
+    icon.innerHTML = theme === 'dark' ? MOON : SUN;
+    btn.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    try { localStorage.setItem('theme', theme); } catch(e){}
+    // Redraw chart so background matches new theme
+    if(typeof drawChart === 'function') drawChart();
+  }
+
+  btn.addEventListener('click', ()=>{
+    apply(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // Restore saved preference
+  try {
+    const saved = localStorage.getItem('theme');
+    if(saved && saved !== 'dark') apply(saved);
+  } catch(e){}
+})();
+</script>
+</body>
+</html>

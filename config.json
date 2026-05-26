@@ -1,6 +1,23 @@
 {
   "stories": [
     {
+      "id": "longest-wikipedia-string",
+      "title": "The Paragraph That Appears 418 Times — Wikipedia's Hidden Skeleton",
+      "description": "We compressed all of English Wikipedia — 7.6 million articles — into 35 gigabytes and searched for the longest text that echoes through the most pages. What we found reveals the hidden skeleton of human knowledge.",
+      "summary": "Mining 190 million text fragments from 7.6 million Wikipedia articles surfaces a hidden skeleton: 418 asteroid pages share the same 213-word preamble, 2,920 Slovak villages share a census footnote, and eleven footballer biopics share a word-for-word account of one winter afternoon in 1899.",
+      "keywords": [
+        "wikipedia",
+        "repeated text",
+        "longest common substring",
+        "boilerplate",
+        "encyclopedia structure"
+      ],
+      "link": "longest-wikipedia-string/",
+      "screenshot": "longest-wikipedia-string/screenshot.avif",
+      "date": "2026-05-26",
+      "folder": "longest-wikipedia-string"
+    },
+    {
       "id": "ai-policies",
       "title": "The Three Yeses — How 25 Universities Govern AI",
       "description": "Every one of twenty-five universities says students may use AI. None of them mean the same thing — and what none of them say is the story that matters most. Analysis of public AI governance documents across 25 leading universities in 9 countries.",

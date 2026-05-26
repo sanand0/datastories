@@ -16,6 +16,7 @@ Students with no evaluation result get score 0 for that question.
 
 import orjson
 import pandas as pd
+from hashlib import sha256
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -54,6 +55,7 @@ def main():
         sid = student["submission_id"]
         q_scores = scores_by_id.get(sid, {})
         row = {
+            "user": sha256(student["email"].strip().lower().encode()).hexdigest()[:5],
             "email": student["email"],
             "time": student["time_iso"],
         }

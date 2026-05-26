@@ -391,4 +391,8 @@ Programmatically generate an analysis/scores.csv that contains these columns:
 - ${question}: overall score for the question, e.g. `q-generate-paradox-portrait`, `q-generate-affective-chart`, etc.
 - total: 0.75 x (sum of the question scores)
 
+---
+
+Modify the script to include the "user" hash as the first column and re-run.
+
 <!-- copilot --resume=fff49a52-d237-4f56-b2f7-27af4ebfbc60 -->
