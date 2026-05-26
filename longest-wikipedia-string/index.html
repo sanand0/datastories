@@ -576,6 +576,711 @@ footer p+p{margin-top:.75rem;}
   <p>As for the football match: a group of chemistry students played in Zürich in the winter of 1899, before an audience of perhaps twenty people, under circumstances that argued against the game being played at all. They won anyway. <strong>A century and a quarter later, their story appears — word for word — in eleven separate corners of the largest reference work humanity has ever produced.</strong> The Allmend may have been frozen. The crowd may have been sparse. But that afternoon, it turns out, was not going to stay small.</p>
 </section>
 
+<!-- ─── HOW IT WAS DONE ──────────────────────────────────────────── -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/railscasts.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+<style>
+/* ─── HOW IT WAS DONE — STYLES ───────────────────────────────────── */
+.how-wrap{max-width:var(--pw);margin:0 auto;padding:0 1.5rem;}
+
+/* Full-bleed process steps */
+.proc-outer{
+  width:100vw;position:relative;left:50%;transform:translateX(-50%);
+  background:var(--bg2);border-top:1px solid var(--bd);
+  border-bottom:1px solid var(--bd);
+  padding:2.5rem 2rem;margin:2.5rem 0;
+}
+.proc-label{
+  max-width:1400px;margin:0 auto 1.5rem;
+  font-family:var(--ff-d);font-size:.62rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--amber);
+}
+.proc-grid{
+  max-width:1400px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));
+  gap:.9rem;
+}
+.pstep{
+  background:var(--bg3);border:1px solid var(--bd);
+  border-radius:var(--r);padding:1.2rem 1.2rem 1.2rem 1.4rem;
+  border-left:3px solid var(--amber);
+}
+.pstep.steer{border-left-color:var(--cyan);}
+.pstep-n{
+  font-family:var(--ff-d);font-size:.58rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--amber);
+  margin-bottom:.3rem;
+}
+.pstep.steer .pstep-n{color:var(--cyan);}
+.pstep-title{
+  font-family:var(--ff-d);font-size:.9rem;font-weight:600;
+  color:var(--text);margin-bottom:.4rem;line-height:1.25;
+}
+.pstep-body{
+  font-family:var(--ff-d);font-size:.79rem;color:var(--muted);
+  line-height:1.6;
+}
+.pstep-body strong{color:var(--text);}
+.pstep-body em{color:var(--cyan);font-style:normal;}
+.pstep-body code{color:var(--cyan);font-family:var(--ff-m);font-size:.78rem;}
+
+/* Prompt block */
+.prompt-block{
+  background:var(--bg3);border:1px solid var(--bd);
+  border-radius:var(--r);padding:1.1rem 1.35rem;
+  font-family:var(--ff-m);font-size:.79rem;
+  color:var(--muted);line-height:1.75;
+  margin:1.5rem 0;
+}
+.prompt-block .plabel{
+  font-family:var(--ff-d);font-size:.6rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.15em;
+  color:var(--amber);display:block;margin-bottom:.65rem;
+}
+
+/* Code blocks */
+pre{
+  margin:1.5rem 0;border-radius:var(--r);
+  overflow:auto;font-size:.8rem;line-height:1.65;
+}
+pre code.hljs{
+  border-radius:var(--r);
+  border:1px solid var(--bd);
+  padding:1.1rem 1.3rem;
+  font-family:var(--ff-m);
+  background:var(--bg3) !important;
+}
+[data-theme="light"] pre code.hljs{color:var(--text);}
+[data-theme="light"] pre code.hljs .hljs-comment{color:var(--muted);}
+[data-theme="light"] pre code.hljs .hljs-string{color:var(--emer);}
+[data-theme="light"] pre code.hljs .hljs-keyword{color:var(--amber);}
+[data-theme="light"] pre code.hljs .hljs-number{color:var(--coral);}
+[data-theme="light"] pre code.hljs .hljs-title,.hljs-built_in{color:var(--blue);}
+.code-label{
+  font-family:var(--ff-d);font-size:.6rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.15em;
+  color:var(--muted);display:block;margin-bottom:-.4rem;
+}
+
+/* ─── SPEED RACE ─────────────────────────────────────────────────── */
+.race-outer{
+  width:100vw;position:relative;left:50%;transform:translateX(-50%);
+  padding:0;margin:2rem 0;
+  background:var(--bg2);border-top:1px solid var(--bd);
+  border-bottom:1px solid var(--bd);
+}
+.race-inner{max-width:1000px;margin:0 auto;padding:2rem 2rem;}
+.race-hdr{
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;
+}
+.race-title{
+  font-family:var(--ff-d);font-size:1rem;font-weight:700;color:var(--text);
+}
+.race-scale{
+  font-family:var(--ff-d);font-size:.72rem;color:var(--muted);
+}
+.race-clock{
+  font-family:var(--ff-m);font-size:1rem;color:var(--amber);
+  font-weight:700;
+}
+.race-btns{display:flex;gap:.5rem;align-items:center;}
+.race-btn{
+  font-family:var(--ff-d);font-size:.75rem;font-weight:700;
+  letter-spacing:.05em;padding:.4rem .9rem;border-radius:4px;
+  border:1px solid var(--bd);background:var(--bg3);
+  color:var(--text);cursor:pointer;transition:background .15s,border-color .15s;
+}
+.race-btn:hover{background:var(--bd);border-color:var(--amber);}
+.race-btn.primary{background:var(--amber);color:#000;border-color:var(--amber);}
+.race-btn.primary:hover{background:#d97706;}
+
+.race-lanes{display:flex;flex-direction:column;gap:1.1rem;}
+.race-lane{
+  background:var(--bg3);border:1px solid var(--bd);
+  border-radius:var(--r);padding:1rem 1.1rem .9rem;
+  transition:border-color .3s;
+}
+.race-lane.done{border-color:var(--emer);}
+.rl-meta{
+  display:flex;align-items:center;gap:.6rem;
+  margin-bottom:.5rem;flex-wrap:wrap;
+}
+.rl-name{
+  font-family:var(--ff-d);font-size:.88rem;font-weight:600;
+  color:var(--text);
+}
+.rl-tag{
+  font-family:var(--ff-d);font-size:.58rem;font-weight:700;
+  padding:.15rem .45rem;border-radius:3px;letter-spacing:.06em;
+}
+.rl-tag.n2{background:rgba(244,63,94,.15);color:#f43f5e;}
+.rl-tag.on{background:rgba(52,211,153,.15);color:#34d399;}
+.rl-sub{
+  font-family:var(--ff-m);font-size:.72rem;color:var(--muted);
+  margin-left:auto;
+}
+.rl-canvas-wrap{
+  position:relative;height:28px;margin-bottom:.4rem;
+  background:var(--bg2);border-radius:4px;overflow:hidden;
+}
+.rl-canvas{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+}
+.rl-frozen-msg{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--ff-d);font-size:.62rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  opacity:.6;display:none;pointer-events:none;
+}
+.rl-bar-bg{
+  height:6px;background:var(--bg);border-radius:3px;overflow:hidden;
+}
+.rl-bar{
+  height:100%;border-radius:3px;transition:width .1s linear;
+  width:0%;
+}
+.rl-footer{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:.45rem;
+}
+.rl-pct{
+  font-family:var(--ff-m);font-size:.75rem;font-weight:700;
+}
+.rl-pct.done-label{color:var(--emer);}
+.rl-eta{
+  font-family:var(--ff-d);font-size:.7rem;color:var(--muted);
+}
+.race-legend{
+  display:flex;gap:1.5rem;flex-wrap:wrap;
+  margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--bd);
+  font-family:var(--ff-d);font-size:.7rem;color:var(--muted);
+}
+.race-legend span{white-space:nowrap;}
+
+/* ─── FINGERPRINT ILLUSTRATION ───────────────────────────────────── */
+.fp-demo{
+  background:var(--bg3);border:1px solid var(--bd);
+  border-radius:var(--r);padding:1.2rem 1.4rem;margin:1.5rem 0;
+  font-family:var(--ff-m);font-size:.8rem;line-height:1.8;
+}
+.fp-row{display:flex;align-items:flex-start;gap:.75rem;flex-wrap:wrap;}
+.fp-text{flex:1;min-width:200px;color:var(--muted);}
+.fp-text mark{background:none;color:var(--amber);font-weight:700;}
+.fp-arrow{color:var(--muted);align-self:center;font-size:1.1rem;}
+.fp-hash{
+  font-family:var(--ff-m);font-size:.88rem;font-weight:700;
+  padding:.2rem .5rem;border-radius:3px;
+  background:var(--bg2);border:1px solid var(--bd);
+  white-space:nowrap;
+}
+.fp-hash.changed{color:var(--coral);}
+.fp-hash.same{color:var(--emer);}
+.fp-divider{
+  width:100%;height:1px;background:var(--bd);
+  margin:.7rem 0;
+}
+.fp-note{
+  font-family:var(--ff-d);font-size:.72rem;color:var(--muted);
+  font-style:italic;
+}
+</style>
+
+<!-- ─── INTRO ──────────────────────────────────────────────────────── -->
+<section class="prose" id="behind-the-analysis">
+  <h2>Behind the Analysis: How an AI Agent Worked Through 35 Gigabytes</h2>
+
+  <p class="drop">Finding the most-repeated long passages in 7.6 million Wikipedia articles is not a job for a weekend script. Comparing every article to every other would require <strong>28.8 trillion pairs</strong> — at typical computing speeds, roughly 23,000 years of work. This analysis was done differently: by handing the problem to an AI coding agent, watching it work, and redirecting it once.</p>
+
+  <p>The tool was <a href="https://github.com/openai/codex" target="_blank" rel="noopener"><strong>Codex</strong></a>, OpenAI's terminal-based coding agent (similar in spirit to this very tool, Claude Code), running the <a href="https://openai.com/api/" target="_blank" rel="noopener"><em>GPT-5.5</em></a> model in <strong>fully autonomous "yolo" mode</strong> — it could write code, execute it, read the output, and iterate without pausing to ask for permission at any step. The full session ran from <code style="font-family:var(--ff-m);font-size:.85em">09:15</code> to <code style="font-family:var(--ff-m);font-size:.85em">11:35</code> UTC on 26 May 2026: about <strong>two hours and twenty minutes</strong>, from the first prompt to verified results.</p>
+</section>
+
+<!-- Prompt block -->
+<div class="how-wrap">
+  <div class="prompt-block">
+    <span class="plabel">The prompt — given verbatim to the AI agent</span>"Download the Wikipedia Parquet dataset from hf://datasets/wikimedia/structured-wikipedia/enwiki/data/*.parquet.
+
+Document what it contains in schema.md. Include: how many rows, what are the columns, interesting things should we document about the volume, diversity, quality, etc.
+
+Then, identify the longest common substring with the highest frequency. What I mean is, what are the long strings that appear across a large number of articles? 2–3 word phrases are not of interest. 100-word phrases that appear in just two articles are of very mild interest. In other words, we want a combination of long AND frequent as the 'interestingness' metric, so to speak. Document this in lcs.md with the 30 most interesting LCSs, along with where they appear and how many times."</div>
+</div>
+
+<!-- ─── FULL-WIDTH PROCESS STEPS ───────────────────────────────────── -->
+<div class="proc-outer">
+  <div class="proc-label">How the analysis unfolded — 5 steps, ~2 hours 20 minutes</div>
+  <div class="proc-grid">
+
+    <div class="pstep">
+      <div class="pstep-n">Step 1 · ~17 min</div>
+      <div class="pstep-title">Download 35 gigabytes</div>
+      <div class="pstep-body">The agent used <a href="https://huggingface.co/docs/huggingface_hub" target="_blank" rel="noopener" style="color:var(--cyan)">huggingface_hub</a> to fetch all <strong>86 <a href="https://parquet.apache.org/" target="_blank" rel="noopener" style="color:var(--cyan)">Parquet</a> shards</strong> of the <a href="https://huggingface.co/datasets/wikimedia/structured-wikipedia" target="_blank" rel="noopener" style="color:var(--cyan)">wikimedia/structured-wikipedia</a> dataset from <a href="https://huggingface.co/" target="_blank" rel="noopener" style="color:var(--cyan)">Hugging Face</a> using 8 parallel connections. It verified the exact byte total (37,163,742,694 bytes) against the registry before proceeding.</div>
+    </div>
+
+    <div class="pstep">
+      <div class="pstep-n">Step 2 · immediate</div>
+      <div class="pstep-title">Recognise the scale problem</div>
+      <div class="pstep-body">With 7,597,149 articles, a brute-force "compare every pair" approach requires <strong>28.8 trillion comparisons</strong>. The agent recognised this immediately and began drafting a profiling script and a repeatable mining script in parallel while the download was still running.</div>
+    </div>
+
+    <div class="pstep steer">
+      <div class="pstep-n">Step 3 · human steer</div>
+      <div class="pstep-title">One redirect mid-session</div>
+      <div class="pstep-body">The user added a single follow-up prompt: <em>"Explore pylcs for speed. Research the fastest approaches, test them out, pick the best."</em> The agent immediately wrote a benchmark script, ran it against real downloaded shards, and committed to the fastest method.</div>
+    </div>
+
+    <div class="pstep">
+      <div class="pstep-n">Step 4 · ~90 min</div>
+      <div class="pstep-title">Mine 190 million fingerprints</div>
+      <div class="pstep-body">The winning approach: extract every long paragraph and sentence from every article, compute a unique <strong>fingerprint</strong> for each, then count fingerprints shared across 10+ articles — across all 86 shards in parallel, using <code>ProcessPoolExecutor</code> and <a href="https://duckdb.org/" target="_blank" rel="noopener" style="color:var(--cyan)">DuckDB</a>.</div>
+    </div>
+
+    <div class="pstep">
+      <div class="pstep-n">Step 5 · &lt;1 min</div>
+      <div class="pstep-title">Rank by interestingness</div>
+      <div class="pstep-body">Each candidate was scored by <code>words × log₂(articles + 1)</code> — rewarding text that is both <strong>long and widespread</strong> rather than gaming either dimension. The top 500 were saved; the top 30 written up in <code>lcs.md</code> with verified article counts.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── SCALE PROBLEM ──────────────────────────────────────────────── -->
+<section class="prose">
+  <h2>Why Not Just Compare Articles Directly?</h2>
+
+  <p>The most natural tool for finding shared text between two documents is <strong>pairwise comparison</strong>: take article A, compare it character-by-character against article B, find the longest common run, repeat. A Python library called <a href="https://pypi.org/project/pylcs/" target="_blank" rel="noopener"><code>pylcs</code></a> does exactly this in compiled C++ code, using <a href="https://en.wikipedia.org/wiki/Dynamic_programming" target="_blank" rel="noopener">dynamic programming</a> — the same technique used in DNA sequence alignment and diff tools. It's fast for two documents. It does not scale to 7.6 million of them.</p>
+
+  <p>The agent benchmarked four approaches on a sample of 2,000 real downloaded articles. Press <strong>Start</strong> below to see what each method's speed means in practice, with the <em>clock running at 60× compression</em> (one animation second = one real minute):</p>
+</section>
+
+<!-- ─── SPEED RACE ANIMATION ───────────────────────────────────────── -->
+<div class="race-outer">
+  <div class="race-inner">
+    <div class="race-hdr">
+      <div>
+        <div class="race-title">The Speed Race — analyzing all 7.6 million Wikipedia articles</div>
+        <div class="race-scale">Animation at 60× speed &nbsp;·&nbsp; 1 second shown = 1 real minute of computation &nbsp;·&nbsp; Elapsed: <span class="race-clock" id="rtime">0:00</span></div>
+      </div>
+      <div class="race-btns">
+        <button class="race-btn primary" id="rbtn" onclick="raceToggle()">▶ Start</button>
+        <button class="race-btn" onclick="raceReset()">↺ Reset</button>
+      </div>
+    </div>
+
+    <div class="race-lanes">
+
+      <!-- Lane 0: pylcs pairwise -->
+      <div class="race-lane" id="rl0">
+        <div class="rl-meta">
+          <span class="rl-name">pylcs — pairwise</span>
+          <span class="rl-tag n2">O(n²)</span>
+          <span class="rl-sub">39 pairs / sec &nbsp;·&nbsp; needs 28.8 trillion comparisons</span>
+        </div>
+        <div class="rl-canvas-wrap">
+          <canvas class="rl-canvas" id="rc0" height="28"></canvas>
+          <div class="rl-frozen-msg" id="rfz0">virtually no movement — 23,400 years remaining</div>
+        </div>
+        <div class="rl-bar-bg"><div class="rl-bar" id="rb0" style="background:#f43f5e"></div></div>
+        <div class="rl-footer">
+          <span class="rl-pct" id="rp0" style="color:#f43f5e">0.000%</span>
+          <span class="rl-eta">Estimated completion: ~23,400 years</span>
+        </div>
+      </div>
+
+      <!-- Lane 1: pylcs one-to-many -->
+      <div class="race-lane" id="rl1">
+        <div class="rl-meta">
+          <span class="rl-name">pylcs — one→many</span>
+          <span class="rl-tag n2">O(n²)</span>
+          <span class="rl-sub">22 comparisons / sec &nbsp;·&nbsp; needs 28.8 trillion comparisons</span>
+        </div>
+        <div class="rl-canvas-wrap">
+          <canvas class="rl-canvas" id="rc1" height="28"></canvas>
+          <div class="rl-frozen-msg" id="rfz1">virtually no movement — 41,500 years remaining</div>
+        </div>
+        <div class="rl-bar-bg"><div class="rl-bar" id="rb1" style="background:#f97316"></div></div>
+        <div class="rl-footer">
+          <span class="rl-pct" id="rp1" style="color:#f97316">0.000%</span>
+          <span class="rl-eta">Estimated completion: ~41,500 years</span>
+        </div>
+      </div>
+
+      <!-- Lane 2: token shingles -->
+      <div class="race-lane" id="rl2">
+        <div class="rl-meta">
+          <span class="rl-name">Token 12-shingles</span>
+          <span class="rl-tag on">O(n)</span>
+          <span class="rl-sub">1,284 articles / sec &nbsp;·&nbsp; needs 7.6 million articles</span>
+        </div>
+        <div class="rl-canvas-wrap">
+          <canvas class="rl-canvas" id="rc2" height="28"></canvas>
+        </div>
+        <div class="rl-bar-bg"><div class="rl-bar" id="rb2" style="background:#f59e0b"></div></div>
+        <div class="rl-footer">
+          <span class="rl-pct" id="rp2" style="color:#f59e0b">0.0%</span>
+          <span class="rl-eta">Estimated completion: ~99 minutes</span>
+        </div>
+      </div>
+
+      <!-- Lane 3: exact hashing -->
+      <div class="race-lane" id="rl3">
+        <div class="rl-meta">
+          <span class="rl-name">Exact fragment hashing ✓</span>
+          <span class="rl-tag on">O(n)</span>
+          <span class="rl-sub">3,826 articles / sec &nbsp;·&nbsp; needs 7.6 million articles</span>
+        </div>
+        <div class="rl-canvas-wrap">
+          <canvas class="rl-canvas" id="rc3" height="28"></canvas>
+        </div>
+        <div class="rl-bar-bg"><div class="rl-bar" id="rb3" style="background:#34d399"></div></div>
+        <div class="rl-footer">
+          <span class="rl-pct" id="rp3" style="color:#34d399">0.0%</span>
+          <span class="rl-eta">Estimated completion: ~33 minutes</span>
+        </div>
+      </div>
+
+    </div><!-- /.race-lanes -->
+
+    <div class="race-legend">
+      <span><strong style="color:#f43f5e">■</strong> O(n²) methods must compare every article to every other — 28.8 trillion pairs for 7.6M articles</span>
+      <span><strong style="color:#34d399">■</strong> O(n) methods scan each article once — 7.6 million total operations</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── WHAT FINGERPRINTING MEANS ─────────────────────────────────── -->
+<section class="prose">
+  <h2>What Is Fingerprinting?</h2>
+
+  <p>A <strong>fingerprint</strong> (or <a href="https://en.wikipedia.org/wiki/Hash_function" target="_blank" rel="noopener">hash</a>) is a short, fixed-length number computed from a piece of text. The rule is simple: <strong>identical inputs always produce identical outputs</strong>, and any change — even one character — produces a completely different output. It's like a library catalogue number that is uniquely and deterministically computed from the book's contents.</p>
+</section>
+
+<!-- Fingerprint illustration -->
+<div class="how-wrap">
+  <div class="fp-demo">
+    <div class="fp-row">
+      <div class="fp-text">"Hill forts developed in the <mark>Late</mark> Bronze Age…"</div>
+      <div class="fp-arrow">→</div>
+      <div class="fp-hash same"><code>a3f8c2d1b0e74591</code></div>
+    </div>
+    <div class="fp-divider"></div>
+    <div class="fp-row">
+      <div class="fp-text">"Hill forts developed in the <mark>Late</mark> Bronze Age…"&ensp;<em style="color:var(--emer);font-size:.75rem">(identical copy in another article)</em></div>
+      <div class="fp-arrow">→</div>
+      <div class="fp-hash same"><code>a3f8c2d1b0e74591</code>&ensp;<em style="color:var(--emer);font-size:.75rem">✓ same</em></div>
+    </div>
+    <div class="fp-divider"></div>
+    <div class="fp-row">
+      <div class="fp-text">"Hill forts developed in the <mark>Early</mark> Bronze Age…"&ensp;<em style="color:var(--coral);font-size:.75rem">(one word changed)</em></div>
+      <div class="fp-arrow">→</div>
+      <div class="fp-hash changed"><code>7b2e9f4c1a830d56</code>&ensp;<em style="color:var(--coral);font-size:.75rem">✗ different</em></div>
+    </div>
+    <div class="fp-note" style="margin-top:.8rem">This is called the <a href="https://en.wikipedia.org/wiki/Avalanche_effect" target="_blank" rel="noopener" style="color:var(--cyan)">avalanche effect</a>: a tiny change cascades into a completely unrecognisable output.</div>
+  </div>
+</div>
+
+<section class="prose">
+  <p>The algorithm used is <a href="https://www.blake2.net/" target="_blank" rel="noopener"><strong>BLAKE2b</strong></a>, a cryptographic hash function designed for speed. The same algorithm is used to verify file downloads and sign software packages. Here's the actual code:</p>
+</section>
+
+<div class="how-wrap">
+  <span class="code-label">fingerprinting — Python</span>
+<pre><code class="language-python">import hashlib
+
+def fingerprint(text: str) -> int:
+    # BLAKE2b with 8-byte output = a 64-bit integer fingerprint
+    digest = hashlib.blake2b(text.encode(), digest_size=8).digest()
+    return int.from_bytes(digest, "little")
+
+# Two identical sentences in different articles → same fingerprint
+text_a = "Hill forts developed in the Late Bronze Age..."
+text_b = "Hill forts developed in the Late Bronze Age..."  # different article
+
+fingerprint(text_a) == fingerprint(text_b)   # True  ← match found!
+
+# One word different → completely different fingerprint
+text_c = "Hill forts developed in the Early Bronze Age..."
+
+fingerprint(text_a) == fingerprint(text_c)   # False</code></pre>
+</div>
+
+<section class="prose">
+  <p>The key advantage: instead of comparing 7.6 million articles pairwise (28.8 trillion operations), you compute one fingerprint per paragraph per article — roughly 190 million fingerprints total — and then let a database count which fingerprints appear in multiple articles. <strong>Finding duplicates in a list of 190 million numbers takes seconds. Finding shared substrings across 7.6 million article pairs takes millennia.</strong></p>
+
+  <p>The fragment extraction uses <a href="https://docs.python.org/3/library/re.html" target="_blank" rel="noopener">regular expressions</a> to split articles on sentence boundaries, keeping only long fragments (at least 70 characters, at least 10 words) that are worth tracking:</p>
+</section>
+
+<div class="how-wrap">
+  <span class="code-label">fragment extraction — Python</span>
+<pre><code class="language-python">import re, hashlib
+
+# Split on sentence-ending punctuation followed by a capital letter
+SENTENCE_RE = re.compile(r'(?<=[.!?])\s+(?=[A-Z0-9])')
+
+def extract_fragments(article_text: str):
+    """Yield (fingerprint, sentence) for every long sentence in an article."""
+    for sentence in SENTENCE_RE.split(article_text):
+        sentence = sentence.strip()
+        if len(sentence) < 70:          # too short to be interesting
+            continue
+        if len(sentence.split()) < 10:  # fewer than 10 words
+            continue
+        yield fingerprint(sentence), sentence
+
+# For each of 7,597,149 articles across 86 Parquet shards,
+# this produces ~25 fragments on average → ~190 million total.</code></pre>
+</div>
+
+<!-- ─── HOW DUCKDB AGGREGATES ──────────────────────────────────────── -->
+<section class="prose">
+  <h2>How DuckDB Finds the Matches</h2>
+
+  <p>Once all 190 million fingerprints are written to intermediate <a href="https://parquet.apache.org/" target="_blank" rel="noopener">Parquet</a> files (one file per shard, 6 workers in parallel), <a href="https://duckdb.org/" target="_blank" rel="noopener"><strong>DuckDB</strong></a> takes over. DuckDB is an in-process analytical database — think of it as a spreadsheet engine that can read billions of rows from files without loading them all into memory at once. A single SQL query aggregates all 190 million fingerprint records and surfaces only those that appear in ten or more distinct articles:</p>
+</section>
+
+<div class="how-wrap">
+  <span class="code-label">aggregation — SQL (DuckDB)</span>
+<pre><code class="language-sql">-- Read all 190 million fingerprint records from the fragment files
+SELECT
+    hash,
+    COUNT(DISTINCT article_id)          AS articles,   -- distinct articles containing it
+    SUM(occurrences)                    AS total_hits,
+    MAX(word_count)                     AS words,
+    MAX(words) * LOG2(COUNT(*) + 1)     AS score       -- interestingness formula
+FROM read_parquet('analysis/lcs_fragments/*.parquet')
+GROUP BY hash
+HAVING COUNT(DISTINCT article_id) >= 10  -- appears in at least 10 articles
+ORDER BY score DESC
+LIMIT 500;                               -- keep top 500 candidates</code></pre>
+</div>
+
+<section class="prose">
+  <p>This runs in seconds. DuckDB reads only the columns it needs (<code>hash</code>, <code>article_id</code>, <code>word_count</code>) and aggregates on the fly, never loading all 190 million rows into memory simultaneously. A second pass over the original Parquet shards then retrieves the actual text and example article titles for the top 500 hashes — since the intermediate files store only fingerprints, not the original sentences.</p>
+
+  <p>The two-pass design is deliberate. Pass 1 is CPU-intensive (hashing) and easily parallelised across 6 workers; Pass 2 is I/O-intensive (reading large Parquet files) and benefits from DuckDB's columnar reader. Together they process 34.6 gigabytes in about 90 minutes — roughly the speed of a modern SSD scan.</p>
+</section>
+
+<!-- ─── INTERESTINGNESS FORMULA ────────────────────────────────────── -->
+<section class="prose">
+  <h2>What Makes a Passage "Interesting"?</h2>
+
+  <p>The challenge with ranking repeated passages is that raw frequency and raw length both fail on their own. A 2-word phrase like "see also" appears in nearly every Wikipedia article — but it's useless. A 500-word passage appearing in exactly two articles may be impressive but hard to call a pattern. The score needs to reward <em>both</em> dimensions simultaneously.</p>
+
+  <p>The formula chosen was <code style="font-family:var(--ff-m)">score = words × log₂(articles + 1)</code>. The logarithm dampens the article count — going from 10 to 100 articles matters a lot, but going from 1,000 to 10,000 matters less — while the word count multiplier ensures that longer passages score much higher than shorter ones with the same reach.</p>
+</section>
+
+<div class="how-wrap">
+  <span class="code-label">scoring — Python</span>
+<pre><code class="language-python">import math
+
+def score(words: int, articles: int) -> float:
+    """Higher is more interesting. Rewards length AND frequency."""
+    return words * math.log2(articles + 1)
+
+# Rank #1 — The asteroid preamble (213 words, 418 articles):
+score(213, 418)    # → 1855.4   ← top of the list
+
+# A 100-word passage in 100 articles:
+score(100, 100)    # → 667.0    ← much less interesting
+
+# A 2-word phrase in 1 million articles:
+score(2, 1_000_000)  # → 39.9  ← nearly zero — too short to matter
+
+# A 500-word passage in only 2 articles:
+score(500, 2)        # → 792.5  ← decent score but not top-30 without more reach</code></pre>
+</div>
+
+<!-- ─── WHAT AI AGENTS ENABLE ──────────────────────────────────────── -->
+<blockquote class="pq">"The AI didn't just run the analysis — it chose the right method. The benchmark detour was the agent's own interpretation of what 'done' means: verify the approach before committing to an hours-long run."</blockquote>
+
+<section class="prose">
+  <h2>What AI Coding Agents Make Possible</h2>
+
+  <p>Four Python scripts were written, linted, and executed over the course of this session: one to download the dataset, one to profile its schema, one to <a href="https://github.com/openai/codex" target="_blank" rel="noopener">benchmark</a> the three candidate algorithms, and one to run the full two-pass mining pipeline. The agent also used <a href="https://github.com/astral-sh/uv" target="_blank" rel="noopener"><code>uv</code></a> to manage Python environments, <a href="https://pypi.org/project/pyarrow/" target="_blank" rel="noopener"><code>pyarrow</code></a> to read Parquet files, <a href="https://pypi.org/project/pylcs/" target="_blank" rel="noopener"><code>pylcs</code></a> for the benchmark comparison, <a href="https://pypi.org/project/tqdm/" target="_blank" rel="noopener"><code>tqdm</code></a> for progress bars, and <a href="https://duckdb.org/" target="_blank" rel="noopener">DuckDB</a> for SQL aggregation. All autonomously installed, called, and verified.</p>
+
+  <p>A skilled data engineer could produce the same pipeline in a day or two of focused work. The AI agent produced it in 140 minutes — including the benchmarking detour that a human might skip to save time. <strong>One person with one tool and one afternoon.</strong></p>
+
+  <p>The Wikipedia corpus is not unusual in its scale. Government records, court filings, scientific literature, and financial disclosures all exist at similar sizes. What this session demonstrated is that the barrier between "I wonder if this pattern exists in this data" and "here are the top 30 verified examples with article counts and diversity scores" has dropped to a single conversation. The ideas, the judgment, the interpretation: those still belong to the human. The four scripts, the three benchmarks, the six parallel workers, and the 190 million fingerprints: those belong to the machine.</p>
+
+  <p>The 213-word asteroid preamble — appearing word for word across 418 Wikipedia articles — was always there. It took a two-hour autonomous sweep through 190 million text fragments to find it.</p>
+</section>
+
+<script>
+/* ─── HIGHLIGHT.JS INIT ─────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() {
+  // Override hljs theme colours to match page palette
+  document.querySelectorAll('pre code').forEach(el => {
+    hljs.highlightElement(el);
+  });
+});
+
+/* ─── SPEED RACE ANIMATION ──────────────────────────────────────── */
+(function(){
+  // Time compression: 1 animation second = 60 real seconds
+  const TMULT = 60;
+
+  const M = [
+    { i:0, spd:39,   work:2.885e13, col:'#f43f5e', frozen:true  }, // pairwise O(n²)
+    { i:1, spd:22,   work:2.885e13, col:'#f97316', frozen:true  }, // one-to-many O(n²)
+    { i:2, spd:1284, work:7597149,  col:'#f59e0b', frozen:false }, // shingles O(n)
+    { i:3, spd:3826, work:7597149,  col:'#34d399', frozen:false }, // hashing O(n)
+  ];
+  M.forEach(m => {
+    m.ttc = m.work / m.spd; // seconds to complete
+    m.rate = m.spd / m.work; // % completion rate per second
+  });
+  const maxRate = M[3].rate;
+  M.forEach(m => m.vspd = 250 * (m.rate / maxRate)); // visual px/sec in canvas
+
+  let elapsed = 0, lastTS = null, running = false, raf = null;
+  const phases = [0, 0, 0, 0]; // canvas dot phase per lane
+
+  function getProgress(m){ return Math.min(1, (elapsed * TMULT) / m.ttc); }
+
+  function drawCanvas(idx, dt){
+    const m = M[idx];
+    const cv = document.getElementById('rc' + idx);
+    if (!cv) return;
+    const W = cv.offsetWidth || 400;
+    if (cv.width !== W) cv.width = W;
+    const H = cv.height;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0, 0, W, H);
+
+    const prog = getProgress(m);
+
+    if (prog >= 1){
+      // Done — fill solid
+      ctx.fillStyle = m.col + '28';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = m.col;
+      ctx.font = 'bold 11px "JetBrains Mono",monospace';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('COMPLETE ✓', W / 2, H / 2);
+      return;
+    }
+
+    phases[idx] += m.vspd * dt;
+    const spacing = 28;
+
+    if (m.frozen){
+      // O(n²): dots barely visible and frozen
+      ctx.fillStyle = m.col + '30';
+      for(let x = 10; x < W; x += spacing){
+        ctx.beginPath(); ctx.arc(x, H/2, 2.5, 0, Math.PI*2); ctx.fill();
+      }
+      // Show frozen message after animation starts
+      const fz = document.getElementById('rfz' + idx);
+      if(fz && elapsed > 1) fz.style.display = 'block';
+    } else {
+      // O(n): streaming dots
+      const offset = phases[idx] % spacing;
+      ctx.fillStyle = m.col;
+      for(let x = -(spacing - offset); x < W + spacing; x += spacing){
+        if(x < -5 || x > W + 5) continue;
+        const edgeFade = Math.min(1, x / 30) * Math.min(1, (W - x) / 30);
+        ctx.globalAlpha = Math.max(0, edgeFade) * 0.9;
+        const wave = Math.sin(x * 0.15 + phases[idx] * 0.04) * 5;
+        ctx.beginPath(); ctx.arc(x, H/2 + wave, 3, 0, Math.PI*2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function tick(ts){
+    if(lastTS !== null){
+      const dt = Math.min((ts - lastTS) / 1000, 0.1); // cap at 100ms
+      elapsed += dt;
+
+      // Clock: show real-time equivalent
+      const realSecs = elapsed * TMULT;
+      const mm = Math.floor(realSecs / 60);
+      const ss = Math.floor(realSecs % 60);
+      const el = document.getElementById('rtime');
+      if(el) el.textContent = mm + ':' + ss.toString().padStart(2,'0');
+
+      M.forEach((m, i) => {
+        const p = getProgress(m);
+        const barEl = document.getElementById('rb' + i);
+        const pctEl = document.getElementById('rp' + i);
+        const laneEl = document.getElementById('rl' + i);
+
+        if(barEl) barEl.style.width = (p * 100).toFixed(8) + '%';
+
+        if(pctEl){
+          const pct = p * 100;
+          if(p >= 1){
+            pctEl.textContent = '100% — DONE';
+            pctEl.className = 'rl-pct done-label';
+          } else if(pct < 0.001){
+            pctEl.textContent = pct.toExponential(2) + '%';
+          } else {
+            pctEl.textContent = pct.toFixed(pct < 1 ? 3 : 1) + '%';
+          }
+        }
+
+        if(laneEl && p >= 1 && !laneEl.classList.contains('done')){
+          laneEl.classList.add('done');
+        }
+
+        drawCanvas(i, dt);
+      });
+    }
+    lastTS = ts;
+
+    // Auto-stop after hashing completes + 30 extra seconds
+    if(elapsed * TMULT > M[3].ttc + 1800) raceToggle();
+    else raf = requestAnimationFrame(tick);
+  }
+
+  window.raceToggle = function(){
+    if(running){
+      cancelAnimationFrame(raf); lastTS = null; running = false;
+      const btn = document.getElementById('rbtn');
+      if(btn){ btn.textContent = '▶ Resume'; btn.classList.remove('primary'); btn.classList.add('primary');}
+    } else {
+      running = true;
+      const btn = document.getElementById('rbtn');
+      if(btn) btn.textContent = '⏸ Pause';
+      raf = requestAnimationFrame(tick);
+    }
+  };
+
+  window.raceReset = function(){
+    cancelAnimationFrame(raf); lastTS = null; elapsed = 0; running = false;
+    phases.fill(0);
+    const btn = document.getElementById('rbtn');
+    if(btn){ btn.textContent = '▶ Start'; }
+    const timeEl = document.getElementById('rtime');
+    if(timeEl) timeEl.textContent = '0:00';
+    M.forEach((_,i) => {
+      const b = document.getElementById('rb'+i); if(b) b.style.width = '0%';
+      const p = document.getElementById('rp'+i);
+      if(p){ p.textContent = '0.000%'; p.className = 'rl-pct'; }
+      const lane = document.getElementById('rl'+i); if(lane) lane.classList.remove('done');
+      const fz = document.getElementById('rfz'+i); if(fz) fz.style.display = 'none';
+      const cv = document.getElementById('rc'+i);
+      if(cv){ const ctx = cv.getContext('2d'); ctx.clearRect(0,0,cv.width,cv.height); }
+    });
+  };
+
+  // Resize canvases on load
+  window.addEventListener('load', function(){
+    M.forEach((_,i) => {
+      const cv = document.getElementById('rc'+i);
+      if(cv) cv.width = cv.offsetWidth;
+    });
+  });
+  window.addEventListener('resize', function(){
+    M.forEach((_,i) => {
+      const cv = document.getElementById('rc'+i);
+      if(cv) cv.width = cv.offsetWidth;
+    });
+  });
+})();
+</script>
+
 <footer>
   <p><strong>Data source:</strong> <a href="https://huggingface.co/datasets/wikimedia/structured-wikipedia" target="_blank">wikimedia/structured-wikipedia</a> on Hugging Face (CC-BY-SA-4.0). English Wikipedia snapshot, 86 Parquet shards, 7,597,149 rows, 34.61 GiB compressed.</p>
   <p><strong>Method:</strong> 190,503,959 text fragments extracted from abstract and section values; filtered to ≥10 words, ≥70 characters, ≥10 distinct articles; ranked by <em>words × log₂(articles + 1)</em>. Two-pass hash aggregation with DuckDB. Diversity scores (0–10) are qualitative assessments of how different the carrier articles are from each other.</p>
