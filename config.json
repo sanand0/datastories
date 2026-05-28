@@ -1,6 +1,23 @@
 {
   "stories": [
     {
+      "id": "wikipedia-citation-impact",
+      "title": "What If a Website Just Died? — Wikipedia's Citation Fragility",
+      "description": "A rigorous analysis of which domains hold Wikipedia together — and which ones, if they vanished tomorrow, would leave thousands of articles with nothing to stand on.",
+      "summary": "Analysis of 7.6 million English Wikipedia articles reveals that obscure domains — including a Polish statistics bureau — are the only source for tens of thousands of articles, with biodiversity databases and sports-reference sites creating concentrated single points of failure invisible to casual observers.",
+      "keywords": [
+        "wikipedia citations",
+        "link rot",
+        "single points of failure",
+        "domain dependence",
+        "citation fragility"
+      ],
+      "link": "wikipedia-citation-impact/",
+      "screenshot": "wikipedia-citation-impact/screenshot.avif",
+      "date": "2026-05-28",
+      "folder": "wikipedia-citation-impact"
+    },
+    {
       "id": "erdos-planar-unit",
       "title": "Erdos Planar Unit Visualizer",
       "description": "Interactive visualizer for the Erdos planar unit distance problem, comparing OpenAI's construction scale with grid-based unit connections as point counts grow.",

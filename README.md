@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [What If a Website Just Died? — Wikipedia's Citation Fragility](wikipedia-citation-impact/). A rigorous analysis of which domains hold Wikipedia together — and which ones, if they vanished tomorrow, would leave thousands of articles with nothing to stand on.
+  [![](wikipedia-citation-impact/screenshot.avif)](wikipedia-citation-impact/)
 - [Erdos Planar Unit Visualizer](erdos-planar-unit/). Interactive visualizer for the Erdos planar unit distance problem, comparing OpenAI's construction scale with grid-based unit connections as point counts grow.
   [![](erdos-planar-unit/screenshot.avif)](erdos-planar-unit/)
 - [The Paragraph That Appears 418 Times — Wikipedia's Hidden Skeleton](longest-wikipedia-string/). We compressed all of English Wikipedia — 7.6 million articles — into 35 gigabytes and searched for the longest text that echoes through the most pages. What we found reveals the hidden skeleton of human knowledge.
