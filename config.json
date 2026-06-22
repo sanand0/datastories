@@ -1,6 +1,23 @@
 {
   "stories": [
     {
+      "id": "imf-gdp-forecast-errors",
+      "title": "How wrong are IMF GDP forecasts?",
+      "description": "Each dot is one IMF forecast of real GDP growth with a verified later outcome, showing where the IMF was too optimistic or too pessimistic across countries, regions, and forecast horizons.",
+      "summary": "An interactive signed-log scatterplot of 69,159 verified IMF WEO real GDP growth forecasts compares forecast errors by country, region, and horizon, separating optimistic misses from pessimistic ones.",
+      "keywords": [
+        "imf forecasts",
+        "gdp growth",
+        "forecast errors",
+        "world economic outlook",
+        "economic forecasting"
+      ],
+      "link": "imf-gdp-forecast-errors/",
+      "screenshot": "imf-gdp-forecast-errors/screenshot.avif",
+      "date": "2026-06-22",
+      "folder": "imf-gdp-forecast-errors"
+    },
+    {
       "id": "wikipedia-citation-impact",
       "title": "What If a Website Just Died? — Wikipedia's Citation Fragility",
       "description": "A rigorous analysis of which domains hold Wikipedia together — and which ones, if they vanished tomorrow, would leave thousands of articles with nothing to stand on.",

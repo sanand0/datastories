@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [How wrong are IMF GDP forecasts?](imf-gdp-forecast-errors/). Each dot is one IMF forecast of real GDP growth with a verified later outcome, showing where the IMF was too optimistic or too pessimistic across countries, regions, and forecast horizons.
+  [![](imf-gdp-forecast-errors/screenshot.avif)](imf-gdp-forecast-errors/)
 - [What If a Website Just Died? — Wikipedia's Citation Fragility](wikipedia-citation-impact/). A rigorous analysis of which domains hold Wikipedia together — and which ones, if they vanished tomorrow, would leave thousands of articles with nothing to stand on.
   [![](wikipedia-citation-impact/screenshot.avif)](wikipedia-citation-impact/)
 - [Erdos Planar Unit Visualizer](erdos-planar-unit/). Interactive visualizer for the Erdos planar unit distance problem, comparing OpenAI's construction scale with grid-based unit connections as point counts grow.
