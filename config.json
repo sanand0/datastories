@@ -1,6 +1,24 @@
 {
   "stories": [
     {
+      "id": "bounty-hunting-agents",
+      "title": "The Bounty Hunter That Leaked Itself",
+      "description": "An autonomous AI agent learned to farm open-source bounties, then wandered into a repository where the bounties were bait and committed its own secret instructions into a public pull request.",
+      "summary": "A field report on autonomous AI agents farming open-source bounties, bounty-repo honeypots, prompt exfiltration clauses, and the new trust costs of machine-generated pull requests.",
+      "keywords": [
+        "ai agents",
+        "bug bounties",
+        "open source",
+        "prompt exfiltration",
+        "github pull requests",
+        "agent security"
+      ],
+      "link": "bounty-hunting-agents/",
+      "screenshot": "bounty-hunting-agents/screenshot.avif",
+      "date": "2026-06-24",
+      "folder": "bounty-hunting-agents"
+    },
+    {
       "id": "imf-gdp-forecast-errors",
       "title": "How wrong are IMF GDP forecasts?",
       "description": "Each dot is one IMF forecast of real GDP growth with a verified later outcome, showing where the IMF was too optimistic or too pessimistic across countries, regions, and forecast horizons.",
