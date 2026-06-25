@@ -1,6 +1,25 @@
 {
   "stories": [
     {
+      "id": "rainy-seasons",
+      "title": "Where does it rain on schedule?",
+      "description": "A fast city-month atlas of when rain follows a daily schedule, with each cell showing Umbrella Edge in percentage points and a 24-hour rain-risk mini-chart.",
+      "summary": "Using ten years of hourly precipitation across 150 major cities, this story tests every 1 to 6 hour local-time window to see where umbrella weather has a daily schedule. The grid shows monthly Umbrella Edge, average city edge, edge range, and the raw hourly rain pattern.",
+      "keywords": [
+        "rainfall timing",
+        "weather data",
+        "umbrella rule",
+        "hourly precipitation",
+        "seasonality",
+        "city climate",
+        "rain schedule"
+      ],
+      "link": "rainy-seasons/",
+      "screenshot": "rainy-seasons/screenshot.avif",
+      "date": "2026-06-25",
+      "folder": "rainy-seasons"
+    },
+    {
       "id": "bounty-hunting-agents",
       "title": "The Bounty Hunter That Leaked Itself",
       "description": "An autonomous AI agent learned to farm open-source bounties, then wandered into a repository where the bounties were bait and committed its own secret instructions into a public pull request.",

@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Where does it rain on schedule?](rainy-seasons/). A fast city-month atlas of when rain follows a daily schedule, with each cell showing Umbrella Edge in percentage points and a 24-hour rain-risk mini-chart.
+  [![](rainy-seasons/screenshot.avif)](rainy-seasons/)
 - [The Bounty Hunter That Leaked Itself](bounty-hunting-agents/). An autonomous AI agent learned to farm open-source bounties, then wandered into a repository where the bounties were bait and committed its own secret instructions into a public pull request.
   [![](bounty-hunting-agents/screenshot.avif)](bounty-hunting-agents/)
 - [How wrong are IMF GDP forecasts?](imf-gdp-forecast-errors/). Each dot is one IMF forecast of real GDP growth with a verified later outcome, showing where the IMF was too optimistic or too pessimistic across countries, regions, and forecast horizons.
