@@ -9,4 +9,6 @@ Files:
 - `index.html` - single-page data story
 - `city_month_master.csv` - one row per city-month, with best umbrella window, Umbrella Edge, city average/range fields, and 24 hourly rain-risk values
 
+Source: [ChatGPT](https://chatgpt.com/share/6a3d2ab8-0c38-83e8-bb52-7356d5581103)
+
 <!-- https://chatgpt.com/c/6a3cb9cf-c110-83e8-aa5e-cb8f77ee8bb7 -->
