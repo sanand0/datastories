@@ -222,6 +222,10 @@ const header = document.getElementById('matrixHeader');
 const body = document.getElementById('matrixBody');
 const layer = document.getElementById('rowsLayer');
 const tooltip = document.getElementById('tooltip');
+const searchInput = document.getElementById('search');
+const sortSelect = document.getElementById('sort');
+const defaultSort = 'best';
+const validSorts = new Set(Array.from(sortSelect.options, option => option.value));
 
 function lerp(a,b,t){ return Math.round(a+(b-a)*t); }
 function interp(c0,c1,t){ return [lerp(c0[0],c1[0],t), lerp(c0[1],c1[1],t), lerp(c0[2],c1[2],t)]; }
@@ -259,9 +263,33 @@ function rowHTML(city, idx){
 function renderHeader(){
   header.innerHTML = `<div class="head corner">City | avg / range</div>` + months.map(m => `<div class="head">${m}</div>`).join('');
 }
-function applyFilterSort(){
-  const q = document.getElementById('search').value.trim().toLowerCase();
-  const sort = document.getElementById('sort').value;
+function urlState(){
+  const raw = location.hash.startsWith('#?') ? location.hash.slice(2) : '';
+  const params = new URLSearchParams(raw);
+  const sort = params.get('sort');
+  return {
+    city: params.get('city') || '',
+    sort: validSorts.has(sort) ? sort : defaultSort
+  };
+}
+function applyUrlState(){
+  const state = urlState();
+  searchInput.value = state.city;
+  sortSelect.value = state.sort;
+}
+function syncUrlState(){
+  const params = new URLSearchParams();
+  const city = searchInput.value.trim();
+  if (city) params.set('city', city);
+  if (sortSelect.value !== defaultSort) params.set('sort', sortSelect.value);
+  const url = new URL(location.href);
+  url.hash = params.toString() ? '?' + params.toString() : '';
+  if (url.href !== location.href) history.replaceState(null, '', url);
+}
+function applyFilterSort(updateUrl = true){
+  const q = searchInput.value.trim().toLowerCase();
+  const sort = sortSelect.value;
+  if (updateUrl) syncUrlState();
   visibleCities = allCities.filter(c => !q || (c.city + ' ' + c.country).toLowerCase().includes(q));
   visibleCities.sort((a,b) => {
     if (sort === 'name') return (a.city + a.country).localeCompare(b.city + b.country);
@@ -321,8 +349,9 @@ layer.addEventListener('pointermove', ev => { if (tooltip.classList.contains('sh
 layer.addEventListener('pointerout', ev => { if (ev.target.closest('.cell')) hideTooltip(); });
 wrap.addEventListener('scroll', scheduleRender, {passive:true});
 window.addEventListener('resize', scheduleRender, {passive:true});
-document.getElementById('search').addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(applyFilterSort, 90); });
-document.getElementById('sort').addEventListener('change', applyFilterSort);
+window.addEventListener('hashchange', () => { applyUrlState(); applyFilterSort(false); });
+searchInput.addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(applyFilterSort, 90); });
+sortSelect.addEventListener('change', applyFilterSort);
 function renderCallouts(){
   const highRange=[...allCities].sort((a,b)=>b.range-a.range).slice(0,3);
   const flatLow=[...allCities].sort((a,b)=>(a.range-b.range) || (a.avg-b.avg)).slice(0,3);
@@ -340,7 +369,7 @@ function renderSample(){
 document.getElementById('stat-cities').textContent = meta.city_count.toLocaleString();
 document.getElementById('stat-cells').textContent = meta.row_count.toLocaleString();
 document.getElementById('stat-top').textContent = Math.round(meta.max_rule_strength_pp) + ' pp';
-renderHeader(); renderSample(); renderCallouts(); applyFilterSort();
+applyUrlState(); renderHeader(); renderSample(); renderCallouts(); applyFilterSort(false);
 </script>
 </body>
 </html>
