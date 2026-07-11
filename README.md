@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [The Fourteen-Minute Walk](security-at-bagmane-capital/). A true story of one afternoon in Bengaluru: two gates, four kilometres that should have been two, and a peri peri paneer sandwich.
+  [![](security-at-bagmane-capital/screenshot.avif)](security-at-bagmane-capital/)
 - [Where does it rain on schedule?](rainy-seasons/). A fast city-month atlas of when rain follows a daily schedule, with each cell showing Umbrella Edge in percentage points and a 24-hour rain-risk mini-chart.
   [![](rainy-seasons/screenshot.avif)](rainy-seasons/)
 - [The Bounty Hunter That Leaked Itself](bounty-hunting-agents/). An autonomous AI agent learned to farm open-source bounties, then wandered into a repository where the bounties were bait and committed its own secret instructions into a public pull request.
@@ -104,7 +106,7 @@ File structure:
 When adding a new story, update config.json, README.md (and setup.sh if required).
 
 ```bash
-codex "Update README.md and config.json with tds-2026-01-p1/ and screenshot" --yolo`
+dev.sh -- codex "Update README.md and config.json with tds-2026-01-p1/ and screenshot" --yolo
 ```
 
 Assets are stored in a GitHub Release created via:

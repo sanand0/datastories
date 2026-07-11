@@ -1,6 +1,24 @@
 {
   "stories": [
     {
+      "id": "security-at-bagmane-capital",
+      "title": "The Fourteen-Minute Walk",
+      "description": "A true story of one afternoon in Bengaluru: two gates, four kilometres that should have been two, and a peri peri paneer sandwich.",
+      "summary": "A planned 14-minute walk to a workshop became a four-kilometre detour when Bagmane Capital security redirected a visitor from Gate 3 to the front gate, followed by another difficult exit and, eventually, lunch.",
+      "keywords": [
+        "Bagmane Capital",
+        "Bengaluru",
+        "visitor security",
+        "walking route",
+        "access control",
+        "interactive map"
+      ],
+      "link": "security-at-bagmane-capital/",
+      "screenshot": "security-at-bagmane-capital/screenshot.avif",
+      "date": "2026-07-11",
+      "folder": "security-at-bagmane-capital"
+    },
+    {
       "id": "rainy-seasons",
       "title": "Where does it rain on schedule?",
       "description": "A fast city-month atlas of when rain follows a daily schedule, with each cell showing Umbrella Edge in percentage points and a 24-hour rain-risk mini-chart.",

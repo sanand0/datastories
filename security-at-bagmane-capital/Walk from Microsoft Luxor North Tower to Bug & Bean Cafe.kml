@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name><![CDATA[Directions from Microsoft Luxor North Tower to Bug & Bean Café]]></name>
+    <Style id="icon-1899-DB4436-nodesc-normal">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1899-DB4436-nodesc-highlight">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1899-DB4436-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-DB4436-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-DB4436-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="line-1267FF-5000-nodesc-normal">
+      <LineStyle>
+        <color>ffff6712</color>
+        <width>5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="line-1267FF-5000-nodesc-highlight">
+      <LineStyle>
+        <color>ffff6712</color>
+        <width>7.5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="line-1267FF-5000-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-1267FF-5000-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-1267FF-5000-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name><![CDATA[Directions from Microsoft Luxor North Tower to Bug & Bean Café]]></name>
+      <styleUrl>#line-1267FF-5000-nodesc</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+          77.70464,12.98439,0
+          77.70464,12.98451,0
+          77.70465,12.98472,0
+          77.70465,12.98476,0
+          77.70472,12.98476,0
+          77.70563,12.98479,0
+          77.70603,12.98479,0
+          77.70613,12.9848,0
+          77.70616,12.9848,0
+          77.70619,12.9848,0
+          77.70622,12.98478,0
+          77.70624,12.98475,0
+          77.70624,12.98469,0
+          77.70621,12.98465,0
+          77.70621,12.98461,0
+          77.70622,12.98454,0
+          77.70623,12.98448,0
+          77.70625,12.98444,0
+          77.70628,12.98439,0
+          77.70636,12.98436,0
+          77.70637,12.9843,0
+          77.70658,12.98433,0
+          77.70665,12.98434,0
+          77.70692,12.98437,0
+          77.707,12.98437,0
+          77.70704,12.98438,0
+          77.70718,12.9844,0
+          77.70756,12.98443,0
+          77.70804,12.98447,0
+          77.70816,12.98448,0
+          77.70816,12.98486,0
+          77.70817,12.98509,0
+          77.70814,12.9851,0
+          77.7081,12.98517,0
+          77.708,12.98546,0
+          77.70793,12.98574,0
+          77.70791,12.98581,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Microsoft Luxor North Tower</name>
+      <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          77.7046411,12.9843929,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name><![CDATA[Bug & Bean Café]]></name>
+      <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          77.7079103,12.9858093,0
+        </coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>
