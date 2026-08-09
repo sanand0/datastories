@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [What it's like to work at Gramener](gramener-glassdoor/). 208 employee reviews, 41 interview reports and 103 salary bands for Gramener, turned into one explorable dossier.
+  [![](gramener-glassdoor/screenshot.avif)](gramener-glassdoor/)
 - [The Fourteen-Minute Walk](security-at-bagmane-capital/). A true story of one afternoon in Bengaluru: two gates, four kilometres that should have been two, and a peri peri paneer sandwich.
   [![](security-at-bagmane-capital/screenshot.avif)](security-at-bagmane-capital/)
 - [Where does it rain on schedule?](rainy-seasons/). A fast city-month atlas of when rain follows a daily schedule, with each cell showing Umbrella Edge in percentage points and a 24-hour rain-risk mini-chart.

@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gramener on Glassdoor — an employee review dossier</title>
+<meta name="description" content="208 employee reviews, 41 interview reports and 103 salary bands for Gramener, explorable.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='middle' font-size='34' font-family='Georgia,serif' fill='%23fff'%3E4.3%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.544.0/font/lucide.css">
+<style>
+/* ─── tokens ───────────────────────────────────────────────────────── */
+:root {
+  --paper:#f7f3ec; --panel:#fffdf9; --panel-2:#f1ebe0; --ink:#201c17; --muted:#6f6558;
+  --rule:#e2dacd; --rule-hard:#cdc2b0; --ink-2:#4a4136;
+  --accent:#c2410c; --accent-soft:#fbe6d8; --accent2:#0f766e; --accent2-soft:#dcf0ec;
+  --r1:#a3341f; --r2:#a85a15; --r3:#8a7118; --r4:#3a6f63; --r5:#1c6b58;
+  --shadow:0 1px 2px rgba(60,45,25,.06), 0 8px 24px -12px rgba(60,45,25,.22);
+  --grain:.035;
+  --serif:"Fraunces",Georgia,serif; --read:"Newsreader",Georgia,serif;
+  --ui:"Space Grotesk",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  --wrap:1180px; --rad:10px;
+  color-scheme:light;
+}
+html[data-theme="dark"] {
+  --paper:#14120f; --panel:#1d1a16; --panel-2:#26221c; --ink:#f2ece1; --muted:#a2978a;
+  --rule:#332d25; --rule-hard:#4a4238; --ink-2:#c6bcae;
+  --accent:#f4783f; --accent-soft:#3a2116; --accent2:#3fd0bb; --accent2-soft:#10312e;
+  --r1:#e88771; --r2:#e5a557; --r3:#d4bb63; --r4:#6cc2b1; --r5:#4fd9b8;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  --grain:.05;
+  color-scheme:dark;
+}
+*,*::before,*::after { box-sizing:border-box }
+html { scroll-behavior:smooth }
+body {
+  margin:0; background:var(--paper); color:var(--ink);
+  font:400 16px/1.6 var(--ui); -webkit-font-smoothing:antialiased;
+  overflow-wrap:break-word;
+}
+/* paper grain + soft corner washes for atmosphere */
+body::before {
+  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(1100px 620px at 8% -10%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 60%),
+    radial-gradient(900px 560px at 104% 4%, color-mix(in oklab, var(--accent2) 14%, transparent), transparent 62%);
+}
+body::after {
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:var(--grain);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection { background:var(--accent); color:var(--panel) }
+a { color:inherit; text-decoration-color:color-mix(in oklab, var(--accent) 55%, transparent); text-underline-offset:3px }
+a:hover { text-decoration-color:var(--accent) }
+:focus-visible { outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px }
+button,input,select,textarea { font:inherit; color:inherit }
+h1,h2,h3,h4 { font-family:var(--serif); font-weight:600; line-height:1.12; margin:0; letter-spacing:-.015em }
+.num { font-family:var(--mono); font-variant-numeric:tabular-nums }
+.wrap { max-width:var(--wrap); margin-inline:auto; padding-inline:clamp(14px,3vw,28px) }
+
+/* ─── kicker / rules ───────────────────────────────────────────────── */
+.kicker {
+  font:500 11px/1 var(--ui); letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  display:flex; align-items:center; gap:10px; margin-bottom:14px;
+}
+.kicker::after { content:""; flex:1; height:1px; background:var(--rule) }
+.dek { color:var(--ink-2); font-family:var(--read); font-size:17px; max-width:64ch; margin:10px 0 0 }
+
+/* ─── header ───────────────────────────────────────────────────────── */
+header.masthead {
+  position:sticky; top:0; z-index:60;
+  background:color-mix(in oklab, var(--paper) 88%, transparent);
+  backdrop-filter:blur(12px) saturate(1.3);
+  border-bottom:1px solid var(--rule);
+}
+.masthead-in { display:flex; align-items:center; gap:14px; padding-block:9px; flex-wrap:wrap }
+.brand { display:flex; align-items:center; gap:10px; font-family:var(--serif); font-weight:900; font-size:19px; letter-spacing:-.02em }
+.brand .logo { width:30px; height:30px; border-radius:8px; display:grid; place-items:center; color:#fff;
+  background:linear-gradient(145deg,var(--accent),color-mix(in oklab,var(--accent) 55%, var(--accent2)));
+  font-family:var(--serif); font-weight:900; font-size:19px; letter-spacing:0 }
+.brand small {
+  font:500 10px/1 var(--ui); letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  display:block; margin-top:3px;
+}
+nav.tabs { display:flex; gap:2px; margin-left:auto; overflow-x:auto; scrollbar-width:none }
+nav.tabs::-webkit-scrollbar { display:none }
+nav.tabs button {
+  background:none; border:0; cursor:pointer; padding:8px 12px; border-radius:999px; white-space:nowrap;
+  font:500 13.5px/1 var(--ui); color:var(--muted); display:flex; align-items:center; gap:7px;
+  transition:background .18s, color .18s;
+}
+nav.tabs button:hover { color:var(--ink); background:var(--panel-2) }
+nav.tabs button[aria-selected="true"] { color:var(--panel); background:var(--ink) }
+@media (max-width:760px) {
+  nav.tabs { order:3; flex-basis:100%; margin-left:0; margin-inline:-4px; padding-inline:4px }
+  .masthead-in { row-gap:4px }
+}
+.icon-btn {
+  background:var(--panel); border:1px solid var(--rule-hard); border-radius:999px; cursor:pointer;
+  width:34px; height:34px; display:grid; place-items:center; transition:transform .18s, background .18s;
+}
+.icon-btn:hover { background:var(--panel-2); transform:rotate(-12deg) }
+
+/* ─── panels & grid ────────────────────────────────────────────────── */
+main { padding-block:26px 90px }
+.panel { background:var(--panel); border:1px solid var(--rule); border-radius:var(--rad); box-shadow:var(--shadow) }
+.pad { padding:clamp(14px,2.2vw,22px) }
+.grid { display:grid; gap:16px }
+.g2 { grid-template-columns:repeat(auto-fit,minmax(320px,1fr)) }
+.g3 { grid-template-columns:repeat(auto-fit,minmax(250px,1fr)) }
+section.view { display:none; animation:rise .5s cubic-bezier(.2,.7,.3,1) both }
+section.view.on { display:block }
+@keyframes rise { from { opacity:0; transform:translateY(14px) } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important } }
+.stagger > * { animation:rise .55s cubic-bezier(.2,.7,.3,1) both }
+.stagger > *:nth-child(1){animation-delay:.02s} .stagger > *:nth-child(2){animation-delay:.08s}
+.stagger > *:nth-child(3){animation-delay:.14s} .stagger > *:nth-child(4){animation-delay:.2s}
+.stagger > *:nth-child(5){animation-delay:.26s} .stagger > *:nth-child(6){animation-delay:.32s}
+.stagger > *:nth-child(n+7){animation-delay:.38s}
+
+/* ─── hero ─────────────────────────────────────────────────────────── */
+.hero { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:clamp(16px,3vw,40px); align-items:center }
+@media (max-width:860px) { .hero { grid-template-columns:1fr } }
+.hero h1 { font-size:clamp(34px,5.6vw,62px); font-weight:900; letter-spacing:-.035em }
+.hero h1 em { font-style:normal; color:var(--accent) }
+.bigscore { display:flex; align-items:flex-end; gap:16px; margin-top:6px }
+.bigscore .v { font-family:var(--serif); font-weight:900; font-size:clamp(64px,11vw,116px); line-height:.82; letter-spacing:-.05em }
+.bigscore .of { color:var(--muted); font-size:15px; padding-bottom:8px }
+.stars { display:inline-flex; gap:2px; color:var(--accent); font-size:17px; line-height:1 }
+.stars .off { color:var(--rule-hard) }
+.facts { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px }
+.chip {
+  display:inline-flex; align-items:center; gap:6px; padding:5px 11px; border-radius:999px;
+  border:1px solid var(--rule-hard); background:var(--panel); font-size:12.5px; color:var(--muted);
+}
+.chip i { font-size:13px; color:var(--accent) }
+
+/* ─── stat tiles ───────────────────────────────────────────────────── */
+.tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px }
+.tile { padding:14px 16px; border-radius:var(--rad); border:1px solid var(--rule); background:var(--panel); position:relative; overflow:hidden }
+.tile .lab { font:500 10.5px/1.3 var(--ui); letter-spacing:.13em; text-transform:uppercase; color:var(--muted) }
+.tile .val { font-family:var(--serif); font-weight:900; font-size:34px; line-height:1.05; margin-top:7px; letter-spacing:-.03em }
+.tile .sub { font-size:12px; color:var(--muted); margin-top:3px }
+.tile::after { content:""; position:absolute; left:0; bottom:0; height:3px; width:var(--fill,0%); background:var(--accent); opacity:.85 }
+
+/* ─── generic bars ─────────────────────────────────────────────────── */
+.bars { display:grid; gap:7px }
+.bar-row { display:grid; grid-template-columns:var(--lw,132px) 1fr auto; gap:10px; align-items:center; font-size:13px }
+.bar-row .lbl { color:var(--muted); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.track { display:block; height:10px; border-radius:999px; background:var(--panel-2); overflow:hidden; position:relative }
+.fill { display:block; height:100%; border-radius:999px; background:var(--accent); transform-origin:left; animation:grow .8s cubic-bezier(.2,.8,.3,1) both }
+@keyframes grow { from { transform:scaleX(0) } }
+.bar-row .v { font-family:var(--mono); font-size:12px; color:var(--muted); min-width:34px; text-align:right }
+.bench { position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--ink); border-radius:2px;
+  box-shadow:0 0 0 1.5px var(--panel) }
+
+/* ─── controls ─────────────────────────────────────────────────────── */
+.controls { display:flex; flex-wrap:wrap; gap:9px; align-items:center }
+.field { position:relative; display:flex; align-items:center }
+.field > i { position:absolute; left:11px; color:var(--muted); font-size:15px; pointer-events:none }
+input[type="search"], select {
+  background:var(--panel); border:1px solid var(--rule-hard); border-radius:999px; padding:8px 13px;
+  font-size:13.5px; transition:border-color .18s, box-shadow .18s;
+}
+input[type="search"] { padding-left:33px; min-width:min(300px,100%) }
+input[type="search"]:focus, select:focus { border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent) }
+select { cursor:pointer; padding-right:28px; appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
+  background-position:calc(100% - 15px) 55%, calc(100% - 10px) 55%; background-size:5px 5px,5px 5px; background-repeat:no-repeat }
+.toggle-group { display:flex; border:1px solid var(--rule-hard); border-radius:999px; overflow:hidden; background:var(--panel) }
+.toggle-group button {
+  border:0; background:none; cursor:pointer; padding:7px 12px; font-size:12.5px; color:var(--muted);
+  border-right:1px solid var(--rule); transition:background .15s,color .15s;
+}
+.toggle-group button:last-child { border-right:0 }
+.toggle-group button:hover { background:var(--panel-2); color:var(--ink) }
+.toggle-group button[aria-pressed="true"] { background:var(--ink); color:var(--panel) }
+.pill-clear {
+  border:1px dashed var(--rule-hard); background:none; border-radius:999px; padding:6px 12px; cursor:pointer;
+  font-size:12.5px; color:var(--muted); display:inline-flex; gap:6px; align-items:center;
+}
+.pill-clear:hover { border-color:var(--accent); color:var(--accent) }
+.active-filters { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px }
+.fchip {
+  display:inline-flex; align-items:center; gap:6px; padding:4px 6px 4px 11px; border-radius:999px;
+  background:var(--accent-soft); color:var(--accent); border:1px solid color-mix(in oklab,var(--accent) 30%,transparent); font-size:12px;
+}
+.fchip button { border:0; background:none; cursor:pointer; color:inherit; display:grid; place-items:center; padding:2px; border-radius:50%; opacity:.7 }
+.fchip button:hover { opacity:1; background:color-mix(in oklab,var(--accent) 22%,transparent) }
+.result-count { font-size:13px; color:var(--muted); margin-left:auto }
+.result-count b { color:var(--ink); font-family:var(--mono) }
+
+/* ─── review cards ─────────────────────────────────────────────────── */
+.reviews { display:grid; gap:14px; margin-top:16px }
+.review { container-type:inline-size; border:1px solid var(--rule); border-radius:var(--rad); background:var(--panel); padding:16px 18px; box-shadow:var(--shadow); position:relative }
+.review::before {
+  content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px; border-radius:0 3px 3px 0;
+  background:var(--rc,var(--rule-hard));
+}
+.rv-top { display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap }
+.rv-score {
+  font-family:var(--serif); font-weight:900; font-size:26px; line-height:1; color:var(--rc,var(--ink));
+  min-width:44px; letter-spacing:-.03em;
+}
+.rv-title { font-family:var(--serif); font-weight:600; font-size:19px; flex:1 1 260px; min-width:0 }
+.rv-date { font-family:var(--mono); font-size:11.5px; color:var(--muted); white-space:nowrap }
+.rv-meta { display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; font-size:12px; color:var(--muted) }
+.rv-meta span { display:inline-flex; align-items:center; gap:5px; background:var(--panel-2); border-radius:999px; padding:3px 9px }
+.rv-meta i { font-size:12px; opacity:.75 }
+.pc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px }
+/* two columns only when the CARD is wide enough — these cards also live in half-width grids */
+@container (max-width:560px) { .pc { grid-template-columns:1fr } }
+@media (max-width:640px) { .pc { grid-template-columns:1fr } }
+.pc > div { border-radius:8px; padding:10px 12px; font-family:var(--read); font-size:15px; line-height:1.55; white-space:pre-line }
+.pc .pros { background:var(--accent2-soft); border-left:2px solid var(--accent2) }
+.pc .cons { background:var(--accent-soft); border-left:2px solid var(--accent) }
+.pc .cap {
+  font:500 10px/1 var(--ui); letter-spacing:.15em; text-transform:uppercase; margin:0 0 7px;
+  color:var(--muted); display:flex; align-items:center; gap:6px;
+}
+.pc .pros .cap i { color:var(--accent2) } .pc .cons .cap i { color:var(--accent) }
+.subrat { display:flex; flex-wrap:wrap; gap:5px; margin-top:12px }
+.subrat b {
+  font:400 11px/1 var(--ui); display:inline-flex; align-items:center; gap:5px; padding:4px 8px;
+  border-radius:5px; background:var(--panel-2); color:var(--muted); cursor:help;
+}
+.subrat b em { font-style:normal; font-family:var(--mono); font-weight:700; color:var(--sc) }
+details.resp { margin-top:12px; border-top:1px dashed var(--rule-hard); padding-top:10px }
+details.resp summary {
+  cursor:pointer; font:500 12px/1 var(--ui); color:var(--accent2); display:flex; align-items:center; gap:7px;
+  list-style:none;
+}
+details.resp summary::-webkit-details-marker { display:none }
+details.resp summary i { transition:transform .2s }
+details.resp[open] summary i.chev { transform:rotate(90deg) }
+details.resp p { font-family:var(--read); font-size:14.5px; color:var(--ink-2); margin:9px 0 0; padding-left:18px; border-left:2px solid var(--accent2-soft) }
+.advice { margin-top:12px; font-family:var(--read); font-size:14.5px; font-style:italic; color:var(--ink-2); padding-left:12px; border-left:2px solid var(--rule-hard) }
+mark { background:color-mix(in oklab,var(--accent) 30%,transparent); color:inherit; border-radius:2px; padding:0 1px }
+.load-more { display:block; margin:22px auto 0; padding:11px 26px; border-radius:999px; border:1px solid var(--rule-hard); background:var(--panel); cursor:pointer; font:500 14px var(--ui) }
+.load-more:hover { background:var(--ink); color:var(--panel); border-color:var(--ink) }
+.empty { text-align:center; padding:60px 20px; color:var(--muted) }
+.empty i { font-size:38px; opacity:.35; display:block; margin-bottom:12px }
+
+/* ─── tables ───────────────────────────────────────────────────────── */
+.tbl-scroll { overflow-x:auto; border-radius:var(--rad) }
+table { border-collapse:collapse; width:100%; font-size:13.5px }
+th, td { padding:9px 12px; text-align:left; border-bottom:1px solid var(--rule) }
+th {
+  position:sticky; top:0; background:var(--panel); z-index:2; cursor:pointer; white-space:nowrap;
+  font:500 10.5px/1.3 var(--ui); letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+  border-bottom:1px solid var(--rule-hard);
+}
+th:hover { color:var(--accent) }
+th[aria-sort]::after { content:" ↑"; font-family:var(--mono) } th[aria-sort="descending"]::after { content:" ↓" }
+tbody tr:hover { background:var(--panel-2) }
+td.n { font-family:var(--mono); text-align:right; font-variant-numeric:tabular-nums }
+
+/* range bar for salaries */
+.rng { display:inline-block; position:relative; height:20px; width:190px; vertical-align:middle }
+.rng .whisk { position:absolute; top:9px; height:2px; background:var(--rule-hard); min-width:1px }
+.rng .box { position:absolute; top:4px; height:12px; border-radius:3px; background:color-mix(in oklab,var(--accent2) 32%,transparent); border:1px solid var(--accent2) }
+.rng .med { position:absolute; top:1px; height:18px; width:2.5px; background:var(--accent); border-radius:2px }
+.rng .over { position:absolute; right:-11px; top:1px; font:700 15px/18px var(--ui); color:var(--accent); font-style:normal }
+
+/* ─── word tug-of-war ──────────────────────────────────────────────── */
+.words { display:grid; gap:5px }
+.word-row { display:grid; grid-template-columns:1fr 128px 1fr; gap:8px; align-items:center; font-size:13px }
+.word-row .w { text-align:center; font-family:var(--read); font-size:14.5px; cursor:pointer; border-radius:5px; padding:2px 4px }
+.word-row .w:hover { background:var(--panel-2); color:var(--accent) }
+.word-row .l, .word-row .r { display:block; height:13px; border-radius:3px; position:relative }
+.word-row .l > i, .word-row .r > i {
+  position:absolute; top:0; bottom:0; border-radius:3px; font-size:0;
+}
+.word-row .l > i { right:0; background:var(--accent2) } .word-row .r > i { left:0; background:var(--accent) }
+.word-row .l { text-align:right }
+
+/* ─── timeline ─────────────────────────────────────────────────────── */
+.tl { display:grid; gap:0; margin-top:6px }
+.tl-item { display:grid; grid-template-columns:58px 1fr; gap:14px; padding:10px 0; border-bottom:1px solid var(--rule); align-items:baseline }
+.tl-item:last-child { border-bottom:0 }
+.tl-item .yr { font-family:var(--mono); font-weight:700; font-size:13px; color:var(--accent) }
+.tl-item .tx { font-family:var(--read); font-size:15px }
+.tl-item .src { display:block; font-size:12px; color:var(--ink-2); font-family:var(--ui); margin-top:3px }
+
+/* ─── faq / accordions ─────────────────────────────────────────────── */
+details.faq { border-bottom:1px solid var(--rule) }
+details.faq:last-child { border-bottom:0 }
+details.faq summary {
+  cursor:pointer; padding:13px 0; font-family:var(--serif); font-weight:600; font-size:16.5px;
+  display:flex; gap:10px; align-items:center; list-style:none;
+}
+details.faq summary::-webkit-details-marker { display:none }
+details.faq summary i.chev { margin-left:auto; transition:transform .22s; color:var(--muted) }
+details.faq[open] summary i.chev { transform:rotate(90deg); color:var(--accent) }
+details.faq .body { padding:0 0 16px; font-family:var(--read); font-size:15.5px; line-height:1.65; color:var(--ink-2); max-width:70ch }
+details.faq .body ul { margin:8px 0 0; padding-left:20px } details.faq .body li { margin-bottom:4px }
+
+/* ─── svg charts ───────────────────────────────────────────────────── */
+svg.chart { display:block; width:100%; height:auto; overflow:visible; font-family:var(--ui) }
+svg.chart text { fill:var(--muted); font-size:10.5px }
+svg.chart .axis line { stroke:var(--rule); stroke-width:1 }
+svg.chart .hit [data-act] { cursor:pointer }
+svg.chart rect.mark { pointer-events:none; transition:opacity .15s }  /* clicks fall through to the hit rect */
+svg.chart .hit:hover rect.mark { opacity:.75 }
+svg.chart .hit [data-act]:focus-visible { outline:2.5px solid var(--accent); outline-offset:-2px }
+
+/* ─── tooltip ──────────────────────────────────────────────────────── */
+#tip {
+  position:fixed; z-index:200; pointer-events:none; opacity:0; transform:translateY(4px);
+  transition:opacity .12s, transform .12s; max-width:280px;
+  background:var(--ink); color:var(--paper); padding:8px 11px; border-radius:7px;
+  font-size:12.5px; line-height:1.45; box-shadow:0 8px 24px -8px rgba(0,0,0,.5);
+}
+#tip.on { opacity:1; transform:translateY(0) }
+#tip b { font-family:var(--mono) }
+
+/* ─── photos ───────────────────────────────────────────────────────── */
+/* ─── loading / error ──────────────────────────────────────────────── */
+#boot { display:grid; place-items:center; min-height:70vh; gap:16px; text-align:center }
+.spin { width:34px; height:34px; border:3px solid var(--rule-hard); border-top-color:var(--accent); border-radius:50%; animation:sp .8s linear infinite }
+@keyframes sp { to { transform:rotate(360deg) } }
+.err { max-width:560px; border:1px solid var(--accent); background:var(--accent-soft); color:var(--accent); border-radius:var(--rad); padding:18px 20px; text-align:left; font-size:14px }
+.err code { font-family:var(--mono); font-size:12.5px; background:color-mix(in oklab,var(--accent) 14%,transparent); padding:1px 5px; border-radius:4px }
+
+footer { border-top:1px solid var(--rule); margin-top:40px; padding:22px 0 60px; font-size:12.5px; color:var(--muted) }
+.sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap }
+.skip { position:absolute; left:-9999px; top:8px; z-index:99; background:var(--ink); color:var(--paper); padding:9px 14px; border-radius:6px }
+.skip:focus { left:12px }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="wrap masthead-in">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">G</span>
+      <div><span id="brand-name">…</span><small id="brand-sub">Glassdoor dossier</small></div>
+    </div>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
+    <button class="icon-btn" id="theme" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="icon-moon" aria-hidden="true"></i></button>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div id="boot"><div class="spin" role="status" aria-label="Loading"></div><p style="color:var(--muted);font-size:14px">Reading glassdoor.json…</p></div>
+  <div id="app" hidden></div>
+</main>
+
+<footer class="wrap">
+  <p id="foot"></p>
+</footer>
+
+<div id="tip" aria-live="polite"></div>
+<script type="module">
+// @ts-check
+/* ═══ 0. tiny helpers ══════════════════════════════════════════════ */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const pct = (n, d) => (d ? (100 * n) / d : 0);
+const uniq = (a) => [...new Set(a)];
+const sum = (a) => a.reduce((x, y) => x + y, 0);
+const mean = (a) => (a.length ? sum(a) / a.length : null);
+const medianOf = (a) => { const s = [...a].sort((x, y) => x - y); return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2; };
+const by = (fn) => (a, b) => (fn(a) < fn(b) ? -1 : fn(a) > fn(b) ? 1 : 0);
+const counts = (a) => a.reduce((m, k) => (m[k] = (m[k] || 0) + 1, m), /** @type {Record<string,number>} */({}));
+const reEsc = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const debounce = (fn, ms = 180) => { let t; return (...a) => (clearTimeout(t), t = setTimeout(() => fn(...a), ms)); };
+
+/** Rating (1-5, may be fractional) → one of the five palette colours. */
+const rcolor = (r) => `var(--r${clamp(Math.round(r), 1, 5)})`;
+const stars = (r) => `<span class="stars" aria-hidden="true">${[1, 2, 3, 4, 5].map((i) => `<i class="icon-star${i <= Math.round(r) ? "" : " off"}"></i>`).join("")}</span>`;
+const fmtDate = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const yearOf = (iso) => +iso.slice(0, 4);
+const titleCase = (s) => String(s).toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+/** INR in Indian units — the salary data is entirely ₹ annual. */
+/** Money formatter bound to whatever currency the salary block declares (set after load). */
+let inr = (v) => String(v);
+const makeMoney = (code) => {
+  const sym = { INR: "₹", USD: "$", EUR: "€", GBP: "£" }[code] ?? `${code} `;
+  if (code !== "INR") {
+    const f = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
+    return (v) => v == null ? "—" : `${sym}${f.format(v)}`;
+  }
+  return (v) => v == null ? "—" : v >= 1e7 ? `${sym}${(v / 1e7).toFixed(2)} Cr`
+    : v >= 1e5 ? `${sym}${(v / 1e5).toFixed(1)} L` : `${sym}${Math.round(v).toLocaleString("en-IN")}`;
+};
+
+/* ═══ 1. job taxonomy — data, not conditionals ═════════════════════ */
+/** First matching pattern wins, so order encodes precedence. */
+const FAMILIES = [
+  [/intern|trainee/i, "Intern / Trainee"],
+  [/\bqa\b|quality/i, "QA"],
+  [/design|\bux\b|\bui\b|visuali[sz]|artist|creative/i, "Design & Visualisation"],
+  [/data scien|data special|analytic|\bdata\b|statisti/i, "Data Science"],
+  [/consultant|consulting|client partner|\bcsp\b|solution special/i, "Consulting"],
+  [/engineer|developer|architect|full stack|backend|frontend|linux|systems admin|technical lead|team lead/i, "Engineering"],
+  [/analyst|market research/i, "Analysis"],
+  [/marketing|growth|sales|account manager|partnership/i, "Sales & Marketing"],
+  [/human (resources|capital)|finance|operations|\bpmo\b|project manager|content writer/i, "Corporate Functions"],
+  [/manager|director|president|\bvp\b|head|lead|partner/i, "Leadership"],
+];
+const SENIORITY = [
+  [/intern|trainee|summer/i, "Intern / Trainee"],
+  [/vice president|\bvp\b|\bsvp\b|director|chief/i, "Director & above"],
+  [/manager|managing/i, "Manager"],
+  [/principal|\blead\b|\bleader\b/i, "Lead / Principal"],
+  [/senior|\bsr\.?\b/i, "Senior"],
+  [/associate|junior|trainee/i, "Associate"],
+];
+const match = (table, s, dflt) => (table.find(([re]) => re.test(s)) || [, dflt])[1];
+
+/**
+ * The three yes/no verdicts a reviewer can leave. Each entry is
+ * [row key, label, source field, "any" option label, {enum value → [display, icon, colour var]}];
+ * a null source value means the reviewer skipped the question.
+ */
+const VERDICTS = [
+  ["rec", "Recommend", "ratingRecommendToFriend", "Any recommendation", {
+    POSITIVE: ["Recommends", "icon-thumbs-up", "var(--r5)"],
+    NEGATIVE: ["Doesn't recommend", "icon-thumbs-down", "var(--r1)"],
+  }],
+  ["ceo", "CEO approval", "ratingCeo", "Any CEO verdict", {
+    APPROVE: ["Approves of CEO", "icon-circle-check", "var(--r5)"],
+    DISAPPROVE: ["Disapproves of CEO", "icon-circle-alert", "var(--r1)"],
+    NO_OPINION: ["No opinion of CEO", "icon-meh", "var(--r3)"],
+  }],
+  ["outlook", "Business outlook", "ratingBusinessOutlook", "Any outlook", {
+    POSITIVE: ["Positive outlook", "icon-trending-up", "var(--r5)"],
+    NEGATIVE: ["Negative outlook", "icon-trending-down", "var(--r1)"],
+    NEUTRAL: ["Neutral outlook", "icon-meh", "var(--r3)"],
+  }],
+];
+
+/* Six sub-scores Glassdoor collects. 0 = "not answered", not a zero score. */
+const SUBS = [
+  ["ratingWorkLifeBalance", "Work–life balance", "workLifeBalanceRating", "workLifeBalance"],
+  ["ratingCultureAndValues", "Culture & values", "cultureAndValuesRating", "cultureAndValues"],
+  ["ratingDiversityAndInclusion", "Diversity & inclusion", "diversityAndInclusionRating", "diversityAndInclusion"],
+  ["ratingCareerOpportunities", "Career opportunities", "careerOpportunitiesRating", "careerOpportunities"],
+  ["ratingCompensationAndBenefits", "Compensation & benefits", "compensationAndBenefitsRating", "compensationAndBenefits"],
+  ["ratingSeniorLeadership", "Senior management", "seniorManagementRating", "seniorManagement"],
+];
+
+const STOP_WORDS = ("a an the and or but of to in for on at is are was were be been being it its this that these those with as by from you your we our they their he she i me my not no so very too also can could would should will just get got have has had do does did if then than there here what which who whom when where why how all any both each few more most other some such only own same s t don now company work working works job jobs employee employees good great nice better best lot lots much many really quite thing things people place cons pros nothing none na n/a well still yet even ever never always sometimes often about into over under again further once because while during before after above below up down out off");
+let STOP = new Set(STOP_WORDS.split(" "));
+
+/* ═══ 2. state, mirrored into the URL hash ═════════════════════════ */
+const DEFAULTS = { tab: "overview", q: "", rating: "", status: "", loc: "", fam: "", sen: "", ten: "", yr: "", cur: "", resp: "", rec: "", ceo: "", outlook: "", sort: "new", n: 20, iq: "", iexp: "", idiff: "", iout: "", isrc: "", pq: "", psort: "count", pdir: "desc" };
+const S = { ...DEFAULTS };
+
+function readURL() {
+  const [tab, qs] = decodeURIComponent(location.hash.replace(/^#/, "")).split("?");
+  Object.assign(S, DEFAULTS);
+  if (tab) S.tab = tab;
+  new URLSearchParams(qs || "").forEach((v, k) => { if (k in S) S[k] = k === "n" ? +v : v; });
+}
+function writeURL() {
+  const qs = new URLSearchParams();
+  for (const k of Object.keys(DEFAULTS)) if (k !== "tab" && k !== "n" && S[k] !== DEFAULTS[k]) qs.set(k, S[k]);
+  const q = qs.toString();
+  history.replaceState(null, "", `#${S.tab}${q ? "?" + q : ""}`);
+}
+/** Update state → URL → re-render. `soft` re-renders only the current view. */
+function set(patch, { keepPage = false } = {}) {
+  Object.assign(S, patch);
+  if (!keepPage && !("n" in patch)) S.n = DEFAULTS.n;
+  writeURL();
+  render();
+}
+
+/* ═══ 3. load ══════════════════════════════════════════════════════ */
+let D, R, IV, SAL;
+try {
+  const res = await fetch("glassdoor.json");
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+  D = await res.json();
+} catch (e) {
+  $("#boot").innerHTML = `<div class="err"><strong>Could not load <code>glassdoor.json</code>.</strong>
+    <p>${esc(e.message)}</p>
+    <p>Browsers block <code>fetch()</code> from <code>file://</code>. Serve the folder over HTTP, e.g.<br>
+    <code>python3 -m http.server 8000</code> then open <code>http://localhost:8000/</code>.</p></div>`;
+  throw e;
+}
+
+/* ═══ 4. derive ════════════════════════════════════════════════════ */
+const CO = D.overview.company;
+const NAME = CO.name ?? CO.shortName ?? D.extraction_metadata.company ?? "This company";
+const INDUSTRY = CO.primaryIndustry?.industryName ?? "its industry";
+const SECTOR = CO.primaryIndustry?.sectorName ?? INDUSTRY;
+/** Glassdoor links in FAQ answers are host-relative; rebuild the origin from the source URL. */
+const GD_ORIGIN = new URL(D.overview.source_url ?? "https://www.glassdoor.com").origin;
+/** Optional payload sections — absent or empty ones collapse to [] / {} rather than throwing. */
+const OV = D.overview, PB = D.pay_and_benefits;
+const AWARDS = OV.awards ?? [], PHOTOS = OV.photos ?? [], UPDATES = OV.company_updates ?? [];
+const FEATURED = OV.featured_employee_reviews ?? [], LINKS = OV.related_gramener_links ?? {};
+const BENEFIT_CATS = PB.benefit_categories ?? [], BENEFIT_REVIEWS = PB.general_benefit_reviews ?? [];
+/** Render `inner` inside a panel only when `rows` has anything to show. */
+const section = (rows, inner) => (rows?.length ? inner : "");
+inr = makeMoney(D.pay_and_benefits.salary_summary?.currency ?? "INR");
+NAME.toLowerCase().split(/\W+/).filter(Boolean).forEach((w) => STOP.add(w));
+const AGG = D.reviews.all_reviews_summary;          // all 208 records
+const BENCH = D.overview.industry_benchmark_ratings; // sector averages
+
+/** One flat, pre-computed row per review — filtering/sorting touches nothing else. */
+R = D.reviews.items.map((r) => {
+  const title = r.jobTitle?.text || "";
+  const subs = SUBS.map(([k, label]) => ({ label, v: r[k] || 0 })).filter((s) => s.v > 0);
+  return {
+    raw: r, id: r.reviewId, url: r.url,
+    date: r.reviewDateTime, year: yearOf(r.reviewDateTime), ts: +new Date(r.reviewDateTime),
+    overall: r.ratingOverall, title: title || "Anonymous",
+    fam: title ? match(FAMILIES, title, "Other") : "Not stated",
+    sen: title ? match(SENIORITY, title, "Individual contributor") : "Not stated",
+    loc: r.location?.name || "Not stated",
+    status: r.employmentStatus ? titleCase(r.employmentStatus) : "Not stated",
+    cur: r.isCurrentJob ? "Current" : "Former",
+    ten: r.lengthOfEmploymentDisplay || "Not specified",
+    tenN: r.lengthOfEmployment || 0,
+    summary: r.summary || "", pros: r.pros || "", cons: r.cons || "", advice: r.advice || "",
+    subs, subAvg: mean(subs.map((s) => s.v)),
+    rec: r.ratingRecommendToFriend, ceo: r.ratingCeo, outlook: r.ratingBusinessOutlook,
+    resp: r.employerResponses || [],
+    helpful: r.countHelpful || 0, views: r.viewsCount || 0,
+    hay: `${title} ${r.summary} ${r.pros} ${r.cons} ${r.advice} ${r.location?.name} ${r.employmentStatus} ${VERDICTS.map(([, , k, , map]) => map[r[k]]?.[0] ?? "").join(" ")}`.toLowerCase(),
+  };
+});
+
+IV = D.interviews.items.map((i) => ({
+  raw: i, id: i.id, url: i.url,
+  title: i.jobTitle?.text || "Anonymous", loc: i.location?.name || "Not stated",
+  date: i.reviewDateTime, year: yearOf(i.reviewDateTime),
+  exp: i.experience ? titleCase(i.experience) : "Not stated",
+  diff: i.difficulty ? titleCase(i.difficulty) : "Not stated",
+  out: i.outcome ? titleCase(i.outcome) : "Not stated",
+  src: i.source ? titleCase(i.source) : (i.otherSource ? titleCase(i.otherSource) : "Not stated"),
+  process: i.processDescription || "", advice: i.advice || "",
+  qs: (i.userQuestions || []).map((q) => q.question).filter(Boolean),
+  days: i.durationDays,
+  hay: `${i.jobTitle?.text} ${i.processDescription} ${i.advice} ${(i.userQuestions || []).map((q) => q.question).join(" ")} ${i.location?.name}`.toLowerCase(),
+}));
+
+const P = (stats, id) => stats?.percentiles?.find((p) => p.ident === id)?.value ?? null;
+SAL = D.pay_and_benefits.salary_estimates.map((s) => ({
+  title: s.jobTitle.text, count: s.salaryCount, recent: s.mostRecent,
+  p10: P(s.basePayStatistics, "P10"), p25: P(s.basePayStatistics, "P25"), p50: P(s.basePayStatistics, "P50"),
+  p75: P(s.basePayStatistics, "P75"), p90: P(s.basePayStatistics, "P90"),
+  total50: P(s.totalPayStatistics, "P50"),
+  fam: match(FAMILIES, s.jobTitle.text, "Other"),
+})).filter((s) => s.p50 != null);
+/* Three single-report exec titles reach ₹52L and would squash every other bar into
+   the first fifth of the column, so the axis stops at the 90th percentile of p90s
+   and rows beyond it are clipped with a caret. */
+const SAL_MAX = [...SAL.map((s) => s.p90 ?? s.p50)].sort((a, b) => a - b)[Math.floor(SAL.length * 0.9)];
+const sx = (v) => clamp(pct(v ?? 0, SAL_MAX), 0, 100);
+
+/** Vocabulary tug-of-war: how often a term shows up in pros vs cons text. */
+const wordStats = (() => {
+  const m = new Map();
+  const add = (text, side) => uniq(text.toLowerCase().match(/[a-z][a-z'-]{2,}/g) || [])
+    .filter((w) => !STOP.has(w) && w.length > 3)
+    .forEach((w) => { const e = m.get(w) || { w, pros: 0, cons: 0 }; e[side]++; m.set(w, e); });
+  R.forEach((r) => { add(r.pros, "pros"); add(r.cons, "cons"); });
+  return [...m.values()].filter((e) => e.pros + e.cons >= 6).sort((a, b) => (b.pros + b.cons) - (a.pros + a.cons));
+})();
+
+/* ═══ 5. UI atoms ══════════════════════════════════════════════════ */
+const tip = (t) => t ? ` data-tip="${esc(t)}"` : "";
+
+const tile = ({ lab, val, sub = "", fill = 0, tipText = "" }) => `
+  <div class="tile" style="--fill:${clamp(fill, 0, 100)}%"${tip(tipText)}>
+    <div class="lab">${esc(lab)}</div><div class="val">${val}</div>
+    ${sub ? `<div class="sub">${sub}</div>` : ""}
+  </div>`;
+
+/**
+ * Horizontal bars. Each item: {label, value, display, color?, bench?, tip?, act?}
+ * `act` becomes data-act, picked up by the click delegate.
+ */
+const barList = (items, { max = null, labelW = 132 } = {}) => {
+  const hi = max ?? Math.max(1, ...items.map((i) => i.value));
+  return `<div class="bars" style="--lw:${labelW}px">${items.map((i, n) => `
+    <div class="bar-row${i.act ? " hit" : ""}"${i.act ? ` data-act="${esc(i.act)}" role="button" tabindex="0"` : ""}${tip(i.tip)} style="${i.act ? "cursor:pointer" : ""}">
+      <span class="lbl">${esc(i.label)}</span>
+      <span class="track">
+        <span class="fill" style="width:${pct(i.value, hi)}%;background:${i.color || "var(--accent)"};animation-delay:${n * 35}ms"></span>
+        ${i.bench != null ? `<span class="bench" style="left:${clamp(pct(i.bench, hi), 0, 100)}%"></span>` : ""}
+      </span>
+      <span class="v">${i.display ?? i.value}</span>
+    </div>`).join("")}</div>`;
+};
+
+/** 5→1 star histogram from a Glassdoor {_1.._5} bucket object. */
+const distBars = (dist, act) => {
+  const total = sum([5, 4, 3, 2, 1].map((s) => dist["_" + s] || 0));
+  return barList([5, 4, 3, 2, 1].map((s) => ({
+    label: `${s} star${s > 1 ? "s" : ""}`, value: dist["_" + s] || 0,
+    display: `${Math.round(pct(dist["_" + s] || 0, total))}%`, color: `var(--r${s})`,
+    tip: `${dist["_" + s] || 0} of ${total} reviews gave ${s} star${s > 1 ? "s" : ""}`,
+    act: act ? `${act}:${s}` : null,
+  })), { labelW: 62 });
+};
+
+/** Category scores vs the IT-sector benchmark (black tick on each bar). */
+const categoryBars = () => barList(SUBS.map(([, label, benchKey]) => ({
+  label, value: AGG.ratings[benchKey], display: AGG.ratings[benchKey].toFixed(1),
+  color: rcolor(AGG.ratings[benchKey]), bench: BENCH[benchKey],
+  tip: `${label}: ${AGG.ratings[benchKey].toFixed(1)} — the ${SECTOR} benchmark (│) is ${BENCH[benchKey].toFixed(2)}`,
+})), { max: 5, labelW: 172 });
+
+/* ── SVG: reviews per year, stacked by sentiment, with an average line ── */
+function yearChart(rows) {
+  const years = [];
+  for (let y = Math.min(...rows.map((r) => r.year)); y <= Math.max(...rows.map((r) => r.year)); y++) years.push(y);
+  const g = years.map((y) => {
+    const rs = rows.filter((r) => r.year === y);
+    return { y, n: rs.length, avg: mean(rs.map((r) => r.overall)), lo: rs.filter((r) => r.overall <= 2).length, mid: rs.filter((r) => r.overall === 3).length, hi: rs.filter((r) => r.overall >= 4).length };
+  });
+  const W = 720, H = 230, PL = 34, PR = 30, PB = 26, PT = 12;
+  const maxN = Math.max(...g.map((d) => d.n), 1);
+  const bw = (W - PL - PR) / g.length;
+  const x = (i) => PL + i * bw, yS = (v) => PT + (H - PT - PB) * (1 - v / maxN);
+  const yR = (v) => PT + (H - PT - PB) * (1 - (v - 1) / 4);
+  const seg = (d, key, base, col) => {
+    const h = (H - PT - PB) * (d[key] / maxN);
+    return h < .5 ? "" : `<rect class="mark" x="${x(g.indexOf(d)) + bw * .14}" y="${yS(base + d[key])}" width="${bw * .72}" height="${h}" fill="${col}" rx="1.5"/>`;
+  };
+  const line = g.filter((d) => d.avg != null).map((d, i) => `${i ? "L" : "M"}${x(g.indexOf(d)) + bw / 2},${yR(d.avg)}`).join("");
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Review volume and average rating by year">
+    <g class="axis">${[0, .5, 1].map((f) => `<line x1="${PL}" x2="${W - PR}" y1="${PT + (H - PT - PB) * f}" y2="${PT + (H - PT - PB) * f}"/>`).join("")}</g>
+    ${g.map((d, i) => `<g class="hit">
+      <rect x="${x(i)}" y="${PT}" width="${bw}" height="${H - PT - PB}" fill="transparent" role="button" tabindex="0"
+        data-act="year:${d.y}"${tip(`${d.y} — ${d.n} review${d.n === 1 ? "" : "s"}, average ${d.avg ? d.avg.toFixed(2) : "–"}★ (${d.hi} positive, ${d.mid} neutral, ${d.lo} negative). Click to filter.`)}>
+        <title>${d.y}: ${d.n} reviews, average ${d.avg ? d.avg.toFixed(2) : "–"} stars</title></rect>
+      ${seg(d, "hi", d.mid + d.lo, "var(--r5)")}${seg(d, "mid", d.lo, "var(--r3)")}${seg(d, "lo", 0, "var(--r1)")}
+      <text x="${x(i) + bw / 2}" y="${H - 8}" text-anchor="middle">${String(d.y).slice(2)}</text>
+    </g>`).join("")}
+    <path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linejoin="round" opacity=".9"/>
+    ${g.filter((d) => d.avg != null).map((d) => `<circle cx="${x(g.indexOf(d)) + bw / 2}" cy="${yR(d.avg)}" r="3" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>`).join("")}
+    <text x="4" y="${PT + 4}">${maxN}</text><text x="4" y="${H - PB - 2}">0</text>
+    <text x="${W - PR + 6}" y="${yR(5) + 4}" fill="var(--accent)">5★</text><text x="${W - PR + 6}" y="${yR(1) + 4}" fill="var(--accent)">1★</text>
+  </svg>`;
+}
+
+/* ── vocabulary tug-of-war ── */
+const wordChart = (n = 16) => {
+  const top = wordStats.slice(0, n);
+  const hi = Math.max(...top.map((w) => Math.max(w.pros, w.cons)));
+  return `<div class="words">
+    <div class="word-row" style="font:500 10.5px/1 var(--ui);letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">
+      <span style="text-align:right;color:var(--accent2)">in pros</span><span style="text-align:center">term</span><span style="color:var(--accent)">in cons</span></div>
+    ${top.map((w) => `<div class="word-row">
+      <span class="l"><i style="width:${pct(w.pros, hi)}%"></i></span>
+      <span class="w" data-act="q:${esc(w.w)}"${tip(`“${w.w}” appears in ${w.pros} pros and ${w.cons} cons. Click to search reviews.`)} role="button" tabindex="0">${esc(w.w)}</span>
+      <span class="r"><i style="width:${pct(w.cons, hi)}%"></i></span>
+    </div>`).join("")}
+  </div>`;
+};
+
+/* ── grouped breakdown: count + average rating per category ── */
+const groupBars = (rows, key, act, { min = 1, top = 12 } = {}) => {
+  const groups = Object.entries(counts(rows.map((r) => r[key])))
+    .map(([k, n]) => ({ k, n, avg: mean(rows.filter((r) => r[key] === k).map((r) => r.overall)) }))
+    .filter((g) => g.n >= min).sort((a, b) => b.n - a.n).slice(0, top);
+  return barList(groups.map((g) => ({
+    label: g.k, value: g.n, display: `${g.n} · ${g.avg.toFixed(1)}★`, color: rcolor(g.avg),
+    tip: `${g.k}: ${g.n} reviews averaging ${g.avg.toFixed(2)}★ (bar length = volume, colour = rating). Click to filter.`,
+    act: `${act}:${g.k}`,
+  })), { labelW: 150 });
+};
+
+/* ═══ 6. view: overview ════════════════════════════════════════════ */
+
+/**
+ * Glassdoor occasionally ships an unresolved template ("KEY NOT SPECIFIED") instead of an
+ * answer. Rather than print the placeholder, answer from the data we already hold — and if
+ * nothing sensible can be built, drop the question entirely.
+ */
+const isPlaceholder = (html) => !html || !html.replace(/<[^>]*>/g, "").trim() ||
+  /^(KEY NOT SPECIFIED|N\/?A|NULL|UNDEFINED|-+)$/i.test(html.replace(/<[^>]*>/g, "").trim());
+
+/** question-matcher → answer built from the payload. */
+const FAQ_REPAIRS = [
+  [/interview process/i, () => {
+    const su = D.interviews.summary, top = Object.entries(counts(IV.map((i) => i.title))).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    const days = IV.map((i) => i.days).filter(Boolean);
+    return `Across <b>${su.totalInterviewCount}</b> reported interviews the average difficulty is
+      <b>${su.computed_average_difficulty.toFixed(1)} out of 5</b>${days.length ? `, and the process takes a median of <b>${medianOf(days)} days</b>` : ""}.
+      The most-reported roles are ${top.map(([t, c]) => `${esc(t)} (${c})`).join(", ")}.
+      Individual write-ups of each stage are on the Interviews tab.
+      <em style="display:block;margin-top:8px;font-size:13px">Reconstructed from the review data — Glassdoor returned no answer for this question.</em>`;
+  }],
+];
+const repairFaq = (f) => {
+  if (!isPlaceholder(f.answer_html)) return f;
+  const fix = FAQ_REPAIRS.find(([re]) => re.test(f.question));
+  return fix ? { ...f, answer_html: fix[1](), repaired: true } : null;
+};
+const faqAll = [...(OV.faqs ?? []), ...(D.interviews.faqs ?? []), ...(PB.benefit_faqs ?? [])]
+  .map(repairFaq).filter(Boolean);
+
+/**
+ * Company updates arrive as flattened DOM scrapes:
+ * "<company>" + "Company News" + age + headline + domain + headline-again + "Like0".
+ * Peel those layers off; `{age, text}` out.
+ */
+const AGE_RE = /^\s*(\d+)\s*([ymwdh])(?=[A-Z@#0-9])/;
+const cleanUpdate = (u) => {
+  let t = u.text.replace(new RegExp(`^${reEsc(NAME)}(Company News|Community|Product News|Company Update)?`, "i"), "").replace(/\s*Like\s*\d*\s*$/i, "");
+  const [, n, unit] = t.match(AGE_RE) || [];
+  t = t.replace(AGE_RE, "");
+  const dup = t.match(/^(.{20,}?)(\S*)\1$/); // headline repeated either side of the link
+  t = dup ? dup[1] : t.replace(/\.{2,}\s*Show more.*$/i, "…").replace(/(?:https?:\/\/)?(?:[\w-]+\.)+(?:com|org|net|io|ly|li|in|co|ai|dev|app)(?:\/\S*)?/gi, " ");
+  return { age: n ? `${n}${unit}` : "", text: t.replace(/\s{2,}/g, " ").trim() };
+};
+
+function viewOverview() {
+  const rt = AGG.ratings, sal = D.pay_and_benefits.salary_summary;
+  const medPay = medianOf(SAL.map((s) => s.p50));
+  const idiff = D.interviews.summary.computed_average_difficulty;
+  const posInt = D.interviews.summary.interviewExperienceCounts.find((c) => c.type === "POSITIVE").count;
+  return `
+  <div class="stagger">
+    <section class="hero" style="margin-bottom:26px">
+      <div>
+        <div class="kicker">Employee-reported dossier · updated ${fmtDate(D.extraction_metadata.extracted_at)}</div>
+        <h1>What it's like to <em>work at ${esc(NAME)}</em></h1>
+        <p class="dek">${esc(CO.overview.description.split("\n")[0])} ${esc(CO.overview.mission)}</p>
+        <div class="facts">
+          <span class="chip"><i class="icon-building"></i>${esc(CO.primaryIndustry.industryName)}</span>
+          <span class="chip"><i class="icon-users"></i>${esc(CO.size)}</span>
+          <span class="chip"><i class="icon-map-pin"></i>HQ ${esc(CO.headquarters)}</span>
+          <span class="chip"><i class="icon-user-check"></i>CEO ${esc(rt.ratedCeo.name)}</span>
+          <a class="chip" href="${esc(CO.website)}" target="_blank" rel="noopener"><i class="icon-external-link"></i>gramener.com</a>
+          <a class="chip" href="${esc(D.overview.source_url)}" target="_blank" rel="noopener"><i class="icon-external-link"></i>Glassdoor profile</a>
+        </div>
+      </div>
+      <div class="panel pad">
+        <div class="bigscore">
+          <span class="v" style="color:${rcolor(rt.overallRating)}">${rt.overallRating}</span>
+          <div style="padding-bottom:10px">${stars(rt.overallRating)}
+            <div class="of">from <b class="num">${AGG.allReviewsCount}</b> reviews<br><span style="font-size:12.5px">${AGG.allReviewsCount - D.reviews.public_default_summary.filteredReviewsCount} of them hidden from Glassdoor's public page</span></div>
+          </div>
+        </div>
+        ${(() => {
+          const d = (rt.overallRating - BENCH.overallRating) / BENCH.overallRating * 100;
+          const [word, col] = d >= 0 ? ["above", "var(--accent2)"] : ["below", "var(--accent)"];
+          return `<p style="margin:16px 0 8px;font-size:12.5px;color:var(--muted)">Sector benchmark is <b class="num">${BENCH.overallRating}</b> — ${esc(NAME)} sits
+            <b style="color:${col}">${Math.abs(d).toFixed(0)}% ${word}</b> the ${esc(SECTOR)} average.</p>`;
+        })()}
+        ${distBars(AGG.ratingCountDistribution.overall, "rating")}
+      </div>
+    </section>
+
+    <div class="tiles" style="margin-bottom:16px">
+      ${tile({ lab: "Recommend to a friend", val: `${Math.round(rt.recommendToFriendRating * 100)}%`, sub: `sector ${Math.round(BENCH.recommendToFriendRating * 100)}% · ${AGG.ratingCountDistribution.recommendToFriend.RECOMMEND} yes / ${AGG.ratingCountDistribution.recommendToFriend.WONT_RECOMMEND} no`, fill: rt.recommendToFriendRating * 100, tipText: "Share of reviewers who would recommend working here" })}
+      ${tile({ lab: "Approve of CEO", val: `${Math.round(rt.ceoRating * 100)}%`, sub: `${esc(rt.ratedCeo.name)} · sector ${Math.round(BENCH.ceoRating * 100)}%`, fill: rt.ceoRating * 100 })}
+      ${tile({ lab: "Positive outlook", val: `${Math.round(rt.businessOutlookRating * 100)}%`, sub: `sector ${Math.round(BENCH.businessOutlookRating * 100)}%`, fill: rt.businessOutlookRating * 100, tipText: "Reviewers optimistic about the business over the next 6 months" })}
+      ${tile({ lab: "Interview difficulty", val: idiff.toFixed(1), sub: `of 5 · ${Math.round(pct(posInt, D.interviews.summary.totalInterviewCount))}% positive experience`, fill: idiff / 5 * 100 })}
+      ${tile({ lab: "Median reported pay", val: inr(medPay), sub: `${sal.reported_salary_count_india} salaries · ${sal.job_title_count} titles`, fill: 62 })}
+      ${tile({ lab: "Benefits rating", val: D.pay_and_benefits.benefits_summary.ratingValue, sub: `of 5 · ${D.pay_and_benefits.benefits_summary.ratingCount} ratings`, fill: +D.pay_and_benefits.benefits_summary.ratingValue / 5 * 100 })}
+    </div>
+
+    <div class="grid g2" style="margin-bottom:16px">
+      <div class="panel pad">
+        <div class="kicker">Where it scores · bar = ${esc(NAME)}, │ = sector</div>
+        ${categoryBars()}
+        ${(() => {
+          const g = SUBS.map(([, label, k]) => ({ label, v: AGG.ratings[k], d: AGG.ratings[k] - BENCH[k] })).sort((a, b) => b.d - a.d);
+          const [hi, lo] = [g[0], g[g.length - 1]];
+          return `<p style="font-size:12.5px;color:var(--muted);margin:14px 0 0"><b>${esc(hi.label)}</b> leads the benchmark by
+            <b class="num" style="color:var(--accent2)">+${hi.d.toFixed(2)}</b>; <b>${esc(lo.label)}</b> is the narrowest gap at
+            <b class="num" style="color:var(--accent)">${lo.d >= 0 ? "+" : ""}${lo.d.toFixed(2)}</b>.</p>`;
+        })()}
+      </div>
+      <div class="panel pad">
+        <div class="kicker">Reviews over time · click a year to filter</div>
+        ${yearChart(R)}
+        <p style="font-size:12.5px;color:var(--muted);margin:10px 0 0">Bars stack ${'<b style="color:var(--r5)">4–5★</b>'} / ${'<b style="color:var(--r3)">3★</b>'} / ${'<b style="color:var(--r1)">1–2★</b>'}; the line is that year's average.</p>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-bottom:16px">
+      ${section(AWARDS, `<div class="panel pad">
+        <div class="kicker">Recognition</div>
+        <div class="tl">${AWARDS.map((a) => { const [t, src] = [a.text.replace(/,\s*[^,]*,\s*\d{4}$/, ""), (a.text.match(/,\s*([^,]*),\s*\d{4}$/) || [, ""])[1]]; return `<div class="tl-item"><span class="yr">${a.year}</span><span class="tx">${esc(t)}${src && !/^http/.test(src) ? `<span class="src">${esc(src)}</span>` : ""}</span></div>`; }).join("")}</div>
+      </div>`)}
+      <div>
+        ${section([...FEATURED, ...PHOTOS], `<div class="panel pad" style="margin-bottom:16px">
+          ${section(FEATURED, `<div class="kicker">Reviews Glassdoor features</div>`)}
+          ${FEATURED.map((f) => {
+            const m = f.text.match(/^(.*?)(Current|Former) employee([\d.]+)(.*)$/) || [];
+            return `<a href="${esc(f.url)}" target="_blank" rel="noopener" style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);text-decoration:none">
+              <span class="rv-score" style="font-size:20px;color:${rcolor(+(m[3] || 5))}">${esc(m[3] || "")}</span>
+              <span style="flex:1"><span style="font-family:var(--read);font-size:15.5px">“${esc(m[4] || f.text)}”</span>
+                <span style="display:block;font-size:11.5px;color:var(--muted);margin-top:2px">${esc(m[2] || "")} employee</span></span></a>`;
+          }).join("")}
+          ${section(PHOTOS, `<div class="kicker" style="margin:16px 0 8px">Office photos</div>`)}
+          <div class="facts">${PHOTOS.map((p) => `<a class="chip" href="${esc(LINKS.photos)}" target="_blank" rel="noopener"><i class="icon-external-link"></i>${esc(p.caption.replace(new RegExp(`^${reEsc(NAME)} photo of:\\s*`, "i"), ""))}</a>`).join("")}</div>
+        </div>`)}
+        ${section(UPDATES, `<div class="panel pad">
+          <div class="kicker">Company news</div>
+          ${UPDATES.map(cleanUpdate).map((u) => `<p style="font-family:var(--read);font-size:14.5px;margin:0 0 11px;padding-bottom:11px;border-bottom:1px solid var(--rule)">
+            ${u.age ? `<span class="num" style="font-size:11px;color:var(--accent);letter-spacing:.06em">${esc(u.age)} ago</span> ` : ""}${esc(u.text)}</p>`).join("")}
+          <p style="margin:4px 0 0"><a href="${esc(LINKS.company_updates)}" target="_blank" rel="noopener" style="font-size:12px;color:var(--muted)">All company updates <i class="icon-arrow-right"></i></a></p>
+        </div>`)}
+      </div>
+    </div>
+
+    ${section(faqAll, `<div class="panel pad">
+      <div class="controls" style="margin-bottom:4px">
+        <div class="kicker" style="flex:1;margin-bottom:0">Frequently asked · ${faqAll.length}</div>
+        <button class="pill-clear" data-act="faq:all"><i class="icon-chevrons-down-up"></i><span id="faq-toggle-label">Expand all</span></button>
+      </div>
+      <div id="faq-list">
+      ${faqAll.map((f) => `<details class="faq"><summary>${esc(f.question)}<i class="icon-chevron-right chev"></i></summary>
+        <div class="body">${f.answer_html.replace(/href="\//g, `target="_blank" rel="noopener" href="${GD_ORIGIN}/`)}</div></details>`).join("")}
+      </div>
+    </div>`)}
+  </div>`;
+}
+
+/* ═══ 7. view: reviews ═════════════════════════════════════════════ */
+const SORTS = { new: ["Newest first", (a, b) => b.ts - a.ts], old: ["Oldest first", (a, b) => a.ts - b.ts], high: ["Highest rated", (a, b) => b.overall - a.overall || b.ts - a.ts], low: ["Lowest rated", (a, b) => a.overall - b.overall || b.ts - a.ts], helpful: ["Most helpful", (a, b) => b.helpful - a.helpful || b.views - a.views], longest: ["Most detailed", (a, b) => (b.pros + b.cons + b.advice).length - (a.pros + a.cons + a.advice).length] };
+
+/** Every filter is `state key → row key`, so the predicate stays one line each. */
+const FILTERS = [["status", "status"], ["loc", "loc"], ["fam", "fam"], ["sen", "sen"], ["ten", "ten"], ["cur", "cur"],
+  ["rec", "rec"], ["ceo", "ceo"], ["outlook", "outlook"]];
+
+function filterReviews() {
+  const q = S.q.trim().toLowerCase();
+  const ratings = S.rating ? S.rating.split(",").map(Number) : null;
+  return R.filter((r) =>
+    (!q || r.hay.includes(q)) &&
+    (!ratings || ratings.includes(r.overall)) &&
+    (!S.yr || r.year === +S.yr) &&
+    (!S.resp || (S.resp === "yes" ? r.resp.length > 0 : r.resp.length === 0)) &&
+    FILTERS.every(([k, rk]) => !S[k] || (S[k] === "__none" ? !r[rk] : r[rk] === S[k])));
+}
+
+const hl = (text) => {
+  const out = esc(text);
+  const q = S.q.trim();
+  if (!q) return out;
+  return out.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi"), "<mark>$1</mark>");
+};
+
+const reviewCard = (r) => `
+  <article class="review" style="--rc:${rcolor(r.overall)}">
+    <div class="rv-top">
+      <span class="rv-score">${r.overall}<span style="font-size:13px;opacity:.5">★</span></span>
+      <h3 class="rv-title">${hl(r.summary || "No headline")}</h3>
+      <time class="rv-date" datetime="${r.date}">${fmtDate(r.date)}</time>
+    </div>
+    <div class="rv-meta">
+      <span data-act="fam:${esc(r.fam)}" role="button" tabindex="0" style="cursor:pointer"${tip(`Filter to ${r.fam}`)}><i class="icon-briefcase"></i>${hl(r.title)}</span>
+      <span data-act="loc:${esc(r.loc)}" role="button" tabindex="0" style="cursor:pointer"><i class="icon-map-pin"></i>${esc(r.loc)}</span>
+      <span data-act="cur:${esc(r.cur)}" role="button" tabindex="0" style="cursor:pointer"><i class="icon-clock"></i>${r.cur} employee${r.ten !== "Not specified" ? `, ${r.ten}` : ""}</span>
+      ${r.status !== "Regular" ? `<span><i class="icon-users"></i>${esc(r.status)}</span>` : ""}
+      ${VERDICTS.map(([key, label, , , map]) => {
+        const v = map[r[key]];
+        return v ? `<span data-act="${key}:${esc(r[key])}" role="button" tabindex="0" style="cursor:pointer;color:${v[2]}"${tip(`${label}: ${v[0]}. Click to filter.`)}><i class="${v[1]}"></i>${esc(v[0])}</span>` : "";
+      }).join("")}
+      ${r.helpful ? `<span${tip("Readers marked this helpful")}><i class="icon-heart"></i>${r.helpful}</span>` : ""}
+    </div>
+    ${r.pros || r.cons ? `<div class="pc">
+      ${r.pros ? `<div class="pros"><div class="cap"><i class="icon-thumbs-up"></i>Pros</div>${hl(r.pros)}</div>` : ""}
+      ${r.cons ? `<div class="cons"><div class="cap"><i class="icon-thumbs-down"></i>Cons</div>${hl(r.cons)}</div>` : ""}
+    </div>` : ""}
+    ${r.subs.length ? `<div class="subrat">${r.subs.map((s) => `<b style="--sc:${rcolor(s.v)}"${tip(`${s.label}: ${s.v} of 5`)}>${esc(s.label)} <em>${s.v}</em></b>`).join("")}</div>` : ""}
+    ${r.advice ? `<p class="advice"><strong style="font-style:normal;font-family:var(--ui);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)">Advice to management</strong><br>${hl(r.advice)}</p>` : ""}
+    ${r.resp.length ? `<details class="resp"><summary><i class="icon-chevron-right chev"></i><i class="icon-message-square"></i>${r.resp.length} response${r.resp.length > 1 ? "s" : ""} from ${esc(NAME)}</summary>
+      ${r.resp.map((x) => `<p>${esc(x.response)}<br><span style="font-size:11.5px;opacity:.7">— ${fmtDate(x.responseDateTime)}</span></p>`).join("")}</details>` : ""}
+    <p style="margin:12px 0 0"><a href="${esc(r.url)}" target="_blank" rel="noopener" style="font-size:12px;color:var(--muted)">Read on Glassdoor <i class="icon-arrow-right"></i></a></p>
+  </article>`;
+
+const optList = (values, cur, all) => `<option value="">${esc(all)}</option>` + values.map((v) => `<option value="${esc(v)}"${v === cur ? " selected" : ""}>${esc(v)}</option>`).join("");
+
+function viewReviews() {
+  const rows = filterReviews().sort(SORTS[S.sort][1]);
+  const shown = rows.slice(0, S.n);
+  const active = [
+    S.q && ["q", `“${S.q}”`], S.rating && ["rating", `${S.rating.split(",").sort().join(", ")}★`],
+    S.yr && ["yr", S.yr], S.loc && ["loc", S.loc], S.fam && ["fam", S.fam], S.sen && ["sen", S.sen],
+    S.ten && ["ten", S.ten], S.status && ["status", S.status], S.cur && ["cur", S.cur],
+    S.resp && ["resp", S.resp === "yes" ? "Has employer reply" : "No employer reply"],
+    ...VERDICTS.map(([k, label, , , map]) => S[k] && [k, S[k] === "__none" ? `${label}: not answered` : map[S[k]]?.[0] ?? S[k]]),
+  ].filter(Boolean);
+  const avg = mean(rows.map((r) => r.overall));
+  return `
+  <div class="kicker">All ${R.length} reviews</div>
+  <p class="dek" style="font-size:14px;margin:-6px 0 14px">${esc(D.reviews.count_note)}</p>
+  <div class="panel pad" style="margin-bottom:16px">
+    <div class="controls">
+      <label class="field"><i class="icon-search"></i><span class="sr">Search reviews</span>
+        <input type="search" id="q" placeholder="Search pros, cons, titles…" value="${esc(S.q)}" enterkeyhint="search" autocomplete="off" spellcheck="false"></label>
+      <div class="toggle-group" role="group" aria-label="Filter by star rating">
+        ${[5, 4, 3, 2, 1].map((s) => `<button data-act="rating:${s}" aria-pressed="${(S.rating || "").split(",").includes(String(s))}"${tip(`Show ${s}-star reviews`)}>${s}★</button>`).join("")}
+      </div>
+      <select id="f-fam" data-key="fam" aria-label="Job family">${optList(uniq(R.map((r) => r.fam)).sort(), S.fam, "All job families")}</select>
+      <select id="f-sen" data-key="sen" aria-label="Seniority">${optList(uniq(R.map((r) => r.sen)).sort(), S.sen, "All levels")}</select>
+      <select id="f-loc" data-key="loc" aria-label="Location">${optList(uniq(R.map((r) => r.loc)).sort(), S.loc, "All locations")}</select>
+      <select id="f-ten" data-key="ten" aria-label="Tenure">${optList(["Less than 1 year", "1-2 years", "3-4 years", "5-7 years", "8-10 years", "More than 10 years", "Not specified"].filter((t) => R.some((r) => r.ten === t)), S.ten, "Any tenure")}</select>
+      <select id="f-status" data-key="status" aria-label="Employment type">${optList(uniq(R.map((r) => r.status)).sort(), S.status, "Any contract")}</select>
+      ${VERDICTS.map(([k, label, , anyLabel, map]) => `<select data-key="${k}" aria-label="${esc(label)}">
+        <option value="">${esc(anyLabel)}</option>
+        ${Object.entries(map).filter(([v]) => R.some((r) => r[k] === v)).map(([v, [disp]]) =>
+          `<option value="${esc(v)}"${S[k] === v ? " selected" : ""}>${esc(disp)} (${R.filter((r) => r[k] === v).length})</option>`).join("")}
+        <option value="__none"${S[k] === "__none" ? " selected" : ""}>Not answered (${R.filter((r) => !r[k]).length})</option>
+      </select>`).join("")}
+      <div class="toggle-group" role="group" aria-label="Current or former">
+        <button data-act="cur:Current" aria-pressed="${S.cur === "Current"}">Current</button>
+        <button data-act="cur:Former" aria-pressed="${S.cur === "Former"}">Former</button>
+        <button data-act="resp:yes" aria-pressed="${S.resp === "yes"}"${tip(`Only reviews ${NAME} replied to`)}>Replied to</button>
+      </div>
+      <select id="f-sort" data-key="sort" aria-label="Sort order">${Object.entries(SORTS).map(([k, [lab]]) => `<option value="${k}"${k === S.sort ? " selected" : ""}>${lab}</option>`).join("")}</select>
+      ${active.length ? `<button class="pill-clear" data-act="clear:all"><i class="icon-x"></i>Clear all</button>` : ""}
+      <span class="result-count"><b>${rows.length}</b> review${rows.length === 1 ? "" : "s"}${avg ? ` · avg <b>${avg.toFixed(2)}</b>★` : ""}</span>
+    </div>
+    ${active.length ? `<div class="active-filters">${active.map(([k, lab]) => `<span class="fchip">${esc(lab)}<button data-act="clear:${k}" aria-label="Remove ${esc(lab)} filter"><i class="icon-x"></i></button></span>`).join("")}</div>` : ""}
+  </div>
+  ${rows.length ? `<div class="reviews">${shown.map(reviewCard).join("")}</div>
+    ${rows.length > S.n ? `<button class="load-more" data-act="more:1">Show ${Math.min(20, rows.length - S.n)} more of ${rows.length - S.n} remaining</button>` : ""}`
+    : `<div class="empty"><i class="icon-inbox"></i><p>No review matches these filters.</p><button class="pill-clear" data-act="clear:all"><i class="icon-x"></i>Clear all filters</button></div>`}`;
+}
+
+/* ═══ 8. view: insights ════════════════════════════════════════════ */
+function viewInsights() {
+  const cur = R.filter((r) => r.cur === "Current"), fmr = R.filter((r) => r.cur === "Former");
+  const gap = SUBS.map(([k, label]) => {
+    const v = (rs) => mean(rs.map((r) => r.raw[k]).filter(Boolean)) ?? 0;
+    return { label, cur: v(cur), fmr: v(fmr) };
+  });
+  const maxYear = Math.max(...R.map((r) => r.year)), CUT = maxYear - 2, BAND_FROM = maxYear - 7;
+  const recent = R.filter((r) => r.year >= CUT), older = R.filter((r) => r.year < CUT);
+  const perYear = Object.entries(counts(R.map((r) => r.year))).map(([y, n]) => ({ y: +y, n }));
+  const peak = perYear.sort((a, b) => b.n - a.n)[0];
+  const yAvgs = uniq(R.filter((r) => r.year >= BAND_FROM).map((r) => r.year))
+    .map((y) => mean(R.filter((r) => r.year === y).map((r) => r.overall))).sort((a, b) => a - b);
+  return `
+  <div class="stagger">
+    <div class="kicker">Patterns across all ${R.length} reviews · every bar is clickable</div>
+    <div class="panel pad" style="margin-bottom:16px">
+      <h2 style="font-size:22px;margin-bottom:4px">Ten years of sentiment</h2>
+      <p class="dek" style="margin-bottom:14px">Reviewing peaked in ${peak.y} with ${peak.n} reviews. Since ${BAND_FROM} the yearly average has stayed inside a
+        ${yAvgs[0].toFixed(1)}–${yAvgs[yAvgs.length - 1].toFixed(1)}★ band: ${recent.length} reviews from ${CUT} onward average
+        <b style="color:${rcolor(mean(recent.map((r) => r.overall)))}">${mean(recent.map((r) => r.overall)).toFixed(2)}★</b>
+        against <b style="color:${rcolor(mean(older.map((r) => r.overall)))}">${mean(older.map((r) => r.overall)).toFixed(2)}★</b> before it.</p>
+      ${yearChart(R)}
+    </div>
+
+    <div class="grid g2" style="margin-bottom:16px">
+      <div class="panel pad">
+        <h3 style="font-size:19px;margin-bottom:4px">The vocabulary of praise and complaint</h3>
+        <p class="dek" style="font-size:14px;margin-bottom:16px">Terms by how many reviews use them in the Pros box versus the Cons box. Click any term to search it.</p>
+        ${wordChart(18)}
+      </div>
+      <div>
+        <div class="panel pad" style="margin-bottom:16px">
+          <h3 style="font-size:19px;margin-bottom:12px">Who is reviewing</h3>
+          <div class="kicker" style="margin-bottom:8px">By job family</div>
+          ${groupBars(R, "fam", "fam", { top: 10 })}
+          <div class="kicker" style="margin:18px 0 8px">By level</div>
+          ${groupBars(R, "sen", "sen", { top: 8 })}
+        </div>
+        <div class="panel pad">
+          <div class="kicker" style="margin-bottom:8px">By office</div>
+          ${groupBars(R, "loc", "loc", { top: 8 })}
+          <div class="kicker" style="margin:18px 0 8px">By tenure at review time</div>
+          ${groupBars(R, "ten", "ten", { top: 8 })}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-bottom:16px">
+      <div class="panel pad">
+        <h3 style="font-size:19px;margin-bottom:4px">Current staff vs leavers</h3>
+        <p class="dek" style="font-size:14px;margin-bottom:14px">${cur.length} current employees average ${mean(cur.map((r) => r.overall)).toFixed(2)}★; ${fmr.length} former employees average ${mean(fmr.map((r) => r.overall)).toFixed(2)}★. Where they diverge most:</p>
+        ${barList(gap.sort((a, b) => (b.cur - b.fmr) - (a.cur - a.fmr)).flatMap((g) => [
+          { label: g.label, value: g.cur, display: g.cur.toFixed(1), color: "var(--accent2)", tip: `${g.label} — current employees: ${g.cur.toFixed(2)}★`, act: "cur:Current" },
+          { label: "", value: g.fmr, display: g.fmr.toFixed(1), color: "var(--accent)", tip: `${g.label} — former employees: ${g.fmr.toFixed(2)}★`, act: "cur:Former" },
+        ]), { max: 5, labelW: 172 })}
+        <p style="font-size:12px;color:var(--muted);margin-top:12px"><b style="color:var(--accent2)">▬</b> current &nbsp; <b style="color:var(--accent)">▬</b> former</p>
+      </div>
+      <div class="panel pad">
+        <h3 style="font-size:19px;margin-bottom:4px">The three verdicts</h3>
+        <p class="dek" style="font-size:14px;margin-bottom:14px">Beyond stars, reviewers answer three yes/no questions — and many skip them. Click any bar to read that group.</p>
+        ${VERDICTS.map(([k, label, , , map]) => {
+          const answered = R.filter((r) => r[k]).length;
+          const rows = [...Object.entries(map).map(([v, [disp, , col]]) => ({
+            label: disp, value: R.filter((r) => r[k] === v).length, color: col, act: `${k}:${v}`,
+          })), { label: "Not answered", value: R.length - answered, color: "var(--rule-hard)", act: `${k}:__none` }]
+            .filter((x) => x.value)
+            .map((x) => ({ ...x, display: `${Math.round(pct(x.value, R.length))}%`, tip: `${x.value} of ${R.length} reviews · ${x.label}. Click to filter.` }));
+          return `<div style="margin-bottom:16px"><div class="kicker" style="margin-bottom:7px">${esc(label)} · ${answered} answered</div>${barList(rows, { max: R.length, labelW: 148 })}</div>`;
+        }).join("")}
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-bottom:16px">
+      <div class="panel pad">
+        <h3 style="font-size:19px;margin-bottom:14px">How each category splits</h3>
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px">
+          ${SUBS.map(([, label, bk, dk]) => `<div>
+            <div class="kicker" style="margin-bottom:7px">${esc(label)} · ${AGG.ratings[bk].toFixed(1)}★</div>
+            ${distBars(AGG.ratingCountDistribution[dk])}
+          </div>`).join("")}
+        </div>
+      </div>
+    </div>
+
+    <div class="panel pad">
+      <h3 style="font-size:19px;margin-bottom:14px">Read the extremes</h3>
+      <div class="grid g2">
+        <div>
+          <div class="kicker">Harshest recent reviews</div>
+          <div class="reviews">${R.filter((r) => r.overall <= 2).sort((a, b) => b.ts - a.ts).slice(0, 2).map(reviewCard).join("") || "<p class='dek'>None on record.</p>"}</div>
+        </div>
+        <div>
+          <div class="kicker">Most detailed 5★ reviews</div>
+          <div class="reviews">${R.filter((r) => r.overall === 5).sort((a, b) => (b.pros + b.cons).length - (a.pros + a.cons).length).slice(0, 2).map(reviewCard).join("")}</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══ 9. view: interviews ══════════════════════════════════════════ */
+const IFILTERS = [["iexp", "exp"], ["idiff", "diff"], ["iout", "out"], ["isrc", "src"]];
+function viewInterviews() {
+  const su = D.interviews.summary;
+  const q = S.iq.trim().toLowerCase();
+  const rows = IV.filter((i) => (!q || i.hay.includes(q)) && IFILTERS.every(([k, rk]) => !S[k] || i[rk] === S[k])).sort((a, b) => +new Date(b.date) - +new Date(a.date));
+  const offers = IV.filter((i) => i.out === "Accept Offer").length;
+  const days = IV.map((i) => i.days).filter(Boolean);
+  const chan = su.interviewObtainedChannelCounts.slice().sort((a, b) => b.count - a.count);
+  const bar = (label, n, tot, col, act) => ({ label, value: n, display: `${Math.round(pct(n, tot))}%`, color: col, tip: `${n} of ${tot} reports`, act });
+  return `
+  <div class="stagger">
+    <div class="kicker">${su.totalInterviewCount} interview reports · newest ${fmtDate(su.newestReviewDate)}</div>
+    <div class="tiles" style="margin-bottom:16px">
+      ${tile({ lab: "Average difficulty", val: su.computed_average_difficulty.toFixed(2), sub: `of 5 · ${su.difficultySubmissionCount} ratings`, fill: su.computed_average_difficulty / 5 * 100 })}
+      ${tile({ lab: "Positive experience", val: `${Math.round(pct(su.interviewExperienceCounts.find((c) => c.type === "POSITIVE").count, su.totalInterviewCount))}%`, sub: `${su.interviewExperienceCounts.find((c) => c.type === "NEGATIVE").count} reported it negative`, fill: pct(su.interviewExperienceCounts.find((c) => c.type === "POSITIVE").count, su.totalInterviewCount) })}
+      ${tile({ lab: "Received an offer", val: `${Math.round(pct(offers, IV.length))}%`, sub: `${offers} accepted · ${IV.filter((i) => i.out === "No Offer").length} no offer`, fill: pct(offers, IV.length) })}
+      ${tile({ lab: "Typical process", val: days.length ? `${medianOf(days)} days` : "—", sub: `median of ${days.length} timed reports`, fill: 50 })}
+      ${tile({ lab: "Questions shared", val: su.interviewQuestionCount, sub: "searchable below", fill: 70 })}
+    </div>
+
+    <div class="grid g3" style="margin-bottom:16px">
+      <div class="panel pad"><div class="kicker">Experience</div>
+        ${barList(su.interviewExperienceCounts.map((c) => bar(titleCase(c.type), c.count, su.totalInterviewCount, c.type === "POSITIVE" ? "var(--r5)" : c.type === "NEGATIVE" ? "var(--r1)" : "var(--r3)", `iexp:${titleCase(c.type)}`)), { labelW: 74 })}</div>
+      <div class="panel pad"><div class="kicker">Difficulty</div>
+        ${barList(["Very Easy", "Easy", "Average", "Difficult"].map((d, n) => bar(d, IV.filter((i) => i.diff === d).length, IV.length, `var(--r${5 - n})`, `idiff:${d}`)), { labelW: 74 })}</div>
+      <div class="panel pad"><div class="kicker">How they got in</div>
+        ${barList(chan.map((c) => bar(titleCase(c.type), c.count, sum(chan.map((x) => x.count)), "var(--accent2)")), { labelW: 118 })}</div>
+    </div>
+
+    <div class="panel pad" style="margin-bottom:16px">
+      <div class="controls">
+        <label class="field"><i class="icon-search"></i><span class="sr">Search interviews</span>
+          <input type="search" id="iq" placeholder="Search process, questions, roles…" value="${esc(S.iq)}" autocomplete="off"></label>
+        <select data-key="iexp" aria-label="Experience">${optList(uniq(IV.map((i) => i.exp)).sort(), S.iexp, "Any experience")}</select>
+        <select data-key="idiff" aria-label="Difficulty">${optList(uniq(IV.map((i) => i.diff)).sort(), S.idiff, "Any difficulty")}</select>
+        <select data-key="iout" aria-label="Outcome">${optList(uniq(IV.map((i) => i.out)).sort(), S.iout, "Any outcome")}</select>
+        ${IFILTERS.some(([k]) => S[k]) || S.iq ? `<button class="pill-clear" data-act="clear:iall"><i class="icon-x"></i>Clear</button>` : ""}
+        <span class="result-count"><b>${rows.length}</b> report${rows.length === 1 ? "" : "s"}</span>
+      </div>
+    </div>
+
+    ${rows.length ? `<div class="reviews">${rows.map((i) => `
+      <article class="review" style="--rc:${i.exp === "Positive" ? "var(--r5)" : i.exp === "Negative" ? "var(--r1)" : "var(--r3)"}">
+        <div class="rv-top">
+          <h3 class="rv-title">${esc(i.title)}${i.loc !== "Not stated" ? ` <span style="font-family:var(--ui);font-size:13px;font-weight:400;color:var(--muted)">· ${esc(i.loc)}</span>` : ""}</h3>
+          <time class="rv-date">${fmtDate(i.date)}</time>
+        </div>
+        <div class="rv-meta">
+          <span data-act="iexp:${esc(i.exp)}" role="button" tabindex="0" style="cursor:pointer"><i class="icon-sparkles"></i>${esc(i.exp)} experience</span>
+          <span data-act="idiff:${esc(i.diff)}" role="button" tabindex="0" style="cursor:pointer"><i class="icon-trending-up"></i>${esc(i.diff)} difficulty</span>
+          <span data-act="iout:${esc(i.out)}" role="button" tabindex="0" style="cursor:pointer"><i class="icon-user-check"></i>${esc(i.out)}</span>
+          ${i.days ? `<span><i class="icon-clock"></i>${i.days} days</span>` : ""}
+        </div>
+        ${i.process ? `<div class="pc" style="grid-template-columns:1fr"><div style="background:var(--panel-2);border-left:2px solid var(--rule-hard)"><div class="cap"><i class="icon-quote"></i>The process</div>${esc(i.process)}</div></div>` : ""}
+        ${i.qs.length ? `<details class="resp" open><summary><i class="icon-chevron-right chev"></i><i class="icon-message-square"></i>${i.qs.length} question${i.qs.length > 1 ? "s" : ""} asked</summary>${i.qs.map((q) => `<p>${esc(q)}</p>`).join("")}</details>` : ""}
+        ${i.advice ? `<p class="advice">${esc(i.advice)}</p>` : ""}
+        <p style="margin:12px 0 0"><a href="${esc(i.url)}" target="_blank" rel="noopener" style="font-size:12px;color:var(--muted)">Read on Glassdoor <i class="icon-arrow-right"></i></a></p>
+      </article>`).join("")}</div>`
+    : `<div class="empty"><i class="icon-inbox"></i><p>No interview report matches.</p></div>`}`;
+}
+
+/* ═══ 10. view: pay & benefits ═════════════════════════════════════ */
+const PCOLS = [["title", "Job title", 0], ["count", "Reports", 1], ["p10", "10th", 1], ["p25", "25th", 1], ["p50", "Median", 1], ["p75", "75th", 1], ["p90", "90th", 1]];
+function viewPay() {
+  const pb = D.pay_and_benefits, q = S.pq.trim().toLowerCase();
+  const rows = SAL.filter((s) => !q || s.title.toLowerCase().includes(q) || s.fam.toLowerCase().includes(q))
+    .sort((a, b) => { const d = (a[S.psort] > b[S.psort] ? 1 : a[S.psort] < b[S.psort] ? -1 : 0); return S.pdir === "desc" ? -d : d; });
+  const med = medianOf(SAL.map((s) => s.p50));
+  const top = [...SAL].sort((a, b) => b.p50 - a.p50)[0];
+  const wide = [...SAL].filter((s) => s.count >= 4).sort((a, b) => (b.p90 - b.p10) - (a.p90 - a.p10))[0];
+  const rated = BENEFIT_CATS.flatMap((c) => c.benefits).filter((b) => b.rating != null);
+  return `
+  <div class="stagger">
+    <div class="kicker">${pb.salary_summary.reported_salary_count_india ?? SAL.length} self-reported salaries · ${SAL.length} titles · ${esc(titleCase(pb.salary_summary.pay_period ?? "annual"))} ${esc(pb.salary_summary.currency ?? "")}</div>
+    <div class="tiles" style="margin-bottom:16px">
+      ${tile({ lab: "Median across titles", val: inr(med), sub: `middle of the ${SAL.length} medians`, fill: 55 })}
+      ${tile({ lab: "Highest median", val: inr(top.p50), sub: esc(top.title), fill: 100 })}
+      ${tile({ lab: "Widest band", val: wide ? `${inr(wide.p10)}–${inr(wide.p90)}` : "—", sub: wide ? esc(wide.title) : "", fill: 80, tipText: "Title with the largest 10th-to-90th percentile spread among well-reported roles" })}
+      ${tile({ lab: "Pay rating", val: AGG.ratings.compensationAndBenefitsRating.toFixed(1), sub: `of 5 · sector ${BENCH.compensationAndBenefitsRating} — the weakest category`, fill: AGG.ratings.compensationAndBenefitsRating / 5 * 100 })}
+      ${tile({ lab: "Benefits rating", val: pb.benefits_summary.ratingValue, sub: `of 5 · ${pb.benefits_summary.ratingCount} reviews`, fill: +pb.benefits_summary.ratingValue / 5 * 100 })}
+    </div>
+
+    <div class="panel pad" style="margin-bottom:16px">
+      <div class="controls" style="margin-bottom:12px">
+        <label class="field"><i class="icon-search"></i><span class="sr">Search job titles</span>
+          <input type="search" id="pq" placeholder="Search ${SAL.length} job titles…" value="${esc(S.pq)}" autocomplete="off"></label>
+        <span class="result-count"><b>${rows.length}</b> titles · bar shows 10th–90th percentile, box 25th–75th, <b style="color:var(--accent)">│</b> median; axis stops at ${inr(SAL_MAX)}</span>
+      </div>
+      <div class="tbl-scroll">
+        <table><thead><tr>
+          ${PCOLS.map(([k, lab, n]) => `<th data-sort="${k}"${S.psort === k ? ` aria-sort="${S.pdir === "desc" ? "descending" : "ascending"}"` : ""} style="${n ? "text-align:right" : ""}" title="Sort by ${lab}">${lab}</th>`).join("")}
+          <th style="width:210px">Base pay range</th>
+        </tr></thead><tbody>
+        ${rows.map((s) => `<tr${tip(`${s.title} — ${s.count} report${s.count === 1 ? "" : "s"}; median ${inr(s.p50)}, half earn between ${inr(s.p25)} and ${inr(s.p75)}`)}>
+          <td>${esc(s.title)}<span style="display:block;font-size:11px;color:var(--muted)">${esc(s.fam)}</span></td>
+          <td class="n">${s.count}</td><td class="n">${inr(s.p10)}</td><td class="n">${inr(s.p25)}</td>
+          <td class="n" style="font-weight:700;color:var(--accent)">${inr(s.p50)}</td><td class="n">${inr(s.p75)}</td><td class="n">${inr(s.p90)}</td>
+          <td><span class="rng">
+            <i class="whisk" style="left:${sx(s.p10)}%;right:${100 - sx(s.p90 ?? s.p50)}%"></i>
+            <i class="box" style="left:${sx(s.p25)}%;width:${Math.max(1.5, sx(s.p75 ?? s.p50) - sx(s.p25))}%"></i>
+            <i class="med" style="left:${sx(s.p50)}%"></i>
+            ${(s.p90 ?? s.p50) > SAL_MAX ? `<i class="over"${tip(`Extends past the chart to ${inr(s.p90)}`)}>›</i>` : ""}
+          </span></td></tr>`).join("")}
+        </tbody></table>
+      </div>
+    </div>
+
+    <div class="grid g2">
+      <div class="panel pad">
+        <h3 style="font-size:19px;margin-bottom:4px">What's on offer</h3>
+        <p class="dek" style="font-size:14px;margin-bottom:14px">${pb.benefit_details.length} employer-verified benefits. Only ${rated.length} have enough ratings to score.</p>
+        ${BENEFIT_CATS.map((c) => `<div style="margin-bottom:16px">
+          <div class="kicker" style="margin-bottom:8px">${esc(c.name)}</div>
+          <div class="facts">${c.benefits.map((b) => { const det = pb.benefit_details.find((d) => d.id === b.id); const n = det?.employees_reported || 0; return `<a class="chip" href="${esc(b.url)}" target="_blank" rel="noopener"${tip(`${n} employee${n === 1 ? "" : "s"} reported this benefit${b.rating ? `; rated ${b.rating}/5` : ""}`)}>${b.rating ? `<i class="icon-star" style="color:${rcolor(b.rating)}"></i>` : `<i class="icon-shield"></i>`}${esc(b.name)}${b.rating ? ` <b class="num">${b.rating.toFixed(1)}</b>` : n ? ` <b class="num" style="font-weight:400">${n}</b>` : ""}</a>`; }).join("")}</div>
+        </div>`).join("")}
+      </div>
+      <div class="panel pad">
+        <h3 style="font-size:19px;margin-bottom:14px">What employees say about benefits</h3>
+        <div class="reviews">${BENEFIT_REVIEWS.map((b) => `
+          <article class="review" style="--rc:${rcolor(b.rating)};padding:13px 15px">
+            <div class="rv-top"><span class="rv-score" style="font-size:20px">${b.rating.toFixed(1)}</span>
+              <h3 class="rv-title" style="font-size:16px">${esc(b.role)}</h3><time class="rv-date">${esc(b.date)}</time></div>
+            <div class="rv-meta">${b.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
+            <p style="font-family:var(--read);font-size:15px;margin:10px 0 0">${esc(b.comment)}</p>
+          </article>`).join("")}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══ 11. shell: tabs, render, events ══════════════════════════════ */
+const VIEWS = [
+  ["overview", "Overview", "icon-building", viewOverview],
+  ["reviews", "Reviews", "icon-message-square", viewReviews],
+  ["insights", "Insights", "icon-trending-up", viewInsights],
+  ["interviews", "Interviews", "icon-graduation-cap", viewInterviews],
+  ["pay", "Pay & benefits", "icon-banknote", viewPay],
+];
+const badge = { reviews: R.length, interviews: IV.length, pay: SAL.length };
+
+$("#brand-name").textContent = NAME;
+$("#brand-sub").textContent = `Glassdoor · ${AGG.ratings.overallRating}★ · ${R.length} reviews`;
+$('meta[name="description"]').content =
+  `${R.length} employee reviews, ${IV.length} interview reports and ${SAL.length} salary bands for ${NAME}, explorable.`;
+// favicon carries the live score, so it changes with the data
+$('link[rel="icon"]').href = "data:image/svg+xml," + encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#c2410c"/>` +
+  `<text x="32" y="34" text-anchor="middle" dominant-baseline="middle" font-size="34" font-family="Georgia,serif" fill="#fff">${AGG.ratings.overallRating}</text></svg>`);
+$("#tabs").innerHTML = VIEWS.map(([id, lab, icon]) =>
+  `<button role="tab" id="tab-${id}" data-tab="${id}" aria-selected="false" aria-controls="view-${id}"><i class="${icon}"></i>${lab}${badge[id] ? ` <span class="num" style="font-size:11px">${badge[id]}</span>` : ""}</button>`).join("");
+$("#app").innerHTML = VIEWS.map(([id]) => `<section class="view" id="view-${id}" role="tabpanel" aria-labelledby="tab-${id}" tabindex="-1"></section>`).join("");
+$("#foot").innerHTML = `Built from <code>glassdoor.json</code> — ${AGG.allReviewsCount} reviews, ${IV.length} interview reports, ${SAL.length} salary bands, captured ${fmtDate(D.extraction_metadata.extracted_at)} from
+  <a href="${esc(D.overview.source_url)}" target="_blank" rel="noopener">Glassdoor</a>. All content is employee-submitted and anonymous; figures are self-reported, not audited.
+  Filters and tabs are saved in the URL, so any view can be bookmarked or shared.`;
+
+let last = "";
+function render() {
+  document.querySelectorAll("#tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === S.tab)));
+  VIEWS.forEach(([id, , , fn]) => {
+    const sec = $("#view-" + id);
+    sec.classList.toggle("on", id === S.tab);
+    if (id !== S.tab) return void (sec.innerHTML = "");  // drop stale DOM so hidden copies never shadow the live view
+    sec.innerHTML = fn();
+    document.title = `${VIEWS.find((v) => v[0] === id)[1]} · ${NAME} on Glassdoor`;
+  });
+  // keep caret position when typing into a search box
+  if (last && last !== S.tab) window.scrollTo({ top: 0, behavior: "instant" });
+  last = S.tab;
+}
+
+/* ── one click delegate for every `data-act="verb:value"` in the page ── */
+const ACTS = {
+  rating: (v) => { const cur = S.rating ? S.rating.split(",") : []; const next = cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v]; return { tab: "reviews", rating: next.join(",") }; },
+  year: (v) => ({ tab: "reviews", yr: S.yr === v ? "" : v }),
+  q: (v) => ({ tab: "reviews", q: v }),
+  cur: (v) => ({ tab: "reviews", cur: S.cur === v ? "" : v }),
+  resp: (v) => ({ tab: "reviews", resp: S.resp === v ? "" : v }),
+  fam: (v) => ({ tab: "reviews", fam: S.fam === v ? "" : v }),
+  sen: (v) => ({ tab: "reviews", sen: S.sen === v ? "" : v }),
+  loc: (v) => ({ tab: "reviews", loc: S.loc === v ? "" : v }),
+  ten: (v) => ({ tab: "reviews", ten: S.ten === v ? "" : v }),
+  iexp: (v) => ({ iexp: S.iexp === v ? "" : v }),
+  idiff: (v) => ({ idiff: S.idiff === v ? "" : v }),
+  iout: (v) => ({ iout: S.iout === v ? "" : v }),
+  ...Object.fromEntries(VERDICTS.map(([k]) => [k, (v) => ({ tab: "reviews", [k]: S[k] === v ? "" : v })])),
+  more: () => ({ n: S.n + 20 }),
+  faq: () => { // pure DOM toggle: no state worth putting in the URL, and no re-render needed
+    const items = [...document.querySelectorAll("#faq-list details")];
+    const open = !items.every((d) => d.open);
+    items.forEach((d) => (d.open = open));
+    $("#faq-toggle-label").textContent = open ? "Collapse all" : "Expand all";
+    return null;
+  },
+  clear: (v) => v === "all" ? { q: "", rating: "", yr: "", loc: "", fam: "", sen: "", ten: "", status: "", cur: "", resp: "", rec: "", ceo: "", outlook: "" }
+    : v === "iall" ? { iq: "", iexp: "", idiff: "", iout: "", isrc: "" } : { [v]: "" },
+};
+
+function act(node) {
+  const [verb, ...rest] = node.dataset.act.split(":");
+  const patch = ACTS[verb]?.(rest.join(":"));
+  if (patch) set(patch, { keepPage: verb === "more" });
+}
+
+document.addEventListener("click", (e) => {
+  const tab = e.target.closest("#tabs button");
+  if (tab) return set({ tab: tab.dataset.tab });
+  const th = e.target.closest("th[data-sort]");
+  if (th) return set({ psort: th.dataset.sort, pdir: S.psort === th.dataset.sort && S.pdir === "desc" ? "asc" : "desc" });
+  const a = e.target.closest("[data-act]");
+  if (a) act(a);
+});
+document.addEventListener("keydown", (e) => {
+  if ((e.key === "Enter" || e.key === " ") && e.target.matches?.("[data-act][tabindex]")) { e.preventDefault(); act(e.target); }
+  if (e.key === "/" && !/input|textarea|select/i.test(document.activeElement.tagName)) { e.preventDefault(); set({ tab: "reviews" }); $("#q")?.focus(); }
+  if (e.key === "Escape" && document.activeElement.tagName === "INPUT") document.activeElement.blur();
+});
+document.addEventListener("change", (e) => { const k = e.target.dataset?.key; if (k) set({ [k]: e.target.value }); });
+document.addEventListener("input", debounce((e) => {
+  const map = { q: "q", iq: "iq", pq: "pq" };
+  const k = map[e.target.id];
+  if (!k) return;
+  const { selectionStart } = e.target;
+  set({ [k]: e.target.value });
+  const again = $("#" + e.target.id);
+  if (again) { again.focus(); again.setSelectionRange(selectionStart, selectionStart); }
+}, 220));
+
+/* ── tooltip ── */
+const tipEl = $("#tip");
+const showTip = (node, x, y) => {
+  tipEl.textContent = node.dataset.tip;
+  tipEl.classList.add("on");
+  const r = tipEl.getBoundingClientRect();
+  tipEl.style.left = `${clamp(x - r.width / 2, 8, innerWidth - r.width - 8)}px`;
+  tipEl.style.top = `${y - r.height - 12 < 8 ? y + 18 : y - r.height - 12}px`;
+};
+document.addEventListener("pointermove", (e) => {
+  const n = e.target.closest?.("[data-tip]");
+  n ? showTip(n, e.clientX, e.clientY) : tipEl.classList.remove("on");
+});
+document.addEventListener("focusin", (e) => {
+  const n = e.target.closest?.("[data-tip]");
+  if (!n) return tipEl.classList.remove("on");
+  const r = n.getBoundingClientRect();
+  showTip(n, r.left + r.width / 2, r.top);
+});
+addEventListener("scroll", () => tipEl.classList.remove("on"), { passive: true });
+
+/* ── theme ── */
+const setTheme = (t) => {
+  document.documentElement.dataset.theme = t;
+  localStorage.setItem("gd-theme", t);
+  $("#theme").innerHTML = `<i class="icon-${t === "dark" ? "sun" : "moon"}"></i>`;
+};
+setTheme(localStorage.getItem("gd-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+$("#theme").addEventListener("click", () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"));
+
+/* ── go ── */
+addEventListener("hashchange", () => { readURL(); render(); });
+// Reveal only once the display faces have loaded: swapping Fraunces in afterwards
+// reflows every heading and costs ~0.9 of cumulative layout shift.
+await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 3000))]);
+readURL();
+render();
+$("#boot").remove();
+$("#app").hidden = false;
+</script>
+
+</body>
+</html>

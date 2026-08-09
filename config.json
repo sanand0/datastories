@@ -1,6 +1,25 @@
 {
   "stories": [
     {
+      "id": "gramener-glassdoor",
+      "title": "What it's like to work at Gramener",
+      "description": "208 employee reviews, 41 interview reports and 103 salary bands for Gramener, turned into one explorable dossier.",
+      "summary": "An interactive dossier built from Gramener's Glassdoor footprint: a 4.3 overall rating against a 3.83 sector benchmark, rating breakdowns by parameter, reviews over time, searchable and filterable individual reviews with pros/cons, interview experiences and difficulty, and reported pay by title.",
+      "keywords": [
+        "Gramener",
+        "Glassdoor",
+        "employee reviews",
+        "employer rating",
+        "interview experience",
+        "salary data",
+        "workplace culture"
+      ],
+      "link": "gramener-glassdoor/",
+      "screenshot": "gramener-glassdoor/screenshot.avif",
+      "date": "2026-08-09",
+      "folder": "gramener-glassdoor"
+    },
+    {
       "id": "security-at-bagmane-capital",
       "title": "The Fourteen-Minute Walk",
       "description": "A true story of one afternoon in Bengaluru: two gates, four kilometres that should have been two, and a peri peri paneer sandwich.",
