@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Embassy scatter outliers</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --dot-muted:      #c3c2b7;
+    --over:           #2a78d6;
+    --under:          #e34948;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  body { margin:0; background: var(--page); }
+  .viz-root { max-width: 920px; margin: 0 auto; padding: 32px 28px 44px; background: var(--surface-1); }
+  h1 { font-size: 20px; color: var(--text-primary); margin: 0 0 4px; }
+  .subtitle { font-size: 13px; color: var(--text-secondary); margin: 0 0 6px; max-width: 760px; }
+  .fitline { font-size: 12px; color: var(--text-muted); margin: 0 0 20px; }
+  .chart-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 40px 0 2px; }
+  .chart-sub { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 14px; max-width: 760px; }
+  .legend { display:flex; gap:18px; align-items:center; margin: 0 0 10px; font-size: 12px; color: var(--text-secondary); }
+  .legend .sw { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:-1px; }
+  svg { display:block; overflow: visible; }
+  .axis-label { font-size: 11.5px; fill: var(--text-muted); }
+  .tick-label { font-size: 10.5px; fill: var(--text-muted); }
+  .grid-line { stroke: var(--gridline); stroke-width: 1; }
+  .baseline-axis { stroke: var(--baseline); stroke-width: 1; }
+  .fit-line { stroke: var(--text-muted); stroke-width: 1.5; stroke-dasharray: none; fill: none; }
+  .ref-line { stroke: var(--baseline); stroke-width: 1.5; stroke-dasharray: 4 4; fill: none; }
+  .dot { fill: var(--dot-muted); opacity: 0.55; transition: opacity 0.15s ease; }
+  .dot.hl.over { fill: var(--over); opacity: 1; }
+  .dot.hl.under { fill: var(--under); opacity: 1; }
+  .dot.hl.exporter { fill: var(--over); opacity: 1; }
+  .dot.hl.importer { fill: var(--under); opacity: 1; }
+  .dot.match { stroke: var(--text-primary); stroke-width: 1.5; }
+  .dot.faded { opacity: 0.05 !important; }
+  .pt-label { font-size: 11px; fill: var(--text-primary); font-weight: 600; }
+  .pt-sub { font-size: 10px; fill: var(--text-secondary); }
+  .leader { stroke: var(--text-muted); stroke-width: 1; opacity: 0.5; }
+  .lbl-group { transition: opacity 0.15s ease; }
+  .lbl-group.faded { opacity: 0.06; }
+  .search-label { font-size: 10.5px; font-weight: 600; fill: var(--text-primary);
+    paint-order: stroke; stroke: var(--surface-1); stroke-width: 3px; stroke-linejoin: round; }
+  .foot { font-size: 11.5px; color: var(--text-muted); margin-top: 22px; line-height: 1.55; max-width: 800px; }
+  .foot a { color: var(--text-secondary); }
+  .tooltip {
+    position: fixed; pointer-events:none; background: #0b0b0b; color: #ffffff;
+    font-size: 12px; padding: 6px 9px; border-radius: 6px; display:none; z-index: 10;
+    max-width: 230px; line-height: 1.4;
+  }
+  .search-wrap { margin: 4px 0 22px; }
+  .search-wrap input {
+    width: 100%; max-width: 320px; box-sizing: border-box; font: inherit; font-size: 13px;
+    padding: 8px 12px; border: 1px solid var(--gridline); border-radius: 8px;
+    background: var(--surface-1); color: var(--text-primary); outline: none;
+  }
+  .search-wrap input:focus { border-color: var(--baseline); }
+  .search-hint { font-size: 11.5px; color: var(--text-muted); margin: 6px 0 0; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <h1>Do embassies follow the money?</h1>
+  <p class="subtitle">186 countries, embassies sent abroad vs. GDP (2023). The gray line is the actual global pattern — a power-law fit (R² = 0.81). Countries are colored only when they land far off that line.</p>
+
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Search a country — fades everything else on both charts" autocomplete="off">
+    <p class="search-hint" id="searchHint"></p>
+  </div>
+
+  <div class="chart-title">1. Embassies sent vs. the size of the economy</div>
+  <p class="chart-sub">Both axes are log scale, so the fit line is straight. Above the line = more embassies than GDP predicts. Below = fewer.</p>
+  <div class="legend">
+    <span><span class="sw" style="background:var(--over)"></span>Punches above its weight</span>
+    <span><span class="sw" style="background:var(--under)"></span>Under-represented for its size</span>
+    <span><span class="sw" style="background:var(--dot-muted);opacity:.55"></span>On trend</span>
+  </div>
+  <svg id="c1" width="864" height="480" viewBox="0 0 864 480"></svg>
+
+  <div class="chart-title">2. Embassies sent vs. embassies hosted</div>
+  <p class="chart-sub">Log scale, both axes. The dashed diagonal is where sent = hosted. Below it: sends more than it receives. Above it: hosts more than it sends.</p>
+  <div class="legend">
+    <span><span class="sw" style="background:var(--over)"></span>Net diplomatic exporter (sends &gt; hosts)</span>
+    <span><span class="sw" style="background:var(--under)"></span>Net diplomatic importer (hosts &gt; sends)</span>
+  </div>
+  <svg id="c2" width="864" height="480" viewBox="0 0 864 480"></svg>
+
+  <p class="foot">
+  Chart 1 excludes Bermuda (a territory, not a sovereign state). Chart 2 excludes "Northern Cyprus" — the source data mislabels ~28 ordinary embassies in Nicosia, Cyprus as being hosted there; in reality only Turkey recognizes and maintains an embassy in Northern Cyprus. Kosovo's hosted count (1) is likely undercounted by the source (Wikidata) — in reality roughly 20&ndash;30 countries maintain a resident mission in Pristina — but the direction (sends far more than it receives) matches independent reporting. Sovereign Military Order of Malta and Palestine are not UN member states but run active networks of missions abroad. Source: <a href="https://github.com/database-of-embassies/database-of-embassies" target="_blank" rel="noopener">Wikidata "database of embassies"</a>; <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD" target="_blank" rel="noopener">World Bank GDP (NY.GDP.MKTP.CD, 2023)</a>.
+  </p>
+  <div class="tooltip" id="tt"></div>
+</div>
+<script>
+const tt = document.getElementById('tt');
+function showTT(e, html) {
+  tt.style.display = 'block';
+  tt.style.left = (e.clientX + 14) + 'px';
+  tt.style.top = (e.clientY + 14) + 'px';
+  tt.innerHTML = html;
+}
+function hideTT() { tt.style.display = 'none'; }
+
+function fmtGDP(v) {
+  if (v >= 1e12) return '$' + (v/1e12).toFixed(2) + 'T';
+  if (v >= 1e9) return '$' + (v/1e9).toFixed(1) + 'B';
+  return '$' + (v/1e6).toFixed(0) + 'M';
+}
+
+// ---------------- DATA ----------------
+const CHART1_DATA = {"points": [{"name": "United States", "gdp": 27811517000000.0, "sent": 175, "ratio": 0.46, "hl": false, "dir": null}, {"name": "China", "gdp": 18270356654533.0, "sent": 172, "ratio": 0.54, "hl": false, "dir": null}, {"name": "Germany", "gdp": 4562207532490.0, "sent": 157, "ratio": 0.87, "hl": false, "dir": null}, {"name": "Japan", "gdp": 4384854269962.0, "sent": 161, "ratio": 0.91, "hl": false, "dir": null}, {"name": "India", "gdp": 3500906030645.0, "sent": 145, "ratio": 0.9, "hl": false, "dir": null}, {"name": "United Kingdom", "gdp": 3420796653789.0, "sent": 158, "ratio": 0.99, "hl": false, "dir": null}, {"name": "France", "gdp": 3056250648138.0, "sent": 163, "ratio": 1.07, "hl": false, "dir": null}, {"name": "Italy", "gdp": 2316882296366.0, "sent": 127, "ratio": 0.93, "hl": false, "dir": null}, {"name": "Canada", "gdp": 2196593836347.0, "sent": 100, "ratio": 0.75, "hl": false, "dir": null}, {"name": "Brazil", "gdp": 2191131765685.0, "sent": 133, "ratio": 1.0, "hl": false, "dir": null}, {"name": "Russian Federation", "gdp": 2046284838151.0, "sent": 146, "ratio": 1.12, "hl": false, "dir": null}, {"name": "Korea, Rep.", "gdp": 1844800934392.0, "sent": 73, "ratio": 0.59, "hl": false, "dir": null}, {"name": "Mexico", "gdp": 1794410347718.0, "sent": 80, "ratio": 0.65, "hl": false, "dir": null}, {"name": "Australia", "gdp": 1734451264656.0, "sent": 85, "ratio": 0.7, "hl": false, "dir": null}, {"name": "Spain", "gdp": 1619481980720.0, "sent": 119, "ratio": 1.01, "hl": false, "dir": null}, {"name": "Indonesia", "gdp": 1371166925750.0, "sent": 95, "ratio": 0.86, "hl": false, "dir": null}, {"name": "Saudi Arabia", "gdp": 1218584800000.0, "sent": 106, "ratio": 1.01, "hl": false, "dir": null}, {"name": "Turkiye", "gdp": 1141242864657.0, "sent": 138, "ratio": 1.35, "hl": false, "dir": null}, {"name": "Netherlands", "gdp": 1135475867551.0, "sent": 114, "ratio": 1.12, "hl": false, "dir": null}, {"name": "Switzerland", "gdp": 928435275852.0, "sent": 105, "ratio": 1.12, "hl": false, "dir": null}, {"name": "Poland", "gdp": 812451193396.0, "sent": 90, "ratio": 1.01, "hl": false, "dir": null}, {"name": "Belgium", "gdp": 650779364364.0, "sent": 84, "ratio": 1.03, "hl": false, "dir": null}, {"name": "Argentina", "gdp": 649461687959.0, "sent": 89, "ratio": 1.1, "hl": false, "dir": null}, {"name": "Sweden", "gdp": 578990915246.0, "sent": 100, "ratio": 1.29, "hl": false, "dir": null}, {"name": "Ireland", "gdp": 567372737459.0, "sent": 67, "ratio": 0.87, "hl": false, "dir": null}, {"name": "United Arab Emirates", "gdp": 522622268401.0, "sent": 97, "ratio": 1.31, "hl": false, "dir": null}, {"name": "Thailand", "gdp": 517013369475.0, "sent": 43, "ratio": 0.58, "hl": false, "dir": null}, {"name": "Austria", "gdp": 516670509629.0, "sent": 82, "ratio": 1.11, "hl": false, "dir": null}, {"name": "Israel", "gdp": 513393395492.0, "sent": 79, "ratio": 1.07, "hl": false, "dir": null}, {"name": "Singapore", "gdp": 511181761244.0, "sent": 29, "ratio": 0.39, "hl": true, "dir": "under"}, {"name": "Norway", "gdp": 502197633323.0, "sent": 82, "ratio": 1.12, "hl": false, "dir": null}, {"name": "Nigeria", "gdp": 487387801878.0, "sent": 47, "ratio": 0.65, "hl": false, "dir": null}, {"name": "Iran, Islamic Rep.", "gdp": 457510482317.0, "sent": 57, "ratio": 0.81, "hl": false, "dir": null}, {"name": "Bangladesh", "gdp": 437415333018.0, "sent": 60, "ratio": 0.87, "hl": false, "dir": null}, {"name": "Philippines", "gdp": 437055627245.0, "sent": 49, "ratio": 0.71, "hl": false, "dir": null}, {"name": "Viet Nam", "gdp": 433805036898.0, "sent": 47, "ratio": 0.68, "hl": false, "dir": null}, {"name": "Denmark", "gdp": 404651706118.0, "sent": 71, "ratio": 1.06, "hl": false, "dir": null}, {"name": "Malaysia", "gdp": 399949418753.0, "sent": 45, "ratio": 0.68, "hl": false, "dir": null}, {"name": "Egypt, Arab Rep.", "gdp": 395926071448.0, "sent": 80, "ratio": 1.21, "hl": false, "dir": null}, {"name": "South Africa", "gdp": 381440724491.0, "sent": 105, "ratio": 1.61, "hl": false, "dir": null}, {"name": "Colombia", "gdp": 366901643683.0, "sent": 62, "ratio": 0.96, "hl": false, "dir": null}, {"name": "Romania", "gdp": 347757995759.0, "sent": 94, "ratio": 1.49, "hl": false, "dir": null}, {"name": "Czechia", "gdp": 345059295660.0, "sent": 91, "ratio": 1.45, "hl": false, "dir": null}, {"name": "Pakistan", "gdp": 336686348609.0, "sent": 48, "ratio": 0.77, "hl": false, "dir": null}, {"name": "Chile", "gdp": 335802745366.0, "sent": 73, "ratio": 1.18, "hl": false, "dir": null}, {"name": "Finland", "gdp": 295191741637.0, "sent": 72, "ratio": 1.22, "hl": false, "dir": null}, {"name": "Portugal", "gdp": 292323800949.0, "sent": 75, "ratio": 1.28, "hl": false, "dir": null}, {"name": "Iraq", "gdp": 268881051644.0, "sent": 45, "ratio": 0.79, "hl": false, "dir": null}, {"name": "Peru", "gdp": 268025009709.0, "sent": 63, "ratio": 1.11, "hl": false, "dir": null}, {"name": "Kazakhstan", "gdp": 261840101060.0, "sent": 43, "ratio": 0.77, "hl": false, "dir": null}, {"name": "New Zealand", "gdp": 256372177758.0, "sent": 52, "ratio": 0.94, "hl": false, "dir": null}, {"name": "Algeria", "gdp": 247923887215.0, "sent": 94, "ratio": 1.72, "hl": false, "dir": null}, {"name": "Greece", "gdp": 242946187738.0, "sent": 85, "ratio": 1.57, "hl": false, "dir": null}, {"name": "Hungary", "gdp": 213029511029.0, "sent": 69, "ratio": 1.34, "hl": false, "dir": null}, {"name": "Qatar", "gdp": 213002809341.0, "sent": 48, "ratio": 0.93, "hl": false, "dir": null}, {"name": "Ukraine", "gdp": 181221517869.0, "sent": 86, "ratio": 1.79, "hl": true, "dir": "over"}, {"name": "Kuwait", "gdp": 165462656227.0, "sent": 43, "ratio": 0.93, "hl": false, "dir": null}, {"name": "Morocco", "gdp": 146036093667.0, "sent": 97, "ratio": 2.2, "hl": true, "dir": "over"}, {"name": "Ethiopia", "gdp": 135874093203.0, "sent": 27, "ratio": 0.63, "hl": false, "dir": null}, {"name": "Slovak Republic", "gdp": 133578518424.0, "sent": 66, "ratio": 1.55, "hl": false, "dir": null}, {"name": "Ecuador", "gdp": 120792801000.0, "sent": 47, "ratio": 1.15, "hl": false, "dir": null}, {"name": "Dominican Republic", "gdp": 120456239154.0, "sent": 31, "ratio": 0.76, "hl": false, "dir": null}, {"name": "Uzbekistan", "gdp": 107526539716.0, "sent": 22, "ratio": 0.57, "hl": false, "dir": null}, {"name": "Kenya", "gdp": 107500884685.0, "sent": 26, "ratio": 0.67, "hl": false, "dir": null}, {"name": "Oman", "gdp": 106174707932.0, "sent": 22, "ratio": 0.57, "hl": false, "dir": null}, {"name": "Angola", "gdp": 106042349567.0, "sent": 38, "ratio": 0.98, "hl": false, "dir": null}, {"name": "Guatemala", "gdp": 104298081429.0, "sent": 30, "ratio": 0.78, "hl": false, "dir": null}, {"name": "Venezuela, RB", "gdp": 102377501186.0, "sent": 44, "ratio": 1.15, "hl": false, "dir": null}, {"name": "Bulgaria", "gdp": 102204457335.0, "sent": 74, "ratio": 1.94, "hl": false, "dir": null}, {"name": "Luxembourg", "gdp": 88788881539.0, "sent": 30, "ratio": 0.83, "hl": false, "dir": null}, {"name": "Costa Rica", "gdp": 87512637056.0, "sent": 43, "ratio": 1.2, "hl": false, "dir": null}, {"name": "Croatia", "gdp": 85621337533.0, "sent": 57, "ratio": 1.61, "hl": false, "dir": null}, {"name": "Sri Lanka", "gdp": 84080307356.0, "sent": 28, "ratio": 0.8, "hl": false, "dir": null}, {"name": "Panama", "gdp": 83812155200.0, "sent": 58, "ratio": 1.65, "hl": false, "dir": null}, {"name": "Serbia", "gdp": 81343999280.0, "sent": 68, "ratio": 1.96, "hl": true, "dir": "over"}, {"name": "Cote d'Ivoire", "gdp": 80780312569.0, "sent": 47, "ratio": 1.36, "hl": false, "dir": null}, {"name": "Ghana", "gdp": 80547146876.0, "sent": 54, "ratio": 1.56, "hl": false, "dir": null}, {"name": "Lithuania", "gdp": 80356613555.0, "sent": 41, "ratio": 1.19, "hl": false, "dir": null}, {"name": "Uruguay", "gdp": 79208725900.0, "sent": 54, "ratio": 1.57, "hl": false, "dir": null}, {"name": "Tanzania", "gdp": 79030935638.0, "sent": 25, "ratio": 0.73, "hl": false, "dir": null}, {"name": "Belarus", "gdp": 72478760370.0, "sent": 55, "ratio": 1.66, "hl": false, "dir": null}, {"name": "Azerbaijan", "gdp": 72428470588.0, "sent": 55, "ratio": 1.66, "hl": false, "dir": null}, {"name": "Congo, Dem. Rep.", "gdp": 69843655425.0, "sent": 28, "ratio": 0.86, "hl": false, "dir": null}, {"name": "Slovenia", "gdp": 69255264238.0, "sent": 44, "ratio": 1.35, "hl": false, "dir": null}, {"name": "Myanmar", "gdp": 66757619000.0, "sent": 24, "ratio": 0.75, "hl": false, "dir": null}, {"name": "Jordan", "gdp": 56123472113.0, "sent": 34, "ratio": 1.14, "hl": false, "dir": null}, {"name": "Bolivia", "gdp": 52340206946.0, "sent": 30, "ratio": 1.03, "hl": false, "dir": null}, {"name": "Cameroon", "gdp": 48814501547.0, "sent": 21, "ratio": 0.75, "hl": false, "dir": null}, {"name": "Uganda", "gdp": 48768955863.0, "sent": 17, "ratio": 0.6, "hl": false, "dir": null}, {"name": "Tunisia", "gdp": 48205328303.0, "sent": 58, "ratio": 2.07, "hl": false, "dir": null}, {"name": "Bahrain", "gdp": 46192260638.0, "sent": 26, "ratio": 0.94, "hl": false, "dir": null}, {"name": "Libya", "gdp": 44027664915.0, "sent": 46, "ratio": 1.7, "hl": false, "dir": null}, {"name": "Paraguay", "gdp": 43140465596.0, "sent": 40, "ratio": 1.49, "hl": false, "dir": null}, {"name": "Latvia", "gdp": 42779550937.0, "sent": 37, "ratio": 1.39, "hl": false, "dir": null}, {"name": "Cambodia", "gdp": 42335646896.0, "sent": 18, "ratio": 0.68, "hl": false, "dir": null}, {"name": "Estonia", "gdp": 41470344395.0, "sent": 37, "ratio": 1.4, "hl": false, "dir": null}, {"name": "Nepal", "gdp": 41049329851.0, "sent": 32, "ratio": 1.22, "hl": false, "dir": null}, {"name": "Sudan", "gdp": 39898289821.0, "sent": 32, "ratio": 1.23, "hl": false, "dir": null}, {"name": "Turkmenistan", "gdp": 39020211240.0, "sent": 19, "ratio": 0.74, "hl": false, "dir": null}, {"name": "Zimbabwe", "gdp": 35871781303.0, "sent": 19, "ratio": 0.76, "hl": false, "dir": null}, {"name": "Cyprus", "gdp": 35075440603.0, "sent": 42, "ratio": 1.71, "hl": false, "dir": null}, {"name": "Honduras", "gdp": 34355805528.0, "sent": 24, "ratio": 0.98, "hl": false, "dir": null}, {"name": "El Salvador", "gdp": 33565430000.0, "sent": 41, "ratio": 1.7, "hl": false, "dir": null}, {"name": "Iceland", "gdp": 31701996434.0, "sent": 18, "ratio": 0.76, "hl": false, "dir": null}, {"name": "Papua New Guinea", "gdp": 30816328066.0, "sent": 9, "ratio": 0.39, "hl": true, "dir": "under"}, {"name": "Georgia", "gdp": 30777833601.0, "sent": 48, "ratio": 2.06, "hl": false, "dir": null}, {"name": "Senegal", "gdp": 30696331296.0, "sent": 26, "ratio": 1.12, "hl": false, "dir": null}, {"name": "Bosnia and Herzegovina", "gdp": 27592361498.0, "sent": 45, "ratio": 2.02, "hl": false, "dir": null}, {"name": "Zambia", "gdp": 27577956471.0, "sent": 21, "ratio": 0.94, "hl": false, "dir": null}, {"name": "Trinidad and Tobago", "gdp": 25036993423.0, "sent": 15, "ratio": 0.7, "hl": false, "dir": null}, {"name": "Mali", "gdp": 24777941861.0, "sent": 20, "ratio": 0.94, "hl": false, "dir": null}, {"name": "Armenia", "gdp": 24185982216.0, "sent": 32, "ratio": 1.51, "hl": false, "dir": null}, {"name": "Albania", "gdp": 23491242727.0, "sent": 40, "ratio": 1.91, "hl": false, "dir": null}, {"name": "Malta", "gdp": 22625329776.0, "sent": 27, "ratio": 1.31, "hl": false, "dir": null}, {"name": "Guinea", "gdp": 22407615556.0, "sent": 42, "ratio": 2.05, "hl": false, "dir": null}, {"name": "Jamaica", "gdp": 21418797833.0, "sent": 18, "ratio": 0.89, "hl": false, "dir": null}, {"name": "Mozambique", "gdp": 20927498317.0, "sent": 33, "ratio": 1.66, "hl": false, "dir": null}, {"name": "Mongolia", "gdp": 20325121394.0, "sent": 26, "ratio": 1.32, "hl": false, "dir": null}, {"name": "Burkina Faso", "gdp": 20106062972.0, "sent": 35, "ratio": 1.79, "hl": false, "dir": null}, {"name": "Lebanon", "gdp": 20078620357.0, "sent": 41, "ratio": 2.09, "hl": false, "dir": null}, {"name": "Benin", "gdp": 19673291004.0, "sent": 10, "ratio": 0.51, "hl": false, "dir": null}, {"name": "Haiti", "gdp": 19572288894.0, "sent": 25, "ratio": 1.29, "hl": false, "dir": null}, {"name": "Botswana", "gdp": 19413614555.0, "sent": 13, "ratio": 0.67, "hl": false, "dir": null}, {"name": "Gabon", "gdp": 19388372071.0, "sent": 18, "ratio": 0.93, "hl": false, "dir": null}, {"name": "Chad", "gdp": 18352937976.0, "sent": 14, "ratio": 0.74, "hl": false, "dir": null}, {"name": "Nicaragua", "gdp": 17805842221.0, "sent": 29, "ratio": 1.55, "hl": false, "dir": null}, {"name": "Afghanistan", "gdp": 17152234637.0, "sent": 43, "ratio": 2.34, "hl": true, "dir": "over"}, {"name": "Niger", "gdp": 16949765464.0, "sent": 13, "ratio": 0.71, "hl": false, "dir": null}, {"name": "Guyana", "gdp": 16918503597.0, "sent": 10, "ratio": 0.55, "hl": false, "dir": null}, {"name": "Moldova", "gdp": 16711906746.0, "sent": 33, "ratio": 1.82, "hl": false, "dir": null}, {"name": "Madagascar", "gdp": 16036707976.0, "sent": 18, "ratio": 1.01, "hl": false, "dir": null}, {"name": "North Macedonia", "gdp": 15855131189.0, "sent": 42, "ratio": 2.36, "hl": true, "dir": "over"}, {"name": "Lao PDR", "gdp": 15843155731.0, "sent": 16, "ratio": 0.9, "hl": false, "dir": null}, {"name": "Congo, Rep.", "gdp": 15321055823.0, "sent": 16, "ratio": 0.91, "hl": false, "dir": null}, {"name": "Bahamas", "gdp": 15271300000.0, "sent": 6, "ratio": 0.34, "hl": true, "dir": "under"}, {"name": "Kyrgyz Republic", "gdp": 15180842369.0, "sent": 18, "ratio": 1.03, "hl": false, "dir": null}, {"name": "Brunei Darussalam", "gdp": 15095084656.0, "sent": 16, "ratio": 0.92, "hl": false, "dir": null}, {"name": "Rwanda", "gdp": 14806501437.0, "sent": 20, "ratio": 1.16, "hl": false, "dir": null}, {"name": "Mauritius", "gdp": 14072212290.0, "sent": 13, "ratio": 0.77, "hl": false, "dir": null}, {"name": "Malawi", "gdp": 13363669673.0, "sent": 11, "ratio": 0.66, "hl": false, "dir": null}, {"name": "Equatorial Guinea", "gdp": 12541814273.0, "sent": 20, "ratio": 1.24, "hl": false, "dir": null}, {"name": "Namibia", "gdp": 12522012874.0, "sent": 18, "ratio": 1.11, "hl": false, "dir": null}, {"name": "Tajikistan", "gdp": 12244169293.0, "sent": 17, "ratio": 1.06, "hl": false, "dir": null}, {"name": "Mauritania", "gdp": 10687541640.0, "sent": 19, "ratio": 1.25, "hl": false, "dir": null}, {"name": "Kosovo", "gdp": 10466753840.0, "sent": 32, "ratio": 2.13, "hl": true, "dir": "over"}, {"name": "Monaco", "gdp": 10003897341.0, "sent": 10, "ratio": 0.68, "hl": false, "dir": null}, {"name": "Togo", "gdp": 9723300577.0, "sent": 12, "ratio": 0.82, "hl": false, "dir": null}, {"name": "Liechtenstein", "gdp": 8239379403.0, "sent": 5, "ratio": 0.37, "hl": true, "dir": "under"}, {"name": "Montenegro", "gdp": 7643318276.0, "sent": 28, "ratio": 2.12, "hl": true, "dir": "over"}, {"name": "Barbados", "gdp": 7223248150.0, "sent": 9, "ratio": 0.7, "hl": false, "dir": null}, {"name": "Maldives", "gdp": 6621008704.0, "sent": 17, "ratio": 1.37, "hl": false, "dir": null}, {"name": "Sierra Leone", "gdp": 6415852766.0, "sent": 11, "ratio": 0.9, "hl": false, "dir": null}, {"name": "Fiji", "gdp": 5476673518.0, "sent": 7, "ratio": 0.61, "hl": false, "dir": null}, {"name": "Eswatini", "gdp": 4621191262.0, "sent": 7, "ratio": 0.65, "hl": false, "dir": null}, {"name": "Liberia", "gdp": 4390000000.0, "sent": 11, "ratio": 1.05, "hl": false, "dir": null}, {"name": "Djibouti", "gdp": 3898447007.0, "sent": 14, "ratio": 1.4, "hl": false, "dir": null}, {"name": "Andorra", "gdp": 3785067332.0, "sent": 6, "ratio": 0.61, "hl": false, "dir": null}, {"name": "Suriname", "gdp": 3472693412.0, "sent": 15, "ratio": 1.57, "hl": false, "dir": null}, {"name": "Burundi", "gdp": 3419558408.0, "sent": 16, "ratio": 1.68, "hl": false, "dir": null}, {"name": "Belize", "gdp": 3052362650.0, "sent": 9, "ratio": 0.99, "hl": false, "dir": null}, {"name": "Bhutan", "gdp": 3012896790.0, "sent": 4, "ratio": 0.44, "hl": true, "dir": "under"}, {"name": "Central African Republic", "gdp": 2555492086.0, "sent": 7, "ratio": 0.83, "hl": false, "dir": null}, {"name": "Cabo Verde", "gdp": 2504525538.0, "sent": 13, "ratio": 1.55, "hl": false, "dir": null}, {"name": "St. Lucia", "gdp": 2441259259.0, "sent": 4, "ratio": 0.48, "hl": false, "dir": null}, {"name": "Gambia, The", "gdp": 2382262185.0, "sent": 12, "ratio": 1.46, "hl": false, "dir": null}, {"name": "Seychelles", "gdp": 2171547935.0, "sent": 12, "ratio": 1.52, "hl": false, "dir": null}, {"name": "Lesotho", "gdp": 2129871530.0, "sent": 12, "ratio": 1.53, "hl": false, "dir": null}, {"name": "Timor-Leste", "gdp": 2079767200.0, "sent": 13, "ratio": 1.68, "hl": false, "dir": null}, {"name": "Guinea-Bissau", "gdp": 2076748678.0, "sent": 12, "ratio": 1.55, "hl": false, "dir": null}, {"name": "Antigua and Barbuda", "gdp": 2054096296.0, "sent": 5, "ratio": 0.65, "hl": false, "dir": null}, {"name": "San Marino", "gdp": 2027243194.0, "sent": 12, "ratio": 1.56, "hl": false, "dir": null}, {"name": "Solomon Islands", "gdp": 1506124566.0, "sent": 3, "ratio": 0.44, "hl": false, "dir": null}, {"name": "Comoros", "gdp": 1465977684.0, "sent": 5, "ratio": 0.74, "hl": false, "dir": null}, {"name": "Grenada", "gdp": 1336418519.0, "sent": 5, "ratio": 0.77, "hl": false, "dir": null}, {"name": "Vanuatu", "gdp": 1188137265.0, "sent": 4, "ratio": 0.65, "hl": false, "dir": null}, {"name": "St. Vincent and the Grenadines", "gdp": 1072237037.0, "sent": 4, "ratio": 0.68, "hl": false, "dir": null}, {"name": "St. Kitts and Nevis", "gdp": 1055651852.0, "sent": 5, "ratio": 0.85, "hl": false, "dir": null}, {"name": "Samoa", "gdp": 1044909500.0, "sent": 4, "ratio": 0.68, "hl": false, "dir": null}, {"name": "Sao Tome and Principe", "gdp": 690456807.0, "sent": 3, "ratio": 0.61, "hl": false, "dir": null}, {"name": "Dominica", "gdp": 659311111.0, "sent": 3, "ratio": 0.62, "hl": false, "dir": null}, {"name": "Tonga", "gdp": 591139734.0, "sent": 4, "ratio": 0.86, "hl": false, "dir": null}, {"name": "Micronesia, Fed. Sts.", "gdp": 442975600.0, "sent": 4, "ratio": 0.97, "hl": false, "dir": null}, {"name": "Kiribati", "gdp": 291657338.0, "sent": 1, "ratio": 0.29, "hl": true, "dir": "under"}, {"name": "Palau", "gdp": 276157406.0, "sent": 5, "ratio": 1.47, "hl": false, "dir": null}, {"name": "Marshall Islands", "gdp": 264000000.0, "sent": 4, "ratio": 1.2, "hl": false, "dir": null}, {"name": "Tuvalu", "gdp": 50491931.0, "sent": 3, "ratio": 1.77, "hl": false, "dir": null}], "a": -2.92, "b": 0.409};
+const CHART2_DATA = {"points": [{"name": "Abkhazia", "sent": 5, "hosted": 2, "hl": false}, {"name": "Afghanistan", "sent": 43, "hosted": 24, "hl": false}, {"name": "Albania", "sent": 40, "hosted": 41, "hl": false}, {"name": "Algeria", "sent": 94, "hosted": 56, "hl": false}, {"name": "Andorra", "sent": 6, "hosted": 2, "hl": false}, {"name": "Angola", "sent": 38, "hosted": 42, "hl": false}, {"name": "Antigua and Barbuda", "sent": 5, "hosted": 3, "hl": false}, {"name": "Argentina", "sent": 89, "hosted": 86, "hl": false}, {"name": "Armenia", "sent": 32, "hosted": 30, "hl": false}, {"name": "Australia", "sent": 85, "hosted": 111, "hl": false}, {"name": "Austria", "sent": 82, "hosted": 121, "hl": false}, {"name": "Azerbaijan", "sent": 55, "hosted": 51, "hl": false}, {"name": "Bahrain", "sent": 26, "hosted": 39, "hl": false}, {"name": "Bangladesh", "sent": 60, "hosted": 36, "hl": false}, {"name": "Barbados", "sent": 9, "hosted": 8, "hl": false}, {"name": "Belarus", "sent": 55, "hosted": 46, "hl": false}, {"name": "Belgium", "sent": 84, "hosted": 184, "hl": true}, {"name": "Belize", "sent": 9, "hosted": 9, "hl": false}, {"name": "Benin", "sent": 10, "hosted": 14, "hl": false}, {"name": "Bhutan", "sent": 4, "hosted": 2, "hl": false}, {"name": "Bolivia", "sent": 30, "hosted": 28, "hl": false}, {"name": "Bosnia and Herzegovina", "sent": 45, "hosted": 42, "hl": false}, {"name": "Botswana", "sent": 13, "hosted": 14, "hl": false}, {"name": "Brazil", "sent": 133, "hosted": 132, "hl": false}, {"name": "Brunei", "sent": 16, "hosted": 19, "hl": false}, {"name": "Bulgaria", "sent": 74, "hosted": 70, "hl": false}, {"name": "Burkina Faso", "sent": 35, "hosted": 21, "hl": false}, {"name": "Burundi", "sent": 16, "hosted": 11, "hl": false}, {"name": "Cambodia", "sent": 18, "hosted": 15, "hl": false}, {"name": "Cameroon", "sent": 21, "hosted": 22, "hl": false}, {"name": "Canada", "sent": 100, "hosted": 131, "hl": false}, {"name": "Cape Verde", "sent": 13, "hosted": 10, "hl": false}, {"name": "Central African Republic", "sent": 7, "hosted": 5, "hl": false}, {"name": "Chad", "sent": 14, "hosted": 12, "hl": false}, {"name": "Chile", "sent": 73, "hosted": 71, "hl": false}, {"name": "Colombia", "sent": 62, "hosted": 61, "hl": false}, {"name": "Comoros", "sent": 5, "hosted": 7, "hl": false}, {"name": "Costa Rica", "sent": 43, "hosted": 37, "hl": false}, {"name": "Croatia", "sent": 57, "hosted": 55, "hl": false}, {"name": "Cuba", "sent": 58, "hosted": 74, "hl": false}, {"name": "Cyprus", "sent": 42, "hosted": 17, "hl": false}, {"name": "Czech Republic", "sent": 91, "hosted": 86, "hl": false}, {"name": "Democratic Republic of the Congo", "sent": 28, "hosted": 28, "hl": false}, {"name": "Djibouti", "sent": 14, "hosted": 12, "hl": false}, {"name": "Dominica", "sent": 3, "hosted": 1, "hl": false}, {"name": "Dominican Republic", "sent": 31, "hosted": 30, "hl": false}, {"name": "East Timor", "sent": 13, "hosted": 9, "hl": false}, {"name": "Ecuador", "sent": 47, "hosted": 44, "hl": false}, {"name": "Egypt", "sent": 80, "hosted": 104, "hl": false}, {"name": "El Salvador", "sent": 41, "hosted": 22, "hl": false}, {"name": "Equatorial Guinea", "sent": 20, "hosted": 14, "hl": false}, {"name": "Eritrea", "sent": 18, "hosted": 12, "hl": false}, {"name": "Estonia", "sent": 37, "hosted": 32, "hl": false}, {"name": "Eswatini", "sent": 7, "hosted": 6, "hl": false}, {"name": "Ethiopia", "sent": 27, "hosted": 58, "hl": true}, {"name": "Federated States of Micronesia", "sent": 4, "hosted": 4, "hl": false}, {"name": "Fiji", "sent": 7, "hosted": 17, "hl": true}, {"name": "Finland", "sent": 72, "hosted": 65, "hl": false}, {"name": "France", "sent": 163, "hosted": 162, "hl": false}, {"name": "Gabon", "sent": 18, "hosted": 16, "hl": false}, {"name": "Georgia", "sent": 48, "hosted": 30, "hl": false}, {"name": "Germany", "sent": 157, "hosted": 162, "hl": false}, {"name": "Ghana", "sent": 54, "hosted": 38, "hl": false}, {"name": "Greece", "sent": 85, "hosted": 86, "hl": false}, {"name": "Grenada", "sent": 5, "hosted": 4, "hl": false}, {"name": "Guatemala", "sent": 30, "hosted": 27, "hl": false}, {"name": "Guinea", "sent": 42, "hosted": 44, "hl": false}, {"name": "Guinea-Bissau", "sent": 12, "hosted": 9, "hl": false}, {"name": "Guyana", "sent": 10, "hosted": 12, "hl": false}, {"name": "Haiti", "sent": 25, "hosted": 14, "hl": false}, {"name": "Honduras", "sent": 24, "hosted": 17, "hl": false}, {"name": "Hungary", "sent": 69, "hosted": 76, "hl": false}, {"name": "Iceland", "sent": 18, "hosted": 14, "hl": false}, {"name": "India", "sent": 145, "hosted": 154, "hl": false}, {"name": "Indonesia", "sent": 95, "hosted": 99, "hl": false}, {"name": "Iran", "sent": 57, "hosted": 57, "hl": false}, {"name": "Iraq", "sent": 45, "hosted": 42, "hl": false}, {"name": "Ireland", "sent": 67, "hosted": 66, "hl": false}, {"name": "Israel", "sent": 79, "hosted": 89, "hl": false}, {"name": "Italy", "sent": 127, "hosted": 231, "hl": true}, {"name": "Ivory Coast", "sent": 47, "hosted": 44, "hl": false}, {"name": "Jamaica", "sent": 18, "hosted": 22, "hl": false}, {"name": "Japan", "sent": 161, "hosted": 157, "hl": false}, {"name": "Jordan", "sent": 34, "hosted": 49, "hl": false}, {"name": "Kazakhstan", "sent": 43, "hosted": 44, "hl": false}, {"name": "Kenya", "sent": 26, "hosted": 54, "hl": false}, {"name": "Kingdom of Denmark", "sent": 71, "hosted": 71, "hl": false}, {"name": "Kosovo", "sent": 32, "hosted": 1, "hl": true}, {"name": "Kuwait", "sent": 43, "hosted": 54, "hl": false}, {"name": "Kyrgyzstan", "sent": 18, "hosted": 15, "hl": false}, {"name": "Laos", "sent": 16, "hosted": 13, "hl": false}, {"name": "Latvia", "sent": 37, "hosted": 37, "hl": false}, {"name": "Lebanon", "sent": 41, "hosted": 52, "hl": false}, {"name": "Lesotho", "sent": 12, "hosted": 5, "hl": false}, {"name": "Liberia", "sent": 11, "hosted": 12, "hl": false}, {"name": "Libya", "sent": 46, "hosted": 32, "hl": false}, {"name": "Liechtenstein", "sent": 5, "hosted": 0, "hl": false}, {"name": "Lithuania", "sent": 41, "hosted": 33, "hl": false}, {"name": "Luxembourg", "sent": 30, "hosted": 21, "hl": false}, {"name": "Madagascar", "sent": 18, "hosted": 14, "hl": false}, {"name": "Malawi", "sent": 11, "hosted": 12, "hl": false}, {"name": "Malaysia", "sent": 45, "hosted": 67, "hl": false}, {"name": "Maldives", "sent": 17, "hosted": 11, "hl": false}, {"name": "Mali", "sent": 20, "hosted": 30, "hl": false}, {"name": "Malta", "sent": 27, "hosted": 24, "hl": false}, {"name": "Marshall Islands", "sent": 4, "hosted": 4, "hl": false}, {"name": "Mauritania", "sent": 19, "hosted": 18, "hl": false}, {"name": "Mauritius", "sent": 13, "hosted": 12, "hl": false}, {"name": "Mexico", "sent": 80, "hosted": 86, "hl": false}, {"name": "Moldova", "sent": 33, "hosted": 26, "hl": false}, {"name": "Monaco", "sent": 10, "hosted": 3, "hl": true}, {"name": "Mongolia", "sent": 26, "hosted": 26, "hl": false}, {"name": "Montenegro", "sent": 28, "hosted": 27, "hl": false}, {"name": "Morocco", "sent": 97, "hosted": 59, "hl": false}, {"name": "Mozambique", "sent": 33, "hosted": 30, "hl": false}, {"name": "Myanmar", "sent": 24, "hosted": 30, "hl": false}, {"name": "Namibia", "sent": 18, "hosted": 18, "hl": false}, {"name": "Nepal", "sent": 32, "hosted": 17, "hl": false}, {"name": "Netherlands", "sent": 114, "hosted": 110, "hl": false}, {"name": "New Zealand", "sent": 52, "hosted": 51, "hl": false}, {"name": "Nicaragua", "sent": 29, "hosted": 22, "hl": false}, {"name": "Niger", "sent": 13, "hosted": 22, "hl": false}, {"name": "Nigeria", "sent": 47, "hosted": 56, "hl": false}, {"name": "North Korea", "sent": 27, "hosted": 27, "hl": false}, {"name": "North Macedonia", "sent": 42, "hosted": 28, "hl": false}, {"name": "Norway", "sent": 82, "hosted": 74, "hl": false}, {"name": "Oman", "sent": 22, "hosted": 31, "hl": false}, {"name": "Pakistan", "sent": 48, "hosted": 49, "hl": false}, {"name": "Palau", "sent": 5, "hosted": 3, "hl": false}, {"name": "Palestine", "sent": 96, "hosted": 18, "hl": true}, {"name": "Panama", "sent": 58, "hosted": 45, "hl": false}, {"name": "Papua New Guinea", "sent": 9, "hosted": 11, "hl": false}, {"name": "Paraguay", "sent": 40, "hosted": 29, "hl": false}, {"name": "People's Republic of China", "sent": 172, "hosted": 152, "hl": false}, {"name": "Peru", "sent": 63, "hosted": 61, "hl": false}, {"name": "Philippines", "sent": 49, "hosted": 44, "hl": false}, {"name": "Poland", "sent": 90, "hosted": 100, "hl": false}, {"name": "Portugal", "sent": 75, "hosted": 88, "hl": false}, {"name": "Qatar", "sent": 48, "hosted": 64, "hl": false}, {"name": "Republic of the Congo", "sent": 16, "hosted": 14, "hl": false}, {"name": "Romania", "sent": 94, "hosted": 81, "hl": false}, {"name": "Russia", "sent": 146, "hosted": 152, "hl": false}, {"name": "Rwanda", "sent": 20, "hosted": 18, "hl": false}, {"name": "Sahrawi Arab Democratic Republic", "sent": 12, "hosted": 0, "hl": false}, {"name": "Saint Kitts and Nevis", "sent": 5, "hosted": 1, "hl": false}, {"name": "Saint Lucia", "sent": 4, "hosted": 7, "hl": false}, {"name": "Saint Vincent and the Grenadines", "sent": 4, "hosted": 2, "hl": false}, {"name": "Samoa", "sent": 4, "hosted": 6, "hl": false}, {"name": "San Marino", "sent": 12, "hosted": 3, "hl": true}, {"name": "Saudi Arabia", "sent": 106, "hosted": 111, "hl": false}, {"name": "Senegal", "sent": 26, "hosted": 43, "hl": false}, {"name": "Serbia", "sent": 68, "hosted": 89, "hl": false}, {"name": "Seychelles", "sent": 12, "hosted": 8, "hl": false}, {"name": "Sierra Leone", "sent": 11, "hosted": 8, "hl": false}, {"name": "Singapore", "sent": 29, "hosted": 51, "hl": false}, {"name": "Slovakia", "sent": 66, "hosted": 37, "hl": false}, {"name": "Slovenia", "sent": 44, "hosted": 35, "hl": false}, {"name": "Solomon Islands", "sent": 3, "hosted": 5, "hl": false}, {"name": "Somalia", "sent": 12, "hosted": 8, "hl": false}, {"name": "South Africa", "sent": 105, "hosted": 134, "hl": false}, {"name": "South Korea", "sent": 73, "hosted": 78, "hl": false}, {"name": "South Sudan", "sent": 14, "hosted": 16, "hl": false}, {"name": "Order of Malta", "sent": 33, "hosted": 0, "hl": true}, {"name": "Spain", "sent": 119, "hosted": 125, "hl": false}, {"name": "Sri Lanka", "sent": 28, "hosted": 30, "hl": false}, {"name": "Sudan", "sent": 32, "hosted": 28, "hl": false}, {"name": "Suriname", "sent": 15, "hosted": 11, "hl": false}, {"name": "Sweden", "sent": 100, "hosted": 110, "hl": false}, {"name": "Switzerland", "sent": 105, "hosted": 143, "hl": false}, {"name": "Syria", "sent": 33, "hosted": 29, "hl": false}, {"name": "São Tomé and Príncipe", "sent": 3, "hosted": 6, "hl": false}, {"name": "Taiwan", "sent": 79, "hosted": 48, "hl": true}, {"name": "Tajikistan", "sent": 17, "hosted": 14, "hl": false}, {"name": "Tanzania", "sent": 25, "hosted": 32, "hl": false}, {"name": "Thailand", "sent": 43, "hosted": 59, "hl": false}, {"name": "The Bahamas", "sent": 6, "hosted": 5, "hl": false}, {"name": "The Gambia", "sent": 12, "hosted": 7, "hl": false}, {"name": "Togo", "sent": 12, "hosted": 9, "hl": false}, {"name": "Tonga", "sent": 4, "hosted": 4, "hl": false}, {"name": "Trinidad and Tobago", "sent": 15, "hosted": 23, "hl": false}, {"name": "Tunisia", "sent": 58, "hosted": 44, "hl": false}, {"name": "Turkey", "sent": 138, "hosted": 132, "hl": false}, {"name": "Turkmenistan", "sent": 19, "hosted": 16, "hl": false}, {"name": "Tuvalu", "sent": 3, "hosted": 2, "hl": false}, {"name": "Uganda", "sent": 17, "hosted": 22, "hl": false}, {"name": "Ukraine", "sent": 86, "hosted": 77, "hl": false}, {"name": "United Arab Emirates", "sent": 97, "hosted": 81, "hl": false}, {"name": "United Kingdom", "sent": 158, "hosted": 170, "hl": false}, {"name": "United States of America", "sent": 175, "hosted": 175, "hl": false}, {"name": "Uruguay", "sent": 54, "hosted": 43, "hl": false}, {"name": "Uzbekistan", "sent": 22, "hosted": 28, "hl": false}, {"name": "Vanuatu", "sent": 4, "hosted": 6, "hl": false}, {"name": "Venezuela", "sent": 44, "hosted": 50, "hl": false}, {"name": "Vietnam", "sent": 47, "hosted": 58, "hl": false}, {"name": "Yemen", "sent": 26, "hosted": 12, "hl": false}, {"name": "Zambia", "sent": 21, "hosted": 22, "hl": false}, {"name": "Zimbabwe", "sent": 19, "hosted": 28, "hl": false}]};
+
+// ---------------- CHART 1 ----------------
+draw1(CHART1_DATA);
+draw2(CHART2_DATA);
+
+function draw1(data) {
+  const pts = data.points;
+  const W = 864, H = 480, M = {l:56, r:20, t:16, b:44};
+  const iw = W - M.l - M.r, ih = H - M.t - M.b;
+  const svg = document.getElementById('c1');
+
+  const xs = pts.map(p => Math.log10(p.gdp));
+  const ys = pts.map(p => Math.log10(p.sent));
+  const xMin = Math.floor(Math.min(...xs)) , xMax = Math.ceil(Math.max(...xs));
+  const yMin = 0, yMax = Math.ceil(Math.max(...ys)*10)/10;
+
+  const X = v => M.l + (Math.log10(v) - xMin) / (xMax - xMin) * iw;
+  const Y = v => M.t + ih - (Math.log10(v) - yMin) / (yMax - yMin) * ih;
+
+  let svgHtml = '';
+  // gridlines: x at each power of ten, y at 1,3,10,30,100,300
+  for (let e = xMin; e <= xMax; e++) {
+    const xpx = X(Math.pow(10,e));
+    svgHtml += `<line class="grid-line" x1="${xpx}" y1="${M.t}" x2="${xpx}" y2="${M.t+ih}"/>`;
+    svgHtml += `<text class="tick-label" x="${xpx}" y="${M.t+ih+16}" text-anchor="middle">10${sup(e)}</text>`;
+  }
+  [1,3,10,30,100,300].forEach(v => {
+    if (Math.log10(v) > yMax+0.05) return;
+    const ypx = Y(v);
+    svgHtml += `<line class="grid-line" x1="${M.l}" y1="${ypx}" x2="${M.l+iw}" y2="${ypx}"/>`;
+    svgHtml += `<text class="tick-label" x="${M.l-8}" y="${ypx+3}" text-anchor="end">${v}</text>`;
+  });
+  svgHtml += `<text class="axis-label" x="${M.l+iw/2}" y="${H-6}" text-anchor="middle">GDP (log scale)</text>`;
+  svgHtml += `<text class="axis-label" transform="translate(14 ${M.t+ih/2}) rotate(-90)" text-anchor="middle">Embassies sent (log scale)</text>`;
+
+  // fit line: log10(sent) = a + b*log10(gdp)
+  const a = data.a, b = data.b;
+  const x1 = xMin, x2 = xMax;
+  svgHtml += `<line class="fit-line" x1="${X(Math.pow(10,x1))}" y1="${Y(Math.pow(10, a+b*x1))}" x2="${X(Math.pow(10,x2))}" y2="${Y(Math.pow(10, a+b*x2))}"/>`;
+
+  // dots
+  pts.forEach((p,i) => {
+    const cx = X(p.gdp), cy = Y(p.sent);
+    const cls = p.hl ? `dot hl ${p.dir}` : 'dot';
+    svgHtml += `<circle class="${cls}" cx="${cx}" cy="${cy}" r="5" data-i="${i}" data-chart="1" data-name="${p.name}"/>`;
+  });
+
+  // labels for highlighted (hand-tuned offsets to avoid collision)
+  const offsets = {
+    'Morocco': [75,-15],
+    'North Macedonia': [-106,-70,'end'], 'Afghanistan': [-110,-40,'end'],
+    'Kosovo': [-86,-35,'end'], 'Montenegro': [-71,-18,'end'],
+    'Ukraine': [65,5], 'Serbia': [104,17],
+    'Singapore': [10,-8],
+    'Liechtenstein': [76,-33], 'Bahamas': [46,11], 'Bhutan': [125,9],
+    'Kiribati': [39,-26], 'Papua New Guinea': [20,-14]
+  };
+  pts.filter(p=>p.hl).forEach(p => {
+    const cx = X(p.gdp), cy = Y(p.sent);
+    const off = offsets[p.name] || [10,-8];
+    const lx = cx+off[0], ly = cy+off[1];
+    const anchor = off[2] || 'start';
+    svgHtml += `<g class="lbl-group" data-name="${p.name}">`;
+    svgHtml += `<line class="leader" x1="${cx}" y1="${cy}" x2="${lx - (anchor==='end'?-4:4)}" y2="${ly-4}"/>`;
+    svgHtml += `<text class="pt-label" x="${lx}" y="${ly}" text-anchor="${anchor}">${p.name}</text>`;
+    svgHtml += `<text class="pt-sub" x="${lx}" y="${ly+12}" text-anchor="${anchor}">${p.sent} sent, ${p.ratio}&times; predicted</text>`;
+    svgHtml += `</g>`;
+  });
+
+  svgHtml += `<g id="searchLayer1"></g>`;
+
+  svg.innerHTML = svgHtml;
+  svg.querySelectorAll('circle[data-chart="1"]').forEach(c => {
+    const p = pts[+c.dataset.i];
+    c.addEventListener('mousemove', e => showTT(e, `<b>${p.name}</b><br>${p.sent} embassies sent<br>GDP ${fmtGDP(p.gdp)}<br>${p.ratio}&times; the predicted count`));
+    c.addEventListener('mouseleave', hideTT);
+  });
+}
+
+function sup(n) {
+  const map = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+  return String(n).split('').map(c=>map[c]||c).join('');
+}
+
+// ---------------- CHART 2 ----------------
+function draw2(data) {
+  const pts = data.points;
+  const W = 864, H = 480, M = {l:56, r:20, t:16, b:44};
+  const iw = W - M.l - M.r, ih = H - M.t - M.b;
+  const svg = document.getElementById('c2');
+
+  const vals = [];
+  pts.forEach(p => { vals.push(p.sent+1, p.hosted+1); });
+  const lo = Math.floor(Math.log10(Math.min(...vals)));
+  const hi = Math.ceil(Math.log10(Math.max(...vals)));
+
+  const X = v => M.l + (Math.log10(v+1) - lo) / (hi - lo) * iw;
+  const Y = v => M.t + ih - (Math.log10(v+1) - lo) / (hi - lo) * ih;
+
+  let svgHtml = '';
+  const ticks = [0,1,3,10,30,100,300];
+  ticks.forEach(v => {
+    if (Math.log10(v+1) < lo-0.01 || Math.log10(v+1) > hi+0.01) return;
+    const xpx = X(v);
+    svgHtml += `<line class="grid-line" x1="${xpx}" y1="${M.t}" x2="${xpx}" y2="${M.t+ih}"/>`;
+    svgHtml += `<text class="tick-label" x="${xpx}" y="${M.t+ih+16}" text-anchor="middle">${v}</text>`;
+    const ypx = Y(v);
+    svgHtml += `<line class="grid-line" x1="${M.l}" y1="${ypx}" x2="${M.l+iw}" y2="${ypx}"/>`;
+    svgHtml += `<text class="tick-label" x="${M.l-8}" y="${ypx+3}" text-anchor="end">${v}</text>`;
+  });
+  svgHtml += `<text class="axis-label" x="${M.l+iw/2}" y="${H-6}" text-anchor="middle">Embassies sent (log scale)</text>`;
+  svgHtml += `<text class="axis-label" transform="translate(14 ${M.t+ih/2}) rotate(-90)" text-anchor="middle">Embassies hosted (log scale)</text>`;
+
+  // y = x reference line
+  svgHtml += `<line class="ref-line" x1="${X(0)}" y1="${Y(0)}" x2="${X(300)}" y2="${Y(300)}"/>`;
+
+  pts.forEach((p,i) => {
+    const cx = X(p.sent), cy = Y(p.hosted);
+    const dir = p.sent >= p.hosted ? 'exporter' : 'importer';
+    const cls = p.hl ? `dot hl ${dir}` : 'dot';
+    svgHtml += `<circle class="${cls}" cx="${cx}" cy="${cy}" r="5" data-i="${i}" data-chart="2" data-name="${p.name}"/>`;
+  });
+
+  const offsets = {
+    'Order of Malta': [10,-8], 'Kosovo': [10,-8], 'San Marino': [10,14],
+    'Monaco': [-10,16,'end'], 'Palestine': [10,-8], 'Italy': [-10,-10,'end'],
+    'Belgium': [10,16], 'Taiwan': [10,-8],
+    'Ethiopia': [12,-10], 'Fiji': [12,-10]
+  };
+  pts.filter(p=>p.hl).forEach(p => {
+    const cx = X(p.sent), cy = Y(p.hosted);
+    const off = offsets[p.name] || [10,-8];
+    const lx = cx+off[0], ly = cy+off[1];
+    const anchor = off[2] || 'start';
+    svgHtml += `<g class="lbl-group" data-name="${p.name}">`;
+    svgHtml += `<line class="leader" x1="${cx}" y1="${cy}" x2="${lx - (anchor==='end'?-4:4)}" y2="${ly-4}"/>`;
+    svgHtml += `<text class="pt-label" x="${lx}" y="${ly}" text-anchor="${anchor}">${p.name}</text>`;
+    svgHtml += `<text class="pt-sub" x="${lx}" y="${ly+12}" text-anchor="${anchor}">${p.sent} sent, ${p.hosted} hosted</text>`;
+    svgHtml += `</g>`;
+  });
+
+  svgHtml += `<g id="searchLayer2"></g>`;
+
+  svg.innerHTML = svgHtml;
+  svg.querySelectorAll('circle[data-chart="2"]').forEach(c => {
+    const p = pts[+c.dataset.i];
+    c.addEventListener('mousemove', e => showTT(e, `<b>${p.name}</b><br>${p.sent} embassies sent<br>${p.hosted} embassies hosted`));
+    c.addEventListener('mouseleave', hideTT);
+  });
+}
+
+// ---------------- SEARCH FILTER (fades non-matches on both charts) ----------------
+const MAX_DYNAMIC_LABELS = 25;
+function applyFilter(rawQuery) {
+  const q = rawQuery.trim().toLowerCase();
+  const hint = document.getElementById('searchHint');
+  let totalMatches = 0, labelsDrawn = 0;
+
+  [1, 2].forEach(n => {
+    const svg = document.getElementById('c' + n);
+    const layer = document.getElementById('searchLayer' + n);
+    layer.innerHTML = '';
+    const circles = svg.querySelectorAll('circle[data-chart="' + n + '"]');
+    const lblGroups = svg.querySelectorAll('.lbl-group');
+
+    if (!q) {
+      circles.forEach(c => c.classList.remove('faded', 'match'));
+      lblGroups.forEach(g => g.classList.remove('faded'));
+      return;
+    }
+
+    circles.forEach(c => {
+      const name = c.dataset.name.toLowerCase();
+      const isMatch = name.includes(q);
+      c.classList.toggle('faded', !isMatch);
+      c.classList.toggle('match', isMatch);
+      if (!isMatch) return;
+      totalMatches++;
+      if (c.classList.contains('hl')) return; // already has a static label
+      if (labelsDrawn >= MAX_DYNAMIC_LABELS) return;
+      const cx = parseFloat(c.getAttribute('cx')), cy = parseFloat(c.getAttribute('cy'));
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', cx + 8);
+      t.setAttribute('y', cy - 8);
+      t.setAttribute('class', 'search-label');
+      t.textContent = c.dataset.name;
+      layer.appendChild(t);
+      labelsDrawn++;
+    });
+
+    lblGroups.forEach(g => {
+      const isMatch = g.dataset.name.toLowerCase().includes(q);
+      g.classList.toggle('faded', !isMatch);
+    });
+  });
+
+  if (!q) { hint.textContent = ''; return; }
+  if (totalMatches === 0) { hint.textContent = 'No country matches "' + rawQuery.trim() + '".'; return; }
+  let msg = totalMatches + ' match' + (totalMatches === 1 ? '' : 'es') + ' highlighted (ringed); everything else fades.';
+  if (labelsDrawn >= MAX_DYNAMIC_LABELS) msg += ' Narrow the search to label all of them.';
+  hint.textContent = msg;
+}
+document.getElementById('search').addEventListener('input', e => applyFilter(e.target.value));
+</script>
+</body>
+</html>

@@ -1,6 +1,25 @@
 {
   "stories": [
     {
+      "id": "embassy-gdp",
+      "title": "Do embassies follow the money?",
+      "description": "186 countries, embassies sent abroad vs. GDP (2023), revealing which countries punch above or below the global diplomatic pattern.",
+      "summary": "Two interactive log-scale scatterplots compare the number of embassies countries send abroad with their GDP and with the embassies they host, highlighting diplomatic over- and under-representation and the countries that sit far from the global pattern.",
+      "keywords": [
+        "embassies",
+        "diplomacy",
+        "GDP",
+        "foreign missions",
+        "international relations",
+        "Wikidata",
+        "World Bank"
+      ],
+      "link": "embassy-gdp/",
+      "screenshot": "embassy-gdp/screenshot.avif",
+      "date": "2026-08-15",
+      "folder": "embassy-gdp"
+    },
+    {
       "id": "gramener-glassdoor",
       "title": "What it's like to work at Gramener",
       "description": "208 employee reviews, 41 interview reports and 103 salary bands for Gramener, turned into one explorable dossier.",

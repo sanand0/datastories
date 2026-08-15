@@ -1,6 +1,5 @@
 # Prompts
 
-
 ## Update datastories page, 09 Aug 2026
 
 <!-- Created at ~/Documents/data/glassdoor/ and then moved to ~/code/datastories/gramener-glassdoor/ -->

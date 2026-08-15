@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [Do embassies follow the money?](embassy-gdp/). 186 countries, embassies sent abroad vs. GDP (2023), revealing which countries punch above or below the global diplomatic pattern.
+  [![](embassy-gdp/screenshot.avif)](embassy-gdp/)
 - [What it's like to work at Gramener](gramener-glassdoor/). 208 employee reviews, 41 interview reports and 103 salary bands for Gramener, turned into one explorable dossier.
   [![](gramener-glassdoor/screenshot.avif)](gramener-glassdoor/)
 - [The Fourteen-Minute Walk](security-at-bagmane-capital/). A true story of one afternoon in Bengaluru: two gates, four kilometres that should have been two, and a peri peri paneer sandwich.
@@ -108,7 +110,7 @@ File structure:
 When adding a new story, update config.json, README.md (and setup.sh if required).
 
 ```bash
-dev.sh -- codex "Update README.md and config.json with tds-2026-01-p1/ and screenshot" --yolo
+dev.sh -- codex "Update README.md and config.json with tds-2026-01-p1/ and screenshot" --yolo --model gpt-5.6-luna --config model_reasoning_effort=medium
 ```
 
 Assets are stored in a GitHub Release created via:
@@ -122,7 +124,5 @@ Add assets by running:
 ```bash
 gh release upload main --clobber $FILE
 ```
-
-Linting: `npm run lint`
 
 -->
