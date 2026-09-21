@@ -1,5 +1,39 @@
 # Prompts
 
+## Update data, 21 Sep 2026
+
+<!--
+cd ~/code/datastories/gramener-glassdoor/
+dev.sh -- codex --yolo --model gpt-5.6-luna --config model_reasoning_effort=medium
+-->
+
+Update glassdoor.json with any new / updated information from Glassdoor since the last time we have data for.
+Write a script that will do this. Ensure that it's idempotent and resumable and don't lose any existing data.
+See existing code and prompts for reference.
+Run and test.
+
+--- <!-- steering -->
+
+I've logged into the employer portal now.
+
+---
+
+Create a README.md that explains this directory. (prompts.md will help with this.)
+Mention how to update the data and any other setup / maintenance activities.
+
+---
+
+The revised glassdoor.json messes up index.html when it loads. Fix this and any subsequent errors.
+
+Uncaught TypeError: Cannot read properties of undefined (reading 'description')
+    at viewOverview (gramener-glassdoor/:731:42)
+    at gramener-glassdoor/:1194:21
+    at Array.forEach (<anonymous>)
+    at render (gramener-glassdoor/:1190:9)
+    at gramener-glassdoor/:1295:1
+
+<!-- codex resume 01a0c491-0dc9-7730-a57c-009a96b22abf --yolo -->
+
 ## Update datastories page, 09 Aug 2026
 
 <!-- Created at ~/Documents/data/glassdoor/ and then moved to ~/code/datastories/gramener-glassdoor/ -->

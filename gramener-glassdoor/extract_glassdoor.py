@@ -161,8 +161,24 @@ def parse_benefit_review(element) -> dict:
 
 
 def overview() -> dict:
-    tree = document("cache/pages/overview-expanded.html")
-    flight = flight_text(tree)
+    tree = None
+    flight = ""
+    for path in ("cache/pages/overview-expanded.html", "cache/pages/overview-current.html", "cache/pages/overview.html"):
+        candidate = document(path)
+        candidate_flight = flight_text(candidate)
+        if json_after(candidate_flight, '"ratings":') is not None:
+            tree, flight = candidate, candidate_flight
+            break
+    if tree is None:
+        raise ValueError("No complete overview cache contains the ratings payload")
+    # Keep the complete flight payload, but use a DOM capture with intact award
+    # metadata when the live page's hydrated shell has stripped those labels.
+    for path in ("cache/pages/overview-expanded.html", "cache/pages/overview.html", "cache/pages/overview-current.html"):
+        candidate = document(path)
+        awards = candidate.xpath('//*[@data-test="employerAwardsModule"]//li')
+        if awards and all(first_text(item, 'preceding::p[contains(@class,"Awards_year")][1]') for item in awards):
+            tree = candidate
+            break
     employer_candidates = [
         value for value in json_objects_after(flight, '"employer":') if value.get("id") == 942627
     ]
@@ -249,8 +265,15 @@ def merge_questions(employer_questions: list, public_questions: list) -> list:
 
 
 def reviews() -> dict:
-    public_pages = [load_json(f"cache/api/employee-reviews-{page}.json") for page in range(1, 4)]
-    graph_pages = [load_json(f"cache/api/employer-reviews-{page}.json") for page in range(1, 4)]
+    def numbered_pages(pattern: str):
+        paths = sorted(
+            (ROOT / "cache/api").glob(pattern),
+            key=lambda path: int(path.stem.rsplit("-", 1)[1]),
+        )
+        return [json.loads(path.read_text()) for path in paths]
+
+    public_pages = numbered_pages("employee-reviews-*.json")
+    graph_pages = numbered_pages("employer-reviews-*.json")
     public_summary = copy.deepcopy(public_pages[0]["data"]["employerReviews"])
     public_summary.pop("reviews", None)
     default_summary = load_json("cache/recon-review-api/redacted-response-samples.json")["public_bff"]["data"][
@@ -269,10 +292,15 @@ def reviews() -> dict:
     }
     items = []
     for review_id in sorted(public, key=lambda key: public[key]["reviewDateTime"], reverse=True):
-        item = copy.deepcopy(graph[review_id])
-        for key, value in public[review_id].items():
+        item = copy.deepcopy(public[review_id])
+        for key, value in graph.get(review_id, {}).items():
             if key not in item or item[key] is None:
                 item[key] = value
+        graph_responses = {row.get("responseDateTime"): row for row in graph.get(review_id, {}).get("employerResponses", [])}
+        item["employerResponses"] = [
+            merge_missing(response, graph_responses.get(response.get("responseDateTime"), {}))
+            for response in item.get("employerResponses", [])
+        ]
         item["url"] = f"{BASE}/Reviews/Employee-Review-Gramener-E942627-RVW{review_id}.htm"
         item["included_in_public_default_190"] = item.get("employmentStatus") not in {"INTERN", "CONTRACT"}
         item["lengthOfEmploymentDisplay"] = {
@@ -347,6 +375,13 @@ def pay_and_benefits() -> dict:
     pay_tree = document("cache/pages/pay-benefits-current.html")
     pay_flight = flight_text(pay_tree)
     categories = json_after(pay_flight, '"benefitsCategoryToStatisticAggregates":')
+    if categories is None:
+        # A hydrated page can render the rating shell while omitting the flight
+        # payload (for example during a partial/blocked refresh). Keep the last
+        # complete source usable and let the raw new capture remain available.
+        pay_tree = document("cache/pages/pay-benefits.html")
+        pay_flight = flight_text(pay_tree)
+        categories = json_after(pay_flight, '"benefitsCategoryToStatisticAggregates":')
     card_urls = {}
     for card in pay_tree.xpath('//*[@data-test="benefit-category-card"]'):
         href = first(card, ".//a/@href") if card.tag != "a" else card.get("href")

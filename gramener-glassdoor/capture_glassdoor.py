@@ -7,7 +7,9 @@
 
 import asyncio
 import json
+import os
 import re
+import tempfile
 import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
@@ -56,6 +58,20 @@ def new_target() -> dict:
 
 def slug(section: str, page: int | None = None) -> str:
     return f"{section}-{page:02d}" if page is not None else section
+
+
+def atomic_text(path: Path, value: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w") as stream:
+            stream.write(value)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        Path(temporary).unlink(missing_ok=True)
+        raise
 
 
 async def ready(cdp: CDP, expected: str | None) -> dict:
@@ -111,7 +127,7 @@ async def capture(cdp: CDP, section: str, url: str, expected: str | None, page: 
     record_ids = sorted(set(re.findall(r"(?:review_id=|Review|Interview)(\d{7,})", html)))
     name = slug(section, page)
     CACHE.mkdir(parents=True, exist_ok=True)
-    (CACHE / f"{name}.html").write_text(html)
+    atomic_text(CACHE / f"{name}.html", html)
     metadata = {
         **state,
         "requested_url": url,
@@ -120,7 +136,7 @@ async def capture(cdp: CDP, section: str, url: str, expected: str | None, page: 
         "record_ids": record_ids,
         "expanded": expanded,
     }
-    (CACHE / f"{name}.json").write_text(json.dumps(metadata, indent=2, ensure_ascii=False))
+    atomic_text(CACHE / f"{name}.json", json.dumps(metadata, indent=2, ensure_ascii=False))
     return metadata
 
 
