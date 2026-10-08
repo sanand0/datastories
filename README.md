@@ -102,7 +102,7 @@ File structure:
 - README.md: Manually updated with story links
 - config.json: Manually updated with story links
 - index.html: Renders config.json as cards
-- setup.sh: Run via .github/workflows/deploy.yml to generate [story-folder]/index.html from [story-folder]/README.md
+- setup.sh: Run `npm ci` once, then `bash setup.sh` to generate [story-folder]/index.html from [story-folder]/README.md. The GitHub Pages workflow performs both steps using the pinned converter in package-lock.json.
 - [story-folder]/
   - README.md
   - Other supporting files

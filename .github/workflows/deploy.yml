@@ -27,8 +27,18 @@ jobs:
       # Checkout the repository
       - uses: actions/checkout@v4
 
+      # Install the pinned Markdown converter once; cache npm downloads.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+
       # Convert to HTML
       - run: bash setup.sh
+
+      # Build dependencies must not be injected with analytics or published.
+      - run: rm -rf node_modules
 
       - name: Add GoatCounter analytics
         run: |
