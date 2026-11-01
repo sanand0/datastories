@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f9f8f3">
+<title>How could AI change work? | GDPval</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+:root{color-scheme:light;--ink:#172520;--muted:#65726b;--green:#245f4a;--paper:#f9f8f3;--line:#dadfd7;--red:#bd4742;--yellow:#f0cf76;--teal:#4b977d;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{background:var(--paper);color:var(--ink);margin:0}button,input{font:inherit}button{cursor:pointer}a{color:#116653;text-underline-offset:3px}
+.wrap{max-width:1660px;padding-inline:clamp(18px,4vw,66px);margin:auto}
+header{padding:clamp(40px,4vw,60px) 0 28px;border-bottom:1px solid var(--line)}.topline{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.eyebrow{letter-spacing:.16em;font-size:11px;font-weight:800;text-transform:uppercase;color:var(--green)}.old-link{font-size:13px;color:#53665d}
+h1,h2{font-family:Georgia,Cambria,serif;letter-spacing:-.045em;font-weight:500}h1{font-size:clamp(2.65rem,5.9vw,6.3rem);line-height:1.02;max-width:1050px;margin:35px 0 20px}.deck{font-family:Georgia,Cambria,serif;font-size:clamp(1.03rem,1.7vw,1.4rem);line-height:1.45;color:#4a5a50;max-width:850px;margin:0 0 27px}
+.method-note{display:flex;align-items:flex-start;gap:10px;max-width:1120px;color:#46584f;border-left:3px solid #bb8f38;background:#f2edda;padding:11px 15px;font-size:13px;line-height:1.45}.method-note b{color:#4c3a19}
+main{padding:28px 0 112px}.player{background:#fff;border:1px solid var(--line);border-radius:9px;padding:clamp(14px,2.5vw,32px);box-shadow:0 10px 36px #283c2610}
+.player-top{display:flex;gap:20px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}.stage-title{font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.13em}.stage-year{font-family:Georgia,serif;font-size:clamp(3rem,5.5vw,5rem);line-height:1;color:var(--ink);margin:4px 0}.stage-detail{font-size:13px;color:#50645a;margin-top:8px;max-width:660px}.stats{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap}.stat .n{font-variant-numeric:tabular-nums;font-size:clamp(1.35rem,2.2vw,2.15rem);font-weight:600;letter-spacing:-.03em}.stat .caption{color:var(--muted);font-size:11px;max-width:170px}
+.controls{display:grid;grid-template-columns:auto minmax(110px,1fr) auto;align-items:center;gap:18px;padding:28px 0 17px;border-bottom:1px solid #edf0e9}
+button.play{border:1px solid #215e4b;background:#215e4b;color:white;padding:11px 16px;border-radius:5px;font-size:13px;font-weight:700;min-width:100px}
+button.play:hover{background:#173e32}
+.range-wrap{display:flex;flex-direction:column;gap:7px}.year-labels{display:flex;justify-content:space-between;font-size:12px;color:#5a695f;font-weight:700}
+input[type=range]{width:100%;margin:0;cursor:ew-resize;accent-color:#245f4a;height:18px}.extra-help{font-size:12px;color:#6d7c71;white-space:nowrap}
+.canvas-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin:20px 0 11px;flex-wrap:wrap}.canvas-head h2{font-family:Georgia,serif;font-size:clamp(1.2rem,2.1vw,1.65rem);margin:0;letter-spacing:-.02em}.canvas-head .small{color:var(--muted);font-size:12px}
+.map-scroll{width:100%;overflow-x:auto;scrollbar-color:#b3c4b6 transparent;padding:clamp(14px,2vw,26px);border:1px solid var(--line);border-radius:8px;background:#fff}#treemap{min-width:760px;width:100%;display:block;aspect-ratio:1440/710;overflow:visible}
+.cell{stroke:white;stroke-width:2;cursor:pointer;transition:stroke-width .15s}.cell:hover,.cell:focus{stroke:#132e25;stroke-width:4;outline:none}
+.occupation-label{font-size:14px;line-height:1.16;color:#1b2923;pointer-events:none;font-weight:650;letter-spacing:-.016em;overflow-wrap:break-word}
+.cell-content{pointer-events:none;overflow:hidden;height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:2px}.cell-content .occupation-label{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cell-content .salary{font-size:13px;white-space:nowrap;color:#293831;pointer-events:none;font-weight:700}
+.sector-heading{font:700 16px/1 ui-sans-serif,system-ui;fill:#24372d;letter-spacing:.015em;pointer-events:none;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+.legend{display:flex;align-items:center;gap:11px;flex-wrap:wrap;font-size:12px;color:#566b5f;padding:16px 0 0}
+.legend .gradient{width:180px;height:12px;border-radius:2px;border:1px solid #a1b0a5}
+.legend .right-note{margin-left:auto;color:#52685b}.legend strong{color:#2e5946}
+.under{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);gap:28px;margin-top:28px}
+.under article{border-top:2px solid #263d30;padding-top:18px}.under h2{font-size:clamp(1.45rem,2.5vw,2.2rem);margin:0 0 12px}.under p{font-size:15px;line-height:1.65;color:#41574a}
+.numbers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.number-card{border:1px solid var(--line);background:white;padding:18px}.number-card strong{font-size:clamp(1.2rem,2vw,2rem);display:block}.number-card small{color:#5d6b5f;font-size:12px}
+.source{font-size:13px;color:#617166;line-height:1.7}.source a{overflow-wrap:anywhere}.footnote{margin:22px 0 0;padding:18px 20px;background:#f1f1eb;border:1px solid #dfe5db;font-size:13px;color:#4b6053;line-height:1.7}
+.tooltip{position:fixed;display:none;pointer-events:none;z-index:100;background:#18362b;color:#fff;max-width:340px;border-radius:6px;padding:14px 16px;box-shadow:0 8px 36px #0003;font-size:12px;line-height:1.5}.tooltip b{font-size:15px}.tooltip .soft{color:#bed6c9}
+dialog{width:min(860px,95vw);max-height:90vh;border:none;border-radius:8px;padding:0;box-shadow:0 18px 80px #11291f80;color:var(--ink)}dialog::backdrop{background:#13241c9e}
+.dialog-header{padding:24px 28px 18px;position:sticky;top:0;background:#fafbf7;border-bottom:1px solid var(--line);z-index:3;display:flex;justify-content:space-between;gap:20px}.dialog-header h2{font-size:clamp(1.5rem,3vw,2.3rem);margin:4px 0 8px}.dialog-header .label{font-size:11px;text-transform:uppercase;font-weight:800;letter-spacing:.13em;color:#557060}.dialog-header .sub{font-size:13px;line-height:1.6;color:#506255}.close{border:1px solid #acbbae;border-radius:5px;background:white;padding:7px 12px;height:35px}
+.dialog-body{padding:18px 28px 30px}.dialog-body h3{font-size:16px;margin:23px 0 8px}.dialog-body p{font-size:13px;line-height:1.55;color:#465d50}.task{border-top:1px solid #e0e7de;padding:13px 0}.task p{margin:4px 0 8px;color:var(--ink)}.task .task-meta{font-size:12px;color:#61776b}
+details{border-top:1px solid #e1e6df;padding:12px 0}summary{cursor:pointer;font-size:13px;font-weight:700}pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.52;font:13px/1.5 system-ui;max-height:300px;overflow:auto}
+#loading{padding:35px;text-align:center;color:#476958}
+@media (max-width:880px){.under{grid-template-columns:1fr}.player-top{flex-direction:column}.stats{gap:15px}.extra-help{display:none}.controls{grid-template-columns:auto 1fr}.canvas-head{align-items:flex-start}.map-scroll{border:1px solid #edf0e9}}
+@media (max-width:580px){.wrap{padding-inline:17px}.player{padding:15px}h1{margin-top:25px}.stage-year{margin-bottom:0}.controls{gap:12px}.legend .right-note{margin-left:0}.dialog-header,.dialog-body{padding-left:16px;padding-right:16px}.numbers{gap:7px}.number-card{padding:12px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+<div class="topline"><span class="eyebrow">GDPval · Jobs and AI</span><a class="old-link" href="../">Back to the original story</a></div>
+<h1>How could AI change work?</h1>
+<p class="deck">Explore 44 jobs in 9 sectors. Move from the 2025 AI test results to a 2026 estimate. Watch each box change size and colour.</p>
+<p class="method-note"><span aria-hidden="true">◈</span><span><b>Some figures are estimates.</b> Box sizes come from US wage records. The 2025 AI scores come from tests. The 2026 AI scores are <b>estimates, not test results</b>. <a href="#method">How we made these estimates</a>.</span></p>
+</header>
+<main class="wrap">
+<section class="player" aria-label="AI and jobs: animated chart">
+<div class="player-top">
+<div><div class="stage-title">Showing</div><div class="stage-year" id="year">2025</div><div class="stage-detail" id="stage-detail">2025 AI test results · 2024 wage data</div></div>
+<div class="stats"><div class="stat"><div class="n" id="wages">—</div><div class="caption">Total yearly wages for these 44 US jobs</div></div><div class="stat"><div class="n" id="capability">—</div><div class="caption" id="capability-caption">Average of the best AI test scores by job</div></div></div>
+</div>
+<div class="controls">
+<button id="play" class="play" type="button" aria-label="Play the change from 2025 to 2026">Play</button>
+<div class="range-wrap">
+<input type="range" id="timeline" min="0" max="1000" step="1" value="0" aria-label="Move between the 2025 results and 2026 estimates">
+<div class="year-labels"><span>2025 · Tested</span><span>2026 · Estimated</span></div>
+</div>
+<span class="extra-help">Drag to change the year</span>
+</div>
+<div class="canvas-head"><h2>How do the jobs change?</h2><span class="small">Box size: total wages · Colour: AI score</span></div>
+<div class="map-scroll"><div id="loading" role="status">Loading jobs and tasks…</div><svg id="treemap" role="img" aria-label="44 jobs changing in size and colour from the 2025 results to 2026 estimates" viewBox="0 0 1440 710" preserveAspectRatio="xMidYMid meet"></svg></div>
+<div class="legend"><strong>AI task score</strong><span>Low</span><span class="gradient" aria-label="Red to yellow to green"></span><span>High</span><span class="right-note" id="legend-note">2025: tested on real work tasks</span></div>
+</section>
+<section class="under">
+<article><span class="eyebrow">What you are seeing</span><h2>Same jobs. New figures.</h2>
+<p>Each box is one job. Its size shows the total wages paid to people in that job. Select a box to see <b>tasks linked to AI use in 2026</b> and the five tasks from the original study.</p>
+<p id="insight">This chart does not show how many jobs AI might replace.</p></article>
+<article><span class="eyebrow">Wages</span><h2>How much do these jobs pay in total?</h2><div class="numbers"><div class="number-card"><strong id="workers-old">—</strong><small>Using May 2024 wage data</small></div><div class="number-card"><strong id="workers-new">—</strong><small>Using May 2025 wage data</small></div></div>
+<p class="source">Total wages = number of workers × average annual pay. This is not GDP or the value of work AI could do. We keep the original sector groups.</p></article>
+</section>
+<section class="footnote" id="method">
+<strong>How to read this chart</strong>
+<p><b>2025 colours are test scores.</b> The original GDPval study tested AI on 5 tasks for each job. We show the best score of 7 AI models. A score shows how often AI did as well as, or better than, a human expert.</p>
+<p><b>2026 colours are estimates.</b> There are no newer GDPval scores for each job. We used GPT-5.5's published overall score of 84.9% and Anthropic's 2026 task data to estimate scores by job. These estimates were not tested on the original tasks.</p>
+<p><b>2026 tasks come from real AI use.</b> We linked tasks from Claude chats to jobs using O*NET codes. AI, not human experts, rated how often Claude succeeded. Seeing a task in the data does not mean AI can do the whole job.</p>
+<p>The slider moves smoothly between the two views. It does not show results measured between 2025 and 2026.</p>
+<div style="margin-top:10px"><a href="https://openai.com/index/gdpval/" target="_blank" rel="noopener">2025 GDPval study</a> · <a href="https://openai.com/index/introducing-gpt-5-5/" target="_blank" rel="noopener">2026 overall AI score</a> · <a href="https://huggingface.co/datasets/Anthropic/EconomicIndex" target="_blank" rel="noopener">Anthropic task data</a> · <a href="https://www.onetcenter.org/" target="_blank" rel="noopener">O*NET</a> · <a href="https://www.bls.gov/oes/tables.htm" target="_blank" rel="noopener">US wage data (BLS)</a> · <a href="MORPH.md">Full method and sources</a></div>
+</section>
+</main>
+<div class="tooltip" id="tooltip"></div>
+<dialog id="occupation-dialog" aria-label="Job details"><div class="dialog-header"><div><span class="label">Job details</span><h2 id="detail-title"></h2><div class="sub" id="detail-stat"></div></div><button class="close" id="close" type="button">Close</button></div><div class="dialog-body" id="detail-body"></div></dialog>
+<script>
+"use strict";
+const $=sel=>document.querySelector(sel), $$=sel=>Array.from(document.querySelectorAll(sel));
+const svg=d3.select("#treemap"), W=1440, H=710, fmt=x=>"$"+d3.format(",.2f")(x)+"B", interp=d3.interpolateNumber;
+const color=score=>d3.interpolateRdYlGn(Math.max(0,Math.min(100,score))/100);
+const tip=d3.select("#tooltip"), dialog=$("#occupation-dialog");
+const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let progress=0,animation=null,records=[],oldLayout=null,newLayout=null,allTasks=null;
+function selectLayout(data,key){
+ const bySector=d3.groups(data,d=>d.sector);
+ const structure={name:"root",order:0,children:bySector.map(([name,rows],i)=>({name,order:i,children:rows.map((d,j)=>({name:d.occupation,order:j,record:d,value:d[key]}))}))};
+ const root=d3.hierarchy(structure).sum(d=>d.value||0).sort((a,b)=>a.data.order-b.data.order);
+ d3.treemap().tile(d3.treemapSquarify.ratio(1.15)).size([W,H]).paddingOuter(3).paddingInner(3).paddingTop(d=>d.depth===1?23:0)(root);
+ return {leaves:new Map(root.leaves().map(d=>[d.data.record.sector+"|"+d.data.record.occupation,d])),sectors:new Map(root.children.map(d=>[d.data.name,d]))};
+}
+function posBetween(a,b,t){return {x:interp(a.x0,b.x0)(t),y:interp(a.y0,b.y0)(t),w:Math.max(0,interp(a.x1,b.x1)(t)-interp(a.x0,b.x0)(t)),h:Math.max(0,interp(a.y1,b.y1)(t)-interp(a.y0,b.y0)(t))};}
+const key=d=>d.sector+"|"+d.occupation;
+function update(t){
+ progress=Math.max(0,Math.min(1,t));$("#timeline").value=Math.round(progress*1000);
+ const t2=progress; // Interpolate on the shared geometry, never re-layout on each frame.
+ svg.selectAll("g.leaf").each(function(d){
+  const a=oldLayout.leaves.get(key(d)),b=newLayout.leaves.get(key(d)),p=posBetween(a,b,t2),g=d3.select(this);
+  g.attr("transform",`translate(${p.x},${p.y})`);
+  const fill=color(interp(d.score2025,d.score2026)(t2)),ink=d3.lab(fill).l<55?"#fff":"#172520";
+  g.select("rect").attr("width",p.w).attr("height",p.h).attr("fill",fill);
+  g.select("foreignObject").attr("width",Math.max(0,p.w-10)).attr("height",Math.max(0,p.h-10)).style("display",p.w>=87&&p.h>=47?"block":"none");
+  g.select(".occupation-label").style("color",ink);
+  g.select(".salary").style("color",ink).text(fmt(interp(d.size2025,d.size2026)(t2)));
+ });
+ const sectorShort={"Real Estate and Rental and Leasing":"Real Estate","Professional, Scientific, and Technical Services":"Professional Services","Health Care and Social Assistance":"Health Care","Finance and Insurance":"Finance","Retail Trade":"Retail","Wholesale Trade":"Wholesale"};
+ svg.selectAll("text.sector-heading").each(function(s){
+  const a=oldLayout.sectors.get(s),b=newLayout.sectors.get(s),p=posBetween(a,b,t2);
+  const label=sectorShort[s]||s,maxChars=Math.max(0,Math.floor((p.w-14)/9));
+  const fitted=label.length>maxChars?label.slice(0,Math.max(0,maxChars-1))+"…":label;
+  d3.select(this).attr("x",p.x+7).attr("y",p.y+16).attr("aria-label",s).text(fitted).style("display",p.w>48&&maxChars>3?"block":"none");
+ });
+ const total=d3.sum(records,d=>interp(d.size2025,d.size2026)(t2));
+ const avg=d3.mean(records,d=>interp(d.score2025,d.score2026)(t2));
+ $("#wages").textContent="$"+d3.format(",.2f")(total/1000)+"T";
+ $("#capability").textContent=d3.format(".1f")(avg)+"%";
+ $("#year").textContent=t2<.01?"2025":t2>.99?"2026":"2025 → 2026";
+ $("#stage-detail").textContent=t2<.01?"2025 AI test results · 2024 wage data":t2>.99?"2026 AI estimates · 2025 wage data":"Moving between 2025 results and 2026 estimates";
+ $("#capability-caption").textContent=t2<.01?"Average of the best AI test scores by job":t2>.99?"Average estimated AI score. Not tested by job.":"Average during the animation. Not measured.";
+ $("#legend-note").textContent=t2<.01?"2025: tested on work tasks":t2>.99?"2026: estimates, not test results":"From test results to estimates";
+ $("#play").textContent=animation?"Pause":t2>.999?"Replay":"Play";
+}
+function stop(){if(animation){cancelAnimationFrame(animation.raf);animation=null;}}
+function bookmark(){history.replaceState(null,"",location.pathname+location.search+(progress>0?"#t="+Math.round(progress*1000):""));}
+function play(){
+ if(animation){stop();update(progress);return;}
+ if(progress>=.999)update(0);
+ const from=progress,start=performance.now(),duration=6800*(1-from);
+ animation={raf:null};
+ function frame(now){
+  if(!animation)return;
+  const q=Math.min(1,(now-start)/duration),e=d3.easeCubicInOut(q);
+  update(from+(1-from)*e);
+  if(q<1)animation.raf=requestAnimationFrame(frame);
+  else{animation=null;update(1);bookmark();}
+ }
+ animation.raf=requestAnimationFrame(frame);
+}
+function showTip(e,d){
+ const original=fmt(d.size2025),current=fmt(d.size2026);
+ tip.style("display","block").html(`<b>${escapeHTML(d.occupation)}</b><div class="soft">${escapeHTML(d.sector)}</div><div>Yearly wages, using 2024 data: ${original}</div><div>Yearly wages, using 2025 data: ${current}</div><div>2025 tested AI score: ${d.score2025}%</div><div>2026 estimated AI score: ${d.score2026}%</div><div class="soft">${d.tasksMatched} tasks matched from May 2026</div>`);
+ let x=Math.min(e.clientX+17,innerWidth-tip.node().offsetWidth-8),y=Math.min(e.clientY+15,innerHeight-tip.node().offsetHeight-8);
+ tip.style("left",Math.max(8,x)+"px").style("top",Math.max(8,y)+"px");
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function makeTaskList(d){
+ const root=d3.select("#detail-body").html("");
+ root.append("h3").text("Work tasks linked to this job in 2026");
+ root.append("p").text("These tasks appeared in Claude chats in May 2026. We linked them to this job using O*NET task codes. They are not GPT-5.5 test results. The share shows how often each task appeared in the chats.");
+ if(!d.tasks.length)root.append("p").text("We found no matching tasks for this job in the May 2026 data. Its 2026 AI score is still an estimate.");
+ d.tasks.forEach((t,i)=>{
+  const box=root.append("div").attr("class","task");
+  box.append("div").attr("class","eyebrow").text("Work task "+(i+1)+" · O*NET "+t.taskId);
+  box.append("p").text(t.task);
+  const bits=[t.mayUsagePct>0?`Share of Claude chats in May: ${t.mayUsagePct.toFixed(3)}%`:`Share of Claude chats in May: rounded to 0%`];
+  if(t.febSuccessPct!==null)bits.push(`AI-rated success in February: ${t.febSuccessPct}% of rated chats`);
+  if(t.sharedBy>1)bits.push(`Linked to ${t.sharedBy} jobs; share split between them`);
+  box.append("div").attr("class","task-meta").text(bits.join(" · "));
+ });
+ root.append("h3").text("Five tasks from the 2025 study");
+ const original=root.append("div").attr("id","original-tasks").text("Loading the 2025 tasks…");
+ const render=all=>{
+  const chosen=all.filter(x=>x.Sector===d.sector&&x.Occupation===d.occupation);
+  original.html("");
+  if(chosen.length!==5){original.text("Expected 5 tasks. Found "+chosen.length+".");return;}
+  chosen.forEach((x,i)=>{
+   const dt=original.append("details");
+   dt.append("summary").text("2025 task "+(i+1));
+   dt.append("pre").text(x.Prompt);
+  });
+ };
+ if(allTasks)render(allTasks);
+ else d3.csv("../prompts.csv").then(x=>{allTasks=x;if(dialog.open&&$("#detail-title").textContent===d.occupation)render(x);}).catch(e=>original.text("Could not load the 2025 tasks: "+e.message));
+}
+function showDetails(d){
+ stop();update(progress);tip.style("display","none");
+ $("#detail-title").textContent=d.occupation;
+ $("#detail-stat").textContent=`${d.sector} · Yearly wages (2024 to 2025 data): ${fmt(d.size2025)} to ${fmt(d.size2026)} · AI score: ${d.score2025}% tested to ${d.score2026}% estimated`;
+ makeTaskList(d);
+ dialog.showModal();
+}
+async function boot(){
+ if(!window.d3)throw Error("D3 failed to load");
+ const dataset=await d3.json("morph-data.json");
+ records=dataset.occupations;
+ if(records.length!==44||new Set(records.map(d=>key(d))).size!==44||new Set(records.map(d=>d.sector)).size!==9)throw Error("Category continuity checks failed");
+ if(records.some(d=>![d.size2025,d.size2026,d.score2025,d.score2026].every(Number.isFinite)||d.size2025<=0||d.size2026<=0||d.score2026<0||d.score2026>100))throw Error("Invalid snapshot values");
+ oldLayout=selectLayout(records,"size2025");newLayout=selectLayout(records,"size2026");
+ const leaves=svg.selectAll("g.leaf").data(records,key).join("g").attr("class","leaf");
+ leaves.append("rect").attr("class","cell").attr("tabindex",0).attr("role","button").attr("aria-label",d=>`Inspect ${d.occupation}`).on("pointermove",(e,d)=>showTip(e,d)).on("pointerleave",()=>tip.style("display","none")).on("click",(_,d)=>showDetails(d)).on("keydown",(e,d)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();showDetails(d);}});
+ const fo=leaves.append("foreignObject").attr("x",5).attr("y",5).style("pointer-events","none");
+ const body=fo.append("xhtml:div").attr("class","cell-content");
+ body.append("div").attr("class","occupation-label").text(d=>d.occupation);
+ body.append("div").attr("class","salary").text(d=>fmt(d.size2025));
+ svg.selectAll("text.sector-heading").data([...new Set(records.map(d=>d.sector))]).join("text").attr("class","sector-heading").text(d=>d);
+ d3.select(".legend .gradient").style("background",`linear-gradient(to right,${d3.quantize(d3.interpolateRdYlGn,21).join(",")})`);
+ $("#loading").style.display="none";
+ const t25=d3.sum(records,d=>d.size2025),t26=d3.sum(records,d=>d.size2026);
+ $("#workers-old").textContent="$"+d3.format(",.2f")(t25/1000)+"T";
+ $("#workers-new").textContent="$"+d3.format(",.2f")(t26/1000)+"T";
+ $("#insight").textContent=`The latest wage data show a ${d3.format(".1f")(100*(t26/t25-1))}% rise in total yearly wages for these 44 jobs. We linked ${dataset.metadata.numbers.attributedTaskRows} AI-use task records from May 2026 to these jobs. This does not tell us how many jobs AI has changed or replaced.`;
+ $("#timeline").addEventListener("input",e=>{stop();update(+e.target.value/1000);bookmark();});
+ $("#play").addEventListener("click",play);
+ $("#close").addEventListener("click",()=>dialog.close());
+ dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"){tip.style("display","none")}});
+ const requested=new URLSearchParams(location.hash.slice(1)).get("t");
+ const start=requested!==null&&Number.isFinite(+requested)?Math.max(0,Math.min(1000,+requested))/1000:0;
+ update(start);
+ window.addEventListener("hashchange",()=>{const t=new URLSearchParams(location.hash.slice(1)).get("t");stop();update(t===null?0:Math.max(0,Math.min(1000,+t||0))/1000);});
+ if(!reduced&&requested===null)setTimeout(()=>{if(progress===0&&!dialog.open)play()},700);
+}
+boot().catch(e=>{$("#loading").textContent="Could not load the chart: "+e.message;console.error(e)});
+</script>
+</body>
+</html>

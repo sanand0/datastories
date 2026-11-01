@@ -1,2 +1,4 @@
+set fallback
+
 lint:
   dprint fmt -c https://raw.githubusercontent.com/sanand0/scripts/refs/heads/main/dprint.jsonc **/*.md

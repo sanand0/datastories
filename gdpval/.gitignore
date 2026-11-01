@@ -1,0 +1,4 @@
+# Local Python build and test files; keep prompts.md and all source data.
+__pycache__/
+.pytest_cache/
+*.py[cod]
