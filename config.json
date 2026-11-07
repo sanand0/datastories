@@ -1,6 +1,24 @@
 {
   "stories": [
     {
+      "id": "building-height",
+      "title": "When 60 floors beat 102 — The vertical paradox",
+      "description": "An atlas of 4,121 tall buildings shows how height and floor count diverge, with 270 Park Avenue standing 42 m taller than the Empire State Building despite having 42 fewer floors.",
+      "summary": "An interactive scatterplot maps 4,121 buildings by reported floors and architectural height, then surfaces the towers far above or below a robust global trend. Filter by city, building use, completion period, and height; inspect individual buildings, compare two towers, and export the current selection.",
+      "keywords": [
+        "skyscrapers",
+        "building height",
+        "floor count",
+        "architecture",
+        "outliers",
+        "urban data"
+      ],
+      "link": "building-height/",
+      "screenshot": "building-height/screenshot.webp",
+      "date": "2026-11-06",
+      "folder": "building-height"
+    },
+    {
       "id": "embassy-gdp",
       "title": "Do embassies follow the money?",
       "description": "186 countries, embassies sent abroad vs. GDP (2023), revealing which countries punch above or below the global diplomatic pattern.",

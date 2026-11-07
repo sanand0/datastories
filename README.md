@@ -6,6 +6,8 @@ Website: [sanand0.github.io/datastories/](https://sanand0.github.io/datastories/
 
 ## Stories
 
+- [When 60 floors beat 102 — The vertical paradox](building-height/). An atlas of 4,121 tall buildings shows how height and floor count diverge, with 270 Park Avenue standing 42 m taller than the Empire State Building despite having 42 fewer floors.
+  [![Screenshot of When 60 floors beat 102](building-height/screenshot.webp)](building-height/)
 - [Do embassies follow the money?](embassy-gdp/). 186 countries, embassies sent abroad vs. GDP (2023), revealing which countries punch above or below the global diplomatic pattern.
   [![](embassy-gdp/screenshot.avif)](embassy-gdp/)
 - [What it's like to work at Gramener](gramener-glassdoor/). 208 employee reviews, 41 interview reports and 103 salary bands for Gramener, turned into one explorable dossier.
@@ -110,7 +112,7 @@ File structure:
 When adding a new story, update config.json, README.md (and setup.sh if required).
 
 ```bash
-dev.sh -- codex "Update README.md and config.json with tds-2026-01-p1/ and screenshot" --yolo --model gpt-5.6-luna --config model_reasoning_effort=medium
+codex "Update README.md and config.json with the latest story, adding the screenshot" --model gpt-6-luna --config model_reasoning_effort=high
 ```
 
 Assets are stored in a GitHub Release created via:
